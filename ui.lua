@@ -6,7 +6,7 @@ tagClasses = blam.tagClasses
 
 local core = require "insurrection.core"
 
-local scriptVersion = "1.0.0-alpha-1"
+local scriptVersion = "1.0.0-alpha.1"
 
 harmony.ui.set_widescreen_aspect_ratio(16, 9)
 
