@@ -6,13 +6,12 @@ tagClasses = blam.tagClasses
 
 local core = require "insurrection.core"
 
-local scriptVersion = "1.0.0-alpha.1"
-
-harmony.ui.set_widescreen_aspect_ratio(16, 9)
+local scriptVersion = "1.0.0-alpha.2"
 
 local gameStarted = false
 
 function OnGameStart()
+    harmony.ui.set_widescreen_aspect_ratio(16, 9)
     local scriptVersionTag = core.findTag("variable_info", tagClasses.unicodeStringList)
     if (scriptVersionTag) then
         local scriptVersionString = blam.unicodeStringList(scriptVersionTag.id)
@@ -23,7 +22,7 @@ function OnGameStart()
             scriptVersionString.stringList = strings
         end
     end
-    execute_script("menu_blur_on")
+    --execute_script("menu_blur_on")
     gameStarted = nil
 end
 
@@ -35,8 +34,6 @@ function OnTick()
     if (gameStarted) then
         OnGameStart()
     end
-
-
 end
 
 set_callback("tick", "OnTick")
