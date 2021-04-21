@@ -24,8 +24,10 @@ being used from this.
 # Coming in 1.0.0-alpha.2 - Screenshots
 
 We are aiming for high resolution assets as possible, this includes fonts now thanks to Chimera we
-can override fonts with higher resolution ones, by now Chimera only provides a way to override
-fonts.
+can override fonts with higher resolution ones, by now Chimera only provides one way to override
+fonts globally and not per map or per font, that would be a feature to request.
+
+Blur on menus was removed, there is some discussion about keeping it or removing it.
 
 A high resolution mouse bitmap was added, more ui widget components were moved to support real
 widescreen layout.
