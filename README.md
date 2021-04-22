@@ -4,7 +4,7 @@ widescreen menu with different features for the Halo Custom Edition game, such a
 servers in game, handling different game configurations, bringing important news to players and more.
 
 # Getting Insurrection
-Version `1.0.0-alpha.1` project can be downloaded using [Mercury](https://github.com/Sledmine) with
+Version `1.0.0-alpha.1` project can be downloaded using [Mercury](https://github.com/Sledmine/Mercury) with
 the following
 line on the terminal:
 ```
