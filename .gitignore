@@ -1,2 +1,6 @@
-# Distribution temporary folder
+# Distribution folder
 dist/
+
+# Map files
+data
+tags

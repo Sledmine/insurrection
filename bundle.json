@@ -2,7 +2,7 @@
     "name": "Insurrection",
     "target": "lua53",
     "include": [
-        "modules\\"
+        "lua\\"
     ],
     "modules": [
         "blam",
