@@ -4,3 +4,6 @@ dist/
 # Map files
 data
 tags
+
+# Invader settings
+six-shooter.ini
