@@ -6,8 +6,9 @@
     ],
     "modules": [
         "blam",
-        "insurrection.core"
+        "insurrection.core",
+        "insurrection.version"
     ],
-    "main":"ui",
+    "main": "ui",
     "output": "dist\\ui.lua"
 }

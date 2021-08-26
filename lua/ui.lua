@@ -8,6 +8,8 @@ local core = require "insurrection.core"
 
 local scriptVersion = require "insurrection.version"
 
+local inspect = require "inspect"
+
 local gameStarted = false
 
 function OnGameStart()
@@ -33,6 +35,7 @@ function OnTick()
     end
     if (gameStarted) then
         OnGameStart()
+        --core.getChimeraBookmarks()
     end
 end
 

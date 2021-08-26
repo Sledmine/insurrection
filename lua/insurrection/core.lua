@@ -1,4 +1,8 @@
+local glue = require "glue"
+
 local core = {}
+
+local myGamesPath = read_string(0x00647830)
 
 --- Find the path, index and id of a tag given partial name and tag type
 ---@param partialName string
@@ -17,6 +21,22 @@ function core.findTag(partialName, searchTagType)
                 data = tempTag.data
             }
         end
+    end
+    return nil
+end
+
+function core.getChimeraBookmarks()
+    local bookmarksFilePath = myGamesPath .. "\\chimera\\bookmark.txt"
+    local bookmarksFile = glue.readfile(bookmarksFilePath, "t")
+    console_out(bookmarksFilePath)
+    if (bookmarksFile) then
+        local servers = glue.string.split(bookmarksFile, "\n")
+        glue.map(servers, function(serverData)
+            if (serverData ~= "") then
+                console_out(serverData)
+            end
+        end)
+        return bookmarksFile
     end
     return nil
 end
