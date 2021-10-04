@@ -1,4 +1,4 @@
-# Insurrection (v1.0.0-alpha.2)
+# Insurrection (v1.0.0-alpha.3)
 Insurrection is a UI project for Halo Custom Edition that aims to bring support for a full
 widescreen menu with different features for the Halo Custom Edition game, such as bookmarking
 servers in game, handling different game configurations, bringing important news to players and more.

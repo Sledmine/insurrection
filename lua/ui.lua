@@ -8,8 +8,6 @@ local core = require "insurrection.core"
 
 local scriptVersion = require "insurrection.version"
 
-local inspect = require "inspect"
-
 local gameStarted = false
 
 function OnGameStart()
@@ -24,7 +22,7 @@ function OnGameStart()
             scriptVersionString.stringList = strings
         end
     end
-    execute_script("menu_blur_on")
+    --execute_script("menu_blur_on")
     gameStarted = nil
 end
 
@@ -39,4 +37,9 @@ function OnTick()
     end
 end
 
+function OnUnload()
+    harmony.unload()
+end
+
 set_callback("tick", "OnTick")
+set_callback("unload", "OnUnload")

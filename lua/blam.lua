@@ -3,7 +3,7 @@
 -- Sledmine, JerryBrick
 -- Improves memory handle and provides standard functions for scripting
 ------------------------------------------------------------------------------
-local blam = {_VERSION = "1.2.0"}
+local blam = {_VERSION = "1.4.0-beta"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -45,8 +45,17 @@ local addressList = {
     tagDataHeader = 0x40440000,
     cameraType = 0x00647498, -- from Giraffe
     gamePaused = 0x004ACA79,
-    gameOnMenus = 0x00622058
+    gameOnMenus = 0x00622058,
+    joystickInput = 0x64D998, -- from aLTis
+    firstPerson = 0x40000EB8, -- from aLTis
+    objectTable = 0x400506B4,
+    deviceGroupsTable = 0x00816110
 }
+
+-- Server side addresses adjustment
+if (api_version or server_type == "sapp") then
+    addressList.deviceGroupsTable = 0x006E1C50
+end
 
 -- Tag classes values
 local tagClasses = {
@@ -159,6 +168,7 @@ local cameraTypes = {
     deadCamera = 5 -- 23776
 }
 
+-- Netgame flags type 
 local netgameFlagTypes = {
     ctfFlag = 0,
     ctfVehicle = 1,
@@ -171,6 +181,7 @@ local netgameFlagTypes = {
     hillFlag = 8
 }
 
+-- Netgame equipment types
 local netgameEquipmentTypes = {
     none = 0,
     ctf = 1,
@@ -189,30 +200,169 @@ local netgameEquipmentTypes = {
     allExceptRaceCtf = 14
 }
 
--- Console colors
+-- Standard console colors
 local consoleColors = {
     success = {1, 0.235, 0.82, 0},
     warning = {1, 0.94, 0.75, 0.098},
     error = {1, 1, 0.2, 0.2},
-    unknow = {1, 0.66, 0.66, 0.66}
+    unknown = {1, 0.66, 0.66, 0.66}
+}
+
+-- Offset input from the joystick game data
+local joystickInputs = {
+    -- No zero values also pressed time until maxmimum byte size
+    button1 = 0, -- Triangle
+    button2 = 1, -- Circle
+    button3 = 2, -- Cross
+    button4 = 3, -- Square
+    leftBumper = 4,
+    rightBumper = 5,
+    leftTrigger = 6,
+    rightTrigger = 7,
+    backButton = 8,
+    startButton = 9,
+    leftStick = 10,
+    rightStick = 11,
+    -- Multiple values on the same offset, check dPadValues table
+    dPad = 96,
+    -- Non zero values
+    dPadUp = 100,
+    dPadDown = 104,
+    dPadLeft = 106,
+    dPadRight = 102,
+    dPadUpRight = 101,
+    dPadDownRight = 103,
+    dPadUpLeft = 107,
+    dPadDownLeft = 105
+    -- TODO Add joys axis
+    -- rightJoystick = 30,
+}
+
+-- Values for the possible dPad values from the joystick inputs
+local dPadValues = {
+    noButton = 1020,
+    upRight = 766,
+    downRight = 768,
+    upLeft = 772,
+    downLeft = 770,
+    left = 771,
+    right = 767,
+    down = 769,
+    up = 765
 }
 
 ------------------------------------------------------------------------------
 -- SAPP API bindings
 ------------------------------------------------------------------------------
+-- All the functions at the top of the module are for EmmyLua autocompletion purposes!
+-- They do not have a real implementation and are not supossed to be imported
+if (variableThatObviouslyDoesNotExist) then
 
+    --- Attempt to spawn an object given tag id and coordinates or tag type and class plus coordinates
+    ---@param tagId number Optional tag id of the object to spawn
+    ---@param tagType string Type of the tag to spawn
+    ---@param tagPath string Path of object to spawn
+    ---@param x number
+    ---@param y number
+    ---@param z number
+    function spawn_object(tagType, tagPath, x, y, z)
+    end
+
+    --- Get object address from a specific player given playerIndex
+    ---@param playerIndex number
+    ---@return number Player object memory address
+    function get_dynamic_player(playerIndex)
+    end
+end
 if (api_version) then
-    -- Create and bind Chimera functions to the ones in SAPP
+    -- Provide global server type variable on SAPP
+    server_type = "sapp"
 
-    --- Return the memory address of a tag given tag id or type and path
-    ---@param tag string | number
-    ---@param path string
-    ---@return number
-    function get_tag(tag, path)
-        if (not path) then
-            return lookup_tag(tag)
+    local split = function(s, sep)
+        if (sep == nil or sep == "") then
+            return 1
+        end
+        local position, array = 0, {}
+        for st, sp in function()
+            return string.find(s, sep, position, true)
+        end do
+            table.insert(array, string.sub(s, position, st - 1))
+            position = sp + 1
+        end
+        table.insert(array, string.sub(s, position))
+        return array
+    end
+
+    --- Function wrapper for file writing from Chimera to SAPP
+    ---@param path string Path to the file to write
+    ---@param content string Content to write into the file
+    ---@return boolean | nil, string True if successful otherwise nil, error
+    function write_file(path, content)
+        local file, error = io.open(path, "w")
+        if (not file) then
+            return nil, error
+        end
+        local success, err = file:write(content)
+        file:close()
+        if (not success) then
+            os.remove(path)
+            return nil, err
         else
-            return lookup_tag(tag, path)
+            return true
+        end
+    end
+
+    --- Function wrapper for file reading from Chimera to SAPP
+    ---@param path string Path to the file to read
+    ---@return string | nil, string Content of the file otherwise nil, error
+    function read_file(path)
+        local file, error = io.open(path, "r")
+        if (not file) then
+            return nil, error
+        end
+        local content, error = file:read("*a")
+        if (content == nil) then
+            return nil, error
+        end
+        file:close()
+        return content
+    end
+
+    -- TODO PENDING FUNCTION!!
+    function directory_exists(dir)
+        return true
+    end
+
+    --- Function wrapper for directory listing from Chimera to SAPP
+    ---@param dir string
+    function list_directory(dir)
+        -- TODO This needs a way to separate folders from files
+        if (dir) then
+            local command = "dir " .. dir .. " /B"
+            local pipe = io.popen(command, "r")
+            local output = pipe:read("*a")
+            if (output) then
+                local items = split(output, "\n")
+                for index, item in pairs(items) do
+                    if (item and item == "") then
+                        items[index] = nil
+                    end
+                end
+                return items
+            end
+        end
+        return nil
+    end
+
+    --- Return the memory address of a tag given tagId or tagClass and tagPath
+    ---@param tagIdOrTagType string | number
+    ---@param tagPath string
+    ---@return number
+    function get_tag(tagIdOrTagType, tagPath)
+        if (not tagPath) then
+            return lookup_tag(tagIdOrTagType)
+        else
+            return lookup_tag(tagIdOrTagType, tagPath)
         end
     end
 
@@ -243,11 +393,41 @@ if (api_version) then
 
     --- Print text into console
     ---@param message string
-    function console_out(message)
+    ---@param red number
+    ---@param green number
+    ---@param blue number
+    function console_out(message, red, green, blue)
+        -- TODO Add color printing to this function
         cprint(message)
     end
 
-    print("Chimera API functions are available now with LuaBlam!")
+    --- Get if the game console is opened \
+    --- Always returns true on SAPP.
+    ---@return boolean
+    function console_is_open()
+        return true
+    end
+
+    --- Get the value of a Halo scripting global\
+    ---An error will occur if the global is not found.
+    ---@param name string Name of the global variable to get from hsc
+    ---@return boolean | number
+    function get_global(name)
+        error("SAPP can't retrieve global variables as Chimera does.. yet!")
+    end
+
+    --- Print messages to the player HUD\
+    ---Server messages will be printed if executed from SAPP.
+    ---@param message string
+    function hud_message(message)
+        for playerIndex = 1, 16 do
+            if (player_present(playerIndex)) then
+                rprint(playerIndex, message)
+            end
+        end
+    end
+
+    print("Compatibility with Chimera Lua API has been loaded!")
 end
 
 ------------------------------------------------------------------------------
@@ -344,8 +524,7 @@ local function consoleOutput(message, ...)
     local args = {...}
 
     if (message == nil or #args > 5) then
-        consoleOutput(debug.traceback(
-                          "Wrong number of arguments on console output function", 2),
+        consoleOutput(debug.traceback("Wrong number of arguments on console output function", 2),
                       consoleColors.error)
     end
 
@@ -391,9 +570,8 @@ local function b2b(bitOrBool)
     elseif (bitOrBool == false) then
         return 0
     end
-    error(
-        "B2B error, expected boolean or bit value, got " .. tostring(bitOrBool) .. " " ..
-            type(bitOrBool))
+    error("B2B error, expected boolean or bit value, got " .. tostring(bitOrBool) .. " " ..
+              type(bitOrBool))
 end
 
 ------------------------------------------------------------------------------
@@ -474,14 +652,14 @@ local function writeString(address, propertyData, propertyValue)
     return write_string(address, propertyValue)
 end
 
--- //TODO Refactor this tu support full unicode char size
+-- //TODO Refactor this to support full unicode char size
 --- Return the string of a unicode string given address
 ---@param address number
----@param forced boolean
+---@param rawRead boolean
 ---@return string
-function blam.readUnicodeString(address, forced)
+function blam.readUnicodeString(address, rawRead)
     local stringAddress
-    if (forced) then
+    if (rawRead) then
         stringAddress = address
     else
         stringAddress = read_dword(address)
@@ -518,12 +696,20 @@ function blam.writeUnicodeString(address, newString, forced)
     end
 end
 
-local function readUnicodeString(address, propertyData)
+local function readPointerUnicodeString(address, propertyData)
     return blam.readUnicodeString(address)
 end
 
-local function writeUnicodeString(address, propertyData, propertyValue)
+local function readUnicodeString(address, propertyData)
+    return blam.readUnicodeString(address, true)
+end
+
+local function writePointerUnicodeString(address, propertyData, propertyValue)
     return blam.writeUnicodeString(address, propertyValue)
+end
+
+local function writeUnicodeString(address, propertyData, propertyValue)
+    return blam.writeUnicodeString(address, propertyValue, true)
 end
 
 local function readList(address, propertyData)
@@ -535,16 +721,15 @@ local function readList(address, propertyData)
     end
     local list = {}
     for currentElement = 1, elementCount do
-        list[currentElement] = operation.read(
-                                   addressList +
-                                       (propertyData.jump * (currentElement - 1)))
+        list[currentElement] = operation.read(addressList +
+                                                  (propertyData.jump * (currentElement - 1)))
     end
     return list
 end
 
 local function writeList(address, propertyData, propertyValue)
     local operation = typesOperations[propertyData.elementsType]
-    local elementCount = read_byte(address - 0x4)
+    local elementCount = read_word(address - 0x4)
     local addressList
     if (propertyData.noOffset) then
         addressList = read_dword(address)
@@ -555,8 +740,8 @@ local function writeList(address, propertyData, propertyValue)
         local elementValue = propertyValue[currentElement]
         if (elementValue) then
             -- Check if there are problems at sending property data here due to missing property data
-            operation.write(addressList + (propertyData.jump * (currentElement - 1)),
-                            propertyData, elementValue)
+            operation.write(addressList + (propertyData.jump * (currentElement - 1)), propertyData,
+                            elementValue)
         else
             if (currentElement > #propertyValue) then
                 break
@@ -574,8 +759,9 @@ local function readTable(address, propertyData)
         table[elementPosition] = {}
         for subProperty, subPropertyData in pairs(propertyData.rows) do
             local operation = typesOperations[subPropertyData.type]
-            table[elementPosition][subProperty] =
-                operation.read(elementAddress + subPropertyData.offset, subPropertyData)
+            table[elementPosition][subProperty] = operation.read(elementAddress +
+                                                                     subPropertyData.offset,
+                                                                 subPropertyData)
         end
     end
     return table
@@ -591,8 +777,8 @@ local function writeTable(address, propertyData, propertyValue)
                 local subPropertyData = propertyData.rows[subProperty]
                 if (subPropertyData) then
                     local operation = typesOperations[subPropertyData.type]
-                    operation.write(elementAddress + subPropertyData.offset,
-                                    subPropertyData, subPropertyValue)
+                    operation.write(elementAddress + subPropertyData.offset, subPropertyData,
+                                    subPropertyValue)
                 end
             end
         else
@@ -614,6 +800,8 @@ typesOperations = {
     float = {read = readFloat, write = writeFloat},
     char = {read = readChar, write = writeChar},
     string = {read = readString, write = writeString},
+    -- TODO This is not ok, a pointer type with subtyping should be implemented
+    pustring = {read = readPointerUnicodeString, write = writePointerUnicodeString},
     ustring = {read = readUnicodeString, write = writeUnicodeString},
     list = {read = readList, write = writeList},
     table = {read = readTable, write = writeTable}
@@ -629,9 +817,8 @@ local dataBindingMetaTable = {
             local propertyAddress = object.address + propertyData.offset
             operation.write(propertyAddress, propertyData, propertyValue)
         else
-            local errorMessage = "Unable to write an invalid property ('" .. property ..
-                                     "')"
-            consoleOutput(debug.traceback(errorMessage, 2), consoleColors.error)
+            local errorMessage = "Unable to write an invalid property ('" .. property .. "')"
+            error(debug.traceback(errorMessage, 2))
         end
     end,
     __index = function(object, property)
@@ -642,9 +829,8 @@ local dataBindingMetaTable = {
             local propertyAddress = object.address + propertyData.offset
             return operation.read(propertyAddress, propertyData)
         else
-            local errorMessage = "Unable to read an invalid property ('" .. property ..
-                                     "')"
-            consoleOutput(debug.traceback(errorMessage, 2), consoleColors.error)
+            local errorMessage = "Unable to read an invalid property ('" .. property .. "')"
+            error(debug.traceback(errorMessage, 2))
         end
     end
 }
@@ -653,7 +839,7 @@ local dataBindingMetaTable = {
 -- Object functions
 ------------------------------------------------------------------------------
 
---- Create a LuaBlam object
+--- Create a blam object
 ---@param address number
 ---@param struct table
 ---@return table
@@ -701,18 +887,45 @@ end
 -- Object structures
 ------------------------------------------------------------------------------
 
+---@class dataTable
+---@field name string
+---@field maxElements number
+---@field elementSize number
+---@field capacity number
+---@field size number
+---@field nextElementId number
+---@field firstElementAddress number
+local dataTableStructure = {
+    name = {type = "string", offset = 0},
+    maxElements = {type = "word", offset = 0x20},
+    elementSize = {type = "word", offset = 0x22},
+    -- padding1 = {size = 0x0A, offset = 0x24},
+    capacity = {type = "word", offset = 0x2E},
+    size = {type = "word", offset = 0x30},
+    nextElementId = {type = "word", offset = 0x32},
+    firstElementAddress = {type = "dword", offset = 0x34}
+}
+
+local deviceGroupsTableStructure = {
+    name = {type = "string", offset = 0},
+    maxElements = {type = "word", offset = 0x20},
+    elementSize = {type = "word", offset = 0x22},
+    firstElementAddress = {type = "dword", offset = 0x34}
+}
+
 ---@class blamObject
 ---@field address number
 ---@field tagId number Object tag ID
----@field hasCollision boolean Check if object has or has not collision
+---@field isGhost boolean Set object in some type of ghost mode
 ---@field isOnGround boolean Is the object touching ground
 ---@field ignoreGravity boolean Make object to ignore gravity
 ---@field isInWater boolean Is the object touching on water
 ---@field dynamicShading boolean Enable disable dynamic shading for lightmaps
 ---@field isNotCastingShadow boolean Enable/disable object shadow casting
----@field frozen boolean Freeze/unfreeze object existence
+---@field isFrozen boolean Freeze/unfreeze object existence
 ---@field isOutSideMap boolean Is object outside/inside bsp
----@field isCollideable boolean Enable/disable object shadow casting
+---@field isCollideable boolean Enable/disable object collision, does not work with bipeds or vehicles
+---@field hasNoCollision boolean Enable/disable object collision, causes animation problems
 ---@field model number Gbxmodel tag ID
 ---@field health number Current health of the object
 ---@field shield number Current shield of the object
@@ -738,6 +951,7 @@ end
 ---@field boundingRadius number Radius amount of the object in radians
 ---@field type number Object type
 ---@field team number Object multiplayer team
+---@field nameIndex number Index of object name in the scenario tag
 ---@field playerId number Current player id if the object
 ---@field parentId number Current parent id of the object
 ---@field isHealthEmpty boolean Is the object health deploeted, also marked as "dead"
@@ -745,6 +959,7 @@ end
 ---@field animation number Current animation index
 ---@field animationFrame number Current animation frame
 ---@field isNotDamageable boolean Make the object undamageable
+---@field vehicleObjectId number Current vehicle objectId of this object
 ---@field regionPermutation1 number
 ---@field regionPermutation2 number
 ---@field regionPermutation3 number
@@ -757,15 +972,18 @@ end
 -- blamObject structure
 local objectStructure = {
     tagId = {type = "dword", offset = 0x0},
-    hasCollision = {type = "bit", offset = 0x10, bitLevel = 0},
+    isGhost = {type = "bit", offset = 0x10, bitLevel = 0},
     isOnGround = {type = "bit", offset = 0x10, bitLevel = 1},
     ignoreGravity = {type = "bit", offset = 0x10, bitLevel = 2},
     isInWater = {type = "bit", offset = 0x10, bitLevel = 3},
     isStationary = {type = "bit", offset = 0x10, bitLevel = 5},
+    hasNoCollision = {type = "bit", offset = 0x10, bitLevel = 7},
     dynamicShading = {type = "bit", offset = 0x10, bitLevel = 14},
     isNotCastingShadow = {type = "bit", offset = 0x10, bitLevel = 18},
+    isFrozen = {type = "bit", offset = 0x10, bitLevel = 20},
+    -- FIXME Deprecated property, should be erased at a major release later
     frozen = {type = "bit", offset = 0x10, bitLevel = 20},
-    isOutSideMap = {type = "bit", offset = 0x10, bitLevel = 21},
+    isOutSideMap = {type = "bit", offset = 0x12, bitLevel = 5},
     isCollideable = {type = "bit", offset = 0x10, bitLevel = 24},
     model = {type = "dword", offset = 0x34},
     health = {type = "float", offset = 0xE0},
@@ -793,6 +1011,7 @@ local objectStructure = {
     boundingRadius = {type = "float", offset = 0xAC},
     type = {type = "word", offset = 0xB4},
     team = {type = "word", offset = 0xB8},
+    nameIndex = {type = "word", offset = 0xBA},
     playerId = {type = "dword", offset = 0xC0},
     parentId = {type = "dword", offset = 0xC4},
     -- Experimental name properties
@@ -801,6 +1020,7 @@ local objectStructure = {
     animation = {type = "word", offset = 0xD0},
     animationFrame = {type = "word", offset = 0xD2},
     isNotDamageable = {type = "bit", offset = 0x106, bitLevel = 11},
+    vehicleObjectId = {type = "dword", offset = 0x11C},
     regionPermutation1 = {type = "byte", offset = 0x180},
     regionPermutation2 = {type = "byte", offset = 0x181},
     regionPermutation3 = {type = "byte", offset = 0x182},
@@ -836,7 +1056,12 @@ local objectStructure = {
 ---@field invisibleScale number Opacity amount of biped invisiblity
 ---@field primaryNades number Primary grenades count
 ---@field secondaryNades number Secondary grenades count
----@field landing number Biped landing state, 0 when landing, stays on 0 when landing hard, blam.isNull otherwise
+---@field landing number Biped landing state, 0 when landing, stays on 0 when landing hard, null otherwise
+---@field bumpedObjectId number Object ID that the biped is bumping, vehicles, bipeds, etc, keeps the previous value if not bumping a new object
+---@field vehicleSeatIndex number Current vehicle seat index of this biped
+---@field walkingState number Biped walking state, 0 = not walking, 1 = walking, 2 = stoping walking, 3 = stationary
+---@field motionState number Biped motion state, 0 = standing , 1 = walking , 2 = jumping/falling
+---@field mostRecentDamagerPlayer number Id of the player that caused the most recent damage to this biped
 
 -- Biped structure (extends object structure)
 local bipedStructure = extendStructure(objectStructure, {
@@ -864,7 +1089,12 @@ local bipedStructure = extendStructure(objectStructure, {
     invisibleScale = {type = "byte", offset = 0x37C},
     primaryNades = {type = "byte", offset = 0x31E},
     secondaryNades = {type = "byte", offset = 0x31F},
-    landing = {type = "byte", offset = 0x508}
+    landing = {type = "byte", offset = 0x508},
+    bumpedObjectId = {type = "dword", offset = 0x4FC},
+    vehicleSeatIndex = {type = "word", offset = 0x2F0},
+    walkingState = {type = "char", offset = 0x503},
+    motionState = {type = "byte", offset = 0x4D2},
+    mostRecentDamagerPlayer = {type = "dword", offset = 0x43C}
 })
 
 -- Tag data header structure
@@ -912,8 +1142,13 @@ local tagCollectionStructure = {
 -- UnicodeStringList structure
 local unicodeStringListStructure = {
     count = {type = "byte", offset = 0x0},
-    stringList = {type = "list", offset = 0x4, elementsType = "ustring", jump = 0x14}
+    stringList = {type = "list", offset = 0x4, elementsType = "pustring", jump = 0x14}
 }
+
+---@class bitmapSequence
+---@field name string
+---@field firtBitmapIndex number
+---@field bitmapCount number
 
 ---@class bitmap
 ---@field type number
@@ -935,7 +1170,7 @@ local unicodeStringListStructure = {
 ---@field spriteUsage number
 ---@field spriteSpacing number
 ---@field sequencesCount number
----@field sequences table
+---@field sequences bitmapSequence[]
 ---@field bitmapsCount number
 ---@field bitmaps table
 
@@ -964,8 +1199,7 @@ local bitmapStructure = {
     sequences = {
         type = "table",
         offset = 0x58,
-        -- //FIXME Check if the jump field is correctly being used
-        jump = 0,
+        jump = 0x40,
         rows = {
             name = {type = "string", offset = 0x0},
             firstBitmapIndex = {type = "word", offset = 0x20},
@@ -1044,12 +1278,7 @@ local uiWidgetDefinitionStructure = {
     eventType = {type = "byte", offset = 0x03F0},
     tagReference = {type = "word", offset = 0x400},
     childWidgetsCount = {type = "dword", offset = 0x03E0},
-    childWidgetsList = {
-        type = "list",
-        offset = 0x03E4,
-        elementsType = "dword",
-        jump = 0x50
-    }
+    childWidgetsList = {type = "list", offset = 0x03E4, elementsType = "dword", jump = 0x50}
 }
 
 ---@class uiWidgetCollection
@@ -1131,27 +1360,32 @@ local weaponHudInterfaceStructure = {
     }
 }
 
+---@class spawnLocation
+---@field x number
+---@field y number
+---@field z number
+---@field rotation number
+---@field type number
+---@field teamIndex number
+
 ---@class scenario
 ---@field sceneryPaletteCount number Number of sceneries in the scenery palette
 ---@field sceneryPaletteList table Tag ID list of scenerys in the scenery palette
 ---@field spawnLocationCount number Number of spawns in the scenario
----@field spawnLocationList table List of spawns in the scenario
+---@field spawnLocationList spawnLocation[] List of spawns in the scenario
 ---@field vehicleLocationCount number Number of vehicles locations in the scenario
 ---@field vehicleLocationList table List of vehicles locations in the scenario
 ---@field netgameEquipmentCount number Number of netgame equipments
 ---@field netgameEquipmentList table List of netgame equipments
 ---@field netgameFlagsCount number Number of netgame equipments
 ---@field netgameFlagsList table List of netgame equipments
+---@field objectNamesCount number Count of the object names in the scenario
+---@field objectNames string[] List of all the object names in the scenario
 
 -- Scenario structure
 local scenarioStructure = {
     sceneryPaletteCount = {type = "byte", offset = 0x021C},
-    sceneryPaletteList = {
-        type = "list",
-        offset = 0x0220,
-        elementsType = "dword",
-        jump = 0x30
-    },
+    sceneryPaletteList = {type = "list", offset = 0x0220, elementsType = "dword", jump = 0x30},
     spawnLocationCount = {type = "byte", offset = 0x354},
     spawnLocationList = {
         type = "table",
@@ -1216,6 +1450,14 @@ local scenarioStructure = {
             facing = {type = "float", offset = 0x4C},
             itemCollection = {type = "dword", offset = 0x5C}
         }
+    },
+    objectNamesCount = {type = "dword", offset = 0x204},
+    objectNames = {
+        type = "list",
+        offset = 0x208,
+        elementsType = "string",
+        jump = 36,
+        noOffset = true
     }
 }
 
@@ -1286,17 +1528,43 @@ local modelAnimationsStructure = {
     }
 }
 
+---@class weapon : blamObject
+---@field pressedReloadKey boolean Is weapon trying to reload
+---@field isWeaponPunching boolean Is weapon playing melee or grenade animation
+
+local weaponStructure = extendStructure(objectStructure, {
+    pressedReloadKey = {type = "bit", offset = 0x230, bitLevel = 3},
+    isWeaponPunching = {type = "bit", offset = 0x230, bitLevel = 4}
+})
+
 ---@class weaponTag
 ---@field model number Tag ID of the weapon model
 
 -- Weapon structure
 local weaponTagStructure = {model = {type = "dword", offset = 0x34}}
 
----@class model
+-- @class modelMarkers
+-- @field name string
+-- @field nodeIndex number
+-- TODO Add rotation fields, check Guerilla tag
+-- @field x number
+-- @field y number
+-- @field z number
+
+---@class modelRegion
+---@field permutationCount number
+-- @field markersList modelMarkers[]
+
+---@class modelNode
+---@field x number
+---@field y number
+---@field z number
+
+---@class gbxModel
 ---@field nodeCount number Number of nodes
----@field nodeList table List of the model nodes
+---@field nodeList modelNode[] List of the model nodes
 ---@field regionCount number Number of regions
----@field regionList table List of regions
+---@field regionList modelRegion[] List of regions
 
 -- Model structure
 local modelStructure = {
@@ -1316,7 +1584,26 @@ local modelStructure = {
         type = "table",
         offset = 0xC8,
         jump = 76,
-        rows = {permutationCount = {type = "dword", offset = 0x40}}
+        rows = {
+            permutationCount = {type = "dword", offset = 0x40}
+            --[[permutationsList = {
+                type = "table",
+                offset = 0x16C,
+                jump = 0x0,
+                rows = {
+                    name = {type = "string", offset = 0x0},
+                    markersList = {
+                        type = "table",
+                        offset = 0x4C,
+                        jump = 0x0,
+                        rows = {
+                            name = {type = "string", offset = 0x0},
+                            nodeIndex = {type = "word", offset = 0x20}
+                        }
+                    }
+                }
+            }]]
+        }
     }
 }
 
@@ -1344,102 +1631,128 @@ local projectileStructure = extendStructure(objectStructure, {
     roll = {type = "float", offset = 0x26C}
 })
 
-------------------------------------------------------------------------------
--- Object classes
-------------------------------------------------------------------------------
+---@class player
+---@field id number Get playerId of this player
+---@field host number Check if player is host, 0 when host, null when not
+---@field name string Name of this player
+---@field team number Team color of this player, 0 when red, 1 when on blue team
+---@field objectId number Return the objectId associated to this player
+---@field color number Color of the player, only works on "Free for All" gametypes
+---@field index number Local index of this player (0-15
+---@field speed number Current speed of this player
+---@field ping number Ping amount from server of this player in milliseconds
+---@field kills number Kills quantity done by this player
 
----@return blamObject
-local function objectClassNew(address)
-    return createObject(address, objectStructure)
-end
+local playerStructure = {
+    id = {type = "word", offset = 0x0},
+    host = {type = "word", offset = 0x2},
+    name = {type = "ustring", forced = true, offset = 0x4},
+    team = {type = "byte", offset = 0x20},
+    objectId = {type = "dword", offset = 0x34},
+    color = {type = "word", offset = 0x60},
+    index = {type = "byte", offset = 0x67},
+    speed = {type = "float", offset = 0x6C},
+    ping = {type = "dword", offset = 0xDC},
+    kills = {type = "word", offset = 0x9C}
+}
 
----@return biped
-local function bipedClassNew(address)
-    return createObject(address, bipedStructure)
-end
+---@class firstPersonInterface
+---@field firstPersonHands number
 
----@return projectile
-local function projectileClassNew(address)
-    return createObject(address, projectileStructure)
-end
+---@class multiplayerInformation
+---@field flag number Tag ID of the flag object used for multiplayer games
+---@field unit number Tag ID of the unit object used for multiplayer games
 
----@return tag
-local function tagClassNew(address)
-    return createObject(address, tagHeaderStructure)
-end
+---@class globalsTag
+---@field multiplayerInformation multiplayerInformation[]
+---@field firstPersonInterface firstPersonInterface[]
 
----@return tagCollection
-local function tagCollectionNew(address)
-    return createObject(address, tagCollectionStructure)
-end
+local globalsTagStructure = {
+    multiplayerInformation = {
+        type = "table",
+        jump = 0x0,
+        offset = 0x168,
+        rows = {flag = {type = "dword", offset = 0xC}, unit = {type = "dword", offset = 0x1C}}
+    },
+    firstPersonInterface = {
+        type = "table",
+        jump = 0x0,
+        offset = 0x180,
+        rows = {firstPersonHands = {type = "dword", offset = 0xC}}
+    }
+}
 
----@return unicodeStringList
-local function unicodeStringListClassNew(address)
-    return createObject(address, unicodeStringListStructure)
-end
+---@class firstPerson
+---@field weaponObjectId number Weapon Id from the first person view
 
----@return bitmap
-local function bitmapClassNew(address)
-    return createObject(address, bitmapStructure)
-end
+local firstPersonStructure = {weaponObjectId = {type = "dword", offset = 0x10}}
 
----@return uiWidgetDefinition
-local function uiWidgetDefinitionClassNew(address)
-    return createObject(address, uiWidgetDefinitionStructure)
-end
+---@class bipedTag
+---@field disableCollision number Disable collision of this biped tag
+local bipedTagStructure = {disableCollision = {type = "bit", offset = 0x2F4, bitLevel = 5}}
 
----@return uiWidgetCollection
-local function uiWidgetCollectionClassNew(address)
-    return createObject(address, uiWidgetCollectionStructure)
-end
+---@class  deviceMachine : blamObject
+---@field powerGroupIndex number Power index from the device groups table
+---@field power number Position amount of this device machine
+---@field powerChange number Power change of this device machine
+---@field positonGroupIndex number Power index from the device groups table
+---@field position number Position amount of this device machine
+---@field positionChange number Position change of this device machine
+local deviceMachineStructure = extendStructure(objectStructure, {
+    powerGroupIndex = {type = "word", offset = 0x1F8},
+    power = {type = "float", offset = 0x1FC},
+    powerChange = {type = "float", offset = 0x200},
+    positonGroupIndex = {type = "word", offset = 0x204},
+    position = {type = "float", offset = 0x208},
+    positionChange = {type = "float", offset = 0x20C}
+})
 
-local function weaponHudInterfaceClassNew(address)
-    return createObject(address, weaponHudInterfaceStructure)
-end
+---@class hudGlobals
+---@field anchor number
+---@field x number
+---@field y number
+---@field width number
+---@field height number
+---@field upTime number
+---@field fadeTime number
+---@field iconColorA number
+---@field iconColorR number
+---@field iconColorG number
+---@field iconColorB number
+---@field textSpacing number
+local hudGlobalsStructure = {
+    anchor = {type = "word", offset = 0x0},
+    x = {type = "word", offset = 0x24},
+    y = {type = "word", offset = 0x26},
+    width = {type = "float", offset = 0x28},
+    height = {type = "float", offset = 0x2C},
+    upTime = {type = "float", offset = 0x68},
+    fadeTime = {type = "float", offset = 0x6C},
+    iconColorA = {type = "float", offset = 0x70},
+    iconColorR = {type = "float", offset = 0x74},
+    iconColorG = {type = "float", offset = 0x78},
+    iconColorB = {type = "float", offset = 0x7C},
+    textColorA = {type = "float", offset = 0x80},
+    textColorR = {type = "float", offset = 0x84},
+    textColorG = {type = "float", offset = 0x88},
+    textColorB = {type = "float", offset = 0x8C},
+    textSpacing = {type = "float", offset = 0x90}
+}
 
----@return scenario
-local function scenarioClassNew(address)
-    return createObject(address, scenarioStructure)
-end
-
----@return scenery
-local function sceneryClassNew(address)
-    return createObject(address, sceneryStructure)
-end
-
----@return collisionGeometry
-local function collisionGeometryClassNew(address)
-    return createObject(address, collisionGeometryStructure)
-end
-
----@return modelAnimations
-local function modelAnimationsClassNew(address)
-    return createObject(address, modelAnimationsStructure)
-end
-
----@return weaponTag
-local function weaponTagClassNew(address)
-    return createObject(address, weaponTagStructure)
-end
-
----@return model
-local function modelClassNew(address)
-    return createObject(address, modelStructure)
-end
 ------------------------------------------------------------------------------
 -- LuaBlam globals
 ------------------------------------------------------------------------------
 
--- Add blam! data tables to library
+-- Provide with public blam! data tables
 blam.addressList = addressList
 blam.tagClasses = tagClasses
 blam.objectClasses = objectClasses
+blam.joystickInputs = joystickInputs
+blam.dPadValues = dPadValues
 blam.cameraTypes = cameraTypes
 blam.netgameFlagTypes = netgameFlagTypes
 blam.netgameEquipmentTypes = netgameEquipmentTypes
 blam.consoleColors = consoleColors
-
--- LuaBlam globals
 
 ---@class tagDataHeader
 ---@field array any
@@ -1457,11 +1770,29 @@ blam.tagDataHeader = createObject(addressList.tagDataHeader, tagDataHeaderStruct
 blam.dumpObject = dumpObject
 blam.consoleOutput = consoleOutput
 
+--- Get if a value equals a null value for game
+---@return boolean
 function blam.isNull(value)
-    if (value == 0xFF or value == 0xFFFF or value == 0xFFFFFFFF) then
+    if (value == 0xFF or value == 0xFFFF or value == 0xFFFFFFFF or value == nil) then
         return true
     end
     return false
+end
+
+function blam.isGameHost()
+    return server_type == "local"
+end
+
+function blam.isGameSinglePlayer()
+    return server_type == "none"
+end
+
+function blam.isGameDedicated()
+    return server_type == "dedicated"
+end
+
+function blam.isGameSAPP()
+    return server_type == "sapp"
 end
 
 --- Get the current game camera type
@@ -1475,7 +1806,7 @@ function blam.getCameraType()
             return cameraTypes.firstPerson
         elseif (camera == 30704) then
             return cameraTypes.devcam
-            -- //FIXME Validate this value, it seems to be wrong!
+            -- FIXME Validate this value, it seems to be wrong!
         elseif (camera == 21952) then
             return cameraTypes.thirdPerson
         elseif (camera == 23776) then
@@ -1485,13 +1816,41 @@ function blam.getCameraType()
     return nil
 end
 
---- Create a tag object from a given address, this object is NOT dynamic.
+--- Get input from the joystick in the game
+-- Based on aLTis controller method
+-- TODO Check if it is better to return an entire table with all input values 
+---@param joystickOffset number Offset input from the joystick data, use blam.joystickInputs
+---@return boolean | number Value of the joystick input
+function blam.getJoystickInput(joystickOffset)
+    joystickOffset = joystickOffset or 0
+    -- Nothing is pressed by default
+    local inputValue = false
+    -- Look for every input from every joystick available
+    for controllerId = 0, 3 do
+        local inputAddress = addressList.joystickInput + controllerId * 0xA0
+        if (joystickOffset >= 30 and joystickOffset <= 38) then
+            -- Sticks
+            inputValue = inputValue + read_long(inputAddress + joystickOffset)
+        elseif (joystickOffset > 96) then
+            -- D-pad related
+            local tempValue = read_word(inputAddress + 96)
+            if (tempValue == joystickOffset - 100) then
+                inputValue = true
+            end
+        else
+            inputValue = inputValue + read_byte(inputAddress + joystickOffset)
+        end
+    end
+    return inputValue
+end
+
+--- Create a tag object from a given address, this object can't write data to game memory
 ---@param address integer
 ---@return tag
 function blam.tag(address)
     if (address and address ~= 0) then
         -- Generate a new tag object from class
-        local tag = tagClassNew(address)
+        local tag = createObject(address, tagHeaderStructure)
 
         -- Get all the tag info
         local tagInfo = dumpObject(tag)
@@ -1506,22 +1865,20 @@ function blam.tag(address)
     return nil
 end
 
---- Return the address of a tag given tag path (or id) and tag type
----@param tagIdOrPath string | number
----@param class string
+--- Return a tag object given tagPath and tagClass or just tagId
+---@param tagIdOrTagPath string | number
+---@param tagClass string
 ---@return tag
-function blam.getTag(tagIdOrPath, class, ...)
-    -- Arguments
+function blam.getTag(tagIdOrTagPath, tagClass, ...)
     local tagId
     local tagPath
-    local tagClass = class
 
     -- Get arguments from table
-    if (isNumber(tagIdOrPath)) then
-        tagId = tagIdOrPath
-    elseif (isString(tagIdOrPath)) then
-        tagPath = tagIdOrPath
-    elseif (not tagIdOrPath) then
+    if (isNumber(tagIdOrTagPath)) then
+        tagId = tagIdOrTagPath
+    elseif (isString(tagIdOrTagPath)) then
+        tagPath = tagIdOrTagPath
+    elseif (not tagIdOrTagPath) then
         return nil
     end
 
@@ -1535,7 +1892,7 @@ function blam.getTag(tagIdOrPath, class, ...)
     -- Get tag address
     if (tagId) then
         if (tagId < 0xFFFF) then
-            -- Calculate tag index
+            -- Calculate tag id
             tagId = read_dword(blam.tagDataHeader.array + (tagId * 0x20 + 0xC))
         end
         tagAddress = get_tag(tagId)
@@ -1546,12 +1903,21 @@ function blam.getTag(tagIdOrPath, class, ...)
     return blam.tag(tagAddress)
 end
 
---- Create a table/object from blamObject given address
+--- Create a player object given player entry table address
+---@return player
+function blam.player(address)
+    if (isValid(address)) then
+        return createObject(address, playerStructure)
+    end
+    return nil
+end
+
+--- Create a blamObject given address
 ---@param address number
 ---@return blamObject
 function blam.object(address)
     if (isValid(address)) then
-        return objectClassNew(address)
+        return createObject(address, objectStructure)
     end
     return nil
 end
@@ -1561,7 +1927,7 @@ end
 ---@return projectile
 function blam.projectile(address)
     if (isValid(address)) then
-        return projectileClassNew(address)
+        return createObject(address, projectileStructure)
     end
     return nil
 end
@@ -1571,7 +1937,18 @@ end
 ---@return biped
 function blam.biped(address)
     if (isValid(address)) then
-        return bipedClassNew(address)
+        return createObject(address, bipedStructure)
+    end
+    return nil
+end
+
+--- Create a biped tag from a tag path or id
+---@param tag string | number
+---@return bipedTag
+function blam.bipedTag(tag)
+    if (isValid(tag)) then
+        local bipedTag = blam.getTag(tag, tagClasses.biped)
+        return createObject(bipedTag.data, bipedTagStructure)
     end
     return nil
 end
@@ -1582,7 +1959,7 @@ end
 function blam.unicodeStringList(tag)
     if (isValid(tag)) then
         local unicodeStringListTag = blam.getTag(tag, tagClasses.unicodeStringList)
-        return unicodeStringListClassNew(unicodeStringListTag.data)
+        return createObject(unicodeStringListTag.data, unicodeStringListStructure)
     end
     return nil
 end
@@ -1593,7 +1970,7 @@ end
 function blam.bitmap(tag)
     if (isValid(tag)) then
         local bitmapTag = blam.getTag(tag, tagClasses.bitmap)
-        return bitmapClassNew(bitmapTag.data)
+        return createObject(bitmapTag.data, bitmapStructure)
     end
 end
 
@@ -1603,7 +1980,7 @@ end
 function blam.uiWidgetDefinition(tag)
     if (isValid(tag)) then
         local uiWidgetDefinitionTag = blam.getTag(tag, tagClasses.uiWidgetDefinition)
-        return uiWidgetDefinitionClassNew(uiWidgetDefinitionTag.data)
+        return createObject(uiWidgetDefinitionTag.data, uiWidgetDefinitionStructure)
     end
     return nil
 end
@@ -1614,7 +1991,7 @@ end
 function blam.uiWidgetCollection(tag)
     if (isValid(tag)) then
         local uiWidgetCollectionTag = blam.getTag(tag, tagClasses.uiWidgetCollection)
-        return uiWidgetCollectionClassNew(uiWidgetCollectionTag.data)
+        return createObject(uiWidgetCollectionTag.data, uiWidgetCollectionStructure)
     end
     return nil
 end
@@ -1625,7 +2002,7 @@ end
 function blam.tagCollection(tag)
     if (isValid(tag)) then
         local tagCollectionTag = blam.getTag(tag, tagClasses.tagCollection)
-        return tagCollectionNew(tagCollectionTag.data)
+        return createObject(tagCollectionTag.data, tagCollectionStructure)
     end
     return nil
 end
@@ -1636,7 +2013,7 @@ end
 function blam.weaponHudInterface(tag)
     if (isValid(tag)) then
         local weaponHudInterfaceTag = blam.getTag(tag, tagClasses.weaponHudInterface)
-        return weaponHudInterfaceClassNew(weaponHudInterfaceTag.data)
+        return createObject(weaponHudInterfaceTag.data, weaponHudInterfaceStructure)
     end
     return nil
 end
@@ -1646,7 +2023,7 @@ end
 ---@return scenario
 function blam.scenario(tag)
     local scenarioTag = blam.getTag(tag or 0, tagClasses.scenario)
-    return scenarioClassNew(scenarioTag.data)
+    return createObject(scenarioTag.data, scenarioStructure)
 end
 
 --- Create a Scenery object from a tag path or id
@@ -1655,7 +2032,7 @@ end
 function blam.scenery(tag)
     if (isValid(tag)) then
         local sceneryTag = blam.getTag(tag, tagClasses.scenery)
-        return sceneryClassNew(sceneryTag.data)
+        return createObject(sceneryTag.data, sceneryStructure)
     end
     return nil
 end
@@ -1666,40 +2043,148 @@ end
 function blam.collisionGeometry(tag)
     if (isValid(tag)) then
         local collisionGeometryTag = blam.getTag(tag, tagClasses.collisionGeometry)
-        return collisionGeometryClassNew(collisionGeometryTag.data)
+        return createObject(collisionGeometryTag.data, collisionGeometryStructure)
     end
     return nil
 end
 
---- Create a Model Animation object from a tag path or id
+--- Create a Model Animations object from a tag path or id
 ---@param tag string | number
 ---@return modelAnimations
 function blam.modelAnimations(tag)
     if (isValid(tag)) then
         local modelAnimationsTag = blam.getTag(tag, tagClasses.modelAnimations)
-        return modelAnimationsClassNew(modelAnimationsTag.data)
+        return createObject(modelAnimationsTag.data, modelAnimationsStructure)
     end
     return nil
 end
 
---- Create a Model Animation object from a tag path or id
+--- Create a Weapon object from the given object address
+---@param address number
+---@return weapon
+function blam.weapon(address)
+    if (isValid(address)) then
+        return createObject(address, weaponStructure)
+    end
+    return nil
+end
+
+--- Create a Weapon tag object from a tag path or id
 ---@param tag string | number
 ---@return weaponTag
 function blam.weaponTag(tag)
     if (isValid(tag)) then
         local weaponTag = blam.getTag(tag, tagClasses.weapon)
-        return weaponTagClassNew(weaponTag)
+        return createObject(weaponTag.data, weaponTagStructure)
     end
     return nil
 end
 
---- Create a Model Animation object from a tag path or id
+--- Create a model (gbxmodel) object from a tag path or id
 ---@param tag string | number
----@return model
+---@return gbxModel
 function blam.model(tag)
     if (isValid(tag)) then
         local modelTag = blam.getTag(tag, tagClasses.model)
-        return modelClassNew(modelTag.data)
+        return createObject(modelTag.data, modelStructure)
+    end
+    return nil
+end
+-- Alias
+blam.gbxmodel = blam.model
+
+--- Create a Globals tag object from a tag path or id
+---@param tag string | number
+---@return globalsTag
+function blam.globalsTag(tag)
+    local tag = tag or "globals\\globals"
+    if (isValid(tag)) then
+        local globalsTag = blam.getTag(tag, tagClasses.globals)
+        return createObject(globalsTag.data, globalsTagStructure)
+    end
+    return nil
+end
+
+--- Create a First person object from a given address, game known address by default
+---@param address number
+---@return firstPerson
+function blam.firstPerson(address)
+    return createObject(address or addressList.firstPerson, firstPersonStructure)
+end
+
+--- Create a Device Machine object from a given address
+---@param address number
+---@return deviceMachine
+function blam.deviceMachine(address)
+    if (isValid(address)) then
+        return createObject(address, deviceMachineStructure)
+    end
+    return nil
+end
+
+--- Create a HUD Globals tag object from a given address
+---@param tag string | number
+---@return hudGlobals
+function blam.hudGlobals(tag)
+    if (isValid(tag)) then
+        local hudGlobals = blam.getTag(tag, tagClasses.hudGlobals)
+        return createObject(hudGlobals.data, hudGlobalsStructure)
+    end
+    return nil
+end
+
+--- Return a blam object given object index or id
+---@param idOrIndex number
+---@return blamObject
+function blam.getObject(idOrIndex)
+    local objectId
+    local objectAddress
+
+    -- Get object address
+    if (idOrIndex) then
+        -- Get object ID
+        if (idOrIndex < 0xFFFF) then
+            local index = idOrIndex
+
+            -- Get objects table
+            local table = createObject(addressList.objectTable, dataTableStructure)
+            if (index > table.capacity) then
+                return nil
+            end
+
+            -- Calculate object ID (this may be invalid, be careful)
+            objectId =
+                (read_word(table.firstElementAddress + index * table.elementSize) * 0x10000) + index
+        else
+            objectId = idOrIndex
+        end
+
+        objectAddress = get_object(objectId)
+
+        return blam.object(objectAddress)
+    end
+    return nil
+end
+
+---@class deviceGroup
+---@field power number
+---@field position number
+
+--- Return a object
+---@param idOrIndex number
+---@return deviceGroup
+function blam.getDeviceGroup(index)
+    local power = 0
+    local position = 0
+
+    -- Get object address
+    if (index) then
+        -- Get objects table
+        local table = createObject(read_dword(addressList.deviceGroupsTable), deviceGroupsTableStructure)
+        -- Calculate object ID (this may be invalid, be careful)
+        local itemOffset = table.elementSize * index 
+        local item = read_float(table.firstElementAddress + itemOffset + 0x4)
+        return item
     end
     return nil
 end
