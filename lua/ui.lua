@@ -1,40 +1,36 @@
 clua_version = 2.056
 
 local harmony = require "mods.harmony"
-blam = require "blam"
-tagClasses = blam.tagClasses
+local inspect = require "inspect"
 
+local chimera = require "insurrection.chimera"
 local core = require "insurrection.core"
 
-local scriptVersion = require "insurrection.version"
-
+math.randomseed(os.time() + ticks())
 local gameStarted = false
 
-function OnGameStart()
-    local scriptVersionTag = core.findTag("variable_info", tagClasses.unicodeStringList)
-    if (scriptVersionTag) then
-        (harmony.ui.set_widescreen_aspect_ratio or harmony.ui.set_aspect_ratio)(16, 9)
-        local scriptVersionString = blam.unicodeStringList(scriptVersionTag.id)
-        if (scriptVersionString) then
-            local strings = scriptVersionString.stringList
-            -- Write string version to map tag
-            strings[1] = scriptVersion
-            scriptVersionString.stringList = strings
-        end
+local function onGameStart()
+    -- Load Insurrection features
+    if (core.loadInsurrectionPatches()) then
+        harmony.ui.set_aspect_ratio(16, 9)
+        chimera.loadBookmarks()
+        core.loadNameTemplate()
+        execute_script("menu_blur_on")
     end
-    --execute_script("menu_blur_on")
-    gameStarted = nil
+    -- Workaround fix to prevent players from getting stuck in a game server at menu
+    execute_script("disconnect")
 end
 
 function OnTick()
     -- Game started event trick
-    if (ticks() > 0 and gameStarted == false) then
+    if (not gameStarted and map:find("ui")) then
         gameStarted = true
+        onGameStart()
     end
-    if (gameStarted) then
-        OnGameStart()
-        --core.getChimeraBookmarks()
-    end
+end
+
+function OnMenuAccept(widgetTagId)
+    return chimera.mapBookMarks(widgetTagId) or true
 end
 
 function OnUnload()
@@ -43,3 +39,4 @@ end
 
 set_callback("tick", "OnTick")
 set_callback("unload", "OnUnload")
+harmony.set_callback("menu accept", "OnMenuAccept")

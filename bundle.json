@@ -2,13 +2,14 @@
     "name": "Insurrection",
     "target": "lua53",
     "include": [
-        "lua\\"
+        "lua/"
     ],
     "modules": [
+        "glue",
         "blam",
         "insurrection.core",
         "insurrection.version"
     ],
-    "main": "ui",
-    "output": "dist\\ui.lua"
+    "main": "lua/ui",
+    "output": "dist/ui.lua"
 }
