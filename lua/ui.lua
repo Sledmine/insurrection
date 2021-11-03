@@ -33,10 +33,5 @@ function OnMenuAccept(widgetTagId)
     return chimera.mapBookMarks(widgetTagId) or true
 end
 
-function OnUnload()
-    harmony.unload()
-end
-
 set_callback("tick", "OnTick")
-set_callback("unload", "OnUnload")
 harmony.set_callback("menu accept", "OnMenuAccept")

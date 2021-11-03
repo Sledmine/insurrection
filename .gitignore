@@ -10,3 +10,6 @@ six-shooter.ini
 
 # VS Code
 .vscode
+
+# DXVK
+*.log

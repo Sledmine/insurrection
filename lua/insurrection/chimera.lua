@@ -52,6 +52,13 @@ function chimera.loadBookmarks()
                     port = serverPort or 2302,
                     password = serverPassword or "x"
                 }
+            else
+                bookmarkedServers[serverIndex] = nil
+            end
+            local serversListTag = core.findTag([[chimera_servers_menu\options\options]], tagClasses.uiWidgetDefinition)
+            local serversList = blam.uiWidgetDefinition(serversListTag.id)
+            if (#bookmarkedServers <= 10) then
+                serversList.childWidgetsCount = #bookmarkedServers
             end
             serverStrings.stringList = newServers
         end
