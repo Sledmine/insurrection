@@ -17,13 +17,12 @@ local parser =
 
 ---@type args
 local args = parser:parse()
-local widgetItemsPath = [[insurrection\ui\menus\settings_menu\]]
+local serverItemsPath = [[insurrection\ui\menus\servers_menu\servers_list\]]
 local tagTemplate = [[invader-edit -t tags\ %s%s.ui_widget_definition]]
-local tagGetTemplate = [[invader-edit -t tags\ %s.ui_widget_definition -G]]
 
 -- Widget list fields definition
-local vertical_offset = 58
-local horizontal_offset = 40
+--local vertical_offset = 49
+local horizontal_offset = 0
 local widgetList = {
     --widget_type = "column_list",
     --bounds = "0 0 480 640",
@@ -39,17 +38,47 @@ local widgetList = {
 local widgetItem = {
     -- scaleH, scaleW, height, width
     -- t, r, b, l
-    bounds = "0 0 24 184",
-    background_bitmap = [[insurrection\ui\bitmaps\normal_button.bitmap]],
-    text_font = [[ui\large_ui.font]],
-    text_color = "1 1 1 1",
-    justification = "left_justify",
-    horiz_offset = 10,
-    vert_offset = 5
+    bounds = "0 0 16 640",
+    background_bitmap = [[insurrection\ui\bitmaps\scroll_item.bitmap]],
+    -- Remove when we don't need value labels anymore
+    child_widgets = {
+        {
+            vertical_offset = 3,
+            horizontal_offset = 46
+        },
+        {
+            vertical_offset = 3,
+            horizontal_offset = 89
+        },
+        {
+            vertical_offset = 0,
+            horizontal_offset = 150
+        },
+        {
+            vertical_offset = 0,
+            horizontal_offset = 462
+        },
+        {
+            vertical_offset = 0,
+            horizontal_offset = 594
+        },
+        {
+            vertical_offset = 0,
+            horizontal_offset = 618
+        },
+        {
+            vertical_offset = 0,
+            horizontal_offset = 697
+        },
+        {
+            vertical_offset = 0,
+            horizontal_offset = 766
+        },
+    }
 }
 
 --- Build properties assignment type to invader string parameter
-local function writeMapFields(field, value)
+local function mapFields(field, value)
     local valueType = type(value)
     if (valueType ~= "table") then
         print("Writting " .. field .. " = " .. tostring(value))
@@ -73,9 +102,9 @@ local function writeMapFields(field, value)
         for subField, subValue in pairs(value) do
             if (tonumber(subField)) then
                 sentence = sentence ..
-                           writeMapFields((field .. "[%s]"):format(subField), subValue)
+                           mapFields((field .. "[%s]"):format(subField - 1), subValue)
             else
-                sentence = sentence .. writeMapFields(field .. "." .. subField, subValue)
+                sentence = sentence .. mapFields(field .. "." .. subField, subValue)
             end
         end
         return sentence
@@ -85,31 +114,28 @@ local function writeMapFields(field, value)
     end
 end
 
-local updateList = tagTemplate:format(widgetItemsPath, "profile_edit_select_list")
+local updateList = tagTemplate:format(serverItemsPath, "servers_list_items")
 print("-> Updating buttons list...")
 -- Multiple widgets generation
-for childIndex = 0,8 do
-    vertical_offset = vertical_offset + 26
+for childIndex = 4, 18 do
     widgetList.child_widgets[childIndex] = {
-        horizontal_offset = horizontal_offset,
-        vertical_offset = vertical_offset
+        horizontal_offset = horizontal_offset
     }
-    
-    local childTagPath = tagGetTemplate:format(widgetItemsPath .. "profile_edit_select_list") .. (" child_widgets[%s].widget_tag"):format(childIndex)
-    childTagPath = glue.readpipe(childTagPath)
-    local updateItem = tagTemplate:gsub(".ui_widget_definition", ""):format(childTagPath:gsub("\n", ""), "")
-    glue.map(widgetItem, function(property, value)
-        updateItem = updateItem .. writeMapFields(property, value)
+
+    glue.map(widgetList, function(property, value)
+        updateList = updateList .. mapFields(property, value)
     end)
---
+    local updateItem = tagTemplate:format(serverItemsPath, "items_list\\item_" .. childIndex - 3)
+    glue.map(widgetItem, function(property, value)
+        updateItem = updateItem .. mapFields(property, value)
+    end)
+
+    -- print(createButton)
+    print("Finished button " .. childIndex .. "!!!\n")
+    print(updateList)
     print(updateItem)
+    os.execute(updateList)
     os.execute(updateItem)
 end
-
-glue.map(widgetList, function(property, value)
-    updateList = updateList .. writeMapFields(property, value)
-end)
-print(updateList)
-os.execute(updateList)
 
 print("Done!")
