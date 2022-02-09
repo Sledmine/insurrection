@@ -4,6 +4,7 @@ local glue = require "lua.glue"
 local normalButton = require "lua.scripts.ui.components.normalButton"
 local labelButton = require "lua.scripts.ui.components.labelButton"
 local largeButton = require "lua.scripts.ui.components.largeButton"
+local settingsDescription = require "lua.scripts.ui.components.settingsDescription"
 
 -- Edit menu container
 widget.edit(
@@ -59,11 +60,6 @@ for buttonIndex = 0, 2 do
     widget.edit(buttonPath, normalButton("center_justify", 0))
 end
 
-widget.edit([[insurrection\ui\menus\settings_menu\network_setup\network_settings_help.ui_widget_definition]],
-{
-    bounds = "0 0 480 856",
-    text_font = [[ui\gamespy.font]],
-    -- Plus font offset
-    horiz_offset = 400 + 40,
-    vert_offset = 84
-})
+widget.edit(
+    [[insurrection\ui\menus\settings_menu\network_setup\network_settings_help.ui_widget_definition]],
+    settingsDescription())
