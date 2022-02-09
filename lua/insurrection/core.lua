@@ -9,6 +9,7 @@ local mercury = require "insurrection.mercury"
 local scriptVersion = require "insurrection.version"
 
 -- local clientPort = read_word(0x006337F8)
+local currentWidgetIdAddress = 0x6B401C
 
 local core = {}
 
@@ -107,6 +108,23 @@ function core.loadInsurrectionPatches()
         end
         return true
     end
+end
+
+--- Get the tag widget of the current ui open in the game
+---@return tag
+function core.getCurrentUIWidget()
+    local isPlayerOnMenu = read_byte(blam.addressList.gameOnMenus) == 0
+    if (isPlayerOnMenu) then
+        local widgetIdAddress = read_dword(currentWidgetIdAddress)
+        if (widgetIdAddress and widgetIdAddress ~= 0) then
+            local widgetId = read_dword(widgetIdAddress)
+            local tag = blam.getTag(widgetId)
+            if (tag) then
+                return tag
+            end
+        end
+    end
+    return nil
 end
 
 return core

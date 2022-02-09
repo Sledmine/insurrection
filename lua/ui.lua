@@ -13,7 +13,7 @@ local function onGameStart()
     -- Load Insurrection features
     if (core.loadInsurrectionPatches()) then
         harmony.ui.set_aspect_ratio(16, 9)
-        chimera.loadBookmarks()
+        --chimera.loadBookmarks()
         core.loadNameTemplate()
         execute_script("menu_blur_on")
     end
@@ -26,6 +26,14 @@ function OnTick()
     if (not gameStarted and map:find("ui")) then
         gameStarted = true
         onGameStart()
+    end
+    local currentUiWidget = core.getCurrentUIWidget()
+    if (currentUiWidget) then
+        if (currentUiWidget.path:find("chimera_servers_menu")) then
+            chimera.loadBookmarks()
+        else
+            chimera.resetBookmarks()
+        end
     end
 end
 
