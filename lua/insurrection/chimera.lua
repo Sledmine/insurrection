@@ -17,13 +17,14 @@ local chimera = {}
 
 ---@type chimeraBookmark[]
 local bookmarks = {}
+local cachedBookmarks = false
 
 local myGamesPath = read_string(0x00647830)
 
 --- Return the list of bookmarks available on Chimera
 ---@return string[]
 function chimera.loadBookmarks()
-    if (#bookmarks == 0) then
+    if (not cachedBookmarks) then
         local bookmarksFilePath = myGamesPath .. "\\chimera\\bookmark.txt"
         local bookmarksFile = glue.readfile(bookmarksFilePath, "t")
         if (bookmarksFile) then
@@ -44,8 +45,10 @@ function chimera.loadBookmarks()
                 local serverPort = tonumber(hostSplit[2])
                 local serverPassword = serverSplit[2]
                 if (serverIp and serverIp ~= "") then
-                    local serverLabel = serverIp .. ":" .. serverPort
-                    local server, error = chimera.queryServer(serverIp, serverPort)
+                    -- local serverLabel = serverIp .. ":" .. serverPort
+                    local serverLabel = serverIndex .. ":" .. serverPort
+                    -- local server, queryError = chimera.queryServer(serverIp, serverPort)
+                    local server, queryError
                     newServers[serverIndex] = serverLabel
                     if (server) then
                         serverLabel = server.hostname:sub(1, 21) .. " - " .. server.ping .. "ms"
@@ -53,8 +56,8 @@ function chimera.loadBookmarks()
                             newServers[serverIndex] = serverLabel .. " [L]"
                         end
                     else
-                        if (error) then
-                            newServers[serverIndex] = serverLabel .. " - " .. error:upper()
+                        if (queryError) then
+                            newServers[serverIndex] = serverLabel .. " - " .. queryError:upper()
                         else
                             newServers[serverIndex] = serverLabel
                         end
@@ -67,24 +70,16 @@ function chimera.loadBookmarks()
                 else
                     bookmarkedServers[serverIndex] = nil
                 end
-                local serversListTag = core.findTag([[chimera_servers_menu\options\options]],
-                                                    tagClasses.uiWidgetDefinition)
-                local serversList = blam.uiWidgetDefinition(serversListTag.id)
-                if (#bookmarkedServers <= 10) then
-                    serversList.childWidgetsCount = #bookmarkedServers + 1
-                end
                 serverStrings.stringList = newServers
+                cachedBookmarks = true
             end
-
         end
     end
     return nil
 end
 
 function chimera.resetBookmarks()
-    if (#bookmarks > 0) then        
-        bookmarks = {}
-    end
+    cachedBookmarks = false
 end
 
 --- Map selected bookmark from the UI
@@ -103,6 +98,14 @@ function chimera.mapBookMarks(widgetTagId)
         local serverPassword = bookmark.password
         -- console_out("connect " .. serverIp .. ":" ..serverPort .. " " .. serverPassword)
         execute_script("connect " .. serverIp .. ":" .. serverPort .. " " .. serverPassword)
+        return false
+    elseif (widgetPath == [[insurrection\ui\main_menu\menu_options\multiplayer_menu\options\bookmark_servers]]) then
+        local serversListTag = core.findTag([[chimera_servers_menu\options\options]],
+                                            tagClasses.uiWidgetDefinition)
+        local serversList = blam.uiWidgetDefinition(serversListTag.id)
+        if (#bookmarks <= 10) then
+            serversList.childWidgetsCount = #bookmarks + 1
+        end
         return false
     end
 end

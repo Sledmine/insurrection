@@ -86,10 +86,7 @@ function core.getTagName(tagPath)
     return tagName
 end
 
-function core.enableLiveReload()
-end
-
-function core.loadNameTemplate()
+function core.loadNameplates()
     local nameplateBitmapTags = core.findTagsList("nameplates\\", tagClasses.bitmap)
     local nameplateTag = core.findTag("shared\\current_profile", tagClasses.uiWidgetDefinition)
     local nameplate = blam.uiWidgetDefinition(nameplateTag.id)
@@ -125,6 +122,9 @@ function core.getCurrentUIWidget()
         end
     end
     return nil
+end
+
+function core.patchChimeraFonts()
 end
 
 return core

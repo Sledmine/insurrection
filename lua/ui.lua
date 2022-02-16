@@ -14,7 +14,7 @@ local function onGameStart()
     if (core.loadInsurrectionPatches()) then
         harmony.ui.set_aspect_ratio(16, 9)
         --chimera.loadBookmarks()
-        core.loadNameTemplate()
+        core.loadNameplates()
         execute_script("menu_blur_on")
     end
     -- Workaround fix to prevent players from getting stuck in a game server at menu
@@ -29,7 +29,8 @@ function OnTick()
     end
     local currentUiWidget = core.getCurrentUIWidget()
     if (currentUiWidget) then
-        if (currentUiWidget.path:find("chimera_servers_menu")) then
+        --console_out(currentUiWidget.path)
+        if (currentUiWidget.path:find("multiplayer_menu") or "chimera_servers_menu") then
             chimera.loadBookmarks()
         else
             chimera.resetBookmarks()
