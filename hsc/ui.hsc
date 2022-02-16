@@ -1,3 +1,10 @@
+(global boolean gametypes_menu_trigger_1 false)
+(global boolean gametypes_menu_trigger_2 false)
+(global boolean gametypes_menu_trigger_3 false)
+(global boolean gametypes_menu_trigger_4 false)
+(global boolean gametypes_menu_trigger_5 false)
+(global boolean gametypes_menu_trigger_6 false)
+
 ;; UI FX
 (script static void menu_blur_on
     (begin
@@ -34,11 +41,11 @@
     )
 )
 
-(script static void fade_in
+(script static void fade_screen_in
     (fade_in 0 0 0 60)
 )
 
-(script static void fade_out
+(script static void fade_screen_out
     (fade_out 0 0 0 60)
 )
 
@@ -55,5 +62,5 @@
 ;; UI Main
 (script startup ui_main
     ;; Fade screen from black to transparent
-    (fade_in 0 0 0 60)
+    (fade_screen_in)
 )

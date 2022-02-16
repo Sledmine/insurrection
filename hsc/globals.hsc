@@ -1,6 +1,0 @@
-(global boolean gametypes_menu_trigger_1 false)
-(global boolean gametypes_menu_trigger_2 false)
-(global boolean gametypes_menu_trigger_3 false)
-(global boolean gametypes_menu_trigger_4 false)
-(global boolean gametypes_menu_trigger_5 false)
-(global boolean gametypes_menu_trigger_6 false)
