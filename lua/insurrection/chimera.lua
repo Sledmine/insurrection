@@ -28,16 +28,20 @@ function chimera.loadBookmarks()
         local bookmarksFilePath = myGamesPath .. "\\chimera\\bookmark.txt"
         local bookmarksFile = glue.readfile(bookmarksFilePath, "t")
         if (bookmarksFile) then
+            -- Get each server entry from the bookmarks file
+            local bookmarkedServers = split(bookmarksFile, "\n")
+
             local serverStringsTag = core.findTag([[chimera_servers_menu\strings\options]],
                                                   tagClasses.unicodeStringList)
             local serverStrings = blam.unicodeStringList(serverStringsTag.id)
-            local bookmarkedServers = split(bookmarksFile, "\n")
             local newServers = serverStrings.stringList
+
             for stringIndex = 1, serverStrings.count do
                 newServers[stringIndex] = " "
             end
             for serverIndex, serverData in pairs(bookmarkedServers) do
                 local serverSplit = split(serverData, " ")
+
                 local serverHost = serverSplit[1]
                 local hostSplit = split(serverHost, ":")
 
@@ -70,6 +74,7 @@ function chimera.loadBookmarks()
                 else
                     bookmarkedServers[serverIndex] = nil
                 end
+                -- Update strings list tag in the UI
                 serverStrings.stringList = newServers
                 cachedBookmarks = true
             end
