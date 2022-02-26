@@ -21,14 +21,13 @@
 
 ;; Allow cameras to see animations and effects
 (script startup pvs_cameras
-    (begin
-        (object_pvs_set_camera "ui_camera")
-        (object_pvs_set_camera "old_ui_camera")
-        (object_pvs_set_camera "new_campaign")
-        (object_pvs_set_camera "load_campaign")
-        (object_pvs_set_camera "multiplayer")
-        (object_pvs_set_camera "settings")
-    )
+    (object_pvs_set_camera "ui_camera")
+    (object_pvs_set_camera "old_ui_camera")
+    (object_pvs_set_camera "new_campaign")
+    (object_pvs_set_camera "load_campaign")
+    (object_pvs_set_camera "multiplayer")
+    (object_pvs_set_camera "settings")
+    (object_pvs_set_camera "customization")
 )
 
 ;; Block controls, prevent player from sending inputs
@@ -55,8 +54,15 @@
 )
 
 (script static void set_multiplayer_background
+    (menu_blur_on)
     (camera_control 1)
     (camera_set multiplayer 0)
+)
+
+(script static void set_customization_background
+    (menu_blur_off)
+    (camera_control 1)
+    (camera_set customization 0)
 )
 
 ;; UI Main
