@@ -2,9 +2,10 @@
 dist/
 
 # Map files
-data
-tags
-project/
+data/
+tags/
+hek/
+maps
 
 # Invader settings
 six-shooter.ini
