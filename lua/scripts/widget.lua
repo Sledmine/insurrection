@@ -1,9 +1,8 @@
 --- Widget automated modifier using Invader
 --- Sledmine
-local glue = require "glue"
+local glue = require "lua.glue"
 
 local widget = {}
-
 ---@class widgetFlags
 ---@field pass_unhandled_events_to_focused_child boolean
 ---@field pause_game_time boolean
