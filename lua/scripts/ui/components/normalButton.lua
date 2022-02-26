@@ -1,4 +1,6 @@
 ---@param justification '"left_justify"' | '"center_justify"' | '"right_justify"'
+---@param horiz_offset number
+---@param vertical_offset number
 ---@return invaderWidget
 return function(justification, horiz_offset, vertical_offset)
     return {
