@@ -1,36 +1,7 @@
---- Widget automated modifier using Invader
+--- Tag automated modifier using Invader
 --- Sledmine
 local glue = require "lua.glue"
-
-local widget = {}
----@class widgetFlags
----@field pass_unhandled_events_to_focused_child boolean
----@field pause_game_time boolean
----@field flash_background_bitmap boolean
----@field dpad_up_down_tabs_thru_children boolean
-
----@class childWidget
----@field widget_tag string
----@field name string
----@field vertical_offset number
----@field horizontal_offset number
-
----@class invaderWidget
----@field widget_type '"container"' | '"text_box"' | '"spinner_list"' | '"column_list"'
----@field bounds string
----@field flags widgetFlags
----@field milliseconds_to_auto_close number
----@field milliseconds_to_auto_close_fade_time number
----@field background_bitmap string
----@field extended_description_widget string
----@field justification '"left_justify"' | '"center_justify"' | '"right_justify"'
----@field text_label_unicode_strings_list string
----@field text_font string
----@field text_color string
----@field string_list_index number
----@field horiz_offset number
----@field vert_offset number
----@field child_widgets childWidget[]
+local tag = {}
 
 local gamePath = os.getenv("HALO_CE_PATH")
 local invaderRunner =
@@ -44,6 +15,18 @@ local countCmd = invaderRunner .. [[invader-edit "%s" -C %s]]
 local getCmd = invaderRunner .. [[invader-edit "%s" -G %s]]
 local insertCmd = invaderRunner .. [[invader-edit "%s" -I %s %s %s]]
 local createCmd = invaderRunner .. [[invader-edit "%s" -N]]
+local eraseCmd = invaderRunner .. [[invader-edit "%s" -E %s]]
+tag.runner = invaderRunner
+
+function nulled(value)
+    if (tonumber(value)) then
+        value = tonumber(value)
+        if (value == 0xFF or value == 0xFFFF or value == 0xFFFFFFFF or value == nil) then
+            return nil
+        end
+    end
+    return value
+end
 
 --- Build properties assignment type to invader string parameter
 local function writeMapFields(key, value)
@@ -120,64 +103,94 @@ local function createKeys(keys, value)
     end
 end
 
---- Set properties to widget
----@param widgetPath string Path to widget tag
----@param keys invaderWidget Properties to set into widget
-function widget.edit(widgetPath, keys)
-    print("Editing: " .. widgetPath)
-    local updateTagCmd = editCmd:format(widgetPath)
+--- Set properties to tag
+---@param tagPath string Path to tag
+---@param keys any
+function tag.edit(tagPath, keys)
+    print("Editing: " .. tagPath)
+    local updateTagCmd = editCmd:format(tagPath)
     glue.map(keys, function(property, value)
         updateTagCmd = updateTagCmd .. writeMapFields(property, value)
     end)
-    os.execute(updateTagCmd)
+    if os.execute(updateTagCmd) then
+        return true
+    end
+    error("Error at editing: " .. tagPath)
 end
 
----Get a value from a widget given key
----@param widgetPath string
+---Get a value from a tag given key
+---@param tagPath string
 ---@param key string
+---@param index? number
+---@param subkey? string
 ---@return string | number
-function widget.get(widgetPath, key)
-    local pipe = io.popen(getCmd:format(widgetPath, key))
+function tag.get(tagPath, key, index, subkey)
+    local cmd = getCmd:format(tagPath, key)
+    if (index) then
+        cmd = getCmd:format(tagPath, key .. "[" .. index .. "]")
+        if (subkey) then
+            cmd = getCmd:format(tagPath, key .. "[" .. index .. "]." .. (subkey or ""))
+        end
+    end
+    local pipe = io.popen(cmd)
     local value = pipe:read("*a")
-    -- local value = pipe:read("*a"):gsub("\n", ""):gsub("\r", ""):gsub("/", "\\")
-    return glue.string.trim(value)
+    if not pipe:close() then
+        print("Attempting to read:")
+        print(tagPath, key, index, subkey)
+        error(value)
+    end
+    return nulled(glue.string.trim(value))
 end
 
----Count entries from a widget given key
----@param widgetPath any
+---Count entries from a tag given key
+---@param tagPath any
 ---@param key any
 ---@return number
-function widget.count(widgetPath, key)
-    local pipe = io.popen(countCmd:format(widgetPath, key))
+function tag.count(tagPath, key)
+    local pipe = io.popen(countCmd:format(tagPath, key))
     local value = pipe:read("*a")
+    if not pipe:close() then
+        print("Attempting to count:")
+        print(tagPath, key)
+        error(value)
+    end
     return tonumber(value)
 end
 
+---Erase structure from a tag given key
+---@param tagPath any
+---@param key any
+---@return number
+function tag.erase(tagPath, key)
+    if os.execute(eraseCmd:format(tagPath, key)) then
+        return true
+    end
+    error("Error at attempting to erase: " .. tagPath .. " " .. key)
+end
+
 ---Insert a quantity of structs to specific key
----@param widgetPath string
+---@param tagPath string
 ---@param key string
 ---@param count number
 ---@param position number | '"end"'
-function widget.insert(widgetPath, key, count, position)
-    os.execute(insertCmd:format(widgetPath, key, count, position or 0))
+function tag.insert(tagPath, key, count, position)
+    os.execute(insertCmd:format(tagPath, key, count, position or 0))
 end
 
-function widget.create(widgetPath, keys)
-    print("Creating: " .. widgetPath)
+---Create a new tag with specified keys
+---@param tagPath string
+---@param keys any
+function tag.create(tagPath, keys)
+    print("Creating: " .. tagPath)
     -- Create widget from scratch
-    local createTagCmd = createCmd:format(widgetPath)
+    local createTagCmd = createCmd:format(tagPath)
     glue.map(keys, function(property, value)
         createTagCmd = createTagCmd .. createKeys(property, value)
     end)
-    os.execute(createTagCmd)
+    if os.execute(createTagCmd) then
+        return true
+    end
+    error("Error at creating tag: " .. tagPath)
 end
 
----Merge keys from one widgetion definition to another
----@param keys invaderWidget
----@param newKeys invaderWidget
----@return invaderWidget
-function widget.merge(keys, newKeys)
-    return glue.merge(keys, newKeys)
-end
-
-return widget
+return tag

@@ -46,14 +46,7 @@ function core.findTagsList(partialName, searchTagType)
             if (not tagsList) then
                 tagsList = {}
             end
-            glue.append(tagsList, {
-                id = tag.id,
-                path = tag.path,
-                index = tag.index,
-                class = tag.class,
-                indexed = tag.indexed,
-                data = tag.data
-            })
+            glue.append(tagsList, tag)
         end
     end
     return tagsList
@@ -125,6 +118,7 @@ function core.getCurrentUIWidget()
 end
 
 function core.patchChimeraFonts()
+    --create_font_override(int tag_id, string family, int size, int weight, int offset_x, int offset_y, int shadow_x, int shadow_y)
 end
 
 return core

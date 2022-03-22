@@ -11,8 +11,8 @@ local headerPath = menuPath .. [[chimera_history_menu_header.ui_widget_definitio
 local optionsPath = menuPath .. [[chimera_history_menu_options.ui_widget_definition]]
 local optionsButtonPath = menuPath .. [[option_%s.ui_widget_definition]]
 
-widget.create(headerPath, menuHeader("chimera_history", "CHIMERA HISTORY SERVERS",
-                                     "Attempt to join a history server"))
+widget.create(headerPath, menuHeader("chimera_history", "HISTORY",
+                                     "ATTEMPT TO JOIN A SERVER IN THE HISTORY"))
 
 ---@type invaderWidget
 local options = {
