@@ -1,3 +1,4 @@
+---Menu container component, this is the first component that holds a screen
 ---@return invaderWidget
 return function()
     return {

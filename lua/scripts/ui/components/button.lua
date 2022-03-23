@@ -1,12 +1,10 @@
 local ustr = require "lua.scripts.modules.ustr"
----Normal button component, recycled in multiple components
+---Generic button component, recycled in multiple components
 ---@param justification '"left_justify"' | '"center_justify"' | '"right_justify"' Button text alignment
----@param horiz_offset number? Has default alignment of 10
----@param vertical_offset number? Has default alignment of 5
 ---@param name string? Name of the button component (also used for inner tags generation)
 ---@param text string? Auto generated unicode string inside this button
 ---@return invaderWidget
-return function(justification, horiz_offset, vertical_offset, name, text)
+return function(justification, name, text, openTag, script)
     local stringsTagPath
     if text then
         -- Generate strings tag
@@ -18,14 +16,29 @@ return function(justification, horiz_offset, vertical_offset, name, text)
     local widget = {
         widget_type = "text_box",
         bounds = "0 0 24 184",
+        flags = {pass_unhandled_events_to_focused_child = true},
         background_bitmap = [[insurrection\ui\bitmaps\normal_button.bitmap]],
+        event_handlers = {
+            {
+                flags = {open_widget = true, run_function = true},
+                event_type = "a_button",
+                widget_tag = openTag or ".ui_widget_definition",
+                script = script or ""
+            },
+            {
+                flags = {run_function = true},
+                event_type = "left_mouse",
+                ["function"] = "mouse_emit_accept_event",
+                widget_tag = openTag or ".ui_widget_definition"
+            }
+        },
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
         text_font = [[ui\large_ui.font]],
         text_color = "1 1 1 1",
         justification = justification or "left_justify",
-        horiz_offset = horiz_offset or 10,
-        vert_offset = vertical_offset or 5
+        horiz_offset = 10,
+        vert_offset = 5
     }
     return widget
 end

@@ -1,9 +1,9 @@
 -- Create unicode string list tag, given a string table
 -- Sledmine
--- Only ASCII text is supported by now (ironically), implementation is experimental be careful
+-- Only ASCII text is supported by now (ironically), implementation still experimental, be careful
 local glue = require "lua.glue"
 local append = glue.append
---local crc32 = require "lua.scripts.modules.crc32"
+-- local crc32 = require "lua.scripts.modules.crc32"
 
 local function padding(length)
     return string.rep("\0", length)
@@ -26,7 +26,7 @@ end
 
 ---Create unicode string list tag
 ---@param strings string[]
----@return string
+---@return boolean
 local function ustr(tagPath, strings)
     print("Creating USTR: " .. tagPath)
     local tag = {
@@ -34,13 +34,15 @@ local function ustr(tagPath, strings)
         -- Tag class/group
         "ustr",
         -- CRC32 checksum
-        padding(4),
+        "\0\0\0\0",
         padding(3),
+        -- Unknown
         byte(0x40),
         padding(9),
+        -- Unknown
         byte(0x1),
-        -- Some kind of type identifers
         padding(1),
+        -- Unknown
         byte(0xFF),
         -- Engine target
         "blam",
@@ -65,12 +67,13 @@ local function ustr(tagPath, strings)
         append(tag, padding(2))
     end
     -- TODO Add real tag checksum calculation
-    --local tagBody = table.concat(tag, "", 10)
-    --local crc = crc32(tagBody)
-    --print(crc)
-    --tag[3] = glue.string.fromhex(tostring(crc))
+    -- local tagBody = table.concat(tag, "", 10)
+    -- local crc = crc32(tagBody)
+    -- print(crc)
+    -- tag[3] = glue.string.fromhex(tostring(crc))
     local bin = table.concat(tag, "")
-    if glue.writefile("tags/" .. tagPath, bin, "b") then
+    local outputTagPath = "tags/" .. tagPath
+    if glue.writefile(outputTagPath, bin, "b") then
         return true
     end
     error("Could not create USTR tag")
