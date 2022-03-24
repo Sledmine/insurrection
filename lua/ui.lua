@@ -1,19 +1,21 @@
 clua_version = 2.056
 
 local harmony = require "mods.harmony"
-local inspect = require "inspect"
+inspect = require "inspect"
 
 local chimera = require "insurrection.chimera"
 local core = require "insurrection.core"
 
 math.randomseed(os.time() + ticks())
 local gameStarted = false
+-- Multithread lanes
+Lanes = {}
 
 local function onGameStart()
     -- Load Insurrection features
     if (core.loadInsurrectionPatches()) then
         harmony.ui.set_aspect_ratio(16, 9)
-        --chimera.loadBookmarks()
+        -- chimera.loadBookmarks()
         core.loadNameplates()
         execute_script("menu_blur_on")
     end
@@ -22,6 +24,18 @@ local function onGameStart()
 end
 
 function OnTick()
+    for _, lane in ipairs(Lanes) do
+        if lane.thread.status == "done" then
+            lane.callback(lane.thread)
+            table.remove(Lanes, _)
+        elseif lane.thread.status == "error" then
+            console_out(lane.thread[1])
+            table.remove(Lanes, _)
+        else
+            console_out(lane.thread.status)
+        end
+    end
+
     -- Game started event trick
     if (not gameStarted and map:find("ui")) then
         gameStarted = true
@@ -29,7 +43,7 @@ function OnTick()
     end
     local currentUiWidget = core.getCurrentUIWidget()
     if (currentUiWidget) then
-        --console_out(currentUiWidget.path)
+        -- console_out(currentUiWidget.path)
         if (currentUiWidget.path:find("multiplayer_menu") or "chimera_servers_menu") then
             chimera.loadBookmarks()
         else
@@ -39,7 +53,7 @@ function OnTick()
 end
 
 function OnMenuAccept(widgetTagId)
-    return chimera.mapBookMarks(widgetTagId) or true
+    return chimera.mapBookMarks(widgetTagId) or core.mapButtons(widgetTagId) or true
 end
 
 set_callback("tick", "OnTick")

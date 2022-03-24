@@ -5,6 +5,12 @@ local tag  = require "lua.scripts.modules.tag"
 
 local widget = {}
 
+---@class invaderWidgetStringFlags
+---@field editable boolean
+---@field password boolean
+---@field flashing boolean
+---@field dont_do_that_weird_focus_test boolean
+
 ---@class invaderWidgetEventHandlerFlags
 ---@field close_current_widget boolean
 ---@field close_other_widget boolean
@@ -49,6 +55,7 @@ local widget = {}
 ---@field event_handlers invaderWidgetEventHandler[]
 ---@field extended_description_widget string
 ---@field justification '"left_justify"' | '"center_justify"' | '"right_justify"'
+---@field flags_1 invaderWidgetStringFlags
 ---@field text_label_unicode_strings_list string
 ---@field text_font string
 ---@field text_color string
@@ -187,7 +194,10 @@ function widget.insert(widgetPath, key, count, position)
     os.execute(insertCmd:format(widgetPath, key, count, position or 0))
 end
 
----@return invaderWidget
+---Create a widget tag
+---@param widgetPath string
+---@param keys invaderWidget
+---@return boolean
 function widget.create(widgetPath, keys)
     print("Creating: " .. widgetPath)
     -- Create widget from scratch

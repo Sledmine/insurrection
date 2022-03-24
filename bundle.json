@@ -9,10 +9,12 @@
         "glue",
         "json",
         "blam",
+        "requestscurl",
         "insurrection.version",
         "insurrection.mercury",
         "insurrection.chimera",
-        "insurrection.core"
+        "insurrection.core",
+        "insurrection.api"
     ],
     "main": "lua/ui",
     "output": "dist/ui.lua"
