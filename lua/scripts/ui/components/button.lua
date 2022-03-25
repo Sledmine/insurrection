@@ -4,7 +4,7 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@param name string? Name of the button component (also used for inner tags generation)
 ---@param text string? Auto generated unicode string inside this button
 ---@return invaderWidget
-return function(justification, name, text, openTag, script)
+return function(justification, name, text, openTag, script, back)
     local stringsTagPath
     if text then
         -- Generate strings tag
@@ -20,7 +20,11 @@ return function(justification, name, text, openTag, script)
         background_bitmap = [[insurrection\ui\bitmaps\normal_button.bitmap]],
         event_handlers = {
             {
-                flags = {open_widget = true, run_function = true},
+                flags = {
+                    open_widget = true,
+                    run_function = true,
+                    go_back_to_previous_widget = back or false
+                },
                 event_type = "a_button",
                 widget_tag = openTag or ".ui_widget_definition",
                 script = script or ""
@@ -40,5 +44,9 @@ return function(justification, name, text, openTag, script)
         horiz_offset = 10,
         vert_offset = 5
     }
+    if justification == "center_justify" then
+        -- Because of rescale stuff
+        widget.horiz_offset = 0
+    end
     return widget
 end

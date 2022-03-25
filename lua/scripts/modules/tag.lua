@@ -174,7 +174,10 @@ end
 ---@param count number
 ---@param position number | '"end"'
 function tag.insert(tagPath, key, count, position)
-    os.execute(insertCmd:format(tagPath, key, count, position or 0))
+    if os.execute(insertCmd:format(tagPath, key, count, position or 0)) then
+        return true
+    end
+    error("Error at attempting to insert: " .. tagPath .. " " .. key)
 end
 
 ---Create a new tag with specified keys

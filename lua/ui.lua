@@ -53,7 +53,7 @@ function OnTick()
 end
 
 function OnMenuAccept(widgetTagId)
-    return chimera.mapBookMarks(widgetTagId) or core.mapButtons(widgetTagId) or true
+    return chimera.mapBookMarks(widgetTagId) or core.OnButton(widgetTagId) or true
 end
 
 set_callback("tick", "OnTick")

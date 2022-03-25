@@ -119,17 +119,18 @@ function core.getCurrentUIWidget()
 end
 
 function core.patchChimeraFonts()
-    --create_font_override(int tag_id, string family, int size, int weight, int offset_x, int offset_y, int shadow_x, int shadow_y)
+    -- create_font_override(int tag_id, string family, int size, int weight, int offset_x, int offset_y, int shadow_x, int shadow_y)
 end
 
 --- Map selected button from the UI
 ---@param widgetTagId number
-function core.mapButtons(widgetTagId)
-    local widgetTag = blam.getTag(widgetTagId)
-    local widgetPath = widgetTag.path
-    if ends(widgetPath, "login_button") then
+function core.OnButton(widgetTagId)
+    local buttonPath = blam.getTag(widgetTagId).path
+    if ends(buttonPath, "login_button") then
         api.login("sledmine", "1234")
         return false
+    elseif ends(buttonPath, "register_button") then
+        console_out("Coming soon...")
     end
 end
 

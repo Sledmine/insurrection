@@ -1,7 +1,7 @@
 --- Widget automated modifier using Invader
 --- Sledmine
 local glue = require "lua.glue"
-local tag  = require "lua.scripts.modules.tag"
+local tag = require "lua.scripts.modules.tag"
 
 local widget = {}
 
@@ -64,115 +64,21 @@ local widget = {}
 ---@field vert_offset number
 ---@field child_widgets invaderWidgetChildWidget[]
 
-local gamePath = os.getenv("HALO_CE_PATH")
-local invaderRunner =
-    ([[sudo docker run -it -v /storage/developing/halo-ce/insurrection/data:/invader/data -v /storage/developing/halo-ce/insurrection/tags:/invader/tags -v "%s/maps":/invader/maps invader-docker ]]):format(
-        gamePath)
-if (jit.os == "Windows") then
-    invaderRunner = ""
-end
-local editCmd = invaderRunner .. [[invader-edit "%s"]]
-local countCmd = invaderRunner .. [[invader-edit "%s" -C %s]]
-local getCmd = invaderRunner .. [[invader-edit "%s" -G %s]]
-local insertCmd = invaderRunner .. [[invader-edit "%s" -I %s %s %s]]
-local createCmd = invaderRunner .. [[invader-edit "%s" -N]]
-
---- Build properties assignment type to invader string parameter
-local function writeMapFields(key, value)
-    local valueType = type(value)
-    if (valueType ~= "table") then
-        -- print(field .. " = " .. tostring(value))
-    end
-    -- Text property
-    if (valueType == "string") then
-        return (" -S %s \"%s\""):format(key, tostring(value))
-        -- Boolean property
-    elseif (valueType == "boolean") then
-        if (value) then
-            return (" -S %s %s"):format(key, 1)
-        end
-        return (" -S %s %s"):format(key, 0)
-        -- Number property
-    elseif (valueType == "number") then
-        return (" -S %s %s"):format(key, tostring(value))
-        -- Table
-    elseif (valueType == "table") then
-        local sentence = ""
-        for subField, subValue in pairs(value) do
-            if (tonumber(subField)) then
-                sentence = sentence ..
-                               writeMapFields((key .. "[%s]"):format(subField - 1), subValue)
-            else
-                sentence = sentence .. writeMapFields(key .. "." .. subField, subValue)
-            end
-        end
-        return sentence
-    else
-        print(key)
-        error("Unknown property type!")
-    end
-end
-
-local function createKeys(keys, value)
-    local valueType = type(value)
-    if (valueType ~= "table") then
-        -- print("Writting " .. keys .. " = " .. tostring(value))
-    end
-    -- Text property
-    if (valueType == "string") then
-        -- FIXME Split button index asignation via keyword without string formatting
-        return (" -S %s \"%s\""):format(keys, tostring(value))
-        -- Boolean property
-    elseif (valueType == "boolean") then
-        if (value) then
-            return (" -S %s %s"):format(keys, 1)
-        end
-        return (" -S %s %s"):format(keys, 0)
-        -- Number property
-    elseif (valueType == "number") then
-        return (" -S %s %s"):format(keys, tostring(value))
-        -- Table
-    elseif (valueType == "table" and #value == 0) then
-        local sentence = ""
-        for subField, subValue in pairs(value) do
-            sentence = sentence .. createKeys(keys .. "." .. subField, subValue)
-        end
-        return sentence
-        -- Array
-    elseif (valueType == "table" and #value > 0) then
-        -- Reserve elements space
-        local sentence = (" -I %s %s end"):format(keys, #value)
-        for elementIndex, subValue in ipairs(value) do
-            sentence = sentence .. createKeys((keys .. "[%s]"):format(elementIndex - 1), subValue)
-        end
-        return sentence
-    else
-        print(keys)
-        error("Unknown property type!")
-    end
-end
-
 --- Set properties to widget
 ---@param widgetPath string Path to widget tag
 ---@param keys invaderWidget Properties to set into widget
 function widget.edit(widgetPath, keys)
-    print("Editing: " .. widgetPath)
-    local updateTagCmd = editCmd:format(widgetPath)
-    glue.map(keys, function(property, value)
-        updateTagCmd = updateTagCmd .. writeMapFields(property, value)
-    end)
-    os.execute(updateTagCmd)
+    return tag.edit(widgetPath, keys)
 end
 
 ---Get a value from a widget given key
 ---@param widgetPath string
 ---@param key string
+---@param index? number
+---@param subkey? string
 ---@return string | number
-function widget.get(widgetPath, key)
-    local pipe = io.popen(getCmd:format(widgetPath, key))
-    local value = pipe:read("*a")
-    -- local value = pipe:read("*a"):gsub("\n", ""):gsub("\r", ""):gsub("/", "\\")
-    return glue.string.trim(value)
+function widget.get(widgetPath, key, index, subkey)
+    return tag.get(widgetPath, key, index, subkey)
 end
 
 ---Count entries from a widget given key
@@ -180,9 +86,7 @@ end
 ---@param key any
 ---@return number
 function widget.count(widgetPath, key)
-    local pipe = io.popen(countCmd:format(widgetPath, key))
-    local value = pipe:read("*a")
-    return tonumber(value)
+    return tag.count(widgetPath, key)
 end
 
 ---Insert a quantity of structs to specific key
@@ -191,7 +95,7 @@ end
 ---@param count number
 ---@param position number | '"end"'
 function widget.insert(widgetPath, key, count, position)
-    os.execute(insertCmd:format(widgetPath, key, count, position or 0))
+    return tag.insert(widgetPath, key, count, position)
 end
 
 ---Create a widget tag
@@ -204,7 +108,7 @@ function widget.create(widgetPath, keys)
     return tag.create(widgetPath, keys)
 end
 
----Merge keys from one widgetion definition to another
+---Merge keys from one widget definition to another
 ---@param keys invaderWidget
 ---@param newKeys invaderWidget
 ---@return invaderWidget
