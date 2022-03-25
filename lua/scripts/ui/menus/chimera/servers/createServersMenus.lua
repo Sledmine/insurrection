@@ -1,18 +1,20 @@
-local inspect = require "inspect"
 local widget = require "lua.scripts.widget"
-local glue = require "lua.glue"
 local menuContainer = require "lua.scripts.ui.components.menuContainer"
 local menuHeader = require "lua.scripts.ui.components.menuHeader"
-local normalButton = require "lua.scripts.ui.components.normalButton"
+local button = require "lua.scripts.ui.components.button"
 
 local menuPath = [[insurrection\ui\menus\chimera_servers_menu\]]
-local containerPath = menuPath .. [[chimera_history_menu.ui_widget_definition]]
-local headerPath = menuPath .. [[chimera_history_menu_header.ui_widget_definition]]
-local optionsPath = menuPath .. [[chimera_history_menu_options.ui_widget_definition]]
-local optionsButtonPath = menuPath .. [[option_%s.ui_widget_definition]]
+local containerHistoryPath = menuPath .. [[chimera_history_menu.ui_widget_definition]]
+local containerBookmarksPath = menuPath .. [[chimera_bookmarks_menu.ui_widget_definition]]
+local headerHistoryPath = menuPath .. [[chimera_history_menu_header.ui_widget_definition]]
+local headerBookmarksPath = menuPath .. [[chimera_bookmarks_menu_header.ui_widget_definition]]
+local chimeraServersPath = menuPath .. [[chimera_servers_options.ui_widget_definition]]
+local optionsButtonPath = menuPath .. [[chimera_server_button_%s.ui_widget_definition]]
 
-widget.create(headerPath, menuHeader("chimera_history", "HISTORY",
+widget.create(headerHistoryPath, menuHeader("chimera_history", "HISTORY",
                                      "ATTEMPT TO JOIN A SERVER IN THE HISTORY"))
+widget.create(headerBookmarksPath, menuHeader("chimera_bookmarks", "BOOKMARKS",
+                                     "ATTEMPT TO REJOIN A BOOKMARKED SERVER"))
 
 ---@type invaderWidget
 local options = {
@@ -23,21 +25,30 @@ local options = {
 }
 for buttonIndex = 1, 10 do
     local currentOptionPath = optionsButtonPath:format(buttonIndex)
-    widget.create(currentOptionPath, normalButton("left_justify"))
+    widget.create(currentOptionPath, button("left_justify","chimera_server_option_entry_" .. buttonIndex, "CHIMERA_SERVER_OPTION_PLACEHOLDER_ENTRY"))
     options.child_widgets[buttonIndex] = {
         horizontal_offset = 40,
         vertical_offset = 84 + (26 * (buttonIndex - 1)),
         widget_tag = currentOptionPath
     }
 end
-widget.create(optionsPath, options)
+widget.create(chimeraServersPath, options)
 
 ---@type invaderWidget
 local historyMenu = menuContainer()
 widget.merge(historyMenu, {
     child_widgets = {
-        {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerPath},
-        {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath}
+        {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerHistoryPath},
+        {horizontal_offset = 0, vertical_offset = 0, widget_tag = chimeraServersPath}
     }
 })
-widget.create(containerPath, historyMenu)
+---@type invaderWidget
+local bookmarksMenu = menuContainer()
+widget.merge(bookmarksMenu, {
+    child_widgets = {
+        {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerBookmarksPath},
+        {horizontal_offset = 0, vertical_offset = 0, widget_tag = chimeraServersPath}
+    }
+})
+widget.create(containerHistoryPath, historyMenu)
+widget.create(containerBookmarksPath, bookmarksMenu)
