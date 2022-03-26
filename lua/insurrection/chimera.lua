@@ -18,6 +18,8 @@ local chimera = {}
 
 ---@type chimeraServer[]
 local servers = {}
+local maximumDisplayedServers = 10
+local maximumDisplayedOptions = maximumDisplayedServers + 1
 
 local myGamesPath = read_string(0x00647830)
 
@@ -58,30 +60,35 @@ function chimera.loadServers(loadHistory)
         local serversTag = core.findTag("chimera_servers_options", tagClasses.uiWidgetDefinition)
         if serversTag then
             local serversList = blam.uiWidgetDefinition(serversTag.id)
-            for serverIndex = 1, 10 do
+            for serverIndex = 1, maximumDisplayedServers do
                 local server = servers[serverIndex]
-                if server then
-                    local serverLabel = server.ip .. ":" .. server.port
+                local childWidget = serversList.childWidgets[serverIndex + 1]
+                if server and childWidget then
+                    local serverOption = blam.uiWidgetDefinition(childWidget.widgetTag)
+                    local serverOptionStringList = blam.unicodeStringList(
+                                                       serverOption.unicodeStringListTag)
+                    local stringList = serverOptionStringList.stringList
+                    local serverLabel = serverIndex .. " = " .. server.ip .. ":" .. server.port
                     -- local serverLabel = serverIndex .. ":" .. serverPort
                     -- local server, queryError = chimera.queryServer(serverIp, serverPort)
                     local server, queryError
                     if (server) then
                         serverLabel = server.hostname:sub(1, 21) .. " - " .. server.ping .. "ms"
                         if (serverPassword) then
-                            -- newServers[serverIndex] = serverLabel .. " [L]"
+                            stringList[1] = serverLabel .. " [L]"
                         end
                     else
                         if (queryError) then
-                            -- newServers[serverIndex] = serverLabel .. " - " .. queryError:upper()
+                            stringList[1] = serverLabel .. " - " .. queryError:upper()
                         else
-                            -- newServers[serverIndex] = serverLabel
+                            stringList[1] = serverLabel
                         end
                     end
-                    console_out(serverLabel)
+                    serverOptionStringList.stringList = stringList
                 end
             end
-            serversList.childWidgetsCount = 10
-            if (#servers < 10) then
+            serversList.childWidgetsCount = maximumDisplayedOptions
+            if (#servers < maximumDisplayedOptions) then
                 serversList.childWidgetsCount = #servers + 1
             end
         end
@@ -94,7 +101,7 @@ end
 function chimera.onButton(widgetTagId)
     local widgetTag = blam.getTag(widgetTagId)
     local widgetPath = widgetTag.path
-    if (widgetPath:find("chimera_servers_menu\\options\\server_")) then
+    if widgetPath:find "chimera_server_button" then
         local buttonName = core.getTagName(widgetPath)
         local buttonSplit = split(buttonName, "_")
         local buttonIndex = tonumber(buttonSplit[#buttonSplit])
@@ -104,7 +111,6 @@ function chimera.onButton(widgetTagId)
         local serverPort = bookmark.port
         local serverPassword = bookmark.password
         execute_script("connect " .. serverIp .. ":" .. serverPort .. " " .. serverPassword)
-        return true
     elseif ends(widgetPath, "bookmark_servers") then
         chimera.loadServers()
     elseif ends(widgetPath, "history_servers") then
