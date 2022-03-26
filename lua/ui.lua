@@ -8,6 +8,7 @@ local core = require "insurrection.core"
 
 math.randomseed(os.time() + ticks())
 local gameStarted = false
+local isUIInsurrectionCompatible = false
 -- Multithread lanes
 Lanes = {}
 
@@ -15,15 +16,16 @@ local function onGameStart()
     -- Load Insurrection features
     if (core.loadInsurrectionPatches()) then
         harmony.ui.set_aspect_ratio(16, 9)
-        -- chimera.loadBookmarks()
         core.loadNameplates()
         execute_script("menu_blur_on")
+        isUIInsurrectionCompatible = true
     end
     -- Workaround fix to prevent players from getting stuck in a game server at menu
     execute_script("disconnect")
 end
 
 function OnTick()
+    -- Multithread resolving support
     for _, lane in ipairs(Lanes) do
         if lane.thread.status == "done" then
             lane.callback(lane.thread)
@@ -41,19 +43,11 @@ function OnTick()
         gameStarted = true
         onGameStart()
     end
-    local currentUiWidget = core.getCurrentUIWidget()
-    if (currentUiWidget) then
-        -- console_out(currentUiWidget.path)
-        if (currentUiWidget.path:find("multiplayer_menu") or "chimera_servers_menu") then
-            chimera.loadBookmarks()
-        else
-            chimera.resetBookmarks()
-        end
-    end
 end
 
 function OnMenuAccept(widgetTagId)
-    return chimera.mapBookMarks(widgetTagId) or core.OnButton(widgetTagId) or true
+    local allow = not (chimera.onButton(widgetTagId) or core.OnButton(widgetTagId) or false)
+    return allow
 end
 
 set_callback("tick", "OnTick")

@@ -2,6 +2,7 @@ local widget = require "lua.scripts.widget"
 local menuContainer = require "lua.scripts.ui.components.menuContainer"
 local menuHeader = require "lua.scripts.ui.components.menuHeader"
 local button = require "lua.scripts.ui.components.button"
+local glue = require "lua.glue"
 
 local menuPath = [[insurrection\ui\menus\chimera_servers_menu\]]
 local containerHistoryPath = menuPath .. [[chimera_history_menu.ui_widget_definition]]
@@ -10,11 +11,12 @@ local headerHistoryPath = menuPath .. [[chimera_history_menu_header.ui_widget_de
 local headerBookmarksPath = menuPath .. [[chimera_bookmarks_menu_header.ui_widget_definition]]
 local chimeraServersPath = menuPath .. [[chimera_servers_options.ui_widget_definition]]
 local optionsButtonPath = menuPath .. [[chimera_server_button_%s.ui_widget_definition]]
+local backButtonPath = [[insurrection/ui/shared/common_back.ui_widget_definition]]
 
-widget.create(headerHistoryPath, menuHeader("chimera_history", "HISTORY",
-                                     "ATTEMPT TO JOIN A SERVER IN THE HISTORY"))
-widget.create(headerBookmarksPath, menuHeader("chimera_bookmarks", "BOOKMARKS",
-                                     "ATTEMPT TO REJOIN A BOOKMARKED SERVER"))
+widget.create(headerHistoryPath,
+              menuHeader("chimera_history", "HISTORY", "ATTEMPT TO JOIN A SERVER IN THE HISTORY"))
+widget.create(headerBookmarksPath,
+              menuHeader("chimera_bookmarks", "BOOKMARKS", "ATTEMPT TO REJOIN A BOOKMARKED SERVER"))
 
 ---@type invaderWidget
 local options = {
@@ -25,13 +27,21 @@ local options = {
 }
 for buttonIndex = 1, 10 do
     local currentOptionPath = optionsButtonPath:format(buttonIndex)
-    widget.create(currentOptionPath, button("left_justify","chimera_server_option_entry_" .. buttonIndex, "CHIMERA_SERVER_OPTION_PLACEHOLDER_ENTRY"))
+    widget.create(currentOptionPath,
+                  button("left_justify", "chimera_server_option_entry_" .. buttonIndex,
+                         "CHIMERA_SERVER_OPTION_PLACEHOLDER_ENTRY"))
     options.child_widgets[buttonIndex] = {
         horizontal_offset = 40,
         vertical_offset = 84 + (26 * (buttonIndex - 1)),
         widget_tag = currentOptionPath
     }
 end
+glue.shift(options.child_widgets, 1, 1)
+options.child_widgets[1] = {
+    horizontal_offset = 630,
+    vertical_offset = 415,
+    widget_tag = backButtonPath
+}
 widget.create(chimeraServersPath, options)
 
 ---@type invaderWidget

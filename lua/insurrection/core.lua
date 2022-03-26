@@ -128,7 +128,6 @@ function core.OnButton(widgetTagId)
     local buttonPath = blam.getTag(widgetTagId).path
     if ends(buttonPath, "login_button") then
         api.login("sledmine", "1234")
-        return false
     elseif ends(buttonPath, "register_button") then
         console_out("Coming soon...")
     end

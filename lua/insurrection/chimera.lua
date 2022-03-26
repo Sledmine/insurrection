@@ -1,7 +1,8 @@
 local harmony = require "mods.harmony"
 local glue = require "glue"
 local split = glue.string.split
-
+local ends = glue.string.ends
+local chunks = glue.chunks
 local blam = require "blam"
 local tagClasses = blam.tagClasses
 
@@ -9,87 +10,88 @@ local core = require "insurrection.core"
 
 local chimera = {}
 
----@class chimeraBookmark
+---@class chimeraServer
 ---@field ip string
 ---@field port number
 ---@field password string
 ---@field dns string?
 
----@type chimeraBookmark[]
-local bookmarks = {}
-local cachedBookmarks = false
+---@type chimeraServer[]
+local servers = {}
 
 local myGamesPath = read_string(0x00647830)
 
---- Return the list of bookmarks available on Chimera
+---Load the list of servers from chimera in cache
 ---@return string[]
-function chimera.loadBookmarks()
-    if (not cachedBookmarks) then
-        local bookmarksFilePath = myGamesPath .. "\\chimera\\bookmark.txt"
-        local bookmarksFile = glue.readfile(bookmarksFilePath, "t")
-        if (bookmarksFile) then
-            -- Get each server entry from the bookmarks file
-            local bookmarkedServers = split(bookmarksFile, "\n")
+function chimera.loadServers(loadHistory)
+    servers = {}
+    local serversFilePath = myGamesPath .. "\\chimera\\bookmark.txt"
+    if loadHistory then
+        serversFilePath = myGamesPath .. "\\chimera\\history.txt"
+    end
+    local serversFile = glue.readfile(serversFilePath, "t")
+    if (serversFile) then
+        -- Get each server entry from the bookmarks file
+        local storedServers = split(serversFile, "\n")
+        for serverIndex, serverData in ipairs(storedServers) do
+            local serverSplit = split(serverData, " ")
 
-            local serverStringsTag = core.findTag([[chimera_servers_menu\strings\options]],
-                                                  tagClasses.unicodeStringList)
-            local serverStrings = blam.unicodeStringList(serverStringsTag.id)
-            local newServers = serverStrings.stringList
+            local serverHost = serverSplit[1]
+            local hostSplit = split(serverHost, ":")
 
-            for stringIndex = 1, serverStrings.count do
-                newServers[stringIndex] = " "
+            local serverIp = hostSplit[1]
+            local serverPort = tonumber(hostSplit[2])
+            local serverPassword = serverSplit[2]
+            if (serverIp and serverIp ~= "") then
+                servers[#servers + 1] = {
+                    ip = serverIp,
+                    port = serverPort or 2302,
+                    password = serverPassword or "x"
+                }
+            else
+                storedServers[serverIndex] = nil
             end
-            for serverIndex, serverData in pairs(bookmarkedServers) do
-                local serverSplit = split(serverData, " ")
-
-                local serverHost = serverSplit[1]
-                local hostSplit = split(serverHost, ":")
-
-                local serverIp = hostSplit[1]
-                local serverPort = tonumber(hostSplit[2])
-                local serverPassword = serverSplit[2]
-                if (serverIp and serverIp ~= "") then
-                    -- local serverLabel = serverIp .. ":" .. serverPort
-                    local serverLabel = serverIndex .. ":" .. serverPort
+        end
+    end
+    -- Reflect servers on the UI
+    if #servers > 0 then
+        local serversTag = core.findTag("chimera_servers_options", tagClasses.uiWidgetDefinition)
+        if serversTag then
+            local serversList = blam.uiWidgetDefinition(serversTag.id)
+            for serverIndex = 1, 10 do
+                local server = servers[serverIndex]
+                if server then
+                    local serverLabel = server.ip .. ":" .. server.port
+                    -- local serverLabel = serverIndex .. ":" .. serverPort
                     -- local server, queryError = chimera.queryServer(serverIp, serverPort)
                     local server, queryError
-                    newServers[serverIndex] = serverLabel
                     if (server) then
                         serverLabel = server.hostname:sub(1, 21) .. " - " .. server.ping .. "ms"
                         if (serverPassword) then
-                            newServers[serverIndex] = serverLabel .. " [L]"
+                            -- newServers[serverIndex] = serverLabel .. " [L]"
                         end
                     else
                         if (queryError) then
-                            newServers[serverIndex] = serverLabel .. " - " .. queryError:upper()
+                            -- newServers[serverIndex] = serverLabel .. " - " .. queryError:upper()
                         else
-                            newServers[serverIndex] = serverLabel
+                            -- newServers[serverIndex] = serverLabel
                         end
                     end
-                    bookmarks[#bookmarks + 1] = {
-                        ip = serverIp,
-                        port = serverPort or 2302,
-                        password = serverPassword or "x"
-                    }
-                else
-                    bookmarkedServers[serverIndex] = nil
+                    console_out(serverLabel)
                 end
-                -- Update strings list tag in the UI
-                serverStrings.stringList = newServers
-                cachedBookmarks = true
+            end
+            serversList.childWidgetsCount = 10
+            if (#servers < 10) then
+                serversList.childWidgetsCount = #servers + 1
             end
         end
     end
     return nil
 end
 
-function chimera.resetBookmarks()
-    cachedBookmarks = false
-end
-
 --- Map selected bookmark from the UI
 ---@param widgetTagId number
-function chimera.mapBookMarks(widgetTagId)
+function chimera.onButton(widgetTagId)
     local widgetTag = blam.getTag(widgetTagId)
     local widgetPath = widgetTag.path
     if (widgetPath:find("chimera_servers_menu\\options\\server_")) then
@@ -97,21 +99,16 @@ function chimera.mapBookMarks(widgetTagId)
         local buttonSplit = split(buttonName, "_")
         local buttonIndex = tonumber(buttonSplit[#buttonSplit])
 
-        local bookmark = bookmarks[buttonIndex]
+        local bookmark = servers[buttonIndex]
         local serverIp = bookmark.ip
         local serverPort = bookmark.port
         local serverPassword = bookmark.password
-        -- console_out("connect " .. serverIp .. ":" ..serverPort .. " " .. serverPassword)
         execute_script("connect " .. serverIp .. ":" .. serverPort .. " " .. serverPassword)
-        return false
-    elseif (widgetPath == [[insurrection\ui\main_menu\menu_options\multiplayer_menu\options\bookmark_servers]]) then
-        local serversListTag = core.findTag([[chimera_servers_menu\options\options]],
-                                            tagClasses.uiWidgetDefinition)
-        local serversList = blam.uiWidgetDefinition(serversListTag.id)
-        if (#bookmarks <= 10) then
-            serversList.childWidgetsCount = #bookmarks + 1
-        end
-        return false
+        return true
+    elseif ends(widgetPath, "bookmark_servers") then
+        chimera.loadServers()
+    elseif ends(widgetPath, "history_servers") then
+        chimera.loadServers(true)
     end
 end
 
