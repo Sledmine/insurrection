@@ -1,7 +1,16 @@
-# Insurrection
-Insurrection is a UI project for Halo Custom Edition that aims to bring support for a full
-widescreen menu with different features for the Halo Custom Edition game, such as bookmarking
-servers in game, handling different game configurations, bringing important news to players and more.
+<html>
+    <p align="center">
+        <img width="400px" src="images/design/logos/insurrection_logo_2.png"/>
+    </p>
+</html>
+
+---
+
+Insurrection is a project for Halo Custom Edition that aims to bring a modern UI
+with support for a full widescreen menu, a variety of in game customizations for other mods, some
+features such as bookmarking reconnect from the menu, editing extra game configurations, message of
+the day with important news to players and the most important, provides a new multiplayer experience
+as service to play with friends in any map anytime whenever you want for free.
 
 # Getting Insurrection
 Get the latest version available using [Mercury](https://github.com/Sledmine/Mercury)
@@ -26,4 +35,7 @@ Simply replace the font_override ini block on your config with one from this rep
 A high resolution mouse bitmap was added, more ui widget components were moved to support a real
 widescreen layout.
 
-![main_menu](images/1.0.0-alpha.4/main_menu.png)
+![intro_menu](images/screenshots/intro_menu.png)
+![main_menu](images/screenshots/main_menu.png)
+![multiplayer_menu](images/screenshots/multiplayer_menu.png)
+![legacy_servers_menu](images/screenshots/legacy_servers_menu.png)
