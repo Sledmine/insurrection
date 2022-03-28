@@ -49,7 +49,8 @@ local addressList = {
     joystickInput = 0x64D998, -- from aLTis
     firstPerson = 0x40000EB8, -- from aLTis
     objectTable = 0x400506B4,
-    deviceGroupsTable = 0x00816110
+    deviceGroupsTable = 0x00816110,
+    widgetsInstance = 0x6B401C
 }
 
 -- Server side addresses adjustment
@@ -675,7 +676,6 @@ local function writeString(address, propertyData, propertyValue)
     return write_string(address, propertyValue)
 end
 
--- //TODO Refactor this to support full unicode char size
 --- Return the string of a unicode string given address
 ---@param address number
 ---@param rawRead boolean
@@ -689,6 +689,7 @@ function blam.readUnicodeString(address, rawRead)
     end
     local length = stringAddress / 2
     local output = ""
+    -- TODO Refactor this to support full unicode char size
     for i = 1, length do
         local char = read_string(stringAddress + (i - 1) * 0x2)
         if (char == "") then
@@ -699,7 +700,6 @@ function blam.readUnicodeString(address, rawRead)
     return output
 end
 
--- //TODO Refactor this to support writing ASCII and Unicode strings
 --- Writes a unicode string in a given address
 ---@param address number
 ---@param newString string
@@ -711,11 +711,19 @@ function blam.writeUnicodeString(address, newString, forced)
     else
         stringAddress = read_dword(address)
     end
+    -- Allow cancelling writing when the new string is a boolean false value
+    if newString == false then
+        return
+    end
+    -- TODO Refactor this to support writing ASCII and Unicode strings
     for i = 1, #newString do
         write_string(stringAddress + (i - 1) * 0x2, newString:sub(i, i))
         if (i == #newString) then
             write_byte(stringAddress + #newString * 0x2, 0x0)
         end
+    end
+    if #newString == 0 then
+        write_string(stringAddress, "")
     end
 end
 
@@ -1860,7 +1868,7 @@ local hudGlobalsStructure = {
     textSpacing = {type = "float", offset = 0x90}
 }
 
----@class widgetInstance
+---@class uiWidgetInstance
 ---@field tagId number
 ---@field name string
 ---@field frameX number
@@ -1875,13 +1883,19 @@ local hudGlobalsStructure = {
 ---@field text string
 ---@field cursorIndex number
 ---@field focused boolean
-local widgetInstanceStructure = {
-    tagId = {type = "dword", offset = 0x0},
-    -- name = {type = "dword", offset = 0x4},
-    frameX = {type = "short", offset = 8},
+local uiWidgetInstanceStructure = {
+    tagId = {type = "dword", offset = 0},
+    -- Needs a pointer implementation
+    -- name = {type = "string", offset = 4},
+    -- hidden? = {type = "word", offset = 8},
+    frameX = {type = "short", offset = 10},
     frameY = {type = "short", offset = 12},
-    widgetType = {type = "word", offset = 16},
-    visible = {type = "bit", offset = 20, bitLevel = 0x0}
+    widgetType = {type = "word", offset = 14},
+    isVisible = {type = "bit", offset = 16, bitLevel = 0},
+    -- unknownHistoryThing = {type = "dword", offset = 24},
+    millisecondsToClose = {type = "dword", offset = 28},
+    millisecondsToCloseFadeTime = {type = "dword", offset = 32},
+    opacity = {type = "float", offset = 36}
 }
 
 ------------------------------------------------------------------------------
