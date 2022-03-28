@@ -10,6 +10,7 @@ local containerPath = menuPath .. [[insurrection_login_menu.ui_widget_definition
 local dialogPath = menuPath .. [[insurrection_login_menu_dialog.ui_widget_definition]]
 local headerPath = menuPath .. [[insurrection_login_menu_header.ui_widget_definition]]
 local optionsPath = menuPath .. [[insurrection_login_menu_options.ui_widget_definition]]
+local logoPath = [[insurrection/ui/shared/insurrection_logo.ui_widget_definition]]
 
 -- Create menu header
 widget.create(headerPath, menuHeader("insurrection_login", "INSURRECTION LOGIN",
@@ -18,11 +19,17 @@ widget.create(dialogPath, {
     bounds = "0 0 345 334",
     background_bitmap = [[insurrection/ui/bitmaps/login_dialog_background.bitmap]]
 })
+widget.create(logoPath, {
+    bounds = "-33 -192 33 192",
+    background_bitmap = [[insurrection\ui\bitmaps\insurrection_logo.bitmap]]
+})
 -- Crate options elements
 local usernameInputPath = buttonPath .. [[username_input.ui_widget_definition]]
-widget.create(usernameInputPath, inputText("username_input", "USERNAME_PLACEHOLDER___", false, true, "user_icon"))
+widget.create(usernameInputPath,
+              inputText("username_input", "USERNAME_PLACEHOLDER___", false, true, "user_icon"))
 local passwordInputPath = buttonPath .. [[password_input.ui_widget_definition]]
-widget.create(passwordInputPath, inputText("password_input", "PASSWORD_PLACEHOLDER___", true, true, "lock_icon"))
+widget.create(passwordInputPath,
+              inputText("password_input", "PASSWORD_PLACEHOLDER___", true, true, "lock_icon"))
 local loginButtonPath = buttonPath .. [[login_button.ui_widget_definition]]
 widget.create(loginButtonPath, button("center_justify", "login_button", "LOGIN"))
 local registerButtonPath = buttonPath .. [[register_button.ui_widget_definition]]
@@ -40,7 +47,8 @@ local options = {
         {horizontal_offset = 328, vertical_offset = 226, widget_tag = passwordInputPath},
         {horizontal_offset = 328, vertical_offset = 292, widget_tag = loginButtonPath},
         {horizontal_offset = 328, vertical_offset = 340, widget_tag = registerButtonPath},
-        {horizontal_offset = 328, vertical_offset = 366, widget_tag = backButtonPath}
+        {horizontal_offset = 328, vertical_offset = 366, widget_tag = backButtonPath},
+        {horizontal_offset = 322, vertical_offset = 113, widget_tag = logoPath}
     }
 }
 widget.create(optionsPath, options)
