@@ -116,4 +116,12 @@ function widget.merge(keys, newKeys)
     return glue.merge(keys, newKeys)
 end
 
+---Update keys from one widget definition to another
+---@param keys invaderWidget
+---@param newKeys invaderWidget
+---@return invaderWidget
+function widget.update(keys, newKeys)
+    return glue.update(keys, newKeys)
+end
+
 return widget

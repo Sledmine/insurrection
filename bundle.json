@@ -15,7 +15,8 @@
         "insurrection.mercury",
         "insurrection.chimera",
         "insurrection.core",
-        "insurrection.api"
+        "insurrection.api",
+        "insurrection.interface"
     ],
     "main": "lua/ui",
     "output": "dist/ui.lua"

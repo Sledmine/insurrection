@@ -5,6 +5,7 @@ local inspect = require "inspect"
 local blam = require "blam"
 local tagClasses = blam.tagClasses
 local api = require "insurrection.api"
+local interface = require "insurrection.interface"
 
 local mercury = require "insurrection.mercury"
 local scriptVersion = require "insurrection.version"
@@ -134,7 +135,8 @@ function core.onButton(widgetTagId)
                                                                tagClasses.uiWidgetDefinition).id)
         api.login(username, password)
     elseif ends(buttonPath, "register_button") then
-        console_out("Coming soon...")
+        interface.dialog("INFORMATION", "UNDER CONSTRUCTION",
+                         "This feature will be available at some point...")
     end
 end
 

@@ -1,5 +1,6 @@
 local widget = require "lua.scripts.widget"
 local ustr = require "lua.scripts.modules.ustr"
+---@param name string
 ---@param title string
 ---@param subtitle string
 ---@return invaderWidget
