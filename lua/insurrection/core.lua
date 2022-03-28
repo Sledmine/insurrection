@@ -128,13 +128,19 @@ end
 function core.onButton(widgetTagId)
     local buttonPath = blam.getTag(widgetTagId).path
     if ends(buttonPath, "login_button") then
-        api.login("sledmine", "1234")
+        local username = core.getStringFromWidget(core.findTag("username_input",
+                                                               tagClasses.uiWidgetDefinition).id)
+        local password = core.getStringFromWidget(core.findTag("password_input",
+                                                               tagClasses.uiWidgetDefinition).id)
+        api.login(username, password)
     elseif ends(buttonPath, "register_button") then
         console_out("Coming soon...")
     end
 end
 
 local lastPressedKey
+---Attempt to read keyboard pressed key
+---@return string | nil key Pressed key name
 function core.readKeyboard()
     local keyboard = {
         esc = read_byte(keyboardInputAddress),
@@ -150,7 +156,7 @@ function core.readKeyboard()
         f10 = read_byte(keyboardInputAddress + 10),
         f11 = read_byte(keyboardInputAddress + 11),
         f12 = read_byte(keyboardInputAddress + 12),
-        print_screen = read_byte(keyboardInputAddress + 13),
+        printscreen = read_byte(keyboardInputAddress + 13),
         unknown = read_byte(keyboardInputAddress + 14),
         pause = read_byte(keyboardInputAddress + 15),
         unknown2 = read_byte(keyboardInputAddress + 16),
@@ -178,10 +184,10 @@ function core.readKeyboard()
         i = read_byte(keyboardInputAddress + 38),
         o = read_byte(keyboardInputAddress + 39),
         p = read_byte(keyboardInputAddress + 40),
-        open_bracket = read_byte(keyboardInputAddress + 41),
-        close_bracket = read_byte(keyboardInputAddress + 42),
+        openbracket = read_byte(keyboardInputAddress + 41),
+        closebracket = read_byte(keyboardInputAddress + 42),
         backslash = read_byte(keyboardInputAddress + 43),
-        caps_lock = read_byte(keyboardInputAddress + 44),
+        capslock = read_byte(keyboardInputAddress + 44),
         a = read_byte(keyboardInputAddress + 45),
         s = read_byte(keyboardInputAddress + 46),
         d = read_byte(keyboardInputAddress + 47),
@@ -204,58 +210,107 @@ function core.readKeyboard()
         m = read_byte(keyboardInputAddress + 64),
         comma = read_byte(keyboardInputAddress + 65),
         period = read_byte(keyboardInputAddress + 66),
-        forward_slash = read_byte(keyboardInputAddress + 67),
-        right_shift = read_byte(keyboardInputAddress + 68),
+        forwardslash = read_byte(keyboardInputAddress + 67),
+        rightshift = read_byte(keyboardInputAddress + 68),
         ctrl = read_byte(keyboardInputAddress + 69),
         unknown3 = read_byte(keyboardInputAddress + 70),
         alt = read_byte(keyboardInputAddress + 71),
         space = read_byte(keyboardInputAddress + 72),
-        right_alt = read_byte(keyboardInputAddress + 73),
+        rightalt = read_byte(keyboardInputAddress + 73),
         unknown4 = read_byte(keyboardInputAddress + 74),
         menu = read_byte(keyboardInputAddress + 75),
-        right_ctrl = read_byte(keyboardInputAddress + 76),
-        up_arrow = read_byte(keyboardInputAddress + 77),
-        down_arrow = read_byte(keyboardInputAddress + 78),
-        left_arrow = read_byte(keyboardInputAddress + 79),
-        right_arrow = read_byte(keyboardInputAddress + 80),
+        rightctrl = read_byte(keyboardInputAddress + 76),
+        up = read_byte(keyboardInputAddress + 77),
+        down = read_byte(keyboardInputAddress + 78),
+        left = read_byte(keyboardInputAddress + 79),
+        right = read_byte(keyboardInputAddress + 80),
         unknown5 = read_byte(keyboardInputAddress + 81),
         home = read_byte(keyboardInputAddress + 82),
-        page_up = read_byte(keyboardInputAddress + 83),
+        pageup = read_byte(keyboardInputAddress + 83),
         delete = read_byte(keyboardInputAddress + 84),
         ["end"] = read_byte(keyboardInputAddress + 85),
-        page_down = read_byte(keyboardInputAddress + 86),
-        num_lock = read_byte(keyboardInputAddress + 87),
-        num_division = read_byte(keyboardInputAddress + 88),
-        num_multiply = read_byte(keyboardInputAddress + 89),
-        num_0 = read_byte(keyboardInputAddress + 90),
-        num_1 = read_byte(keyboardInputAddress + 91),
-        num_2 = read_byte(keyboardInputAddress + 92),
-        num_3 = read_byte(keyboardInputAddress + 93),
-        num_4 = read_byte(keyboardInputAddress + 94),
-        num_5 = read_byte(keyboardInputAddress + 95),
-        num_6 = read_byte(keyboardInputAddress + 96),
-        num_7 = read_byte(keyboardInputAddress + 97),
-        num_8 = read_byte(keyboardInputAddress + 98),
-        num_9 = read_byte(keyboardInputAddress + 99),
-        num_minus = read_byte(keyboardInputAddress + 100),
-        num_plus = read_byte(keyboardInputAddress + 101),
-        num_enter = read_byte(keyboardInputAddress + 102),
-        num_comma = read_byte(keyboardInputAddress + 103)
+        pagedown = read_byte(keyboardInputAddress + 86),
+        numericlock = read_byte(keyboardInputAddress + 87),
+        numericdivision = read_byte(keyboardInputAddress + 88),
+        numericmultiply = read_byte(keyboardInputAddress + 89),
+        numeric0 = read_byte(keyboardInputAddress + 90),
+        numeric1 = read_byte(keyboardInputAddress + 91),
+        numeric2 = read_byte(keyboardInputAddress + 92),
+        numeric3 = read_byte(keyboardInputAddress + 93),
+        numeric4 = read_byte(keyboardInputAddress + 94),
+        numeric5 = read_byte(keyboardInputAddress + 95),
+        numeric6 = read_byte(keyboardInputAddress + 96),
+        numeric7 = read_byte(keyboardInputAddress + 97),
+        numeric8 = read_byte(keyboardInputAddress + 98),
+        numeric9 = read_byte(keyboardInputAddress + 99),
+        numericminus = read_byte(keyboardInputAddress + 100),
+        numericplus = read_byte(keyboardInputAddress + 101),
+        numericenter = read_byte(keyboardInputAddress + 102),
+        numericcomma = read_byte(keyboardInputAddress + 103)
     }
     local pressedKey
     for key, pressTime in pairs(keyboard) do
-        if pressTime > 5 then
+        -- Key was pressed
+        if pressTime > 0 then
+            -- Last time we pressed this key, we are probably trying to spam it
             if lastPressedKey == key then
-                if pressTime > 60 then
+                -- Required time to start spamming
+                if pressTime > 75 then
                     pressedKey = key
                 end
-            else
+                -- Nevermind this is a normal key press
+                -- Avoid spamming other keys in the scan by using a maximum press time for this key
+            elseif pressTime < 10 then
                 pressedKey = key
-                lastPressedKey = pressedKey
             end
+            -- This key was not pressed, if the last key we pressed was this one, then forget it
+        elseif lastPressedKey == key then
+            -- console_out("Key released: " .. lastPressedKey)
+            lastPressedKey = nil
         end
     end
+    if pressedKey then
+        lastPressedKey = pressedKey
+        -- console_out("Key pressed: " .. pressedKey)
+    end
     return pressedKey
+end
+
+local capsLock
+---Attempt to map keys to a text string
+---@param pressedKey string
+---@param text string
+---@return string | nil text Given text with mapped modifications applied
+function core.mapKeyToText(pressedKey, text)
+    if pressedKey == "backspace" then
+        return text:sub(1, #text - 1)
+    elseif pressedKey == "space" then
+        return text .. " "
+    elseif pressedKey == "capslock" then
+        capsLock = not capsLock
+    elseif #pressedKey == 1 and string.byte(pressedKey) > 31 and string.byte(pressedKey) < 127 then
+        if capsLock then
+            return text .. pressedKey:upper()
+        end
+        return text .. pressedKey
+    end
+end
+
+function core.getStringFromWidget(widgetId)
+    return
+        blam.unicodeStringList(blam.uiWidgetDefinition(widgetId).unicodeStringListTag).stringList[1]
+end
+
+function core.cleanAllEditableWidgets()
+    for _, widgetTag in pairs(core.findTagsList("input", tagClasses.uiWidgetDefinition)) do
+        local widget = blam.uiWidgetDefinition(widgetTag.id)
+        local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
+        if widgetStrings then
+            local strings = widgetStrings.stringList
+            strings[1] = ""
+            widgetStrings.stringList = strings
+        end
+    end
 end
 
 return core

@@ -20,9 +20,9 @@ widget.create(dialogPath, {
 })
 -- Crate options elements
 local usernameInputPath = buttonPath .. [[username_input.ui_widget_definition]]
-widget.create(usernameInputPath, inputText("username_input", "USERNAME_PLACEHOLDER___"))
+widget.create(usernameInputPath, inputText("username_input", "USERNAME_PLACEHOLDER___", false, true, "user_icon"))
 local passwordInputPath = buttonPath .. [[password_input.ui_widget_definition]]
-widget.create(passwordInputPath, inputText("password_input", "PASSWORD_PLACEHOLDER___", true))
+widget.create(passwordInputPath, inputText("password_input", "PASSWORD_PLACEHOLDER___", true, true, "lock_icon"))
 local loginButtonPath = buttonPath .. [[login_button.ui_widget_definition]]
 widget.create(loginButtonPath, button("center_justify", "login_button", "LOGIN"))
 local registerButtonPath = buttonPath .. [[register_button.ui_widget_definition]]
