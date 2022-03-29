@@ -299,8 +299,13 @@ function core.mapKeyToText(pressedKey, text)
 end
 
 function core.getStringFromWidget(widgetId)
-    return
-        blam.unicodeStringList(blam.uiWidgetDefinition(widgetId).unicodeStringListTag).stringList[1]
+    local widget = blam.uiWidgetDefinition(widgetId)
+    local virtualValue = VirtualInputValue[widget.name]
+    if virtualValue then
+        return virtualValue
+    end
+    local unicodeStrings = blam.unicodeStringList(widget.unicodeStringListTag)
+    return unicodeStrings.stringList[1]
 end
 
 function core.cleanAllEditableWidgets()

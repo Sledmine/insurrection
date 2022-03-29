@@ -27,6 +27,7 @@ local function onLoginResponse(result)
             local response = json.decode(payload)
             api.session.token = response.token
             blam.consoleOutput(inspect(response))
+            interface.lobby()
             return true
         elseif code == 401 then
             local response = json.decode(payload)

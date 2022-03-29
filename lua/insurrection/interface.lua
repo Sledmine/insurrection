@@ -1,4 +1,5 @@
 local harmony = require "mods.harmony"
+local openWidget = harmony.ui.open_widget
 local blam = require "blam"
 local interface = {}
 --- Find the path, index and id of a tag given partial name and tag type
@@ -22,6 +23,7 @@ function findTag(partialName, searchTagType)
     return nil
 end
 local dialogWidgetTag = findTag("dialog_menu", blam.tagClasses.uiWidgetDefinition)
+local lobbyWidgetTag = findTag("lobby_menu", blam.tagClasses.uiWidgetDefinition)
 
 function interface.dialog(titleText, subtitleText, bodyText)
     local dialog = blam.uiWidgetDefinition(dialogWidgetTag.id)
@@ -38,7 +40,14 @@ function interface.dialog(titleText, subtitleText, bodyText)
     strings[1] = bodyText
     bodyStrings.stringList = strings
 
-    harmony.ui.open_widget(dialogWidgetTag.id, true)
+    openWidget(dialogWidgetTag.id, true)
+end
+
+function interface.lobby()
+    local widget = blam.uiWidgetDefinition(lobbyWidgetTag.id)
+    local button = blam.uiWidgetDefinition(widget.childWidgets[1].widgetTag)
+    button.textHorizontalOffset = 10
+    openWidget(lobbyWidgetTag.id, true)
 end
 
 return interface

@@ -14,6 +14,7 @@ local pressedKey
 local editableWidget
 -- Multithread lanes
 Lanes = {}
+VirtualInputValue = {}
 
 local function onGameStart()
     -- Load Insurrection features
@@ -53,9 +54,14 @@ function OnTick()
         if pressedKey and editableWidget then
             local usernameStrings = blam.unicodeStringList(editableWidget.unicodeStringListTag)
             local stringList = usernameStrings.stringList
-            local text = core.mapKeyToText(pressedKey, stringList[1])
+            local text = core.mapKeyToText(pressedKey, VirtualInputValue[editableWidget.name] or stringList[1])
             if text then
-                stringList[1] = text
+                if editableWidget.name:find "password" then
+                    VirtualInputValue[editableWidget.name] = text
+                    stringList[1] = string.rep("*", #text)
+                else
+                    stringList[1] = text
+                end
             end
             usernameStrings.stringList = stringList
         end
@@ -93,11 +99,13 @@ function OnMenuListTab(pressedKey, listWidgetId, previousFocusedWidgetId)
                     nextChildIndex = childIndex + 1
                 end
             end
-            focusedWidget = blam.uiWidgetDefinition(widgetList.childWidgets[nextChildIndex].widgetTag)
+            focusedWidget = blam.uiWidgetDefinition(
+                                widgetList.childWidgets[nextChildIndex].widgetTag)
         end
     end
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
-    if focusedWidget and (focusedWidget.name == "username_input" or focusedWidget.name == "password_input") then
+    if focusedWidget and
+        (focusedWidget.name == "username_input" or focusedWidget.name == "password_input") then
         editableWidget = focusedWidget
     else
         editableWidget = nil
