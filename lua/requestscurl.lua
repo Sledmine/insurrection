@@ -1,5 +1,7 @@
 local requests = {}
 
+requests.headers = {}
+
 ---Perform a GET request
 ---@param url string
 ---@return integer
@@ -9,7 +11,7 @@ function requests.get(url)
     local buffer = {}
     local request = curl.easy {
         url = url,
-        -- httpheader = {"X-Test-Header1: Header-Data1", "X-Test-Header2: Header-Data2"},
+        httpheader = requests.headers,
         writefunction = function(input)
             table.insert(buffer, input)
         end
@@ -24,6 +26,7 @@ end
 
 ---Perform a POST request
 ---@param url string
+---@param params? table<string, string | number>
 ---@return integer
 ---@return string
 function requests.post(url, params)
