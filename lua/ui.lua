@@ -31,13 +31,13 @@ end
 
 function OnTick()
     -- Multithread callback resolve
-    for _, lane in ipairs(Lanes) do
+    for laneIndex, lane in ipairs(Lanes) do
         if lane.thread.status == "done" then
+            table.remove(Lanes, laneIndex)
             lane.callback(lane.thread)
-            table.remove(Lanes, _)
         elseif lane.thread.status == "error" then
             console_out(lane.thread[1])
-            table.remove(Lanes, _)
+            table.remove(Lanes, laneIndex)
         else
             console_out(lane.thread.status)
         end
@@ -54,7 +54,8 @@ function OnTick()
         if pressedKey and editableWidget then
             local usernameStrings = blam.unicodeStringList(editableWidget.unicodeStringListTag)
             local stringList = usernameStrings.stringList
-            local text = core.mapKeyToText(pressedKey, VirtualInputValue[editableWidget.name] or stringList[1])
+            local text = core.mapKeyToText(pressedKey,
+                                           VirtualInputValue[editableWidget.name] or stringList[1])
             if text then
                 if editableWidget.name:find "password" then
                     VirtualInputValue[editableWidget.name] = text
@@ -65,12 +66,13 @@ function OnTick()
             end
             usernameStrings.stringList = stringList
         end
-        -- local currentMenu = core.getCurrentUIWidget()
-        -- if currentMenu then
+        --local currentMenu = core.getCurrentUIWidget()
+        --if currentMenu then
         --    local widget = blam.uiWidgetDefinition(currentMenu.id)
-        --    -- console_out(currentMenu.id)
-        --    -- console_out(widget.name)
-        -- end
+        --    console_out(currentMenu.path)
+        --    console_out(currentMenu.id)
+        --    console_out(widget.name)
+        --end
     end
 end
 
