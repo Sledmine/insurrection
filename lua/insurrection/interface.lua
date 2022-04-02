@@ -43,10 +43,31 @@ function interface.dialog(titleText, subtitleText, bodyText)
     openWidget(dialogWidgetTag.id, true)
 end
 
-function interface.lobby()
+function interface.lobby(templates, gametypes, maps)
     local widget = blam.uiWidgetDefinition(lobbyWidgetTag.id)
-    local button = blam.uiWidgetDefinition(widget.childWidgets[1].widgetTag)
-    button.textHorizontalOffset = 10
+    local definitionsWidget = blam.uiWidgetDefinition(widget.childWidgets[2].widgetTag)
+    local elementsWidget = blam.uiWidgetDefinition(widget.childWidgets[3].widgetTag)
+
+    local templateWidget = blam.uiWidgetDefinition(definitionsWidget.childWidgets[1].widgetTag)
+    local mapWidget = blam.uiWidgetDefinition(definitionsWidget.childWidgets[2].widgetTag)
+    local gametypeWidget = blam.uiWidgetDefinition(definitionsWidget.childWidgets[3].widgetTag)
+
+    blam.unicodeStringList(templateWidget.unicodeStringListTag).stringList = {templates[1]:upper()}
+    blam.unicodeStringList(mapWidget.unicodeStringListTag).stringList = {maps[1]:upper()}
+    blam.unicodeStringList(gametypeWidget.unicodeStringListTag).stringList = {gametypes[1]:upper()}
+
+    for childIndex, childWidget in pairs(elementsWidget.childWidgets) do
+        if maps[childIndex] then
+            local child = blam.uiWidgetDefinition(childWidget.widgetTag)
+            blam.unicodeStringList(child.unicodeStringListTag).stringList = {
+                maps[childIndex]:upper()
+            }
+        end
+    end
+    if #maps < elementsWidget.childWidgetsCount then
+        elementsWidget.childWidgetsCount = #maps
+    end
+
     openWidget(lobbyWidgetTag.id, true)
 end
 

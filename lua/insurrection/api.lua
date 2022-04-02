@@ -27,7 +27,8 @@ local function onLoginResponse(result)
             local response = json.decode(payload)
             api.session.token = response.token
             blam.consoleOutput(inspect(response))
-            interface.lobby()
+            requests.headers = {"Authorization: Bearer " .. api.session.token}
+            api.lobby()
             return true
         elseif code == 401 then
             local response = json.decode(payload)
@@ -36,14 +37,38 @@ local function onLoginResponse(result)
         end
     end
     interface.dialog("ERROR", "UNKNOWN ERROR",
-                         "An unknown error has ocurred, please try again later.")
+                     "An unknown error has ocurred, please try again later.")
 end
-
 local requestLogin = function(url, username, password)
     return requests.post(url, {username = username, password = password})
 end
 function api.login(username, password)
     async(requestLogin, onLoginResponse, api.url .. "/login", username, password)
+end
+
+local function onLobbyResponse(result)
+    local code = result[1]
+    local payload = result[2]
+    if code then
+        if code == 200 then
+            local response = json.decode(payload)
+            blam.consoleOutput(inspect(response))
+            interface.lobby(response.lobby.templates, {"slayer"}, response.lobby.maps)
+            return true
+        else
+            local response = json.decode(payload)
+            interface.dialog("ATTENTION", "ERROR " .. code, response.message)
+            return false
+        end
+    end
+    interface.dialog("ERROR", "UNKNOWN ERROR",
+                     "An unknown error has ocurred, please try again later.")
+end
+local requestLobby = function(url, lobbyKey)
+    return requests.get(url)
+end
+function api.lobby()
+    async(requestLobby, onLobbyResponse, api.url .. "/lobby")
 end
 
 return api
