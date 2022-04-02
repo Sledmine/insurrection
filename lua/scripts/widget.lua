@@ -44,6 +44,9 @@ local widget = {}
 ---@field pause_game_time boolean
 ---@field flash_background_bitmap boolean
 ---@field dpad_up_down_tabs_thru_children boolean
+---@field dpad_left_right_tabs_thru_children boolean
+---@field dpad_up_down_tabs_thru_list_items boolean
+---@field dpad_left_right_tabs_thru_list_items boolean
 
 ---@class invaderWidget
 ---@field widget_type '"container"' | '"text_box"' | '"spinner_list"' | '"column_list"'
@@ -122,6 +125,11 @@ end
 ---@return invaderWidget
 function widget.update(keys, newKeys)
     return glue.update(keys, newKeys)
+end
+
+function widget.offset(initial, size, offset, index)
+    --return initial + ((initial * 2) + offset * (index - 1))
+    return initial + ((size + offset) * (index - 1))
 end
 
 return widget
