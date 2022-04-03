@@ -137,6 +137,20 @@ function core.onButton(widgetTagId)
     elseif ends(buttonPath, "register_button") then
         interface.dialog("INFORMATION", "UNDER CONSTRUCTION",
                          "This feature will be available at some point...")
+    elseif ends(buttonPath, "lobby_definition_button_4") then
+        local template = core.getStringFromWidget(core.findTag("lobby_definition_button_1",
+                                                               tagClasses.uiWidgetDefinition).id)
+        local map = core.getStringFromWidget(core.findTag("lobby_definition_button_2",
+                                                               tagClasses.uiWidgetDefinition).id)
+        local gametype = core.getStringFromWidget(core.findTag("lobby_definition_button_3",
+                                                               tagClasses.uiWidgetDefinition).id)
+        api.borrow(template:lower(), map:lower(), gametype:lower())
+    elseif string.find(buttonPath, "lobby_element_button_") then
+        local buttonIndex = split(core.getTagName(buttonPath), "_")[4]
+        local map = core.getStringFromWidget(core.findTag("lobby_element_button_" .. buttonIndex,
+                                                               tagClasses.uiWidgetDefinition).id)
+        core.setStringToWidget(map, core.findTag("lobby_definition_button_2",
+        tagClasses.uiWidgetDefinition).id)
     end
 end
 
@@ -318,6 +332,15 @@ function core.cleanAllEditableWidgets()
             widgetStrings.stringList = strings
         end
     end
+end
+
+function core.setStringToWidget(str, widgetId)
+    local widget = blam.uiWidgetDefinition(widgetId)
+    local virtualValue = VirtualInputValue[widget.name]
+    if virtualValue then
+        VirtualInputValue[widget.name] = str
+    end
+    blam.unicodeStringList(widget.unicodeStringListTag).stringList = {str}
 end
 
 return core
