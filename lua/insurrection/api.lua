@@ -29,7 +29,6 @@ local function onLoginResponse(result)
         if code == 200 then
             local response = json.decode(payload)
             api.session.token = response.token
-            blam.consoleOutput(inspect(response))
             requests.headers = {"Authorization: Bearer " .. api.session.token}
             api.lobby()
             return true
@@ -42,11 +41,8 @@ local function onLoginResponse(result)
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
 end
-local requestLogin = function(url, username, password)
-    return requests.post(url, {username = username, password = password})
-end
 function api.login(username, password)
-    async(requestLogin, onLoginResponse, api.url .. "/login", username, password)
+    async(requests.post, onLoginResponse, api.url .. "/login", {username = username, password = password})
 end
 
 -- Request lobby
@@ -68,11 +64,8 @@ local function onLobbyResponse(result)
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
 end
-local requestLobby = function(url, lobbyKey)
-    return requests.get(url)
-end
 function api.lobby()
-    async(requestLobby, onLobbyResponse, api.url .. "/lobby")
+    async(requests.get, onLobbyResponse, api.url .. "/lobby")
 end
 
 -- Request instanced server
@@ -88,6 +81,9 @@ local function onBorrowResponse(result)
             local command = "connect %s:%s %s"
             execute_script(command:format(host, port, password))
             return true
+        elseif code == 500 then
+            interface.dialog("ATTENTION", "ERROR " .. code, "Internal Server Error")
+            return false
         else
             local response = json.decode(payload)
             interface.dialog("ATTENTION", "ERROR " .. code, response.message)
