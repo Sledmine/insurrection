@@ -3,6 +3,8 @@ local json = require "json"
 local blam = require "blam"
 local requests = require "requestscurl"
 local interface = require "insurrection.interface"
+local glue = require "glue"
+local trim = glue.string.trim
 local asyncLibs = "base, table, package, string"
 
 local api = {}
@@ -19,6 +21,7 @@ function async(func, callback, ...)
     end
 end
 
+-- Request login
 local function onLoginResponse(result)
     local code = result[1]
     local payload = result[2]
@@ -46,6 +49,7 @@ function api.login(username, password)
     async(requestLogin, onLoginResponse, api.url .. "/login", username, password)
 end
 
+-- Request lobby
 local function onLobbyResponse(result)
     local code = result[1]
     local payload = result[2]
@@ -69,6 +73,33 @@ local requestLobby = function(url, lobbyKey)
 end
 function api.lobby()
     async(requestLobby, onLobbyResponse, api.url .. "/lobby")
+end
+
+-- Request instanced server
+local function onBorrowResponse(result)
+    local code = result[1]
+    local payload = result[2]
+    if code then
+        if code == 200 then
+            local response = json.decode(payload)
+            local host = response.host
+            local port = response.port
+            local password = response.password
+            local command = "connect %s:%s %s"
+            execute_script(command:format(host, port, password))
+            return true
+        else
+            local response = json.decode(payload)
+            interface.dialog("ATTENTION", "ERROR " .. code, response.message)
+            return false
+        end
+    end
+    interface.dialog("ERROR", "UNKNOWN ERROR",
+                     "An unknown error has ocurred, please try again later.")
+end
+function api.borrow(template, map, gametype)
+    async(requests.get, onBorrowResponse,
+          api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype)
 end
 
 return api
