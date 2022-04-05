@@ -2395,4 +2395,36 @@ function blam.request(method, url, timeout, callback, retry, params)
     return false
 end
 
+--- Find the path, index and id of a tag given partial name and tag type
+---@param partialName string
+---@param searchTagType string
+---@return tag tag
+function blam.findTag(partialName, searchTagType)
+    for tagIndex = 0, blam.tagDataHeader.count - 1 do
+        local tag = blam.getTag(tagIndex)
+        if (tag and tag.path:find(partialName, 1, true) and tag.class == searchTagType) then
+            return tag
+        end
+    end
+    return nil
+end
+
+--- Find the path, index and id of a list of tags given partial name and tag type
+---@param partialName string
+---@param searchTagType string
+---@return tag[] tag
+function blam.findTagsList(partialName, searchTagType)
+    local tagsList
+    for tagIndex = 0, blam.tagDataHeader.count - 1 do
+        local tag = blam.getTag(tagIndex)
+        if (tag and tag.path:find(partialName, 1, true) and tag.class == searchTagType) then
+            if (not tagsList) then
+                tagsList = {}
+            end
+            tagsList[#tagsList + 1] = tag
+        end
+    end
+    return tagsList
+end
+
 return blam
