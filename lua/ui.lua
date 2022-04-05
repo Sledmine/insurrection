@@ -1,10 +1,12 @@
-local glue = require "glue"
 clua_version = 2.056
 local blam = require "blam"
 local harmony = require "mods.harmony"
 inspect = require "inspect"
 local chimera = require "insurrection.chimera"
 local core = require "insurrection.core"
+local interface = require "insurrection.interface"
+api = require "insurrection.api"
+store = require "insurrection.redux.store"
 
 math.randomseed(os.time() + ticks())
 local gameStarted = false
@@ -14,6 +16,8 @@ local pressedKey
 local editableWidget
 -- Multithread lanes
 Lanes = {}
+-- UI state and stuff
+-- Stores real values that are masked in the UI
 VirtualInputValue = {}
 
 local function onGameStart()
@@ -77,7 +81,7 @@ function OnTick()
 end
 
 function OnMenuAccept(widgetTagId)
-    local allow = not (chimera.onButton(widgetTagId) or core.onButton(widgetTagId) or false)
+    local allow = not (chimera.onButton(widgetTagId) or interface.onButton(widgetTagId) or false)
     return allow
 end
 
@@ -118,14 +122,3 @@ end
 set_callback("tick", "OnTick")
 harmony.set_callback("menu accept", "OnMenuAccept")
 harmony.set_callback("menu list tab", "OnMenuListTab")
--- harmony.set_callback("key press", "OnKeyPress")
--- local keyMapping = {escape = 27, delete = 127, espace = 32, backspace = 8, tab = 9}
--- function OnKeyPress(modifier, character, keycode)
---    if character > 31 and character < 127 then
---        pressedKey = string.char(character)
---    else
---        pressedKey = glue.index(keyMapping)[character]
---    end
---    console_out("Pressed:" .. tostring(pressedKey))
---    console_out(modifier .. " " .. character .. " " .. keycode)
--- end

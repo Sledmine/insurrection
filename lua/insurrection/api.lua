@@ -5,6 +5,7 @@ local requests = require "requestscurl"
 local interface = require "insurrection.interface"
 local glue = require "glue"
 local trim = glue.string.trim
+local actions = require "insurrection.redux.actions"
 local asyncLibs = "base, table, package, string"
 
 local api = {}
@@ -53,7 +54,8 @@ local function onLobbyResponse(result)
         if code == 200 then
             local response = json.decode(payload)
             blam.consoleOutput(inspect(response))
-            interface.lobby(response.lobby.templates, {"slayer"}, response.lobby.maps)
+            store:dispatch(actions.setLobby(response.key, response.lobby))
+            interface.lobby()
             return true
         else
             local response = json.decode(payload)

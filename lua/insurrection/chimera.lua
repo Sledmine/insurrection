@@ -57,7 +57,7 @@ function chimera.loadServers(loadHistory)
     end
     -- Reflect servers on the UI
     if #servers > 0 then
-        local serversTag = core.findTag("chimera_servers_options", tagClasses.uiWidgetDefinition)
+        local serversTag = blam.findTag("chimera_servers_options", tagClasses.uiWidgetDefinition)
         if serversTag then
             local serversList = blam.uiWidgetDefinition(serversTag.id)
             for serverIndex = 1, maximumDisplayedServers do

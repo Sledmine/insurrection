@@ -6,18 +6,22 @@
         "lua/lua_modules/"
     ],
     "modules": [
+        "lanes",
         "inspect",
         "glue",
         "json",
         "blam",
-        "lanes",
         "requestscurl",
+        "redux",
         "insurrection.version",
         "insurrection.mercury",
         "insurrection.chimera",
         "insurrection.core",
         "insurrection.api",
-        "insurrection.interface"
+        "insurrection.interface",
+        "insurrection.redux.reducers.interfaceReducer",
+        "insurrection.redux.actions",
+        "insurrection.redux.store"
     ],
     "main": "lua/ui",
     "output": "dist/ui.lua"

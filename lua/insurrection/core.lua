@@ -1,11 +1,8 @@
 local glue = require "glue"
 local split = glue.string.split
-local ends = glue.string.ends
 local inspect = require "inspect"
 local blam = require "blam"
 local tagClasses = blam.tagClasses
-local api = require "insurrection.api"
-local interface = require "insurrection.interface"
 
 local mercury = require "insurrection.mercury"
 local scriptVersion = require "insurrection.version"
@@ -59,7 +56,7 @@ function core.loadMercuryPackages()
     local installedPackages = mercury.getInstalled()
     if (installedPackages) then
         console_out(inspect(installedPackages))
-        local serverStringsTag = core.findTag([[chimera_servers_menu\strings\options]],
+        local serverStringsTag = blam.findTag([[chimera_servers_menu\strings\options]],
                                               tagClasses.unicodeStringList)
         local serverStrings = blam.unicodeStringList(serverStringsTag.id)
         local newServers = serverStrings.stringList
@@ -83,14 +80,14 @@ function core.getTagName(tagPath)
 end
 
 function core.loadNameplates()
-    local nameplateBitmapTags = core.findTagsList("nameplates\\", tagClasses.bitmap)
-    local nameplateTag = core.findTag("shared\\current_profile", tagClasses.uiWidgetDefinition)
+    local nameplateBitmapTags = blam.findTagsList("nameplates\\", tagClasses.bitmap)
+    local nameplateTag = blam.findTag("shared\\current_profile", tagClasses.uiWidgetDefinition)
     local nameplate = blam.uiWidgetDefinition(nameplateTag.id)
     nameplate.backgroundBitmap = nameplateBitmapTags[math.random(#nameplateBitmapTags)].id
 end
 
 function core.loadInsurrectionPatches()
-    local scriptVersionTag = core.findTag("variable_info", tagClasses.unicodeStringList)
+    local scriptVersionTag = blam.findTag("variable_info", tagClasses.unicodeStringList)
     if (scriptVersionTag) then
         local scriptVersionString = blam.unicodeStringList(scriptVersionTag.id)
         if (scriptVersionString) then
@@ -124,35 +121,6 @@ function core.patchChimeraFonts()
     -- create_font_override(int tag_id, string family, int size, int weight, int offset_x, int offset_y, int shadow_x, int shadow_y)
 end
 
---- Map selected button from the UI
----@param widgetTagId number
-function core.onButton(widgetTagId)
-    local buttonPath = blam.getTag(widgetTagId).path
-    if ends(buttonPath, "login_button") then
-        local username = core.getStringFromWidget(core.findTag("username_input",
-                                                               tagClasses.uiWidgetDefinition).id)
-        local password = core.getStringFromWidget(core.findTag("password_input",
-                                                               tagClasses.uiWidgetDefinition).id)
-        api.login(username, password)
-    elseif ends(buttonPath, "register_button") then
-        interface.dialog("INFORMATION", "UNDER CONSTRUCTION",
-                         "This feature will be available at some point...")
-    elseif ends(buttonPath, "lobby_definition_button_4") then
-        local template = core.getStringFromWidget(core.findTag("lobby_definition_button_1",
-                                                               tagClasses.uiWidgetDefinition).id)
-        local map = core.getStringFromWidget(core.findTag("lobby_definition_button_2",
-                                                               tagClasses.uiWidgetDefinition).id)
-        local gametype = core.getStringFromWidget(core.findTag("lobby_definition_button_3",
-                                                               tagClasses.uiWidgetDefinition).id)
-        api.borrow(template:lower(), map:lower(), gametype:lower())
-    elseif string.find(buttonPath, "lobby_element_button_") then
-        local buttonIndex = split(core.getTagName(buttonPath), "_")[4]
-        local map = core.getStringFromWidget(core.findTag("lobby_element_button_" .. buttonIndex,
-                                                               tagClasses.uiWidgetDefinition).id)
-        core.setStringToWidget(map, core.findTag("lobby_definition_button_2",
-        tagClasses.uiWidgetDefinition).id)
-    end
-end
 
 local lastPressedKey
 ---Attempt to read keyboard pressed key
@@ -323,7 +291,7 @@ function core.getStringFromWidget(widgetId)
 end
 
 function core.cleanAllEditableWidgets()
-    for _, widgetTag in pairs(core.findTagsList("input", tagClasses.uiWidgetDefinition)) do
+    for _, widgetTag in pairs(blam.findTagsList("input", tagClasses.uiWidgetDefinition)) do
         local widget = blam.uiWidgetDefinition(widgetTag.id)
         local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
         if widgetStrings then
