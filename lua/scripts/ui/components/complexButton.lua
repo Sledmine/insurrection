@@ -1,10 +1,11 @@
+local widget = require "lua.scripts.widget"
 local ustr = require "lua.scripts.modules.ustr"
 ---Generic button component, recycled in multiple components
 ---@param justification '"left_justify"' | '"center_justify"' | '"right_justify"' Button text alignment
 ---@param name string? Name of the button component (also used for inner tags generation)
 ---@param text string? Auto generated unicode string inside this button
 ---@return invaderWidget
-return function(justification, name, text, openTag, script, back)
+return function(justification, name, text, openTag, script, back, icon)
     local stringsTagPath
     if text then
         -- Generate strings tag
@@ -13,7 +14,7 @@ return function(justification, name, text, openTag, script, back)
         ustr(stringsTagPath, {text})
     end
     ---@type invaderWidget
-    local widget = {
+    local wid = {
         widget_type = "text_box",
         bounds = "0 0 110 120",
         flags = {pass_unhandled_events_to_focused_child = true},
@@ -46,7 +47,13 @@ return function(justification, name, text, openTag, script, back)
     }
     if justification == "center_justify" then
         -- Because of rescale stuff
-        widget.horiz_offset = 0
+        wid.horiz_offset = 0
     end
-    return widget
+    if icon then
+        local iconBitmapPath = [[insurrection/ui/bitmaps/]] .. icon .. [[.bitmap]]
+        local iconPath = [[insurrection/ui/shared/icons/]] .. icon .. [[.ui_widget_definition]]
+        widget.create(iconPath, {bounds = "-128 -128 128 128", background_bitmap = iconBitmapPath})
+        wid.child_widgets = {{horizontal_offset = 1, vertical_offset = 1, widget_tag = iconPath}}
+    end
+    return wid
 end
