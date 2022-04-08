@@ -50,9 +50,9 @@ return function(justification, name, text, openTag, script, back, icon)
         wid.horiz_offset = 0
     end
     if icon then
-        local iconBitmapPath = [[insurrection/ui/bitmaps/]] .. icon .. [[.bitmap]]
+        local iconBitmapPath = [[insurrection/ui/bitmaps/icons/]] .. icon .. [[.bitmap]]
         local iconPath = [[insurrection/ui/shared/icons/]] .. icon .. [[.ui_widget_definition]]
-        widget.create(iconPath, {bounds = "-128 -128 128 128", background_bitmap = iconBitmapPath})
+        widget.create(iconPath, {bounds = "-97 -120 97 120", background_bitmap = iconBitmapPath})
         wid.child_widgets = {{horizontal_offset = 1, vertical_offset = 1, widget_tag = iconPath}}
     end
     return wid

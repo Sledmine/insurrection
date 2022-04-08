@@ -18,10 +18,10 @@ widget.create(headerPath, menuHeader("lobby", "MY LOBBY",
                                      "INVITE FRIENDS TO YOUR LOBBY, CHOOSE YOUR SERVER TYPE, SET YOUR RULES AND HAVE FUN!"))
 
 local optionsNames = {
-    "$SERVER_TYPE_PLACEHOLDER",
-    "$MAP_NAME_PLACEHOLDER",
-    "$GAME_TYPE_PLACEHOLDER",
-    "PLAY"
+    {text = "$SERVER_TYPE_PLACEHOLDER", icon = "halo_classic_icon_large"},
+    {text = "$MAP_NAME_PLACEHOLDER"},
+    {text = "$GAME_TYPE_PLACEHOLDER"},
+    {text = "PLAY"}
 }
 local definitions = optionsList(nil, true)
 local elements = optionsList(nil, true)
@@ -40,7 +40,7 @@ for i = 1, 4 do
     }
     widget.create(definitionButtonPath, complexButton("left_justify",
                                                       ("lobby_definition_button_%s"):format(i),
-                                                      optionsNames[i]))
+                                                      optionsNames[i].text, nil, nil, nil, optionsNames[i].icon))
     widget.create(elementButtonPath, complexButton("left_justify",
                                                    ("lobby_element_button_%s"):format(i),
                                                    "$ELEMENT_PLACE_HOLDER"))
