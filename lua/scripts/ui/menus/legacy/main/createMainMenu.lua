@@ -3,7 +3,7 @@ local menuContainer = require "lua.scripts.ui.components.menuContainer"
 local normalButton = require "lua.scripts.ui.components.normalButton"
 local optionsList = require "lua.scripts.ui.components.optionsList"
 local button = require "lua.scripts.ui.components.button"
-local glue = require "lua.glue"
+local glue = require "lua.lua_modules.glue"
 
 local menuPath = [[insurrection\ui\menus\main\]]
 local containerPath = menuPath .. [[main_menu.ui_widget_definition]]

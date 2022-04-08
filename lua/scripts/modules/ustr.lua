@@ -1,7 +1,7 @@
 -- Create unicode string list tag, given a string table
 -- Sledmine
 -- Only ASCII text is supported by now (ironically), implementation still experimental, be careful
-local glue = require "lua.glue"
+local glue = require "lua.lua_modules.glue"
 local append = glue.append
 -- local crc32 = require "lua.scripts.modules.crc32"
 

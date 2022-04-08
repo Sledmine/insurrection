@@ -1,6 +1,6 @@
 --- Tag automated modifier using Invader
 --- Sledmine
-local glue = require "lua.glue"
+local glue = require "lua.lua_modules.glue"
 local tag = {}
 
 local gamePath = os.getenv("HALO_CE_PATH")

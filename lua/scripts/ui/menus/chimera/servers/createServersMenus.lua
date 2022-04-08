@@ -2,7 +2,7 @@ local widget = require "lua.scripts.widget"
 local menuContainer = require "lua.scripts.ui.components.menuContainer"
 local menuHeader = require "lua.scripts.ui.components.menuHeader"
 local button = require "lua.scripts.ui.components.button"
-local glue = require "lua.glue"
+local glue = require "lua.lua_modules.glue"
 
 local menuPath = [[insurrection\ui\menus\chimera_servers_menu\]]
 local containerHistoryPath = menuPath .. [[chimera_history_menu.ui_widget_definition]]

@@ -1,5 +1,5 @@
 local widget = require "lua.scripts.widget"
-local glue = require "lua.glue"
+local glue = require "lua.lua_modules.glue"
 
 local normalButton = require "lua.scripts.ui.components.normalButton"
 local labelButton = require "lua.scripts.ui.components.labelButton"

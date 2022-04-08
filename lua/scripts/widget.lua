@@ -1,6 +1,6 @@
 --- Widget automated modifier using Invader
 --- Sledmine
-local glue = require "lua.glue"
+local glue = require "lua.lua_modules.glue"
 local tag = require "lua.scripts.modules.tag"
 
 local widget = {}
