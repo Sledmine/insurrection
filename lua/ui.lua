@@ -23,7 +23,7 @@ VirtualInputValue = {}
 local function onGameStart()
     -- Load Insurrection features
     if (core.loadInsurrectionPatches()) then
-        harmony.ui.set_aspect_ratio(16, 9)
+        harmony.menu.set_aspect_ratio(16, 9)
         core.loadNameplates()
         execute_script("menu_blur_on")
         isUIInsurrectionCompatible = true
@@ -43,7 +43,7 @@ function OnTick()
             console_out(lane.thread[1])
             table.remove(Lanes, laneIndex)
         else
-            console_out(lane.thread.status)
+            --console_out(lane.thread.status)
         end
     end
     -- Game started event trick
@@ -80,25 +80,28 @@ function OnTick()
     end
 end
 
-function OnMenuAccept(widgetTagId)
+function OnMenuAccept(widgetInstanceIndex)
+    local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
     local allow = not (chimera.onButton(widgetTagId) or interface.onButton(widgetTagId) or false)
     return allow
 end
 
-function OnMenuListTab(pressedKey, listWidgetId, previousFocusedWidgetId)
+function OnMenuListTab(pressedKey, listWidgetInstanceIndex, previousFocusedWidgetInstanceIndex)
+    local listWidgetId = harmony.menu.get_widget_values(listWidgetInstanceIndex).tag_id
+    local previousFocusedWidgetId = harmony.menu.get_widget_values(previousFocusedWidgetInstanceIndex).tag_id
     local widgetList = blam.uiWidgetDefinition(listWidgetId)
     local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
     local focusedWidget
     for childIndex, child in pairs(widgetList.childWidgets) do
         if child.widgetTag == previousFocusedWidgetId then
             local nextChildIndex
-            if pressedKey == "up" or pressedKey == "left" then
+            if pressedKey == "dpad up" or pressedKey == "dpad left" then
                 if childIndex - 1 < 1 then
                     nextChildIndex = widgetList.childWidgetsCount
                 else
                     nextChildIndex = childIndex - 1
                 end
-            elseif pressedKey == "down" or pressedKey == "right" then
+            elseif pressedKey == "dpad down" or pressedKey == "dpad right" then
                 if childIndex + 1 > widgetList.childWidgetsCount then
                     nextChildIndex = 1
                 else
@@ -120,5 +123,5 @@ function OnMenuListTab(pressedKey, listWidgetId, previousFocusedWidgetId)
 end
 
 set_callback("tick", "OnTick")
-harmony.set_callback("menu accept", "OnMenuAccept")
-harmony.set_callback("menu list tab", "OnMenuListTab")
+harmony.set_callback("widget accept", "OnMenuAccept")
+harmony.set_callback("widget list tab", "OnMenuListTab")

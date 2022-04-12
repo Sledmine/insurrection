@@ -1,5 +1,5 @@
 local harmony = require "mods.harmony"
-local openWidget = harmony.ui.open_widget
+local openWidget = harmony.menu.open_widget
 local blam = require "blam"
 local findTag = blam.findTag
 local actions = require "insurrection.redux.actions"
@@ -80,8 +80,9 @@ function interface.update()
     ---@type interfaceState
     local state = store:getState()
     local widget = uiWidgetTag(lobbyWidgetTag.id)
-    local definitionsWidget = uiWidgetTag(widget.childWidgets[2].widgetTag)
-    local elementsWidget = uiWidgetTag(widget.childWidgets[3].widgetTag)
+    local optionsWidget = uiWidgetTag(widget.childWidgets[2].widgetTag)
+    local definitionsWidget = uiWidgetTag(optionsWidget.childWidgets[1].widgetTag)
+    local elementsWidget = uiWidgetTag(optionsWidget.childWidgets[2].widgetTag)
 
     setWidgetString(state.selected.template:upper(), definitionsWidget.childWidgets[1].widgetTag)
     setWidgetString(state.selected.map:upper(), definitionsWidget.childWidgets[2].widgetTag)
