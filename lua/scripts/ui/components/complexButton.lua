@@ -5,7 +5,7 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@param name string? Name of the button component (also used for inner tags generation)
 ---@param text string? Auto generated unicode string inside this button
 ---@return invaderWidget
-return function(justification, name, text, openTag, script, back, icon)
+return function(justification, name, text, openTag, script, back, label, icon)
     local stringsTagPath
     if text then
         -- Generate strings tag
@@ -43,7 +43,8 @@ return function(justification, name, text, openTag, script, back, icon)
         text_color = "1 1 1 1",
         justification = justification or "left_justify",
         horiz_offset = 10,
-        vert_offset = 75
+        vert_offset = 75,
+        child_widgets = {}
     }
     if justification == "center_justify" then
         -- Because of rescale stuff
@@ -53,7 +54,34 @@ return function(justification, name, text, openTag, script, back, icon)
         local iconBitmapPath = [[insurrection/ui/bitmaps/icons/]] .. icon .. [[.bitmap]]
         local iconPath = [[insurrection/ui/shared/icons/]] .. icon .. [[.ui_widget_definition]]
         widget.create(iconPath, {bounds = "-97 -120 97 120", background_bitmap = iconBitmapPath})
-        wid.child_widgets = {{horizontal_offset = 1, vertical_offset = 1, widget_tag = iconPath}}
+        wid.child_widgets[#wid.child_widgets + 1] = {
+            horizontal_offset = 1,
+            vertical_offset = 1,
+            widget_tag = iconPath
+        }
+    end
+    if label then
+        wid.vert_offset = 65
+        local stringsTagPath = [[insurrection/ui/shared/strings/buttons/]] .. name ..
+                                   [[_subtitle.unicode_string_list]]
+        ustr(stringsTagPath, {label})
+        local subtitlePath = [[insurrection/ui/shared/labels/]] .. name .. [[.ui_widget_definition]]
+        widget.create(subtitlePath, {
+            widget_type = "text_box",
+            bounds = "0 0 110 120",
+            text_label_unicode_strings_list = stringsTagPath,
+            string_list_index = 0,
+            text_font = [[ui\large_ui.font]],
+            text_color = "1 0.5 0.5 0.5",
+            justification = justification or "left_justify",
+            horiz_offset = 10,
+            vert_offset = 77
+        })
+        wid.child_widgets[#wid.child_widgets + 1] = {
+            horizontal_offset = 0,
+            vertical_offset = 0,
+            widget_tag = subtitlePath
+        }
     end
     return wid
 end

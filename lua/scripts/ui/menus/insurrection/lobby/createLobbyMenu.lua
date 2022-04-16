@@ -5,10 +5,13 @@ local complexButton = require "lua.scripts.ui.components.complexButton"
 local optionsList = require "lua.scripts.ui.components.optionsList"
 
 local menuPath = [[insurrection/ui/menus/lobby/]]
+local buttonsPath = menuPath .. [[buttons/]]
+
 local currentProfilePath = [[insurrection\ui\shared\current_profile.ui_widget_definition]]
 local containerPath = menuPath .. [[lobby_menu.ui_widget_definition]]
 local headerPath = menuPath .. [[lobby_header.ui_widget_definition]]
-local buttonsPath = menuPath .. [[buttons/]]
+local optionsPath = menuPath .. [[lobby_options.ui_widget_definition]]
+
 local definitionButtonPath = buttonsPath .. [[lobby_definition_button_%s.ui_widget_definition]]
 local elementButtonPath = buttonsPath .. [[lobby_element_button_%s.ui_widget_definition]]
 local definitionsPath = menuPath .. [[lobby_definitions.ui_widget_definition]]
@@ -18,14 +21,17 @@ widget.create(headerPath, menuHeader("lobby", "MY LOBBY",
                                      "INVITE FRIENDS TO YOUR LOBBY, CHOOSE YOUR SERVER TYPE, SET YOUR RULES AND HAVE FUN!"))
 
 local optionsNames = {
-    {text = "$SERVER_TYPE_PLACEHOLDER", icon = "halo_classic_icon_large"},
-    {text = "$MAP_NAME_PLACEHOLDER"},
-    {text = "$GAME_TYPE_PLACEHOLDER"},
+    {text = "$SERVER_TYPE_PLACEHOLDER", subtitle = "TEMPLATE", icon = "server_template_icons"},
+    {text = "$MAP_NAME_PLACEHOLDER", subtitle = "MAP"},
+    {text = "$GAME_TYPE_PLACEHOLDER", subtitle = "GAMETYPE"},
     {text = "PLAY"}
 }
 local definitions = optionsList(nil, true)
 local elements = optionsList(nil, true)
 for i = 1, 4 do
+    local text = optionsNames[i].text
+    local subtitle = optionsNames[i].subtitle
+    local icon = optionsNames[i].icon
     local definitionButtonPath = definitionButtonPath:format(i)
     local elementButtonPath = elementButtonPath:format(i)
     definitions.child_widgets[i] = {
@@ -38,21 +44,24 @@ for i = 1, 4 do
         vertical_offset = 205,
         widget_tag = elementButtonPath
     }
-    widget.create(definitionButtonPath, complexButton("left_justify",
-                                                      ("lobby_definition_button_%s"):format(i),
-                                                      optionsNames[i].text, nil, nil, nil, optionsNames[i].icon))
+    widget.create(definitionButtonPath,
+                  complexButton("left_justify", ("lobby_definition_button_%s"):format(i), text, nil,
+                                nil, nil, subtitle, icon))
     widget.create(elementButtonPath, complexButton("left_justify",
                                                    ("lobby_element_button_%s"):format(i),
                                                    "$ELEMENT_PLACE_HOLDER"))
 end
+widget.create(optionsPath, optionsList({
+    {horizontal_offset = 0, vertical_offset = 0, widget_tag = definitionsPath},
+    {horizontal_offset = 0, vertical_offset = 0, widget_tag = elementsPath}
+}))
 widget.create(definitionsPath, definitions)
 widget.create(elementsPath, elements)
 local container = menuContainer()
 local containerWithButtons = {
     child_widgets = {
         {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerPath},
-        {horizontal_offset = 0, vertical_offset = 0, widget_tag = definitionsPath},
-        {horizontal_offset = 0, vertical_offset = 0, widget_tag = elementsPath}
+        {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath}
     }
 }
 local lastContainerElement = #containerWithButtons.child_widgets + 1
