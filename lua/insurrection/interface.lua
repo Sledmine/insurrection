@@ -1,5 +1,7 @@
 local harmony = require "mods.harmony"
 local openWidget = harmony.menu.open_widget
+local reloadWidget = harmony.menu.reload_widget
+local findWidgets = harmony.menu.find_widgets
 local blam = require "blam"
 local findTag = blam.findTag
 local actions = require "insurrection.redux.actions"
@@ -93,16 +95,22 @@ function interface.update()
         map = state.lobby.maps,
         gametype = state.lobby.gametypes
     }
+    elementsWidget.childWidgetsCount = 4
     local elements = elementsMapping[state.definition]
     for childIndex, childWidget in pairs(elementsWidget.childWidgets) do
         if elements[childIndex] then
             setWidgetString(elements[childIndex]:upper(), childWidget.widgetTag)
         end
     end
-    elementsWidget.childWidgetsCount = 4
-    --if #elements < 4 then
-    --    elementsWidget.childWidgetsCount = #elements
-    --end
+
+    if #elements < 4 then
+        elementsWidget.childWidgetsCount = #elements
+    end
+    local foundWidgets = findWidgets(optionsWidget.childWidgets[2].widgetTag)
+    local widgetInstanceIndex = foundWidgets[1]
+    if widgetInstanceIndex then
+        reloadWidget(widgetInstanceIndex)
+    end
 end
 
 return interface
