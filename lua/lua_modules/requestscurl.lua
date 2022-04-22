@@ -1,6 +1,7 @@
 local requests = {}
 
 requests.headers = {}
+requests.timeout = 300
 
 ---Perform a GET request
 ---@param url string
@@ -11,6 +12,7 @@ function requests.get(url)
     local buffer = {}
     local request = curl.easy {
         url = url,
+        timeout = requests.timeout,
         httpheader = requests.headers,
         writefunction = function(input)
             table.insert(buffer, input)
@@ -41,6 +43,7 @@ function requests.post(url, params)
     body = body:sub(1, #body - 1)
     local request = curl.easy {
         url = url,
+        timeout = requests.timeout,
         httpheader = {"Content-Type: application/x-www-form-urlencoded"},
         writefunction = function(input)
             table.insert(buffer, input)
