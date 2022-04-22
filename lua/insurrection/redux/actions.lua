@@ -4,7 +4,8 @@ actions.types = {
     SET_IS_LOADING = "SET_IS_LOADING",
     SET_LOBBY = "SET_LOBBY",
     SET_LOBBY_DEFINITION = "SET_LOBBY_DEFINITION",
-    SET_SELECTED = "SET_SELECTED"
+    SET_SELECTED = "SET_SELECTED",
+    SCROLL_LIST = "SCROLL_LIST"
 }
 
 function actions.setIsLoading(loading)
@@ -23,6 +24,10 @@ end
 
 function actions.setSelected(element)
     return {type = actions.types.SET_SELECTED, payload = element}
+end
+
+function actions.scroll(scrollNext)
+    return {type = actions.types.SCROLL_LIST, payload = scrollNext}
 end
 
 return actions

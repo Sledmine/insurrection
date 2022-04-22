@@ -10,6 +10,7 @@ local defaultState = {
     lobbyKey = nil,
     lobby = {maps = {}, gametypes = {}, members = {}, templates = {}},
     selected = {template = nil, map = nil, gametype = nil},
+    currentChunk = 1,
     displayed = {}
 }
 
@@ -32,9 +33,31 @@ local function interfaceReducer(state, action)
         return state
     elseif action.type == actions.types.SET_LOBBY_DEFINITION then
         state.definition = action.payload
+        local list = state.lobby[state.definition .. "s"]
+        state.displayed = chunks(list, 4)[1]
         return state
     elseif action.type == actions.types.SET_SELECTED then
         state.selected[state.definition] = action.payload
+        return state
+    elseif action.type == actions.types.SCROLL_LIST then
+        local list = state.lobby[state.definition .. "s"]
+        local chunkCount = #chunks(list, 4)
+        -- Scroll forward
+        if not action.payload then
+            if (state.currentChunk < chunkCount) then
+                state.currentChunk = state.currentChunk + 1
+            end
+        else
+            if (state.currentChunk > 1) then
+                state.currentChunk = state.currentChunk - 1
+            end
+        end
+        if (list and #list > 0) then
+            local displayed = chunks(list, 4)[state.currentChunk]
+            if displayed then
+                state.displayed = displayed
+            end
+        end
         return state
     else
         error("Undefined redux action type!")

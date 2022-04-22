@@ -90,13 +90,8 @@ function interface.update()
     setWidgetString(state.selected.map:upper(), definitionsWidget.childWidgets[2].widgetTag)
     setWidgetString(state.selected.gametype:upper(), definitionsWidget.childWidgets[3].widgetTag)
 
-    local elementsMapping = {
-        template = state.lobby.templates,
-        map = state.lobby.maps,
-        gametype = state.lobby.gametypes
-    }
     elementsWidget.childWidgetsCount = 4
-    local elements = elementsMapping[state.definition]
+    local elements = state.displayed
     for childIndex, childWidget in pairs(elementsWidget.childWidgets) do
         if elements[childIndex] then
             setWidgetString(elements[childIndex]:upper(), childWidget.widgetTag)
@@ -106,6 +101,8 @@ function interface.update()
     if #elements < 4 then
         elementsWidget.childWidgetsCount = #elements
     end
+
+    -- Reload dynamically changed widgets from tags, effectively redrawing the UI
     local foundWidgets = findWidgets(optionsWidget.childWidgets[2].widgetTag)
     local widgetInstanceIndex = foundWidgets[1]
     if widgetInstanceIndex then
