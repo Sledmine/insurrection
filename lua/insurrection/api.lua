@@ -55,6 +55,7 @@ local function onLobbyResponse(result)
             local response = json.decode(payload)
             blam.consoleOutput(inspect(response))
             store:dispatch(actions.setLobby(response.key, response.lobby))
+            api.session.lobbyKey = response.key
             interface.lobby()
             return true
         else
@@ -97,7 +98,7 @@ local function onBorrowResponse(result)
 end
 function api.borrow(template, map, gametype)
     async(requests.get, onBorrowResponse,
-          api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype)
+          api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype .. "/" .. api.session.lobbyKey)
 end
 
 return api
