@@ -3,6 +3,8 @@ local menuContainer = require "lua.scripts.ui.components.menuContainer"
 local menuHeader = require "lua.scripts.ui.components.menuHeader"
 local complexButton = require "lua.scripts.ui.components.complexButton"
 local optionsList = require "lua.scripts.ui.components.optionsList"
+local arrowButton = require "lua.scripts.ui.components.arrowButton"
+local nameplate   = require "lua.scripts.ui.components.nameplate"
 
 local menuPath = [[insurrection/ui/menus/lobby/]]
 local buttonsPath = menuPath .. [[buttons/]]
@@ -14,6 +16,7 @@ local optionsPath = menuPath .. [[lobby_options.ui_widget_definition]]
 
 local definitionButtonPath = buttonsPath .. [[lobby_definition_button_%s.ui_widget_definition]]
 local elementButtonPath = buttonsPath .. [[lobby_element_button_%s.ui_widget_definition]]
+local nameplateButtonPath = buttonsPath .. [[lobby_nameplate_%s.ui_widget_definition]]
 local definitionsPath = menuPath .. [[lobby_definitions.ui_widget_definition]]
 local elementsPath = menuPath .. [[lobby_elements.ui_widget_definition]]
 
@@ -32,21 +35,39 @@ for i = 1, 4 do
     local text = optionsNames[i].text
     local subtitle = optionsNames[i].subtitle
     local icon = optionsNames[i].icon
+
     local definitionButtonPath = definitionButtonPath:format(i)
-    local elementButtonPath = elementButtonPath:format(i)
     definitions.child_widgets[i] = {
         horizontal_offset = widget.offset(40, 120, 4, i),
         vertical_offset = 55,
         widget_tag = definitionButtonPath
     }
-    elements.child_widgets[i] = {
-        horizontal_offset = widget.offset(50, 120, 4, i),
-        vertical_offset = 205,
-        widget_tag = elementButtonPath
-    }
     widget.create(definitionButtonPath,
                   complexButton("left_justify", ("lobby_definition_button_%s"):format(i), text, nil,
                                 nil, nil, subtitle, icon))
+end
+
+local arrowButtonLeftPath = elementButtonPath:format(1)
+widget.create(arrowButtonLeftPath, arrowButton(nil, nil, nil))
+elements.child_widgets[1] = {
+    horizontal_offset = 40,
+    vertical_offset = 205,
+    widget_tag = arrowButtonLeftPath
+}
+local arrowButtonRightPath = elementButtonPath:format(6)
+widget.create(arrowButtonRightPath, arrowButton(nil, nil, nil, true))
+elements.child_widgets[6] = {
+    horizontal_offset = 555,
+    vertical_offset = 205,
+    widget_tag = arrowButtonRightPath
+}
+for i = 2, 5 do
+    local elementButtonPath = elementButtonPath:format(i)
+    elements.child_widgets[i] = {
+        horizontal_offset = widget.offset(59, 120, 4, i - 1),
+        vertical_offset = 205,
+        widget_tag = elementButtonPath
+    }
     widget.create(elementButtonPath, complexButton("left_justify",
                                                    ("lobby_element_button_%s"):format(i),
                                                    "$ELEMENT_PLACE_HOLDER"))
@@ -65,11 +86,18 @@ local containerWithButtons = {
     }
 }
 local lastContainerElement = #containerWithButtons.child_widgets + 1
-for i = lastContainerElement, 19 do
-    containerWithButtons.child_widgets[i] = {
+for childWidgetIndex = lastContainerElement, lastContainerElement + 15 do
+    local nameplateIndex = childWidgetIndex - (lastContainerElement - 1)
+    local nameplatePath = nameplateButtonPath:format(nameplateIndex)
+    local nameplateWidgetName = ("lobby_nameplate_button_%s"):format(nameplateIndex)
+    widget.create(nameplatePath, nameplate(nameplateWidgetName, "$PLAYER_NAMEPLATE_NAME_PLACEHOLDER"))
+    if nameplateIndex == 1 then
+        nameplatePath = currentProfilePath
+    end
+    containerWithButtons.child_widgets[childWidgetIndex] = {
         horizontal_offset = 624,
-        vertical_offset = 12 + (28 * (i - lastContainerElement)),
-        widget_tag = currentProfilePath
+        vertical_offset = widget.offset(12, 26, 3, nameplateIndex),
+        widget_tag = nameplatePath
     }
 end
 widget.create(containerPath, widget.update(container, containerWithButtons))
