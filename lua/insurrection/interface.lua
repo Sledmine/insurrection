@@ -1,4 +1,6 @@
 local harmony = require "mods.harmony"
+local bezierCurve = harmony.math.get_bezier_curve_point
+
 local openWidget = harmony.menu.open_widget
 local reloadWidget = harmony.menu.reload_widget
 local findWidgets = harmony.menu.find_widgets
@@ -59,7 +61,7 @@ function interface.onButton(widgetTagId)
         local password = getWidgetString(findWidgetTag("password_input").id)
         api.login(username, password)
     elseif ends(buttonPath, "register_button") then
-        interface.dialog("INFORMATION", "UNDER CONSTRUCTION", "Under construction...")
+        interface.dialog("INFORMATION", "UNDER CONSTRUCTION", "Coming soon...")
     elseif ends(buttonPath, "lobby_definition_button_1") then
         store:dispatch(actions.setLobbyDefinition("template"))
     elseif ends(buttonPath, "lobby_definition_button_2") then
@@ -90,24 +92,94 @@ function interface.update()
     setWidgetString(state.selected.map:upper(), definitionsWidget.childWidgets[2].widgetTag)
     setWidgetString(state.selected.gametype:upper(), definitionsWidget.childWidgets[3].widgetTag)
 
-    elementsWidget.childWidgetsCount = 4
-    local elements = state.displayed
-    for childIndex, childWidget in pairs(elementsWidget.childWidgets) do
-        if elements[childIndex] then
-            setWidgetString(elements[childIndex]:upper(), childWidget.widgetTag)
-        end
-    end
-
-    if #elements < 4 then
-        elementsWidget.childWidgetsCount = #elements
-    end
+    -- elementsWidget.childWidgetsCount = 6
+    -- local elements = state.displayed
+    -- for childIndex = 1,6 do
+    --    childWidget = elementsWidget.childWidgets[childIndex]
+    --    if elements[childIndex] then
+    --        setWidgetString(elements[childIndex]:upper(), childWidget.widgetTag)
+    --    end
+    -- end
+    --
+    -- if #elements < 4 then
+    --    elementsWidget.childWidgetsCount = #elements
+    -- end
 
     -- Reload dynamically changed widgets from tags, effectively redrawing the UI
-    local foundWidgets = findWidgets(optionsWidget.childWidgets[2].widgetTag)
+    local foundWidgets = findWidgets(optionsWidget.childWidgets[2].widgetTag, true)
     local widgetInstanceIndex = foundWidgets[1]
     if widgetInstanceIndex then
         reloadWidget(widgetInstanceIndex)
     end
+end
+
+function interface.setWidgetValues(widgetTagId, values)
+    local widgetInstanceId = harmony.menu.find_widgets(widgetTagId)
+    if (widgetInstanceId) then
+        harmony.menu.set_widget_values(widgetInstanceId, values);
+    end
+end
+
+function interface.animation(targetWidgetTagId,
+                             widgetContainerTagId,
+                             duration,
+                             property,
+                             originalOffset,
+                             offset)
+    local animationId = targetWidgetTagId .. widgetContainerTagId .. property
+    WidgetAnimations[animationId] = {
+        finished = false,
+        widgetContainerTagId = widgetContainerTagId,
+        animate = function()
+            local originalOffset = originalOffset
+            if not WidgetAnimations[animationId].elapsed then
+                harmony.time.set_timestamp(animationId)
+            end
+            local elapsed = harmony.time.get_elapsed_milliseconds(animationId) / 1000
+            WidgetAnimations[animationId].elapsed = elapsed
+            -- console_out(elapsed)
+            -- console_out(duration)
+            if elapsed >= (duration) then
+
+                if property == "horizontal" then
+                    interface.setWidgetValues(targetWidgetTagId, {left_bound = offset})
+                elseif property == "vertical" then
+                    interface.setWidgetValues(targetWidgetTagId, {top_bound = offset})
+                else
+                    interface.setWidgetValues(targetWidgetTagId, {opacity = offset})
+                end
+
+                WidgetAnimations[animationId].elapsed = nil
+                WidgetAnimations[animationId].finished = true
+                return
+            end
+
+            local widgetTag = blam.uiWidgetDefinition(widgetContainerTagId)
+            if not originalOffset then
+                for _, childWidget in pairs(widgetTag.childWidgets) do
+                    if childWidget.widgetTag == targetWidgetTagId then
+                        if property == "horizontal" then
+                            originalOffset = childWidget.horizontalOffset
+                        elseif property == "vertical" then
+                            originalOffset = childWidget.verticalOffset
+                        end
+                    end
+                end
+            end
+            local t = (elapsed / duration)
+            local newPosition = bezierCurve("buttons", originalOffset, offset, t)
+            -- local newOpacity = bezierCurve("opacity", 0, 1, t)
+
+            if property == "horizontal" then
+                interface.setWidgetValues(targetWidgetTagId, {left_bound = math.floor(newPosition)})
+            elseif property == "vertical" then
+                interface.setWidgetValues(targetWidgetTagId, {top_bound = math.floor(newPosition)})
+            else
+                interface.setWidgetValues(targetWidgetTagId, {opacity = newPosition})
+            end
+
+        end
+    }
 end
 
 return interface

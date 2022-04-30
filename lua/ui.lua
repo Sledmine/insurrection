@@ -1,3 +1,4 @@
+local actions = require "insurrection.redux.actions"
 clua_version = 2.056
 local blam = require "blam"
 local harmony = require "mods.harmony"
@@ -7,7 +8,9 @@ local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 api = require "insurrection.api"
 store = require "insurrection.redux.store"
+local version = require "insurrection.version"
 
+-- UI state and stuff
 math.randomseed(os.time() + ticks())
 local gameStarted = false
 local isUIInsurrectionCompatible = false
@@ -16,18 +19,43 @@ local pressedKey
 local editableWidget
 -- Multithread lanes
 Lanes = {}
--- UI state and stuff
--- Stores real values that are masked in the UI
+-- Stores values that are masked in the UI
 VirtualInputValue = {}
+-- Stores animations for UI Widgets
+WidgetAnimations = {}
+local debugScreenText = ""
 
 local function onGameStart()
     -- Load Insurrection features
     if (core.loadInsurrectionPatches()) then
         harmony.menu.set_aspect_ratio(16, 9)
+        harmony.math.create_bezier_curve("logo", "ease in out")
+        harmony.math.create_bezier_curve("buttons", "ease in")
+        harmony.math.create_bezier_curve("opacity", "linear")
         core.loadNameplates()
         execute_script("menu_blur_on")
         isUIInsurrectionCompatible = true
         core.cleanAllEditableWidgets()
+
+        local introMenuWidgetTag = blam.findTag([[ui\shell\main_menu]],
+                                                blam.tagClasses.uiWidgetDefinition)
+        local introMenuWidget = blam.uiWidgetDefinition(introMenuWidgetTag.id)
+        local mainMenuWidgetTag = blam.findTag([[menus\main\main_menu]],
+                                               blam.tagClasses.uiWidgetDefinition)
+        local mainMenuWidget = blam.uiWidgetDefinition(mainMenuWidgetTag.id)
+        local mainMenuList = blam.uiWidgetDefinition(mainMenuWidget.childWidgets[2].widgetTag)
+
+        local containerId = mainMenuWidgetTag.id
+        local widgetToAnimateId = mainMenuWidget.childWidgets[1].widgetTag
+        local initial = introMenuWidget.childWidgets[1].verticalOffset
+        local final = mainMenuWidget.childWidgets[1].verticalOffset
+
+        interface.animation(widgetToAnimateId, containerId, 0.2, "vertical", initial, final)
+        for _, childWidget in pairs(mainMenuList.childWidgets) do
+            interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "horizontal",
+                                childWidget.horizontalOffset - 50, childWidget.horizontalOffset)
+            interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "opacity", 0, 1)
+        end
     end
     -- Workaround fix to prevent players from getting stuck in a game server at menu
     execute_script("disconnect")
@@ -43,8 +71,8 @@ function OnTick()
             console_out(lane.thread[1])
             table.remove(Lanes, laneIndex)
         else
-            --console_out(lane.thread.status)
         end
+        console_out(lane.thread.status)
     end
     -- Game started event trick
     if (not gameStarted and map:find("ui")) then
@@ -70,13 +98,13 @@ function OnTick()
             end
             usernameStrings.stringList = stringList
         end
-        --local currentMenu = core.getCurrentUIWidget()
-        --if currentMenu then
+        -- local currentMenu = core.getCurrentUIWidget()
+        -- if currentMenu then
         --    local widget = blam.uiWidgetDefinition(currentMenu.id)
         --    console_out(currentMenu.path)
         --    console_out(currentMenu.id)
         --    console_out(widget.name)
-        --end
+        -- end
     end
 end
 
@@ -86,12 +114,26 @@ function OnMenuAccept(widgetInstanceIndex)
     return allow
 end
 
-function OnMenuListTab(pressedKey, listWidgetInstanceIndex, previousFocusedWidgetInstanceIndex)
+local function setEditableWidgetFocus(widgetTagId)
+    local focusedWidget = blam.uiWidgetDefinition(widgetTagId)
+    -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
+    if focusedWidget and
+        (focusedWidget.name == "username_input" or focusedWidget.name == "password_input") then
+        editableWidget = focusedWidget
+    else
+        editableWidget = nil
+    end
+end
+
+function OnMenuListTab(pressedKey,
+                       listWidgetInstanceIndex,
+                       previousFocusedWidgetInstanceIndex)
     local listWidgetId = harmony.menu.get_widget_values(listWidgetInstanceIndex).tag_id
-    local previousFocusedWidgetId = harmony.menu.get_widget_values(previousFocusedWidgetInstanceIndex).tag_id
+    local previousFocusedWidgetId = harmony.menu.get_widget_values(
+                                        previousFocusedWidgetInstanceIndex).tag_id
     local widgetList = blam.uiWidgetDefinition(listWidgetId)
     local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
-    local focusedWidget
+
     for childIndex, child in pairs(widgetList.childWidgets) do
         if child.widgetTag == previousFocusedWidgetId then
             local nextChildIndex
@@ -108,20 +150,58 @@ function OnMenuListTab(pressedKey, listWidgetInstanceIndex, previousFocusedWidge
                     nextChildIndex = childIndex + 1
                 end
             end
-            focusedWidget = blam.uiWidgetDefinition(
-                                widgetList.childWidgets[nextChildIndex].widgetTag)
+            setEditableWidgetFocus(widgetList.childWidgets[nextChildIndex].widgetTag)
         end
-    end
-    -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
-    if focusedWidget and
-        (focusedWidget.name == "username_input" or focusedWidget.name == "password_input") then
-        editableWidget = focusedWidget
-    else
-        editableWidget = nil
     end
     return true
 end
 
+function OnMouseFocus(widgetInstanceId)
+    local widgetTagId = harmony.menu.get_widget_values(widgetInstanceId).tag_id
+    setEditableWidgetFocus(widgetTagId)
+    return true
+end
+
+function OnFrame()
+    local bounds = {left = 0, top = 460, right = 640, bottom = 480}
+    local textColor = {1, 1, 1, 1}
+    draw_text(debugScreenText, bounds.left, bounds.top, bounds.right, bounds.bottom, "small",
+              "center", table.unpack(textColor))
+
+    -- Create menu scrolling
+    local scroll = tonumber(read_char(0x64C73C + 8))
+    if scroll > 0 then
+        store:dispatch(actions.scroll(true))
+    elseif scroll < 0 then
+        store:dispatch(actions.scroll(false))
+    end
+
+    -- Process widget animations queue
+    for animationWidgetId, animation in pairs(WidgetAnimations) do
+        if core.getCurrentUIWidget().id == animation.widgetContainerTagId and not animation.finished then
+            animation.animate()
+        end
+    end
+end
+
+function OnWidgetOpen(widgetInstanceIndex)
+    -- Reset widgets animation data
+    local widgetValues = harmony.menu.get_widget_values(widgetInstanceIndex)
+    for _, animation in pairs(WidgetAnimations) do
+        if animation.widgetContainerTagId == widgetValues.tag_id then
+            animation.finished = false
+        end
+    end
+
+    local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
+    debugScreenText = widgetTag.path
+    return true
+end
+
 set_callback("tick", "OnTick")
+set_callback("preframe", "OnFrame")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
+harmony.set_callback("widget mouse focus", "OnMouseFocus")
+--harmony.set_callback("widget back", "OnWidgetClose")
+harmony.set_callback("widget open", "OnWidgetOpen")
