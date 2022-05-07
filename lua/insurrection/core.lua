@@ -287,7 +287,7 @@ function core.getStringFromWidget(widgetId)
         return virtualValue
     end
     local unicodeStrings = blam.unicodeStringList(widget.unicodeStringListTag)
-    return unicodeStrings.stringList[1]
+    return unicodeStrings.stringList[widget.stringListIndex + 1]
 end
 
 function core.cleanAllEditableWidgets()
