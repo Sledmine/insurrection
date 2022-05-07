@@ -31,7 +31,7 @@ local function onLoginResponse(result)
             local response = json.decode(payload)
             api.session.token = response.token
             requests.headers = {"Authorization: Bearer " .. api.session.token}
-            api.lobby()
+            interface.dashboard()
             return true
         elseif code == 401 then
             local response = json.decode(payload)
@@ -43,7 +43,8 @@ local function onLoginResponse(result)
                      "An unknown error has ocurred, please try again later.")
 end
 function api.login(username, password)
-    async(requests.post, onLoginResponse, api.url .. "/login", {username = username, password = password})
+    async(requests.post, onLoginResponse, api.url .. "/login",
+          {username = username, password = password})
 end
 
 -- Request lobby
@@ -53,10 +54,18 @@ local function onLobbyResponse(result)
     if code then
         if code == 200 then
             local response = json.decode(payload)
-            blam.consoleOutput(inspect(response))
-            store:dispatch(actions.setLobby(response.key, response.lobby))
-            api.session.lobbyKey = response.key
-            interface.lobby()
+            if response then
+                blam.consoleOutput(inspect(response))
+                -- We asked for a new lobby room
+                if response.key then
+                    api.session.lobbyKey = response.key
+                    store:dispatch(actions.setLobby(response.key, response.lobby))
+                else
+                    -- We have to joined an existing lobby
+                    store:dispatch(actions.setLobby(api.session.lobbyKey, response))
+                end
+                interface.lobby()
+            end
             return true
         else
             local response = json.decode(payload)
@@ -67,8 +76,13 @@ local function onLobbyResponse(result)
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
 end
-function api.lobby()
-    async(requests.get, onLobbyResponse, api.url .. "/lobby")
+
+function api.lobby(lobbyKey)
+    if lobbyKey then
+        async(requests.get, onLobbyResponse, api.url .. "/lobby/" .. lobbyKey)
+    else
+        async(requests.get, onLobbyResponse, api.url .. "/lobby")
+    end
 end
 
 -- Request instanced server
@@ -97,8 +111,8 @@ local function onBorrowResponse(result)
                      "An unknown error has ocurred, please try again later.")
 end
 function api.borrow(template, map, gametype)
-    async(requests.get, onBorrowResponse,
-          api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype .. "/" .. api.session.lobbyKey)
+    async(requests.get, onBorrowResponse, api.url .. "/borrow/" .. template .. "/" .. map .. "/" ..
+              gametype .. "/" .. api.session.lobbyKey)
 end
 
 return api
