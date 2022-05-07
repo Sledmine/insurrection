@@ -3,7 +3,7 @@
 -- Sledmine, JerryBrick
 -- Easier memory handle and provides standard functions for scripting
 ------------------------------------------------------------------------------
-local blam = {_VERSION = "1.5.0-beta"}
+local blam = {_VERSION = "1.5.0"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -282,7 +282,7 @@ if (variableThatObviouslyDoesNotExist) then
     end
 
     ---Get object address from a specific player given playerIndex
-    ---@param playerIndex number
+    ---@param playerIndex? number
     ---@return number objectAddress
     function get_dynamic_player(playerIndex)
     end
@@ -362,15 +362,17 @@ if (api_version) then
         if (path) then
             local command = "dir " .. path .. " /B"
             local pipe = io.popen(command, "r")
-            local output = pipe:read("*a")
-            if (output) then
-                local items = split(output, "\n")
-                for index, item in pairs(items) do
-                    if (item and item == "") then
-                        items[index] = nil
+            if pipe then
+                local output = pipe:read("*a")
+                if (output) then
+                    local items = split(output, "\n")
+                    for index, item in pairs(items) do
+                        if (item and item == "") then
+                            items[index] = nil
+                        end
                     end
+                    return items
                 end
-                return items
             end
         end
         return nil
@@ -378,7 +380,7 @@ if (api_version) then
 
     ---Return the memory address of a tag given tagId or tagClass and tagPath
     ---@param tagIdOrTagType string | number
-    ---@param tagPath string
+    ---@param tagPath? string
     ---@return number
     function get_tag(tagIdOrTagType, tagPath)
         if (not tagPath) then
@@ -415,9 +417,9 @@ if (api_version) then
 
     ---Print text into console
     ---@param message string
-    ---@param red number
-    ---@param green number
-    ---@param blue number
+    ---@param red? number
+    ---@param green? number
+    ---@param blue? number
     function console_out(message, red, green, blue)
         -- TODO Add color printing to this function on SAPP
         cprint(message)
@@ -678,7 +680,7 @@ end
 
 --- Return the string of a unicode string given address
 ---@param address number
----@param rawRead boolean
+---@param rawRead? boolean
 ---@return string
 function blam.readUnicodeString(address, rawRead)
     local stringAddress
@@ -703,7 +705,7 @@ end
 --- Writes a unicode string in a given address
 ---@param address number
 ---@param newString string
----@param forced boolean
+---@param forced? boolean
 function blam.writeUnicodeString(address, newString, forced)
     local stringAddress
     if (forced) then
@@ -1158,9 +1160,6 @@ local tagDataHeaderStructure = {
 local tagHeaderStructure = {
     class = {type = "dword", offset = 0x0},
     index = {type = "word", offset = 0xC},
-    -- //TODO This needs some review
-    -- id = {type = "word", offset = 0xE},
-    -- fullId = {type = "dword", offset = 0xC},
     id = {type = "dword", offset = 0xC},
     path = {type = "dword", offset = 0x10},
     data = {type = "dword", offset = 0x14},
@@ -1302,7 +1301,7 @@ local bitmapStructure = {
 
 ---@class uiWidgetDefinitionEventHandler
 ---@field eventType number Type of the event
----@field gameFunction Game function of this event
+---@field gameFunction number Game function of this event
 ---@field widgetTag number uiWidgetDefinition tag id of the event
 ---@field script string Name of the script function assigned to this event
 
@@ -1759,7 +1758,7 @@ local projectileStructure = extendStructure(objectStructure, {
 ---@field team number Team color of this player, 0 when red, 1 when on blue team
 ---@field objectId number Return the objectId associated to this player
 ---@field color number Color of the player, only works on "Free for All" gametypes
----@field index number Local index of this player (0-15
+---@field index number Local index of this player 0-15
 ---@field speed number Current speed of this player
 ---@field ping number Ping amount from server of this player in milliseconds
 ---@field kills number Kills quantity done by this player
@@ -1866,36 +1865,6 @@ local hudGlobalsStructure = {
     textColorG = {type = "float", offset = 0x88},
     textColorB = {type = "float", offset = 0x8C},
     textSpacing = {type = "float", offset = 0x90}
-}
-
----@class uiWidgetInstance
----@field tagId number
----@field name string
----@field frameX number
----@field frameY number
----@field widgetType number
----@field visible boolean
----@field opacity number
----@field previousWidget number
----@field nextWidget number
----@field parentWidget number
----@field childWidget number
----@field text string
----@field cursorIndex number
----@field focused boolean
-local uiWidgetInstanceStructure = {
-    tagId = {type = "dword", offset = 0},
-    -- Needs a pointer implementation
-    -- name = {type = "string", offset = 4},
-    -- hidden? = {type = "word", offset = 8},
-    frameX = {type = "short", offset = 10},
-    frameY = {type = "short", offset = 12},
-    widgetType = {type = "word", offset = 14},
-    isVisible = {type = "bit", offset = 16, bitLevel = 0},
-    -- unknownHistoryThing = {type = "dword", offset = 24},
-    millisecondsToClose = {type = "dword", offset = 28},
-    millisecondsToCloseFadeTime = {type = "dword", offset = 32},
-    opacity = {type = "float", offset = 36}
 }
 
 ------------------------------------------------------------------------------
@@ -2036,7 +2005,7 @@ end
 
 --- Return a tag object given tagPath and tagClass or just tagId
 ---@param tagIdOrTagPath string | number
----@param tagClass string
+---@param tagClass? string
 ---@return tag
 function blam.getTag(tagIdOrTagPath, tagClass, ...)
     local tagId
@@ -2262,8 +2231,8 @@ end
 -- Alias
 blam.gbxmodel = blam.model
 
---- Create a Globals tag object from a tag path or id
----@param tag string | number
+--- Create a Globals tag object from a tag path or id, default globals path by default
+---@param tag? string | number
 ---@return globalsTag
 function blam.globalsTag(tag)
     local tag = tag or "globals\\globals"
@@ -2275,7 +2244,7 @@ function blam.globalsTag(tag)
 end
 
 --- Create a First person object from a given address, game known address by default
----@param address number
+---@param address? number
 ---@return firstPerson
 function blam.firstPerson(address)
     return createObject(address or addressList.firstPerson, firstPersonStructure)
@@ -2395,29 +2364,29 @@ function blam.request(method, url, timeout, callback, retry, params)
     return false
 end
 
---- Find the path, index and id of a tag given partial name and tag type
----@param partialName string
+--- Find the path, index and id of a tag given partial tag path and tag type
+---@param partialTagPath string
 ---@param searchTagType string
 ---@return tag tag
-function blam.findTag(partialName, searchTagType)
+function blam.findTag(partialTagPath, searchTagType)
     for tagIndex = 0, blam.tagDataHeader.count - 1 do
         local tag = blam.getTag(tagIndex)
-        if (tag and tag.path:find(partialName, 1, true) and tag.class == searchTagType) then
+        if (tag and tag.path:find(partialTagPath, 1, true) and tag.class == searchTagType) then
             return tag
         end
     end
     return nil
 end
 
---- Find the path, index and id of a list of tags given partial name and tag type
----@param partialName string
+--- Find the path, index and id of a list of tags given partial tag path and tag type
+---@param partialTagPath string
 ---@param searchTagType string
 ---@return tag[] tag
-function blam.findTagsList(partialName, searchTagType)
+function blam.findTagsList(partialTagPath, searchTagType)
     local tagsList
     for tagIndex = 0, blam.tagDataHeader.count - 1 do
         local tag = blam.getTag(tagIndex)
-        if (tag and tag.path:find(partialName, 1, true) and tag.class == searchTagType) then
+        if (tag and tag.path:find(partialTagPath, 1, true) and tag.class == searchTagType) then
             if (not tagsList) then
                 tagsList = {}
             end
