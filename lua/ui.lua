@@ -1,6 +1,7 @@
 local actions = require "insurrection.redux.actions"
 clua_version = 2.056
 local blam = require "blam"
+local isNull = blam.isNull
 local harmony = require "mods.harmony"
 inspect = require "inspect"
 local chimera = require "insurrection.chimera"
@@ -51,7 +52,7 @@ local function onGameStart()
         local initial = introMenuWidget.childWidgets[1].verticalOffset
         local final = mainMenuWidget.childWidgets[1].verticalOffset
 
-        interface.animation(widgetToAnimateId, containerId, 0.2, "vertical", initial, final)
+        interface.animation(widgetToAnimateId, containerId, 0.3, "vertical", initial, final)
         for _, childWidget in pairs(mainMenuList.childWidgets) do
             interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "horizontal",
                                 childWidget.horizontalOffset - 50, childWidget.horizontalOffset)
@@ -132,8 +133,7 @@ function OnMenuListTab(pressedKey,
     local previousFocusedWidgetId = harmony.menu.get_widget_values(
                                         previousFocusedWidgetInstanceIndex).tag_id
     local widgetList = blam.uiWidgetDefinition(listWidgetId)
-    local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
-
+    --local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
     for childIndex, child in pairs(widgetList.childWidgets) do
         if child.widgetTag == previousFocusedWidgetId then
             local nextChildIndex
@@ -150,7 +150,10 @@ function OnMenuListTab(pressedKey,
                     nextChildIndex = childIndex + 1
                 end
             end
-            setEditableWidgetFocus(widgetList.childWidgets[nextChildIndex].widgetTag)
+            local widgetTagId = widgetList.childWidgets[nextChildIndex].widgetTag
+            if not isNull(widgetTagId) then
+                setEditableWidgetFocus(widgetTagId)
+            end
         end
     end
     return true
@@ -177,9 +180,12 @@ function OnFrame()
     end
 
     -- Process widget animations queue
-    for animationWidgetId, animation in pairs(WidgetAnimations) do
-        if core.getCurrentUIWidget().id == animation.widgetContainerTagId and not animation.finished then
-            animation.animate()
+    local widgetTag = core.getCurrentUIWidget()
+    if widgetTag then
+        for animationWidgetId, animation in pairs(WidgetAnimations) do
+            if widgetTag.id == animation.widgetContainerTagId and not animation.finished then
+                animation.animate()
+            end
         end
     end
 end
