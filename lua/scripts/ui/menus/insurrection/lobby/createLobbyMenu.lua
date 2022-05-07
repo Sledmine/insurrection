@@ -90,10 +90,7 @@ for childWidgetIndex = lastContainerElement, lastContainerElement + 15 do
     local nameplateIndex = childWidgetIndex - (lastContainerElement - 1)
     local nameplatePath = nameplateButtonPath:format(nameplateIndex)
     local nameplateWidgetName = ("lobby_nameplate_button_%s"):format(nameplateIndex)
-    widget.create(nameplatePath, nameplate(nameplateWidgetName, "$PLAYER_NAMEPLATE_NAME_PLACEHOLDER"))
-    if nameplateIndex == 1 then
-        nameplatePath = currentProfilePath
-    end
+    widget.create(nameplatePath, nameplate(nameplateWidgetName, "$PLAYER_NAMEPLATE_PLACEHOLDER"))
     containerWithButtons.child_widgets[childWidgetIndex] = {
         horizontal_offset = 624,
         vertical_offset = widget.offset(12, 26, 3, nameplateIndex),
