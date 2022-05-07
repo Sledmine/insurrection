@@ -13,6 +13,7 @@ local setWidgetString = core.setStringToWidget
 local glue = require "glue"
 local split = glue.string.split
 local ends = glue.string.ends
+local append = glue.append
 local unicodeStringTag = blam.unicodeStringList
 local uiWidgetTag = blam.uiWidgetDefinition
 
@@ -62,6 +63,10 @@ function interface.onButton(widgetTagId)
         api.login(username, password)
     elseif ends(buttonPath, "register_button") then
         interface.dialog("INFORMATION", "UNDER CONSTRUCTION", "Coming soon...")
+    elseif ends(buttonPath, "create_lobby_button") then
+        api.lobby()
+    elseif ends(buttonPath, "lobby_key_input") then
+        api.lobby(getWidgetString(findWidgetTag("lobby_key_input").id))
     elseif ends(buttonPath, "lobby_definition_button_1") then
         store:dispatch(actions.setLobbyDefinition("template"))
     elseif ends(buttonPath, "lobby_definition_button_2") then
@@ -74,7 +79,14 @@ function interface.onButton(widgetTagId)
         local gametype = getWidgetString(findWidgetTag("lobby_definition_button_3").id)
         api.borrow(template:lower(), map:lower(), gametype:lower())
     elseif string.find(buttonPath, "lobby_element_button_") then
-        local buttonIndex = split(core.getTagName(buttonPath), "_")[4]
+        local buttonIndex = tonumber(split(core.getTagName(buttonPath), "_")[4])
+        if buttonIndex == 1 then
+            store:dispatch(actions.scroll(true))
+            return
+        elseif buttonIndex == 6 then
+            store:dispatch(actions.scroll())
+            return
+        end
         local value = getWidgetString(findWidgetTag("lobby_element_button_" .. buttonIndex).id)
         store:dispatch(actions.setSelected(value))
     end
@@ -88,22 +100,39 @@ function interface.update()
     local definitionsWidget = uiWidgetTag(optionsWidget.childWidgets[1].widgetTag)
     local elementsWidget = uiWidgetTag(optionsWidget.childWidgets[2].widgetTag)
 
+    -- TODO Fix this, we need the current profile name, player does not exist yet
+    -- Update players in lobby
+    local currentPlayerName = blam.player(get_player()).name:lower()
+    for playerIndex, playerName in pairs(state.lobby.members) do
+        if playerName ~= currentPlayerName then
+            setWidgetString(playerName, widget.childWidgets[playerIndex + 2].widgetTag)
+        end
+    end
+
     setWidgetString(state.selected.template:upper(), definitionsWidget.childWidgets[1].widgetTag)
     setWidgetString(state.selected.map:upper(), definitionsWidget.childWidgets[2].widgetTag)
     setWidgetString(state.selected.gametype:upper(), definitionsWidget.childWidgets[3].widgetTag)
 
-    -- elementsWidget.childWidgetsCount = 6
-    -- local elements = state.displayed
-    -- for childIndex = 1,6 do
-    --    childWidget = elementsWidget.childWidgets[childIndex]
-    --    if elements[childIndex] then
-    --        setWidgetString(elements[childIndex]:upper(), childWidget.widgetTag)
-    --    end
-    -- end
-    --
-    -- if #elements < 4 then
-    --    elementsWidget.childWidgetsCount = #elements
-    -- end
+    -- Restore normal list widget state
+    local newChilds = elementsWidget.childWidgets
+    newChilds[2].widgetTag = findWidgetTag("lobby_element_button_2").id
+    newChilds[3].widgetTag = findWidgetTag("lobby_element_button_3").id
+    newChilds[4].widgetTag = findWidgetTag("lobby_element_button_4").id
+    newChilds[5].widgetTag = findWidgetTag("lobby_element_button_5").id
+    elementsWidget.childWidgets = newChilds
+    
+    -- Apply modifications based on lua state
+    local elements = state.displayed
+    for childIndex = 2, 5 do
+        childWidget = elementsWidget.childWidgets[childIndex]
+        local elementIndex = childIndex - 1
+        if elements[elementIndex] then
+            setWidgetString(elements[elementIndex]:upper(), childWidget.widgetTag)
+        else
+            newChilds[childIndex].widgetTag = 0xFFFFFFFF
+        end
+    end
+    elementsWidget.childWidgets = newChilds
 
     -- Reload dynamically changed widgets from tags, effectively redrawing the UI
     local foundWidgets = findWidgets(optionsWidget.childWidgets[2].widgetTag, true)
@@ -180,6 +209,10 @@ function interface.animation(targetWidgetTagId,
 
         end
     }
+end
+
+function interface.dashboard()
+    openWidget(findWidgetTag("dashboard_menu").id, true)
 end
 
 return interface
