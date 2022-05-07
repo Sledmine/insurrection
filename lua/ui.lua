@@ -9,6 +9,7 @@ local interface = require "insurrection.interface"
 api = require "insurrection.api"
 store = require "insurrection.redux.store"
 local version = require "insurrection.version"
+local ends = require"glue".string.ends
 
 -- UI state and stuff
 math.randomseed(os.time() + ticks())
@@ -117,8 +118,7 @@ end
 local function setEditableWidgetFocus(widgetTagId)
     local focusedWidget = blam.uiWidgetDefinition(widgetTagId)
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
-    if focusedWidget and
-        (focusedWidget.name == "username_input" or focusedWidget.name == "password_input") then
+    if focusedWidget and ends(focusedWidget.name, "_input") then
         editableWidget = focusedWidget
     else
         editableWidget = nil
@@ -166,7 +166,7 @@ function OnFrame()
     local bounds = {left = 0, top = 460, right = 640, bottom = 480}
     local textColor = {1, 1, 1, 1}
     draw_text(debugScreenText, bounds.left, bounds.top, bounds.right, bounds.bottom, "small",
-              "center", table.unpack(textColor))
+              "right", table.unpack(textColor))
 
     -- Create menu scrolling
     local scroll = tonumber(read_char(0x64C73C + 8))
@@ -203,5 +203,5 @@ set_callback("preframe", "OnFrame")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")
---harmony.set_callback("widget back", "OnWidgetClose")
+-- harmony.set_callback("widget back", "OnWidgetClose")
 harmony.set_callback("widget open", "OnWidgetOpen")
