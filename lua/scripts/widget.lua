@@ -127,9 +127,15 @@ function widget.update(keys, newKeys)
     return glue.update(keys, newKeys)
 end
 
-function widget.offset(initial, size, offset, index)
+---Map values used as offsets for widget placement
+---@param initial number Initial offset position
+---@param size number Size of the widget mapped to the offset
+---@param spacing number Space between offset mapping
+---@param index number Index of the widget to be mapped
+---@return number
+function widget.offset(initial, size, spacing, index)
     --return initial + ((initial * 2) + offset * (index - 1))
-    return initial + ((size + offset) * (index - 1))
+    return initial + ((size + spacing) * (index - 1))
 end
 
 return widget
