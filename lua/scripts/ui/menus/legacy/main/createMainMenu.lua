@@ -10,6 +10,8 @@ local containerPath = menuPath .. [[main_menu.ui_widget_definition]]
 local optionsPath = menuPath .. [[main_menu_options.ui_widget_definition]]
 local logoPath = [[insurrection\ui\main_menu\insurrection_logo.ui_widget_definition]]
 local currentProfilePath = [[insurrection\ui\shared\current_profile.ui_widget_definition]]
+local currentVersionPath = [[insurrection\ui\main_menu\version.ui_widget_definition]]
+
 local optionNames = {
     {
         name = "campaign",
@@ -64,6 +66,8 @@ widget.create(containerPath, widget.merge(menuContainer(), {
     child_widgets = {
         {horizontal_offset = 202, vertical_offset = 105, widget_tag = logoPath},
         {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath},
-        {horizontal_offset = 624, vertical_offset = 20, widget_tag = currentProfilePath}
+        {horizontal_offset = 624, vertical_offset = 20, widget_tag = currentProfilePath},
+        {horizontal_offset = 624, vertical_offset = 20, widget_tag = currentProfilePath},
+        {horizontal_offset = 0, vertical_offset = 460, widget_tag = currentVersionPath},
     }
 }))
