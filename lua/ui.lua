@@ -31,9 +31,6 @@ local function onGameStart()
     -- Load Insurrection features
     if (core.loadInsurrectionPatches()) then
         harmony.menu.set_aspect_ratio(16, 9)
-        harmony.math.create_bezier_curve("logo", "ease in out")
-        harmony.math.create_bezier_curve("buttons", "ease in")
-        harmony.math.create_bezier_curve("opacity", "linear")
         core.loadNameplates()
         execute_script("menu_blur_on")
         isUIInsurrectionCompatible = true

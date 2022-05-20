@@ -1,4 +1,5 @@
 local harmony = require "mods.harmony"
+local createBezierCurve = harmony.math.create_bezier_curve
 local bezierCurve = harmony.math.get_bezier_curve_point
 local openWidget = harmony.menu.open_widget
 local reloadWidget = harmony.menu.reload_widget
@@ -166,6 +167,7 @@ function interface.setWidgetValues(widgetTagId, values)
     end
 end
 
+local bezierCurveHandle = createBezierCurve("ease in")
 function interface.animation(targetWidgetTagId,
                              widgetContainerTagId,
                              duration,
@@ -176,16 +178,17 @@ function interface.animation(targetWidgetTagId,
     WidgetAnimations[animationId] = {
         finished = false,
         widgetContainerTagId = widgetContainerTagId,
+        timestamp = nil,
         animate = function()
             local originalOffset = originalOffset
-            if not WidgetAnimations[animationId].elapsed then
-                harmony.time.set_timestamp(animationId)
+            if not WidgetAnimations[animationId].timestamp then
+                WidgetAnimations[animationId].timestamp = harmony.time.set_timestamp()
             end
-            local elapsed = harmony.time.get_elapsed_milliseconds(animationId) / 1000
+            local elapsed = harmony.time.get_elapsed_milliseconds(WidgetAnimations[animationId].timestamp) / 1000
             WidgetAnimations[animationId].elapsed = elapsed
             -- console_out(elapsed)
             -- console_out(duration)
-            if elapsed >= (duration) then
+            if (elapsed >= duration) then
 
                 if property == "horizontal" then
                     interface.setWidgetValues(targetWidgetTagId, {left_bound = offset})
@@ -195,7 +198,7 @@ function interface.animation(targetWidgetTagId,
                     interface.setWidgetValues(targetWidgetTagId, {opacity = offset})
                 end
 
-                WidgetAnimations[animationId].elapsed = nil
+                WidgetAnimations[animationId].timestamp = nil
                 WidgetAnimations[animationId].finished = true
                 return
             end
@@ -213,7 +216,7 @@ function interface.animation(targetWidgetTagId,
                 end
             end
             local t = (elapsed / duration)
-            local newPosition = bezierCurve("buttons", originalOffset, offset, t)
+            local newPosition = bezierCurve(bezierCurveHandle, originalOffset, offset, t)
             -- local newOpacity = bezierCurve("opacity", 0, 1, t)
 
             if property == "horizontal" then
