@@ -13,45 +13,6 @@ local keyboardInputAddress = 0x64C550
 
 local core = {}
 
---- Find the path, index and id of a tag given partial name and tag type
----@param partialName string
----@param searchTagType string
----@return tag tag
-function core.findTag(partialName, searchTagType)
-    for tagIndex = 0, blam.tagDataHeader.count - 1 do
-        local tempTag = blam.getTag(tagIndex)
-        if (tempTag and tempTag.path:find(partialName, 1, true) and tempTag.class == searchTagType) then
-            return {
-                id = tempTag.id,
-                path = tempTag.path,
-                index = tempTag.index,
-                class = tempTag.class,
-                indexed = tempTag.indexed,
-                data = tempTag.data
-            }
-        end
-    end
-    return nil
-end
-
---- Find the path, index and id of a list of tags given partial name and tag type
----@param partialName string
----@param searchTagType string
----@return tag[] tag
-function core.findTagsList(partialName, searchTagType)
-    local tagsList
-    for tagIndex = 0, blam.tagDataHeader.count - 1 do
-        local tag = blam.getTag(tagIndex)
-        if (tag and tag.path:find(partialName, 1, true) and tag.class == searchTagType) then
-            if (not tagsList) then
-                tagsList = {}
-            end
-            glue.append(tagsList, tag)
-        end
-    end
-    return tagsList
-end
-
 function core.loadMercuryPackages()
     local installedPackages = mercury.getInstalled()
     if (installedPackages) then
@@ -120,7 +81,6 @@ end
 function core.patchChimeraFonts()
     -- create_font_override(int tag_id, string family, int size, int weight, int offset_x, int offset_y, int shadow_x, int shadow_y)
 end
-
 
 local lastPressedKey
 ---Attempt to read keyboard pressed key
@@ -309,6 +269,15 @@ function core.setStringToWidget(str, widgetId)
         VirtualInputValue[widget.name] = str
     end
     blam.unicodeStringList(widget.unicodeStringListTag).stringList = {str}
+end
+
+---Attempt to connect a game server
+---@param host string
+---@param port number
+---@param password string
+function core.connectServer(host, port, password)
+    local command = "connect %s:%s %s"
+    execute_script(command:format(host, port, password))
 end
 
 return core
