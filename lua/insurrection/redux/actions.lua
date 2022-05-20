@@ -3,6 +3,7 @@ local actions = {}
 actions.types = {
     SET_IS_LOADING = "SET_IS_LOADING",
     SET_LOBBY = "SET_LOBBY",
+    UPDATE_LOBBY = "UPDATE_LOBBY",
     SET_LOBBY_DEFINITION = "SET_LOBBY_DEFINITION",
     SET_SELECTED = "SET_SELECTED",
     SCROLL_LIST = "SCROLL_LIST"
@@ -14,6 +15,10 @@ end
 
 function actions.setLobby(key, lobby)
     return {type = actions.types.SET_LOBBY, payload = {key = key, lobby = lobby}}
+end
+
+function actions.updateLobby(key, lobby)
+    return {type = actions.types.UPDATE_LOBBY, payload = {key = key, lobby = lobby}}
 end
 
 ---@param definition '"template"' | '"map"' | '"gametype"'

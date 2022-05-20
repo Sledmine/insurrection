@@ -31,6 +31,10 @@ local function interfaceReducer(state, action)
         state.selected.map = state.lobby.maps[1]
         state.selected.gametype = state.lobby.gametypes[1]
         return state
+    elseif action.type == actions.types.UPDATE_LOBBY then
+        state.lobbyKey = action.payload.key
+        state.lobby = action.payload.lobby
+        return state
     elseif action.type == actions.types.SET_LOBBY_DEFINITION then
         state.definition = action.payload
         local list = state.lobby[state.definition .. "s"]
