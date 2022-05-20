@@ -78,9 +78,17 @@ function OnTick()
         gameStarted = true
         onGameStart()
     end
+end
+
+function OnKeypress(modifiers, char, keycode)
     if isUIInsurrectionCompatible then
         -- Get pressed key from the keyboard
-        local pressedKey = core.readKeyboard()
+        local pressedKey = nil
+        if(char) then
+            pressedKey = char
+        elseif(keycode) then
+            pressedKey = core.translateKeycode(keycode)
+        end
         -- If we pressed a key and we are focusing a editable widget, then update it
         if pressedKey and editableWidget then
             local usernameStrings = blam.unicodeStringList(editableWidget.unicodeStringListTag)
@@ -97,13 +105,6 @@ function OnTick()
             end
             usernameStrings.stringList = stringList
         end
-        -- local currentMenu = core.getCurrentUIWidget()
-        -- if currentMenu then
-        --    local widget = blam.uiWidgetDefinition(currentMenu.id)
-        --    console_out(currentMenu.path)
-        --    console_out(currentMenu.id)
-        --    console_out(widget.name)
-        -- end
     end
 end
 
@@ -214,3 +215,4 @@ harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")
 -- harmony.set_callback("widget back", "OnWidgetClose")
 harmony.set_callback("widget open", "OnWidgetOpen")
+harmony.set_callback("key press", "OnKeypress")
