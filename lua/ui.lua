@@ -193,6 +193,7 @@ function OnWidgetOpen(widgetInstanceIndex)
     local widgetValues = harmony.menu.get_widget_values(widgetInstanceIndex)
     for _, animation in pairs(WidgetAnimations) do
         if animation.widgetContainerTagId == widgetValues.tag_id then
+            animation.timestamp = nil
             animation.finished = false
         end
     end
