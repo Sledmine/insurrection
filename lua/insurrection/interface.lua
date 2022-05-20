@@ -1,9 +1,9 @@
 local harmony = require "mods.harmony"
 local bezierCurve = harmony.math.get_bezier_curve_point
-
 local openWidget = harmony.menu.open_widget
 local reloadWidget = harmony.menu.reload_widget
 local findWidgets = harmony.menu.find_widgets
+local playSound = harmony.menu.play_sound
 local blam = require "blam"
 local findTag = blam.findTag
 local actions = require "insurrection.redux.actions"
@@ -25,7 +25,12 @@ local interface = {}
 local dialogWidgetTag = findWidgetTag("dialog_menu")
 local lobbyWidgetTag = findWidgetTag("lobby_menu")
 
+---Show a dialog message on the screen
+---@param titleText '"WARNING"' | '"INFORMATION"' | '"ERROR"' | string
+---@param subtitleText string
+---@param bodyText string
 function interface.dialog(titleText, subtitleText, bodyText)
+    playSound(blam.findTag("flag_failure", blam.tagClasses.sound).path)
     local dialog = uiWidgetTag(dialogWidgetTag.id)
     local header = uiWidgetTag(dialog.childWidgets[1].widgetTag)
     local title = uiWidgetTag(header.childWidgets[1].widgetTag)
@@ -66,7 +71,12 @@ function interface.onButton(widgetTagId)
     elseif ends(buttonPath, "create_lobby_button") then
         api.lobby()
     elseif ends(buttonPath, "lobby_key_input") then
-        api.lobby(getWidgetString(findWidgetTag("lobby_key_input").id))
+        local lobbyKey = getWidgetString(findWidgetTag("lobby_key_input").id)
+        if lobbyKey ~= "" then
+            api.lobby(lobbyKey)
+        else
+            interface.dialog("WARNING", "", "Please specify a lobby key to join.")
+        end
     elseif ends(buttonPath, "lobby_definition_button_1") then
         store:dispatch(actions.setLobbyDefinition("template"))
     elseif ends(buttonPath, "lobby_definition_button_2") then
@@ -95,17 +105,24 @@ end
 function interface.update()
     ---@type interfaceState
     local state = store:getState()
-    local widget = uiWidgetTag(lobbyWidgetTag.id)
-    local optionsWidget = uiWidgetTag(widget.childWidgets[2].widgetTag)
+    local lobbyWidget = uiWidgetTag(lobbyWidgetTag.id)
+    local optionsWidget = uiWidgetTag(lobbyWidget.childWidgets[2].widgetTag)
     local definitionsWidget = uiWidgetTag(optionsWidget.childWidgets[1].widgetTag)
     local elementsWidget = uiWidgetTag(optionsWidget.childWidgets[2].widgetTag)
 
-    -- TODO Fix this, we need the current profile name, player does not exist yet
     -- Update players in lobby
+    for playerIndex = 1, 16 do
+        local widgetIndex = playerIndex + 2
+        interface.setWidgetValues(lobbyWidget.childWidgets[widgetIndex].widgetTag, {opacity = 0})
+    end
+
+    -- TODO Fix this, we need the current profile name, player does not exist yet
     local currentPlayerName = blam.player(get_player()).name:lower()
     for playerIndex, playerName in pairs(state.lobby.members) do
+        local widgetIndex = playerIndex + 2
         if playerName ~= currentPlayerName then
-            setWidgetString(playerName, widget.childWidgets[playerIndex + 2].widgetTag)
+            interface.setWidgetValues(lobbyWidget.childWidgets[widgetIndex].widgetTag, {opacity = 1})
+            setWidgetString(playerName, lobbyWidget.childWidgets[widgetIndex].widgetTag)
         end
     end
 
@@ -120,7 +137,7 @@ function interface.update()
     newChilds[4].widgetTag = findWidgetTag("lobby_element_button_4").id
     newChilds[5].widgetTag = findWidgetTag("lobby_element_button_5").id
     elementsWidget.childWidgets = newChilds
-    
+
     -- Apply modifications based on lua state
     local elements = state.displayed
     for childIndex = 2, 5 do
