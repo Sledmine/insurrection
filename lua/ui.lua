@@ -206,7 +206,6 @@ end
 
 function refreshLobby()
     if api.session.token then
-        console_out(api.session.lobbyKey)
         api.refreshLobby()
     end
 end
