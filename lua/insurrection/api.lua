@@ -12,7 +12,8 @@ local api = {}
 api.host = "http://localhost:4343/"
 api.version = "v1"
 api.url = api.host .. api.version
-api.session = {}
+api.variables = {refreshRate = 5000, refreshTimerId = nil}
+api.session = {token = nil, lobbyKey = nil}
 
 function async(func, callback, ...)
     if (#Lanes == 0) then
@@ -55,6 +56,7 @@ local function onLobbyResponse(result)
         if code == 200 then
             local response = json.decode(payload)
             if response then
+                interface.lobby()
                 blam.consoleOutput(inspect(response))
                 -- We asked for a new lobby room
                 if response.key then
@@ -64,7 +66,11 @@ local function onLobbyResponse(result)
                     -- We have to joined an existing lobby
                     store:dispatch(actions.setLobby(api.session.lobbyKey, response))
                 end
-                interface.lobby()
+                -- Start a timer to pill lobby data every certain time
+                if api.variables.refreshTimerId then
+                    pcall(stop_timer, api.variables.refreshTimerId)
+                end
+                api.variables.refreshTimerId = set_timer(api.variables.refreshRate, "refreshLobby")
             end
             return true
         else
@@ -76,12 +82,39 @@ local function onLobbyResponse(result)
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
 end
-
 function api.lobby(lobbyKey)
     if lobbyKey then
         async(requests.get, onLobbyResponse, api.url .. "/lobby/" .. lobbyKey)
     else
         async(requests.get, onLobbyResponse, api.url .. "/lobby")
+    end
+end
+
+-- Request lobby refresh
+local function onLobbyRefreshResponse(result)
+    local code = result[1]
+    local payload = result[2]
+    if code then
+        if code == 200 then
+            local response = json.decode(payload)
+            if response then
+                blam.consoleOutput(inspect(response))
+                -- We have to joined an existing lobby
+                store:dispatch(actions.updateLobby(api.session.lobbyKey, response))
+            end
+            return true
+        else
+            -- local response = json.decode(payload)
+            -- interface.dialog("ATTENTION", "ERROR " .. code, response.message)
+            -- return false
+        end
+    end
+    console_out("An error has ocurred at refreshing lobby.")
+    stop_timer(api.variables.refreshTimerId)
+end
+function api.refreshLobby()
+    if api.session.lobbyKey then
+        async(requests.get, onLobbyRefreshResponse, api.url .. "/lobby/" .. api.session.lobbyKey)
     end
 end
 

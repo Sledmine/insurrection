@@ -204,6 +204,13 @@ function OnWidgetOpen(widgetInstanceIndex)
     return true
 end
 
+function refreshLobby()
+    if api.session.token then
+        console_out(api.session.lobbyKey)
+        api.refreshLobby()
+    end
+end
+
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnFrame")
 harmony.set_callback("widget accept", "OnMenuAccept")
