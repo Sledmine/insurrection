@@ -1,0 +1,19 @@
+{
+    "manifestVersion": "1.1.0",
+    "files": {},
+    "label": "insurrection",
+    "version": "1.0.0-alpha.4",
+    "category": "map",
+    "author": "Sledmine",
+    "name": "Insurrection",
+    "description": "Insurrection UI project, expanded modern UI with services for Halo Custom Edition",
+    "dependencies": [
+        {
+            "label": "luamodules"
+        },
+        {
+            "label": "harmony",
+            "version": "3.0.0"
+        }
+    ]
+}
