@@ -47,8 +47,7 @@ local options = {
         {horizontal_offset = 328, vertical_offset = 226, widget_tag = passwordInputPath},
         {horizontal_offset = 328, vertical_offset = 292, widget_tag = loginButtonPath},
         {horizontal_offset = 328, vertical_offset = 340, widget_tag = registerButtonPath},
-        {horizontal_offset = 328, vertical_offset = 366, widget_tag = backButtonPath},
-        {horizontal_offset = 322, vertical_offset = 113, widget_tag = logoPath}
+        {horizontal_offset = 328, vertical_offset = 366, widget_tag = backButtonPath}
     }
 }
 widget.create(optionsPath, options)
@@ -59,6 +58,7 @@ widget.merge(menu, {
     child_widgets = {
         {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerPath},
         {horizontal_offset = 253, vertical_offset = 78, widget_tag = dialogPath},
+        {horizontal_offset = 322, vertical_offset = 113, widget_tag = logoPath},
         {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath}
     }
 })
