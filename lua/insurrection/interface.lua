@@ -23,15 +23,27 @@ local function findWidgetTag(partialName)
 end
 
 local interface = {}
+
+-- Common tags
+-- Get tags before using them to improve performance
+-- Menus
 local dialogWidgetTag = findWidgetTag("dialog_menu")
 local lobbyWidgetTag = findWidgetTag("lobby_menu")
+local dashboardWidgetTag = findWidgetTag("dashboard_menu")
+-- Sounds
+local errorSoundTag = findTag("flag_failure", blam.tagClasses.sound)
+-- Lobby elements
+lobbyElement2Tag = findWidgetTag("lobby_element_button_2")
+lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
+lobbyElement4Tag = findWidgetTag("lobby_element_button_4")
+lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
 
 ---Show a dialog message on the screen
 ---@param titleText '"WARNING"' | '"INFORMATION"' | '"ERROR"' | string
 ---@param subtitleText string
 ---@param bodyText string
 function interface.dialog(titleText, subtitleText, bodyText)
-    playSound(blam.findTag("flag_failure", blam.tagClasses.sound).path)
+    playSound(errorSoundTag.path)
     local dialog = uiWidgetTag(dialogWidgetTag.id)
     local header = uiWidgetTag(dialog.childWidgets[1].widgetTag)
     local title = uiWidgetTag(header.childWidgets[1].widgetTag)
@@ -133,10 +145,10 @@ function interface.update()
 
     -- Restore normal list widget state
     local newChilds = elementsWidget.childWidgets
-    newChilds[2].widgetTag = findWidgetTag("lobby_element_button_2").id
-    newChilds[3].widgetTag = findWidgetTag("lobby_element_button_3").id
-    newChilds[4].widgetTag = findWidgetTag("lobby_element_button_4").id
-    newChilds[5].widgetTag = findWidgetTag("lobby_element_button_5").id
+    newChilds[2].widgetTag = lobbyElement2Tag.id
+    newChilds[3].widgetTag = lobbyElement3Tag.id
+    newChilds[4].widgetTag = lobbyElement4Tag.id
+    newChilds[5].widgetTag = lobbyElement5Tag.id
     elementsWidget.childWidgets = newChilds
 
     -- Apply modifications based on lua state
@@ -184,7 +196,8 @@ function interface.animation(targetWidgetTagId,
             if not WidgetAnimations[animationId].timestamp then
                 WidgetAnimations[animationId].timestamp = harmony.time.set_timestamp()
             end
-            local elapsed = harmony.time.get_elapsed_milliseconds(WidgetAnimations[animationId].timestamp) / 1000
+            local elapsed = harmony.time.get_elapsed_milliseconds(
+                                WidgetAnimations[animationId].timestamp) / 1000
             WidgetAnimations[animationId].elapsed = elapsed
             -- console_out(elapsed)
             -- console_out(duration)
@@ -217,8 +230,6 @@ function interface.animation(targetWidgetTagId,
             end
             local t = (elapsed / duration)
             local newPosition = bezierCurve(bezierCurveHandle, originalOffset, offset, t)
-            -- local newOpacity = bezierCurve("opacity", 0, 1, t)
-
             if property == "horizontal" then
                 interface.setWidgetValues(targetWidgetTagId, {left_bound = math.floor(newPosition)})
             elseif property == "vertical" then
@@ -226,13 +237,12 @@ function interface.animation(targetWidgetTagId,
             else
                 interface.setWidgetValues(targetWidgetTagId, {opacity = newPosition})
             end
-
         end
     }
 end
 
 function interface.dashboard()
-    openWidget(findWidgetTag("dashboard_menu").id, true)
+    openWidget(dashboardWidgetTag.id, true)
 end
 
 return interface
