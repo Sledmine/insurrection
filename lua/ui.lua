@@ -64,13 +64,13 @@ function OnTick()
     -- Multithread callback resolve
     for laneIndex, lane in ipairs(Lanes) do
         if lane.thread.status == "done" then
+            harmony.menu.block_input(false)
             table.remove(Lanes, laneIndex)
             lane.callback(lane.thread)
-            harmony.menu.block_input(false)
         elseif lane.thread.status == "error" then
+            harmony.menu.block_input(false)
             console_out(lane.thread[1])
             table.remove(Lanes, laneIndex)
-        else
         end
         console_out(lane.thread.status)
     end
