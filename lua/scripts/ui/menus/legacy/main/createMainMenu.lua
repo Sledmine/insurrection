@@ -67,7 +67,6 @@ widget.create(containerPath, widget.merge(menuContainer(), {
         {horizontal_offset = 202, vertical_offset = 105, widget_tag = logoPath},
         {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath},
         {horizontal_offset = 624, vertical_offset = 20, widget_tag = currentProfilePath},
-        {horizontal_offset = 624, vertical_offset = 20, widget_tag = currentProfilePath},
         {horizontal_offset = 0, vertical_offset = 460, widget_tag = currentVersionPath},
     }
 }))
