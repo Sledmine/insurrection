@@ -92,10 +92,17 @@ local function onLobbyResponse(result)
                     store:dispatch(actions.setLobby(response.key, response.lobby))
                 else
                     -- We have to joined an existing lobby
+                    ---@type lobbyRoom
+                    local lobby = response
                     store:dispatch(actions.setLobby(api.session.lobbyKey, response))
+                    -- There is a server already running for this lobby, connect to it
+                    if lobby.server then
+                        core.connectServer(lobby.server.host, lobby.server.port, lobby.server.password)
+                        return true
+                    end
                 end
                 ScreenCornerText = api.session.lobbyKey
-                -- Start a timer to pill lobby data every certain time
+                -- Start a timer to pull lobby data every certain time
                 if api.variables.refreshTimerId then
                     pcall(stop_timer, api.variables.refreshTimerId)
                 end
