@@ -199,8 +199,8 @@ function OnWidgetOpen(widgetInstanceIndex)
         end
     end
 
-    local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
-    debugScreenText = widgetTag.path
+    --local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
+    --debugScreenText = widgetTag.path
     return true
 end
 
