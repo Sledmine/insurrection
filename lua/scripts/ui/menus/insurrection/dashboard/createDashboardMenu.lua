@@ -16,7 +16,7 @@ widget.create(headerPath, menuHeader("insurrection_dashboard", "INSURRECTION DAS
                                      "CHOOSE FROM DIFFERENT ACTIONS THAT INSURRECTION SERVICES OFFER YOU"))
 -- Crate options elements
 local createLobbyButtonPath = buttonPath .. [[create_lobby_button.ui_widget_definition]]
-widget.create(createLobbyButtonPath, button("center_justify", "create_lobby_button", "CREATE LOBBY"))
+widget.create(createLobbyButtonPath, button("left_justify", "create_lobby_button", "CREATE LOBBY"))
 local lobbyKeyInputPath = buttonPath .. [[lobby_key_input.ui_widget_definition]]
 widget.create(lobbyKeyInputPath, inputText("lobby_key_input", "LOBBY_KEY_PLACEHOLDER", false, true))
 
