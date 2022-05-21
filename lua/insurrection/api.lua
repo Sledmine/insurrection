@@ -8,9 +8,10 @@ local glue = require "glue"
 local trim = glue.string.trim
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
+local harmony = require "mods.harmony"
 
 local api = {}
-api.host = "http://localhost:4343/"
+api.host = read_file("insurrection_host") or "http://localhost:4343/"
 api.version = "v1"
 api.url = api.host .. api.version
 api.variables = {refreshRate = 5000, refreshTimerId = nil}
@@ -38,6 +39,7 @@ api.session = {token = nil, lobbyKey = nil}
 ---@field server serverInstance
 
 function async(func, callback, ...)
+    harmony.menu.block_input(true)
     if (#Lanes == 0) then
         Lanes[#Lanes + 1] = {thread = lanes.gen(asyncLibs, func)(...), callback = callback}
     else

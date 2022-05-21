@@ -66,6 +66,7 @@ function OnTick()
         if lane.thread.status == "done" then
             table.remove(Lanes, laneIndex)
             lane.callback(lane.thread)
+            harmony.menu.block_input(false)
         elseif lane.thread.status == "error" then
             console_out(lane.thread[1])
             table.remove(Lanes, laneIndex)
