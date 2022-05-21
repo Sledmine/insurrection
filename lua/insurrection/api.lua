@@ -94,6 +94,7 @@ local function onLobbyResponse(result)
                     -- We have to joined an existing lobby
                     store:dispatch(actions.setLobby(api.session.lobbyKey, response))
                 end
+                ScreenCornerText = api.session.lobbyKey
                 -- Start a timer to pill lobby data every certain time
                 if api.variables.refreshTimerId then
                     pcall(stop_timer, api.variables.refreshTimerId)

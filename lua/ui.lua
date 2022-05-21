@@ -25,7 +25,7 @@ Lanes = {}
 VirtualInputValue = {}
 -- Stores animations for UI Widgets
 WidgetAnimations = {}
-local debugScreenText = ""
+ScreenCornerText = ""
 
 local function onGameStart()
     -- Load Insurrection features
@@ -167,7 +167,7 @@ end
 function OnFrame()
     local bounds = {left = 0, top = 460, right = 640, bottom = 480}
     local textColor = {1, 1, 1, 1}
-    draw_text(debugScreenText, bounds.left, bounds.top, bounds.right, bounds.bottom, "small",
+    draw_text(ScreenCornerText or "", bounds.left, bounds.top, bounds.right, bounds.bottom, "small",
               "right", table.unpack(textColor))
 
     -- Create menu scrolling
@@ -204,6 +204,11 @@ function OnWidgetOpen(widgetInstanceIndex)
     return true
 end
 
+function OnWidgetClose()
+    ScreenCornerText = ""
+    return true
+end
+
 function refreshLobby()
     if api.session.token then
         api.refreshLobby()
@@ -215,6 +220,6 @@ set_callback("preframe", "OnFrame")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")
--- harmony.set_callback("widget back", "OnWidgetClose")
+harmony.set_callback("widget back", "OnWidgetClose")
 harmony.set_callback("widget open", "OnWidgetOpen")
 harmony.set_callback("key press", "OnKeypress")
