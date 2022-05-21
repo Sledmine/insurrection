@@ -1,0 +1,8 @@
+version: 1
+user: gravemind
+cloudpath: Insurrection
+engine: gbx-custom
+tagsize: 64M
+extendlimits: true
+scenarios:
+  - insurrection/map/ui/ui
