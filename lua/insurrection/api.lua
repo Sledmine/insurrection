@@ -39,16 +39,16 @@ api.session = {token = nil, lobbyKey = nil}
 ---@field server serverInstance
 
 function async(func, callback, ...)
-    harmony.menu.block_input(true)
     if (#Lanes == 0) then
         Lanes[#Lanes + 1] = {thread = lanes.gen(asyncLibs, func)(...), callback = callback}
     else
-        console_out("Error there is another thread in the queue!")
+        console_out("Warning, there is another thread in the queue!")
     end
 end
 
 -- Request login
 local function onLoginResponse(result)
+    harmony.menu.block_input(false)
     local code = result[1]
     local payload = result[2]
     if code then
@@ -68,12 +68,14 @@ local function onLoginResponse(result)
                      "An unknown error has ocurred, please try again later.")
 end
 function api.login(username, password)
+    harmony.menu.block_input(true)
     async(requests.post, onLoginResponse, api.url .. "/login",
           {username = username, password = password})
 end
 
 -- Request lobby
 local function onLobbyResponse(result)
+    harmony.menu.block_input(false)
     local code = result[1]
     local payload = result[2]
     if code then
@@ -97,14 +99,21 @@ local function onLobbyResponse(result)
                     store:dispatch(actions.setLobby(api.session.lobbyKey, response))
                     -- There is a server already running for this lobby, connect to it
                     if lobby.server then
-                        core.connectServer(lobby.server.host, lobby.server.port, lobby.server.password)
+                        core.connectServer(lobby.server.host, lobby.server.port,
+                                           lobby.server.password)
                         return true
                     end
                 end
                 ScreenCornerText = api.session.lobbyKey
                 -- Start a timer to pull lobby data every certain time
                 if api.variables.refreshTimerId then
-                    pcall(stop_timer, api.variables.refreshTimerId)
+                    api.stopRefreshLobby()
+                end
+                -- Create global function to be called by the timer
+                refreshLobby = function()
+                    if api.session.lobbyKey then
+                        api.refreshLobby()
+                    end
                 end
                 api.variables.refreshTimerId = set_timer(api.variables.refreshRate, "refreshLobby")
             end
@@ -120,6 +129,7 @@ local function onLobbyResponse(result)
                      "An unknown error has ocurred, please try again later.")
 end
 function api.lobby(lobbyKey)
+    harmony.menu.block_input(true)
     if lobbyKey then
         api.session.lobbyKey = lobbyKey
         async(requests.get, onLobbyResponse, api.url .. "/lobby/" .. lobbyKey)
@@ -146,18 +156,28 @@ local function onLobbyRefreshResponse(result)
             end
             return true
         else
+            api.stopRefreshLobby()
             -- TODO Add a generic error handling function for this
-            -- local response = json.decode(payload)
-            -- interface.dialog("ATTENTION", "ERROR " .. code, response.message)
-            -- return false
+            local response = json.decode(payload)
+            interface.dialog("ATTENTION", "ERROR " .. code, response.message)
+            return false
         end
     end
-    console_out("An error has ocurred at refreshing lobby.")
-    pcall(stop_timer, api.variables.refreshTimerId)
+    api.stopRefreshLobby()
+    interface.dialog("ERROR", "UNKNOWN ERROR", "An error has ocurred, at refreshing lobby data.")
+    return false
 end
 function api.refreshLobby()
     if api.session.lobbyKey then
+        dprint("Refreshing lobby data...", "info")
         async(requests.get, onLobbyRefreshResponse, api.url .. "/lobby/" .. api.session.lobbyKey)
+    end
+end
+function api.stopRefreshLobby()
+    if api.session.lobbyKey then
+        dprint("Stopping lobby refresh...", "warning")
+        pcall(stop_timer, api.variables.refreshTimerId)
+        api.session.lobbyKey = nil
     end
 end
 

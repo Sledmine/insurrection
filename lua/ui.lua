@@ -1,5 +1,4 @@
 local actions = require "insurrection.redux.actions"
-clua_version = 2.056
 local blam = require "blam"
 local isNull = blam.isNull
 local harmony = require "mods.harmony"
@@ -11,14 +10,20 @@ api = require "insurrection.api"
 store = require "insurrection.redux.store"
 local version = require "insurrection.version"
 local ends = require"glue".string.ends
+-- Useful debug global tools
+require "insecticide"
 
 -- UI state and stuff
+clua_version = 2.056
+DebugMode = true
 math.randomseed(os.time() + ticks())
 local gameStarted = false
 local isUIInsurrectionCompatible = false
 local pressedKey
 ---@type uiWidgetDefinition
 local editableWidget
+---@type tag
+local lastOpenWidgetTag
 -- Multithread lanes
 Lanes = {}
 -- Stores values that are masked in the UI
@@ -67,12 +72,14 @@ function OnTick()
             harmony.menu.block_input(false)
             table.remove(Lanes, laneIndex)
             lane.callback(lane.thread)
+            dprint("Async task finished!", "success")
         elseif lane.thread.status == "error" then
             harmony.menu.block_input(false)
-            console_out(lane.thread[1])
+            dprint(lane.thread[1], "error")
             table.remove(Lanes, laneIndex)
+        else
+            dprint(lane.thread.status, "warning")
         end
-        console_out(lane.thread.status)
     end
     -- Game started event trick
     if (not gameStarted and map:find("ui")) then
@@ -85,9 +92,9 @@ function OnKeypress(modifiers, char, keycode)
     if isUIInsurrectionCompatible then
         -- Get pressed key from the keyboard
         local pressedKey = nil
-        if(char) then
+        if (char) then
             pressedKey = char
-        elseif(keycode) then
+        elseif (keycode) then
             pressedKey = core.translateKeycode(keycode)
         end
         -- If we pressed a key and we are focusing a editable widget, then update it
@@ -132,7 +139,8 @@ function OnMenuListTab(pressedKey,
     local previousFocusedWidgetId = harmony.menu.get_widget_values(
                                         previousFocusedWidgetInstanceIndex).tag_id
     local widgetList = blam.uiWidgetDefinition(listWidgetId)
-    --local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
+    -- local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
+    local widgetTag = blam.getTag(previousFocusedWidgetId)
     for childIndex, child in pairs(widgetList.childWidgets) do
         if child.widgetTag == previousFocusedWidgetId then
             local nextChildIndex
@@ -155,6 +163,7 @@ function OnMenuListTab(pressedKey,
             end
         end
     end
+    dprint(widgetTag.path)
     return true
 end
 
@@ -170,12 +179,14 @@ function OnFrame()
     draw_text(ScreenCornerText or "", bounds.left, bounds.top, bounds.right, bounds.bottom, "small",
               "right", table.unpack(textColor))
 
-    -- Create menu scrolling
-    local scroll = tonumber(read_char(0x64C73C + 8))
-    if scroll > 0 then
-        store:dispatch(actions.scroll(true))
-    elseif scroll < 0 then
-        store:dispatch(actions.scroll(false))
+    -- Fake menu scrolling
+    if lastOpenWidgetTag and ends(lastOpenWidgetTag.path, "lobby_menu") then
+        local scroll = tonumber(read_char(0x64C73C + 8))
+        if scroll > 0 then
+            store:dispatch(actions.scroll(true))
+        elseif scroll < 0 then
+            store:dispatch(actions.scroll(false))
+        end
     end
 
     -- Process widget animations queue
@@ -192,31 +203,45 @@ end
 function OnWidgetOpen(widgetInstanceIndex)
     -- Reset widgets animation data
     local widgetValues = harmony.menu.get_widget_values(widgetInstanceIndex)
+    local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
+    lastOpenWidgetTag = widgetTag
+    local widget = blam.uiWidgetDefinition(widgetTag.id)
+    local optionsWidget = blam.uiWidgetDefinition(widget.childWidgets[widget.childWidgetsCount]
+                                                      .widgetTag)
+    if optionsWidget.childWidgets[1] then
+        setEditableWidgetFocus(optionsWidget.childWidgets[1].widgetTag)
+    end
     for _, animation in pairs(WidgetAnimations) do
-        if animation.widgetContainerTagId == widgetValues.tag_id then
+        if animation.widgetContainerTagId == widgetTag.id then
             animation.timestamp = nil
             animation.finished = false
         end
     end
 
-    --local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
-    --debugScreenText = widgetTag.path
+    if DebugMode then
+        dprint("Opened widget: " .. widgetTag.path)
+        ScreenCornerText = widgetTag.path
+    end
     return true
 end
 
 function OnWidgetClose()
+    editableWidget = nil
     ScreenCornerText = ""
+    api.stopRefreshLobby()
     return true
 end
 
-function refreshLobby()
-    if api.session.token then
-        api.refreshLobby()
+function OnCommand(command)
+    if command == "insurrection_debug" then
+        DebugMode = not DebugMode
+        return false
     end
 end
 
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnFrame")
+set_callback("command", "OnCommand")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")
