@@ -1,1 +1,1 @@
-return "insurrection-1.0.0-alpha.4"
+return "insurrection-1.0.0-alpha.5"

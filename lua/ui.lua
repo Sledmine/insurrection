@@ -15,7 +15,7 @@ require "insecticide"
 
 -- UI state and stuff
 clua_version = 2.056
-DebugMode = true
+DebugMode = false
 math.randomseed(os.time() + ticks())
 local gameStarted = false
 local isUIInsurrectionCompatible = false
