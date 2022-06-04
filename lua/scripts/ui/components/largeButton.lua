@@ -1,4 +1,5 @@
 ---@param justification '"left_justify"' | '"center_justify"' | '"right_justify"'
+---@param select? boolean
 ---@return invaderWidget
 return function(justification, select)
     ---@type invaderWidget
