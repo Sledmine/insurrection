@@ -3,6 +3,18 @@ local requests = {}
 requests.headers = {}
 requests.timeout = 300
 
+-- Probably an alternative due to performance
+-- https://gist.github.com/liukun/f9ce7d6d14fa45fe9b924a3eed5c3d99
+local function urlencode(str)
+    -- str = string.gsub(str, "([^0-9a-zA-Z !'()*._~-])", -- locale independent
+    str = string.gsub(str, "([ '])", -- locale independent
+    function(c)
+        return string.format("%%%02X", string.byte(c))
+    end)
+    str = string.gsub(str, " ", "+")
+    return str
+end
+
 ---Perform a GET request
 ---@param url string
 ---@return integer
@@ -11,7 +23,7 @@ function requests.get(url)
     local curl = require "lcurl.safe"
     local buffer = {}
     local request = curl.easy {
-        url = url,
+        url = urlencode(url),
         timeout = requests.timeout,
         httpheader = requests.headers,
         writefunction = function(input)
@@ -42,7 +54,7 @@ function requests.post(url, params)
     -- Remove last "&"
     body = body:sub(1, #body - 1)
     local request = curl.easy {
-        url = url,
+        url = urlencode(url),
         timeout = requests.timeout,
         httpheader = {"Content-Type: application/x-www-form-urlencoded"},
         writefunction = function(input)
