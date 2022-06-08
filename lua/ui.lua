@@ -2,7 +2,6 @@ local actions = require "insurrection.redux.actions"
 local blam = require "blam"
 local isNull = blam.isNull
 local harmony = require "mods.harmony"
-inspect = require "inspect"
 local chimera = require "insurrection.chimera"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
@@ -19,7 +18,6 @@ DebugMode = false
 math.randomseed(os.time() + ticks())
 local gameStarted = false
 local isUIInsurrectionCompatible = false
-local pressedKey
 ---@type uiWidgetDefinition
 local editableWidget
 ---@type tag
@@ -89,16 +87,16 @@ function OnTick()
 end
 
 function OnKeypress(modifiers, char, keycode)
-    if isUIInsurrectionCompatible then
+    if isUIInsurrectionCompatible and editableWidget then
         -- Get pressed key from the keyboard
-        local pressedKey = nil
+        local pressedKey
         if (char) then
             pressedKey = char
         elseif (keycode) then
             pressedKey = core.translateKeycode(keycode)
         end
-        -- If we pressed a key and we are focusing a editable widget, then update it
-        if pressedKey and editableWidget then
+        -- If we pressed a key update our editable widget
+        if pressedKey then
             local usernameStrings = blam.unicodeStringList(editableWidget.unicodeStringListTag)
             local stringList = usernameStrings.stringList
             local text = core.mapKeyToText(pressedKey,
@@ -122,7 +120,7 @@ function OnMenuAccept(widgetInstanceIndex)
     return allow
 end
 
-local function setEditableWidgetFocus(widgetTagId)
+local function setEditableWidget(widgetTagId)
     local focusedWidget = blam.uiWidgetDefinition(widgetTagId)
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
     if focusedWidget and ends(focusedWidget.name, "_input") then
@@ -159,7 +157,7 @@ function OnMenuListTab(pressedKey,
             end
             local widgetTagId = widgetList.childWidgets[nextChildIndex].widgetTag
             if not isNull(widgetTagId) then
-                setEditableWidgetFocus(widgetTagId)
+                setEditableWidget(widgetTagId)
             end
         end
     end
@@ -169,7 +167,7 @@ end
 
 function OnMouseFocus(widgetInstanceId)
     local widgetTagId = harmony.menu.get_widget_values(widgetInstanceId).tag_id
-    setEditableWidgetFocus(widgetTagId)
+    setEditableWidget(widgetTagId)
     return true
 end
 
@@ -209,7 +207,7 @@ function OnWidgetOpen(widgetInstanceIndex)
     local optionsWidget = blam.uiWidgetDefinition(widget.childWidgets[widget.childWidgetsCount]
                                                       .widgetTag)
     if optionsWidget.childWidgets[1] then
-        setEditableWidgetFocus(optionsWidget.childWidgets[1].widgetTag)
+        setEditableWidget(optionsWidget.childWidgets[1].widgetTag)
     end
     for _, animation in pairs(WidgetAnimations) do
         if animation.widgetContainerTagId == widgetTag.id then
@@ -218,8 +216,8 @@ function OnWidgetOpen(widgetInstanceIndex)
         end
     end
 
+    dprint("Opened widget: " .. widgetTag.path)
     if DebugMode then
-        dprint("Opened widget: " .. widgetTag.path)
         ScreenCornerText = widgetTag.path
     end
     return true
