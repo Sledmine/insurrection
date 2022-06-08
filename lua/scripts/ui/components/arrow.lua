@@ -4,7 +4,7 @@
 return function(variant)
     ---@type invaderWidget
     local wid = {
-        bounds = "0 0 32 32",
+        bounds = "0 0 8 10",
         background_bitmap = [[insurrection\ui\bitmaps\scroll_arrow_up.bitmap]],
         child_widgets = {}
     }

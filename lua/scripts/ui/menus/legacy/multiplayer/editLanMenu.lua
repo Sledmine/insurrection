@@ -79,7 +79,6 @@ for buttonIndex = 0, 10 do
      widget.edit(scrollDownPath, arrow("down"))
 end
 
-
 -- Edit buttons bar
 local buttonBarPath =  widget.get(optionsPath, ("child_widgets[%s].widget_tag"): format(optionsCount - 1))
 widget.edit(buttonBarPath, {
@@ -97,4 +96,4 @@ end
 
 -- Edit description
 local descriptionPath = widget.get(optionsPath, "extended_description_widget")
-widget.edit(descriptionPath, generalDescription())
+widget.edit(descriptionPath, generalDescription("maps"))
