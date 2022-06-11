@@ -23,7 +23,6 @@ local function findWidgetTag(partialName)
 end
 
 local interface = {}
-
 -- Common tags
 -- Get tags before using them to improve performance
 -- Menus
@@ -37,6 +36,10 @@ lobbyElement2Tag = findWidgetTag("lobby_element_button_2")
 lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
 lobbyElement4Tag = findWidgetTag("lobby_element_button_4")
 lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
+
+interface.widgets =  {
+    lobbyWidgetTag = lobbyWidgetTag
+}
 
 ---Show a dialog message on the screen
 ---@param titleText '"WARNING"' | '"INFORMATION"' | '"ERROR"' | string
@@ -59,6 +62,14 @@ function interface.dialog(titleText, subtitleText, bodyText)
     bodyStrings.stringList = strings
 
     openWidget(dialogWidgetTag.id, true)
+end
+
+---Play a special interface sound
+---@param sound '"error"'
+function interface.sound(sound)
+    if sound == "error" then
+        playSound(errorSoundTag.path)
+    end
 end
 
 function interface.lobby(force)
@@ -97,10 +108,17 @@ function interface.onButton(widgetTagId)
     elseif ends(buttonPath, "lobby_definition_button_3") then
         store:dispatch(actions.setLobbyDefinition("gametype"))
     elseif ends(buttonPath, "lobby_definition_button_4") then
-        local template = getWidgetString(findWidgetTag("lobby_definition_button_1").id)
-        local map = getWidgetString(findWidgetTag("lobby_definition_button_2").id)
-        local gametype = getWidgetString(findWidgetTag("lobby_definition_button_3").id)
-        api.borrow(template:lower(), map:lower(), gametype:lower())
+        ---@type interfaceState
+        local state = store:getState()
+        if api.session.username and api.session.username == state.lobby.owner then
+            local template = getWidgetString(findWidgetTag("lobby_definition_button_1").id)
+            local map = getWidgetString(findWidgetTag("lobby_definition_button_2").id)
+            local gametype = getWidgetString(findWidgetTag("lobby_definition_button_3").id)
+            api.borrow(template:lower(), map:lower(), gametype:lower())
+        else
+            interface.dialog("WARNING", "", "You are not the owner of the lobby.")
+        end
+
     elseif string.find(buttonPath, "lobby_element_button_") then
         local buttonIndex = tonumber(split(core.getTagName(buttonPath), "_")[4])
         if buttonIndex == 1 then

@@ -223,10 +223,13 @@ function OnWidgetOpen(widgetInstanceIndex)
     return true
 end
 
-function OnWidgetClose()
+function OnWidgetClose(widgetInstanceIndex)
+    local widgetValues = harmony.menu.get_widget_values(widgetInstanceIndex)
     editableWidget = nil
     ScreenCornerText = ""
-    api.stopRefreshLobby()
+    if widgetValues.tag_id == interface.widgets.lobbyWidgetTag.id then
+        api.stopRefreshLobby()
+    end
     return true
 end
 

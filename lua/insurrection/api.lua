@@ -15,7 +15,7 @@ api.host = read_file("insurrection_host") or "http://localhost:4343/"
 api.version = "v1"
 api.url = api.host .. api.version
 api.variables = {refreshRate = 5000, refreshTimerId = nil}
-api.session = {token = nil, lobbyKey = nil}
+api.session = {token = nil, lobbyKey = nil, username = nil}
 
 -- Models
 
@@ -30,12 +30,18 @@ api.session = {token = nil, lobbyKey = nil}
 ---@field owner string
 ---@field lobbyKey string
 
----@class lobbyRoom
----@field owner string
----@field members string[]
+---@class availableParameters
 ---@field maps string[]
 ---@field gametypes string[]
 ---@field templates string[]
+
+---@class lobbyRoom
+---@field owner string
+---@field members string[]
+---@field map string
+---@field gametype string
+---@field template string
+---@field available availableParameters
 ---@field server serverInstance
 
 function async(func, callback, ...)
@@ -55,6 +61,7 @@ local function onLoginResponse(result)
         if code == 200 then
             local response = json.decode(payload)
             api.session.token = response.token
+            api.session.username = response.username
             requests.headers = {"Authorization: Bearer " .. api.session.token}
             interface.dashboard()
             return true

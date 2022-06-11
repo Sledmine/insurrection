@@ -8,7 +8,7 @@ local defaultState = {
     isLoading = false,
     definition = "template",
     lobbyKey = nil,
-    lobby = {maps = {}, gametypes = {}, members = {}, templates = {}},
+    lobby = {owner = "", maps = {}, gametypes = {}, members = {}, templates = {}},
     selected = {template = nil, map = nil, gametype = nil},
     currentChunk = 1,
     displayed = {}
@@ -26,10 +26,11 @@ local function interfaceReducer(state, action)
     elseif action.type == actions.types.SET_LOBBY then
         state.lobbyKey = action.payload.key
         state.lobby = action.payload.lobby
-        state.displayed = chunks(state.lobby.templates, 4)[1]
-        state.selected.template = state.lobby.templates[1]
-        state.selected.map = state.lobby.maps[1]
-        state.selected.gametype = state.lobby.gametypes[1]
+        local available = state.lobby.available
+        state.displayed = chunks(available.templates, 4)[1]
+        state.selected.template = available.templates[1]
+        state.selected.map = available.maps[1]
+        state.selected.gametype = available.gametypes[1]
         return state
     elseif action.type == actions.types.UPDATE_LOBBY then
         state.lobbyKey = action.payload.key
@@ -37,14 +38,14 @@ local function interfaceReducer(state, action)
         return state
     elseif action.type == actions.types.SET_LOBBY_DEFINITION then
         state.definition = action.payload
-        local list = state.lobby[state.definition .. "s"]
+        local list = state.lobby.available[state.definition .. "s"]
         state.displayed = chunks(list, 4)[1]
         return state
     elseif action.type == actions.types.SET_SELECTED then
         state.selected[state.definition] = action.payload
         return state
     elseif action.type == actions.types.SCROLL_LIST then
-        local list = state.lobby[state.definition .. "s"]
+        local list = state.lobby.available[state.definition .. "s"]
         local chunkCount = #chunks(list, 4)
         -- Scroll forward
         if not action.payload then
