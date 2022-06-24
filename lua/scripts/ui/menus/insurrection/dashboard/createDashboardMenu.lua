@@ -10,6 +10,7 @@ local buttonPath = menuPath .. [[buttons\]]
 local containerPath = menuPath .. menuName .. [[_menu.ui_widget_definition]]
 local headerPath = menuPath .. menuName .. [[_header.ui_widget_definition]]
 local optionsPath = menuPath .. menuName .. [[_options.ui_widget_definition]]
+local backButtonPath = [[insurrection/ui/shared/common_back.ui_widget_definition]]
 
 -- Create menu header
 widget.create(headerPath, menuHeader("insurrection_dashboard", "INSURRECTION DASHBOARD",
@@ -36,6 +37,11 @@ local options = {
             horizontal_offset = 39,
             vertical_offset = widget.offset(initialPosition, 24, 4, 2),
             widget_tag = lobbyKeyInputPath
+        },
+        {
+            horizontal_offset = 630,
+            vertical_offset = 415,
+            widget_tag = backButtonPath
         }
     }
 }
