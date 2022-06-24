@@ -1,8 +1,11 @@
--- Create unicode string list tag, given a string table
+-- Create unicode string list tag, given a string list
 -- Sledmine
--- Only ASCII text is supported by now (ironically), implementation still experimental, be careful
+-- Full string length and UTF-16 support
 local glue = require "lua.lua_modules.glue"
 local append = glue.append
+local utf8string = require "lua.lua_modules.utf8string"
+require "lua.lua_modules.unicode"
+require "compat53"
 -- local crc32 = require "lua.scripts.modules.crc32"
 
 local function padding(length)
@@ -15,65 +18,61 @@ end
 
 ---Map a value as a dword
 ---@param value any
----@return any
+---@return string
 local function dword(value)
-    if value > 255 then
-        error("Invalid DWORD value")
-    end
-    -- TODO Add a real DWORD implementation of this
-    return string.rep("\0", 3) .. byte(value)
+    return string.pack(">I", value)
 end
 
 ---Create unicode string list tag
 ---@param strings string[]
 ---@return boolean
 local function ustr(tagPath, strings)
-    print("Creating USTR: " .. tagPath)
-    local tag = {
-        padding(36),
-        -- Tag class/group
-        "ustr",
-        -- CRC32 checksum
-        "\0\0\0\0",
-        padding(3),
-        -- Unknown
-        byte(0x40),
-        padding(9),
-        -- Unknown
-        byte(0x1),
-        padding(1),
-        -- Unknown
-        byte(0xFF),
-        -- Engine target
-        "blam",
-        -- Strings quantity
-        dword(#strings),
-        padding(8)
-        -- Tag body
-    }
-    -- Generate string indexes
-    for _, str in ipairs(strings) do
-        local unicodeStringSize = (#str * 2) + 2
-        append(tag, dword(unicodeStringSize))
-        append(tag, padding(16))
-    end
-    -- Generate unicode strings
-    for _, str in ipairs(strings) do
-        for i = 1, #str do
-            local char = str:sub(i, i)
-            append(tag, char)
-            append(tag, padding(1))
-        end
-        append(tag, padding(2))
-    end
-    -- TODO Add real tag checksum calculation
-    -- local tagBody = table.concat(tag, "", 10)
-    -- local crc = crc32(tagBody)
-    -- print(crc)
-    -- tag[3] = glue.string.fromhex(tostring(crc))
-    local bin = table.concat(tag, "")
     local outputTagPath = "tags/" .. tagPath
-    if glue.writefile(outputTagPath, bin, "b") then
+    local stringTag = io.open(outputTagPath, "wb")
+    if stringTag then
+        print("Creating USTR: " .. tagPath)
+
+        stringTag:write(padding(36))
+        -- Tag class/group
+        stringTag:write("ustr")
+        -- CRC32 checksum
+        stringTag:write("\0\0\0\0")
+        stringTag:write(padding(3))
+        -- Unknown
+        stringTag:write(byte(0x40))
+        stringTag:write(padding(9))
+        -- Unknown
+        stringTag:write(byte(0x1))
+        stringTag:write(padding(1))
+        -- Unknown
+        stringTag:write(byte(0xFF))
+        -- Engine target
+        stringTag:write("blam")
+        -- Strings quantity
+        stringTag:write(dword(#strings))
+        stringTag:write(padding(8))
+        -- Tag body
+
+        -- Generate string indexes
+        for _, str in ipairs(strings) do
+            local ustring = utf8string(str)
+            local unicodeStringSize = (#ustring * 2) + 2
+            stringTag:write(dword(unicodeStringSize))
+            stringTag:write(padding(16))
+        end
+        -- Generate unicode strings
+        for _, str in ipairs(strings) do
+            local ustring = utf8string(str)
+            stringTag:write(utf8to16(tostring(ustring)))
+            stringTag:write(padding(2))
+        end
+        -- TODO Add real tag checksum calculation
+        -- local tagBody = table.concat(tag, "", 10)
+        -- local crc = crc32(tagBody)
+        -- print(crc)
+        -- tag[3] = glue.string.fromhex(tostring(crc))
+
+        stringTag:close()
         return true
     end
     error("Could not create USTR tag")
