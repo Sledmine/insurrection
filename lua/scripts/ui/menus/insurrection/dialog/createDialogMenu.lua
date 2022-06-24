@@ -14,13 +14,10 @@ local dialogBackButtonPath = menuPath .. [[buttons/dialog_back_button.ui_widget_
 local dialogOptionsPath = menuPath .. [[dialog_options.ui_widget_definition]]
 local dialogIconPath = menuPath .. [[dialog_icon.ui_widget_definition]]
 
-widget.create(dialogHeaderPath, dialogHeader("dialog", "$DIALOG_TYPE_PLACE_HOLDER_TITLE_TEXT_BOX",
-                                             "$DIALOG_TYPE_PLACE_HOLDER_TITLE_TEXT_BOX$DIALOG_TYPE_PLACE_HOLDER_TITLE_TEXT_BOX$DIALOG_TYPE_PLACE_HOLDER_TITLE_TEXT_BOX"))
+widget.create(dialogHeaderPath, dialogHeader("dialog", string.rep(" ", 64), string.rep(" ", 128)))
 
 local bodyStringsPathPath = [[insurrection/ui/shared/strings/content/dialog.unicode_string_list]]
-ustr(bodyStringsPathPath, {
-    "PLACEHOLDER_TEXT_FOR_DIALOG_MESSAGE_PLACEHOLDER_TEXT_FOR_DIALOG_MESSAGE_PLACEHOLDER_TEXT_FOR_DIALOG_MESSAGE_PLACEHOLDER_TEXT"
-})
+ustr(bodyStringsPathPath, {string.rep(" ", 4096)})
 widget.create(dialogBodyPath, {
     widget_type = "text_box",
     bounds = "0 0 85 856",
@@ -31,7 +28,7 @@ widget.create(dialogBodyPath, {
     justification = "center_justify"
 })
 widget.create(dialogBackButtonPath,
-              button("center_justify", "dialog_back_button", "OK", nil, nil, true))
+              button("center_justify", "dialog_back_button", "    OK    ", nil, nil, true))
 widget.create(dialogIconPath, {
     bounds = "-32 -32 32 32",
     background_bitmap = [[insurrection/ui/bitmaps/warning_icon.bitmap]]
