@@ -28,7 +28,7 @@ widget.create(dialogBodyPath, {
     justification = "center_justify"
 })
 widget.create(dialogBackButtonPath,
-              button("center_justify", "dialog_back_button", "    OK    ", nil, nil, true))
+              button("center_justify", "dialog_back_button", "     OK     ", nil, nil, true))
 widget.create(dialogIconPath, {
     bounds = "-32 -32 32 32",
     background_bitmap = [[insurrection/ui/bitmaps/warning_icon.bitmap]]
