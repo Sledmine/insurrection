@@ -5,8 +5,9 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@param vertical_offset number? Has default alignment of 5
 ---@param name string? Name of the button component (also used for inner tags generation)
 ---@param text string? Auto generated unicode string inside this button
+---@param select boolean? Use select bitmap version instead
 ---@return invaderWidget
-return function(justification, horiz_offset, vertical_offset, name, text)
+return function(justification, horiz_offset, vertical_offset, name, text, select)
     local stringsTagPath
     if text then
         -- Generate strings tag
@@ -28,6 +29,9 @@ return function(justification, horiz_offset, vertical_offset, name, text)
     }
     if text then
         widget.string_list_index = 0
+    end
+    if select then
+        widget.background_bitmap = [[insurrection\ui\bitmaps\normal_button_select.bitmap]]
     end
     return widget
 end

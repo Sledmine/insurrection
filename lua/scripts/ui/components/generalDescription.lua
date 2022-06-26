@@ -16,7 +16,7 @@ return function(variant)
     local dataStringsPath
     if variant == "maps" then
         nameStringsPath = [[ui\shell\main_menu\mp_map_list.unicode_string_list]]
-        imagePath = [[ui\shell\bitmaps\mp_map_grafix.bitmap]]
+        imagePath = [[insurrection\ui\bitmaps\map_previews.bitmap]]
         dataStringsPath =
             [[ui\shell\main_menu\multiplayer_type_select\mp_map_select\map_data.unicode_string_list]]
     elseif variant == "gametypes" then
@@ -33,28 +33,33 @@ return function(variant)
                                     [[_name.ui_widget_definition]]
     widget.create(nameDescriptionPath, {
         widget_type = "text_box",
-        bounds = "0 0 300 300",
+        bounds = "0 0 50 300",
         text_label_unicode_strings_list = nameStringsPath,
         text_font = [[ui\large_ui.font]],
         text_color = "1 1 1 1",
-        justification = "center_justify"
+        justification = "left_justify"
     })
-    widget.create(imageDescriptionPath, {bounds = "0 0 128 256", background_bitmap = imagePath})
+    widget.create(imageDescriptionPath, {bounds = "0 0 263 467", background_bitmap = imagePath})
     widget.create(dataDescriptionPath, {
         widget_type = "text_box",
-        bounds = "0 0 300 300",
+        bounds = "0 0 50 300",
         text_label_unicode_strings_list = dataStringsPath,
-        text_font = [[ui\large_ui.font]],
-        text_color = "1 1 1 1"
+        text_font = [[ui\gamespy.font]],
+        text_color = "1 1 1 1",
+        justification = "left_justify"
     })
     widget.create(contentDescriptionPath, {
-        bounds = "0 0 480 856",
+        bounds = "0 0 480 854",
         child_widgets = {
-            {widget_tag = nameDescriptionPath},
-            {widget_tag = imageDescriptionPath},
-            {widget_tag = dataDescriptionPath}
+            {widget_tag = nameDescriptionPath, horizontal_offset = 360, vertical_offset = 287},
+            {widget_tag = imageDescriptionPath, horizontal_offset = 344, vertical_offset = 77},
+            {widget_tag = dataDescriptionPath, horizontal_offset = 360, vertical_offset = 290}
         }
     })
-    wid.child_widgets[2] = {widget_tag = contentDescriptionPath}
+    wid.child_widgets[2] = {
+        widget_tag = contentDescriptionPath,
+        vertical_offset = 0,
+        horizontal_offset = 0
+    }
     return wid
 end

@@ -13,15 +13,15 @@ local headerPath = widget.get(containerPath, "child_widgets[0].widget_tag")
 local optionsPath = widget.get(containerPath, "child_widgets[1].widget_tag")
 -- local headerBitmapPath = widget.get(containerPath, "child_widgets[2].widget_tag")
 
---Edit container
+-- Edit container
 widget.edit(containerPath, {
-    bounds = "0 0 480 856",
+    bounds = "0 0 480 854",
     background_bitmap = [[insurrection\ui\bitmaps\background_transparent.bitmap]],
     child_widgets = {{vertical_offset = 20, horizontal_offset = 40}}
 })
 
---Edit header
-if widget.count(headerPath,"child_widgets") < 2 then
+-- Edit header
+if widget.count(headerPath, "child_widgets") < 2 then
     widget.insert(headerPath, "child_widgets", 2)
 end
 widget.edit(headerPath, {
@@ -41,9 +41,9 @@ widget.edit(headerPath, {
     }
 })
 
---Edit options list
+-- Edit options list
 widget.edit(optionsPath, {
-    bounds = "0 0 480 856",
+    bounds = "0 0 480 854",
     background_bitmap = ".bitmap",
     child_widgets = {
         -- Map navigation buttons
@@ -66,24 +66,33 @@ widget.edit(optionsPath, {
 -- Edit options headers
 local optionsCount = widget.count(optionsPath, "child_widgets")
 for buttonIndex = 0, 10 do
-     local buttonPath = widget.get(optionsPath, ("child_widgets[%s].widget_tag"):format(buttonIndex))
-     widget.edit(buttonPath, largeButton("left_justify", true))
+    local buttonPath = widget.get(optionsPath, ("child_widgets[%s].widget_tag"):format(buttonIndex))
+    local buttonInstance = normalButton("left_justify", nil, nil, nil, nil, true)
+    buttonInstance.text_color = "0.7 0.7 0.7 0.7"
+    buttonInstance.child_widgets = {
+        {horizontal_offset = 0},
+        nil,
+        {horizontal_offset = 90, vertical_offset = 7},
+        {horizontal_offset = 90, vertical_offset = 7}
+    }
+    widget.edit(buttonPath, buttonInstance)
 
-     local labelPath = widget.get(buttonPath, "child_widgets[0].widget_tag")
-     widget.edit(labelPath, labelButton("left_justify"))
+    local labelPath = widget.get(buttonPath, "child_widgets[0].widget_tag")
+    widget.edit(labelPath, labelButton("left_justify"))
 
-     local scrollUpPath = widget.get(buttonPath, "child_widgets[2].widget_tag")
-     widget.edit(scrollUpPath, arrow("up"))
+    local scrollUpPath = widget.get(buttonPath, "child_widgets[2].widget_tag")
+    widget.edit(scrollUpPath, arrow("up"))
 
-     local scrollDownPath = widget.get(buttonPath, "child_widgets[3].widget_tag")
-     widget.edit(scrollDownPath, arrow("down"))
+    local scrollDownPath = widget.get(buttonPath, "child_widgets[3].widget_tag")
+    widget.edit(scrollDownPath, arrow("down"))
 end
 
 -- Edit buttons bar
-local buttonBarPath =  widget.get(optionsPath, ("child_widgets[%s].widget_tag"): format(optionsCount - 1))
+local buttonBarPath = widget.get(optionsPath,
+                                 ("child_widgets[%s].widget_tag"):format(optionsCount - 1))
 widget.edit(buttonBarPath, {
-    bounds = "0 0 24 856",
-    child_widgets = {{horizontal_offset = 380}, {horizontal_offset = 600}}
+    bounds = "0 0 24 854",
+    child_widgets = {{horizontal_offset = 380}, {horizontal_offset = 630}}
 })
 
 local buttonIndexCount = widget.count(buttonBarPath, "child_widgets")
