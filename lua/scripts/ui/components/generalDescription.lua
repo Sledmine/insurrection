@@ -1,4 +1,5 @@
 local widget = require "lua.scripts.widget"
+local constants = require "lua.scripts.ui.components.constants"
 ---General description component used across multiple stock game menus
 ---@param variant '"maps"' | '"gametypes"'
 ---@return invaderWidget
@@ -6,7 +7,7 @@ return function(variant)
     ---@type invaderWidget
     local wid = {
         widget_type = "container",
-        bounds = "0 0 480 856",
+        bounds = "0 0 " .. constants.screen.height .. " " .. constants.screen.width,
         background_bitmap = ".bitmap",
         justification = "left_justify",
         child_widgets = {{widget_tag = [[insurrection\ui\shared\void.ui_widget_definition]]}}
@@ -46,7 +47,7 @@ return function(variant)
         background_bitmap = [[insurrection\ui\bitmaps\description_overlay.bitmap]]
     })
     widget.create(imageDescriptionPath, {
-        bounds = "0 0 263 467",
+        bounds = "-263 -467 263 467",
         background_bitmap = imagePath,
         child_widgets = {{widget_tag = overlayImageDescriptionPath}}
     })
@@ -55,11 +56,11 @@ return function(variant)
         bounds = "0 0 50 300",
         text_label_unicode_strings_list = dataStringsPath,
         text_font = [[ui\gamespy.font]],
-        text_color = "1 1 1 1",
+        text_color = constants.color.text,
         justification = "left_justify"
     })
     widget.create(contentDescriptionPath, {
-        bounds = "0 0 480 854",
+        bounds = "0 0 " .. constants.screen.height .. " " .. constants.screen.width,
         child_widgets = {
             {widget_tag = nameDescriptionPath, horizontal_offset = 360, vertical_offset = 287},
             {widget_tag = imageDescriptionPath, horizontal_offset = 344, vertical_offset = 77},
