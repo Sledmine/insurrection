@@ -29,6 +29,8 @@ return function(variant)
                                     [[_data.ui_widget_definition]]
     local imageDescriptionPath = [[insurrection\ui\shared\descriptions\]] .. variant ..
                                      [[_image.ui_widget_definition]]
+    local overlayImageDescriptionPath =
+        [[insurrection\ui\shared\descriptions\overlay.ui_widget_definition]]
     local nameDescriptionPath = [[insurrection\ui\shared\descriptions\]] .. variant ..
                                     [[_name.ui_widget_definition]]
     widget.create(nameDescriptionPath, {
@@ -39,7 +41,15 @@ return function(variant)
         text_color = "1 1 1 1",
         justification = "left_justify"
     })
-    widget.create(imageDescriptionPath, {bounds = "0 0 263 467", background_bitmap = imagePath})
+    widget.create(overlayImageDescriptionPath, {
+        bounds = "0 0 263 467",
+        background_bitmap = [[insurrection\ui\bitmaps\description_overlay.bitmap]]
+    })
+    widget.create(imageDescriptionPath, {
+        bounds = "0 0 263 467",
+        background_bitmap = imagePath,
+        child_widgets = {{widget_tag = overlayImageDescriptionPath}}
+    })
     widget.create(dataDescriptionPath, {
         widget_type = "text_box",
         bounds = "0 0 50 300",
