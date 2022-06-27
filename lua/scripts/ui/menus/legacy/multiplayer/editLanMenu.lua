@@ -92,7 +92,7 @@ local buttonBarPath = widget.get(optionsPath,
                                  ("child_widgets[%s].widget_tag"):format(optionsCount - 1))
 widget.edit(buttonBarPath, {
     bounds = "0 0 24 854",
-    child_widgets = {{horizontal_offset = 380}, {horizontal_offset = 630}}
+    child_widgets = {{horizontal_offset = 444}, {horizontal_offset = 630}}
 })
 
 local buttonIndexCount = widget.count(buttonBarPath, "child_widgets")
