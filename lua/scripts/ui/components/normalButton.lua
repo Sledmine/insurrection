@@ -1,6 +1,6 @@
 local ustr = require "lua.scripts.modules.ustr"
 ---Normal button component, recycled in multiple components
----@param justification '"left_justify"' | '"center_justify"' | '"right_justify"' Button text alignment
+---@param justification? '"left_justify"' | '"center_justify"' | '"right_justify"' Button text alignment
 ---@param horiz_offset number? Has default alignment of 10
 ---@param vertical_offset number? Has default alignment of 5
 ---@param name string? Name of the button component (also used for inner tags generation)
