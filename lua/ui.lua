@@ -22,6 +22,10 @@ local isUIInsurrectionCompatible = false
 local editableWidget
 ---@type tag
 local lastOpenWidgetTag
+---@type tag
+local lastClosedWidgetTag
+---@type tag
+local lastFocusedWidgetTag
 -- Multithread lanes
 Lanes = {}
 -- Stores values that are masked in the UI
@@ -38,26 +42,7 @@ local function onGameStart()
         execute_script("menu_blur_on")
         isUIInsurrectionCompatible = true
         core.cleanAllEditableWidgets()
-
-        local introMenuWidgetTag = blam.findTag([[ui\shell\main_menu]],
-                                                blam.tagClasses.uiWidgetDefinition)
-        local introMenuWidget = blam.uiWidgetDefinition(introMenuWidgetTag.id)
-        local mainMenuWidgetTag = blam.findTag([[menus\main\main_menu]],
-                                               blam.tagClasses.uiWidgetDefinition)
-        local mainMenuWidget = blam.uiWidgetDefinition(mainMenuWidgetTag.id)
-        local mainMenuList = blam.uiWidgetDefinition(mainMenuWidget.childWidgets[2].widgetTag)
-
-        local containerId = mainMenuWidgetTag.id
-        local widgetToAnimateId = mainMenuWidget.childWidgets[1].widgetTag
-        local initial = introMenuWidget.childWidgets[1].verticalOffset
-        local final = mainMenuWidget.childWidgets[1].verticalOffset
-
-        interface.animation(widgetToAnimateId, containerId, 0.3, "vertical", initial, final)
-        for _, childWidget in pairs(mainMenuList.childWidgets) do
-            interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "horizontal",
-                                childWidget.horizontalOffset - 50, childWidget.horizontalOffset)
-            interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "opacity", 0, 1)
-        end
+        interface.animate()
     end
     -- Workaround fix to prevent players from getting stuck in a game server at menu
     execute_script("disconnect")
@@ -191,30 +176,34 @@ function OnFrame()
     local widgetTag = core.getCurrentUIWidget()
     if widgetTag then
         for animationWidgetId, animation in pairs(WidgetAnimations) do
-            if widgetTag.id == animation.widgetContainerTagId and not animation.finished then
-                animation.animate()
+            if not animation.finished then
+                if widgetTag.id == animation.widgetContainerTagId then
+                    if animation.animateOn == "show" then
+                        animation.animate()
+                    elseif animation.animateOn == "focus" then
+                        if lastFocusedWidgetTag and lastFocusedWidgetTag.id ==
+                            animation.targetWidgetTagId then
+                            animation.animate()
+                        end
+                    end
+                end
             end
         end
     end
 end
 
 function OnWidgetOpen(widgetInstanceIndex)
-    -- Reset widgets animation data
     local widgetValues = harmony.menu.get_widget_values(widgetInstanceIndex)
     local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
     lastOpenWidgetTag = widgetTag
     local widget = blam.uiWidgetDefinition(widgetTag.id)
     local optionsWidget = blam.uiWidgetDefinition(widget.childWidgets[widget.childWidgetsCount]
                                                       .widgetTag)
+    -- Auto focus on the first editable widget
     if optionsWidget.childWidgets[1] then
         setEditableWidget(optionsWidget.childWidgets[1].widgetTag)
     end
-    for _, animation in pairs(WidgetAnimations) do
-        if animation.widgetContainerTagId == widgetTag.id then
-            animation.timestamp = nil
-            animation.finished = false
-        end
-    end
+    interface.animationsReset(widgetTag.id)
 
     dprint("Opened widget: " .. widgetTag.path)
     if DebugMode then
@@ -225,6 +214,7 @@ end
 
 function OnWidgetClose(widgetInstanceIndex)
     local widgetValues = harmony.menu.get_widget_values(widgetInstanceIndex)
+    lastClosedWidgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
     editableWidget = nil
     ScreenCornerText = ""
     if widgetValues.tag_id == interface.widgets.lobbyWidgetTag.id then

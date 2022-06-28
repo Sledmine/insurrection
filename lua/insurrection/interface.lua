@@ -37,9 +37,7 @@ lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
 lobbyElement4Tag = findWidgetTag("lobby_element_button_4")
 lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
 
-interface.widgets =  {
-    lobbyWidgetTag = lobbyWidgetTag
-}
+interface.widgets = {lobbyWidgetTag = lobbyWidgetTag}
 
 ---Show a dialog message on the screen
 ---@param titleText '"WARNING"' | '"INFORMATION"' | '"ERROR"' | string
@@ -197,20 +195,37 @@ function interface.setWidgetValues(widgetTagId, values)
     end
 end
 
-local bezierCurveHandle = createBezierCurve("ease in")
+local bezierCurves = {
+    ["ease in"] = createBezierCurve("ease in"),
+    ["ease out"] = createBezierCurve("ease out")
+}
+---Setup an animation to apply to a widget
+---@param targetWidgetTagId number Tag id of the target widget
+---@param widgetContainerTagId number Tag id of the widget container
+---@param duration number Duration of the animation in seconds
+---@param property '"horizontal"' | '"vertical' | '"opacity"' | string Property to animate (e.g. "opacity")
+---@param originalOffset number Original offset of the widget
+---@param offset number Offset to apply to the widget
+---@param bezier '"ease in"' | '"ease out"' | string Bezier curve to use, e.g. "ease in"
+---@param animateOn '"show"' | '"focus"' | string Animation to apply to the widget, e.g. "show"
 function interface.animation(targetWidgetTagId,
                              widgetContainerTagId,
                              duration,
                              property,
                              originalOffset,
-                             offset)
+                             offset,
+                             bezier,
+                             animateOn)
     local animationId = targetWidgetTagId .. widgetContainerTagId .. property
     WidgetAnimations[animationId] = {
         finished = false,
         widgetContainerTagId = widgetContainerTagId,
+        targetWidgetTagId = targetWidgetTagId,
         timestamp = nil,
+        animateOn = animateOn or "show",
         animate = function()
             local originalOffset = originalOffset
+            local bezierCurveHandle = bezierCurves[bezier] or bezierCurves["ease in"]
             if not WidgetAnimations[animationId].timestamp then
                 WidgetAnimations[animationId].timestamp = harmony.time.set_timestamp()
             end
@@ -261,6 +276,43 @@ end
 
 function interface.dashboard()
     openWidget(dashboardWidgetTag.id, true)
+end
+
+function interface.animate()
+    local introMenuWidgetTag = blam.findTag([[ui\shell\main_menu]],
+                                            blam.tagClasses.uiWidgetDefinition)
+    local introMenuWidget = blam.uiWidgetDefinition(introMenuWidgetTag.id)
+    local mainMenuWidgetTag = blam.findTag([[menus\main\main_menu]],
+                                           blam.tagClasses.uiWidgetDefinition)
+    local mainMenuWidget = blam.uiWidgetDefinition(mainMenuWidgetTag.id)
+    local mainMenuList = blam.uiWidgetDefinition(mainMenuWidget.childWidgets[2].widgetTag)
+
+    local containerId = mainMenuWidgetTag.id
+    local widgetToAnimateId = mainMenuWidget.childWidgets[1].widgetTag
+    local initial = introMenuWidget.childWidgets[1].verticalOffset
+    local final = mainMenuWidget.childWidgets[1].verticalOffset
+
+    interface.animation(introMenuWidget.childWidgets[1].widgetTag, introMenuWidgetTag.id, 0.2, "vertical", final, initial, "ease out", "show")
+    -- Animate the main menu widget
+    interface.animation(widgetToAnimateId, containerId, 0.2, "vertical", initial, final, "ease out")
+    for _, childWidget in pairs(mainMenuList.childWidgets) do
+        -- Animate the main menu list widget
+        interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "horizontal",
+                            childWidget.horizontalOffset - 50, childWidget.horizontalOffset, "ease in", "show")
+        interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "opacity", 0, 1)
+    end
+    local dialogContainer = blam.uiWidgetDefinition(dialogWidgetTag.id)
+    interface.animation(dialogWidgetTag.id, dialogWidgetTag.id, 0.2, "opacity", 0, 1)
+end
+
+--- Reset widgets animation data
+function interface.animationsReset(widgetTagId)
+    for _, animation in pairs(WidgetAnimations) do
+        if animation.widgetContainerTagId == widgetTagId then
+            animation.timestamp = nil
+            animation.finished = false
+        end
+    end
 end
 
 return interface
