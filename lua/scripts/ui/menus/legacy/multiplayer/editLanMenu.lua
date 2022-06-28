@@ -33,7 +33,7 @@ widget.edit(containerPath, {
 })
 -- Edit options list
 widget.edit(optionsPath, {
-    bounds = "0 0 480 854",
+    bounds = "0 0 " .. constants.screen.height .. " " .. constants.screen.width,
     background_bitmap = ".bitmap",
     child_widgets = {
         -- Map navigation buttons
@@ -88,7 +88,7 @@ end
 local buttonBarPath =
     widget.get(optionsPath, "child_widgets[" .. optionsCount - 1 .. "].widget_tag")
 widget.edit(buttonBarPath, {
-    bounds = "0 0 24 854",
+    bounds = "0 0 24 " .. constants.screen.width,
     child_widgets = {{horizontal_offset = 444}, {horizontal_offset = 630}}
 })
 
