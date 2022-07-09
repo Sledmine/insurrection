@@ -37,7 +37,7 @@ lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
 lobbyElement4Tag = findWidgetTag("lobby_element_button_4")
 lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
 
-interface.widgets = {lobbyWidgetTag = lobbyWidgetTag}
+interface.widgets = {lobbyWidgetTag = lobbyWidgetTag, dashboardWidgetTag = dashboardWidgetTag}
 
 ---Show a dialog message on the screen
 ---@param titleText '"WARNING"' | '"INFORMATION"' | '"ERROR"' | string

@@ -38,7 +38,7 @@ local options = {
             vertical_offset = widget.offset(initialPosition, 24, 4, 2),
             widget_tag = lobbyKeyInputPath
         },
-        {
+    {
             horizontal_offset = 630,
             vertical_offset = 415,
             widget_tag = backButtonPath

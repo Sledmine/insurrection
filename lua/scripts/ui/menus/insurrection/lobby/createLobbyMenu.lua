@@ -4,7 +4,7 @@ local menuHeader = require "lua.scripts.ui.components.menuHeader"
 local complexButton = require "lua.scripts.ui.components.complexButton"
 local optionsList = require "lua.scripts.ui.components.optionsList"
 local arrowButton = require "lua.scripts.ui.components.arrowButton"
-local nameplate   = require "lua.scripts.ui.components.nameplate"
+local nameplate = require "lua.scripts.ui.components.nameplate"
 
 local menuPath = [[insurrection/ui/menus/lobby/]]
 local buttonsPath = menuPath .. [[buttons/]]
@@ -19,6 +19,7 @@ local elementButtonPath = buttonsPath .. [[lobby_element_button_%s.ui_widget_def
 local nameplateButtonPath = buttonsPath .. [[lobby_nameplate_%s.ui_widget_definition]]
 local definitionsPath = menuPath .. [[lobby_definitions.ui_widget_definition]]
 local elementsPath = menuPath .. [[lobby_elements.ui_widget_definition]]
+local backButtonPath = [[insurrection/ui/shared/common_back.ui_widget_definition]]
 
 widget.create(headerPath, menuHeader("lobby", "MY LOBBY",
                                      "INVITE FRIENDS TO YOUR LOBBY, CHOOSE YOUR SERVER TYPE, SET YOUR RULES AND HAVE FUN!"))
@@ -74,7 +75,8 @@ for i = 2, 5 do
 end
 widget.create(optionsPath, optionsList({
     {horizontal_offset = 0, vertical_offset = 0, widget_tag = definitionsPath},
-    {horizontal_offset = 0, vertical_offset = 0, widget_tag = elementsPath}
+    {horizontal_offset = 0, vertical_offset = 0, widget_tag = elementsPath},
+    {horizontal_offset = 630, vertical_offset = 415, widget_tag = backButtonPath}
 }))
 widget.create(definitionsPath, definitions)
 widget.create(elementsPath, elements)

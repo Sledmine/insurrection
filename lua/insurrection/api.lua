@@ -82,6 +82,7 @@ end
 
 -- Request lobby
 local function onLobbyResponse(result)
+    dprint("onLobbyResponse", "info")
     harmony.menu.block_input(false)
     local code = result[1]
     local payload = result[2]
@@ -147,6 +148,7 @@ end
 
 -- Request lobby refresh
 local function onLobbyRefreshResponse(result)
+    dprint("onLobbyRefreshResponse", "info")
     local code = result[1]
     local payload = result[2]
     if code then
@@ -184,6 +186,7 @@ function api.stopRefreshLobby()
     if api.session.lobbyKey then
         dprint("Stopping lobby refresh...", "warning")
         pcall(stop_timer, api.variables.refreshTimerId)
+        api.variables.refreshTimerId = nil
         api.session.lobbyKey = nil
     end
 end
@@ -204,15 +207,19 @@ local function onBorrowResponse(result)
             local response = json.decode(payload)
             core.connectServer(response.host, response.port, response.password)
             return true
-        elseif code == 500 then
-            interface.dialog("ATTENTION", "ERROR " .. code, "Internal Server Error")
-            return false
         else
-            local response = json.decode(payload)
-            interface.dialog("ATTENTION", "ERROR " .. code, response.message)
-            return false
+            api.stopRefreshLobby()
+            if code == 500 then
+                interface.dialog("ATTENTION", "ERROR " .. code, "Internal Server Error")
+                return false
+            else
+                local response = json.decode(payload)
+                interface.dialog("ATTENTION", "ERROR " .. code, response.message)
+                return false
+            end
         end
     end
+    api.stopRefreshLobby()
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
 end

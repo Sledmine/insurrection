@@ -194,6 +194,11 @@ end
 
 function OnWidgetOpen(widgetInstanceIndex)
     local widgetValues = harmony.menu.get_widget_values(widgetInstanceIndex)
+    -- FIXME This is a workaround because back buttons are opening menus instead of closing them
+    -- Stop lobby refresh when dashboard is opened
+    if widgetValues.tag_id == interface.widgets.dashboardWidgetTag.id then
+        api.stopRefreshLobby()
+    end
     local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
     lastOpenWidgetTag = widgetTag
     local widget = blam.uiWidgetDefinition(widgetTag.id)
@@ -226,6 +231,7 @@ end
 function OnCommand(command)
     if command == "insurrection_debug" then
         DebugMode = not DebugMode
+        console_out("Debug mode: " .. tostring(DebugMode))
         return false
     end
 end
