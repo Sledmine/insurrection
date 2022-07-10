@@ -37,7 +37,7 @@ widget.create(containerPath, widget.merge(menuContainer(), {
     },
     conditional_widgets = {
         {
-            widget_tag = [[ui\shell\main_menu\profile_manager\multiplayer_creating_profile.ui_widget_definition]],
+            widget_tag = [[insurrection/ui/menus/intro/intro_menu_creating_profile.ui_widget_definition]],
             name = "multiplayer_creating_profile",
             flags = {load_if_event_handler_function_fails = true}
         }
