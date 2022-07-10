@@ -377,7 +377,11 @@ setmetatable(inspect, {
 function dprint(message, color)
     if DebugMode then
         if (type(message) ~= "string") then
-            message = inspect(message)
+            if message then
+                message = tostring(inspect(message)):gsub("\n", "")
+            else
+                message = tostring(message)
+            end
         end
         if (color == "info") then
             console_out(message, 0.31, 0.631, 0.976)

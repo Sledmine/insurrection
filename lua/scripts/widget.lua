@@ -48,6 +48,15 @@ local widget = {}
 ---@field dpad_up_down_tabs_thru_list_items boolean
 ---@field dpad_left_right_tabs_thru_list_items boolean
 
+---@class invaderWidgetConditionalWidgetFlags
+---@field load_if_event_handler_function_fails boolean
+
+---@class invaderWidgetConditionalWidget
+---@field widget_tag string
+---@field name string
+---@field flags invaderWidgetConditionalWidgetFlags
+---@field custom_controller_index number
+
 ---@class invaderWidget
 ---@field widget_type '"container"' | '"text_box"' | '"spinner_list"' | '"column_list"'
 ---@field bounds string
@@ -65,6 +74,7 @@ local widget = {}
 ---@field string_list_index number
 ---@field horiz_offset number
 ---@field vert_offset number
+---@field conditional_widgets invaderWidgetConditionalWidget[]
 ---@field child_widgets invaderWidgetChildWidget[]
 
 --- Set properties to widget
