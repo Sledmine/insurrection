@@ -122,7 +122,7 @@ function interface.onButton(widgetTagId)
             interface.dialog("WARNING", "", "Please enter a username and password.")
         end
     elseif ends(buttonPath, "register_button") then
-        interface.dialog("INFORMATION", "UNDER CONSTRUCTION", "Coming soon...")
+        interface.dialog("INFORMATION", "Join us on our Discord server!", "We have a Discord Bot process to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
     elseif ends(buttonPath, "create_lobby_button") then
         api.lobby()
     elseif ends(buttonPath, "lobby_key_input") then

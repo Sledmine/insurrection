@@ -1,6 +1,11 @@
 # 1.0.0-alpha.7
+- Updated create game on network menu
 - Fixed lobby refresh not triggered after entering a lobby after creating one
 - Added back button on lobby menu
+- Added keep login feature
+- Fixed issue with player profile creation when no profile
+- Allow spaces on input widgets
+- Updated insurrection register message
 
 # 1.0.0-alpha.6
 - Experimental create game on network menu changes

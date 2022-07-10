@@ -19,7 +19,7 @@ widget.create(headerPath, menuHeader("insurrection_dashboard", "INSURRECTION DAS
 local createLobbyButtonPath = buttonPath .. [[create_lobby_button.ui_widget_definition]]
 widget.create(createLobbyButtonPath, button("left_justify", "create_lobby_button", "CREATE LOBBY"))
 local lobbyKeyInputPath = buttonPath .. [[lobby_key_input.ui_widget_definition]]
-widget.create(lobbyKeyInputPath, inputText("lobby_key_input", "LOBBY_KEY_PLACEHOLDER", false, true))
+widget.create(lobbyKeyInputPath, inputText("lobby_key_input", "LOBBY_KEY_PLACEHOLDER", false, true, "key_icon"))
 
 local initialPosition = 86
 ---@type invaderWidget
