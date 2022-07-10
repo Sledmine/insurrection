@@ -3,13 +3,17 @@ local split = glue.string.split
 local inspect = require "inspect"
 local blam = require "blam"
 local tagClasses = blam.tagClasses
+local json = require "json"
+local base64 = require "base64"
 
 local mercury = require "insurrection.mercury"
 local scriptVersion = require "insurrection.version"
 
--- local clientPort = read_word(0x006337F8)
 local currentWidgetIdAddress = 0x6B401C
 local keyboardInputAddress = 0x64C550
+local clientPortAddress = 0x6337F8
+local clientPort = read_word(clientPortAddress)
+local friendlyClientPort = 2305
 
 local core = {}
 
@@ -48,6 +52,13 @@ function core.loadNameplates()
 end
 
 function core.loadInsurrectionPatches()
+    -- Force usage a more friendly client port
+    --if clientPort ~= friendlyClientPort then
+    --    write_dword(clientPortAddress, friendlyClientPort)
+    --end
+    -- Force enable sound extensions
+    execute_script("sound_enable_eax 1")
+    execute_script("sound_enable_hardware 1")
     local scriptVersionTag = blam.findTag("variable_info", tagClasses.unicodeStringList)
     if (scriptVersionTag) then
         local scriptVersionString = blam.unicodeStringList(scriptVersionTag.id)
@@ -58,6 +69,21 @@ function core.loadInsurrectionPatches()
             scriptVersionString.stringList = strings
         end
         return true
+    end
+end
+
+function core.saveCredentials(username, password)
+    write_file("credentials.json",
+               json.encode({username = username, password = base64.encode(password)}))
+end
+
+function core.loadCredentials()
+    local credentialsFile = read_file("credentials.json")
+    if credentialsFile then
+        local credentials = json.decode(credentialsFile)
+        if credentials then
+            return credentials.username, base64.decode(credentials.password)
+        end
     end
 end
 
@@ -135,13 +161,14 @@ function core.cleanAllEditableWidgets()
     end
 end
 
-function core.setStringToWidget(str, widgetId)
+function core.setStringToWidget(str, widgetId, mask)
     local widget = blam.uiWidgetDefinition(widgetId)
-    local virtualValue = VirtualInputValue[widget.name]
-    if virtualValue then
+    if mask then
         VirtualInputValue[widget.name] = str
+        blam.unicodeStringList(widget.unicodeStringListTag).stringList = {string.rep(mask, #str)}
+    else
+        blam.unicodeStringList(widget.unicodeStringListTag).stringList = {str}
     end
-    blam.unicodeStringList(widget.unicodeStringListTag).stringList = {str}
 end
 
 ---Attempt to connect a game server

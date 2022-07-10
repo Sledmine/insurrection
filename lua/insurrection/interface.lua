@@ -36,8 +36,35 @@ lobbyElement2Tag = findWidgetTag("lobby_element_button_2")
 lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
 lobbyElement4Tag = findWidgetTag("lobby_element_button_4")
 lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
+-- Input elements
+usernameInputTag = findWidgetTag("username_input")
+passwordInputTag = findWidgetTag("password_input")
 
-interface.widgets = {lobbyWidgetTag = lobbyWidgetTag, dashboardWidgetTag = dashboardWidgetTag}
+interface.widgets = {
+    lobbyWidgetTag = lobbyWidgetTag,
+    dashboardWidgetTag = dashboardWidgetTag,
+    usernameInputTag = usernameInputTag,
+    passwordInputTag = passwordInputTag
+}
+
+function interface.load()
+    -- Load Insurrection features
+    if (core.loadInsurrectionPatches()) then
+        harmony.menu.set_aspect_ratio(16, 9)
+        core.loadNameplates()
+        execute_script("menu_blur_on")
+        IsUICompatible = true
+        core.cleanAllEditableWidgets()
+        interface.animate()
+        local username, password = core.loadCredentials()
+        if username and password then
+            core.setStringToWidget(username, interface.widgets.usernameInputTag.id)
+            core.setStringToWidget(password, interface.widgets.passwordInputTag.id, "*")
+        end
+    end
+    -- Workaround fix to prevent players from getting stuck in a game server at menu
+    execute_script("disconnect")
+end
 
 ---Show a dialog message on the screen
 ---@param titleText '"WARNING"' | '"INFORMATION"' | '"ERROR"' | string
@@ -87,7 +114,13 @@ function interface.onButton(widgetTagId)
     if ends(buttonPath, "login_button") then
         local username = getWidgetString(findWidgetTag("username_input").id)
         local password = getWidgetString(findWidgetTag("password_input").id)
-        api.login(username, password)
+        if username and password and username ~= "" and password ~= "" then
+            --dprint("Login with username: " .. username .. " and password: " .. password)
+            core.saveCredentials(username, password)
+            api.login(username, password)
+        else
+            interface.dialog("WARNING", "", "Please enter a username and password.")
+        end
     elseif ends(buttonPath, "register_button") then
         interface.dialog("INFORMATION", "UNDER CONSTRUCTION", "Coming soon...")
     elseif ends(buttonPath, "create_lobby_button") then
@@ -292,13 +325,15 @@ function interface.animate()
     local initial = introMenuWidget.childWidgets[1].verticalOffset
     local final = mainMenuWidget.childWidgets[1].verticalOffset
 
-    interface.animation(introMenuWidget.childWidgets[1].widgetTag, introMenuWidgetTag.id, 0.2, "vertical", final, initial, "ease out", "show")
+    interface.animation(introMenuWidget.childWidgets[1].widgetTag, introMenuWidgetTag.id, 0.2,
+                        "vertical", final, initial, "ease out", "show")
     -- Animate the main menu widget
     interface.animation(widgetToAnimateId, containerId, 0.2, "vertical", initial, final, "ease out")
     for _, childWidget in pairs(mainMenuList.childWidgets) do
         -- Animate the main menu list widget
         interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "horizontal",
-                            childWidget.horizontalOffset - 50, childWidget.horizontalOffset, "ease in", "show")
+                            childWidget.horizontalOffset - 50, childWidget.horizontalOffset,
+                            "ease in", "show")
         interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "opacity", 0, 1)
     end
     local dialogContainer = blam.uiWidgetDefinition(dialogWidgetTag.id)

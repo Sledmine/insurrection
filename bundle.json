@@ -14,6 +14,7 @@
         "requestscurl",
         "redux",
         "insecticide",
+        "base64",
         "insurrection.version",
         "insurrection.mercury",
         "insurrection.chimera",

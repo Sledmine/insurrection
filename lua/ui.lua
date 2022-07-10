@@ -15,11 +15,13 @@ require "insecticide"
 -- UI state and stuff
 clua_version = 2.056
 DebugMode = false
+IsUICompatible = false
 math.randomseed(os.time() + ticks())
 local gameStarted = false
-local isUIInsurrectionCompatible = false
 ---@type uiWidgetDefinition
 local editableWidget
+---@type tag
+local editableWidgetTag
 ---@type tag
 local lastOpenWidgetTag
 ---@type tag
@@ -35,17 +37,7 @@ WidgetAnimations = {}
 ScreenCornerText = ""
 
 local function onGameStart()
-    -- Load Insurrection features
-    if (core.loadInsurrectionPatches()) then
-        harmony.menu.set_aspect_ratio(16, 9)
-        core.loadNameplates()
-        execute_script("menu_blur_on")
-        isUIInsurrectionCompatible = true
-        core.cleanAllEditableWidgets()
-        interface.animate()
-    end
-    -- Workaround fix to prevent players from getting stuck in a game server at menu
-    execute_script("disconnect")
+    interface.load()
 end
 
 function OnTick()
@@ -72,7 +64,7 @@ function OnTick()
 end
 
 function OnKeypress(modifiers, char, keycode)
-    if isUIInsurrectionCompatible and editableWidget then
+    if IsUICompatible and editableWidget then
         -- Get pressed key from the keyboard
         local pressedKey
         if (char) then
@@ -80,21 +72,17 @@ function OnKeypress(modifiers, char, keycode)
         elseif (keycode) then
             pressedKey = core.translateKeycode(keycode)
         end
-        -- If we pressed a key update our editable widget
+        -- If we pressed a key, update our editable widget
         if pressedKey then
-            local usernameStrings = blam.unicodeStringList(editableWidget.unicodeStringListTag)
-            local stringList = usernameStrings.stringList
-            local text = core.mapKeyToText(pressedKey,
-                                           VirtualInputValue[editableWidget.name] or stringList[1])
+            local inputString = core.getStringFromWidget(editableWidgetTag.id)
+            local text = core.mapKeyToText(pressedKey, inputString)
             if text then
                 if editableWidget.name:find "password" then
-                    VirtualInputValue[editableWidget.name] = text
-                    stringList[1] = string.rep("*", #text)
+                    core.setStringToWidget(text, editableWidgetTag.id, "*")
                 else
-                    stringList[1] = text
+                    core.setStringToWidget(text, editableWidgetTag.id)
                 end
             end
-            usernameStrings.stringList = stringList
         end
     end
 end
@@ -110,8 +98,10 @@ local function setEditableWidget(widgetTagId)
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
     if focusedWidget and ends(focusedWidget.name, "_input") then
         editableWidget = focusedWidget
+        editableWidgetTag = blam.getTag(widgetTagId)
     else
         editableWidget = nil
+        editableWidgetTag = nil
     end
 end
 
