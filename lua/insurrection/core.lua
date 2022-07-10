@@ -114,6 +114,8 @@ end
 function core.translateKeycode(keyCode)
     if (keyCode == 29) then
         return "backspace"
+    elseif (keyCode == 72) then
+        return "space"
     else
         return nil
     end
