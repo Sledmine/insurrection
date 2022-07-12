@@ -11,6 +11,7 @@ local dialogPath = menuPath .. [[insurrection_login_menu_dialog.ui_widget_defini
 local headerPath = menuPath .. [[insurrection_login_menu_header.ui_widget_definition]]
 local optionsPath = menuPath .. [[insurrection_login_menu_options.ui_widget_definition]]
 local logoPath = [[insurrection/ui/shared/insurrection_logo.ui_widget_definition]]
+local currentVersionPath = [[insurrection\ui\main_menu\version.ui_widget_definition]]
 
 -- Create menu header
 widget.create(headerPath, menuHeader("insurrection_login", "INSURRECTION LOGIN",
@@ -59,7 +60,8 @@ widget.merge(menu, {
         {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerPath},
         {horizontal_offset = 253, vertical_offset = 78, widget_tag = dialogPath},
         {horizontal_offset = 322, vertical_offset = 113, widget_tag = logoPath},
-        {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath}
+        {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath},
+        {horizontal_offset = 0, vertical_offset = 460, widget_tag = currentVersionPath}
     }
 })
 widget.create(containerPath, menu)
