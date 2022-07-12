@@ -50,7 +50,7 @@ local function interfaceReducer(state, action)
         if action.payload.filter then
             local filtered = glue.map(state.lobby.available[state.definition .. "s"],
                                       function(mapName)
-                if mapName:find(action.payload.filter, 1, true) then
+                if mapName:lower():find(action.payload.filter:lower(), 1, true) then
                     return mapName
                 end
             end)
