@@ -1,3 +1,4 @@
+require "insecticide"
 local actions = require "insurrection.redux.actions"
 local blam = require "blam"
 local isNull = blam.isNull
@@ -10,7 +11,6 @@ store = require "insurrection.redux.store"
 local version = require "insurrection.version"
 local ends = require"glue".string.ends
 -- Useful debug global tools
-require "insecticide"
 
 -- UI state and stuff
 clua_version = 2.056
@@ -82,6 +82,7 @@ function OnKeypress(modifiers, char, keycode)
                 else
                     core.setStringToWidget(text, editableWidgetTag.id)
                 end
+                interface.onInputText(editableWidgetTag.id, text)
             end
         end
     end

@@ -17,8 +17,11 @@ function actions.setLobby(key, lobby)
     return {type = actions.types.SET_LOBBY, payload = {key = key, lobby = lobby}}
 end
 
-function actions.updateLobby(key, lobby)
-    return {type = actions.types.UPDATE_LOBBY, payload = {key = key, lobby = lobby}}
+function actions.updateLobby(key, lobby, filter)
+    return {
+        type = actions.types.UPDATE_LOBBY,
+        payload = {key = key, lobby = lobby, filter = filter}
+    }
 end
 
 ---@param definition '"template"' | '"map"' | '"gametype"'

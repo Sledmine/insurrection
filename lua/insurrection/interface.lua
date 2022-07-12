@@ -145,7 +145,7 @@ function interface.onButton(widgetTagId)
             local template = getWidgetString(findWidgetTag("lobby_definition_button_1").id)
             local map = getWidgetString(findWidgetTag("lobby_definition_button_2").id)
             local gametype = getWidgetString(findWidgetTag("lobby_definition_button_3").id)
-            api.borrow(template:lower(), map:lower(), gametype:lower())
+            api.borrow(template:lower(), map, gametype:lower())
         else
             interface.dialog("WARNING", "", "You are not the owner of the lobby.")
         end
@@ -188,9 +188,9 @@ function interface.update()
         end
     end
 
-    setWidgetString(state.selected.template:upper(), definitionsWidget.childWidgets[1].widgetTag)
-    setWidgetString(state.selected.map:upper(), definitionsWidget.childWidgets[2].widgetTag)
-    setWidgetString(state.selected.gametype:upper(), definitionsWidget.childWidgets[3].widgetTag)
+    setWidgetString(state.selected.template, definitionsWidget.childWidgets[1].widgetTag)
+    setWidgetString(state.selected.map, definitionsWidget.childWidgets[2].widgetTag)
+    setWidgetString(state.selected.gametype, definitionsWidget.childWidgets[3].widgetTag)
 
     -- Restore normal list widget state
     local newChilds = elementsWidget.childWidgets
@@ -206,7 +206,7 @@ function interface.update()
         childWidget = elementsWidget.childWidgets[childIndex]
         local elementIndex = childIndex - 1
         if elements[elementIndex] then
-            setWidgetString(elements[elementIndex]:upper(), childWidget.widgetTag)
+            setWidgetString(elements[elementIndex], childWidget.widgetTag)
         else
             newChilds[childIndex].widgetTag = 0xFFFFFFFF
         end
@@ -347,6 +347,14 @@ function interface.animationsReset(widgetTagId)
             animation.timestamp = nil
             animation.finished = false
         end
+    end
+end
+
+function interface.onInputText(widgetTagId, text)
+    local widget = blam.uiWidgetDefinition(widgetTagId)
+    if widget.name == "lobby_search_input" then
+        --dprint("Searching for: " .. text)
+        store:dispatch(actions.updateLobby(nil, nil, text))
     end
 end
 
