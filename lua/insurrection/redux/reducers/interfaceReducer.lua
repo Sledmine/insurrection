@@ -48,16 +48,20 @@ local function interfaceReducer(state, action)
             state.lobby = action.payload.lobby
         end
         if action.payload.filter then
-            local filtered = glue.map(state.lobby.available[state.definition .. "s"],
+            state.filtered = glue.map(state.lobby.available[state.definition .. "s"],
                                       function(mapName)
                 if mapName:lower():find(action.payload.filter:lower(), 1, true) then
                     return mapName
                 end
             end)
             state.currentChunk = 1
-            if filtered then
-                local displayed = chunks(filtered, 4)[state.currentChunk] or {}
-                state.displayed = displayed
+            if state.filtered then
+                state.displayed = chunks(state.filtered, 4)[state.currentChunk] or {}
+                table.sort(state.displayed, function(a, b)
+                    if a and b then
+                        return a < b
+                    end
+                end)
             end
         end
         return state
