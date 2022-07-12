@@ -174,14 +174,14 @@ function interface.update()
 
     -- Update players in lobby
     for playerIndex = 1, 16 do
-        local widgetIndex = playerIndex + 2
+        local widgetIndex = playerIndex + 3
         interface.setWidgetValues(lobbyWidget.childWidgets[widgetIndex].widgetTag, {opacity = 0})
     end
 
     -- TODO Fix this, we need the current profile name, player does not exist yet
     local currentPlayerName = blam.player(get_player()).name:lower()
     for playerIndex, playerName in pairs(state.lobby.members) do
-        local widgetIndex = playerIndex + 2
+        local widgetIndex = playerIndex + 3
         if playerName ~= currentPlayerName then
             interface.setWidgetValues(lobbyWidget.childWidgets[widgetIndex].widgetTag, {opacity = 1})
             setWidgetString(playerName, lobbyWidget.childWidgets[widgetIndex].widgetTag)

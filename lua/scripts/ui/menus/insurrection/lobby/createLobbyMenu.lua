@@ -22,6 +22,7 @@ local definitionsPath = menuPath .. [[lobby_definitions.ui_widget_definition]]
 local elementsPath = menuPath .. [[lobby_elements.ui_widget_definition]]
 local inputSearchPath = menuPath .. [[lobby_input_search.ui_widget_definition]]
 local backButtonPath = [[insurrection/ui/shared/common_back.ui_widget_definition]]
+local currentVersionPath = [[insurrection\ui\main_menu\version.ui_widget_definition]]
 
 widget.create(headerPath, menuHeader("lobby", "MY LOBBY",
                                      "INVITE FRIENDS TO YOUR LOBBY, CHOOSE YOUR SERVER TYPE, SET YOUR RULES AND HAVE FUN!"))
@@ -75,7 +76,8 @@ for i = 2, 5 do
                                                    ("lobby_element_button_%s"):format(i),
                                                    "$ELEMENT_PLACE_HOLDER"))
 end
-widget.create(inputSearchPath, inputText("lobby_search_input", "LOBBY_KEY_PLACEHOLDER", false, true, "search_icon"))
+widget.create(inputSearchPath,
+              inputText("lobby_search_input", "LOBBY_KEY_PLACEHOLDER", false, true, "search_icon"))
 widget.create(optionsPath, optionsList({
     {horizontal_offset = 0, vertical_offset = 0, widget_tag = definitionsPath},
     {horizontal_offset = 0, vertical_offset = 0, widget_tag = elementsPath},
@@ -88,7 +90,8 @@ local container = menuContainer()
 local containerWithButtons = {
     child_widgets = {
         {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerPath},
-        {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath}
+        {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath},
+        {horizontal_offset = 0, vertical_offset = 460, widget_tag = currentVersionPath}
     }
 }
 local lastContainerElement = #containerWithButtons.child_widgets + 1
