@@ -207,6 +207,10 @@ local function onBorrowResponse(result)
             local response = json.decode(payload)
             core.connectServer(response.host, response.port, response.password)
             return true
+        elseif code == 404 then
+            local response = json.decode(payload)
+            interface.dialog("ATTENTION", "ERROR " .. code, response.message)
+            return false
         else
             api.stopRefreshLobby()
             if code == 500 then
