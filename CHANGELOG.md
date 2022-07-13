@@ -1,3 +1,9 @@
+# 1.0.0-alpha.8
+- Added input search bar for lobby elements
+- Fixed scrolling custom menus due to an issue with scroll chunks/pagination
+- Fixed crash issue at starting lobby due to a pending async task resolution
+- Added label version to dashboard and lobby menus
+
 # 1.0.0-alpha.7
 - Updated create game on network menu
 - Fixed lobby refresh not triggered after entering a lobby after creating one
