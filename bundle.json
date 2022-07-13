@@ -15,6 +15,7 @@
         "redux",
         "insecticide",
         "base64",
+        "ini",
         "insurrection.version",
         "insurrection.mercury",
         "insurrection.chimera",

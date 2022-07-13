@@ -5,6 +5,8 @@ local ends = glue.string.ends
 local chunks = glue.chunks
 local blam = require "blam"
 local tagClasses = blam.tagClasses
+local ini = require "ini"
+local json = require "json"
 
 local core = require "insurrection.core"
 
@@ -179,6 +181,308 @@ function chimera.queryServer(serverIp, serverPort)
         end
     end
     return false
+end
+
+---@class chimeraConfiguration
+---@field server_list Serverlist
+---@field custom_console Customconsole
+---@field memory Memory
+---@field controller any[]
+---@field font_override Fontoverride
+---@field custom_chat Customchat
+---@field scoreboard Scoreboard
+---@field hotkey Hotkey
+---@field video_mode Videomode
+---@field name Name
+---@field error_handling any[]
+---@field halo Halo
+
+---@class Halo
+---@field hash string
+---@field background_playback number
+---@field optimal_defaults number
+---@field console number
+
+---@class Name
+---@field font string
+
+---@class Videomode
+---@field height string
+---@field borderless number
+---@field refresh_rate number
+---@field windowed number
+---@field width string
+---@field enabled number
+---@field vsync number
+
+---@class Hotkey
+---@field ctrl_alt_shift_3 string
+---@field alt_6 string
+---@field ctrl_1 string
+---@field alt_5 string
+---@field ctrl_6 string
+---@field ctrl_0 string
+---@field alt_shift_3 string
+---@field ctrl_alt_shift_2 string
+---@field ctrl_4 string
+---@field alt_1 string
+---@field enabled number
+---@field ctrl_7 string
+---@field alt_0 string
+---@field alt_8 string
+---@field ctrl_9 string
+---@field alt_shift_4 string
+---@field ctrl_2 string
+---@field alt_4 string
+---@field ctrl_alt_shift_1 string
+---@field ctrl_3 string
+---@field f12 string
+---@field ctrl_8 string
+---@field alt_3 string
+---@field alt_shift_2 string
+---@field alt_9 string
+---@field alt_shift_1 string
+---@field alt_7 string
+---@field ctrl_5 string
+---@field alt_2 string
+
+---@class Scoreboard
+---@field font string
+---@field fade_time number
+
+---@class Customchat
+---@field chat_message_hide_on_console number
+---@field server_message_color_r number
+---@field chat_input_anchor string
+---@field chat_input_x number
+---@field chat_input_color_b number
+---@field chat_message_color_red_g number
+---@field server_message_anchor string
+---@field chat_message_color_red_a number
+---@field chat_message_anchor string
+---@field server_fade_out_time number
+---@field chat_fade_out_time number
+---@field server_slide_time_length number
+---@field chat_input_color_a number
+---@field server_message_font string
+---@field server_time_up number
+---@field chat_input_font string
+---@field chat_message_y number
+---@field chat_message_w number
+---@field chat_slide_time_length number
+---@field chat_input_w number
+---@field chat_message_color_red_b number
+---@field chat_message_h number
+---@field chat_message_x number
+---@field chat_message_color_blue_g number
+---@field server_message_hide_on_console number
+---@field server_message_color_a number
+---@field server_message_h_chat_open number
+---@field chat_message_color_ffa_g number
+---@field chat_input_color_r number
+---@field server_message_color_g number
+---@field chat_message_color_ffa_r number
+---@field chat_message_color_ffa_a number
+---@field chat_message_font string
+---@field chat_input_color_g number
+---@field chat_line_height number
+---@field chat_message_color_ffa_b number
+---@field chat_message_color_blue_a number
+---@field chat_message_color_blue_b number
+---@field chat_input_y number
+---@field server_message_w number
+---@field chat_message_h_chat_open number
+---@field chat_message_color_red_r number
+---@field server_message_color_b number
+---@field server_message_y number
+---@field chat_message_color_blue_r number
+---@field server_message_x number
+---@field chat_time_up number
+---@field server_line_height number
+---@field server_message_h number
+
+---@class Fontoverride
+---@field ticker_font_weight number
+---@field large_font_override number
+---@field large_font_shadow_offset_y number
+---@field small_font_offset_x number
+---@field smaller_font_family string
+---@field smaller_font_offset_y number
+---@field ticker_font_offset_x number
+---@field smaller_font_shadow_offset_x number
+---@field small_font_shadow_offset_y number
+---@field system_font_shadow_offset_x number
+---@field system_font_shadow_offset_y number
+---@field smaller_font_offset_x number
+---@field small_font_offset_y number
+---@field ticker_font_offset_y number
+---@field ticker_font_family string
+---@field smaller_font_override number
+---@field small_font_family string
+---@field console_font_shadow_offset_y number
+---@field system_font_y_offset number
+---@field large_font_family string
+---@field console_font_offset_y number
+---@field system_font_override number
+---@field system_font_weight number
+---@field large_font_size number
+---@field ticker_font_override number
+---@field small_font_override number
+---@field console_font_size number
+---@field ticker_font_shadow_offset_x number
+---@field large_font_weight number
+---@field console_font_family string
+---@field enabled number
+---@field console_font_weight number
+---@field ticker_font_shadow_offset_y number
+---@field smaller_font_size number
+---@field system_font_size number
+---@field small_font_weight number
+---@field console_font_override number
+---@field ticker_font_size number
+---@field smaller_font_shadow_offset_y number
+---@field small_font_size number
+---@field large_font_offset_y number
+---@field system_font_x_offset number
+---@field large_font_shadow_offset_x number
+---@field smaller_font_weight number
+---@field large_font_offset_x number
+---@field console_font_shadow_offset_x number
+---@field console_font_offset_x number
+---@field system_font_family string
+---@field small_font_shadow_offset_x number
+
+---@class Memory
+---@field download_font string
+---@field enable_map_memory_buffer number
+---@field map_size number
+
+---@class Customconsole
+---@field fade_time number
+---@field fade_start number
+---@field buffer_size_soft number
+---@field enable_scrollback number
+---@field line_height number
+---@field enabled number
+---@field buffer_size number
+---@field x_margin number
+
+---@class Serverlist
+---@field auto_query number
+
+local insurrectionFontOverride = {
+    console_font_family = "Hack Bold",
+    console_font_offset_x = 0,
+    console_font_offset_y = 0,
+    console_font_override = 1,
+    console_font_shadow_offset_x = 2,
+    console_font_shadow_offset_y = 2,
+    console_font_size = 10,
+    console_font_weight = 400,
+    enabled = 1,
+    large_font_family = "Geogrotesque-Regular",
+    large_font_offset_x = 0,
+    large_font_offset_y = 3,
+    large_font_override = 1,
+    large_font_shadow_offset_x = 2,
+    large_font_shadow_offset_y = 2,
+    large_font_size = 13,
+    large_font_weight = 400,
+    small_font_family = "Geogrotesque-Regular",
+    small_font_offset_x = 0,
+    small_font_offset_y = 3,
+    small_font_override = 1,
+    small_font_shadow_offset_x = 2,
+    small_font_shadow_offset_y = 2,
+    small_font_size = 10,
+    small_font_weight = 400,
+    smaller_font_family = "Geogrotesque-Regular",
+    smaller_font_offset_x = 0,
+    smaller_font_offset_y = 4,
+    smaller_font_override = 1,
+    smaller_font_shadow_offset_x = 0,
+    smaller_font_shadow_offset_y = 0,
+    smaller_font_size = 10,
+    smaller_font_weight = 400,
+    system_font_family = "Geogrotesque-Regular",
+    system_font_override = 1,
+    system_font_shadow_offset_x = 2,
+    system_font_shadow_offset_y = 2,
+    system_font_size = 11,
+    system_font_weight = 400,
+    system_font_x_offset = 0,
+    system_font_y_offset = 1,
+    ticker_font_family = "Geogrotesque-Regular",
+    ticker_font_offset_x = 0,
+    ticker_font_offset_y = 0,
+    ticker_font_override = 1,
+    ticker_font_shadow_offset_x = 2,
+    ticker_font_shadow_offset_y = 2,
+    ticker_font_size = 18,
+    ticker_font_weight = 400
+}
+
+local chimeraFontOverride = {
+    console_font_family = "Hack Bold",
+    console_font_offset_x = 0,
+    console_font_offset_y = 0,
+    console_font_override = 1,
+    console_font_shadow_offset_x = 2,
+    console_font_shadow_offset_y = 2,
+    console_font_size = 14,
+    console_font_weight = 400,
+    enabled = 1,
+    large_font_family = "Interstate-Bold",
+    large_font_offset_x = 0,
+    large_font_offset_y = 1,
+    large_font_override = 1,
+    large_font_shadow_offset_x = 2,
+    large_font_shadow_offset_y = 2,
+    large_font_size = 20,
+    large_font_weight = 400,
+    small_font_family = "Interstate-Bold",
+    small_font_offset_x = 0,
+    small_font_offset_y = 3,
+    small_font_override = 1,
+    small_font_shadow_offset_x = 2,
+    small_font_shadow_offset_y = 2,
+    small_font_size = 15,
+    small_font_weight = 400,
+    smaller_font_family = "Interstate-Bold",
+    smaller_font_offset_x = 0,
+    smaller_font_offset_y = 4,
+    smaller_font_override = 1,
+    smaller_font_shadow_offset_x = 2,
+    smaller_font_shadow_offset_y = 2,
+    smaller_font_size = 11,
+    smaller_font_weight = 400,
+    system_font_family = "Interstate-Bold",
+    system_font_override = 1,
+    system_font_shadow_offset_x = 2,
+    system_font_shadow_offset_y = 2,
+    system_font_size = 20,
+    system_font_weight = 400,
+    system_font_x_offset = 0,
+    system_font_y_offset = 1,
+    ticker_font_family = "Lucida Console",
+    ticker_font_offset_x = 0,
+    ticker_font_offset_y = 0,
+    ticker_font_override = 1,
+    ticker_font_shadow_offset_x = 2,
+    ticker_font_shadow_offset_y = 2,
+    ticker_font_size = 11,
+    ticker_font_weight = 400
+}
+
+function chimera.loadConfig()
+    local configIni = glue.readfile("chimera.ini", "t")
+    if configIni then
+        ---@type chimeraConfiguration
+        local configuration = ini.decode(configIni)
+        configuration.font_override = insurrectionFontOverride
+        --glue.writefile("chimera.ini", ini.encode(configuration), "t")
+        return configuration
+    end
 end
 
 return chimera

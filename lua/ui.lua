@@ -14,7 +14,7 @@ local ends = require"glue".string.ends
 
 -- UI state and stuff
 clua_version = 2.056
-DebugMode = false
+DebugMode = true
 IsUICompatible = false
 math.randomseed(os.time() + ticks())
 local gameStarted = false
@@ -38,6 +38,7 @@ ScreenCornerText = ""
 
 local function onGameStart()
     interface.load()
+    --chimera.loadConfig()
 end
 
 function OnTick()
