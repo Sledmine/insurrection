@@ -197,6 +197,9 @@ local function onBorrowResponse(result)
     local payload = result[2]
     if code then
         if code == 200 then
+            -- Prevent lobby from refreshing while we are waiting for the server to start
+            -- This is critical to avoid crashing the game due to multitasking stuff
+            api.stopRefreshLobby()
             ---@class serverBorrowResponse
             ---@field password string
             ---@field message string
