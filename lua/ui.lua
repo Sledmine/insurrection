@@ -3,6 +3,7 @@ local actions = require "insurrection.redux.actions"
 local blam = require "blam"
 local isNull = blam.isNull
 local harmony = require "mods.harmony"
+local optic = harmony.optic
 local chimera = require "insurrection.chimera"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
@@ -35,10 +36,18 @@ VirtualInputValue = {}
 -- Stores animations for UI Widgets
 WidgetAnimations = {}
 ScreenCornerText = ""
+LoadingText = nil
+
+-- Setup loading orb sprite
+local loadingSprite = optic.create_sprite("loading_orb.png", 32, 32)
+local rotateOrbAnimation = optic.create_animation(5000)
+optic.set_animation_property(rotateOrbAnimation, "linear", "rotation", 360)
+local screenWidth = read_word(0x637CF2)
+local screenHeight = read_word(0x637CF0)
 
 local function onGameStart()
     interface.load()
-    --chimera.loadConfig()
+    -- chimera.getConfiguration()
 end
 
 function OnTick()
@@ -153,6 +162,12 @@ function OnFrame()
     local textColor = {1, 1, 1, 1}
     draw_text(ScreenCornerText or "", bounds.left, bounds.top, bounds.right, bounds.bottom, "small",
               "right", table.unpack(textColor))
+    -- Draw loading text on the left side of the screen
+    if LoadingText then
+        draw_text(LoadingText or "", bounds.left + 12, bounds.top, bounds.left + 200, bounds.bottom,
+              "small", "left", table.unpack(textColor))
+    optic.render_sprite(loadingSprite, 8, screenHeight - 32 - 8, 255, ticks() * 8, 1, rotateOrbAnimation, optic.create_animation(0))  
+    end
 
     -- Fake menu scrolling
     if lastOpenWidgetTag and ends(lastOpenWidgetTag.path, "lobby_menu") then
