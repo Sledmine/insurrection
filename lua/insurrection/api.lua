@@ -45,12 +45,23 @@ api.session = {token = nil, lobbyKey = nil, username = nil}
 ---@field available availableParameters
 ---@field server serverInstance
 
+local function isThreadRunning()
+    if #Lanes == 0 then
+        return false
+    end
+    return true
+end
+
 ---Set game in loading state
 ---@param isLoading boolean
 ---@param text? string
 ---@param blockInput? boolean
 local function loading(isLoading, text, blockInput)
     if isLoading then
+        -- There is already another thread running, do not modify loading status
+        if isThreadRunning() then
+            return
+        end
         if blockInput then
             harmony.menu.block_input(true)
         end
