@@ -50,12 +50,20 @@ interface.widgets = {
 function interface.load()
     -- Load Insurrection features
     if (core.loadInsurrectionPatches()) then
+        -- Change aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
-        core.loadNameplates()
+
+        -- Execute basic Halo commands
         execute_script("menu_blur_on")
+        
         IsUICompatible = true
+        
+        core.loadNameplates()
         core.cleanAllEditableWidgets()
+
         interface.animate()
+        
+        -- Load login data
         local username, password = core.loadCredentials()
         if username and password then
             core.setStringToWidget(username, interface.widgets.usernameInputTag.id)
