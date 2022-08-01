@@ -474,15 +474,24 @@ local chimeraFontOverride = {
     ticker_font_weight = 400
 }
 
-function chimera.loadConfig()
+function chimera.getConfiguration()
     local configIni = glue.readfile("chimera.ini", "t")
     if configIni then
         ---@type chimeraConfiguration
         local configuration = ini.decode(configIni)
-        configuration.font_override = insurrectionFontOverride
-        --glue.writefile("chimera.ini", ini.encode(configuration), "t")
         return configuration
     end
+end
+
+function chimera.setupFonts()
+    local chimeraIni = glue.readfile("chimera.ini", "t")
+    if chimeraIni then
+        ---@type chimeraConfiguration
+        local configuration = ini.decode(chimeraIni)
+        configuration.font_override = insurrectionFontOverride
+        return glue.writefile("chimera.ini", ini.encode(configuration), "t")
+    end
+    return false
 end
 
 return chimera
