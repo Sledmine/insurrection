@@ -74,10 +74,10 @@ for i = 2, 5 do
     }
     widget.create(elementButtonPath, complexButton("left_justify",
                                                    ("lobby_element_button_%s"):format(i),
-                                                   "$ELEMENT_PLACE_HOLDER"))
+                                                   string.rep(" ", 256)))
 end
 widget.create(inputSearchPath,
-              inputText("lobby_search_input", "LOBBY_KEY_PLACEHOLDER", false, true, "search_icon"))
+              inputText("lobby_search_input", string.rep(" ", 32), false, true, "search_icon"))
 widget.create(optionsPath, optionsList({
     {horizontal_offset = 0, vertical_offset = 0, widget_tag = definitionsPath},
     {horizontal_offset = 0, vertical_offset = 0, widget_tag = elementsPath},
@@ -99,7 +99,7 @@ for childWidgetIndex = lastContainerElement, lastContainerElement + 15 do
     local nameplateIndex = childWidgetIndex - (lastContainerElement - 1)
     local nameplatePath = nameplateButtonPath:format(nameplateIndex)
     local nameplateWidgetName = ("lobby_nameplate_button_%s"):format(nameplateIndex)
-    widget.create(nameplatePath, nameplate(nameplateWidgetName, "$PLAYER_NAMEPLATE_PLACEHOLDER"))
+    widget.create(nameplatePath, nameplate(nameplateWidgetName, string.rep(" ", 256)))
     containerWithButtons.child_widgets[childWidgetIndex] = {
         horizontal_offset = 624,
         vertical_offset = widget.offset(12, 26, 3, nameplateIndex),
