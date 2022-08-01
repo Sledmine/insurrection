@@ -5,6 +5,7 @@ local blam = require "blam"
 local requests = require "requestscurl"
 local interface = require "insurrection.interface"
 local glue = require "glue"
+local exists = glue.canopen
 local trim = glue.string.trim
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
@@ -44,17 +45,42 @@ api.session = {token = nil, lobbyKey = nil, username = nil}
 ---@field available availableParameters
 ---@field server serverInstance
 
+---Set game in loading state
+---@param isLoading boolean
+---@param text? string
+---@param blockInput? boolean
+local function loading(isLoading, text, blockInput)
+    if isLoading then
+        if blockInput then
+            harmony.menu.block_input(true)
+        end
+        LoadingText = text or "Loading..."
+    else
+        harmony.menu.block_input(false)
+        LoadingText = nil
+    end
+end
+
 function async(func, callback, ...)
     if (#Lanes == 0) then
         Lanes[#Lanes + 1] = {thread = lanes.gen(asyncLibs, func)(...), callback = callback}
     else
-        console_out("Warning, there is another thread in the queue!")
+        dprint("Warning! An async function is trying to add another thread!", "warning")
     end
+end
+
+local function connect(map, host, port, password)
+    --if exists("maps\\" .. map .. ".map") then
+        core.connectServer(host, port, password)
+    --else
+    --    interface.dialog("ERROR", "LOCAL MAP NOT FOUND",
+    --                     "Map \"" .. map .. "\" was not found on your game files.")
+    --end
 end
 
 -- Request login
 local function onLoginResponse(result)
-    harmony.menu.block_input(false)
+    loading(false)
     local code = result[1]
     local payload = result[2]
     if code then
@@ -75,7 +101,7 @@ local function onLoginResponse(result)
                      "An unknown error has ocurred, please try again later.")
 end
 function api.login(username, password)
-    harmony.menu.block_input(true)
+    loading(true, "Logging in...")
     async(requests.post, onLoginResponse, api.url .. "/login",
           {username = username, password = password})
 end
@@ -83,7 +109,7 @@ end
 -- Request lobby
 local function onLobbyResponse(result)
     dprint("onLobbyResponse", "info")
-    harmony.menu.block_input(false)
+    loading(false)
     local code = result[1]
     local payload = result[2]
     if code then
@@ -107,8 +133,8 @@ local function onLobbyResponse(result)
                     store:dispatch(actions.setLobby(api.session.lobbyKey, response))
                     -- There is a server already running for this lobby, connect to it
                     if lobby.server then
-                        core.connectServer(lobby.server.host, lobby.server.port,
-                                           lobby.server.password)
+                        connect(lobby.server.map, lobby.server.host, lobby.server.port,
+                                lobby.server.password)
                         return true
                     end
                 end
@@ -137,7 +163,7 @@ local function onLobbyResponse(result)
                      "An unknown error has ocurred, please try again later.")
 end
 function api.lobby(lobbyKey)
-    harmony.menu.block_input(true)
+    loading(true, "Loading lobby...")
     if lobbyKey then
         api.session.lobbyKey = lobbyKey
         async(requests.get, onLobbyResponse, api.url .. "/lobby/" .. lobbyKey)
@@ -149,6 +175,7 @@ end
 -- Request lobby refresh
 local function onLobbyRefreshResponse(result)
     dprint("onLobbyRefreshResponse", "info")
+    loading(false)
     local code = result[1]
     local payload = result[2]
     if code then
@@ -160,7 +187,8 @@ local function onLobbyRefreshResponse(result)
                 store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
                 -- Lobby already started, join the server
                 if lobby.server then
-                    core.connectServer(lobby.server.host, lobby.server.port, lobby.server.password)
+                    connect(lobby.server.map, lobby.server.host, lobby.server.port,
+                            lobby.server.password)
                 end
             end
             return true
@@ -177,6 +205,7 @@ local function onLobbyRefreshResponse(result)
     return false
 end
 function api.refreshLobby()
+    loading(true, "Refreshing lobby...", false)
     if api.session.lobbyKey then
         dprint("Refreshing lobby data...", "info")
         async(requests.get, onLobbyRefreshResponse, api.url .. "/lobby/" .. api.session.lobbyKey)
@@ -193,6 +222,7 @@ end
 
 -- Request instanced server
 local function onBorrowResponse(result)
+    loading(false)
     local code = result[1]
     local payload = result[2]
     if code then
@@ -205,10 +235,11 @@ local function onBorrowResponse(result)
             ---@field message string
             ---@field port number
             ---@field host string
+            ---@field map string
 
             ---@type serverBorrowResponse
             local response = json.decode(payload)
-            core.connectServer(response.host, response.port, response.password)
+            connect(response.map, response.host, response.port, response.password)
             return true
         elseif code == 404 then
             local response = json.decode(payload)
@@ -231,6 +262,7 @@ local function onBorrowResponse(result)
                      "An unknown error has ocurred, please try again later.")
 end
 function api.borrow(template, map, gametype)
+    loading(true, "Borrowing game server...", false)
     async(requests.get, onBorrowResponse, api.url .. "/borrow/" .. template .. "/" .. map .. "/" ..
               gametype .. "/" .. api.session.lobbyKey)
 end
