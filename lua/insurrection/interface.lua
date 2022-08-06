@@ -55,14 +55,14 @@ function interface.load()
 
         -- Execute basic Halo commands
         execute_script("menu_blur_on")
-        
+
         IsUICompatible = true
-        
+
         core.loadNameplates()
         core.cleanAllEditableWidgets()
 
         interface.animate()
-        
+
         -- Load login data
         local username, password = core.loadCredentials()
         if username and password then
@@ -123,14 +123,15 @@ function interface.onButton(widgetTagId)
         local username = getWidgetString(findWidgetTag("username_input").id)
         local password = getWidgetString(findWidgetTag("password_input").id)
         if username and password and username ~= "" and password ~= "" then
-            --dprint("Login with username: " .. username .. " and password: " .. password)
+            -- dprint("Login with username: " .. username .. " and password: " .. password)
             core.saveCredentials(username, password)
             api.login(username, password)
         else
             interface.dialog("WARNING", "", "Please enter a username and password.")
         end
     elseif ends(buttonPath, "register_button") then
-        interface.dialog("INFORMATION", "Join us on our Discord server!", "We have a Discord Bot process to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
+        interface.dialog("INFORMATION", "Join us on our Discord server!",
+                         "We have a Discord Bot process to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
     elseif ends(buttonPath, "create_lobby_button") then
         api.lobby()
     elseif ends(buttonPath, "lobby_key_input") then
@@ -361,7 +362,7 @@ end
 function interface.onInputText(widgetTagId, text)
     local widget = blam.uiWidgetDefinition(widgetTagId)
     if widget.name == "lobby_search_input" then
-        --dprint("Searching for: " .. text)
+        -- dprint("Searching for: " .. text)
         store:dispatch(actions.updateLobby(nil, nil, text))
     end
 end
