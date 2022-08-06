@@ -39,6 +39,11 @@ lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
 -- Input elements
 usernameInputTag = findWidgetTag("username_input")
 passwordInputTag = findWidgetTag("password_input")
+local nameplateBitmapTags = blam.findTagsList("nameplates\\", blam.tagClasses.bitmap)
+local nameplatesBitmapTagIds = {}
+for _, tag in ipairs(nameplateBitmapTags) do
+    nameplatesBitmapTagIds[tonumber(core.getTagName(tag.path))] = tag.id
+end
 
 interface.widgets = {
     lobbyWidgetTag = lobbyWidgetTag,
@@ -150,7 +155,7 @@ function interface.onButton(widgetTagId)
     elseif ends(buttonPath, "lobby_definition_button_4") then
         ---@type interfaceState
         local state = store:getState()
-        if api.session.username and api.session.username == state.lobby.owner then
+        if api.session.player and api.session.player.publicId == state.lobby.owner then
             local template = getWidgetString(findWidgetTag("lobby_definition_button_1").id)
             local map = getWidgetString(findWidgetTag("lobby_definition_button_2").id)
             local gametype = getWidgetString(findWidgetTag("lobby_definition_button_3").id)
@@ -189,9 +194,12 @@ function interface.update()
 
     -- TODO Fix this, we need the current profile name, player does not exist yet
     local currentPlayerName = blam.player(get_player()).name:lower()
-    for playerIndex, playerName in pairs(state.lobby.members) do
+    for playerIndex, player in pairs(state.lobby.players) do
+        local playerName = player.name
         local widgetIndex = playerIndex + 3
         if playerName ~= currentPlayerName then
+            uiWidgetTag(lobbyWidget.childWidgets[widgetIndex].widgetTag).backgroundBitmap =
+                nameplatesBitmapTagIds[player.nameplate]
             interface.setWidgetValues(lobbyWidget.childWidgets[widgetIndex].widgetTag, {opacity = 1})
             setWidgetString(playerName, lobbyWidget.childWidgets[widgetIndex].widgetTag)
         end
@@ -227,6 +235,14 @@ function interface.update()
     local widgetInstanceIndex = foundWidgets[1]
     if widgetInstanceIndex then
         reloadWidget(widgetInstanceIndex)
+    end
+
+    -- Hide elements widget if no are not the owner of the lobby
+    if state.lobby.owner ~= api.session.player.publicId then
+        -- Hide elements widget
+        interface.setWidgetValues(optionsWidget.childWidgets[2].widgetTag, {opacity = 0})
+        -- Hide search bar
+        interface.setWidgetValues(optionsWidget.childWidgets[3].widgetTag, {opacity = 0})
     end
 end
 
