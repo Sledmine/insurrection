@@ -98,7 +98,7 @@ local function onLoginResponse(result)
         if code == 200 then
             local response = json.decode(payload)
             api.session.token = response.token
-            api.session.username = response.username
+            api.session.player = response.player
             requests.headers = {"Authorization: Bearer " .. api.session.token}
             interface.dashboard()
             return true
