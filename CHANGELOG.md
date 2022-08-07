@@ -1,3 +1,11 @@
+# 1.0.0-alpha.9
+- Added external chimera loading and saving configuration
+- Added loading status orb text
+- Updated Insurrection API definitions
+- Changed minor details in dashboard and lobby layout
+- Added support for loading and saving nameplate internally
+- Added command to setup insurrection fonts
+
 # 1.0.0-alpha.8
 - Added input search bar for lobby elements
 - Fixed scrolling custom menus due to an issue with scroll chunks/pagination
