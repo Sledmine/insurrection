@@ -1,6 +1,6 @@
 version: 1
 user: gravemind
-cloudpath: Insurrection
+cloudpath: Shadowmods/Projects/Insurrection
 engine: gbx-custom
 tagsize: 64M
 extendlimits: true
