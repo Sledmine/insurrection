@@ -111,10 +111,6 @@ function core.getCurrentUIWidget()
     return nil
 end
 
-function core.patchChimeraFonts()
-    -- create_font_override(int tag_id, string family, int size, int weight, int offset_x, int offset_y, int shadow_x, int shadow_y)
-end
-
 ---Attempt to translate a input key code
 ---@param keyCode integer
 ---@return string | nil name of the given key code

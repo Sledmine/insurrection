@@ -240,6 +240,10 @@ function OnCommand(command)
         DebugMode = not DebugMode
         console_out("Debug mode: " .. tostring(DebugMode))
         return false
+    elseif command == "insurrection_fonts" then
+        chimera.setupFonts()
+        console_out("Chimera fonts have been setup")
+        return false
     end
 end
 
