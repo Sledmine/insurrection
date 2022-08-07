@@ -19,8 +19,16 @@ widget.create(headerPath, menuHeader("insurrection_dashboard", "INSURRECTION DAS
 -- Crate options elements
 local createLobbyButtonPath = buttonPath .. [[create_lobby_button.ui_widget_definition]]
 widget.create(createLobbyButtonPath, button("left_justify", "create_lobby_button", "CREATE LOBBY"))
+
+local joinLobbyButtonPath = buttonPath .. [[join_lobby_button.ui_widget_definition]]
+widget.create(joinLobbyButtonPath, button("left_justify", "join_lobby_button", "JOIN LOBBY"))
+
 local lobbyKeyInputPath = buttonPath .. [[lobby_key_input.ui_widget_definition]]
-widget.create(lobbyKeyInputPath, inputText("lobby_key_input", "LOBBY_KEY_PLACEHOLDER", false, true, "key_icon"))
+widget.create(lobbyKeyInputPath,
+              inputText("lobby_key_input", "LOBBY_KEY_PLACEHOLDER", false, true, "key_icon"))
+
+local customizationButtonPath = buttonPath .. [[customization_button.ui_widget_definition]]
+widget.create(customizationButtonPath, button("left_justify", "customization_button", "CUSTOMIZATION"))
 
 local initialPosition = 86
 ---@type invaderWidget
@@ -35,15 +43,21 @@ local options = {
             widget_tag = createLobbyButtonPath
         },
         {
-            horizontal_offset = 39,
+            horizontal_offset = 40,
             vertical_offset = widget.offset(initialPosition, 24, 4, 2),
+            widget_tag = joinLobbyButtonPath
+        },
+        {
+            horizontal_offset = 40,
+            vertical_offset = widget.offset(initialPosition, 24, 4, 3),
             widget_tag = lobbyKeyInputPath
         },
-    {
-            horizontal_offset = 630,
-            vertical_offset = 415,
-            widget_tag = backButtonPath
-        }
+        {
+            horizontal_offset = 40,
+            vertical_offset = widget.offset(initialPosition, 24, 4, 6),
+            widget_tag = customizationButtonPath
+        },
+        {horizontal_offset = 630, vertical_offset = 415, widget_tag = backButtonPath}
     }
 }
 widget.create(optionsPath, options)
