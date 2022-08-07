@@ -1,3 +1,6 @@
+# 1.0.0-alpha.10
+- Turn off debug mode by default
+
 # 1.0.0-alpha.9
 - Added external chimera loading and saving configuration
 - Added loading status orb text
