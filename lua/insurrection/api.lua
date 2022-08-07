@@ -100,6 +100,9 @@ local function onLoginResponse(result)
             api.session.token = response.token
             api.session.player = response.player
             requests.headers = {"Authorization: Bearer " .. api.session.token}
+            -- Save last defined nameplate
+            core.saveSettings({nameplate = response.player.nameplate})
+            interface.loadNameplate()
             interface.dashboard()
             return true
         elseif code == 401 then

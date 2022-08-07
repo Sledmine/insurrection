@@ -44,18 +44,11 @@ function core.getTagName(tagPath)
     return tagName
 end
 
-function core.loadNameplates()
-    local nameplateBitmapTags = blam.findTagsList("nameplates\\", tagClasses.bitmap)
-    local nameplateTag = blam.findTag("shared\\current_profile", tagClasses.uiWidgetDefinition)
-    local nameplate = blam.uiWidgetDefinition(nameplateTag.id)
-    nameplate.backgroundBitmap = nameplateBitmapTags[math.random(#nameplateBitmapTags)].id
-end
-
 function core.loadInsurrectionPatches()
     -- Force usage a more friendly client port
-    --if clientPort ~= friendlyClientPort then
+    -- if clientPort ~= friendlyClientPort then
     --    write_dword(clientPortAddress, friendlyClientPort)
-    --end
+    -- end
     -- Force enable sound extensions
     execute_script("sound_enable_eax 1")
     execute_script("sound_enable_hardware 1")
@@ -85,6 +78,20 @@ function core.loadCredentials()
             return credentials.username, base64.decode(credentials.password)
         end
     end
+end
+
+function core.loadSettings()
+    local settingsFile = read_file("settings.json")
+    if settingsFile then
+        local settings = json.decode(settingsFile)
+        if settings then
+            return settings
+        end
+    end
+end
+
+function core.saveSettings(settings)
+    write_file("settings.json", json.encode(settings))
 end
 
 --- Get the tag widget of the current ui open in the game

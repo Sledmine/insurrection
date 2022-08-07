@@ -44,6 +44,8 @@ local nameplatesBitmapTagIds = {}
 for _, tag in ipairs(nameplateBitmapTags) do
     nameplatesBitmapTagIds[tonumber(core.getTagName(tag.path))] = tag.id
 end
+-- General UI Elements
+local nameplateTag = findWidgetTag("shared\\current_profile")
 
 interface.widgets = {
     lobbyWidgetTag = lobbyWidgetTag,
@@ -63,7 +65,7 @@ function interface.load()
 
         IsUICompatible = true
 
-        core.loadNameplates()
+        interface.loadNameplate(nameplateIndex)
         core.cleanAllEditableWidgets()
 
         interface.animate()
@@ -77,6 +79,17 @@ function interface.load()
     end
     -- Workaround fix to prevent players from getting stuck in a game server at menu
     execute_script("disconnect")
+end
+
+function interface.loadNameplate(nameplateIndex)
+    local nameplate = blam.uiWidgetDefinition(nameplateTag.id)
+    if nameplateIndex then
+        nameplate.backgroundBitmap = nameplatesBitmapTagIds[nameplateIndex]
+    end
+    local settings = core.loadSettings()
+    if settings and settings.nameplate then
+        nameplate.backgroundBitmap = nameplatesBitmapTagIds[settings.nameplate]
+    end
 end
 
 ---Show a dialog message on the screen
@@ -136,10 +149,10 @@ function interface.onButton(widgetTagId)
         end
     elseif ends(buttonPath, "register_button") then
         interface.dialog("INFORMATION", "Join us on our Discord server!",
-                         "We have a Discord Bot process to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
+                         "We have a Discord Bot to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
     elseif ends(buttonPath, "create_lobby_button") then
         api.lobby()
-    elseif ends(buttonPath, "lobby_key_input") then
+    elseif ends(buttonPath, "join_lobby_button") then
         local lobbyKey = getWidgetString(findWidgetTag("lobby_key_input").id)
         if lobbyKey ~= "" then
             api.lobby(lobbyKey)
