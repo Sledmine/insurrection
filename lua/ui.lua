@@ -15,7 +15,7 @@ local ends = require"glue".string.ends
 
 -- UI state and stuff
 clua_version = 2.056
-DebugMode = true
+DebugMode = false
 IsUICompatible = false
 math.randomseed(os.time() + ticks())
 local gameStarted = false
