@@ -165,8 +165,9 @@ function OnFrame()
     -- Draw loading text on the left side of the screen
     if LoadingText then
         draw_text(LoadingText or "", bounds.left + 12, bounds.top, bounds.left + 200, bounds.bottom,
-              "small", "left", table.unpack(textColor))
-    optic.render_sprite(loadingSprite, 8, screenHeight - 32 - 8, 255, ticks() * 8, 1, rotateOrbAnimation, optic.create_animation(0))  
+                  "small", "left", table.unpack(textColor))
+        optic.render_sprite(loadingSprite, 8, screenHeight - 32 - 8, 255, ticks() * 8, 1,
+                            rotateOrbAnimation, optic.create_animation(0))
     end
 
     -- Fake menu scrolling
@@ -247,6 +248,13 @@ function OnCommand(command)
     end
 end
 
+function animateAt30FPS()
+    if IsUICompatible then
+        interface.animateNameplates()
+    end
+end
+
+set_timer(33, "animateAt30FPS")
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnFrame")
 set_callback("command", "OnCommand")

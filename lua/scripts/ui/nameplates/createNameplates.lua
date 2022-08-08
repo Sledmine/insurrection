@@ -2,7 +2,7 @@
 local fs = require "fs"
 local tag = require "lua.scripts.modules.tag"
 
-local bitmapTemplate = tag.runner .. [[invader-bitmap -T interface_bitmaps %s]]
+local bitmapTemplate = tag.runner .. [[invader-bitmap -F 32-bit -T interface_bitmaps %s]]
 
 local nameplatesCollection = {tags = {}}
 fs.cd("data")
@@ -16,10 +16,10 @@ for name, d in fs.dir([[insurrection/ui/shared/bitmaps/nameplates]]) do
         local filePath = d:path()
         print(filePath)
         nameplatesCollection.tags[#nameplatesCollection.tags + 1] = {
-            reference = filePath:gsub("%.tif", ".bitmap")
+            reference = filePath:gsub("%.png", ".bitmap")
         }
 
-        local bitmapPath = filePath:gsub("%.tif", "")
+        local bitmapPath = filePath:gsub("%.png", "")
         os.execute(bitmapTemplate:format(bitmapPath))
     end
 end

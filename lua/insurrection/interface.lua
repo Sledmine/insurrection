@@ -65,7 +65,7 @@ function interface.load()
 
         IsUICompatible = true
 
-        interface.loadNameplate(nameplateIndex)
+        interface.loadProfileNameplate()
         core.cleanAllEditableWidgets()
 
         interface.animate()
@@ -81,15 +81,42 @@ function interface.load()
     execute_script("disconnect")
 end
 
-function interface.loadNameplate(nameplateIndex)
-    local nameplate = blam.uiWidgetDefinition(nameplateTag.id)
+function interface.loadProfileNameplate(nameplateIndex)
+    local nameplate = uiWidgetTag(nameplateTag.id)
     if nameplateIndex then
         nameplate.backgroundBitmap = nameplatesBitmapTagIds[nameplateIndex]
+        return
     end
     local settings = core.loadSettings()
     if settings and settings.nameplate then
         nameplate.backgroundBitmap = nameplatesBitmapTagIds[settings.nameplate]
     end
+end
+
+---Animates UI elements by animating background bitmap
+---@param widgetTagId number
+function interface.animateUIWidgetBackground(widgetTagId)
+    local widgetRender = interface.getWidgetValues(widgetTagId)
+    if widgetRender then
+        local widgetBitmap = blam.bitmap(uiWidgetTag(widgetTagId).backgroundBitmap)
+        if widgetBitmap.bitmapsCount > 1 then
+            if widgetRender then
+                if widgetRender.background_bitmap_index < widgetBitmap.bitmapsCount then
+                    interface.setWidgetValues(widgetTagId, {
+                        background_bitmap_index = widgetRender.background_bitmap_index + 1
+                    })
+                else
+                    interface.setWidgetValues(widgetTagId, {background_bitmap_index = 0})
+                end
+            end
+        end
+    end
+end
+
+--- Animates player nameplates, including profile nameplate
+function interface.animateNameplates()
+    interface.animateUIWidgetBackground(nameplateTag.id)
+    -- TODO Animate other player in lobby nameplates
 end
 
 ---Show a dialog message on the screen
@@ -256,6 +283,13 @@ function interface.update()
         interface.setWidgetValues(optionsWidget.childWidgets[2].widgetTag, {opacity = 0})
         -- Hide search bar
         interface.setWidgetValues(optionsWidget.childWidgets[3].widgetTag, {opacity = 0})
+    end
+end
+
+function interface.getWidgetValues(widgetTagId)
+    local widgetInstanceId = harmony.menu.find_widgets(widgetTagId)
+    if widgetInstanceId then
+        return harmony.menu.get_widget_values(widgetInstanceId)
     end
 end
 
