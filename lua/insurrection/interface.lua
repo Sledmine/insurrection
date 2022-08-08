@@ -96,17 +96,22 @@ end
 ---Animates UI elements by animating background bitmap
 ---@param widgetTagId number
 function interface.animateUIWidgetBackground(widgetTagId)
-    local widgetRender = interface.getWidgetValues(widgetTagId)
-    if widgetRender then
-        local widgetBitmap = blam.bitmap(uiWidgetTag(widgetTagId).backgroundBitmap)
-        if widgetBitmap.bitmapsCount > 1 then
-            if widgetRender then
-                if widgetRender.background_bitmap_index < widgetBitmap.bitmapsCount then
-                    interface.setWidgetValues(widgetTagId, {
-                        background_bitmap_index = widgetRender.background_bitmap_index + 1
-                    })
-                else
-                    interface.setWidgetValues(widgetTagId, {background_bitmap_index = 0})
+    local isUIRendering = core.getRenderedUIWidgetTagId()
+    if isUIRendering then
+        local widgetRender = interface.getWidgetValues(widgetTagId)
+        if widgetRender then
+            local widgetBitmap = blam.bitmap(uiWidgetTag(widgetTagId).backgroundBitmap)
+            if widgetBitmap then
+                if widgetBitmap.bitmapsCount > 1 then
+                    if widgetRender then
+                        if widgetRender.background_bitmap_index < widgetBitmap.bitmapsCount then
+                            interface.setWidgetValues(widgetTagId, {
+                                background_bitmap_index = widgetRender.background_bitmap_index + 1
+                            })
+                        else
+                            interface.setWidgetValues(widgetTagId, {background_bitmap_index = 0})
+                        end
+                    end
                 end
             end
         end

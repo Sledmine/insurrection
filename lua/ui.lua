@@ -181,7 +181,7 @@ function OnFrame()
     end
 
     -- Process widget animations queue
-    local widgetTag = core.getCurrentUIWidget()
+    local widgetTag = core.getCurrentUIWidgetTag()
     if widgetTag then
         for animationWidgetId, animation in pairs(WidgetAnimations) do
             if not animation.finished then

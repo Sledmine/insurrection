@@ -94,19 +94,24 @@ function core.saveSettings(settings)
     write_file("settings.json", json.encode(settings))
 end
 
---- Get the tag widget of the current ui open in the game
----@return tag
-function core.getCurrentUIWidget()
+function core.getRenderedUIWidgetTagId()
     local isPlayerOnMenu = read_byte(blam.addressList.gameOnMenus) == 0
-    if (isPlayerOnMenu) then
+    if isPlayerOnMenu then
         local widgetIdAddress = read_dword(currentWidgetIdAddress)
-        if (widgetIdAddress and widgetIdAddress ~= 0) then
+        if widgetIdAddress and widgetIdAddress ~= 0 then
             local widgetId = read_dword(widgetIdAddress)
-            local tag = blam.getTag(widgetId)
-            if (tag) then
-                return tag
-            end
+            return widgetId
         end
+    end
+end
+
+--- Get the tag widget of the current ui open in the game
+---@return tag | nil
+function core.getCurrentUIWidgetTag()
+    local widgetTagId = core.getRenderedUIWidgetTagId()
+    if widgetTagId then
+        local widgetTag = blam.getTag(widgetTagId)
+        return widgetTag
     end
     return nil
 end
