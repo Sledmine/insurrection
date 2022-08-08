@@ -81,8 +81,8 @@ widget.create(inputSearchPath,
 widget.create(optionsPath, optionsList({
     {horizontal_offset = 0, vertical_offset = 0, widget_tag = definitionsPath},
     {horizontal_offset = 0, vertical_offset = 0, widget_tag = elementsPath},
-    {horizontal_offset = 40, vertical_offset = 330, widget_tag = inputSearchPath},
-    {horizontal_offset = 630, vertical_offset = 415, widget_tag = backButtonPath}
+    {horizontal_offset = 40, vertical_offset = 320, widget_tag = inputSearchPath},
+    {horizontal_offset = 40, vertical_offset = 415, widget_tag = backButtonPath}
 }))
 widget.create(definitionsPath, definitions)
 widget.create(elementsPath, elements)
