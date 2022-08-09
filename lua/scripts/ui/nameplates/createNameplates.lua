@@ -39,7 +39,7 @@ for name, d in fs.dir([[insurrection/ui/shared/bitmaps/nameplates]]) do
         break
     end
     local type = d:attr "type"
-    if (type == "file") then
+    if type == "file" then
         local filePath = d:path()
         print(filePath)
         nameplatesCollection.tags[#nameplatesCollection.tags + 1] = {

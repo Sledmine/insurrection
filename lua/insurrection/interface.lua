@@ -84,6 +84,10 @@ end
 function interface.loadProfileNameplate(nameplateIndex)
     local nameplate = uiWidgetTag(nameplateTag.id)
     if nameplateIndex then
+        if nameplateIndex > #nameplatesBitmapTagIds then
+            dprint("Invalid nameplate index: " .. nameplateIndex, "warning")
+            nameplateIndex = #nameplatesBitmapTagIds
+        end
         nameplate.backgroundBitmap = nameplatesBitmapTagIds[nameplateIndex]
         return
     end
