@@ -1,6 +1,9 @@
 ---Options list component, scroll trough elements using dpad, etc
+---@param childWidgets invaderWidgetChildWidget
+---@param horizontal? boolean
 ---@return invaderWidget
 return function(childWidgets, horizontal)
+    local horizontal = horizontal or false
     ---@type invaderWidget
     local options = {
         widget_type = "column_list",
