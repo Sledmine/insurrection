@@ -28,7 +28,9 @@ widget.create(lobbyKeyInputPath,
               inputText("lobby_key_input", "LOBBY_KEY_PLACEHOLDER", false, true, "key_icon"))
 
 local customizationButtonPath = buttonPath .. [[customization_button.ui_widget_definition]]
-widget.create(customizationButtonPath, button("left_justify", "customization_button", "CUSTOMIZATION"))
+widget.create(customizationButtonPath,
+              button("left_justify", "customization_button", "CUSTOMIZATION",
+                     [[insurrection/ui/menus/customization/customization_menu.ui_widget_definition]]))
 
 local initialPosition = 86
 ---@type invaderWidget
