@@ -14,7 +14,7 @@ return function(name, text)
         widget_type = "text_box",
         bounds = "-26 -192 26 192",
         --flags = {pass_unhandled_events_to_focused_child = true},
-        background_bitmap = [[insurrection\ui\bitmaps\default_nameplate.bitmap]],
+        background_bitmap = [[insurrection/ui/bitmaps/default_nameplate.bitmap]],
         event_handlers = {
             {
                 flags = {
@@ -35,11 +35,16 @@ return function(name, text)
         },
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
-        text_font = [[ui\large_ui.font]],
+        text_font = [[ui/large_ui.font]],
         text_color = "1 1 1 1",
         justification = "left_justify",
         horiz_offset = 225,
-        vert_offset = 31
+        vert_offset = 31,
+        child_widgets = {
+            {
+                widget_tag = [[insurrection/ui/shared/nameplate_overlay.ui_widget_definition]]
+            }
+        }
     }
     return widget
 end
