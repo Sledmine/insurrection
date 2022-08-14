@@ -57,7 +57,7 @@ local widget = {}
 ---@field flags invaderWidgetConditionalWidgetFlags
 ---@field custom_controller_index number
 
----@class invaderWidgetGameDataInputs
+---@class invaderWidgetGameDataInput
 ---@field function string
 
 ---@class invaderWidget
@@ -67,7 +67,7 @@ local widget = {}
 ---@field milliseconds_to_auto_close number
 ---@field milliseconds_to_auto_close_fade_time number
 ---@field background_bitmap string
----@field game_data_inputs invaderWidgetGameDataInputs[]
+---@field game_data_inputs invaderWidgetGameDataInput[]
 ---@field event_handlers invaderWidgetEventHandler[]
 ---@field extended_description_widget string
 ---@field justification '"left_justify"' | '"center_justify"' | '"right_justify"'
