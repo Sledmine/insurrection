@@ -57,6 +57,9 @@ local widget = {}
 ---@field flags invaderWidgetConditionalWidgetFlags
 ---@field custom_controller_index number
 
+---@class invaderWidgetGameDataInputs
+---@field function string
+
 ---@class invaderWidget
 ---@field widget_type '"container"' | '"text_box"' | '"spinner_list"' | '"column_list"'
 ---@field bounds string
@@ -64,6 +67,7 @@ local widget = {}
 ---@field milliseconds_to_auto_close number
 ---@field milliseconds_to_auto_close_fade_time number
 ---@field background_bitmap string
+---@field game_data_inputs invaderWidgetGameDataInputs[]
 ---@field event_handlers invaderWidgetEventHandler[]
 ---@field extended_description_widget string
 ---@field justification '"left_justify"' | '"center_justify"' | '"right_justify"'
