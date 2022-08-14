@@ -21,6 +21,7 @@ local nameplateButtonPath = buttonsPath .. [[lobby_nameplate_%s.ui_widget_defini
 local definitionsPath = menuPath .. [[lobby_definitions.ui_widget_definition]]
 local elementsPath = menuPath .. [[lobby_elements.ui_widget_definition]]
 local inputSearchPath = menuPath .. [[lobby_input_search.ui_widget_definition]]
+local playersNameplatesPath = menuPath .. [[lobby_players_nameplates.ui_widget_definition]]
 local backButtonPath = [[insurrection/ui/shared/common_back.ui_widget_definition]]
 local currentVersionPath = [[insurrection\ui\main_menu\version.ui_widget_definition]]
 
@@ -86,24 +87,31 @@ widget.create(optionsPath, optionsList({
 }))
 widget.create(definitionsPath, definitions)
 widget.create(elementsPath, elements)
+
+---@type invaderWidgetChildWidget[]
+local playerNameplates = {}
+for playerIndex = 1, 16 do
+    local nameplatePath = nameplateButtonPath:format(playerIndex)
+    local nameplateWidgetName = ("lobby_nameplate_button_%s"):format(playerIndex)
+    widget.create(nameplatePath, nameplate(nameplateWidgetName, string.rep(" ", 32)))
+    playerNameplates[playerIndex] = {
+        horizontal_offset = 624,
+        vertical_offset = widget.offset(12, 26, 3, playerIndex),
+        widget_tag = nameplatePath
+    }
+end
+widget.create(playersNameplatesPath, {
+    widget_type = "container",
+    child_widgets = playerNameplates
+})
+
 local container = menuContainer()
 local containerWithButtons = {
     child_widgets = {
         {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerPath},
         {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath},
+        {horizontal_offset = 0, vertical_offset = 0, widget_tag = playersNameplatesPath},
         {horizontal_offset = 0, vertical_offset = 460, widget_tag = currentVersionPath}
     }
 }
-local lastContainerElement = #containerWithButtons.child_widgets + 1
-for childWidgetIndex = lastContainerElement, lastContainerElement + 15 do
-    local nameplateIndex = childWidgetIndex - (lastContainerElement - 1)
-    local nameplatePath = nameplateButtonPath:format(nameplateIndex)
-    local nameplateWidgetName = ("lobby_nameplate_button_%s"):format(nameplateIndex)
-    widget.create(nameplatePath, nameplate(nameplateWidgetName, string.rep(" ", 32)))
-    containerWithButtons.child_widgets[childWidgetIndex] = {
-        horizontal_offset = 624,
-        vertical_offset = widget.offset(12, 26, 3, nameplateIndex),
-        widget_tag = nameplatePath
-    }
-end
 widget.create(containerPath, widget.update(container, containerWithButtons))

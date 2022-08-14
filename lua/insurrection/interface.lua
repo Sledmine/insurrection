@@ -36,6 +36,7 @@ lobbyElement2Tag = findWidgetTag("lobby_element_button_2")
 lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
 lobbyElement4Tag = findWidgetTag("lobby_element_button_4")
 lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
+lobbyPlayersNameplatesTag = findWidgetTag("lobby_players_nameplates")
 -- Input elements
 usernameInputTag = findWidgetTag("username_input")
 passwordInputTag = findWidgetTag("password_input")
@@ -236,20 +237,19 @@ function interface.update()
         local optionsWidget = uiWidgetTag(lobbyWidget.childWidgets[2].widgetTag)
         local definitionsWidget = uiWidgetTag(optionsWidget.childWidgets[1].widgetTag)
         local elementsWidget = uiWidgetTag(optionsWidget.childWidgets[2].widgetTag)
+        local playersNameplates = uiWidgetTag(lobbyPlayersNameplatesTag.id)
 
         -- Update players in lobby
         for playerIndex = 1, 16 do
-            local widgetIndex = playerIndex + 3
-            interface.setWidgetValues(lobbyWidget.childWidgets[widgetIndex].widgetTag, {opacity = 0})
+            interface.setWidgetValues(playersNameplates.childWidgets[playerIndex].widgetTag, {opacity = 0})
         end
 
         -- TODO Fix this, we need the current profile name, player does not exist yet
         local currentPlayerName = blam.player(get_player()).name:lower()
         for playerIndex, player in pairs(state.lobby.players) do
             local playerName = player.name
-            local widgetIndex = playerIndex + 3
             if playerName ~= currentPlayerName then
-                local nameplateWidgetTagId = lobbyWidget.childWidgets[widgetIndex].widgetTag
+                local nameplateWidgetTagId = playersNameplates.childWidgets[playerIndex].widgetTag
                 -- Unhide nameplate overlay
                 interface.setWidgetValues(nameplateWidgetTagId, {opacity = 1})
                 -- Update nameplate background

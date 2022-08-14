@@ -24,7 +24,7 @@ local nameplateCustomizeButtonPath = buttonPath ..
                                          [[nameplate_customize_button.ui_widget_definition]]
 widget.create(nameplateCustomizeButtonPath,
               complexButton("left_justify", "nameplate_customize_button", "NAMEPLATE", nil, nil,
-                            nil, "CUSTOMIZE YOUR NAMEPLATE"))
+                            nil, "SELECT NAMEPLATE"))
 
 local scrollUpButtonPath = buttonPath .. [[scroll_up_button.ui_widget_definition]]
 widget.create(scrollUpButtonPath, button("left_justify", "scroll_up_button", "SCROLL UP"))
