@@ -11,6 +11,7 @@ local containerPath = menuPath .. menuName .. [[_menu.ui_widget_definition]]
 local headerPath = menuPath .. menuName .. [[_header.ui_widget_definition]]
 local optionsPath = menuPath .. menuName .. [[_options.ui_widget_definition]]
 local backButtonPath = [[insurrection/ui/shared/common_back.ui_widget_definition]]
+local currentProfilePath = [[insurrection\ui\shared\current_profile.ui_widget_definition]]
 local currentVersionPath = [[insurrection\ui\main_menu\version.ui_widget_definition]]
 
 -- Create menu header
@@ -71,6 +72,7 @@ widget.merge(menu, {
         {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerPath},
         {horizontal_offset = 253, vertical_offset = 78, widget_tag = dialogPath},
         {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath},
+        {horizontal_offset = 624, vertical_offset = 20, widget_tag = currentProfilePath},
         {horizontal_offset = 0, vertical_offset = 460, widget_tag = currentVersionPath}
     }
 })
