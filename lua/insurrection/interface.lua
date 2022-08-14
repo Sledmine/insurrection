@@ -230,68 +230,77 @@ end
 function interface.update()
     ---@type interfaceState
     local state = store:getState()
-    local lobbyWidget = uiWidgetTag(lobbyWidgetTag.id)
-    local optionsWidget = uiWidgetTag(lobbyWidget.childWidgets[2].widgetTag)
-    local definitionsWidget = uiWidgetTag(optionsWidget.childWidgets[1].widgetTag)
-    local elementsWidget = uiWidgetTag(optionsWidget.childWidgets[2].widgetTag)
+    local renderedWidgetId = core.getRenderedUIWidgetTagId()
+    if renderedWidgetId == lobbyWidgetTag.id then
+        local lobbyWidget = uiWidgetTag(lobbyWidgetTag.id)
+        local optionsWidget = uiWidgetTag(lobbyWidget.childWidgets[2].widgetTag)
+        local definitionsWidget = uiWidgetTag(optionsWidget.childWidgets[1].widgetTag)
+        local elementsWidget = uiWidgetTag(optionsWidget.childWidgets[2].widgetTag)
 
-    -- Update players in lobby
-    for playerIndex = 1, 16 do
-        local widgetIndex = playerIndex + 3
-        interface.setWidgetValues(lobbyWidget.childWidgets[widgetIndex].widgetTag, {opacity = 0})
-    end
-
-    -- TODO Fix this, we need the current profile name, player does not exist yet
-    local currentPlayerName = blam.player(get_player()).name:lower()
-    for playerIndex, player in pairs(state.lobby.players) do
-        local playerName = player.name
-        local widgetIndex = playerIndex + 3
-        if playerName ~= currentPlayerName then
-            uiWidgetTag(lobbyWidget.childWidgets[widgetIndex].widgetTag).backgroundBitmap =
-                nameplatesBitmapTagIds[player.nameplate]
-            interface.setWidgetValues(lobbyWidget.childWidgets[widgetIndex].widgetTag, {opacity = 1})
-            setWidgetString(playerName, lobbyWidget.childWidgets[widgetIndex].widgetTag)
+        -- Update players in lobby
+        for playerIndex = 1, 16 do
+            local widgetIndex = playerIndex + 3
+            interface.setWidgetValues(lobbyWidget.childWidgets[widgetIndex].widgetTag, {opacity = 0})
         end
-    end
 
-    setWidgetString(state.selected.template, definitionsWidget.childWidgets[1].widgetTag)
-    setWidgetString(state.selected.map, definitionsWidget.childWidgets[2].widgetTag)
-    setWidgetString(state.selected.gametype, definitionsWidget.childWidgets[3].widgetTag)
-
-    -- Restore normal list widget state
-    local newChilds = elementsWidget.childWidgets
-    newChilds[2].widgetTag = lobbyElement2Tag.id
-    newChilds[3].widgetTag = lobbyElement3Tag.id
-    newChilds[4].widgetTag = lobbyElement4Tag.id
-    newChilds[5].widgetTag = lobbyElement5Tag.id
-    elementsWidget.childWidgets = newChilds
-
-    -- Apply modifications based on lua state
-    local elements = state.displayed
-    for childIndex = 2, 5 do
-        childWidget = elementsWidget.childWidgets[childIndex]
-        local elementIndex = childIndex - 1
-        if elements[elementIndex] then
-            setWidgetString(elements[elementIndex], childWidget.widgetTag)
-        else
-            newChilds[childIndex].widgetTag = 0xFFFFFFFF
+        -- TODO Fix this, we need the current profile name, player does not exist yet
+        local currentPlayerName = blam.player(get_player()).name:lower()
+        for playerIndex, player in pairs(state.lobby.players) do
+            local playerName = player.name
+            local widgetIndex = playerIndex + 3
+            if playerName ~= currentPlayerName then
+                local nameplateWidgetTagId = lobbyWidget.childWidgets[widgetIndex].widgetTag
+                -- Unhide nameplate overlay
+                interface.setWidgetValues(nameplateWidgetTagId, {opacity = 1})
+                -- Update nameplate background
+                local nameplateWidgetDefinition = uiWidgetTag(nameplateWidgetTagId)
+                nameplateWidgetDefinition.backgroundBitmap =
+                    nameplatesBitmapTagIds[player.nameplate]
+                -- Update nameplate overlay
+                local overlayWidgetTagId = nameplateWidgetDefinition.childWidgets[1].widgetTag
+                setWidgetString(playerName, overlayWidgetTagId)
+            end
         end
-    end
-    elementsWidget.childWidgets = newChilds
 
-    -- Reload dynamically changed widgets from tags, effectively redrawing the UI
-    local foundWidgets = findWidgets(optionsWidget.childWidgets[2].widgetTag, true)
-    local widgetInstanceIndex = foundWidgets[1]
-    if widgetInstanceIndex then
-        reloadWidget(widgetInstanceIndex)
-    end
+        setWidgetString(state.selected.template, definitionsWidget.childWidgets[1].widgetTag)
+        setWidgetString(state.selected.map, definitionsWidget.childWidgets[2].widgetTag)
+        setWidgetString(state.selected.gametype, definitionsWidget.childWidgets[3].widgetTag)
 
-    -- Hide elements widget if no are not the owner of the lobby
-    if state.lobby.owner ~= api.session.player.publicId then
-        -- Hide elements widget
-        interface.setWidgetValues(optionsWidget.childWidgets[2].widgetTag, {opacity = 0})
-        -- Hide search bar
-        interface.setWidgetValues(optionsWidget.childWidgets[3].widgetTag, {opacity = 0})
+        -- Restore normal list widget state
+        local newChilds = elementsWidget.childWidgets
+        newChilds[2].widgetTag = lobbyElement2Tag.id
+        newChilds[3].widgetTag = lobbyElement3Tag.id
+        newChilds[4].widgetTag = lobbyElement4Tag.id
+        newChilds[5].widgetTag = lobbyElement5Tag.id
+        elementsWidget.childWidgets = newChilds
+
+        -- Apply modifications based on lua state
+        local elements = state.displayed
+        for childIndex = 2, 5 do
+            childWidget = elementsWidget.childWidgets[childIndex]
+            local elementIndex = childIndex - 1
+            if elements[elementIndex] then
+                setWidgetString(elements[elementIndex], childWidget.widgetTag)
+            else
+                newChilds[childIndex].widgetTag = 0xFFFFFFFF
+            end
+        end
+        elementsWidget.childWidgets = newChilds
+
+        -- Reload dynamically changed widgets from tags, effectively redrawing the UI
+        local foundWidgets = findWidgets(optionsWidget.childWidgets[2].widgetTag, true)
+        local widgetInstanceIndex = foundWidgets[1]
+        if widgetInstanceIndex then
+            reloadWidget(widgetInstanceIndex)
+        end
+
+        -- Hide elements widget if no are not the owner of the lobby
+        if state.lobby.owner ~= api.session.player.publicId then
+            -- Hide elements widget
+            interface.setWidgetValues(optionsWidget.childWidgets[2].widgetTag, {opacity = 0})
+            -- Hide search bar
+            interface.setWidgetValues(optionsWidget.childWidgets[3].widgetTag, {opacity = 0})
+        end
     end
 end
 
