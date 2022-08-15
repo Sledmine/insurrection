@@ -1,3 +1,4 @@
+local redux = require "redux"
 local actions = {}
 
 actions.types = {
@@ -6,7 +7,8 @@ actions.types = {
     UPDATE_LOBBY = "UPDATE_LOBBY",
     SET_LOBBY_DEFINITION = "SET_LOBBY_DEFINITION",
     SET_SELECTED = "SET_SELECTED",
-    SCROLL_LIST = "SCROLL_LIST"
+    SCROLL_LIST = "SCROLL_LIST",
+    SET_LIST = "SET_LIST"
 }
 
 function actions.setIsLoading(loading)
@@ -35,7 +37,18 @@ function actions.setSelected(element)
 end
 
 function actions.scroll(scrollNext)
-    return {type = actions.types.SCROLL_LIST, payload = scrollNext}
+    return {
+        type = actions.types.SCROLL_LIST,
+        payload = {scrollNext = scrollNext}
+    }
+end
+
+function actions.setList(list, chunkSize)
+    return {type = actions.types.SET_LIST, payload = {list = list, chunkSize = chunkSize}}
+end
+
+function actions.reset()
+    return {type = redux.actionTypes.INIT}
 end
 
 return actions

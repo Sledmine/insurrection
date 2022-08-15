@@ -17,13 +17,11 @@ local defaultState = {
         template = ""
     },
     selected = {template = nil, map = nil, gametype = nil},
-    currentChunk = 1,
     displayed = {},
     filtered = {},
-    customization = {
-        currentChunk = 1,
-        selectedNameplate = 1
-    },
+    list = {},
+    currentChunk = 1,
+    chunkSize = 4
 }
 
 ---Game interface reducer
@@ -31,7 +29,7 @@ local defaultState = {
 ---@param action reduxAction
 local function interfaceReducer(state, action)
     if action.type == redux.actionTypes.INIT then
-        return defaultState
+        return glue.deepcopy(defaultState)
     elseif action.type == actions.types.SET_IS_LOADING then
         state.isLoading = action.payload
         return state
@@ -39,7 +37,9 @@ local function interfaceReducer(state, action)
         state.lobbyKey = action.payload.key
         state.lobby = action.payload.lobby
         local available = state.lobby.available
-        state.displayed = chunks(available.templates, 4)[1]
+        state.chunkSize = 4
+        state.list = state.lobby.available[state.definition .. "s"]
+        state.displayed = chunks(available.templates, state.chunkSize)[1]
         state.selected.template = available.templates[1]
         state.selected.map = available.maps[1]
         state.selected.gametype = available.gametypes[1]
@@ -71,18 +71,24 @@ local function interfaceReducer(state, action)
         return state
     elseif action.type == actions.types.SET_LOBBY_DEFINITION then
         state.definition = action.payload
-        local list = state.lobby.available[state.definition .. "s"]
-        state.currentChunk = 1
-        state.displayed = chunks(list, 4)[1]
+        state.list = state.lobby.available[state.definition .. "s"]
+        state.chunkSize = 4
+        state.displayed = chunks(state.list, state.chunkSize)[state.currentChunk]
         return state
     elseif action.type == actions.types.SET_SELECTED then
         state.selected[state.definition] = action.payload
         return state
+    elseif action.type == actions.types.SET_LIST then
+        state.chunkSize = action.payload.chunkSize or defaultState.chunkSize
+        state.currentChunk = 1
+        state.list = action.payload.list
+        state.displayed = chunks(action.payload.list, state.chunkSize)[state.currentChunk] or {}
+        return state
     elseif action.type == actions.types.SCROLL_LIST then
-        local list = state.lobby.available[state.definition .. "s"]
-        local chunkCount = #chunks(list, 4)
+        local list = state.list
+        local chunkCount = #chunks(list, state.chunkSize)
         -- Scroll forward
-        if not action.payload then
+        if not action.payload.scrollNext then
             if (state.currentChunk < chunkCount) then
                 state.currentChunk = state.currentChunk + 1
             end
@@ -92,7 +98,7 @@ local function interfaceReducer(state, action)
             end
         end
         if (list and #list > 0) then
-            local displayed = chunks(list, 4)[state.currentChunk]
+            local displayed = chunks(list, state.chunkSize)[state.currentChunk]
             if displayed then
                 state.displayed = displayed
             end
