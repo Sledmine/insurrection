@@ -19,7 +19,11 @@ local defaultState = {
     selected = {template = nil, map = nil, gametype = nil},
     currentChunk = 1,
     displayed = {},
-    filtered = {}
+    filtered = {},
+    customization = {
+        currentChunk = 1,
+        selectedNameplate = 1
+    },
 }
 
 ---Game interface reducer

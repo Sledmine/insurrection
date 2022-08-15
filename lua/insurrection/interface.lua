@@ -29,6 +29,7 @@ local interface = {}
 local dialogWidgetTag = findWidgetTag("dialog_menu")
 local lobbyWidgetTag = findWidgetTag("lobby_menu")
 local dashboardWidgetTag = findWidgetTag("dashboard_menu")
+local customizationWidgetTag = findWidgetTag("customization_menu")
 -- Sounds
 local errorSoundTag = findTag("flag_failure", blam.tagClasses.sound)
 -- Lobby elements
@@ -126,7 +127,9 @@ end
 --- Animates player nameplates, including profile nameplate
 function interface.animateNameplates()
     interface.animateUIWidgetBackground(nameplateTag.id)
-    -- TODO Animate other player in lobby nameplates
+    for widgetIndex, childWidget in pairs(uiWidgetTag(lobbyPlayersNameplatesTag.id).childWidgets) do
+        interface.animateUIWidgetBackground(childWidget.widgetTag)
+    end
 end
 
 ---Show a dialog message on the screen
@@ -170,10 +173,18 @@ local lobbyDefinitions = {
     gametype = "lobby_definition_button_3"
 }
 
+function interface.customization()
+    openWidget(customizationWidgetTag.id, true)
+end
+
 --- Map selected button from the UI
 ---@param widgetTagId number
 function interface.onButton(widgetTagId)
     local buttonPath = blam.getTag(widgetTagId).path
+    ---@type interfaceState
+    local state = store:getState()
+    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+                                   state.lobby.owner
     if ends(buttonPath, "login_button") then
         local username = getWidgetString(findWidgetTag("username_input").id)
         local password = getWidgetString(findWidgetTag("password_input").id)
@@ -197,15 +208,20 @@ function interface.onButton(widgetTagId)
             interface.dialog("WARNING", "", "Please specify a lobby key to join.")
         end
     elseif ends(buttonPath, "lobby_definition_button_1") then
-        store:dispatch(actions.setLobbyDefinition("template"))
+        if isPlayerLobbyOwner then
+            store:dispatch(actions.setLobbyDefinition("template"))
+        end
     elseif ends(buttonPath, "lobby_definition_button_2") then
-        store:dispatch(actions.setLobbyDefinition("map"))
+        if isPlayerLobbyOwner then
+            store:dispatch(actions.setLobbyDefinition("map"))
+        end
     elseif ends(buttonPath, "lobby_definition_button_3") then
-        store:dispatch(actions.setLobbyDefinition("gametype"))
+        if isPlayerLobbyOwner then
+            store:dispatch(actions.setLobbyDefinition("gametype"))
+        end
+
     elseif ends(buttonPath, "lobby_definition_button_4") then
-        ---@type interfaceState
-        local state = store:getState()
-        if api.session.player and api.session.player.publicId == state.lobby.owner then
+        if isPlayerLobbyOwner then
             local template = getWidgetString(findWidgetTag("lobby_definition_button_1").id)
             local map = getWidgetString(findWidgetTag("lobby_definition_button_2").id)
             local gametype = getWidgetString(findWidgetTag("lobby_definition_button_3").id)
@@ -213,22 +229,28 @@ function interface.onButton(widgetTagId)
         else
             interface.dialog("WARNING", "", "You are not the owner of the lobby.")
         end
-
     elseif string.find(buttonPath, "lobby_element_button_") then
-        local buttonIndex = tonumber(split(core.getTagName(buttonPath), "_")[4])
-        if buttonIndex == 1 then
-            store:dispatch(actions.scroll(true))
-            return
-        elseif buttonIndex == 6 then
-            store:dispatch(actions.scroll())
-            return
+        if isPlayerLobbyOwner then
+            local buttonIndex = tonumber(split(core.getTagName(buttonPath), "_")[4])
+            if buttonIndex == 1 then
+                store:dispatch(actions.scroll(true))
+                return
+            elseif buttonIndex == 6 then
+                store:dispatch(actions.scroll())
+                return
+            end
+            local value = getWidgetString(findWidgetTag("lobby_element_button_" .. buttonIndex).id)
+            store:dispatch(actions.setSelected(value))
         end
-        local value = getWidgetString(findWidgetTag("lobby_element_button_" .. buttonIndex).id)
-        store:dispatch(actions.setSelected(value))
+    elseif ends(buttonPath, "customization_button") then
+        interface.customization()
+        store:dispatch(actions.setIsLoading())
+        return true
     end
 end
 
 function interface.update()
+    dprint("interface.update()")
     ---@type interfaceState
     local state = store:getState()
     local renderedWidgetId = core.getRenderedUIWidgetTagId()
@@ -241,7 +263,8 @@ function interface.update()
 
         -- Update players in lobby
         for playerIndex = 1, 16 do
-            interface.setWidgetValues(playersNameplates.childWidgets[playerIndex].widgetTag, {opacity = 0})
+            interface.setWidgetValues(playersNameplates.childWidgets[playerIndex].widgetTag,
+                                      {opacity = 0})
         end
 
         -- TODO Fix this, we need the current profile name, player does not exist yet
@@ -300,6 +323,12 @@ function interface.update()
             interface.setWidgetValues(optionsWidget.childWidgets[2].widgetTag, {opacity = 0})
             -- Hide search bar
             interface.setWidgetValues(optionsWidget.childWidgets[3].widgetTag, {opacity = 0})
+        end
+    elseif renderedWidgetId == customizationWidgetTag.id then
+        local customizationMenuWidgetDef = uiWidgetTag(customizationWidgetTag.id)
+        local optionsWidgetDef = uiWidgetTag(customizationMenuWidgetDef.childWidgets[2].widgetTag)
+        for childIndex, childWidget in pairs(optionsWidgetDef.childWidgets) do
+            uiWidgetTag(childWidget.widgetTag).backgroundBitmap = nameplatesBitmapTagIds[childIndex]
         end
     end
 end
