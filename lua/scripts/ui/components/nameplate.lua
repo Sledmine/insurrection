@@ -28,6 +28,7 @@ return function(name, text)
     ---@type invaderWidget
     local widget = {
         widget_type = "container",
+        name = name,
         bounds = "-26 -192 26 192",
         background_bitmap = [[insurrection/ui/bitmaps/default_nameplate.bitmap]],
         child_widgets = {{widget_tag = overlayPath}}
