@@ -13,6 +13,7 @@ local getWidgetString = core.getStringFromWidget
 local setWidgetString = core.setStringToWidget
 local glue = require "glue"
 local split = glue.string.split
+local starts = glue.string.starts
 local ends = glue.string.ends
 local append = glue.append
 local unicodeStringTag = blam.unicodeStringList
@@ -53,7 +54,8 @@ interface.widgets = {
     lobbyWidgetTag = lobbyWidgetTag,
     dashboardWidgetTag = dashboardWidgetTag,
     usernameInputTag = usernameInputTag,
-    passwordInputTag = passwordInputTag
+    passwordInputTag = passwordInputTag,
+    customizationWidgetTag = customizationWidgetTag,
 }
 
 function interface.load()
@@ -244,13 +246,21 @@ function interface.onButton(widgetTagId)
         end
     elseif ends(buttonPath, "customization_button") then
         interface.customization()
-        store:dispatch(actions.setIsLoading())
+        store:dispatch(actions.reset())
+        store:dispatch(actions.setList(nameplatesBitmapTagIds, 7))
         return true
+    elseif string.find(buttonPath, "scroll_") then
+        local scrollDirection = split(core.getTagName(buttonPath), "_")[2]
+        if scrollDirection == "up" then
+            store:dispatch(actions.scroll(true))
+        elseif scrollDirection == "down" then
+            store:dispatch(actions.scroll(false))
+        end
     end
 end
 
 function interface.update()
-    dprint("interface.update()")
+    local time = os.clock()
     ---@type interfaceState
     local state = store:getState()
     local renderedWidgetId = core.getRenderedUIWidgetTagId()
@@ -328,8 +338,20 @@ function interface.update()
         local customizationMenuWidgetDef = uiWidgetTag(customizationWidgetTag.id)
         local optionsWidgetDef = uiWidgetTag(customizationMenuWidgetDef.childWidgets[2].widgetTag)
         for childIndex, childWidget in pairs(optionsWidgetDef.childWidgets) do
-            uiWidgetTag(childWidget.widgetTag).backgroundBitmap = nameplatesBitmapTagIds[childIndex]
+            local nameplateWidget = uiWidgetTag(childWidget.widgetTag)
+            if starts(nameplateWidget.name, "nameplate_button") then
+                local nameplateBitmapTagId = state.displayed[childIndex - 2]
+                if nameplateBitmapTagId then
+                    nameplateWidget.backgroundBitmap = nameplateBitmapTagId
+                    interface.setWidgetValues(childWidget.widgetTag, {opacity = 1})
+                else
+                    interface.setWidgetValues(childWidget.widgetTag, {opacity = 0})
+                end
+            end
         end
+    end
+    if renderedWidgetId then
+        dprint(string.format("Interface update time: %.6f\n", os.clock() - time, "warning"))
     end
 end
 

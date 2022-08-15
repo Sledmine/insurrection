@@ -171,12 +171,14 @@ function OnFrame()
     end
 
     -- Fake menu scrolling
-    if lastOpenWidgetTag and ends(lastOpenWidgetTag.path, "lobby_menu") then
+    if lastOpenWidgetTag and
+        (lastOpenWidgetTag.id == interface.widgets.lobbyWidgetTag.id or lastOpenWidgetTag.id ==
+            interface.widgets.customizationWidgetTag.id) then
         local scroll = tonumber(read_char(0x64C73C + 8))
         if scroll > 0 then
-            store:dispatch(actions.scroll(true))
-        elseif scroll < 0 then
             store:dispatch(actions.scroll(false))
+        elseif scroll < 0 then
+            store:dispatch(actions.scroll(true))
         end
     end
 
