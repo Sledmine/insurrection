@@ -42,10 +42,14 @@ lobbyPlayersNameplatesTag = findWidgetTag("lobby_players_nameplates")
 -- Input elements
 usernameInputTag = findWidgetTag("username_input")
 passwordInputTag = findWidgetTag("password_input")
+local blockedNameplates = {22, 23, 27, 29, 35}
 local nameplateBitmapTags = blam.findTagsList("nameplates\\", blam.tagClasses.bitmap)
 local nameplatesBitmapTagIds = {}
 for _, tag in ipairs(nameplateBitmapTags) do
-    nameplatesBitmapTagIds[tonumber(core.getTagName(tag.path))] = tag.id
+    local nameplateNumber = tonumber(core.getTagName(tag.path))
+    if nameplateNumber then
+        nameplatesBitmapTagIds[nameplateNumber] = tag.id
+    end
 end
 -- General UI Elements
 local nameplateTag = findWidgetTag("shared\\current_profile")
@@ -55,7 +59,7 @@ interface.widgets = {
     dashboardWidgetTag = dashboardWidgetTag,
     usernameInputTag = usernameInputTag,
     passwordInputTag = passwordInputTag,
-    customizationWidgetTag = customizationWidgetTag,
+    customizationWidgetTag = customizationWidgetTag
 }
 
 function interface.load()
@@ -131,6 +135,15 @@ function interface.animateNameplates()
     interface.animateUIWidgetBackground(nameplateTag.id)
     for widgetIndex, childWidget in pairs(uiWidgetTag(lobbyPlayersNameplatesTag.id).childWidgets) do
         interface.animateUIWidgetBackground(childWidget.widgetTag)
+    end
+    local customizationMenuWidgetDef = uiWidgetTag(customizationWidgetTag.id)
+    local optionsCustomizationWidgetDef = uiWidgetTag(
+                                              customizationMenuWidgetDef.childWidgets[2].widgetTag)
+    for widgetIndex, childWidget in pairs(optionsCustomizationWidgetDef.childWidgets) do
+        local nameplateWidgetDef = uiWidgetTag(childWidget.widgetTag)
+        if starts(nameplateWidgetDef.name, "nameplate_button") then
+            interface.animateUIWidgetBackground(childWidget.widgetTag)
+        end
     end
 end
 
@@ -247,7 +260,14 @@ function interface.onButton(widgetTagId)
     elseif ends(buttonPath, "customization_button") then
         interface.customization()
         store:dispatch(actions.reset())
-        store:dispatch(actions.setList(nameplatesBitmapTagIds, 7))
+        local filteredNameplateTagIds = glue.map(nameplatesBitmapTagIds, function(tagId)
+            local bitmapTag = blam.getTag(tagId)
+            local nameplateNumber = tonumber(core.getTagName(bitmapTag.path))
+            if not glue.index(blockedNameplates)[nameplateNumber] then
+                return tagId
+            end
+        end)
+        store:dispatch(actions.setList(filteredNameplateTagIds, 7))
         return true
     elseif string.find(buttonPath, "scroll_") then
         local scrollDirection = split(core.getTagName(buttonPath), "_")[2]
@@ -255,6 +275,15 @@ function interface.onButton(widgetTagId)
             store:dispatch(actions.scroll(true))
         elseif scrollDirection == "down" then
             store:dispatch(actions.scroll(false))
+        end
+    elseif string.find(buttonPath, "nameplate_button_") then
+        local buttonIndex = tonumber(split(core.getTagName(buttonPath), "_")[3])
+        ---@type interfaceState
+        local state = store:getState()
+        local bitmapTag = blam.getTag(state.displayed[buttonIndex])
+        if bitmapTag then
+            -- store:dispatch(actions.setSelected(nameplateBitmapTagId))
+            console_out(bitmapTag.path)
         end
     end
 end

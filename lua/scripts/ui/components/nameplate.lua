@@ -28,6 +28,15 @@ return function(name, text)
     ---@type invaderWidget
     local widget = {
         widget_type = "container",
+        flags = {pass_unhandled_events_to_focused_child = true},
+        event_handlers = {
+            {event_type = "a_button"},
+            {
+                flags = {run_function = true},
+                event_type = "left_mouse",
+                ["function"] = "mouse_emit_accept_event"
+            }
+        },
         name = name,
         bounds = "-26 -192 26 192",
         background_bitmap = [[insurrection/ui/bitmaps/default_nameplate.bitmap]],
