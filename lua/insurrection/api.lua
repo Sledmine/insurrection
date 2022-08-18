@@ -13,6 +13,9 @@ local harmony = require "mods.harmony"
 
 local api = {}
 api.host = read_file("insurrection_host") or "http://localhost:4343/"
+if DebugMode then
+    api.host = "http://localhost:4343/"
+end
 api.version = "v1"
 api.url = api.host .. api.version
 api.variables = {refreshRate = 5000, refreshTimerId = nil}
@@ -283,19 +286,20 @@ end
 
 function onPlayerEditNameplateResponse(result)
     loading(false)
-    local code = result[1]
-    local payload = result[2]
-    if code then
-        if code == 200 then
-            local response = json.decode(payload)
-            if response then
-                --interface.loadProfileNameplate(response.nameplate)
+    ---@type httpresponse
+    local response = result[1]
+    if response.code then
+        if response.code == 200 then
+            local jsonResponse = response.json()
+            if jsonResponse then
                 interface.dialog("INFORMATION", "CONGRATULATIONS", "Nameplate updated successfully.")
             end
             return true
         else
-            local response = json.decode(payload)
-            interface.dialog("ATTENTION", "ERROR " .. code, response.message)
+            local jsonResponse = response.json()
+            if jsonResponse then
+                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
+            end
             return false
         end
     end
@@ -305,8 +309,11 @@ end
 
 function api.playerEditNameplate(nameplateNumber)
     loading(true, "Editing nameplate...", false)
-    async(requests.patch, onPlayerEditNameplateResponse, api.url .. "/players",
-          {nameplate = nameplateNumber})
+    async(requests.patch, function(result)
+        if onPlayerEditNameplateResponse(result) then
+            interface.loadProfileNameplate(nameplateNumber)
+        end
+    end, api.url .. "/players", {nameplate = nameplateNumber})
 end
 
 return api

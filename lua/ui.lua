@@ -7,7 +7,6 @@ local optic = harmony.optic
 local chimera = require "insurrection.chimera"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
-api = require "insurrection.api"
 store = require "insurrection.redux.store"
 local version = require "insurrection.version"
 local ends = require"glue".string.ends
@@ -16,6 +15,8 @@ local ends = require"glue".string.ends
 -- UI state and stuff
 clua_version = 2.056
 DebugMode = false
+-- Import API after setting up debug mode
+api = require "insurrection.api"
 IsUICompatible = false
 math.randomseed(os.time() + ticks())
 local gameStarted = false
