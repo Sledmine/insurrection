@@ -40,6 +40,7 @@ local function interfaceReducer(state, action)
         state.chunkSize = 4
         state.list = state.lobby.available[state.definition .. "s"]
         state.displayed = chunks(available.templates, state.chunkSize)[1]
+        state.selected = defaultState.selected
         state.selected.template = available.templates[1]
         state.selected.map = available.maps[1]
         state.selected.gametype = available.gametypes[1]
@@ -74,6 +75,9 @@ local function interfaceReducer(state, action)
         state.list = state.lobby.available[state.definition .. "s"]
         state.chunkSize = 4
         state.displayed = chunks(state.list, state.chunkSize)[state.currentChunk]
+        return state
+    elseif action.type == actions.types.SET_SELECTED_ITEM then
+        state.selected = action.payload
         return state
     elseif action.type == actions.types.SET_SELECTED then
         state.selected[state.definition] = action.payload

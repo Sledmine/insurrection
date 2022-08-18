@@ -81,12 +81,12 @@ function async(func, callback, ...)
 end
 
 local function connect(map, host, port, password)
-    --if exists("maps\\" .. map .. ".map") then
-        core.connectServer(host, port, password)
-    --else
+    -- if exists("maps\\" .. map .. ".map") then
+    core.connectServer(host, port, password)
+    -- else
     --    interface.dialog("ERROR", "LOCAL MAP NOT FOUND",
     --                     "Map \"" .. map .. "\" was not found on your game files.")
-    --end
+    -- end
 end
 
 -- Request login
@@ -279,6 +279,34 @@ function api.borrow(template, map, gametype)
     loading(true, "Borrowing game server...", false)
     async(requests.get, onBorrowResponse, api.url .. "/borrow/" .. template .. "/" .. map .. "/" ..
               gametype .. "/" .. api.session.lobbyKey)
+end
+
+function onPlayerEditNameplateResponse(result)
+    loading(false)
+    local code = result[1]
+    local payload = result[2]
+    if code then
+        if code == 200 then
+            local response = json.decode(payload)
+            if response then
+                --interface.loadProfileNameplate(response.nameplate)
+                interface.dialog("INFORMATION", "CONGRATULATIONS", "Nameplate updated successfully.")
+            end
+            return true
+        else
+            local response = json.decode(payload)
+            interface.dialog("ATTENTION", "ERROR " .. code, response.message)
+            return false
+        end
+    end
+    interface.dialog("ERROR", "UNKNOWN ERROR",
+                     "An unknown error has ocurred, please try again later.")
+end
+
+function api.playerEditNameplate(nameplateNumber)
+    loading(true, "Editing nameplate...", false)
+    async(requests.patch, onPlayerEditNameplateResponse, api.url .. "/players",
+          {nameplate = nameplateNumber})
 end
 
 return api

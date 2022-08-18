@@ -257,7 +257,7 @@ function interface.onButton(widgetTagId)
             local value = getWidgetString(findWidgetTag("lobby_element_button_" .. buttonIndex).id)
             store:dispatch(actions.setSelected(value))
         end
-    elseif ends(buttonPath, "customization_button") then
+    elseif ends(buttonPath, "\\customization_button") then
         interface.customization()
         store:dispatch(actions.reset())
         local filteredNameplateTagIds = glue.map(nameplatesBitmapTagIds, function(tagId)
@@ -267,7 +267,8 @@ function interface.onButton(widgetTagId)
                 return tagId
             end
         end)
-        store:dispatch(actions.setList(filteredNameplateTagIds, 7))
+        --store:dispatch(actions.setList(filteredNameplateTagIds, 7))
+        store:dispatch(actions.setList(nameplatesBitmapTagIds, 7))
         return true
     elseif string.find(buttonPath, "scroll_") then
         local scrollDirection = split(core.getTagName(buttonPath), "_")[2]
@@ -282,8 +283,19 @@ function interface.onButton(widgetTagId)
         local state = store:getState()
         local bitmapTag = blam.getTag(state.displayed[buttonIndex])
         if bitmapTag then
-            -- store:dispatch(actions.setSelected(nameplateBitmapTagId))
+            local nameplateNumber = tonumber(core.getTagName(bitmapTag.path))
+            --interface.loadProfileNameplate(nameplateNumber)
+            --api.playerEditNameplate(nameplateNumber)
+            store:dispatch(actions.setSelectedItem(bitmapTag.id))
             console_out(bitmapTag.path)
+        end
+    elseif ends(buttonPath, "save_customization_button") then
+        ---@type interfaceState
+        local state = store:getState()
+        local nameplateNumber = tonumber(glue.index(nameplatesBitmapTagIds)[state.selected])
+        dprint(nameplateNumber)
+        if nameplateNumber then
+            api.playerEditNameplate(nameplateNumber)
         end
     end
 end

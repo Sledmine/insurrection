@@ -7,6 +7,7 @@ actions.types = {
     UPDATE_LOBBY = "UPDATE_LOBBY",
     SET_LOBBY_DEFINITION = "SET_LOBBY_DEFINITION",
     SET_SELECTED = "SET_SELECTED",
+    SET_SELECTED_ITEM = "SET_SELECTED_ITEM",
     SCROLL_LIST = "SCROLL_LIST",
     SET_LIST = "SET_LIST"
 }
@@ -34,6 +35,10 @@ end
 
 function actions.setSelected(element)
     return {type = actions.types.SET_SELECTED, payload = element}
+end
+
+function actions.setSelectedItem(element)
+    return {type = actions.types.SET_SELECTED_ITEM, payload = element}
 end
 
 function actions.scroll(scrollNext)
