@@ -1,7 +1,15 @@
+local json = require "json"
 local requests = {}
 
 requests.headers = {}
 requests.timeout = 300
+
+---@class httpresponse
+---@field url string
+---@field code number
+---@field text string
+---@field headers table
+---@field json fun() : table?
 
 local function paramsToBodyString(params)
     local body = ""
@@ -60,9 +68,9 @@ function requests.post(url, params)
     local body = paramsToBodyString(params)
     local headers = {}
     for k, v in pairs(requests.headers) do
-        headers[#headers+1] = v
+        headers[#headers + 1] = v
     end
-    headers[#headers+1] = "Content-Type: application/x-www-form-urlencoded"
+    headers[#headers + 1] = "Content-Type: application/x-www-form-urlencoded"
     local request = curl.easy {
         url = urlencode(url),
         timeout = requests.timeout,
@@ -82,30 +90,49 @@ end
 ---Perform a PATCH request
 ---@param url string
 ---@param params? table<string, string | number>
----@return integer
----@return string
+---@return httpresponse
 function requests.patch(url, params)
     local curl = require "lcurl.safe"
-    local buffer = {}
-    local body = paramsToBodyString(params)
-    local headers = {}
+    local requestHeaders = {}
     for k, v in pairs(requests.headers) do
-        headers[#headers+1] = v
+        requestHeaders[#requestHeaders + 1] = v
     end
-    headers[#headers+1] = "Content-Type: application/x-www-form-urlencoded"
+    requestHeaders[#requestHeaders + 1] = "Content-Type: application/x-www-form-urlencoded"
+
+    local responseBody = {}
+    local responseHeaders = {}
+
     local request = curl.easy {
         url = urlencode(url),
         timeout = requests.timeout,
-        httpheader = headers,
+        httpheader = requestHeaders,
         writefunction = function(input)
-            table.insert(buffer, input)
-        end
-    }:setopt_postfields(body):setopt_customrequest("PATCH"):perform()
+            table.insert(responseBody, input)
+        end,
+        headerfunction = function(header)
+            local key = header:match("^([^:]+):")
+            if key then
+                responseHeaders[key] = header:sub(#key + 2, #header - 2)
+            end
+        end,
+        postfields = paramsToBodyString(params),
+        customrequest = "PATCH"
+    }:perform()
+
     if request then
+        local url = request:getinfo_effective_url()
         local code = request:getinfo_response_code()
-        local content = table.concat(buffer)
+        local responseBody = table.concat(responseBody)
         request:close()
-        return code, content
+        return {
+            url = url,
+            code = code,
+            text = responseBody,
+            headers = responseHeaders,
+            json = function()
+                return json.decode(responseBody)
+            end
+        }
     end
 end
 
