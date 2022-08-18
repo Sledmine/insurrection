@@ -372,7 +372,7 @@ setmetatable(inspect, {
 })
 
 --- Function to send debug messages to console output
----@param message string
+---@param message string | number | table | any
 ---@param color? '"info"' | '"warning"' | '"error"' | '"success"'
 function dprint(message, color)
     if DebugMode then
