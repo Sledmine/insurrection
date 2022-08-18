@@ -42,6 +42,8 @@ lobbyPlayersNameplatesTag = findWidgetTag("lobby_players_nameplates")
 -- Input elements
 usernameInputTag = findWidgetTag("username_input")
 passwordInputTag = findWidgetTag("password_input")
+-- General UI Elements
+local nameplateTag = findWidgetTag("shared\\current_profile")
 local blockedNameplates = {22, 23, 27, 29, 35}
 local nameplateBitmapTags = blam.findTagsList("nameplates\\", blam.tagClasses.bitmap)
 local nameplatesBitmapTagIds = {}
@@ -51,8 +53,7 @@ for _, tag in ipairs(nameplateBitmapTags) do
         nameplatesBitmapTagIds[nameplateNumber] = tag.id
     end
 end
--- General UI Elements
-local nameplateTag = findWidgetTag("shared\\current_profile")
+local nameplatePreviewTag = findWidgetTag("nameplate_preview")
 
 interface.widgets = {
     lobbyWidgetTag = lobbyWidgetTag,
@@ -145,6 +146,7 @@ function interface.animateNameplates()
             interface.animateUIWidgetBackground(childWidget.widgetTag)
         end
     end
+    interface.animateUIWidgetBackground(nameplatePreviewTag.id)
 end
 
 ---Show a dialog message on the screen
@@ -267,8 +269,10 @@ function interface.onButton(widgetTagId)
                 return tagId
             end
         end)
-        --store:dispatch(actions.setList(filteredNameplateTagIds, 7))
-        store:dispatch(actions.setList(nameplatesBitmapTagIds, 7))
+        store:dispatch(actions.setList(filteredNameplateTagIds, 7))
+        if api.session and api.session.player.rank > 0 then
+            store:dispatch(actions.setList(nameplatesBitmapTagIds, 7))
+        end
         return true
     elseif string.find(buttonPath, "scroll_") then
         local scrollDirection = split(core.getTagName(buttonPath), "_")[2]
@@ -284,8 +288,6 @@ function interface.onButton(widgetTagId)
         local bitmapTag = blam.getTag(state.displayed[buttonIndex])
         if bitmapTag then
             local nameplateNumber = tonumber(core.getTagName(bitmapTag.path))
-            --interface.loadProfileNameplate(nameplateNumber)
-            --api.playerEditNameplate(nameplateNumber)
             store:dispatch(actions.setSelectedItem(bitmapTag.id))
             console_out(bitmapTag.path)
         end
@@ -293,7 +295,6 @@ function interface.onButton(widgetTagId)
         ---@type interfaceState
         local state = store:getState()
         local nameplateNumber = tonumber(glue.index(nameplatesBitmapTagIds)[state.selected])
-        dprint(nameplateNumber)
         if nameplateNumber then
             api.playerEditNameplate(nameplateNumber)
         end
@@ -376,6 +377,12 @@ function interface.update()
             interface.setWidgetValues(optionsWidget.childWidgets[3].widgetTag, {opacity = 0})
         end
     elseif renderedWidgetId == customizationWidgetTag.id then
+        local nameplatePreviewWidgetDef = uiWidgetTag(nameplatePreviewTag.id)
+        if state.selected and glue.index(nameplatesBitmapTagIds)[state.selected] and
+            nameplatePreviewWidgetDef then
+            ---@diagnostic disable-next-line: assign-type-mismatch
+            nameplatePreviewWidgetDef.backgroundBitmap = state.selected
+        end
         local customizationMenuWidgetDef = uiWidgetTag(customizationWidgetTag.id)
         local optionsWidgetDef = uiWidgetTag(customizationMenuWidgetDef.childWidgets[2].widgetTag)
         for childIndex, childWidget in pairs(optionsWidgetDef.childWidgets) do
