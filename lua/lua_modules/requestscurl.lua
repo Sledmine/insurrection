@@ -3,6 +3,16 @@ local requests = {}
 requests.headers = {}
 requests.timeout = 300
 
+local function paramsToBodyString(params)
+    local body = ""
+    for k, v in pairs(params) do
+        body = body .. k .. "=" .. v .. "&"
+    end
+    -- Remove last "&"
+    body = body:sub(1, #body - 1)
+    return body
+end
+
 -- Probably an alternative due to performance
 -- https://gist.github.com/liukun/f9ce7d6d14fa45fe9b924a3eed5c3d99
 local function urlencode(str)
@@ -47,20 +57,50 @@ function requests.post(url, params)
     -- TODO Implement different types of POST
     local curl = require "lcurl.safe"
     local buffer = {}
-    local body = ""
-    for k, v in pairs(params) do
-        body = body .. k .. "=" .. v .. "&"
+    local body = paramsToBodyString(params)
+    local headers = {}
+    for k, v in pairs(requests.headers) do
+        headers[#headers+1] = v
     end
-    -- Remove last "&"
-    body = body:sub(1, #body - 1)
+    headers[#headers+1] = "Content-Type: application/x-www-form-urlencoded"
     local request = curl.easy {
         url = urlencode(url),
         timeout = requests.timeout,
-        httpheader = {"Content-Type: application/x-www-form-urlencoded"},
+        httpheader = headers,
         writefunction = function(input)
             table.insert(buffer, input)
         end
     }:setopt_postfields(body):perform()
+    if request then
+        local code = request:getinfo_response_code()
+        local content = table.concat(buffer)
+        request:close()
+        return code, content
+    end
+end
+
+---Perform a PATCH request
+---@param url string
+---@param params? table<string, string | number>
+---@return integer
+---@return string
+function requests.patch(url, params)
+    local curl = require "lcurl.safe"
+    local buffer = {}
+    local body = paramsToBodyString(params)
+    local headers = {}
+    for k, v in pairs(requests.headers) do
+        headers[#headers+1] = v
+    end
+    headers[#headers+1] = "Content-Type: application/x-www-form-urlencoded"
+    local request = curl.easy {
+        url = urlencode(url),
+        timeout = requests.timeout,
+        httpheader = headers,
+        writefunction = function(input)
+            table.insert(buffer, input)
+        end
+    }:setopt_postfields(body):setopt_customrequest("PATCH"):perform()
     if request then
         local code = request:getinfo_response_code()
         local content = table.concat(buffer)
