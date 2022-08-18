@@ -35,6 +35,9 @@ widget.create(scrollDownButtonPath, button("left_justify", "scroll_down_button",
 local saveCustomizationButtonPath = buttonPath .. [[save_customization_button.ui_widget_definition]]
 widget.create(saveCustomizationButtonPath, button("left_justify", "save_customization_button", "SAVE"))
 
+local nameplatePreviewPath = menuPath .. [[nameplate_preview.ui_widget_definition]]
+widget.create(nameplatePreviewPath, nameplate("nameplate_preview", "Shadowmods", true))
+
 local initialPosition = 165
 ---@type invaderWidgetChildWidget[]
 local options = {}
@@ -84,6 +87,7 @@ widget.merge(menu, {
     child_widgets = {
         {horizontal_offset = 40, vertical_offset = 20, widget_tag = headerPath},
         {horizontal_offset = 0, vertical_offset = 0, widget_tag = optionsPath},
+        {horizontal_offset = 254, vertical_offset = 195, widget_tag = nameplatePreviewPath},
         {horizontal_offset = 0, vertical_offset = 460, widget_tag = currentVersionPath}
     }
 })

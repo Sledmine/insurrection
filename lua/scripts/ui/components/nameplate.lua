@@ -2,7 +2,11 @@ local ustr = require "lua.scripts.modules.ustr"
 local widget = require "lua.scripts.widget"
 ---Nameplate widget
 ---@return invaderWidget
-return function(name, text)
+return function(name, text, asPreview)
+    local bounds = "-26 -192 26 192"
+    if asPreview then
+        bounds = "0 0 52 384"
+    end
     local stringsTagPath
     if text then
         -- Generate strings tag
@@ -14,7 +18,7 @@ return function(name, text)
                             "_overlay.ui_widget_definition"
     widget.create(overlayPath, {
         widget_type = "text_box",
-        bounds = "-26 -192 26 192",
+        bounds = bounds,
         background_bitmap = [[insurrection/ui/shared/bitmaps/nameplate_overlay.bitmap]],
         -- game_data_inputs = {{["function"] = "get_active_plyr_profile_name"}},
         text_label_unicode_strings_list = stringsTagPath,
@@ -38,9 +42,12 @@ return function(name, text)
             }
         },
         name = name,
-        bounds = "-26 -192 26 192",
+        bounds = bounds,
         background_bitmap = [[insurrection/ui/bitmaps/default_nameplate.bitmap]],
         child_widgets = {{widget_tag = overlayPath}}
     }
+    if asPreview then
+        widget.child_widgets = {}
+    end
     return widget
 end
