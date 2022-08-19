@@ -16,6 +16,7 @@ local defaultState = {
         member = "",
         template = ""
     },
+    ---@type table | string | number
     selected = {template = nil, map = nil, gametype = nil},
     displayed = {},
     filtered = {},
@@ -40,7 +41,7 @@ local function interfaceReducer(state, action)
         state.chunkSize = 4
         state.list = state.lobby.available[state.definition .. "s"]
         state.displayed = chunks(available.templates, state.chunkSize)[1]
-        state.selected = defaultState.selected
+        state.selected = glue.deepcopy(defaultState.selected)
         state.selected.template = available.templates[1]
         state.selected.map = available.maps[1]
         state.selected.gametype = available.gametypes[1]

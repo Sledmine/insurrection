@@ -90,7 +90,7 @@ end
 ---Perform a PATCH request
 ---@param url string
 ---@param params? table<string, string | number>
----@return httpresponse
+---@return httpresponse?
 function requests.patch(url, params)
     local curl = require "lcurl.safe"
     local requestHeaders = {}

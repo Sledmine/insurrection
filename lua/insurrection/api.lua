@@ -145,8 +145,7 @@ local function onLobbyResponse(result)
                     store:dispatch(actions.setLobby(response.key, response.lobby))
                 else
                     -- We have to joined an existing lobby
-                    ---@type lobbyRoom
-                    local lobby = response
+                    local lobby = response --[[@as lobbyRoom]]
                     store:dispatch(actions.setLobby(api.session.lobbyKey, response))
                     -- There is a server already running for this lobby, connect to it
                     if lobby.server then
@@ -284,16 +283,14 @@ function api.borrow(template, map, gametype)
               gametype .. "/" .. api.session.lobbyKey)
 end
 
-function onPlayerEditNameplateResponse(result)
+---comment
+---@param response httpresponse
+---@return boolean
+function onPlayerEditNameplateResponse(response)
     loading(false)
-    ---@type httpresponse
-    local response = result[1]
-    if response.code then
+    if response then
         if response.code == 200 then
-            local jsonResponse = response.json()
-            if jsonResponse then
-                interface.dialog("INFORMATION", "CONGRATULATIONS", "Nameplate updated successfully.")
-            end
+            interface.dialog("INFORMATION", "CONGRATULATIONS", "Nameplate updated successfully.")
             return true
         else
             local jsonResponse = response.json()
@@ -305,12 +302,13 @@ function onPlayerEditNameplateResponse(result)
     end
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
+    return false
 end
 
 function api.playerEditNameplate(nameplateNumber)
     loading(true, "Editing nameplate...", false)
     async(requests.patch, function(result)
-        if onPlayerEditNameplateResponse(result) then
+        if onPlayerEditNameplateResponse(result[1]) then
             interface.loadProfileNameplate(nameplateNumber)
         end
     end, api.url .. "/players", {nameplate = nameplateNumber})

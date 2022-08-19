@@ -380,8 +380,7 @@ function interface.update()
         local nameplatePreviewWidgetDef = uiWidgetTag(nameplatePreviewTag.id)
         if state.selected and glue.index(nameplatesBitmapTagIds)[state.selected] and
             nameplatePreviewWidgetDef then
-            ---@diagnostic disable-next-line: assign-type-mismatch
-            nameplatePreviewWidgetDef.backgroundBitmap = state.selected
+            nameplatePreviewWidgetDef.backgroundBitmap = state.selected --[[@as number]]
         end
         local customizationMenuWidgetDef = uiWidgetTag(customizationWidgetTag.id)
         local optionsWidgetDef = uiWidgetTag(customizationMenuWidgetDef.childWidgets[2].widgetTag)
@@ -428,8 +427,8 @@ local bezierCurves = {
 ---@param property '"horizontal"' | '"vertical' | '"opacity"' | string Property to animate (e.g. "opacity")
 ---@param originalOffset number Original offset of the widget
 ---@param offset number Offset to apply to the widget
----@param bezier '"ease in"' | '"ease out"' | string Bezier curve to use, e.g. "ease in"
----@param animateOn '"show"' | '"focus"' | string Animation to apply to the widget, e.g. "show"
+---@param bezier? '"ease in"' | '"ease out"' | string Bezier curve to use, e.g. "ease in"
+---@param animateOn? '"show"' | '"focus"' | string Animation to apply to the widget, e.g. "show"
 function interface.animation(targetWidgetTagId,
                              widgetContainerTagId,
                              duration,
