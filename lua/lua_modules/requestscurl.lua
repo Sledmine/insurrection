@@ -4,12 +4,7 @@ local requests = {}
 requests.headers = {}
 requests.timeout = 300
 
----@class httpresponse
----@field url string
----@field code number
----@field text string
----@field headers table
----@field json fun() : table?
+---@class httpResponse<T> : { url: string, code: number, text: string, headers: table<string, string>, json : fun(): T }
 
 local function paramsToBodyString(params)
     local body = ""
@@ -35,62 +30,104 @@ end
 
 ---Perform a GET request
 ---@param url string
----@return integer
----@return string
+---@return httpResponse?
 function requests.get(url)
     local curl = require "lcurl.safe"
-    local buffer = {}
+
+    local requestHeaders = {}
+    for k, v in pairs(requests.headers) do
+        requestHeaders[#requestHeaders + 1] = v
+    end
+    requestHeaders[#requestHeaders + 1] = "Content-Type: application/x-www-form-urlencoded"
+
+    local responseBody = {}
+    local responseHeaders = {}
+
     local request = curl.easy {
         url = urlencode(url),
         timeout = requests.timeout,
         httpheader = requests.headers,
         writefunction = function(input)
-            table.insert(buffer, input)
+            table.insert(responseBody, input)
+        end,
+        headerfunction = function(header)
+            local key = header:match("^([^:]+):")
+            if key then
+                responseHeaders[key] = header:sub(#key + 2, #header - 2)
+            end
         end
     }:perform()
+
     if request then
+        local url = request:getinfo_effective_url()
         local code = request:getinfo_response_code()
-        local content = table.concat(buffer)
+        local responseBody = table.concat(responseBody)
         request:close()
-        return code, content
+        return {
+            url = url,
+            code = code,
+            text = responseBody,
+            headers = responseHeaders,
+            json = function()
+                return json.decode(responseBody)
+            end
+        }
     end
 end
 
 ---Perform a POST request
 ---@param url string
 ---@param params? table<string, string | number>
----@return integer
----@return string
+---@return httpResponse?
 function requests.post(url, params)
     -- TODO Implement different types of POST
     local curl = require "lcurl.safe"
-    local buffer = {}
-    local body = paramsToBodyString(params)
-    local headers = {}
+
+    local requestHeaders = {}
     for k, v in pairs(requests.headers) do
-        headers[#headers + 1] = v
+        requestHeaders[#requestHeaders + 1] = v
     end
-    headers[#headers + 1] = "Content-Type: application/x-www-form-urlencoded"
+    requestHeaders[#requestHeaders + 1] = "Content-Type: application/x-www-form-urlencoded"
+
+    local responseBody = {}
+    local responseHeaders = {}
+
     local request = curl.easy {
         url = urlencode(url),
         timeout = requests.timeout,
         httpheader = headers,
         writefunction = function(input)
-            table.insert(buffer, input)
-        end
-    }:setopt_postfields(body):perform()
+            table.insert(responseBody, input)
+        end,
+        headerfunction = function(header)
+            local key = header:match("^([^:]+):")
+            if key then
+                responseHeaders[key] = header:sub(#key + 2, #header - 2)
+            end
+        end,
+        postfields = paramsToBodyString(params)
+    }:perform()
     if request then
+        local url = request:getinfo_effective_url()
         local code = request:getinfo_response_code()
-        local content = table.concat(buffer)
+        local responseBody = table.concat(responseBody)
         request:close()
-        return code, content
+        return {
+            url = url,
+            code = code,
+            text = responseBody,
+            headers = responseHeaders,
+            json = function()
+                return json.decode(responseBody)
+            end
+        }
     end
 end
 
 ---Perform a PATCH request
 ---@param url string
 ---@param params? table<string, string | number>
----@return httpresponse?
+---@return httpResponse?
 function requests.patch(url, params)
     local curl = require "lcurl.safe"
     local requestHeaders = {}
