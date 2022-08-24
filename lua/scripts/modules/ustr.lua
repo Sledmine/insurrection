@@ -36,7 +36,7 @@ local function ustr(tagPath, strings)
         -- Tag class/group
         stringTag:write("ustr")
         -- CRC32 checksum
-        stringTag:write("\0\0\0\0")
+        stringTag:write("\xFF\xFF\xFF\xFF")
         stringTag:write(padding(3))
         -- Unknown
         stringTag:write(byte(0x40))
