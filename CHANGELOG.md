@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-alpha.11] - 27-08-2022
+### Added
+- Customization menu
+- More nameplates
+- Animated nameplates
+- Allow nameplate selection
+
+### Changed
+- Core code modules like API models, requests, etc
+
+### Fixed
+- Rendering crashes on some menus
+
 ## [1.0.0-alpha.10] - 06-08-2022
 ### Fixed
 - Turn off debug mode by default
