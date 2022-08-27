@@ -5,9 +5,12 @@ extend_limits: true
 scenarios:
   - insurrection/map/ui/ui
 commands:
-  build_package:
-    - mkdir "$PROJECT_PATH/dist"
-    - mercury luabundle -c
-    - cp dist/ui.lua "$PROJECT_PATH/package/lua-map/ui.lua"
-    - mercury pack "$PROJECT_PATH/package/" "$MERCURY_ARCHIVE/"
-    - mercury packdiff "$OLD_PACKAGE_FILEPATH" "$LATEST_PACKAGE_FILEPATH" "$MERCURY_ARCHIVE/updates/"
+  package:
+    - mkdir -p dist
+    - mercury luabundle
+    - cp dist/ui.lua package/lua-map/ui.lua
+    - mercury pack package/ dist/
+    - rm package/lua-map/ui.lua
+  release:
+    - mercury build --release
+    - mercury build package
