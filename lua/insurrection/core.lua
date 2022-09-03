@@ -190,4 +190,9 @@ function core.connectServer(host, port, password)
     execute_script(command:format(host, port, password))
 end
 
+function core.getMyGamesHaloCEPath()
+    local myGamesPath = read_string(0x00647830)
+    return myGamesPath
+end
+
 return core

@@ -93,12 +93,13 @@ function async(func, callback, ...)
 end
 
 local function connect(map, host, port, password)
-    -- if exists("maps\\" .. map .. ".map") then
-    core.connectServer(host, port, password)
-    -- else
-    --    interface.dialog("ERROR", "LOCAL MAP NOT FOUND",
-    --                     "Map \"" .. map .. "\" was not found on your game files.")
-    -- end
+    if exists("maps\\" .. map .. ".map") or
+        exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. map .. ".map") then
+        core.connectServer(host, port, password)
+    else
+        interface.dialog("ERROR", "LOCAL MAP NOT FOUND",
+                         "Map \"" .. map .. "\" was not found on your game files.")
+    end
 end
 
 ---@param response httpResponse<loginResponse>
@@ -251,7 +252,6 @@ end
 ---@return boolean
 local function onBorrowResponse(response)
     loading(false)
-    local payload = result[2]
     if response then
         if response.code == 200 then
             -- Prevent lobby from refreshing while we are waiting for the server to start
