@@ -110,7 +110,7 @@ end
 ---@param widgetPath string
 ---@param key string
 ---@param count number
----@param position number | '"end"'
+---@param position? number | '"end"'
 function widget.insert(widgetPath, key, count, position)
     return tag.insert(widgetPath, key, count, position)
 end

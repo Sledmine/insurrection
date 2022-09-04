@@ -65,7 +65,7 @@ return function(justification, name, text, openTag, script, back, label, icon)
         local stringsTagPath = [[insurrection/ui/shared/strings/buttons/]] .. name ..
                                    [[_subtitle.unicode_string_list]]
         ustr(stringsTagPath, {label})
-        local subtitlePath = [[insurrection/ui/shared/labels/]] .. name .. [[.ui_widget_definition]]
+        local subtitlePath = [[insurrection/ui/shared/strings/labels/]] .. name .. [[.ui_widget_definition]]
         widget.create(subtitlePath, {
             widget_type = "text_box",
             bounds = "0 0 110 120",
