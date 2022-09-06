@@ -272,7 +272,7 @@ local function onBorrowResponse(response)
             return true
         elseif response.code == 404 then
             local jsonResponse = response.json()
-            interface.dialog("ATTENTION", "ERROR " .. jsonResponse.code, jsonResponse.message)
+            interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
             return false
         else
             api.stopRefreshLobby()
@@ -281,7 +281,7 @@ local function onBorrowResponse(response)
                 return false
             else
                 local jsonResponse = response.json()
-                interface.dialog("ATTENTION", "ERROR " .. jsonResponse.code, jsonResponse.message)
+                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
                 return false
             end
         end
