@@ -11,6 +11,6 @@ return {
     },
     screen = {width = width, height = height},
     getScreenBounds = function()
-        return "0 0 " .. width .. " " .. height
+        return "0 0 " .. height .. " " .. width
     end,
 }

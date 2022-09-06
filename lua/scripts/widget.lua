@@ -3,7 +3,9 @@
 local glue = require "lua.lua_modules.glue"
 local tag = require "lua.scripts.modules.tag"
 
-local widget = {}
+local widget = {path = nil}
+
+_ALIGNMENTS = {}
 
 ---@class invaderWidgetStringFlags
 ---@field editable boolean
@@ -84,6 +86,7 @@ local widget = {}
 --- Set properties to widget
 ---@param widgetPath string Path to widget tag
 ---@param keys invaderWidget Properties to set into widget
+---@deprecated
 function widget.edit(widgetPath, keys)
     return tag.edit(widgetPath, keys)
 end
@@ -120,7 +123,6 @@ end
 ---@param keys invaderWidget
 ---@return boolean
 function widget.create(widgetPath, keys)
-    print("Creating: " .. widgetPath)
     -- Create widget from scratch
     return tag.create(widgetPath, keys)
 end
@@ -148,8 +150,63 @@ end
 ---@param index number Index of the widget to be mapped
 ---@return number
 function widget.offset(initial, size, spacing, index)
-    --return initial + ((initial * 2) + offset * (index - 1))
+    -- return initial + ((initial * 2) + offset * (index - 1))
     return initial + ((size + spacing) * (index - 1))
+end
+
+---Set widget path to be used
+function widget.init(widgetPath)
+    widgetPath = widgetPath:gsub("\\", "/")
+    -- Check if path ends with slash, if it does not, add it
+    if widgetPath:sub(-1) ~= "/" then
+        widgetPath = widgetPath .. "/"
+    end
+    widget.path = widgetPath
+    return widgetPath
+end
+
+---Align multiple widgets to a specific position
+---@param alignment any
+---@param size any
+---@param horizontal any
+---@param vertical any
+---@param margin any
+function widget.align(alignment, size, horizontal, vertical, margin)
+    local alignmentHash = table.concat({alignment, size, horizontal, vertical, margin}, "")
+    _ALIGNMENTS[alignmentHash] = 0
+    return function()
+        _ALIGNMENTS[alignmentHash] = _ALIGNMENTS[alignmentHash] + 1
+        if alignment == "vertical" then
+            return horizontal, widget.offset(vertical, size, margin, _ALIGNMENTS[alignmentHash])
+        else
+            return widget.offset(horizontal, size, margin, _ALIGNMENTS[alignmentHash]), vertical
+        end
+    end
+end
+
+function widget.wrap(tagPath, horizontal_offset, vertical_offset)
+    return {
+        widget_tag = tagPath,
+        horizontal_offset = horizontal_offset,
+        vertical_offset = vertical_offset
+    }
+end
+
+---Create a widget tag
+---@param widgetPath string
+---@param keys invaderWidget
+---@return boolean
+function widget.createV2(widgetPath, keys)
+    -- Create widget from scratch
+    if keys.child_widgets then
+        keys.child_widgets = glue.map(keys.child_widgets, function(child)
+            if #child > 0 then
+                return widget.wrap(child[1], child[2], child[3])
+            end
+            return child
+        end)
+    end
+    return tag.create(widgetPath, keys)
 end
 
 return widget
