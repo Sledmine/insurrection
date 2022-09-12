@@ -7,7 +7,7 @@ local json = require "json"
 local base64 = require "base64"
 
 local mercury = require "insurrection.mercury"
-local scriptVersion = require "insurrection.version"
+local scriptVersion = "insurrection-" .. require "insurrection.version"
 
 local currentWidgetIdAddress = 0x6B401C
 local keyboardInputAddress = 0x64C550

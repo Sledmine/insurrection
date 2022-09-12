@@ -8,7 +8,6 @@ local chimera = require "insurrection.chimera"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
-local version = require "insurrection.version"
 local ends = require"glue".string.ends
 -- Useful debug global tools
 
