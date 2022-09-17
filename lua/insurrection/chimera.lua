@@ -490,13 +490,18 @@ function chimera.saveConfiguration(configuration)
     return glue.writefile("chimera.ini", configIni, "t")
 end
 
-function chimera.setupFonts()
+function chimera.setupFonts(revert)
     local chimeraIni = glue.readfile("chimera.ini", "t")
     if chimeraIni then
         ---@type chimeraConfiguration
         local configuration = chimera.getConfiguration()
-        configuration.font_override = insurrectionFontOverride
-        return chimera.saveConfiguration(configuration)
+        if configuration then
+            configuration.font_override = insurrectionFontOverride
+            if revert then
+                configuration.font_override = chimeraFontOverride
+            end
+            return chimera.saveConfiguration(configuration)
+        end
     end
     return false
 end
