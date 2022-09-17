@@ -1,5 +1,7 @@
 local widget = require "lua.scripts.widget"
 local ustr = require "lua.scripts.modules.ustr"
+local constants = require "lua.scripts.ui.components.constants"
+
 ---Generic button component, recycled in multiple components
 ---@param name string Name of the button component (also used for inner tags generation)
 ---@param text? string Auto generated unicode string inside this button
@@ -20,7 +22,7 @@ return function(name, text, props)
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        bounds = "0 0 24 184",
+        bounds = "0, 0, 24, 184",
         flags = {pass_unhandled_events_to_focused_child = true},
         background_bitmap = [[insurrection\ui\bitmaps\normal_button.bitmap]],
         event_handlers = {
@@ -44,8 +46,8 @@ return function(name, text, props)
         },
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
-        text_font = [[ui\large_ui.font]],
-        text_color = "1 1 1 1",
+        text_font = constants.fonts.text,
+        text_color = constants.color.text,
         justification = props.justification or "left_justify",
         horiz_offset = 10,
         vert_offset = 5

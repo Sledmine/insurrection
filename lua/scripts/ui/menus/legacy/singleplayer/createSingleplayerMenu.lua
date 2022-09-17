@@ -16,7 +16,7 @@ container("singleplayer_menu", {
     },
     {
         options("singleplayer_menu_options", "vertical", {
-            {button("classic_campaign", "CLASSIC CAMPAIGN"), layout()},
+            {button("classic_campaign", "CLASSIC CAMPAIGN", {opens = [[ui/shell/main_menu/campaign_select/campaign_menu.ui_widget_definition]]}), layout()},
             {button("lumoria", "LUMORIA"), layout()},
             {button("the_flood", "THE FLOOD"), layout()},
             {button("back", "BACK", {back = true}), 630, 415}
