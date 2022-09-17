@@ -474,6 +474,8 @@ local chimeraFontOverride = {
     ticker_font_weight = 400
 }
 
+---Get chimera configuration
+---@return chimeraConfiguration?
 function chimera.getConfiguration()
     local configIni = glue.readfile("chimera.ini", "t")
     if configIni then
@@ -483,15 +485,49 @@ function chimera.getConfiguration()
     end
 end
 
+function chimera.saveConfiguration(configuration)
+    local configIni = ini.encode(configuration)
+    return glue.writefile("chimera.ini", configIni, "t")
+end
+
 function chimera.setupFonts()
     local chimeraIni = glue.readfile("chimera.ini", "t")
     if chimeraIni then
         ---@type chimeraConfiguration
-        local configuration = ini.decode(chimeraIni)
+        local configuration = chimera.getConfiguration()
         configuration.font_override = insurrectionFontOverride
-        return glue.writefile("chimera.ini", ini.encode(configuration), "t")
+        return chimera.saveConfiguration(configuration)
     end
     return false
+end
+
+function chimera.getPreferences()
+    local preferencesTxt = glue.readfile(
+                               core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt", "t")
+    if preferencesTxt then
+        local preferences = {}
+        -- Split the file into lines and iterate over them (using Windows line endings)
+        for line in preferencesTxt:gmatch("[^\r\n]+") do
+            -- Search for line that starts with "chimera"
+            if line:sub(1, 7) == "chimera" then
+                -- Get key and value from line separeted by a space
+                local key, value = line:match("([^ ]+) (.+)")
+                if key and value then
+                    preferences[key] = value
+                end
+            end
+        end
+        return preferences
+    end
+end
+
+function chimera.savePreferences(preferences)
+    local preferencesTxt = ""
+    for key, value in pairs(preferences) do
+        preferencesTxt = preferencesTxt .. key .. " " .. value .. "\r\n"
+    end
+    return glue.writefile(core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt",
+                          preferencesTxt, "t")
 end
 
 return chimera
