@@ -1,4 +1,5 @@
 local harmony = require "mods.harmony"
+local chimera = require "insurrection.chimera"
 local createBezierCurve = harmony.math.create_bezier_curve
 local bezierCurve = harmony.math.get_bezier_curve_point
 local openWidget = harmony.menu.open_widget
@@ -33,6 +34,7 @@ local dashboardWidgetTag = findWidgetTag("dashboard_menu")
 local customizationWidgetTag = findWidgetTag("customization_menu")
 -- Sounds
 local errorSoundTag = findTag("flag_failure", blam.tagClasses.sound)
+local sucessSoundTag = findTag("forward", blam.tagClasses.sound)
 -- Lobby elements
 lobbyElement2Tag = findWidgetTag("lobby_element_button_2")
 lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
@@ -154,7 +156,13 @@ end
 ---@param subtitleText string
 ---@param bodyText string
 function interface.dialog(titleText, subtitleText, bodyText)
-    playSound(errorSoundTag.path)
+    if errorSoundTag and sucessSoundTag then
+        if titleText == "WARNING" or titleText == "ERROR" then
+            playSound(errorSoundTag.path)
+        else
+            playSound(sucessSoundTag.path)
+        end
+    end
     local dialog = uiWidgetTag(dialogWidgetTag.id)
     local header = uiWidgetTag(dialog.childWidgets[1].widgetTag)
     local title = uiWidgetTag(header.childWidgets[1].widgetTag)

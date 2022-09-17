@@ -245,7 +245,9 @@ function OnCommand(command)
         return false
     elseif command == "insurrection_fonts" then
         chimera.setupFonts()
-        console_out("Chimera fonts have been setup")
+        interface.dialog("SUCCESS", "Fonts have been setup",
+                         "Please restart the game to see changes.")
+        -- console_out("Chimera fonts have been setup")
         return false
     end
 end
