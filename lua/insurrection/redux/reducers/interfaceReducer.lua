@@ -39,6 +39,7 @@ local function interfaceReducer(state, action)
         state.lobby = action.payload.lobby
         local available = state.lobby.available
         state.chunkSize = 4
+        state.currentChunk = 1
         state.list = state.lobby.available[state.definition .. "s"]
         state.displayed = chunks(available.templates, state.chunkSize)[1]
         state.selected = glue.deepcopy(defaultState.selected)
@@ -74,6 +75,7 @@ local function interfaceReducer(state, action)
     elseif action.type == actions.types.SET_LOBBY_DEFINITION then
         state.definition = action.payload
         state.list = state.lobby.available[state.definition .. "s"]
+        state.currentChunk = 1
         state.chunkSize = 4
         state.displayed = chunks(state.list, state.chunkSize)[state.currentChunk]
         return state
