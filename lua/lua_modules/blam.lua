@@ -36,6 +36,21 @@ local function fromhex(s)
     end))
 end
 
+local function split(s, sep)
+    if (sep == nil or sep == "") then
+        return 1
+    end
+    local position, array = 0, {}
+    for st, sp in function()
+        return string.find(s, sep, position, true)
+    end do
+        table.insert(array, string.sub(s, position, st - 1))
+        position = sp + 1
+    end
+    table.insert(array, string.sub(s, position))
+    return array
+end
+
 ------------------------------------------------------------------------------
 -- Blam! engine data
 ------------------------------------------------------------------------------
@@ -59,6 +74,7 @@ if (api_version or server_type == "sapp") then
 end
 
 -- Tag classes values
+---@enum tagClasses
 local tagClasses = {
     actorVariant = "actv",
     actor = "actr",
@@ -145,6 +161,7 @@ local tagClasses = {
 }
 
 -- Blam object classes values
+---@enum objectClasses
 local objectClasses = {
     biped = 0,
     vehicle = 1,
@@ -161,6 +178,7 @@ local objectClasses = {
 }
 
 -- Camera types
+---@enum cameraTypes
 local cameraTypes = {
     scripted = 1, -- 22192
     firstPerson = 2, -- 30400
@@ -169,7 +187,8 @@ local cameraTypes = {
     deadCamera = 5 -- 23776
 }
 
--- Netgame flags type
+-- Netgame flag classes
+---@enum netgameFlagClasses
 local netgameFlagClasses = {
     ctfFlag = 0,
     ctfVehicle = 1,
@@ -182,7 +201,8 @@ local netgameFlagClasses = {
     hillFlag = 8
 }
 
--- Netgame equipment types
+-- Game type classes
+---@enum gameTypeClasses
 local gameTypeClasses = {
     none = 0,
     ctf = 1,
@@ -201,8 +221,12 @@ local gameTypeClasses = {
     allExceptRaceCtf = 14
 }
 
+-- Multiplayer team classes
+---@enum multiplayerTeamClasses
 local multiplayerTeamClasses = {red = 0, blue = 1}
 
+-- Unit team classes
+---@enum unitTeamClasses
 local unitTeamClasses = {
     defaultByUnit = 0,
     player = 1,
@@ -267,193 +291,279 @@ local dPadValues = {
     up = 765
 }
 
+local backupFunctions = {}
+
+backupFunctions.console_is_open = _G.console_is_open
+backupFunctions.console_out = _G.console_out
+backupFunctions.execute_script = _G.execute_script
+backupFunctions.get_global = _G.get_global
+-- backupFunctions.set_global = _G.set_global
+backupFunctions.get_tag = _G.get_tag
+backupFunctions.set_callback = _G.set_callback
+
+backupFunctions.spawn_object = _G.spawn_object
+backupFunctions.delete_object = _G.delete_object
+backupFunctions.get_object = _G.get_object
+backupFunctions.get_dynamic_player = _G.get_dynamic_player
+
+backupFunctions.hud_message = _G.hud_message
+
+backupFunctions.create_directory = _G.create_directory
+backupFunctions.remove_directory = _G.remove_directory
+backupFunctions.directory_exists = _G.directory_exists
+backupFunctions.list_directory = _G.list_directory
+backupFunctions.write_file = _G.write_file
+backupFunctions.read_file = _G.read_file
+backupFunctions.delete_file = _G.delete_file
+backupFunctions.file_exists = _G.file_exists
+
+------------------------------------------------------------------------------
+-- Chimera API auto completion
 -- EmmyLua autocompletion for some functions!
 -- Functions below do not have a real implementation and are not supossed to be imported
-if (variableThatObviouslyDoesNotExist) then
-    ---Attempt to spawn an object given tag class and path plus coordinates
-    ---@overload fun(tagId: number, x: number, y: number, z: number):number
-    ---@param tagType string Type of the tag to spawn
-    ---@param tagPath string Path of object to spawn
-    ---@param x number
-    ---@param y number
-    ---@param z number
-    ---@return number | nil objectId
-    function spawn_object(tagType, tagPath, x, y, z)
-    end
+------------------------------------------------------------------------------
 
-    ---Get object address from a specific player given playerIndex
-    ---@param playerIndex? number
-    ---@return number objectAddress
-    function get_dynamic_player(playerIndex)
-    end
-
+---Attempt to spawn an object given tag class, tag path and coordinates.
+---Given a tag id is also accepted.
+---@overload fun(tagId: number, x: number, y: number, z: number):number
+---@param tagClass tagClasses Type of the tag to spawn
+---@param tagPath string Path of object to spawn
+---@param x number
+---@param y number
+---@param z number
+---@return number? objectId
+function spawn_object(tagClass, tagPath, x, y, z)
 end
+
+---Attempt to get the address of a player unit object given player index, returning nil on failure.<br>
+---If no argument is given, the address to the local player’s unit object is returned, instead.
+---@param playerIndex? number
+---@return number? objectAddress
+function get_dynamic_player(playerIndex)
+end
+
+spawn_object = backupFunctions.spawn_object
+get_dynamic_player = backupFunctions.get_dynamic_player
 
 ------------------------------------------------------------------------------
 -- SAPP API bindings
 ------------------------------------------------------------------------------
+
+---Write content to a text file given file path
+---@param path string Path to the file to write
+---@param content string Content to write into the file
+---@return boolean, string? result True if successful otherwise nil, error
+function write_file(path, content)
+    local file, error = io.open(path, "w")
+    if (not file) then
+        return false, error
+    end
+    local success, err = file:write(content)
+    file:close()
+    if (not success) then
+        os.remove(path)
+        return false, err
+    else
+        return true
+    end
+end
+
+---Read the contents from a file given file path.
+---@param path string Path to the file to read
+---@return boolean, string? content string if successful otherwise nil, error
+function read_file(path)
+    local file, error = io.open(path, "r")
+    if (not file) then
+        return false, error
+    end
+    local content, error = file:read("*a")
+    if (content == nil) then
+        return false, error
+    end
+    file:close()
+    return content
+end
+
+---Attempt create a directory with the given path.
+---
+---An error will occur if the directory can not be created.
+---@param path string Path to the directory to create
+---@return boolean
+function create_directory(path)
+    local success, error = os.execute("mkdir " .. path)
+    if (not success) then
+        return false
+    end
+    return true
+end
+
+---Attempt to remove a directory with the given path.
+---
+---An error will occur if the directory can not be removed.
+---@param path string Path to the directory to remove
+---@return boolean
+function remove_directory(path)
+    local success, error = os.execute("rmdir -r " .. path)
+    if (not success) then
+        return false
+    end
+    return true
+end
+
+---Verify if a directory exists given directory path
+---@param path string
+---@return boolean
+function directory_exists(path)
+    error("Directory verifications are not supported on SAPP.. yet!")
+    return true
+end
+
+---List the contents from a directory given directory path
+---@param path string
+---@return nil | integer | table
+function list_directory(path)
+    -- TODO This needs a way to separate folders from files
+    if (path) then
+        local command = "dir " .. path .. " /B"
+        local pipe = io.popen(command, "r")
+        if pipe then
+            local output = pipe:read("*a")
+            if (output) then
+                local items = split(output, "\n")
+                for index, item in pairs(items) do
+                    if (item and item == "") then
+                        items[index] = nil
+                    end
+                end
+                return items
+            end
+        end
+    end
+    return nil
+end
+
+---Delete a file given file path
+---@param path string
+---@return boolean
+function delete_file(path)
+    return os.remove(path)
+end
+
+---Return if a file exists given file path.
+---@param path string
+---@return boolean
+function file_exists(path)
+    local file = io.open(path, "r")
+    if (file) then
+        file:close()
+        return true
+    end
+    return false
+end
+
+---Return the memory address of a tag given tagId or tagClass and tagPath
+---@param tagIdOrTagType string | number
+---@param tagPath? string
+---@return number
+function get_tag(tagIdOrTagType, tagPath)
+    if (not tagPath) then
+        return lookup_tag(tagIdOrTagType)
+    else
+        return lookup_tag(tagIdOrTagType, tagPath)
+    end
+end
+
+---Execute a custom Halo script.
+---
+---A script can be either a standalone Halo command or a Lisp-formatted Halo scripting block.
+---@param command string
+function execute_script(command)
+    return execute_command(command)
+end
+
+---Return the address of the object memory given object id
+---@param objectId number
+---@return number?
+function get_object(objectId)
+    if (objectId) then
+        local object_memory = get_object_memory(objectId)
+        if (object_memory ~= 0) then
+            return object_memory
+        end
+    end
+    return nil
+end
+
+---Despawn an object given objectId. An error will occur if the object does not exist.
+---@param objectId number
+function delete_object(objectId)
+    destroy_object(objectId)
+end
+
+---Output text to the console, optional text colors in decimal format.<br>
+---Avoid sending console messages if console_is_open() is true to avoid annoying the player.
+---@param message string
+---@param red? number
+---@param green? number
+---@param blue? number
+function console_out(message, red, green, blue)
+    -- TODO Add color printing to this function on SAPP
+    cprint(message)
+end
+
+---Return true if the player has the console open, always returns true on SAPP.
+---@return boolean
+function console_is_open()
+    return true
+end
+
+---Get the value of a Halo scripting global.\
+---An error will be triggered if the global is not found
+---@param name string Name of the global variable to get from hsc
+---@return boolean | number
+function get_global(name)
+    error("SAPP can not retrieve global variables as Chimera does.. yet!")
+end
+
+---Print message to player HUD.\
+---Messages will be printed to console if SAPP uses this function
+---@param message string
+function hud_message(message)
+    cprint(message)
+end
+
+---Set the callback for an event game from the game events available on Chimera
+---@param event '"command"' | '"frame"' | '"preframe"' | '"map_load"' | '"precamera"' | '"rcon message"' | '"tick"' | '"pretick"' | '"unload"'
+---@param callback string global function name to call when the event is triggered
+function set_callback(event, callback)
+    error("Chimera events can not be used on SAPP, use register_callback instead.")
+end
+
 if (api_version) then
     -- Provide global server type variable on SAPP
     server_type = "sapp"
-
-    local split = function(s, sep)
-        if (sep == nil or sep == "") then
-            return 1
-        end
-        local position, array = 0, {}
-        for st, sp in function()
-            return string.find(s, sep, position, true)
-        end do
-            table.insert(array, string.sub(s, position, st - 1))
-            position = sp + 1
-        end
-        table.insert(array, string.sub(s, position))
-        return array
-    end
-
-    ---Write content to a text file given file path
-    ---@param path string Path to the file to write
-    ---@param content string Content to write into the file
-    ---@return boolean | nil, string result True if successful otherwise nil, error
-    function write_file(path, content)
-        local file, error = io.open(path, "w")
-        if (not file) then
-            return nil, error
-        end
-        local success, err = file:write(content)
-        file:close()
-        if (not success) then
-            os.remove(path)
-            return nil, err
-        else
-            return true
-        end
-    end
-
-    ---Read the contents from a file given file path
-    ---@param path string Path to the file to read
-    ---@return string | nil, string content string if successful otherwise nil, error
-    function read_file(path)
-        local file, error = io.open(path, "r")
-        if (not file) then
-            return nil, error
-        end
-        local content, error = file:read("*a")
-        if (content == nil) then
-            return nil, error
-        end
-        file:close()
-        return content
-    end
-
-    ---Verify if a directory exists given directory path
-    ---@param path string
-    ---@return boolean
-    function directory_exists(path)
-        error("Directory verifications are not supported on SAPP.. yet!")
-        return true
-    end
-
-    ---List the contents from a directory given directory path
-    ---@param path string
-    ---@return integer | table
-    function list_directory(path)
-        -- TODO This needs a way to separate folders from files
-        if (path) then
-            local command = "dir " .. path .. " /B"
-            local pipe = io.popen(command, "r")
-            if pipe then
-                local output = pipe:read("*a")
-                if (output) then
-                    local items = split(output, "\n")
-                    for index, item in pairs(items) do
-                        if (item and item == "") then
-                            items[index] = nil
-                        end
-                    end
-                    return items
-                end
-            end
-        end
-        return nil
-    end
-
-    ---Return the memory address of a tag given tagId or tagClass and tagPath
-    ---@param tagIdOrTagType string | number
-    ---@param tagPath? string
-    ---@return number
-    function get_tag(tagIdOrTagType, tagPath)
-        if (not tagPath) then
-            return lookup_tag(tagIdOrTagType)
-        else
-            return lookup_tag(tagIdOrTagType, tagPath)
-        end
-    end
-
-    ---Execute a game command or script block
-    ---@param command string
-    function execute_script(command)
-        return execute_command(command)
-    end
-
-    ---Return the address of the object memory given object id
-    ---@param objectId number
-    ---@return number
-    function get_object(objectId)
-        if (objectId) then
-            local object_memory = get_object_memory(objectId)
-            if (object_memory ~= 0) then
-                return object_memory
-            end
-        end
-        return nil
-    end
-
-    --- Delete an object given object id
-    ---@param objectId number
-    function delete_object(objectId)
-        destroy_object(objectId)
-    end
-
-    ---Print text into console
-    ---@param message string
-    ---@param red? number
-    ---@param green? number
-    ---@param blue? number
-    function console_out(message, red, green, blue)
-        -- TODO Add color printing to this function on SAPP
-        cprint(message)
-    end
-
-    ---Get if the game console is opened, always returns true on SAPP
-    ---@return boolean
-    function console_is_open()
-        return true
-    end
-
-    ---Get the value of a Halo scripting global.\
-    ---An error will be triggered if the global is not found
-    ---@param name string Name of the global variable to get from hsc
-    ---@return boolean | number
-    function get_global(name)
-        error("SAPP can not retrieve global variables as Chimera does.. yet!")
-    end
-
-    ---Print message to player HUD.\
-    ---Messages will be printed to console if SAPP uses this function
-    ---@param message string
-    function hud_message(message)
-        cprint(message)
-    end
-
-    ---Set the callback for an event game from the game events available on Chimera
-    ---@param event '"command"' | '"frame"' | '"preframe"' | '"map_load"' | '"precamera"' | '"rcon message"' | '"tick"' | '"pretick"' | '"unload"'
-    ---@param callback string global function name to call when the event is triggered
-    function set_callback(event, callback)
-        error("Chimera events can not be used on SAPP, use register_callback instead.")
-    end
-
     print("Compatibility with Chimera Lua API has been loaded!")
+else
+    console_is_open = backupFunctions.console_is_open
+    console_out = backupFunctions.console_out
+    execute_script = backupFunctions.execute_script
+    get_global = backupFunctions.get_global
+    -- set_global = -- backupFunctions.set_global
+    get_tag = backupFunctions.get_tag
+    set_callback = backupFunctions.set_callback
+    spawn_object = backupFunctions.spawn_object
+    delete_object = backupFunctions.delete_object
+    get_object = backupFunctions.get_object
+    get_dynamic_player = backupFunctions.get_dynamic_player
+    hud_message = backupFunctions.hud_message
+    create_directory = backupFunctions.create_directory
+    remove_directory = backupFunctions.remove_directory
+    directory_exists = backupFunctions.directory_exists
+    list_directory = backupFunctions.list_directory
+    write_file = backupFunctions.write_file
+    read_file = backupFunctions.read_file
+    delete_file = backupFunctions.delete_file
+    file_exists = backupFunctions.file_exists
 end
 
 ------------------------------------------------------------------------------
@@ -940,6 +1050,7 @@ end
 ---@field size number
 ---@field nextElementId number
 ---@field firstElementAddress number
+
 local dataTableStructure = {
     name = {type = "string", offset = 0},
     maxElements = {type = "word", offset = 0x20},
@@ -994,7 +1105,7 @@ local deviceGroupsTableStructure = {
 ---@field rollVel number Current velocity of the object in roll
 ---@field locationId number Current id of the location in the map
 ---@field boundingRadius number Radius amount of the object in radians
----@field type number Object type
+---@field class objectClasses Object type
 ---@field team number Object multiplayer team
 ---@field nameIndex number Index of object name in the scenario tag
 ---@field playerId number Current player id if the object
@@ -1053,7 +1164,9 @@ local objectStructure = {
     rollVel = {type = "float", offset = 0x94},
     locationId = {type = "dword", offset = 0x98},
     boundingRadius = {type = "float", offset = 0xAC},
+    ---@deprecated
     type = {type = "word", offset = 0xB4},
+    class = {type = "word", offset = 0xB4},
     team = {type = "word", offset = 0xB8},
     nameIndex = {type = "word", offset = 0xBA},
     playerId = {type = "dword", offset = 0xC0},
@@ -1355,12 +1468,12 @@ local uiWidgetDefinitionStructure = {
     stringListIndex = {type = "short", offset = 0x12E},
     textHorizontalOffset = {type = "short", offset = 0x130},
     textVerticalOffset = {type = "short", offset = 0x132},
-    -- Deprecated
+    ---@deprecated
     eventType = {type = "byte", offset = 0x03F0},
-    -- Deprecated
+    ---@deprecated
     tagReference = {type = "word", offset = 0x400},
     childWidgetsCount = {type = "dword", offset = 0x03E0},
-    -- Deprecated
+    ---@deprecated
     childWidgetsList = {type = "list", offset = 0x03E4, elementsType = "dword", jump = 0x50},
     childWidgets = {
         type = "table",
@@ -1848,6 +1961,7 @@ local deviceMachineStructure = extendStructure(objectStructure, {
 ---@field iconColorG number
 ---@field iconColorB number
 ---@field textSpacing number
+
 local hudGlobalsStructure = {
     anchor = {type = "word", offset = 0x0},
     x = {type = "word", offset = 0x24},
@@ -2367,7 +2481,7 @@ end
 --- Find the path, index and id of a tag given partial tag path and tag type
 ---@param partialTagPath string
 ---@param searchTagType string
----@return tag tag
+---@return tag? tag
 function blam.findTag(partialTagPath, searchTagType)
     for tagIndex = 0, blam.tagDataHeader.count - 1 do
         local tag = blam.getTag(tagIndex)
