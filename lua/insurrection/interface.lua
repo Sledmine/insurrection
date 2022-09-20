@@ -297,7 +297,6 @@ function interface.onButton(widgetTagId)
         if bitmapTag then
             local nameplateNumber = tonumber(core.getTagName(bitmapTag.path))
             store:dispatch(actions.setSelectedItem(bitmapTag.id))
-            console_out(bitmapTag.path)
         end
     elseif ends(buttonPath, "save_customization_button") then
         ---@type interfaceState
