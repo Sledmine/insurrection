@@ -4,11 +4,11 @@ local glue = require "lua.lua_modules.glue"
 local tag = {}
 
 local gamePath = os.getenv("HALO_CE_PATH")
-local invaderRunner =
-    ([[sudo docker run -it -v /storage/developing/halo-ce/insurrection/data:/invader/data -v /storage/developing/halo-ce/insurrection/tags:/invader/tags -v "%s/maps":/invader/maps invader-docker ]]):format(
-        gamePath)
-if (jit.os == "Windows") then
-    invaderRunner = ""
+local invaderRunner = ""
+if (os.getenv("INVADER_RUNNER")) then
+    invaderRunner =
+        ([[sudo docker run -it -v /storage/developing/halo-ce/insurrection/data:/invader/data -v /storage/developing/halo-ce/insurrection/tags:/invader/tags -v "%s/maps":/invader/maps invader-docker ]]):format(
+            gamePath)
 end
 local editCmd = invaderRunner .. [[invader-edit "%s"]]
 local countCmd = invaderRunner .. [[invader-edit "%s" -C %s]]

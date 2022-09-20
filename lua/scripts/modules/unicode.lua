@@ -4,7 +4,7 @@
 -- @author Daniel Miller
 -- @copyright Same as Nmap--See https://nmap.org/book/man-legal.html
 
-require "compat53"
+require "lua.scripts.modules.compat53.init"
 local string = require "string"
 local table = require "table"
 
@@ -15,7 +15,7 @@ local char = string.char
 local pack = string.pack
 local unpack = string.unpack
 local concat = table.concat
-local bit = require "lua.lua_modules.bit"
+local bit = require "lua.scripts.modules.bit"
 
 ---Decode a buffer containing Unicode data.
 --@param buf The string/buffer to be decoded

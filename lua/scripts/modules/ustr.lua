@@ -3,9 +3,9 @@
 -- Full string length and UTF-16 support
 local glue = require "lua.lua_modules.glue"
 local append = glue.append
-local utf8string = require "lua.lua_modules.utf8string"
-require "lua.lua_modules.unicode"
-require "compat53"
+require "lua.scripts.modules.compat53.init"
+local utf8string = require "lua.scripts.modules.utf8string"
+require "lua.scripts.modules.unicode"
 -- local crc32 = require "lua.scripts.modules.crc32"
 
 local function padding(length)
