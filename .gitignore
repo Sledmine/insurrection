@@ -3,7 +3,9 @@ dist/
 
 # Map files
 data/
+data
 tags/
+tags
 hek/
 maps
 
