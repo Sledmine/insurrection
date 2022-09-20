@@ -4,7 +4,6 @@
 -- @author Daniel Miller
 -- @copyright Same as Nmap--See https://nmap.org/book/man-legal.html
 
-require "lua.scripts.modules.compat53.init"
 local string = require "string"
 local table = require "table"
 

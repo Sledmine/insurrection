@@ -3,6 +3,7 @@
 -- Full string length and UTF-16 support
 local glue = require "lua.lua_modules.glue"
 local append = glue.append
+package.path = package.path .. ";lua/scripts/modules/?.lua"
 require "lua.scripts.modules.compat53.init"
 local utf8string = require "lua.scripts.modules.utf8string"
 require "lua.scripts.modules.unicode"
