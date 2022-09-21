@@ -3,20 +3,12 @@
 local glue = require "lua.lua_modules.glue"
 local tag = {}
 
-local gamePath = os.getenv("HALO_CE_PATH")
-local invaderRunner = ""
-if (os.getenv("INVADER_RUNNER")) then
-    invaderRunner =
-        ([[sudo docker run -it -v /storage/developing/halo-ce/insurrection/data:/invader/data -v /storage/developing/halo-ce/insurrection/tags:/invader/tags -v "%s/maps":/invader/maps invader-docker ]]):format(
-            gamePath)
-end
-local editCmd = invaderRunner .. [[invader-edit "%s"]]
-local countCmd = invaderRunner .. [[invader-edit "%s" -C %s]]
-local getCmd = invaderRunner .. [[invader-edit "%s" -G %s]]
-local insertCmd = invaderRunner .. [[invader-edit "%s" -I %s %s %s]]
-local createCmd = invaderRunner .. [[invader-edit "%s" -N]]
-local eraseCmd = invaderRunner .. [[invader-edit "%s" -E %s]]
-tag.runner = invaderRunner
+local editCmd = [[invader-edit "%s"]]
+local countCmd = [[invader-edit "%s" -C %s]]
+local getCmd = [[invader-edit "%s" -G %s]]
+local insertCmd = [[invader-edit "%s" -I %s %s %s]]
+local createCmd = [[invader-edit "%s" -N]]
+local eraseCmd = [[invader-edit "%s" -E %s]]
 
 function nulled(value)
     if (tonumber(value)) then

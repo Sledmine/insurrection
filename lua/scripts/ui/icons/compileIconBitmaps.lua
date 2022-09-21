@@ -2,7 +2,7 @@
 local fs = require "fs"
 local tag = require "lua.scripts.modules.tag"
 
-local bitmapTemplate = tag.runner .. [[invader-bitmap -F 32-bit -T interface_bitmaps %s]]
+local bitmapTemplate = [[invader-bitmap -F 32-bit -T interface_bitmaps %s]]
 
 local nameplatesCollection = {tags = {}}
 fs.cd("data")
