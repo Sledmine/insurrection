@@ -5,6 +5,9 @@ extend_limits: true
 scenarios:
   - insurrection/map/ui/ui
 commands:
+  ui:
+    - ./generate.sh
+    - mercury build
   package:
     - mkdir -p dist
     - mercury luabundle
