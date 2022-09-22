@@ -26,7 +26,7 @@ end
 
 ---Create unicode string list tag
 ---@param strings string[]
----@return boolean
+---@return string?
 local function ustr(tagPath, strings)
     local outputTagPath = "tags/" .. tagPath
     local stringTag = io.open(outputTagPath, "wb")
@@ -74,7 +74,7 @@ local function ustr(tagPath, strings)
         -- tag[3] = glue.string.fromhex(tostring(crc))
 
         stringTag:close()
-        return true
+        return tagPath
     end
     error("Could not create USTR tag")
 end
