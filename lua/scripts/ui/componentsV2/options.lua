@@ -3,8 +3,9 @@ local constants = require "lua.scripts.ui.components.constants"
 ---Options list component, scroll trough elements using dpad, etc
 ---@param childWidgets invaderWidgetChildWidget
 ---@param alignment '"vertical"' | '"horizontal"'
+---@param description? string Tag path for description to display
 ---@return string
-return function(name, alignment, childWidgets)
+return function(name, alignment, childWidgets, description)
     local widgetPath = widget.path .. name .. ".ui_widget_definition"
     local horizontal = alignment == "horizontal"
     ---@type invaderWidget
@@ -16,7 +17,8 @@ return function(name, alignment, childWidgets)
             dpad_up_down_tabs_thru_children = not horizontal,
             dpad_left_right_tabs_thru_children = horizontal
         },
-        child_widgets = childWidgets or {}
+        child_widgets = childWidgets or {},
+        extended_description_widget = description or ".ui_widget_definition"
     }
     widget.createV2(widgetPath, wid)
     return widgetPath

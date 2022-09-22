@@ -1,0 +1,121 @@
+local widget = require "lua.scripts.widget"
+local ustr = require "lua.scripts.modules.ustr"
+
+local constants = require "lua.scripts.ui.components.constants"
+
+---Description component
+---@param name string Component name
+---@param texts string[] Texts to display
+---@param bitmap? string Bitmap path to display
+---@param variant? '"maps"' | '"gametypes"' Variant to use
+return function(name, texts, bitmap, variant)
+    local widgetPath = widget.path .. name .. "_description.ui_widget_definition"
+    ---@type invaderWidget
+    local wid = {
+        widget_type = "container",
+        bounds = constants.getScreenBounds(),
+        justification = "left_justify",
+        child_widgets = {{widget_tag = [[insurrection\ui\shared\void.ui_widget_definition]]}}
+    }
+    local overlayImageDescriptionPath =
+        [[insurrection\ui\shared\descriptions\overlay.ui_widget_definition]]
+    local nameStringsPath
+    local bitmapPath = bitmap or [[ui/shell/bitmaps/black.bitmap]]
+    local dataStringsPath
+    local contentDescriptionPath = widget.path .. name ..
+                                       [[_description_content.ui_widget_definition]]
+    local dataDescriptionPath = widget.path .. name .. [[_description_data.ui_widget_definition]]
+    local imageDescriptionPath = widget.path .. name .. [[_description_image.ui_widget_definition]]
+    local nameDescriptionPath = [[insurrection\ui\shared\descriptions\]] .. name ..
+                                    [[_name.ui_widget_definition]]
+    if not variant then
+        nameStringsPath = ustr(widget.path .. "strings/" .. name ..
+                                   "_description.unicode_string_list", texts)
+        bitmapPath = bitmapPath
+        dataStringsPath = ustr(widget.path .. "strings/" .. name ..
+                                   "_description_data.unicode_string_list", texts)
+    elseif variant == "maps" then
+        nameStringsPath = [[ui\shell\main_menu\mp_map_list.unicode_string_list]]
+        bitmapPath = [[insurrection\ui\bitmaps\map_previews.bitmap]]
+        -- dataStringsPath =
+        --    [[ui\shell\main_menu\multiplayer_type_select\mp_map_select\map_data.unicode_string_list]]
+        dataStringsPath =
+            [[insurrection/ui/shared/strings/content/map_descriptions.unicode_string_list]]
+        ustr(dataStringsPath, {
+            "Battle Creek - Splash Splash, Bang Bang (2-8 players)",
+            "Sidewinder - Red Blood, White Snow (4-16 players, supports vehicles)",
+            "Damnation - Covenant Hydro-Processing Center (4-8 players)",
+            "Rat Race - Up the Ramps, Down the Tubes (2-6 players)",
+            "Prisoner - Get on Top (2-8 players)",
+            "Hang'Em High - Tombstones for Everybody (4-16 players)",
+            "Chill Out - Dude, you really need to... (2-8 players)",
+            "Derelict - Deep-Space Anomaly #0198 (4-8 players)",
+            "Boarding Action - Ship-to-Ship Combat (4-16 players)",
+            "Blood Gulch - The Quick and the Dead (4-16 players, supports vehicles)",
+            "Wizard - You spin my head right round, right round (2-8 players)",
+            "Chiron TL34 - Spartan Clone Training Complex (2-16 players)",
+            "Longest - A long walk down a short hall... (2-8 players)",
+            "Ice Fields - Splipping and Sliding (4-16 players, supports vehicles)",
+            "Death Island - Sand, Surf and Spent Shells (4-16 players, supports vehicles)",
+            "Danger Canyon - Don't Look Down Unless You Fall (4-16 players, supports vehicles)",
+            "Infinity - I Imagined it Would Be Bigger (4-16 players, supports vehicles)",
+            "Timberland - An Enemy Behind Every Tree (4-16 players, supports vehicles)",
+            "Gephyrophobia - Scary, huh? (2-12 players, supports vehicles)",
+            "Custom Map - Community Made Map"
+        })
+        contentDescriptionPath = widget.path .. variant ..
+                                     [[_description_content.ui_widget_definition]]
+        dataDescriptionPath = widget .. path .. variant ..
+                                  [[_description_data.ui_widget_definition]]
+        imageDescriptionPath = widget.path .. variant .. [[_description_image.ui_widget_definition]]
+        nameDescriptionPath = [[insurrection\ui\shared\descriptions\]] .. variant ..
+                                  [[_name.ui_widget_definition]]
+    elseif variant == "gametypes" then
+        -- TODO add correct strings path
+        -- stringsListPath = [[ui\shell\main_menu\mp_map_list]]
+        error("Variant gametypes not implemented")
+    end
+
+    widget.create(nameDescriptionPath, {
+        widget_type = "text_box",
+        bounds = "0, 0, 50, 300",
+        text_label_unicode_strings_list = nameStringsPath or ".unicode_string_list",
+        string_list_index = 0,
+        text_font = constants.fonts.text,
+        text_color = constants.color.text,
+        justification = "left_justify"
+    })
+    widget.create(overlayImageDescriptionPath, {
+        bounds = "0, 0, 263, 467",
+        background_bitmap = [[insurrection\ui\bitmaps\description_overlay.bitmap]]
+    })
+    widget.create(imageDescriptionPath, {
+        bounds = "-263, -467, 263, 467",
+        background_bitmap = bitmapPath,
+        child_widgets = {{widget_tag = overlayImageDescriptionPath}}
+    })
+    widget.create(dataDescriptionPath, {
+        widget_type = "text_box",
+        bounds = "0, 0, 50, 300",
+        text_label_unicode_strings_list = dataStringsPath or ".unicode_string_list",
+        string_list_index = 0,
+        text_font = constants.fonts.subtitle,
+        text_color = constants.color.text,
+        justification = "left_justify"
+    })
+    widget.create(contentDescriptionPath, {
+        bounds = constants.getScreenBounds(),
+        child_widgets = {
+            {widget_tag = nameDescriptionPath, horizontal_offset = 364, vertical_offset = 300},
+            {widget_tag = imageDescriptionPath, horizontal_offset = 348, vertical_offset = 77},
+            {widget_tag = dataDescriptionPath, horizontal_offset = 364, vertical_offset = 305}
+        }
+    })
+    wid.child_widgets[2] = {
+        widget_tag = contentDescriptionPath,
+        vertical_offset = 0,
+        horizontal_offset = 0
+    }
+    widget.create(widgetPath, wid)
+    return widgetPath
+end
