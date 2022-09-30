@@ -157,6 +157,10 @@ end
 ---Set widget path to be used
 function widget.init(widgetPath)
     widgetPath = widgetPath:gsub("\\", "/")
+    -- Create widget folders
+    os.execute("mkdir -p tags/" .. widgetPath)
+    os.execute("mkdir -p tags/" .. widgetPath .. "/strings")
+    os.execute("mkdir -p tags/" .. widgetPath .. "/buttons")
     -- Check if path ends with slash, if it does not, add it
     if widgetPath:sub(-1) ~= "/" then
         widgetPath = widgetPath .. "/"
@@ -166,11 +170,11 @@ function widget.init(widgetPath)
 end
 
 ---Align multiple widgets to a specific position
----@param alignment any
----@param size any
----@param horizontal any
----@param vertical any
----@param margin any
+---@param alignment '"vertical"' | '"horizontal"'
+---@param size number
+---@param horizontal number
+---@param vertical number
+---@param margin number
 function widget.align(alignment, size, horizontal, vertical, margin)
     local alignmentHash = table.concat({alignment, size, horizontal, vertical, margin}, "")
     _ALIGNMENTS[alignmentHash] = 0

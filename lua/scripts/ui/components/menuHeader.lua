@@ -14,10 +14,10 @@ return function(name, title, subtitle)
                           [[.ui_widget_definition]]
     widget.create(titlePath, {
         widget_type = "text_box",
-        bounds = "0 0 20 343",
+        bounds = "0, 0, 20, 343",
         text_label_unicode_strings_list = stringsTagPath,
         text_font = [[ui/ticker.font]],
-        text_color = "1 1 1 1",
+        text_color = "1, 1, 1, 1",
         string_list_index = 0
     })
     -- Generate subtitle
@@ -25,14 +25,14 @@ return function(name, title, subtitle)
                              [[.ui_widget_definition]]
     widget.create(subtitlePath, {
         widget_type = "text_box",
-        bounds = "0 0 20 343",
+        bounds = "0, 0, 20, 343",
         text_label_unicode_strings_list = stringsTagPath,
         text_font = [[ui/gamespy.font]],
-        text_color = "1 0.301961 0.454902 0.623529",
+        text_color = "1, 0.301961, 0.454902, 0.623529",
         string_list_index = 1
     })
     return {
-        bounds = "0 0 40 450",
+        bounds = "0, 0, 40, 450",
         child_widgets = {
             {widget_tag = titlePath, vertical_offset = 0, horizontal_offset = 0},
             {widget_tag = subtitlePath, vertical_offset = 15, horizontal_offset = 0}

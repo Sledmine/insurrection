@@ -7,7 +7,7 @@ return function(childWidgets, horizontal)
     ---@type invaderWidget
     local options = {
         widget_type = "column_list",
-        bounds = "0 0 480 856",
+        bounds = "0, 0, 480, 856",
         flags = {
             pass_unhandled_events_to_focused_child = true,
             dpad_up_down_tabs_thru_children = not horizontal,

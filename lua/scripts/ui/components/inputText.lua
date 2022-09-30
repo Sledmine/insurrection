@@ -16,7 +16,7 @@ return function(name, text, isPassword, isEditable, icon)
     local wid = {
         widget_type = "text_box",
         name = name,
-        bounds = "0 0 34 187",
+        bounds = "0, 0, 34, 187",
         flags = {pass_unhandled_events_to_focused_child = true},
         background_bitmap = [[insurrection\ui\bitmaps\input.bitmap]],
         event_handlers = {
@@ -30,7 +30,7 @@ return function(name, text, isPassword, isEditable, icon)
         },
         text_label_unicode_strings_list = stringsTagPath,
         text_font = [[ui\large_ui.font]],
-        text_color = "1 1 1 1",
+        text_color = "1, 1, 1, 1",
         justification = "left_justify",
         flags_1 = {password = isPassword or false, editable = isEditable or true},
         string_list_index = 0,
@@ -40,7 +40,7 @@ return function(name, text, isPassword, isEditable, icon)
     if icon then
         local iconBitmapPath = [[insurrection/ui/bitmaps/]] .. icon .. [[.bitmap]]
         local iconPath = [[insurrection/ui/shared/icons/]] .. icon .. [[.ui_widget_definition]]
-        widget.create(iconPath, {bounds = "-32 -32 32 32", background_bitmap = iconBitmapPath})
+        widget.create(iconPath, {bounds = "-32, -32, 32, 32", background_bitmap = iconBitmapPath})
         wid.child_widgets = {{horizontal_offset = 1, vertical_offset = 1, widget_tag = iconPath}}
     end
     return wid

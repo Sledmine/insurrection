@@ -13,4 +13,8 @@ return {
     getScreenBounds = function()
         return "0, 0, " .. height .. ", " .. width
     end,
+    position = {
+        header = {x = 40, y = 20},
+        options = {x = 40, y = 60}
+    }
 }

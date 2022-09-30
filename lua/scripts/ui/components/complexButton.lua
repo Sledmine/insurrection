@@ -16,7 +16,7 @@ return function(justification, name, text, openTag, script, back, label, icon)
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        bounds = "0 0 110 120",
+        bounds = "0, 0, 110, 120",
         flags = {pass_unhandled_events_to_focused_child = true},
         background_bitmap = [[insurrection\ui\bitmaps\complex_button.bitmap]],
         event_handlers = {
@@ -40,7 +40,7 @@ return function(justification, name, text, openTag, script, back, label, icon)
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
         text_font = [[ui\large_ui.font]],
-        text_color = "1 1 1 1",
+        text_color = "1, 1, 1, 1",
         justification = justification or "left_justify",
         horiz_offset = 10,
         vert_offset = 75,
@@ -53,7 +53,7 @@ return function(justification, name, text, openTag, script, back, label, icon)
     if icon then
         local iconBitmapPath = [[insurrection/ui/bitmaps/icons/]] .. icon .. [[.bitmap]]
         local iconPath = [[insurrection/ui/shared/icons/]] .. icon .. [[.ui_widget_definition]]
-        widget.create(iconPath, {bounds = "-97 -120 97 120", background_bitmap = iconBitmapPath})
+        widget.create(iconPath, {bounds = "-97, -120, 97, 120", background_bitmap = iconBitmapPath})
         wid.child_widgets[#wid.child_widgets + 1] = {
             horizontal_offset = 1,
             vertical_offset = 1,
@@ -68,11 +68,11 @@ return function(justification, name, text, openTag, script, back, label, icon)
         local subtitlePath = [[insurrection/ui/shared/strings/labels/]] .. name .. [[.ui_widget_definition]]
         widget.create(subtitlePath, {
             widget_type = "text_box",
-            bounds = "0 0 110 120",
+            bounds = "0, 0, 110, 120",
             text_label_unicode_strings_list = stringsTagPath,
             string_list_index = 0,
             text_font = [[ui\large_ui.font]],
-            text_color = "1 0.5 0.5 0.5",
+            text_color = "1, 0.5, 0.5, 0.5",
             justification = justification or "left_justify",
             horiz_offset = 10,
             vert_offset = 77

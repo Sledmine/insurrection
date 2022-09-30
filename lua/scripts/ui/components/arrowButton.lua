@@ -4,7 +4,7 @@ return function(openTag, script, back, rightArrow)
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        bounds = "0 0 97 15",
+        bounds = "0, 0, 97, 15",
         flags = {pass_unhandled_events_to_focused_child = true},
         background_bitmap = [[insurrection\ui\bitmaps\arrow_button_left.bitmap]],
         event_handlers = {
@@ -28,7 +28,7 @@ return function(openTag, script, back, rightArrow)
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
         text_font = [[ui\large_ui.font]],
-        text_color = "1 1 1 1",
+        text_color = "1, 1, 1, 1",
         justification = justification or "left_justify",
         horiz_offset = 10,
         vert_offset = 5

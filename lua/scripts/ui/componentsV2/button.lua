@@ -5,10 +5,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---Generic button component, recycled in multiple components
 ---@param name string Name of the button component (also used for inner tags generation)
 ---@param text? string Auto generated unicode string inside this button
---@param justification? '"left_justify"' | '"center_justify"' | '"right_justify"' Button text
---@param openTag string? Tag to open when this button is clicked
---@param script string? Script to run when this button is clicked
---@param back boolean? If true, this button will go back to the previous widget
+---@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string, justification: '"left_justify"' | '"center_justify"' | '"right_justify"'} Button properties
 ---@return string
 return function(name, text, props)
     local props = props or {}

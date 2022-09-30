@@ -3,9 +3,9 @@ local widget = require "lua.scripts.widget"
 ---Nameplate widget
 ---@return invaderWidget
 return function(name, text, asPreview)
-    local bounds = "-26 -192 26 192"
+    local bounds = "-26, -192, 26, 192"
     if asPreview then
-        bounds = "0 0 52 384"
+        bounds = "0, 0, 52, 384"
     end
     local stringsTagPath
     if text then
@@ -24,7 +24,7 @@ return function(name, text, asPreview)
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
         text_font = [[ui/large_ui.font]],
-        text_color = "1 0.8 0.8 0.8",
+        text_color = "1, 0.8, 0.8, 0.8",
         justification = "left_justify",
         horiz_offset = 225,
         vert_offset = 31
