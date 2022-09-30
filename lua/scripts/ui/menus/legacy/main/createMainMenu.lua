@@ -1,15 +1,20 @@
 local widget = require "lua.scripts.widget"
 local container = require "lua.scripts.ui.componentsV2.container"
-local header = require "lua.scripts.ui.componentsV2.header"
 local options = require "lua.scripts.ui.componentsV2.options"
 local button = require "lua.scripts.ui.componentsV2.button"
+local constants = require "lua.scripts.ui.components.constants"
+local pos = constants.position
 
 widget.init [[insurrection\ui\menus\main\]]
 
-local layout = widget.align("vertical", 24, 40, 266, 2)
+local layout = widget.align("vertical", 24, pos.options.x, pos.options.y, 2)
 
 container("main_menu", {
-    {[[insurrection\ui\main_menu\insurrection_logo.ui_widget_definition]], 202, 105},
+    {
+        [[insurrection\ui\main_menu\insurrection_logo.ui_widget_definition]],
+        pos.header.x,
+        pos.header.y
+    },
     {
         options("main_menu_options", "vertical", {
             {

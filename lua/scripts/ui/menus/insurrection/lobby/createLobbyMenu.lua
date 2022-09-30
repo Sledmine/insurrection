@@ -29,9 +29,9 @@ widget.create(headerPath, menuHeader("lobby", "MY LOBBY",
                                      "INVITE FRIENDS TO YOUR LOBBY, CHOOSE YOUR SERVER TYPE, SET YOUR RULES AND HAVE FUN!"))
 
 local optionsNames = {
-    {text = "$SERVER_TYPE_PLACEHOLDER", subtitle = "TEMPLATE", icon = "server_template_icons"},
-    {text = "$MAP_NAME_PLACEHOLDER", subtitle = "MAP"},
-    {text = "$GAME_TYPE_PLACEHOLDER", subtitle = "GAMETYPE"},
+    {text = string.rep(" ", 256), subtitle = "TEMPLATE", icon = "server_template_icons"},
+    {text = string.rep(" ", 256), subtitle = "MAP"},
+    {text = string.rep(" ", 256), subtitle = "GAMETYPE"},
     {text = "PLAY"}
 }
 local definitions = optionsList(nil, true)
