@@ -8,6 +8,10 @@ commands:
   ui:
     - ./generate.sh
     - mercury build
+  version:
+    - mv package/manifest.json package/manifest.json.bak
+    - jq --indent 4 ".version = \"$(lua -e 'print(require("lua.insurrection.version"))')\"" package/manifest.json.bak > package/manifest.json
+    - rm package/manifest.json.bak
   package:
     - mkdir -p dist
     - mercury luabundle
@@ -16,4 +20,5 @@ commands:
     - rm package/lua-map/ui.lua
   release:
     - mercury build --release
+    - mercury build version
     - mercury build package
