@@ -1,5 +1,4 @@
 version: 1
-game_engine: gbx-custom
 tag_space: 64M
 extend_limits: true
 scenarios:
@@ -10,7 +9,7 @@ commands:
     - mercury build
   version:
     - mv package/manifest.json package/manifest.json.bak
-    - jq --indent 4 ".version = \"$(lua -e 'print(require("lua.insurrection.version"))')\"" package/manifest.json.bak > package/manifest.json
+    - jq --indent 4 ".version = \"$(luajit -e 'print(require("lua.insurrection.version"))')\"" package/manifest.json.bak > package/manifest.json
     - rm package/manifest.json.bak
   package:
     - mkdir -p dist
