@@ -4,15 +4,17 @@ local header = require "lua.scripts.ui.componentsV2.header"
 local options = require "lua.scripts.ui.componentsV2.options"
 local button = require "lua.scripts.ui.componentsV2.button"
 local description = require "lua.scripts.ui.componentsV2.description"
+local constants = require "lua.scripts.ui.components.constants"
+local pos = constants.position
 
 widget.init([[insurrection/ui/menus/singleplayer/]])
-local layout = widget.align("vertical", 24, 40, 84, 2)
+local layout = widget.align("vertical", 24, pos.options.x, pos.options.y, 2)
 
 container("singleplayer_menu", {
     {
         header("singleplayer_menu_header", "SINGLEPLAYER", "PLAY A SINGLEPLAYER CAMPAIGN PROJECT"),
-        40,
-        20
+        pos.header.x,
+        pos.header.y
     },
     {
         options("singleplayer_menu_options", "vertical", {
@@ -22,14 +24,10 @@ container("singleplayer_menu", {
                 }),
                 layout()
             },
-            {button("lumoria", "LUMORIA"), layout()},
-            {button("the_flood", "THE FLOOD"), layout()},
-            {button("back", "BACK", {back = true}), 630, 415}
+            {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
         }, description("singleplayer_maps", {
-            "Classic Campaign - Bungie best work",
-            "Lumoria - A new Halo experience",
-            "The Flood - A new Halo experience"
-        }))
+            "Classic Campaign - While the Covenant had us locked up in here, I overheard the guards talking about this ring world.\r\nThey call it... Halo.",
+        }, [[insurrection/ui/bitmaps/previews/singleplayer/classic_campaign.bitmap]]))
     },
     {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
     {[[insurrection/ui/main_menu/version.ui_widget_definition]], 0, 460}

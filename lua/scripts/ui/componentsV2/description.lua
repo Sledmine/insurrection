@@ -96,7 +96,7 @@ return function(name, texts, bitmap, variant)
     })
     widget.create(dataDescriptionPath, {
         widget_type = "text_box",
-        bounds = "0, 0, 50, 300",
+        bounds = "0, 0, 50, 467",
         text_label_unicode_strings_list = dataStringsPath or ".unicode_string_list",
         string_list_index = 0,
         text_font = constants.fonts.subtitle,

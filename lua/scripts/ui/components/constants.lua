@@ -15,6 +15,8 @@ return {
     end,
     position = {
         header = {x = 40, y = 20},
-        options = {x = 40, y = 60}
+        options = {x = 40, y = 60},
+        back = {x = 630, y = 415},
+        logo = {x = 202, y = 105}
     }
 }

@@ -7,13 +7,13 @@ local pos = constants.position
 
 widget.init [[insurrection\ui\menus\main\]]
 
-local layout = widget.align("vertical", 24, pos.options.x, pos.options.y, 2)
+local layout = widget.align("vertical", 24, 40, 266, 2)
 
-container("main_menu", {
+return container("main_menu", {
     {
         [[insurrection\ui\main_menu\insurrection_logo.ui_widget_definition]],
-        pos.header.x,
-        pos.header.y
+        pos.logo.x,
+        pos.logo.y
     },
     {
         options("main_menu_options", "vertical", {
