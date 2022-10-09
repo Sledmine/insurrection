@@ -2,7 +2,12 @@ local width = 854
 local height = 480
 
 return {
-    color = {text = "1, 1, 1, 1", title = "1, 1, 1, 1", subtitle = "1, 0.301961, 0.454902, 0.623529"},
+    color = {
+        text = "1, 1, 1, 1",
+        title = "1, 1, 1, 1",
+        subtitle = "1, 0.301961, 0.454902, 0.623529",
+        selected = "0.8, 0.8, 0.8, 0.8"
+    },
     fonts = {
         title = [[ui\ticker.font]],
         subtitle = [[ui\gamespy.font]],

@@ -20,7 +20,6 @@ container("singleplayer_menu", {
         options("singleplayer_menu_options", "vertical", {
             {
                 button("classic_campaign", "CLASSIC CAMPAIGN", {
-                    --opens = [[ui/shell/main_menu/campaign_select/campaign_menu.ui_widget_definition]]
                     opens = [[insurrection/ui/menus/classic_campaign/classic_campaign_menu.ui_widget_definition]]
                 }),
                 layout()

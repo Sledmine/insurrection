@@ -4,7 +4,7 @@ local widget = require "lua.scripts.widget"
 ---Menu container component, this is the first component that holds a screen
 ---@param name string Name of the menu container component
 ---@param childWidgets invaderWidgetChildWidget[] Child widgets to add to this menu container
----@param props? {script?: string, func?: string, branch?: boolean, conditionalWidgets?: invaderWidgetConditionalWidget[]} Properties of the menu container component
+---@param props? {script?: string, func?: string, branch?: boolean, conditionalWidgets?: invaderWidgetConditionalWidget[], dataInput?: string} Properties of the menu container component
 ---@return string
 return function(name, childWidgets, props)
     local props = props or {}
@@ -28,6 +28,9 @@ return function(name, childWidgets, props)
         },
         child_widgets = childWidgets or {}
     }
+    if props.dataInput then
+        wid.game_data_inputs = {{["function"] = props.dataInput}}
+    end
     widget.createV2(widgetPath, wid)
     return widgetPath
 end

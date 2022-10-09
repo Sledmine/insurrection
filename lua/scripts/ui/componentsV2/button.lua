@@ -5,7 +5,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---Generic button component, recycled in multiple components
 ---@param name string Name of the button component (also used for inner tags generation)
 ---@param text? string Auto generated unicode string inside this button
----@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string, select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"'} Button properties
+---@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string | string[], select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"'} Button properties
 ---@return string
 return function(name, text, props)
     local props = props or {}
@@ -25,12 +25,11 @@ return function(name, text, props)
         event_handlers = {
             {
                 flags = {
-                    open_widget = true,
-                    run_function = true,
+                    open_widget = props.opens ~= nil,
+                    run_function = props.func ~= nil,
                     go_back_to_previous_widget = props.back or false,
                     try_to_branch_on_failure = props.branch or false
                 },
-                ["function"] = props.func,
                 event_type = "a_button",
                 widget_tag = props.opens or ".ui_widget_definition",
                 script = props.script or ""
@@ -54,7 +53,21 @@ return function(name, text, props)
         wid.horiz_offset = 0
     end
     if props.select then
+        wid.text_color = constants.color.selected
         wid.background_bitmap = [[insurrection/ui/bitmaps/normal_button_select.bitmap]]
+    end
+    if props.func then
+        if type(props.func) == "table" then
+            for i, func in ipairs(props.func) do
+                wid.event_handlers[#wid.event_handlers + 1] = {
+                    flags = {run_function = true},
+                    ["function"] = func,
+                    event_type = "a_button"
+                }
+            end
+        elseif type(props.func) == "string" then
+            wid.event_handlers[1]["function"] = props.func --[[@as string]]
+        end
     end
     widget.create(widgetPath, wid)
     return widgetPath
