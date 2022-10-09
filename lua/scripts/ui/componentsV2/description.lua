@@ -7,16 +7,9 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@param name string Component name
 ---@param texts string[] Texts to display
 ---@param bitmap? string Bitmap path to display
----@param variant? '"maps"' | '"gametypes"' Variant to use
+---@param variant? '"maps"' | '"gametypes"' | '"difficulties"' Variant to use
 return function(name, texts, bitmap, variant)
     local widgetPath = widget.path .. name .. "_description.ui_widget_definition"
-    ---@type invaderWidget
-    local wid = {
-        widget_type = "container",
-        bounds = constants.getScreenBounds(),
-        justification = "left_justify",
-        child_widgets = {{widget_tag = [[insurrection\ui\shared\void.ui_widget_definition]]}}
-    }
     local overlayImageDescriptionPath =
         [[insurrection\ui\shared\descriptions\overlay.ui_widget_definition]]
     local nameStringsPath
@@ -70,6 +63,14 @@ return function(name, texts, bitmap, variant)
         imageDescriptionPath = widget.path .. variant .. [[_description_image.ui_widget_definition]]
         nameDescriptionPath = [[insurrection\ui\shared\descriptions\]] .. variant ..
                                   [[_name.ui_widget_definition]]
+    elseif variant == "difficulties" then
+        dataStringsPath = ustr(widget.path .. "strings/" .. name ..
+                                   "_description_data.unicode_string_list", {
+            [[Your foes cower and fall before your unstoppable onslaught, yet final victory will leave you wanting more.]],
+            [[Hordes of aliens vie to destroy you, but nerves of steel and a quick trigger finger give you a solid chance to prevail.]],
+            [[Your enemies are as numerous as they are ferocious; their attacks are devastating. Survival is not guaranteed.]],
+            [[You face opponents who have never known defeat, who laugh in alien tongues at your efforts to survive. This is legendary.]]
+        })
     elseif variant == "gametypes" then
         -- TODO add correct strings path
         -- stringsListPath = [[ui\shell\main_menu\mp_map_list]]
@@ -103,19 +104,44 @@ return function(name, texts, bitmap, variant)
         text_color = constants.color.text,
         justification = "left_justify"
     })
-    widget.create(contentDescriptionPath, {
+    ---@type invaderWidget
+    local wid = {
+        widget_type = "container",
         bounds = constants.getScreenBounds(),
-        child_widgets = {
-            {widget_tag = nameDescriptionPath, horizontal_offset = 364, vertical_offset = 300},
-            {widget_tag = imageDescriptionPath, horizontal_offset = 348, vertical_offset = 77},
-            {widget_tag = dataDescriptionPath, horizontal_offset = 364, vertical_offset = 305}
-        }
-    })
-    wid.child_widgets[2] = {
-        widget_tag = contentDescriptionPath,
-        vertical_offset = 0,
-        horizontal_offset = 0
+        justification = "left_justify",
+        child_widgets = {{widget_tag = [[insurrection\ui\shared\void.ui_widget_definition]]}}
     }
+    if variant == "difficulties" then
+        wid = {
+            widget_type = "container",
+            bounds = constants.getScreenBounds(),
+            justification = "left_justify",
+            child_widgets = {
+                {widget_tag = imageDescriptionPath, horizontal_offset = 348, vertical_offset = 77},
+                {widget_tag = dataDescriptionPath, horizontal_offset = 364, vertical_offset = 305},
+                {
+                    widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]],
+                    horizontal_offset = 0,
+                    vertical_offset = 0
+                }
+            }
+        }
+    else
+        widget.create(contentDescriptionPath, {
+            bounds = constants.getScreenBounds(),
+            child_widgets = {
+                {widget_tag = nameDescriptionPath, horizontal_offset = 364, vertical_offset = 300},
+                {widget_tag = imageDescriptionPath, horizontal_offset = 348, vertical_offset = 77},
+                {widget_tag = dataDescriptionPath, horizontal_offset = 364, vertical_offset = 305}
+            }
+        })
+        wid.child_widgets[2] = {
+            widget_tag = contentDescriptionPath,
+            vertical_offset = 0,
+            horizontal_offset = 0
+        }
+    end
+
     widget.create(widgetPath, wid)
     return widgetPath
 end

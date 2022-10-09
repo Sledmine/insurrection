@@ -1,5 +1,6 @@
 local widget = require "lua.scripts.widget"
 local constants = require "lua.scripts.ui.components.constants"
+local description = require "lua.scripts.ui.componentsV2.description"
 local pos = constants.position
 local container = require "lua.scripts.ui.componentsV2.container"
 local options = require "lua.scripts.ui.componentsV2.options"
@@ -15,9 +16,9 @@ container("classic_campaign_difficulty_select_menu", {
         options("difficulty_select_options", "vertical", {
             {button("easy", "EASY", {func = {"difficulty_item_select"}, select = true}), layout()},
             {button("normal", "NORMAL", {func = "difficulty_item_select", select = true}), layout()},
-            {button("hard", "HARD", {func = "difficulty_item_select", select = true}), layout()},
+            {button("hard", "HEROIC", {func = "difficulty_item_select", select = true}), layout()},
             {
-                button("legendary", "LEGENDARY (IMPOSSIBLE)", {func = "difficulty_item_select", select = true}),
+                button("impossible", "LEGENDARY", {func = "difficulty_item_select", select = true}),
                 layout()
             },
             {
@@ -33,7 +34,8 @@ container("classic_campaign_difficulty_select_menu", {
                 layout()
             },
             {button("back_difficulty", "BACK", {back = true}), layout()}
-        }, [[ui/shell/main_menu/difficulty_select/difficulty_ext_desc.ui_widget_definition]], {
+        --}, [[ui/shell/main_menu/difficulty_select/difficulty_ext_desc.ui_widget_definition]], {
+        }, description("difficulty_item", {}, [[insurrection/ui/bitmaps/difficulty_description.bitmap]], "difficulties"), {
             dataInput = "difficulty_menu_update_desc",
             func = "difficulty_menu_init",
             eventsToChildren = true,
