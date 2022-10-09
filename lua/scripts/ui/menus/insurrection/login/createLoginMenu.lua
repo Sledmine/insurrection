@@ -11,17 +11,17 @@ local dialogPath = menuPath .. [[insurrection_login_menu_dialog.ui_widget_defini
 local headerPath = menuPath .. [[insurrection_login_menu_header.ui_widget_definition]]
 local optionsPath = menuPath .. [[insurrection_login_menu_options.ui_widget_definition]]
 local logoPath = [[insurrection/ui/shared/insurrection_logo.ui_widget_definition]]
-local currentVersionPath = [[insurrection\ui\main_menu\version.ui_widget_definition]]
+local currentVersionPath = [[insurrection\ui\shared\version.ui_widget_definition]]
 
 -- Create menu header
 widget.create(headerPath, menuHeader("insurrection_login", "INSURRECTION LOGIN",
                                      "LOG INTO YOUR INSURRECTION ACCOUNT, GET ACCESS TO MULTIPLAYER LOBBIES"))
 widget.create(dialogPath, {
-    bounds = "0 0 345 334",
+    bounds = "0, 0, 345, 334",
     background_bitmap = [[insurrection/ui/bitmaps/login_dialog_background.bitmap]]
 })
 widget.create(logoPath, {
-    bounds = "-33 -192 33 192",
+    bounds = "-33, -192, 33, 192",
     background_bitmap = [[insurrection\ui\bitmaps\insurrection_logo.bitmap]]
 })
 -- Crate options elements
@@ -41,7 +41,7 @@ widget.create(backButtonPath, button("center_justify", "login_back_button", "BAC
 ---@type invaderWidget
 local options = {
     widget_type = "column_list",
-    bounds = "0 0 480 856",
+    bounds = "0, 0, 480, 856",
     flags = {pass_unhandled_events_to_focused_child = true, dpad_up_down_tabs_thru_children = true},
     child_widgets = {
         {horizontal_offset = 328, vertical_offset = 180, widget_tag = usernameInputPath},

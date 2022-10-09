@@ -7,9 +7,9 @@ local flashbar = require "lua.scripts.ui.componentsV2.flashbar"
 widget.init([[insurrection/ui/menus/intro/]])
 
 intro("intro_menu", {
-    {[[insurrection\ui\main_menu\insurrection_logo.ui_widget_definition]], 202, 160},
+    {[[insurrection/ui/shared/halo_custom_edition_logo.ui_widget_definition]], 202, 160},
     {flashbar("press_start_to_continue", "Press ENTER or Click to Continue..."), 0, 300},
-    {[[insurrection\ui\main_menu\version.ui_widget_definition]], 0, 460}
+    {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
 })
 
 -- Workaround due to not being able to swap initial widget as it is hardcoded by path

@@ -20,7 +20,8 @@ container("singleplayer_menu", {
         options("singleplayer_menu_options", "vertical", {
             {
                 button("classic_campaign", "CLASSIC CAMPAIGN", {
-                    opens = [[ui/shell/main_menu/campaign_select/campaign_menu.ui_widget_definition]]
+                    --opens = [[ui/shell/main_menu/campaign_select/campaign_menu.ui_widget_definition]]
+                    opens = [[insurrection/ui/menus/classic_campaign/classic_campaign_menu.ui_widget_definition]]
                 }),
                 layout()
             },
@@ -30,5 +31,5 @@ container("singleplayer_menu", {
         }, [[insurrection/ui/bitmaps/previews/singleplayer/classic_campaign.bitmap]]))
     },
     {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection/ui/main_menu/version.ui_widget_definition]], 0, 460}
+    {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
 })

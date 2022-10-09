@@ -11,7 +11,7 @@ local layout = widget.align("vertical", 24, 40, 266, 2)
 
 return container("main_menu", {
     {
-        [[insurrection\ui\main_menu\insurrection_logo.ui_widget_definition]],
+        [[insurrection\ui\shared\halo_custom_edition_logo.ui_widget_definition]],
         pos.logo.x,
         pos.logo.y
     },
@@ -55,5 +55,5 @@ return container("main_menu", {
         })
     },
     {[[insurrection\ui\shared\current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection\ui\main_menu\version.ui_widget_definition]], 0, 460}
+    {[[insurrection\ui\shared\version.ui_widget_definition]], 0, 460}
 }, {script = "set_ui_background"})

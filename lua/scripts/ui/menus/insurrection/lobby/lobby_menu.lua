@@ -23,7 +23,7 @@ local elementsPath = menuPath .. [[lobby_elements.ui_widget_definition]]
 local inputSearchPath = menuPath .. [[lobby_input_search.ui_widget_definition]]
 local playersNameplatesPath = menuPath .. [[lobby_players_nameplates.ui_widget_definition]]
 local backButtonPath = [[insurrection/ui/shared/common_back.ui_widget_definition]]
-local currentVersionPath = [[insurrection\ui\main_menu\version.ui_widget_definition]]
+local currentVersionPath = [[insurrection\ui\shared\version.ui_widget_definition]]
 
 widget.create(headerPath, menuHeader("lobby", "MY LOBBY",
                                      "INVITE FRIENDS TO YOUR LOBBY, CHOOSE YOUR SERVER TYPE, SET YOUR RULES AND HAVE FUN!"))

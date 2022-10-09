@@ -12,7 +12,7 @@ local headerPath = menuPath .. menuName .. [[_header.ui_widget_definition]]
 local optionsPath = menuPath .. menuName .. [[_options.ui_widget_definition]]
 local backButtonPath = [[insurrection/ui/shared/common_back.ui_widget_definition]]
 local currentProfilePath = [[insurrection\ui\shared\current_profile.ui_widget_definition]]
-local currentVersionPath = [[insurrection\ui\main_menu\version.ui_widget_definition]]
+local currentVersionPath = [[insurrection\ui\shared\version.ui_widget_definition]]
 
 -- Create menu header
 widget.create(headerPath, menuHeader("insurrection_dashboard", "INSURRECTION DASHBOARD",

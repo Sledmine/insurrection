@@ -25,5 +25,5 @@ return container("pause_menu", {
         })
     },
     {[[insurrection\ui\shared\current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection\ui\main_menu\version.ui_widget_definition]], 0, 460}
+    {[[insurrection\ui\shared\version.ui_widget_definition]], 0, 460}
 })
