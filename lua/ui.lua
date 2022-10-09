@@ -203,37 +203,41 @@ function OnFrame()
 end
 
 function OnWidgetOpen(widgetInstanceIndex)
-    local widgetValues = harmony.menu.get_widget_values(widgetInstanceIndex)
-    -- FIXME This is a workaround because back buttons are opening menus instead of closing them
-    -- Stop lobby refresh when dashboard is opened
-    if widgetValues.tag_id == interface.widgets.dashboardWidgetTag.id then
-        api.stopRefreshLobby()
-    end
-    local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
-    lastOpenWidgetTag = widgetTag
-    local widget = blam.uiWidgetDefinition(widgetTag.id)
-    local optionsWidget = blam.uiWidgetDefinition(widget.childWidgets[widget.childWidgetsCount]
-                                                      .widgetTag)
-    -- Auto focus on the first editable widget
-    if optionsWidget.childWidgets[1] then
-        setEditableWidget(optionsWidget.childWidgets[1].widgetTag)
-    end
-    interface.animationsReset(widgetTag.id)
+    local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceIndex)
+    if widgetExists then
+        -- FIXME This is a workaround because back buttons are opening menus instead of closing them
+        -- Stop lobby refresh when dashboard is opened
+        if widgetValues.tag_id == interface.widgets.dashboardWidgetTag.id then
+            api.stopRefreshLobby()
+        end
+        local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
+        lastOpenWidgetTag = widgetTag
+        local widget = blam.uiWidgetDefinition(widgetTag.id)
+        local optionsWidget = blam.uiWidgetDefinition(
+                                  widget.childWidgets[widget.childWidgetsCount].widgetTag)
+        -- Auto focus on the first editable widget
+        if optionsWidget.childWidgets[1] then
+            setEditableWidget(optionsWidget.childWidgets[1].widgetTag)
+        end
+        interface.animationsReset(widgetTag.id)
 
-    dprint("Opened widget: " .. widgetTag.path)
-    if DebugMode then
-        ScreenCornerText = widgetTag.path
+        dprint("Opened widget: " .. widgetTag.path)
+        if DebugMode then
+            ScreenCornerText = widgetTag.path
+        end
     end
     return true
 end
 
 function OnWidgetClose(widgetInstanceIndex)
-    local widgetValues = harmony.menu.get_widget_values(widgetInstanceIndex)
-    lastClosedWidgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
-    editableWidget = nil
-    ScreenCornerText = ""
-    if widgetValues.tag_id == interface.widgets.lobbyWidgetTag.id then
-        api.stopRefreshLobby()
+    local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceIndex)
+    if widgetExists then
+        lastClosedWidgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
+        editableWidget = nil
+        ScreenCornerText = ""
+        if widgetValues.tag_id == interface.widgets.lobbyWidgetTag.id then
+            api.stopRefreshLobby()
+        end
     end
     return true
 end
