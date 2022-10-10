@@ -4,7 +4,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@param childWidgets invaderWidgetChildWidget
 ---@param alignment '"vertical"' | '"horizontal"'
 ---@param description? string Tag path for description to display
----@param props? {func?: string, branch?: true, conditionalWidgets?: invaderWidgetConditionalWidget[], dataInput?: string, eventsToChildren?: boolean, useItems?: boolean} Props of the component
+---@param props? {func?: string, branch?: true, conditionalWidgets?: invaderWidgetConditionalWidget[], dataInput?: string, eventsToChildren?: boolean, useItems?: boolean, campaignMaps?: true} Props of the component
 ---@return string
 return function(name, alignment, childWidgets, description, props)
     local props = props or {}
@@ -21,6 +21,7 @@ return function(name, alignment, childWidgets, description, props)
             pass_handled_events_to_all_children = props.eventsToChildren or false
         },
         child_widgets = childWidgets or {},
+        event_handlers = {},
         extended_description_widget = description or ".ui_widget_definition",
         conditional_widgets = props.conditionalWidgets
     }
@@ -43,6 +44,20 @@ return function(name, alignment, childWidgets, description, props)
                 },
                 ["function"] = props.func
             }
+        }
+    end
+    if props.campaignMaps then
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "deleted",
+            flags = {run_function = true},
+            ["function"] = "dispose_sp_level_list"
+        }
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "custom_activation",
+            flags = {run_function = true, open_widget = true},
+            --["function"] = "init_sp_level_list"
+            ["function"] = "solo_level_set_map",
+            widget_tag = [[insurrection/ui/menus/classic_campaign_difficulty_select/classic_campaign_difficulty_select_menu.ui_widget_definition]],
         }
     end
     widget.createV2(widgetPath, wid)

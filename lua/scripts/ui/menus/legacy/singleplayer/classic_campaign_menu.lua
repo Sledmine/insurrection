@@ -22,7 +22,7 @@ container("classic_campaign_menu", {
             },
             {
                 button("new_journey", "NEW JOURNEY", {
-                    opens = [[ui/shell/main_menu/solo_level_select/solo_level_select_screen.ui_widget_definition]],
+                    opens = [[insurrection/ui/menus/classic_campaign_level_select/classic_campaign_level_select_menu.ui_widget_definition]],
                     justification = "center_justify"
                 }),
                 layout()

@@ -1,12 +1,11 @@
 local widget = require "lua.scripts.widget"
 local constants = require "lua.scripts.ui.components.constants"
-local description = require "lua.scripts.ui.componentsV2.description"
 local pos = constants.position
+local description = require "lua.scripts.ui.componentsV2.description"
 local container = require "lua.scripts.ui.componentsV2.container"
 local options = require "lua.scripts.ui.componentsV2.options"
 local button = require "lua.scripts.ui.componentsV2.button"
 local header = require "lua.scripts.ui.componentsV2.header"
-local image = require "lua.scripts.ui.componentsV2.image"
 
 widget.init([[insurrection/ui/menus/classic_campaign_difficulty_select/]])
 local layout = widget.align("vertical", 24, pos.options.x, pos.options.y, 2)

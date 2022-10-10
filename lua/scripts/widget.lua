@@ -29,7 +29,7 @@ _ALIGNMENTS = {}
 
 ---@class invaderWidgetEventHandler
 ---@field flags invaderWidgetEventHandlerFlags
----@field event_type '"a_button"' | '"b_button"' | '"back_button"' | '"start_button"' |  '"dpad_left"' | '"dpad_right"' | '"created"' | '"left_mouse"' | '"double_click"' | '"custom_activation"' | '"post_render"'
+---@field event_type '"a_button"' | '"b_button"' | '"back_button"' | '"start_button"' |  '"dpad_left"' | '"dpad_right"' | '"created"' | '"deleted"' | '"left_mouse"' | '"double_click"' | '"custom_activation"' | '"post_render"'
 ---@field function '"mouse_emit_accept_event"' | string
 ---@field widget_tag string
 ---@field sound_effect string

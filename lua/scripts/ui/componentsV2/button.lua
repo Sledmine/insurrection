@@ -5,7 +5,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---Generic button component, recycled in multiple components
 ---@param name string Name of the button component (also used for inner tags generation)
 ---@param text? string Auto generated unicode string inside this button
----@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string | string[], select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"'} Button properties
+---@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string | string[], select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"', legacy: boolean} Button properties
 ---@return string
 return function(name, text, props)
     local props = props or {}
@@ -55,6 +55,14 @@ return function(name, text, props)
     if props.select then
         wid.text_color = constants.color.selected
         wid.background_bitmap = [[insurrection/ui/bitmaps/normal_button_select.bitmap]]
+    end
+    if props.legacy then
+        wid.child_widgets = {
+            {widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]], horizontal_offset = 0, vertical_offset = 0},
+            {widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]], horizontal_offset = 0, vertical_offset = 0},
+            {widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]], horizontal_offset = 0, vertical_offset = 0},
+            {widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]], horizontal_offset = 0, vertical_offset = 0}
+        }
     end
     if props.func then
         if type(props.func) == "table" then
