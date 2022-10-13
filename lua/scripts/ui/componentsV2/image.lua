@@ -10,10 +10,16 @@ local floor = math.floor
 ---@return string
 return function(name, image, width, height, scale)
     local scale = scale or 1
+    local originalWidth = width
+    local originalHeight = height
     local width = floor(width * scale)
     local height = floor(height * scale)
-    local top = -(floor(height))
-    local left = -(floor(width))
+    local top = -(floor(originalHeight - height))
+    local left = -(floor(originalWidth - width))
+    if scale >= 1 then
+        top = 0
+        left = 0
+    end
     local widgetPath = widget.path .. name .. "_image.ui_widget_definition"
     ---@type invaderWidget
     local wid = {

@@ -86,8 +86,8 @@ container("classic_campaign_level_select_menu", {
                 0,
                 0
             },
-        }, [[ui/shell/main_menu/solo_level_select/solo_level_extended_desc.ui_widget_definition]], {
-            -- }, description("difficulty_item", {}, [[insurrection/ui/bitmaps/difficulty_description.bitmap]], "difficulties"), {
+        --}, [[ui/shell/main_menu/solo_level_select/solo_level_extended_desc.ui_widget_definition]], {
+        }, description("classic_campaign_item", {}, [[insurrection/ui/bitmaps/classic_campaign_previews.bitmap]], "campaign"), {
             dataInput = "solo_map_list_update",
             func = "initialize_sp_level_list_solo",
             campaignMaps = true
