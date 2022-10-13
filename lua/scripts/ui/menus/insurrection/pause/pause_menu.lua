@@ -18,10 +18,10 @@ return container("pause_menu", {
     },
     {
         options("pause_menu_options", "vertical", {
-            {button("resume_game", "RESUME GAME", {back = true}), layout()},
+            {button("resume_game", "RESUME GAME", {close = true}), layout()},
             {button("game_options", "GAME OPTIONS"), layout()},
             {button("settings", "SETTINGS"), layout()},
-            {button("exit", "EXIT TO MAIN MENU"), layout()}
+            {button("exit", "EXIT TO MAIN MENU", {func = "mp_game_player_quit"}), layout()}
         })
     },
     {[[insurrection\ui\shared\current_profile.ui_widget_definition]], 624, 20},
