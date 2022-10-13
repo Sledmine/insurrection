@@ -3,7 +3,7 @@
 -- Sledmine, JerryBrick
 -- Easier memory handle and provides standard functions for scripting
 ------------------------------------------------------------------------------
-local blam = {_VERSION = "1.5.0"}
+local blam = {_VERSION = "1.6.1"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -291,6 +291,36 @@ local dPadValues = {
     up = 765
 }
 
+-- Global variables
+
+---	This is the current gametype that is running. If no gametype is running, this will be set to nil
+---, possible values are: ctf, slayer, oddball, king, race.
+---@type string | nil
+gametype = gametype
+---This is the index of the local player. This is a value between 0 and 15, this value does not
+---match with player index in the server and is not instantly assigned after joining.
+---@type number | nil
+local_player_index = local_player_index
+---This is the name of the current loaded map.
+---@type string
+map = map
+---Return if the map has protected tags data.
+---@type boolean
+map_is_protected = map_is_protected
+---This is the name of the script. If the script is a global script, it will be defined as the
+---filename of the script. Otherwise, it will be the name of the map.
+---@type string
+script_name = script_name
+---This is the script type, possible values are global or map.
+---@type string
+script_type = script_type
+---@type '"none"' | '"local"' | '"dedicated"' | '"sapp"'
+server_type = server_type
+---Return whether or not the script is sandboxed. See Sandoboxed Scripts for more information.
+---@deprecated
+---@type boolean
+sandboxed = sandboxed
+
 local backupFunctions = {}
 
 backupFunctions.console_is_open = _G.console_is_open
@@ -414,8 +444,8 @@ end
 ---@param path string
 ---@return boolean
 function directory_exists(path)
-    error("Directory verifications are not supported on SAPP.. yet!")
-    return true
+    print("directory_exists", path)
+    return os.execute("dir \"" .. path .. "\" > nul") == 0
 end
 
 ---List the contents from a directory given directory path
@@ -424,7 +454,7 @@ end
 function list_directory(path)
     -- TODO This needs a way to separate folders from files
     if (path) then
-        local command = "dir " .. path .. " /B"
+        local command = "dir \"" .. path .. "\" /B"
         local pipe = io.popen(command, "r")
         if pipe then
             local output = pipe:read("*a")
@@ -464,7 +494,7 @@ end
 ---Return the memory address of a tag given tagId or tagClass and tagPath
 ---@param tagIdOrTagType string | number
 ---@param tagPath? string
----@return number
+---@return number?
 function get_tag(tagIdOrTagType, tagPath)
     if (not tagPath) then
         return lookup_tag(tagIdOrTagType)
@@ -618,7 +648,7 @@ end
 
 --- Convert tag class int to string
 ---@param tagClassInt number
----@return string
+---@return string?
 local function tagClassFromInt(tagClassInt)
     if (tagClassInt) then
         local tagClassHex = tohex(tagClassInt)
@@ -679,17 +709,19 @@ local function consoleOutput(message, ...)
         table.insert(colorARGB, 1, 1)
     end
 
-    if (isString(message)) then
-        -- Explode the string!!
-        for line in message:gmatch("([^\n]+)") do
-            -- Trim the line
-            local trimmedLine = trim(line)
+    if message then
+        if (isString(message)) then
+            -- Explode the string!!
+            for line in message:gmatch("([^\n]+)") do
+                -- Trim the line
+                local trimmedLine = trim(line)
 
-            -- Print the line
-            original_console_out(trimmedLine, table.unpack(colorARGB))
+                -- Print the line
+                original_console_out(trimmedLine, table.unpack(colorARGB))
+            end
+        else
+            original_console_out(message, table.unpack(colorARGB))
         end
-    else
-        original_console_out(message, table.unpack(colorARGB))
     end
 end
 
@@ -1110,7 +1142,9 @@ local deviceGroupsTableStructure = {
 ---@field nameIndex number Index of object name in the scenario tag
 ---@field playerId number Current player id if the object
 ---@field parentId number Current parent id of the object
----@field isHealthEmpty boolean Is the object health deploeted, also marked as "dead"
+---//@field isHealthEmpty boolean Is the object health depleted, also marked as "dead"
+---@field isApparentlyDead boolean Is the object apparently dead
+---@field isSilentlyKilled boolean Is the object really dead
 ---@field animationTagId number Current animation tag ID
 ---@field animation number Current animation index
 ---@field animationFrame number Current animation frame
@@ -1172,6 +1206,8 @@ local objectStructure = {
     playerId = {type = "dword", offset = 0xC0},
     parentId = {type = "dword", offset = 0xC4},
     isHealthEmpty = {type = "bit", offset = 0x106, bitLevel = 2},
+    isApparentlyDead = {type = "bit", offset = 0x106, bitLevel = 2},
+    isSilentlyKilled = {type = "bit", offset = 0x106, bitLevel = 5},
     animationTagId = {type = "dword", offset = 0xCC},
     animation = {type = "word", offset = 0xD0},
     animationFrame = {type = "word", offset = 0xD2},
@@ -1930,6 +1966,7 @@ local firstPersonStructure = {weaponObjectId = {type = "dword", offset = 0x10}}
 
 ---@class bipedTag
 ---@field disableCollision number Disable collision of this biped tag
+
 local bipedTagStructure = {disableCollision = {type = "bit", offset = 0x2F4, bitLevel = 5}}
 
 ---@class deviceMachine : blamObject
@@ -2048,7 +2085,7 @@ function blam.isGameSAPP()
 end
 
 ---Get the current game camera type
----@return number
+---@return number?
 function blam.getCameraType()
     local camera = read_word(addressList.cameraType)
     if (camera) then
@@ -2076,6 +2113,7 @@ function blam.getJoystickInput(joystickOffset)
     -- TODO Check if it is better to return an entire table with all input values 
     joystickOffset = joystickOffset or 0
     -- Nothing is pressed by default
+    ---@type boolean | number
     local inputValue = false
     -- Look for every input from every joystick available
     for controllerId = 0, 3 do
@@ -2098,7 +2136,7 @@ end
 
 --- Create a tag object from a given address, this object can't write data to game memory
 ---@param address integer
----@return tag
+---@return tag?
 function blam.tag(address)
     if (address and address ~= 0) then
         -- Generate a new tag object from class
@@ -2110,7 +2148,7 @@ function blam.tag(address)
         -- Set up values
         tagInfo.address = address
         tagInfo.path = read_string(tagInfo.path)
-        tagInfo.class = tagClassFromInt(tagInfo.class)
+        tagInfo.class = tagClassFromInt(tagInfo.class --[[@as number]])
 
         return tagInfo
     end
@@ -2120,7 +2158,7 @@ end
 --- Return a tag object given tagPath and tagClass or just tagId
 ---@param tagIdOrTagPath string | number
 ---@param tagClass? string
----@return tag
+---@return tag?
 function blam.getTag(tagIdOrTagPath, tagClass, ...)
     local tagId
     local tagPath
@@ -2148,15 +2186,17 @@ function blam.getTag(tagIdOrTagPath, tagClass, ...)
             tagId = read_dword(blam.tagDataHeader.array + (tagId * 0x20 + 0xC))
         end
         tagAddress = get_tag(tagId)
-    else
-        tagAddress = get_tag(tagClass, tagPath)
+    elseif (tagClass and tagPath) then
+        tagAddress = get_tag(tagClass, tagPath --[[@as string]] )
     end
 
-    return blam.tag(tagAddress)
+    if tagAddress then
+        return blam.tag(tagAddress)
+    end
 end
 
 --- Create a player object given player entry table address
----@return player
+---@return player?
 function blam.player(address)
     if (isValid(address)) then
         return createObject(address, playerStructure)
@@ -2166,7 +2206,7 @@ end
 
 --- Create a blamObject given address
 ---@param address number
----@return blamObject
+---@return blamObject?
 function blam.object(address)
     if (isValid(address)) then
         return createObject(address, objectStructure)
@@ -2176,7 +2216,7 @@ end
 
 --- Create a Projectile object given address
 ---@param address number
----@return projectile
+---@return projectile?
 function blam.projectile(address)
     if (isValid(address)) then
         return createObject(address, projectileStructure)
@@ -2186,7 +2226,7 @@ end
 
 --- Create a Biped object from a given address
 ---@param address number
----@return biped
+---@return biped?
 function blam.biped(address)
     if (isValid(address)) then
         return createObject(address, bipedStructure)
@@ -2196,124 +2236,146 @@ end
 
 --- Create a biped tag from a tag path or id
 ---@param tag string | number
----@return bipedTag
+---@return bipedTag?
 function blam.bipedTag(tag)
     if (isValid(tag)) then
         local bipedTag = blam.getTag(tag, tagClasses.biped)
-        return createObject(bipedTag.data, bipedTagStructure)
+        if (bipedTag) then
+            return createObject(bipedTag.data, bipedTagStructure)
+        end
     end
     return nil
 end
 
 --- Create a Unicode String List object from a tag path or id
 ---@param tag string | number
----@return unicodeStringList
+---@return unicodeStringList?
 function blam.unicodeStringList(tag)
     if (isValid(tag)) then
         local unicodeStringListTag = blam.getTag(tag, tagClasses.unicodeStringList)
-        return createObject(unicodeStringListTag.data, unicodeStringListStructure)
+        if (unicodeStringListTag) then
+            return createObject(unicodeStringListTag.data, unicodeStringListStructure)
+        end
     end
     return nil
 end
 
 --- Create a bitmap object from a tag path or id
 ---@param tag string | number
----@return bitmap
+---@return bitmap?
 function blam.bitmap(tag)
     if (isValid(tag)) then
         local bitmapTag = blam.getTag(tag, tagClasses.bitmap)
-        return createObject(bitmapTag.data, bitmapStructure)
+        if (bitmapTag) then
+            return createObject(bitmapTag.data, bitmapStructure)
+        end
     end
 end
 
 --- Create a UI Widget Definition object from a tag path or id
 ---@param tag string | number
----@return uiWidgetDefinition
+---@return uiWidgetDefinition?
 function blam.uiWidgetDefinition(tag)
     if (isValid(tag)) then
         local uiWidgetDefinitionTag = blam.getTag(tag, tagClasses.uiWidgetDefinition)
-        return createObject(uiWidgetDefinitionTag.data, uiWidgetDefinitionStructure)
+        if (uiWidgetDefinitionTag) then
+            return createObject(uiWidgetDefinitionTag.data, uiWidgetDefinitionStructure)
+        end
     end
     return nil
 end
 
 --- Create a UI Widget Collection object from a tag path or id
 ---@param tag string | number
----@return uiWidgetCollection
+---@return uiWidgetCollection?
 function blam.uiWidgetCollection(tag)
     if (isValid(tag)) then
         local uiWidgetCollectionTag = blam.getTag(tag, tagClasses.uiWidgetCollection)
-        return createObject(uiWidgetCollectionTag.data, uiWidgetCollectionStructure)
+        if (uiWidgetCollectionTag) then
+            return createObject(uiWidgetCollectionTag.data, uiWidgetCollectionStructure)
+        end
     end
     return nil
 end
 
 --- Create a Tag Collection object from a tag path or id
 ---@param tag string | number
----@return tagCollection
+---@return tagCollection?
 function blam.tagCollection(tag)
     if (isValid(tag)) then
         local tagCollectionTag = blam.getTag(tag, tagClasses.tagCollection)
-        return createObject(tagCollectionTag.data, tagCollectionStructure)
+        if (tagCollectionTag) then
+            return createObject(tagCollectionTag.data, tagCollectionStructure)
+        end
     end
     return nil
 end
 
 --- Create a Weapon HUD Interface object from a tag path or id
 ---@param tag string | number
----@return weaponHudInterface
+---@return weaponHudInterface?
 function blam.weaponHudInterface(tag)
     if (isValid(tag)) then
         local weaponHudInterfaceTag = blam.getTag(tag, tagClasses.weaponHudInterface)
-        return createObject(weaponHudInterfaceTag.data, weaponHudInterfaceStructure)
+        if (weaponHudInterfaceTag) then
+            return createObject(weaponHudInterfaceTag.data, weaponHudInterfaceStructure)
+        end
     end
     return nil
 end
 
 --- Create a Scenario object from a tag path or id
----@param tag string | number
----@return scenario
+---@param tag? string | number
+---@return scenario?
 function blam.scenario(tag)
     local scenarioTag = blam.getTag(tag or 0, tagClasses.scenario)
-    return createObject(scenarioTag.data, scenarioStructure)
+    if (scenarioTag) then
+        return createObject(scenarioTag.data, scenarioStructure)
+    end
 end
 
 --- Create a Scenery object from a tag path or id
 ---@param tag string | number
----@return scenery
+---@return scenery?
 function blam.scenery(tag)
     if (isValid(tag)) then
         local sceneryTag = blam.getTag(tag, tagClasses.scenery)
-        return createObject(sceneryTag.data, sceneryStructure)
+        if (sceneryTag) then
+            return createObject(sceneryTag.data, sceneryStructure)
+        end
     end
     return nil
 end
 
 --- Create a Collision Geometry object from a tag path or id
 ---@param tag string | number
----@return collisionGeometry
+---@return collisionGeometry?
 function blam.collisionGeometry(tag)
     if (isValid(tag)) then
         local collisionGeometryTag = blam.getTag(tag, tagClasses.collisionGeometry)
-        return createObject(collisionGeometryTag.data, collisionGeometryStructure)
+        if (collisionGeometryTag) then
+            return createObject(collisionGeometryTag.data, collisionGeometryStructure)
+        end
     end
     return nil
 end
 
 --- Create a Model Animations object from a tag path or id
 ---@param tag string | number
----@return modelAnimations
+---@return modelAnimations?
 function blam.modelAnimations(tag)
     if (isValid(tag)) then
         local modelAnimationsTag = blam.getTag(tag, tagClasses.modelAnimations)
-        return createObject(modelAnimationsTag.data, modelAnimationsStructure)
+        if (modelAnimationsTag) then
+            return createObject(modelAnimationsTag.data, modelAnimationsStructure)
+        end
     end
     return nil
 end
 
 --- Create a Weapon object from the given object address
 ---@param address number
----@return weapon
+---@return weapon?
 function blam.weapon(address)
     if (isValid(address)) then
         return createObject(address, weaponStructure)
@@ -2323,22 +2385,26 @@ end
 
 --- Create a Weapon tag object from a tag path or id
 ---@param tag string | number
----@return weaponTag
+---@return weaponTag?
 function blam.weaponTag(tag)
     if (isValid(tag)) then
         local weaponTag = blam.getTag(tag, tagClasses.weapon)
-        return createObject(weaponTag.data, weaponTagStructure)
+        if (weaponTag) then
+            return createObject(weaponTag.data, weaponTagStructure)
+        end
     end
     return nil
 end
 
 --- Create a model (gbxmodel) object from a tag path or id
 ---@param tag string | number
----@return gbxModel
+---@return gbxModel?
 function blam.model(tag)
     if (isValid(tag)) then
         local modelTag = blam.getTag(tag, tagClasses.model)
-        return createObject(modelTag.data, modelStructure)
+        if (modelTag) then
+            return createObject(modelTag.data, modelStructure)
+        end
     end
     return nil
 end
@@ -2347,12 +2413,14 @@ blam.gbxmodel = blam.model
 
 --- Create a Globals tag object from a tag path or id, default globals path by default
 ---@param tag? string | number
----@return globalsTag
+---@return globalsTag?
 function blam.globalsTag(tag)
     local tag = tag or "globals\\globals"
     if (isValid(tag)) then
         local globalsTag = blam.getTag(tag, tagClasses.globals)
-        return createObject(globalsTag.data, globalsTagStructure)
+        if (globalsTag) then
+            return createObject(globalsTag.data, globalsTagStructure)
+        end
     end
     return nil
 end
@@ -2366,7 +2434,7 @@ end
 
 --- Create a Device Machine object from a given address
 ---@param address number
----@return deviceMachine
+---@return deviceMachine?
 function blam.deviceMachine(address)
     if (isValid(address)) then
         return createObject(address, deviceMachineStructure)
@@ -2376,18 +2444,20 @@ end
 
 --- Create a HUD Globals tag object from a given address
 ---@param tag string | number
----@return hudGlobals
+---@return hudGlobals?
 function blam.hudGlobals(tag)
     if (isValid(tag)) then
         local hudGlobals = blam.getTag(tag, tagClasses.hudGlobals)
-        return createObject(hudGlobals.data, hudGlobalsStructure)
+        if (hudGlobals) then
+            return createObject(hudGlobals.data, hudGlobalsStructure)
+        end
     end
     return nil
 end
 
 --- Return a blam object given object index or id
 ---@param idOrIndex number
----@return blamObject, number
+---@return blamObject?, number?
 function blam.getObject(idOrIndex)
     local objectId
     local objectAddress
@@ -2413,14 +2483,16 @@ function blam.getObject(idOrIndex)
 
         objectAddress = get_object(objectId)
 
-        return blam.object(objectAddress), objectId
+        if objectAddress then
+            return blam.object(objectAddress), objectId
+        end
     end
     return nil
 end
 
 --- Return an element from the device machines table
 ---@param index number
----@return number
+---@return number?
 function blam.getDeviceGroup(index)
     -- Get object address
     if (index) then
