@@ -67,7 +67,8 @@ function OnTick()
         end
     end
     -- Game started event trick
-    if (not gameStarted and map:find("ui")) then
+    --if (not gameStarted and map:find("ui")) then
+    if (not gameStarted) then
         gameStarted = true
         onGameStart()
     end
@@ -205,6 +206,21 @@ end
 function OnWidgetOpen(widgetInstanceIndex)
     local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceIndex)
     if widgetExists then
+        -- Insurrection is running outside the UI
+        if map ~= "ui" and (blam.isGameHost() or blam.isGameDedicated()) then
+            local multiplayerTagCollection = blam.uiWidgetCollection(blam.findTag("ui\\shell\\multiplayer", blam.tagClasses.uiWidgetCollection).id)
+            -- Check if the current map pause menu was opened
+            if widgetValues.tag_id == multiplayerTagCollection.tagList[1] then
+                
+                execute_script([[(begin
+                (show_hud false)
+                (cinematic_screen_effect_start true)
+                (cinematic_screen_effect_set_convolution 3 1 1 2 0)
+                (cinematic_screen_effect_start false)
+            )]])
+                interface.pauseMenu()
+            end
+        end
         -- FIXME This is a workaround because back buttons are opening menus instead of closing them
         -- Stop lobby refresh when dashboard is opened
         if widgetValues.tag_id == interface.widgets.dashboardWidgetTag.id then
@@ -226,12 +242,18 @@ function OnWidgetOpen(widgetInstanceIndex)
             ScreenCornerText = widgetTag.path
         end
     end
-    return true
+    return false
 end
 
 function OnWidgetClose(widgetInstanceIndex)
     local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceIndex)
     if widgetExists then
+        if widgetValues.tag_id == interface.widgets.pauseMenuWidgetTag.id then
+            execute_script([[(begin
+            (show_hud true)
+            (cinematic_stop)
+        )]])
+        end
         lastClosedWidgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
         editableWidget = nil
         ScreenCornerText = ""
@@ -273,6 +295,6 @@ set_callback("command", "OnCommand")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")
-harmony.set_callback("widget back", "OnWidgetClose")
+harmony.set_callback("widget close", "OnWidgetClose")
 harmony.set_callback("widget open", "OnWidgetOpen")
 harmony.set_callback("key press", "OnKeypress")

@@ -32,6 +32,7 @@ local dialogWidgetTag = findWidgetTag("dialog_menu")
 local lobbyWidgetTag = findWidgetTag("lobby_menu")
 local dashboardWidgetTag = findWidgetTag("dashboard_menu")
 local customizationWidgetTag = findWidgetTag("customization_menu")
+local pauseMenuWidgetTag = findWidgetTag("pause_menu")
 -- Sounds
 local errorSoundTag = findTag("flag_failure", blam.tagClasses.sound)
 local sucessSoundTag = findTag("forward", blam.tagClasses.sound)
@@ -51,7 +52,7 @@ local nameplateBitmapTags = blam.findTagsList("nameplates\\", blam.tagClasses.bi
 local nameplatesBitmapTagIds = {}
 for _, tag in ipairs(nameplateBitmapTags) do
     local nameplateNumber = tonumber(core.getTagName(tag.path))
-    if nameplateNumber then
+    if nameplateNumber and not nameplatesBitmapTagIds[nameplateNumber] then
         nameplatesBitmapTagIds[nameplateNumber] = tag.id
     end
 end
@@ -62,12 +63,14 @@ interface.widgets = {
     dashboardWidgetTag = dashboardWidgetTag,
     usernameInputTag = usernameInputTag,
     passwordInputTag = passwordInputTag,
-    customizationWidgetTag = customizationWidgetTag
+    customizationWidgetTag = customizationWidgetTag,
+    pauseMenuWidgetTag = pauseMenuWidgetTag
 }
 
 function interface.load()
     -- Load Insurrection features
     if (core.loadInsurrectionPatches()) then
+
         -- Change aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
 
@@ -89,7 +92,9 @@ function interface.load()
         end
     end
     -- Workaround fix to prevent players from getting stuck in a game server at menu
-    execute_script("disconnect")
+    if map == "ui" then
+        execute_script("disconnect")
+    end
 end
 
 function interface.loadProfileNameplate(nameplateIndex)
@@ -550,6 +555,26 @@ function interface.onInputText(widgetTagId, text)
     if widget.name == "lobby_search_input" then
         -- dprint("Searching for: " .. text)
         store:dispatch(actions.updateLobby(nil, nil, text))
+    end
+end
+
+function interface.pauseMenu()
+    openWidget(pauseMenuWidgetTag.id, false)
+end
+
+function interface.blur(enable)
+    if enable then
+        execute_script([[(begin
+        (show_hud false)
+        (cinematic_screen_effect_start true)
+        (cinematic_screen_effect_set_convolution 3 1 1 2 0)
+        (cinematic_screen_effect_start false)
+    )]])
+    else
+        execute_script([[(begin
+            (show_hud true)
+            (cinematic_stop)
+        )]])
     end
 end
 
