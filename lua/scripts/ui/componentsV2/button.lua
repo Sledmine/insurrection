@@ -5,7 +5,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---Generic button component, recycled in multiple components
 ---@param name string Name of the button component (also used for inner tags generation)
 ---@param text? string Auto generated unicode string inside this button
----@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string | string[], select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"', legacy: boolean} Button properties
+---@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string | string[], select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"', legacy: boolean, close: boolean} Button properties
 ---@return string
 return function(name, text, props)
     local props = props or {}
@@ -28,7 +28,8 @@ return function(name, text, props)
                     open_widget = props.opens ~= nil,
                     run_function = props.func ~= nil,
                     go_back_to_previous_widget = props.back or false,
-                    try_to_branch_on_failure = props.branch or false
+                    try_to_branch_on_failure = props.branch or false,
+                    close_all_widgets = props.close or false
                 },
                 event_type = "a_button",
                 widget_tag = props.opens or ".ui_widget_definition",
@@ -58,10 +59,26 @@ return function(name, text, props)
     end
     if props.legacy then
         wid.child_widgets = {
-            {widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]], horizontal_offset = 0, vertical_offset = 0},
-            {widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]], horizontal_offset = 0, vertical_offset = 0},
-            {widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]], horizontal_offset = 0, vertical_offset = 0},
-            {widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]], horizontal_offset = 0, vertical_offset = 0}
+            {
+                widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]],
+                horizontal_offset = 0,
+                vertical_offset = 0
+            },
+            {
+                widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]],
+                horizontal_offset = 0,
+                vertical_offset = 0
+            },
+            {
+                widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]],
+                horizontal_offset = 0,
+                vertical_offset = 0
+            },
+            {
+                widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]],
+                horizontal_offset = 0,
+                vertical_offset = 0
+            }
         }
     end
     if props.func then
