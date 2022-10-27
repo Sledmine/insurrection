@@ -3,7 +3,7 @@
 -- Sledmine, JerryBrick
 -- Easier memory handle and provides standard functions for scripting
 ------------------------------------------------------------------------------
-local blam = {_VERSION = "1.6.1"}
+local blam = {_VERSION = "1.6.0"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -319,7 +319,7 @@ server_type = server_type
 ---Return whether or not the script is sandboxed. See Sandoboxed Scripts for more information.
 ---@deprecated
 ---@type boolean
-sandboxed = sandboxed
+sandboxed = sandboxed ---@diagnostic disable-line: deprecated
 
 local backupFunctions = {}
 
@@ -2455,7 +2455,8 @@ function blam.hudGlobals(tag)
     return nil
 end
 
---- Return a blam object given object index or id
+--- Return a blam object given object index or id.
+--- Also returns objectId when given an object index.
 ---@param idOrIndex number
 ---@return blamObject?, number?
 function blam.getObject(idOrIndex)
