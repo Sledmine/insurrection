@@ -12,6 +12,7 @@ commands:
     - jq --indent 4 ".version = \"$(luajit -e 'print(require("lua.insurrection.version"))')\"" package/manifest.json.bak > package/manifest.json
     - rm package/manifest.json.bak
   package:
+    - rm -rf dist
     - mkdir -p dist
     - mercury luabundle
     - cp dist/ui.lua package/lua-map/ui.lua

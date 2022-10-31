@@ -21,6 +21,7 @@
         "insurrection.chimera",
         "insurrection.core",
         "insurrection.api",
+        "insurrection.components",
         "insurrection.interface",
         "insurrection.redux.reducers.interfaceReducer",
         "insurrection.redux.actions",
