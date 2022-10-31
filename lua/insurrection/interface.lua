@@ -1,5 +1,6 @@
 local harmony = require "mods.harmony"
 local chimera = require "insurrection.chimera"
+local components = require "insurrection.components"
 local createBezierCurve = harmony.math.create_bezier_curve
 local bezierCurve = harmony.math.get_bezier_curve_point
 local openWidget = harmony.menu.open_widget
@@ -32,7 +33,7 @@ local dialogWidgetTag = findWidgetTag("dialog_menu")
 local lobbyWidgetTag = findWidgetTag("lobby_menu")
 local dashboardWidgetTag = findWidgetTag("dashboard_menu")
 local customizationWidgetTag = findWidgetTag("customization_menu")
-local pauseMenuWidgetTag = findWidgetTag("pause_menu")
+local pauseMenuWidgetTag = findWidgetTag("pause\\pause_menu")
 -- Sounds
 local errorSoundTag = findTag("flag_failure", blam.tagClasses.sound)
 local sucessSoundTag = findTag("forward", blam.tagClasses.sound)
@@ -70,6 +71,54 @@ interface.widgets = {
 function interface.load()
     -- Load Insurrection features
     if (core.loadInsurrectionPatches()) then
+
+        dialogWidgetTag = findWidgetTag("dialog_menu")
+        lobbyWidgetTag = findWidgetTag("lobby_menu")
+        dashboardWidgetTag = findWidgetTag("dashboard_menu")
+        customizationWidgetTag = findWidgetTag("customization_menu")
+        pauseMenuWidgetTag = findWidgetTag("pause\\pause_menu")
+        -- Sounds
+        errorSoundTag = findTag("flag_failure", blam.tagClasses.sound)
+        sucessSoundTag = findTag("forward", blam.tagClasses.sound)
+        -- Lobby elements
+        lobbyElement2Tag = findWidgetTag("lobby_element_button_2")
+        lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
+        lobbyElement4Tag = findWidgetTag("lobby_element_button_4")
+        lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
+        lobbyPlayersNameplatesTag = findWidgetTag("lobby_players_nameplates")
+        -- Input elements
+        usernameInputTag = findWidgetTag("username_input")
+        passwordInputTag = findWidgetTag("password_input")
+        -- General UI Elements
+        nameplateTag = findWidgetTag("shared\\current_profile")
+        blockedNameplates = {22, 23, 27, 29, 35}
+        nameplateBitmapTags = blam.findTagsList("nameplates\\", blam.tagClasses.bitmap)
+        nameplatesBitmapTagIds = {}
+        for _, tag in ipairs(nameplateBitmapTags) do
+            local nameplateNumber = tonumber(core.getTagName(tag.path))
+            if nameplateNumber and not nameplatesBitmapTagIds[nameplateNumber] then
+                nameplatesBitmapTagIds[nameplateNumber] = tag.id
+            end
+        end
+        nameplatePreviewTag = findWidgetTag("nameplate_preview")
+
+        interface.widgets = {
+            lobbyWidgetTag = lobbyWidgetTag,
+            dashboardWidgetTag = dashboardWidgetTag,
+            usernameInputTag = usernameInputTag,
+            passwordInputTag = passwordInputTag,
+            customizationWidgetTag = customizationWidgetTag,
+            pauseMenuWidgetTag = pauseMenuWidgetTag
+        }
+        
+        local usernameInput = components:new(usernameInputTag.id)
+        usernameInput:onClick(function()
+            console_out("Username input clicked")
+        end)
+        
+        usernameInput:onFocus(function()
+            console_out("Username input focused")
+        end)
 
         -- Change aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
@@ -140,20 +189,26 @@ end
 
 --- Animates player nameplates, including profile nameplate
 function interface.animateNameplates()
-    interface.animateUIWidgetBackground(nameplateTag.id)
-    for widgetIndex, childWidget in pairs(uiWidgetTag(lobbyPlayersNameplatesTag.id).childWidgets) do
-        interface.animateUIWidgetBackground(childWidget.widgetTag)
-    end
-    local customizationMenuWidgetDef = uiWidgetTag(customizationWidgetTag.id)
-    local optionsCustomizationWidgetDef = uiWidgetTag(
-                                              customizationMenuWidgetDef.childWidgets[2].widgetTag)
-    for widgetIndex, childWidget in pairs(optionsCustomizationWidgetDef.childWidgets) do
-        local nameplateWidgetDef = uiWidgetTag(childWidget.widgetTag)
-        if starts(nameplateWidgetDef.name, "nameplate_button") then
-            interface.animateUIWidgetBackground(childWidget.widgetTag)
+    if core.getCurrentUIWidgetTag() then
+        interface.animateUIWidgetBackground(nameplateTag.id)
+        local lobbyPlayersNameplatesWidgetTag = uiWidgetTag(lobbyPlayersNameplatesTag.id)
+        if lobbyPlayersNameplatesWidgetTag then
+            for widgetIndex, childWidget in pairs(lobbyPlayersNameplatesWidgetTag.childWidgets) do
+                interface.animateUIWidgetBackground(childWidget.widgetTag)
+            end
+            local customizationMenuWidgetDef = uiWidgetTag(customizationWidgetTag.id)
+            local optionsCustomizationWidgetDef = uiWidgetTag(
+                                                      customizationMenuWidgetDef.childWidgets[2]
+                                                          .widgetTag)
+            for widgetIndex, childWidget in pairs(optionsCustomizationWidgetDef.childWidgets) do
+                local nameplateWidgetDef = uiWidgetTag(childWidget.widgetTag)
+                if starts(nameplateWidgetDef.name, "nameplate_button") then
+                    interface.animateUIWidgetBackground(childWidget.widgetTag)
+                end
+            end
+            interface.animateUIWidgetBackground(nameplatePreviewTag.id)
         end
     end
-    interface.animateUIWidgetBackground(nameplatePreviewTag.id)
 end
 
 ---Show a dialog message on the screen
@@ -182,7 +237,11 @@ function interface.dialog(titleText, subtitleText, bodyText)
     strings[1] = bodyText
     bodyStrings.stringList = strings
 
-    openWidget(dialogWidgetTag.id, true)
+    if titleText == "ERROR" then
+        openWidget(dialogWidgetTag.id, false)
+    else
+        openWidget(dialogWidgetTag.id, true)
+    end
 end
 
 ---Play a special interface sound
@@ -271,10 +330,11 @@ function interface.onButton(widgetTagId)
             end
             local value = getWidgetString(findWidgetTag("lobby_element_button_" .. buttonIndex).id)
             store:dispatch(actions.setSelected(value))
+            api.editLobby(state.lobbyKey, {map = state.selected.map, gametype = state.selected.gametype, template = state.selected.template})
         end
     elseif ends(buttonPath, "\\customization_button") then
         interface.customization()
-        store:dispatch(actions.reset())
+        store:dispatch(actions.clean())
         local filteredNameplateTagIds = glue.map(nameplatesBitmapTagIds, function(tagId)
             local bitmapTag = blam.getTag(tagId)
             local nameplateNumber = tonumber(core.getTagName(bitmapTag.path))
@@ -310,6 +370,8 @@ function interface.onButton(widgetTagId)
         if nameplateNumber then
             api.playerEditNameplate(nameplateNumber)
         end
+    elseif ends(buttonPath, "resume_game_button") then
+        interface.blur(false)
     end
 end
 
@@ -415,15 +477,15 @@ function interface.update()
 end
 
 function interface.getWidgetValues(widgetTagId)
-    local widgetInstanceId = harmony.menu.find_widgets(widgetTagId)
-    if widgetInstanceId then
+    local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
+    if sucess and widgetInstanceId then
         return harmony.menu.get_widget_values(widgetInstanceId)
     end
 end
 
 function interface.setWidgetValues(widgetTagId, values)
-    local widgetInstanceId = harmony.menu.find_widgets(widgetTagId)
-    if (widgetInstanceId) then
+    local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
+    if sucess and widgetInstanceId then
         harmony.menu.set_widget_values(widgetInstanceId, values);
     end
 end

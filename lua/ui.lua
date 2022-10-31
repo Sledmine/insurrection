@@ -1,6 +1,7 @@
 require "insecticide"
 local actions = require "insurrection.redux.actions"
 local blam = require "blam"
+local components = require "insurrection.components"
 local isNull = blam.isNull
 local harmony = require "mods.harmony"
 local optic = harmony.optic
@@ -37,6 +38,7 @@ VirtualInputValue = {}
 WidgetAnimations = {}
 ScreenCornerText = ""
 LoadingText = nil
+local lastMap = ""
 
 -- Setup loading orb sprite
 local loadingSprite = optic.create_sprite("loading_orb.png", 32, 32)
@@ -46,11 +48,26 @@ local screenWidth = read_word(0x637CF2)
 local screenHeight = read_word(0x637CF0)
 
 local function onGameStart()
+    if AnimationsTimerId then
+        stop_timer(AnimationsTimerId)
+    end
+
+    AnimationsTimerId = set_timer(33, "animateAt30FPS")
+    dprint("Game started...")
     interface.load()
     -- chimera.getConfiguration()
 end
 
 function OnTick()
+    -- Game started event trick
+    if lastMap ~= map then
+        gameStarted = false
+        lastMap = map
+        if not gameStarted then
+            gameStarted = true
+            onGameStart()
+        end
+    end
     -- Multithread callback resolve
     for laneIndex, lane in ipairs(Lanes) do
         if lane.thread.status == "done" then
@@ -65,12 +82,6 @@ function OnTick()
         else
             dprint(lane.thread.status, "warning")
         end
-    end
-    -- Game started event trick
-    --if (not gameStarted and map:find("ui")) then
-    if (not gameStarted) then
-        gameStarted = true
-        onGameStart()
     end
 end
 
@@ -102,6 +113,10 @@ end
 function OnMenuAccept(widgetInstanceIndex)
     local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
     local allow = not (chimera.onButton(widgetTagId) or interface.onButton(widgetTagId) or false)
+    local component = components.widgets[widgetTagId]
+    if component and component.onClick then
+        return not component.onClick()
+    end
     return allow
 end
 
@@ -114,6 +129,10 @@ local function setEditableWidget(widgetTagId)
     else
         editableWidget = nil
         editableWidgetTag = nil
+    end
+    local component = components.widgets[widgetTagId]
+    if component and component.onFocus then
+        component.onFocus()
     end
 end
 
@@ -208,16 +227,13 @@ function OnWidgetOpen(widgetInstanceIndex)
     if widgetExists then
         -- Insurrection is running outside the UI
         if map ~= "ui" and (blam.isGameHost() or blam.isGameDedicated()) then
-            local multiplayerTagCollection = blam.uiWidgetCollection(blam.findTag("ui\\shell\\multiplayer", blam.tagClasses.uiWidgetCollection).id)
+            local multiplayerTagCollection = blam.uiWidgetCollection(blam.findTag(
+                                                                         "ui\\shell\\multiplayer",
+                                                                         blam.tagClasses
+                                                                             .uiWidgetCollection).id)
             -- Check if the current map pause menu was opened
             if widgetValues.tag_id == multiplayerTagCollection.tagList[1] then
-                
-                execute_script([[(begin
-                (show_hud false)
-                (cinematic_screen_effect_start true)
-                (cinematic_screen_effect_set_convolution 3 1 1 2 0)
-                (cinematic_screen_effect_start false)
-            )]])
+                interface.blur(true)
                 interface.pauseMenu()
             end
         end
@@ -249,10 +265,7 @@ function OnWidgetClose(widgetInstanceIndex)
     local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceIndex)
     if widgetExists then
         if widgetValues.tag_id == interface.widgets.pauseMenuWidgetTag.id then
-            execute_script([[(begin
-            (show_hud true)
-            (cinematic_stop)
-        )]])
+            interface.blur(false)
         end
         lastClosedWidgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
         editableWidget = nil
@@ -288,10 +301,27 @@ function animateAt30FPS()
     end
 end
 
-set_timer(33, "animateAt30FPS")
+local function OnMapLoad()
+    stop_timer(animationsTimerId)
+    gameStarted = false
+    editableWidget = nil
+    editableWidgetTag = nil
+    lastOpenWidgetTag = nil
+    lastClosedWidgetTag = nil
+    lastFocusedWidgetTag = nil
+
+    Lanes = {}
+    VirtualInputValue = {}
+    WidgetAnimations = {}
+
+    ScreenCornerText = ""
+    LoadingText = nil
+end
+
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnFrame")
 set_callback("command", "OnCommand")
+-- set_callback("map load", "OnMapLoad")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")

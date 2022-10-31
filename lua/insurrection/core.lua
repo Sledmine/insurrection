@@ -186,7 +186,7 @@ end
 ---@param port number
 ---@param password string
 function core.connectServer(host, port, password)
-    local command = "connect %s:%s %s"
+    local command = "connect %s:%s \"%s\""
     execute_script(command:format(host, port, password))
 end
 

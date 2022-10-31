@@ -19,6 +19,7 @@ end
 api.version = "v1"
 api.url = api.host .. api.version
 api.variables = {refreshRate = 5000, refreshTimerId = nil}
+---@type loginResponse
 api.session = {token = nil, lobbyKey = nil, username = nil}
 
 -- Models
@@ -28,9 +29,14 @@ api.session = {token = nil, lobbyKey = nil, username = nil}
 
 ---@class loginResponse
 ---@field message string
----@field token string
+---@field token? string
 ---@field player {nameplate: number, publicId: string, name: string, rank: number}
 ---@field secondsToExpire number
+
+---@class availableParameters
+---@field maps string[]
+---@field gametypes string[]
+---@field templates string[]
 
 ---@class serverInstance
 ---@field password string
@@ -43,18 +49,12 @@ api.session = {token = nil, lobbyKey = nil, username = nil}
 ---@field owner string
 ---@field lobbyKey string
 
----@class availableParameters
----@field maps string[]
----@field gametypes string[]
----@field templates string[]
-
 ---@class lobbyRoom
 ---@field owner string
 ---@field members string[]
 ---@field map string
 ---@field gametype string
 ---@field template string
----@field available availableParameters
 ---@field server serverInstance
 
 local function isThreadRunning()
@@ -78,6 +78,7 @@ local function loading(isLoading, text, blockInput)
             harmony.menu.block_input(true)
         end
         LoadingText = text or "Loading..."
+        dprint(LoadingText)
     else
         harmony.menu.block_input(false)
         LoadingText = nil
@@ -93,6 +94,7 @@ function async(func, callback, ...)
 end
 
 local function connect(map, host, port, password)
+    --dprint("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
     if exists("maps\\" .. map .. ".map") or
         exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. map .. ".map") then
         core.connectServer(host, port, password)
@@ -115,6 +117,7 @@ local function onLoginResponse(response)
             -- Save last defined nameplate
             core.saveSettings({nameplate = jsonResponse.player.nameplate})
             interface.loadProfileNameplate()
+            api.available()
             interface.dashboard()
             return true
         elseif response.code == 401 then
@@ -125,12 +128,35 @@ local function onLoginResponse(response)
     end
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
+    return false
 end
 function api.login(username, password)
     loading(true, "Logging in...")
     async(requests.post, function(result)
         onLoginResponse(result[1])
     end, api.url .. "/login", {username = username, password = password})
+end
+
+---@param response httpResponse<availableParameters>
+---@return boolean
+function onAvailableResponse(response)
+    loading(false)
+    if response then
+        if response.code == 200 then
+            local jsonResponse = response.json()
+            store:dispatch(actions.setAvailableResources(jsonResponse))
+            return true
+        end
+    end
+    interface.dialog("ERROR", "UNKNOWN ERROR",
+                     "An unknown error has ocurred, please try again later.")
+    return false
+end
+function api.available()
+    loading(true, "Loading available parameters...")
+    async(requests.get, function(result)
+        onAvailableResponse(result[1])
+    end, api.url .. "/available")
 end
 
 ---@param response httpResponse<lobbyResponse | lobbyRoom | requestResult>
@@ -185,6 +211,7 @@ local function onLobbyResponse(response)
     end
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
+    return false
 end
 function api.lobby(lobbyKey)
     loading(true, "Loading lobby...")
@@ -212,7 +239,7 @@ local function onLobbyRefreshResponse(response)
                 -- Update previously joined lobby data
                 store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
                 -- Lobby already started, join the server
-                if lobby.server then
+                if lobby.server and not blam.isGameDedicated() then
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,
                             lobby.server.password)
                 end
@@ -222,7 +249,7 @@ local function onLobbyRefreshResponse(response)
             api.stopRefreshLobby()
             -- TODO Add a generic error handling function for this
             local jsonResponse = response.json()
-            interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
+            interface.dialog("ERROR", "ERROR " .. response.code, jsonResponse.message)
             return false
         end
     end
@@ -266,6 +293,7 @@ local function onBorrowResponse(response)
 
             local jsonResponse = response.json()
             if jsonResponse then
+                dprint(jsonResponse)
                 connect(jsonResponse.map, jsonResponse.host, jsonResponse.port,
                         jsonResponse.password)
             end
@@ -289,6 +317,7 @@ local function onBorrowResponse(response)
     api.stopRefreshLobby()
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
+    return false
 end
 function api.borrow(template, map, gametype)
     loading(true, "Borrowing game server...", false)
@@ -318,7 +347,6 @@ function onPlayerEditNameplateResponse(response)
                      "An unknown error has ocurred, please try again later.")
     return false
 end
-
 function api.playerEditNameplate(nameplateNumber)
     loading(true, "Editing nameplate...", false)
     async(requests.patch, function(result)
@@ -326,6 +354,30 @@ function api.playerEditNameplate(nameplateNumber)
             interface.loadProfileNameplate(nameplateNumber)
         end
     end, api.url .. "/players", {nameplate = nameplateNumber})
+end
+
+local function onLobbyEditResponse(response)
+    loading(false)
+    if response then
+        if response.code == 200 then
+            return true
+        else
+            local jsonResponse = response.json()
+            if jsonResponse then
+                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
+            end
+            return false
+        end
+    end
+    interface.dialog("ERROR", "UNKNOWN ERROR",
+                     "An unknown error has ocurred, please try again later.")
+    return false
+end
+function api.editLobby(lobbyKey, data)
+    loading(true, "Editing lobby...", false)
+    async(requests.patch, function(result)
+        onLobbyEditResponse(result[1])
+    end, api.url .. "/lobby/" .. lobbyKey, data)
 end
 
 return api
