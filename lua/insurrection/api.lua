@@ -270,6 +270,12 @@ function api.stopRefreshLobby()
     if api.session.lobbyKey then
         dprint("Stopping lobby refresh...", "warning")
         pcall(stop_timer, api.variables.refreshTimerId)
+    end
+end
+function api.deleteLobby()
+    if api.session.lobbyKey then
+        dprint("DELETING lobby", "warning")
+        pcall(stop_timer, api.variables.refreshTimerId)
         api.variables.refreshTimerId = nil
         api.session.lobbyKey = nil
     end

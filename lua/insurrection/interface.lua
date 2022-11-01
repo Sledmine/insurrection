@@ -89,6 +89,7 @@ function interface.load()
         -- Input elements
         usernameInputTag = findWidgetTag("username_input")
         passwordInputTag = findWidgetTag("password_input")
+        local lobbyInputSearchTag = findWidgetTag("lobby_input_search")
         -- General UI Elements
         nameplateTag = findWidgetTag("shared\\current_profile")
         blockedNameplates = {22, 23, 27, 29, 35}
@@ -102,6 +103,8 @@ function interface.load()
         end
         nameplatePreviewTag = findWidgetTag("nameplate_preview")
 
+        
+
         interface.widgets = {
             lobbyWidgetTag = lobbyWidgetTag,
             dashboardWidgetTag = dashboardWidgetTag,
@@ -110,16 +113,12 @@ function interface.load()
             customizationWidgetTag = customizationWidgetTag,
             pauseMenuWidgetTag = pauseMenuWidgetTag
         }
-        
-        local usernameInput = components:new(usernameInputTag.id)
-        usernameInput:onClick(function()
-            console_out("Username input clicked")
-        end)
-        
-        usernameInput:onFocus(function()
-            console_out("Username input focused")
-        end)
 
+        local lobbyInputSearch = components:new(lobbyInputSearchTag.id)
+        lobbyInputSearch:onInputText(function(text)
+            store:dispatch(actions.updateLobby(nil, nil, text))
+        end)
+        
         -- Change aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
 
@@ -613,10 +612,9 @@ function interface.animationsReset(widgetTagId)
 end
 
 function interface.onInputText(widgetTagId, text)
-    local widget = blam.uiWidgetDefinition(widgetTagId)
-    if widget.name == "lobby_search_input" then
-        -- dprint("Searching for: " .. text)
-        store:dispatch(actions.updateLobby(nil, nil, text))
+    local component = components.widgets[widgetTagId]
+    if component and component.events.onInputText then
+        component.events.onInputText(text)
     end
 end
 

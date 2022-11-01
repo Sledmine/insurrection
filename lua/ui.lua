@@ -14,7 +14,7 @@ local ends = require"glue".string.ends
 
 -- UI state and stuff
 clua_version = 2.056
-DebugMode = false
+DebugMode = true
 -- Import API after setting up debug mode
 api = require "insurrection.api"
 IsUICompatible = false
@@ -114,8 +114,10 @@ function OnMenuAccept(widgetInstanceIndex)
     local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
     local allow = not (chimera.onButton(widgetTagId) or interface.onButton(widgetTagId) or false)
     local component = components.widgets[widgetTagId]
-    if component and component.onClick then
-        return not component.onClick()
+    if component then
+        if component.events.onClick then
+            return not component.events.onClick()
+        end
     end
     return allow
 end
@@ -131,8 +133,8 @@ local function setEditableWidget(widgetTagId)
         editableWidgetTag = nil
     end
     local component = components.widgets[widgetTagId]
-    if component and component.onFocus then
-        component.onFocus()
+    if component and component.events.onFocus then
+        component.events.onFocus()
     end
 end
 
