@@ -10,6 +10,7 @@ local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
 local ends = require"glue".string.ends
+local constants = require "insurrection.constants"
 -- Useful debug global tools
 
 -- UI state and stuff
@@ -20,9 +21,9 @@ api = require "insurrection.api"
 IsUICompatible = false
 math.randomseed(os.time() + ticks())
 local gameStarted = false
----@type uiWidgetDefinition
+---@type uiWidgetDefinition?
 local editableWidget
----@type tag
+---@type tag?
 local editableWidgetTag
 ---@type tag
 local lastOpenWidgetTag
@@ -48,12 +49,6 @@ local screenWidth = read_word(0x637CF2)
 local screenHeight = read_word(0x637CF0)
 
 local function onGameStart()
-    if AnimationsTimerId then
-        stop_timer(AnimationsTimerId)
-    end
-
-    AnimationsTimerId = set_timer(33, "animateAt30FPS")
-    dprint("Game started...")
     interface.load()
     -- chimera.getConfiguration()
 end
@@ -111,15 +106,15 @@ function OnKeypress(modifiers, char, keycode)
 end
 
 function OnMenuAccept(widgetInstanceIndex)
+    -- local allow = not (chimera.onButton(widgetTagId) or interface.onButton(widgetTagId) or false
     local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
-    local allow = not (chimera.onButton(widgetTagId) or interface.onButton(widgetTagId) or false)
     local component = components.widgets[widgetTagId]
     if component then
         if component.events.onClick then
             return not component.events.onClick()
         end
     end
-    return allow
+    return true
 end
 
 local function setEditableWidget(widgetTagId)
@@ -132,10 +127,6 @@ local function setEditableWidget(widgetTagId)
         editableWidget = nil
         editableWidgetTag = nil
     end
-    local component = components.widgets[widgetTagId]
-    if component and component.events.onFocus then
-        component.events.onFocus()
-    end
 end
 
 function OnMenuListTab(pressedKey,
@@ -146,7 +137,6 @@ function OnMenuListTab(pressedKey,
                                         previousFocusedWidgetInstanceIndex).tag_id
     local widgetList = blam.uiWidgetDefinition(listWidgetId)
     -- local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
-    local widgetTag = blam.getTag(previousFocusedWidgetId)
     for childIndex, child in pairs(widgetList.childWidgets) do
         if child.widgetTag == previousFocusedWidgetId then
             local nextChildIndex
@@ -164,17 +154,26 @@ function OnMenuListTab(pressedKey,
                 end
             end
             local widgetTagId = widgetList.childWidgets[nextChildIndex].widgetTag
-            if not isNull(widgetTagId) then
+            if widgetTagId and not isNull(widgetTagId) then
+                --local widgetTag = blam.getTag(widgetTagId)
+                --dprint(widgetTag.path)
+                local component = components.widgets[widgetTagId]
+                if component and component.events.onFocus then
+                    component.events.onFocus()
+                end
                 setEditableWidget(widgetTagId)
             end
         end
     end
-    dprint(widgetTag.path)
     return true
 end
 
 function OnMouseFocus(widgetInstanceId)
     local widgetTagId = harmony.menu.get_widget_values(widgetInstanceId).tag_id
+    local component = components.widgets[widgetTagId]
+    if component and component.events.onFocus then
+        component.events.onFocus()
+    end
     setEditableWidget(widgetTagId)
     return true
 end
@@ -190,18 +189,6 @@ function OnFrame()
                   "small", "left", table.unpack(textColor))
         optic.render_sprite(loadingSprite, 8, screenHeight - 32 - 8, 255, ticks() * 8, 1,
                             rotateOrbAnimation, optic.create_animation(0))
-    end
-
-    -- Fake menu scrolling
-    if lastOpenWidgetTag and
-        (lastOpenWidgetTag.id == interface.widgets.lobbyWidgetTag.id or lastOpenWidgetTag.id ==
-            interface.widgets.customizationWidgetTag.id) then
-        local scroll = tonumber(read_char(0x64C73C + 8))
-        if scroll > 0 then
-            store:dispatch(actions.scroll(false))
-        elseif scroll < 0 then
-            store:dispatch(actions.scroll(true))
-        end
     end
 
     -- Process widget animations queue
@@ -227,37 +214,29 @@ end
 function OnWidgetOpen(widgetInstanceIndex)
     local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceIndex)
     if widgetExists then
-        -- Insurrection is running outside the UI
-        if map ~= "ui" and (blam.isGameHost() or blam.isGameDedicated()) then
-            local multiplayerTagCollection = blam.uiWidgetCollection(blam.findTag(
-                                                                         "ui\\shell\\multiplayer",
-                                                                         blam.tagClasses
-                                                                             .uiWidgetCollection).id)
-            -- Check if the current map pause menu was opened
-            if widgetValues.tag_id == multiplayerTagCollection.tagList[1] then
-                interface.blur(true)
-                interface.pauseMenu()
-            end
+        local widgetTagId = widgetValues.tag_id
+        local widgetTag = blam.getTag(widgetTagId, blam.tagClasses.uiWidgetDefinition)
+        local component = components.widgets[widgetTagId]
+        if component and component.events.onOpen then
+            component.events.onOpen()
         end
-        -- FIXME This is a workaround because back buttons are opening menus instead of closing them
-        -- Stop lobby refresh when dashboard is opened
-        if widgetValues.tag_id == interface.widgets.dashboardWidgetTag.id then
-            api.stopRefreshLobby()
-        end
-        local widgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
-        lastOpenWidgetTag = widgetTag
-        local widget = blam.uiWidgetDefinition(widgetTag.id)
-        local optionsWidget = blam.uiWidgetDefinition(
-                                  widget.childWidgets[widget.childWidgetsCount].widgetTag)
-        -- Auto focus on the first editable widget
-        if optionsWidget.childWidgets[1] then
-            setEditableWidget(optionsWidget.childWidgets[1].widgetTag)
-        end
-        interface.animationsReset(widgetTag.id)
 
-        dprint("Opened widget: " .. widgetTag.path)
-        if DebugMode then
-            ScreenCornerText = widgetTag.path
+        if widgetTag then
+            lastOpenWidgetTag = widgetTag
+            local widget = blam.uiWidgetDefinition(widgetTag.id)
+            local optionsWidget = blam.uiWidgetDefinition(
+                                      widget.childWidgets[widget.childWidgetsCount].widgetTag)
+            -- Auto focus on the first editable widget
+            if optionsWidget.childWidgets[1] then
+                setEditableWidget(optionsWidget.childWidgets[1].widgetTag)
+            end
+
+            interface.animationsReset(widgetTag.id)
+
+            dprint("Opened widget: " .. widgetTag.path)
+            if DebugMode then
+                ScreenCornerText = widgetTag.path
+            end
         end
     end
     return false
@@ -266,15 +245,13 @@ end
 function OnWidgetClose(widgetInstanceIndex)
     local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceIndex)
     if widgetExists then
-        if widgetValues.tag_id == interface.widgets.pauseMenuWidgetTag.id then
-            interface.blur(false)
+        local widgetTagId = widgetValues.tag_id
+        local component = components.widgets[widgetTagId]
+        if component and component.events.onClose then
+            component.events.onClose()
         end
-        lastClosedWidgetTag = blam.getTag(widgetValues.tag_id, blam.tagClasses.uiWidgetDefinition)
         editableWidget = nil
         ScreenCornerText = ""
-        if widgetValues.tag_id == interface.widgets.lobbyWidgetTag.id then
-            api.stopRefreshLobby()
-        end
     end
     return true
 end
@@ -297,20 +274,11 @@ function OnCommand(command)
     end
 end
 
-function animateAt30FPS()
-    if IsUICompatible then
-        interface.animateNameplates()
-    end
-end
-
-local function OnMapLoad()
+function OnMapLoad()
     stop_timer(animationsTimerId)
     gameStarted = false
     editableWidget = nil
     editableWidgetTag = nil
-    lastOpenWidgetTag = nil
-    lastClosedWidgetTag = nil
-    lastFocusedWidgetTag = nil
 
     Lanes = {}
     VirtualInputValue = {}

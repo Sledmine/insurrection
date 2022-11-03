@@ -1,6 +1,9 @@
 local blam = require "blam"
+local getTag = blam.getTag
+local uiWidgetDefinition = blam.uiWidgetDefinition
 local unicodeStringList = blam.unicodeStringList
 local isNull = blam.isNull
+local glue = require "glue"
 
 local components = {}
 
@@ -13,30 +16,38 @@ components.widgets = {}
 ---@field selectedWidgetTagId number | nil
 ---@field widgetDefinition uiWidgetDefinition
 ---@field events uiComponentEvents
+---@field isBackgroundAnimated boolean
 ---@field onClick function | nil
 ---@field onFocus function | nil
 ---@field onInputText function | nil
 ---@field onSelect function | nil
 ---@field getText function | nil
 ---@field setText function | nil
+---@field onOpen function | nil
+---@field onClose function | nil
+---@field animate function | nil
 
 ---@class uiComponentEvents
 ---@field onClick function | nil
 ---@field onFocus function | nil
 ---@field onInputText function | nil
 ---@field onSelect function | nil
+---@field onOpen function | nil
+---@field onClose function | nil
+---@field animate function | nil
 
----@param self uiComponent
+---@param tagId number
 ---@return uiComponent
-function components.new(self, tagId)
-    self = self or {}
-    self.tagId = tagId
-    self.tag = blam.getTag(tagId) or error("Invalid tagId") --[[@as tag]]
-    self.selectedWidgetTagId = nil
-    self.widgetDefinition = blam.uiWidgetDefinition(tagId) or error("Invalid tagId") --[[@as uiWidgetDefinition]]
-    self.events = {}
-    components.widgets[tagId] = self
-    return self
+function components.new(tagId)
+    local instance = setmetatable({}, { __index = components })
+    instance.tagId = tagId
+    instance.tag = getTag(instance.tagId) or error("Invalid tagId") --[[@as tag]]
+    instance.selectedWidgetTagId = nil
+    instance.widgetDefinition = uiWidgetDefinition(tagId) or error("Invalid tagId") --[[@as uiWidgetDefinition]]
+    instance.events = {}
+    instance.isBackgroundAnimated = false
+    components.widgets[tagId] = instance
+    return instance
 end
 
 ---@param self uiComponent
@@ -72,7 +83,7 @@ end
 ---@param self uiComponent
 ---@return string
 function components.getText(self)
-    local virtualValue = VirtualInputValue[self.widgetDefinition.name]
+    local virtualValue = VirtualInputValue[self.tagId]
     if virtualValue then
         return virtualValue
     end
@@ -85,17 +96,56 @@ end
 
 ---@param self uiComponent
 ---@param text string
+---@param mask? string
 function components.setText(self, text, mask)
     local unicodeStrings = unicodeStringList(self.widgetDefinition.unicodeStringListTag)
-    if isNull(unicodeStrings) then
-        error("No unicodeStringList found for widgetDefinition, can't assign text to this widget")
+    if unicodeStrings then
+        if isNull(unicodeStrings) then
+            error("No unicodeStringList, can't assign text to this widget")
+        end
+        local stringListIndex = self.widgetDefinition.stringListIndex
+        local newStrings = unicodeStrings.stringList
+        if mask then
+            VirtualInputValue[self.tagId] = text
+            newStrings[stringListIndex + 1] = string.rep(mask, #text)
+        else
+            newStrings[stringListIndex + 1] = text
+        end
+        unicodeStrings.stringList = newStrings
     end
-    if mask then
-        VirtualInputValue[widgetDefinition.name] = text
-        unicodeStrings.stringList = {string.rep(mask, #text)}
-    else
-        unicodeStrings.stringList = {text}
+end
+
+---@param self uiComponent
+function components.onOpen(self, callback)
+    self.events.onOpen = callback
+end
+
+---@param self uiComponent
+function components.onClose(self, callback)
+    self.events.onClose = callback
+end
+
+--[[
+    -- Fake menu scrolling
+    if lastOpenWidgetTag and
+        (lastOpenWidgetTag.id == interface.widgets.lobbyWidgetTag.id or lastOpenWidgetTag.id ==
+            interface.widgets.customizationWidgetTag.id) then
+        local scroll = tonumber(read_char(0x64C73C + 8))
+        if scroll > 0 then
+            store:dispatch(actions.scroll(false))
+        elseif scroll < 0 then
+            store:dispatch(actions.scroll(true))
+        end
     end
+]]
+
+---@param self uiComponent
+function components.animate(self)
+    self.isBackgroundAnimated = true
+end
+
+function components.free()
+    components.widgets = {}
 end
 
 return components

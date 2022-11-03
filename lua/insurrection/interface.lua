@@ -1,6 +1,6 @@
 local harmony = require "mods.harmony"
-local chimera = require "insurrection.chimera"
 local components = require "insurrection.components"
+local menus = require "insurrection.menus"
 local createBezierCurve = harmony.math.create_bezier_curve
 local bezierCurve = harmony.math.get_bezier_curve_point
 local openWidget = harmony.menu.open_widget
@@ -8,7 +8,6 @@ local reloadWidget = harmony.menu.reload_widget
 local findWidgets = harmony.menu.find_widgets
 local playSound = harmony.menu.play_sound
 local blam = require "blam"
-local findTag = blam.findTag
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
 local getWidgetString = core.getStringFromWidget
@@ -17,126 +16,85 @@ local glue = require "glue"
 local split = glue.string.split
 local starts = glue.string.starts
 local ends = glue.string.ends
-local append = glue.append
 local unicodeStringTag = blam.unicodeStringList
 local uiWidgetTag = blam.uiWidgetDefinition
-
-local function findWidgetTag(partialName)
-    return findTag(partialName, blam.tagClasses.uiWidgetDefinition)
-end
+local uiWidgetCollection = blam.uiWidgetCollection
+local constants = require "insurrection.constants"
+local isGameDedicated = blam.isGameDedicated
 
 local interface = {}
--- Common tags
--- Get tags before using them to improve performance
--- Menus
-local dialogWidgetTag = findWidgetTag("dialog_menu")
-local lobbyWidgetTag = findWidgetTag("lobby_menu")
-local dashboardWidgetTag = findWidgetTag("dashboard_menu")
-local customizationWidgetTag = findWidgetTag("customization_menu")
-local pauseMenuWidgetTag = findWidgetTag("pause\\pause_menu")
--- Sounds
-local errorSoundTag = findTag("flag_failure", blam.tagClasses.sound)
-local sucessSoundTag = findTag("forward", blam.tagClasses.sound)
--- Lobby elements
-lobbyElement2Tag = findWidgetTag("lobby_element_button_2")
-lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
-lobbyElement4Tag = findWidgetTag("lobby_element_button_4")
-lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
-lobbyPlayersNameplatesTag = findWidgetTag("lobby_players_nameplates")
--- Input elements
-usernameInputTag = findWidgetTag("username_input")
-passwordInputTag = findWidgetTag("password_input")
--- General UI Elements
-local nameplateTag = findWidgetTag("shared\\current_profile")
-local blockedNameplates = {22, 23, 27, 29, 35}
-local nameplateBitmapTags = blam.findTagsList("nameplates\\", blam.tagClasses.bitmap)
-local nameplatesBitmapTagIds = {}
-for _, tag in ipairs(nameplateBitmapTags) do
-    local nameplateNumber = tonumber(core.getTagName(tag.path))
-    if nameplateNumber and not nameplatesBitmapTagIds[nameplateNumber] then
-        nameplatesBitmapTagIds[nameplateNumber] = tag.id
-    end
-end
-local nameplatePreviewTag = findWidgetTag("nameplate_preview")
-
-interface.widgets = {
-    lobbyWidgetTag = lobbyWidgetTag,
-    dashboardWidgetTag = dashboardWidgetTag,
-    usernameInputTag = usernameInputTag,
-    passwordInputTag = passwordInputTag,
-    customizationWidgetTag = customizationWidgetTag,
-    pauseMenuWidgetTag = pauseMenuWidgetTag
-}
 
 function interface.load()
-    -- Load Insurrection features
-    if (core.loadInsurrectionPatches()) then
-
-        dialogWidgetTag = findWidgetTag("dialog_menu")
-        lobbyWidgetTag = findWidgetTag("lobby_menu")
-        dashboardWidgetTag = findWidgetTag("dashboard_menu")
-        customizationWidgetTag = findWidgetTag("customization_menu")
-        pauseMenuWidgetTag = findWidgetTag("pause\\pause_menu")
-        -- Sounds
-        errorSoundTag = findTag("flag_failure", blam.tagClasses.sound)
-        sucessSoundTag = findTag("forward", blam.tagClasses.sound)
-        -- Lobby elements
-        lobbyElement2Tag = findWidgetTag("lobby_element_button_2")
-        lobbyElement3Tag = findWidgetTag("lobby_element_button_3")
-        lobbyElement4Tag = findWidgetTag("lobby_element_button_4")
-        lobbyElement5Tag = findWidgetTag("lobby_element_button_5")
-        lobbyPlayersNameplatesTag = findWidgetTag("lobby_players_nameplates")
-        -- Input elements
-        usernameInputTag = findWidgetTag("username_input")
-        passwordInputTag = findWidgetTag("password_input")
-        local lobbyInputSearchTag = findWidgetTag("lobby_input_search")
-        -- General UI Elements
-        nameplateTag = findWidgetTag("shared\\current_profile")
-        blockedNameplates = {22, 23, 27, 29, 35}
-        nameplateBitmapTags = blam.findTagsList("nameplates\\", blam.tagClasses.bitmap)
-        nameplatesBitmapTagIds = {}
-        for _, tag in ipairs(nameplateBitmapTags) do
-            local nameplateNumber = tonumber(core.getTagName(tag.path))
-            if nameplateNumber and not nameplatesBitmapTagIds[nameplateNumber] then
-                nameplatesBitmapTagIds[nameplateNumber] = tag.id
-            end
+    components.free()
+    constants.get()
+    -- TODO Remove this hack
+    IsUICompatible = true
+    if IsUICompatible then
+        if BitmapsAnimationTimerId then
+            stop_timer(BitmapsAnimationTimerId)
         end
-        nameplatePreviewTag = findWidgetTag("nameplate_preview")
+        function On30FPSRate()
+            for tagId, component in pairs(components.widgets) do
+                if component.isBackgroundAnimated then
+                    interface.animateUIWidgetBackground(tagId)
+                end
+            end
+            -- interface.animateNameplates()
+        end
+        BitmapsAnimationTimerId = set_timer(33, "On30FPSRate")
 
-        
+        -- Load Insurrection features
+        core.loadInsurrectionPatches()
 
-        interface.widgets = {
-            lobbyWidgetTag = lobbyWidgetTag,
-            dashboardWidgetTag = dashboardWidgetTag,
-            usernameInputTag = usernameInputTag,
-            passwordInputTag = passwordInputTag,
-            customizationWidgetTag = customizationWidgetTag,
-            pauseMenuWidgetTag = pauseMenuWidgetTag
-        }
-
-        local lobbyInputSearch = components:new(lobbyInputSearchTag.id)
-        lobbyInputSearch:onInputText(function(text)
-            store:dispatch(actions.updateLobby(nil, nil, text))
-        end)
-        
         -- Change aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
 
         -- Execute basic Halo commands
         execute_script("menu_blur_on")
 
-        IsUICompatible = true
-
         interface.loadProfileNameplate()
         core.cleanAllEditableWidgets()
 
-        interface.animate()
+        -- interface.animate()
 
         -- Load login data
         local username, password = core.loadCredentials()
         if username and password then
-            core.setStringToWidget(username, interface.widgets.usernameInputTag.id)
-            core.setStringToWidget(password, interface.widgets.passwordInputTag.id, "*")
+            local usernameInput = components.new(constants.widgets.usernameInput.id)
+            local passwordInput = components.new(constants.widgets.passwordInput.id)
+            usernameInput:setText(username)
+            passwordInput:setText(password, "*")
+        end
+
+        local dashboard = components.new(constants.widgets.dashboard.id)
+        dashboard:onOpen(function()
+            api.stopRefreshLobby()
+        end)
+
+        local lobby = components.new(constants.widgets.lobby.id)
+        lobby:onClose(function()
+            api.stopRefreshLobby()
+        end)
+
+        local pause = components.new(constants.widgets.pause.id)
+        pause:onClose(function()
+            interface.blur(false)
+        end)
+
+        -- Insurrection is running outside the UI
+        if constants.widgetCollections.multiplayer then
+            local multiplayerWidgetsCollection = uiWidgetCollection(
+                                                     constants.widgetCollections.multiplayer.id)
+            if multiplayerWidgetsCollection then
+                local pause = components.new(multiplayerWidgetsCollection.tagList[1])
+                pause:onOpen(function()
+                    if map ~= "ui" and (isGameDedicated() or DebugMode) then
+                        dprint("Loading Insurrection UI in external map...")
+                        interface.blur(true)
+                        menus.pause()
+                    end
+                end)
+            end
         end
     end
     -- Workaround fix to prevent players from getting stuck in a game server at menu
@@ -146,18 +104,35 @@ function interface.load()
 end
 
 function interface.loadProfileNameplate(nameplateIndex)
-    local nameplate = uiWidgetTag(nameplateTag.id)
-    if nameplateIndex then
-        if nameplateIndex > #nameplatesBitmapTagIds then
-            dprint("Invalid nameplate index: " .. nameplateIndex, "warning")
-            nameplateIndex = #nameplatesBitmapTagIds
-        end
-        nameplate.backgroundBitmap = nameplatesBitmapTagIds[nameplateIndex]
+    if not constants.tagCollections.nameplates then
+        dprint("Error, no nameplates collection found", "error")
         return
     end
-    local settings = core.loadSettings()
-    if settings and settings.nameplate then
-        nameplate.backgroundBitmap = nameplatesBitmapTagIds[settings.nameplate]
+    local nameplate = components.new(constants.widgets.nameplate.id)
+    local nameplatesTagCollection = blam.tagCollection(constants.tagCollections.nameplates.id)
+    if nameplatesTagCollection then
+        local nameplateBitmapTags = {}
+        for _, tagId in ipairs(nameplatesTagCollection.tagList) do
+            local tag = blam.getTag(tagId) --[[@as tag]]
+            local nameplateNumber = tonumber(core.getTagName(tag.path))
+            if nameplateNumber and not nameplateBitmapTags[nameplateNumber] then
+                nameplateBitmapTags[nameplateNumber] = tag
+            end
+        end
+        nameplate:animate()
+        if nameplateIndex then
+            if nameplateIndex > nameplatesTagCollection.count then
+                dprint("Invalid nameplate index: " .. nameplateIndex, "warning")
+                nameplateIndex = nameplatesTagCollection.count
+            end
+            nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[nameplateIndex].id
+            return
+        end
+
+        local settings = core.loadSettings()
+        if settings and settings.nameplate then
+            nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id
+        end
     end
 end
 
@@ -182,30 +157,6 @@ function interface.animateUIWidgetBackground(widgetTagId)
                     end
                 end
             end
-        end
-    end
-end
-
---- Animates player nameplates, including profile nameplate
-function interface.animateNameplates()
-    if core.getCurrentUIWidgetTag() then
-        interface.animateUIWidgetBackground(nameplateTag.id)
-        local lobbyPlayersNameplatesWidgetTag = uiWidgetTag(lobbyPlayersNameplatesTag.id)
-        if lobbyPlayersNameplatesWidgetTag then
-            for widgetIndex, childWidget in pairs(lobbyPlayersNameplatesWidgetTag.childWidgets) do
-                interface.animateUIWidgetBackground(childWidget.widgetTag)
-            end
-            local customizationMenuWidgetDef = uiWidgetTag(customizationWidgetTag.id)
-            local optionsCustomizationWidgetDef = uiWidgetTag(
-                                                      customizationMenuWidgetDef.childWidgets[2]
-                                                          .widgetTag)
-            for widgetIndex, childWidget in pairs(optionsCustomizationWidgetDef.childWidgets) do
-                local nameplateWidgetDef = uiWidgetTag(childWidget.widgetTag)
-                if starts(nameplateWidgetDef.name, "nameplate_button") then
-                    interface.animateUIWidgetBackground(childWidget.widgetTag)
-                end
-            end
-            interface.animateUIWidgetBackground(nameplatePreviewTag.id)
         end
     end
 end
@@ -251,19 +202,11 @@ function interface.sound(sound)
     end
 end
 
-function interface.lobby(force)
-    openWidget(lobbyWidgetTag.id, true)
-end
-
 local lobbyDefinitions = {
     template = "lobby_definition_button_1",
     map = "lobby_definition_button_2",
     gametype = "lobby_definition_button_3"
 }
-
-function interface.customization()
-    openWidget(customizationWidgetTag.id, true)
-end
 
 --- Map selected button from the UI
 ---@param widgetTagId number
@@ -329,7 +272,11 @@ function interface.onButton(widgetTagId)
             end
             local value = getWidgetString(findWidgetTag("lobby_element_button_" .. buttonIndex).id)
             store:dispatch(actions.setSelected(value))
-            api.editLobby(state.lobbyKey, {map = state.selected.map, gametype = state.selected.gametype, template = state.selected.template})
+            api.editLobby(state.lobbyKey, {
+                map = state.selected.map,
+                gametype = state.selected.gametype,
+                template = state.selected.template
+            })
         end
     elseif ends(buttonPath, "\\customization_button") then
         interface.customization()
@@ -379,7 +326,7 @@ function interface.update()
     ---@type interfaceState
     local state = store:getState()
     local renderedWidgetId = core.getRenderedUIWidgetTagId()
-    if renderedWidgetId == lobbyWidgetTag.id then
+    if renderedWidgetId == constants then
         local lobbyWidget = uiWidgetTag(lobbyWidgetTag.id)
         local optionsWidget = uiWidgetTag(lobbyWidget.childWidgets[2].widgetTag)
         local definitionsWidget = uiWidgetTag(optionsWidget.childWidgets[1].widgetTag)
@@ -442,7 +389,7 @@ function interface.update()
             reloadWidget(widgetInstanceIndex)
         end
 
-        -- Hide elements widget if no are not the owner of the lobby
+        -- Hide elements widget if you are not the owner of the lobby
         if state.lobby.owner ~= api.session.player.publicId then
             -- Hide elements widget
             interface.setWidgetValues(optionsWidget.childWidgets[2].widgetTag, {opacity = 0})
@@ -568,10 +515,6 @@ function interface.animation(targetWidgetTagId,
     }
 end
 
-function interface.dashboard()
-    openWidget(dashboardWidgetTag.id, true)
-end
-
 function interface.animate()
     local introMenuWidgetTag = blam.findTag([[ui\shell\main_menu]],
                                             blam.tagClasses.uiWidgetDefinition)
@@ -616,10 +559,6 @@ function interface.onInputText(widgetTagId, text)
     if component and component.events.onInputText then
         component.events.onInputText(text)
     end
-end
-
-function interface.pauseMenu()
-    openWidget(pauseMenuWidgetTag.id, false)
 end
 
 function interface.blur(enable)

@@ -16,6 +16,8 @@
         "insecticide",
         "base64",
         "ini",
+        "insurrection.constants",
+        "insurrection.menus",
         "insurrection.version",
         "insurrection.mercury",
         "insurrection.chimera",
