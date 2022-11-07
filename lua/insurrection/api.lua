@@ -10,6 +10,7 @@ local trim = glue.string.trim
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
 local harmony = require "mods.harmony"
+local menus = require "insurrection.menus"
 
 local api = {}
 api.host = read_file("insurrection_host") or "http://localhost:4343/"
@@ -118,7 +119,7 @@ local function onLoginResponse(response)
             core.saveSettings({nameplate = jsonResponse.player.nameplate})
             interface.loadProfileNameplate()
             api.available()
-            interface.dashboard()
+            menus.dashboard()
             return true
         elseif response.code == 401 then
             local jsonResponse = response.json()
@@ -126,7 +127,7 @@ local function onLoginResponse(response)
             return false
         end
     end
-    interface.dialog("ERROR", "UNKNOWN ERROR",
+    interface.dialog("WARNING", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
     return false
 end
@@ -172,7 +173,7 @@ local function onLobbyResponse(response)
 
             local jsonResponse = response.json()
             if jsonResponse then
-                interface.lobby()
+                menus.lobby()
                 -- We asked for a new lobby room
                 if jsonResponse.key then
                     api.session.lobbyKey = jsonResponse.key

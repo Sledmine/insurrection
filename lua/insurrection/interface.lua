@@ -30,6 +30,7 @@ function interface.load()
     -- TODO Remove this hack
     IsUICompatible = true
     if IsUICompatible then
+        -- Start widgets background animation routine
         if BitmapsAnimationTimerId then
             stop_timer(BitmapsAnimationTimerId)
         end
@@ -39,14 +40,13 @@ function interface.load()
                     interface.animateUIWidgetBackground(tagId)
                 end
             end
-            -- interface.animateNameplates()
         end
         BitmapsAnimationTimerId = set_timer(33, "On30FPSRate")
 
         -- Load Insurrection features
         core.loadInsurrectionPatches()
 
-        -- Change aspect ratio
+        -- Change UI aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
 
         -- Execute basic Halo commands
@@ -57,16 +57,28 @@ function interface.load()
 
         -- interface.animate()
 
+        -- Components initialization
+        local login = components.new(constants.widgets.login.id)
+        local usernameInput = components.new(login:findChildWidgetTag("username_input").id)
+        local passwordInput = components.new(login:findChildWidgetTag("password_input").id)
         -- Load login data
         local username, password = core.loadCredentials()
         if username and password then
-            local usernameInput = components.new(constants.widgets.usernameInput.id)
-            local passwordInput = components.new(constants.widgets.passwordInput.id)
             usernameInput:setText(username)
             passwordInput:setText(password, "*")
         end
+        local loginButton = components.new(login:findChildWidgetTag("login_button").id)
+        loginButton:onClick(function()
+            dprint("Login button clicked")
+            api.login(usernameInput:getText(), passwordInput:getText())
+        end)
 
         local dashboard = components.new(constants.widgets.dashboard.id)
+        local createLobbyButton = components.new(dashboard:findChildWidgetTag("create_lobby_button").id)
+        createLobbyButton:onClick(function()
+            dprint("Create lobby button clicked")
+            api.lobby()
+        end)
         dashboard:onOpen(function()
             api.stopRefreshLobby()
         end)
@@ -166,14 +178,13 @@ end
 ---@param subtitleText string
 ---@param bodyText string
 function interface.dialog(titleText, subtitleText, bodyText)
-    if errorSoundTag and sucessSoundTag then
-        if titleText == "WARNING" or titleText == "ERROR" then
-            playSound(errorSoundTag.path)
-        else
-            playSound(sucessSoundTag.path)
-        end
+
+    if titleText == "WARNING" or titleText == "ERROR" then
+        playSound(constants.sounds.error.path)
+    else
+        playSound(constants.sounds.success.path)
     end
-    local dialog = uiWidgetTag(dialogWidgetTag.id)
+    local dialog = uiWidgetTag(constants.widgets.dialog.id)
     local header = uiWidgetTag(dialog.childWidgets[1].widgetTag)
     local title = uiWidgetTag(header.childWidgets[1].widgetTag)
     local headerStrings = blam.unicodeStringList(title.unicodeStringListTag)
@@ -188,9 +199,9 @@ function interface.dialog(titleText, subtitleText, bodyText)
     bodyStrings.stringList = strings
 
     if titleText == "ERROR" then
-        openWidget(dialogWidgetTag.id, false)
+        openWidget(constants.widgets.dialog.id, false)
     else
-        openWidget(dialogWidgetTag.id, true)
+        openWidget(constants.widgets.dialog.id, true)
     end
 end
 
@@ -326,12 +337,12 @@ function interface.update()
     ---@type interfaceState
     local state = store:getState()
     local renderedWidgetId = core.getRenderedUIWidgetTagId()
-    if renderedWidgetId == constants then
-        local lobbyWidget = uiWidgetTag(lobbyWidgetTag.id)
+    if renderedWidgetId == constants.widgets.lobby.id then
+        local lobbyWidget = uiWidgetTag(constants.widgets.lobby.id)
         local optionsWidget = uiWidgetTag(lobbyWidget.childWidgets[2].widgetTag)
         local definitionsWidget = uiWidgetTag(optionsWidget.childWidgets[1].widgetTag)
         local elementsWidget = uiWidgetTag(optionsWidget.childWidgets[2].widgetTag)
-        local playersNameplates = uiWidgetTag(lobbyPlayersNameplatesTag.id)
+        local playersNameplates = uiWidgetTag(constants.widgets.lobbyPlayersNameplates.id)
 
         -- Update players in lobby
         for playerIndex = 1, 16 do
@@ -349,10 +360,10 @@ function interface.update()
                 interface.setWidgetValues(nameplateWidgetTagId, {opacity = 1})
                 -- Update nameplate background
                 local nameplateWidgetDefinition = uiWidgetTag(nameplateWidgetTagId)
-                nameplateWidgetDefinition.backgroundBitmap =
-                    nameplatesBitmapTagIds[player.nameplate]
-                -- Update nameplate overlay
-                local overlayWidgetTagId = nameplateWidgetDefinition.childWidgets[1].widgetTag
+                --nameplateWidgetDefinition.backgroundBitmap =
+                --    nameplatesBitmapTagIds[player.nameplate]
+                ---- Update nameplate overlay
+                --local overlayWidgetTagId = nameplateWidgetDefinition.childWidgets[1].widgetTag
                 setWidgetString(playerName, overlayWidgetTagId)
             end
         end
@@ -363,10 +374,10 @@ function interface.update()
 
         -- Restore normal list widget state
         local newChilds = elementsWidget.childWidgets
-        newChilds[2].widgetTag = lobbyElement2Tag.id
-        newChilds[3].widgetTag = lobbyElement3Tag.id
-        newChilds[4].widgetTag = lobbyElement4Tag.id
-        newChilds[5].widgetTag = lobbyElement5Tag.id
+        newChilds[2].widgetTag = constants.widgets.lobbyElement2.id
+        newChilds[3].widgetTag = constants.widgets.lobbyElement3.id
+        newChilds[4].widgetTag = constants.widgets.lobbyElement4.id
+        newChilds[5].widgetTag = constants.widgets.lobbyElement5.id
         elementsWidget.childWidgets = newChilds
 
         -- Apply modifications based on lua state
@@ -396,7 +407,7 @@ function interface.update()
             -- Hide search bar
             interface.setWidgetValues(optionsWidget.childWidgets[3].widgetTag, {opacity = 0})
         end
-    elseif renderedWidgetId == customizationWidgetTag.id then
+    elseif renderedWidgetId == constants.widgets.customization.id then
         local nameplatePreviewWidgetDef = uiWidgetTag(nameplatePreviewTag.id)
         if state.selected and glue.index(nameplatesBitmapTagIds)[state.selected] and
             nameplatePreviewWidgetDef then

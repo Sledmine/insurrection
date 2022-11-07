@@ -56,16 +56,24 @@ function constants.get()
         Insurrection mod. They are included here for completeness.
     ]]
         dialog = findWidgetTag("dialog_menu"),
+        login = findWidgetTag("login_menu"),
         lobby = findWidgetTag("lobby_menu"),
-        dashboard = findWidgetTag("dashboard_menu"),
+        dashboard = findWidgetTag("dashboard\\dashboard_menu"),
         customization = findWidgetTag("customization_menu"),
         pause = findWidgetTag("pause\\pause_menu"),
         nameplate = findWidgetTag("shared\\current_profile"),
-
-        usernameInput = findWidgetTag("username_input"),
-        passwordInput = findWidgetTag("password_input"),
         -- TODO Rename to lobby_search_input
-        lobbySearchInput = findWidgetTag("lobby_input_search")
+        lobbySearchInput = findWidgetTag("lobby_input_search"),
+        lobbyPlayersNameplates = findWidgetTag("lobby_players_nameplates"),
+        lobbyElement2 = findWidgetTag("lobby_element_button_2"),
+        lobbyElement3 = findWidgetTag("lobby_element_button_3"),
+        lobbyElement4 = findWidgetTag("lobby_element_button_4"),
+        lobbyElement5 = findWidgetTag("lobby_element_button_5"),
+    }
+
+    constants.sounds = {
+        error = findTag("flag_failure", tagClasses.sound),
+        success = findTag("forward", tagClasses.sound)
     }
 
     constants.tagCollections = {nameplates = findTag("nameplates", tagClasses.tagCollection)}

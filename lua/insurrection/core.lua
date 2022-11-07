@@ -171,13 +171,24 @@ function core.cleanAllEditableWidgets()
     end
 end
 
-function core.setStringToWidget(str, widgetId, mask)
-    local widget = blam.uiWidgetDefinition(widgetId)
-    if mask then
-        VirtualInputValue[widget.name] = str
-        blam.unicodeStringList(widget.unicodeStringListTag).stringList = {string.rep(mask, #str)}
-    else
-        blam.unicodeStringList(widget.unicodeStringListTag).stringList = {str}
+function core.setStringToWidget(text, widgetId, mask)
+    local widgetDefinition = blam.uiWidgetDefinition(widgetId)
+    if widgetDefinition then
+        local unicodeStrings = blam.unicodeStringList(widgetDefinition.unicodeStringListTag)
+        if unicodeStrings then
+            if blam.isNull(unicodeStrings) then
+                error("No unicodeStringList, can't assign text to this widget")
+            end
+            local stringListIndex = widgetDefinition.stringListIndex
+            local newStrings = unicodeStrings.stringList
+            if mask then
+                VirtualInputValue[self.tagId] = text
+                newStrings[stringListIndex + 1] = string.rep(mask, #text)
+            else
+                newStrings[stringListIndex + 1] = text
+            end
+            unicodeStrings.stringList = newStrings
+        end
     end
 end
 

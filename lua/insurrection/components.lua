@@ -5,47 +5,40 @@ local unicodeStringList = blam.unicodeStringList
 local isNull = blam.isNull
 local glue = require "glue"
 
+---@class uiComponentClass
 local components = {}
 
----@type table<number, uiComponent>
-components.widgets = {}
+---@class uiComponentEvents
+---@field onClick fun():boolean | nil
+---@field onFocus function | nil
+---@field onInputText fun(text: string) | nil
+---@field onSelect function | nil
+---@field onOpen function | nil
+---@field onClose function | nil
+---@field animate function | nil
 
----@class uiComponent
+---@class uiComponent : uiComponentClass
 ---@field tagId number
 ---@field tag tag
 ---@field selectedWidgetTagId number | nil
 ---@field widgetDefinition uiWidgetDefinition
 ---@field events uiComponentEvents
 ---@field isBackgroundAnimated boolean
----@field onClick function | nil
----@field onFocus function | nil
----@field onInputText function | nil
----@field onSelect function | nil
----@field getText function | nil
----@field setText function | nil
----@field onOpen function | nil
----@field onClose function | nil
----@field animate function | nil
 
----@class uiComponentEvents
----@field onClick function | nil
----@field onFocus function | nil
----@field onInputText function | nil
----@field onSelect function | nil
----@field onOpen function | nil
----@field onClose function | nil
----@field animate function | nil
+---@type table<number, uiComponent>
+components.widgets = {}
 
 ---@param tagId number
 ---@return uiComponent
 function components.new(tagId)
-    local instance = setmetatable({}, { __index = components })
+    local instance = setmetatable({}, {__index = components}) --[[@as uiComponent]]
     instance.tagId = tagId
     instance.tag = getTag(instance.tagId) or error("Invalid tagId") --[[@as tag]]
     instance.selectedWidgetTagId = nil
     instance.widgetDefinition = uiWidgetDefinition(tagId) or error("Invalid tagId") --[[@as uiWidgetDefinition]]
     instance.events = {}
     instance.isBackgroundAnimated = false
+    dprint("Created component: " .. instance.tag.path, "info")
     components.widgets[tagId] = instance
     return instance
 end
@@ -146,6 +139,38 @@ end
 
 function components.free()
     components.widgets = {}
+end
+
+---@param self uiComponent
+---@return tag[]
+function components.getChildWidgetTags(self)
+    return glue.map(self.widgetDefinition.childWidgets, function(childWidget)
+        if not isNull(childWidget.widgetTag) then
+            local tag = getTag(childWidget.widgetTag)
+            return tag
+        end
+    end)
+end
+
+---@param self uiComponent
+function components.findChildWidgetTag(self, name)
+    local childWidgetTags = self:getChildWidgetTags()
+    for _, childTag in pairs(childWidgetTags) do
+        if childTag.path:find(name, 1, true) then
+            return childTag
+        end
+        local widgetDefinition = uiWidgetDefinition(childTag.id)
+        if widgetDefinition then
+            for _, childWidget in pairs(widgetDefinition.childWidgets) do
+                local tag = getTag(childWidget.widgetTag) --[[@as tag]]
+                if not isNull(childWidget.widgetTag) then
+                    if tag.path:find(name, 1, true) then
+                        return tag
+                    end
+                end
+            end
+        end
+    end
 end
 
 return components

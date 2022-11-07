@@ -52,9 +52,9 @@ local function interfaceReducer(state, action)
         state.list = available[state.definition .. "s"]
         state.displayed = chunks(available.templates, state.chunkSize)[1]
         state.selected = glue.deepcopy(defaultState.selected)
-        state.selected.template = available.templates[1]
-        state.selected.map = available.maps[1]
-        state.selected.gametype = available.gametypes[1]
+        state.selected.template = state.lobby.template
+        state.selected.map = state.lobby.map
+        state.selected.gametype = state.lobby.gametype
         return state
     elseif action.type == actions.types.UPDATE_LOBBY then
         if action.payload.key then

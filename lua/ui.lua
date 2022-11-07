@@ -15,7 +15,7 @@ local constants = require "insurrection.constants"
 
 -- UI state and stuff
 clua_version = 2.056
-DebugMode = true
+DebugMode = false
 -- Import API after setting up debug mode
 api = require "insurrection.api"
 IsUICompatible = false
@@ -117,12 +117,18 @@ function OnMenuAccept(widgetInstanceIndex)
     return true
 end
 
-local function setEditableWidget(widgetTagId)
+local function onWidgetFocus(widgetTagId)
+    local component = components.widgets[widgetTagId]
+    if component and component.events.onFocus then
+        component.events.onFocus()
+    end
     local focusedWidget = blam.uiWidgetDefinition(widgetTagId)
+    local tag = blam.getTag(widgetTagId)
+    dprint(tag.path)
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
     if focusedWidget and ends(focusedWidget.name, "_input") then
         editableWidget = focusedWidget
-        editableWidgetTag = blam.getTag(widgetTagId)
+        editableWidgetTag = tag
     else
         editableWidget = nil
         editableWidgetTag = nil
@@ -155,13 +161,9 @@ function OnMenuListTab(pressedKey,
             end
             local widgetTagId = widgetList.childWidgets[nextChildIndex].widgetTag
             if widgetTagId and not isNull(widgetTagId) then
-                --local widgetTag = blam.getTag(widgetTagId)
-                --dprint(widgetTag.path)
-                local component = components.widgets[widgetTagId]
-                if component and component.events.onFocus then
-                    component.events.onFocus()
-                end
-                setEditableWidget(widgetTagId)
+                -- local widgetTag = blam.getTag(widgetTagId)
+                -- dprint(widgetTag.path)
+                onWidgetFocus(widgetTagId)
             end
         end
     end
@@ -174,7 +176,7 @@ function OnMouseFocus(widgetInstanceId)
     if component and component.events.onFocus then
         component.events.onFocus()
     end
-    setEditableWidget(widgetTagId)
+    onWidgetFocus(widgetTagId)
     return true
 end
 
@@ -222,17 +224,18 @@ function OnWidgetOpen(widgetInstanceIndex)
         end
 
         if widgetTag then
-            lastOpenWidgetTag = widgetTag
             local widget = blam.uiWidgetDefinition(widgetTag.id)
-            local optionsWidget = blam.uiWidgetDefinition(
-                                      widget.childWidgets[widget.childWidgetsCount].widgetTag)
-            -- Auto focus on the first editable widget
-            if optionsWidget.childWidgets[1] then
-                setEditableWidget(optionsWidget.childWidgets[1].widgetTag)
+            if widget and widget.childWidgetsCount > 0 then
+                local optionsWidget = blam.uiWidgetDefinition(
+                                          widget.childWidgets[widget.childWidgetsCount].widgetTag)
+                -- Auto focus on the first editable widget
+                if optionsWidget and optionsWidget.childWidgets[1] then
+                    onWidgetFocus(optionsWidget.childWidgets[1].widgetTag)
+                end
+
+                interface.animationsReset(widgetTag.id)
+
             end
-
-            interface.animationsReset(widgetTag.id)
-
             dprint("Opened widget: " .. widgetTag.path)
             if DebugMode then
                 ScreenCornerText = widgetTag.path
