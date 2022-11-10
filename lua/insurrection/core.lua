@@ -5,6 +5,7 @@ local blam = require "blam"
 local tagClasses = blam.tagClasses
 local json = require "json"
 local base64 = require "base64"
+local harmony = require "mods.harmony"
 
 local mercury = require "insurrection.mercury"
 local scriptVersion = "insurrection-" .. require "insurrection.version"
@@ -204,6 +205,20 @@ end
 function core.getMyGamesHaloCEPath()
     local myGamesPath = read_string(0x00647830)
     return myGamesPath
+end
+
+function core.getWidgetValues(widgetTagId)
+    local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
+    if sucess and widgetInstanceId then
+        return harmony.menu.get_widget_values(widgetInstanceId)
+    end
+end
+
+function core.setWidgetValues(widgetTagId, values)
+    local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
+    if sucess and widgetInstanceId then
+        harmony.menu.set_widget_values(widgetInstanceId, values);
+    end
 end
 
 return core

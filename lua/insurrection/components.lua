@@ -4,12 +4,13 @@ local uiWidgetDefinition = blam.uiWidgetDefinition
 local unicodeStringList = blam.unicodeStringList
 local isNull = blam.isNull
 local glue = require "glue"
+local core = require "insurrection.core"
 
 ---@class uiComponentClass
 local components = {}
 
 ---@class uiComponentEvents
----@field onClick fun():boolean | nil
+---@field onClick fun(value?: string | boolean | number):boolean | nil
 ---@field onFocus function | nil
 ---@field onInputText fun(text: string) | nil
 ---@field onSelect function | nil
@@ -46,6 +47,22 @@ end
 ---@param self uiComponent
 function components.onClick(self, callback)
     self.events.onClick = callback
+    if self.tag.path:find("_checkbox_button", 1, true) then
+        local checkboxTagId = self:findChildWidgetTag("checkbox").id
+        self.events.onClick = function()
+            local bitmapIndex = core.getWidgetValues(checkboxTagId).background_bitmap_index
+            if bitmapIndex == 0 then
+                core.setWidgetValues(checkboxTagId, {background_bitmap_index = 1})
+            else
+                core.setWidgetValues(checkboxTagId, {background_bitmap_index = 0})
+            end
+            if bitmapIndex == 0 then
+                callback(true)
+            else
+                callback(false)
+            end
+        end
+    end
 end
 
 ---@param self uiComponent
