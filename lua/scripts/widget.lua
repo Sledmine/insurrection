@@ -205,7 +205,7 @@ function widget.createV2(widgetPath, keys)
     if keys.child_widgets then
         keys.child_widgets = glue.map(keys.child_widgets, function(child)
             if #child > 0 then
-                return widget.wrap(child[1], child[2], child[3])
+                return widget.wrap(child[1], child[2] or 0, child[3] or 0)
             end
             return child
         end)
