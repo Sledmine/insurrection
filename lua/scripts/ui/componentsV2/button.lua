@@ -59,9 +59,26 @@ return function(name, text, props)
         wid.background_bitmap = [[insurrection/ui/bitmaps/normal_button_select.bitmap]]
     end
     if props.legacy then
+        ---@type invaderWidget
+        local widgetText = {
+            widget_type = "text_box",
+            bounds = wid.bounds,
+            string_list_index = 0,
+            text_font = constants.fonts.text,
+            text_color = wid.text_color,
+            justification = props.justification or "left_justify",
+            horiz_offset = 10,
+            vert_offset = 5
+        }
+        if text then
+            widgetText.text_label_unicode_strings_list = stringsTagPath
+        end
+        local widgetTextPath = widget.path .. "buttons/" .. name ..
+                                   "_button_text.ui_widget_definition"
+        widget.createV2(widgetTextPath, widgetText)
         wid.child_widgets = {
             {
-                widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]],
+                widget_tag = widgetTextPath,
                 horizontal_offset = 0,
                 vertical_offset = 0
             },

@@ -8,7 +8,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@param name string Component name
 ---@param texts string[] Texts to display
 ---@param bitmap? string Bitmap path to display
----@param variant? '"maps"' | '"gametypes"' | '"difficulties"' | '"campaign"' Variant to use
+---@param variant? '"lan_maps"' | '"gametypes"' | '"difficulties"' | '"campaign"' Variant to use
 return function(name, texts, bitmap, variant)
     local widgetPath = widget.path .. name .. "_description.ui_widget_definition"
     local overlayImageDescriptionPath =
@@ -28,7 +28,7 @@ return function(name, texts, bitmap, variant)
         bitmapPath = bitmapPath
         dataStringsPath = ustr(widget.path .. "strings/" .. name ..
                                    "_description_data.unicode_string_list", texts)
-    elseif variant == "maps" then
+    elseif variant == "lan_maps" then
         nameStringsPath = [[ui\shell\main_menu\mp_map_list.unicode_string_list]]
         bitmapPath = [[insurrection\ui\bitmaps\map_previews.bitmap]]
         -- dataStringsPath =
@@ -59,7 +59,7 @@ return function(name, texts, bitmap, variant)
         })
         contentDescriptionPath = widget.path .. variant ..
                                      [[_description_content.ui_widget_definition]]
-        dataDescriptionPath = widget .. path .. variant ..
+        dataDescriptionPath = widget.path .. variant ..
                                   [[_description_data.ui_widget_definition]]
         imageDescriptionPath = widget.path .. variant .. [[_description_image.ui_widget_definition]]
         nameDescriptionPath = [[insurrection\ui\shared\descriptions\]] .. variant ..

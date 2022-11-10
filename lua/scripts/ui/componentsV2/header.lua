@@ -33,7 +33,7 @@ return function(name, title, subtitle)
         text_color = constants.color.subtitle,
         string_list_index = 1
     })
-    local widgetPath = widget.path .. name .. [[.ui_widget_definition]]
+    local widgetPath = widget.path .. name .. [[_header.ui_widget_definition]]
     widget.create(widgetPath, {
         bounds = "0, 0, 40, 450",
         child_widgets = {
