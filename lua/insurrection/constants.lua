@@ -69,6 +69,7 @@ function constants.get()
         lobbyElement3 = findWidgetTag("lobby_element_button_3"),
         lobbyElement4 = findWidgetTag("lobby_element_button_4"),
         lobbyElement5 = findWidgetTag("lobby_element_button_5"),
+        tester = findWidgetTag("tester_menu"),
     }
 
     constants.sounds = {

@@ -93,6 +93,27 @@ function interface.load()
             interface.blur(false)
         end)
 
+        local tester = components.new(constants.widgets.tester.id)
+        local testerButton = components.new(tester:findChildWidgetTag("test_1_button").id)
+        testerButton:onClick(function()
+            dprint("Tester button clicked")
+        end)
+
+        local testerAnimatedElement = components.new(tester:findChildWidgetTag("anim_test").id)
+        testerAnimatedElement:animate()
+
+        local testerCheckbox = components.new(tester:findChildWidgetTag("test_checkbox_1").id)
+        testerCheckbox:onClick(function(value)
+            dprint("Tester checkbox clicked")
+            dprint(value)
+        end)
+
+        local testerCheckbox2 = components.new(tester:findChildWidgetTag("test_checkbox_2").id)
+        testerCheckbox2:onClick(function(value)
+            dprint("Tester checkbox clicked")
+            dprint(value)
+        end)
+
         -- Insurrection is running outside the UI
         if constants.widgetCollections.multiplayer then
             local multiplayerWidgetsCollection = uiWidgetCollection(

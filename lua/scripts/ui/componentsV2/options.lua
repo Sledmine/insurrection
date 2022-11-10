@@ -1,6 +1,7 @@
 local widget = require "lua.scripts.widget"
 local constants = require "lua.scripts.ui.components.constants"
 ---Options list component, scroll trough elements using dpad, etc
+---@param name string
 ---@param childWidgets invaderWidgetChildWidget
 ---@param alignment '"vertical"' | '"horizontal"'
 ---@param description? string Tag path for description to display

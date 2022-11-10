@@ -5,7 +5,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---Generic button component, recycled in multiple components
 ---@param name string Name of the button component (also used for inner tags generation)
 ---@param text? string Auto generated unicode string inside this button
----@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string | string[], select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"', legacy: boolean, close: boolean} Button properties
+---@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string | string[], select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"', legacy: boolean, close: boolean, childs: invaderWidgetChildWidget[]} Button properties
 ---@return string
 return function(name, text, props)
     local props = props or {}
@@ -47,7 +47,8 @@ return function(name, text, props)
         text_color = constants.color.text,
         justification = props.justification or "left_justify",
         horiz_offset = 10,
-        vert_offset = 5
+        vert_offset = 5,
+        child_widgets = props.childs or {}
     }
     if props.justification == "center_justify" then
         -- Because of rescale stuff
