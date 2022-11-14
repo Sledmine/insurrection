@@ -224,4 +224,14 @@ function widget.createV2(widgetPath, keys)
     return tag.create(widgetPath, keys)
 end
 
+---Return bounds formatted string
+---@param y number
+---@param x number
+---@param height number
+---@param width number
+---@return string
+function widget.bounds(y, x, height, width)
+    return string.format("%d, %d, %d, %d", y, x, height, width)
+end
+
 return widget
