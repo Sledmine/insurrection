@@ -56,63 +56,70 @@ function interface.load()
         core.cleanAllEditableWidgets()
 
         -- interface.animate()
-
         -- Components initialization
-        local login = components.new(constants.widgets.login.id)
-        local usernameInput = components.new(login:findChildWidgetTag("username_input").id)
-        local passwordInput = components.new(login:findChildWidgetTag("password_input").id)
-        -- Load login data
-        local username, password = core.loadCredentials()
-        if username and password then
-            usernameInput:setText(username)
-            passwordInput:setText(password, "*")
+        if constants.widgets.login then
+            local login = components.new(constants.widgets.login.id)
+            local usernameInput = components.new(login:findChildWidgetTag("username_input").id)
+            local passwordInput = components.new(login:findChildWidgetTag("password_input").id)
+            -- Load login data
+            local username, password = core.loadCredentials()
+            if username and password then
+                usernameInput:setText(username)
+                passwordInput:setText(password, "*")
+            end
+            local loginButton = components.new(login:findChildWidgetTag("login_button").id)
+            loginButton:onClick(function()
+                dprint("Login button clicked")
+                api.login(usernameInput:getText(), passwordInput:getText())
+            end)
+            local registerButton = components.new(login:findChildWidgetTag("register_button").id)
+            registerButton:onClick(function()
+                interface.dialog("INFORMATION", "Join us on our Discord server!",
+                                 "We have a Discord Bot to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
+            end)
+
+            local dashboard = components.new(constants.widgets.dashboard.id)
+            local createLobbyButton = components.new(
+                                          dashboard:findChildWidgetTag("create_lobby_button").id)
+            createLobbyButton:onClick(function()
+                dprint("Create lobby button clicked")
+                api.lobby()
+            end)
+            dashboard:onOpen(function()
+                api.stopRefreshLobby()
+            end)
+
+            local lobby = components.new(constants.widgets.lobby.id)
+            lobby:onClose(function()
+                api.stopRefreshLobby()
+            end)
+
+            local pause = components.new(constants.widgets.pause.id)
+            pause:onClose(function()
+                interface.blur(false)
+            end)
+
+            local tester = components.new(constants.widgets.tester.id)
+            local testerButton = components.new(tester:findChildWidgetTag("test_1_button").id)
+            testerButton:onClick(function()
+                dprint("Tester button clicked")
+            end)
+
+            local testerAnimatedElement = components.new(tester:findChildWidgetTag("anim_test").id)
+            testerAnimatedElement:animate()
+
+            local testerCheckbox = components.new(tester:findChildWidgetTag("test_checkbox_1").id)
+            testerCheckbox:onClick(function(value)
+                dprint("Tester checkbox clicked")
+                dprint(value)
+            end)
+
+            local testerCheckbox2 = components.new(tester:findChildWidgetTag("test_checkbox_2").id)
+            testerCheckbox2:onClick(function(value)
+                dprint("Tester checkbox clicked")
+                dprint(value)
+            end)
         end
-        local loginButton = components.new(login:findChildWidgetTag("login_button").id)
-        loginButton:onClick(function()
-            dprint("Login button clicked")
-            api.login(usernameInput:getText(), passwordInput:getText())
-        end)
-
-        local dashboard = components.new(constants.widgets.dashboard.id)
-        local createLobbyButton = components.new(dashboard:findChildWidgetTag("create_lobby_button").id)
-        createLobbyButton:onClick(function()
-            dprint("Create lobby button clicked")
-            api.lobby()
-        end)
-        dashboard:onOpen(function()
-            api.stopRefreshLobby()
-        end)
-
-        local lobby = components.new(constants.widgets.lobby.id)
-        lobby:onClose(function()
-            api.stopRefreshLobby()
-        end)
-
-        local pause = components.new(constants.widgets.pause.id)
-        pause:onClose(function()
-            interface.blur(false)
-        end)
-
-        local tester = components.new(constants.widgets.tester.id)
-        local testerButton = components.new(tester:findChildWidgetTag("test_1_button").id)
-        testerButton:onClick(function()
-            dprint("Tester button clicked")
-        end)
-
-        local testerAnimatedElement = components.new(tester:findChildWidgetTag("anim_test").id)
-        testerAnimatedElement:animate()
-
-        local testerCheckbox = components.new(tester:findChildWidgetTag("test_checkbox_1").id)
-        testerCheckbox:onClick(function(value)
-            dprint("Tester checkbox clicked")
-            dprint(value)
-        end)
-
-        local testerCheckbox2 = components.new(tester:findChildWidgetTag("test_checkbox_2").id)
-        testerCheckbox2:onClick(function(value)
-            dprint("Tester checkbox clicked")
-            dprint(value)
-        end)
 
         -- Insurrection is running outside the UI
         if constants.widgetCollections.multiplayer then
@@ -120,13 +127,16 @@ function interface.load()
                                                      constants.widgetCollections.multiplayer.id)
             if multiplayerWidgetsCollection then
                 local pause = components.new(multiplayerWidgetsCollection.tagList[1])
-                pause:onOpen(function()
-                    if map ~= "ui" and (isGameDedicated() or DebugMode) then
-                        dprint("Loading Insurrection UI in external map...")
-                        interface.blur(true)
-                        menus.pause()
-                    end
-                end)
+                if pause then
+                    pause:onOpen(function()
+                        if map ~= "ui" and (isGameDedicated() or DebugMode) and
+                            constants.widgets.pause then
+                            dprint("Loading Insurrection UI in external map...")
+                            interface.blur(true)
+                            menus.pause()
+                        end
+                    end)
+                end
             end
         end
     end
@@ -381,10 +391,10 @@ function interface.update()
                 interface.setWidgetValues(nameplateWidgetTagId, {opacity = 1})
                 -- Update nameplate background
                 local nameplateWidgetDefinition = uiWidgetTag(nameplateWidgetTagId)
-                --nameplateWidgetDefinition.backgroundBitmap =
+                -- nameplateWidgetDefinition.backgroundBitmap =
                 --    nameplatesBitmapTagIds[player.nameplate]
                 ---- Update nameplate overlay
-                --local overlayWidgetTagId = nameplateWidgetDefinition.childWidgets[1].widgetTag
+                -- local overlayWidgetTagId = nameplateWidgetDefinition.childWidgets[1].widgetTag
                 setWidgetString(playerName, overlayWidgetTagId)
             end
         end
