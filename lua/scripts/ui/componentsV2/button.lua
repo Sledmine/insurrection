@@ -1,14 +1,17 @@
 local widget = require "lua.scripts.widget"
 local ustr = require "lua.scripts.modules.ustr"
 local constants = require "lua.scripts.ui.components.constants"
+local image = require "lua.scripts.ui.componentsV2.image"
+local floor = math.floor
 
 ---Generic button component, recycled in multiple components
 ---@param name string Name of the button component (also used for inner tags generation)
 ---@param text? string Auto generated unicode string inside this button
----@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string | string[], select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"', legacy: boolean, close: boolean, childs: invaderWidgetChildWidget[]} Button properties
+---@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string | string[], select: boolean, justification: '"left_justify"' | '"center_justify"' | '"right_justify"', legacy: boolean, close: boolean, childs: invaderWidgetChildWidget[], arrow?: '"up"' | '"down"', variant?: '"normal"' | '"large"'} Button properties
 ---@return string
 return function(name, text, props)
     local props = props or {}
+    props.variant = props.variant or "normal"
     local stringsTagPath
     if text then
         -- Generate strings tag
@@ -19,9 +22,10 @@ return function(name, text, props)
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        bounds = "0, 0, 24, 184",
+        bounds = "0, 0, " .. constants.components.button[props.variant].height .. ", " ..
+            constants.components.button[props.variant].width,
         flags = {pass_unhandled_events_to_focused_child = true},
-        background_bitmap = [[insurrection\ui\bitmaps\normal_button.bitmap]],
+        background_bitmap = constants.components.button[props.variant].bitmap,
         event_handlers = {
             {
                 flags = {
@@ -77,11 +81,7 @@ return function(name, text, props)
                                    "_button_text.ui_widget_definition"
         widget.createV2(widgetTextPath, widgetText)
         wid.child_widgets = {
-            {
-                widget_tag = widgetTextPath,
-                horizontal_offset = 0,
-                vertical_offset = 0
-            },
+            {widget_tag = widgetTextPath, horizontal_offset = 0, vertical_offset = 0},
             {
                 widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]],
                 horizontal_offset = 0,
@@ -112,6 +112,22 @@ return function(name, text, props)
             wid.event_handlers[1]["function"] = props.func --[[@as string]]
         end
     end
-    widget.create(widgetPath, wid)
+    if props.arrow then
+        local arrowX = floor(constants.components.button[props.variant].width / 2)
+        local arrowY = 8
+        local arrowHeight = constants.components.arrow[props.arrow].height
+        local arrowWidth = constants.components.arrow[props.arrow].width
+        local arrowBitmap = constants.components.arrow[props.arrow].bitmap
+
+        wid.list_header_bitmap = constants.components.arrow[props.arrow].bitmap
+        wid.header_bounds = widget.bounds(arrowY, arrowX, arrowY + arrowHeight, arrowX + arrowWidth)
+
+        wid.child_widgets[#wid.child_widgets + 1] = {
+            image("arrow_" .. props.arrow, arrowBitmap, arrowWidth, arrowHeight),
+            arrowX,
+            arrowY
+        }
+    end
+    widget.createV2(widgetPath, wid)
     return widgetPath
 end

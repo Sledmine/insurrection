@@ -161,7 +161,8 @@ function core.getStringFromWidget(widgetId)
 end
 
 function core.cleanAllEditableWidgets()
-    for _, widgetTag in pairs(blam.findTagsList("input", tagClasses.uiWidgetDefinition)) do
+    local editableWidgets = blam.findTagsList("input", tagClasses.uiWidgetDefinition) or {}
+    for _, widgetTag in pairs(editableWidgets) do
         local widget = blam.uiWidgetDefinition(widgetTag.id)
         local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
         if widgetStrings then
