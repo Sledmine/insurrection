@@ -7,24 +7,27 @@ local glue = require "glue"
 local core = require "insurrection.core"
 
 ---@class uiComponentClass
-local components = {}
+local components = {
+    ---@type number
+    tagId = nil,
+    ---@type tag
+    tag = nil,
+    ---@type uiWidgetDefinition
+    widgetDefinition = nil,
+    ---@type uiComponentEvents
+    events = {},
+    ---@type boolean
+    isBackgroundAnimated = false,
+}
 
 ---@class uiComponentEvents
 ---@field onClick fun(value?: string | boolean | number):boolean | nil
 ---@field onFocus function | nil
----@field onInputText fun(text: string) | nil
----@field onSelect function | nil
 ---@field onOpen function | nil
 ---@field onClose function | nil
 ---@field animate function | nil
 
 ---@class uiComponent : uiComponentClass
----@field tagId number
----@field tag tag
----@field selectedWidgetTagId number | nil
----@field widgetDefinition uiWidgetDefinition
----@field events uiComponentEvents
----@field isBackgroundAnimated boolean
 
 ---@type table<number, uiComponent>
 components.widgets = {}
@@ -45,49 +48,8 @@ function components.new(tagId)
 end
 
 ---@param self uiComponent
-function components.onClick(self, callback)
-    self.events.onClick = callback
-    if self.tag.path:find("_checkbox_button", 1, true) then
-        local checkboxTagId = self:findChildWidgetTag("checkbox").id
-        self.events.onClick = function()
-            local bitmapIndex = core.getWidgetValues(checkboxTagId).background_bitmap_index
-            if bitmapIndex == 0 then
-                core.setWidgetValues(checkboxTagId, {background_bitmap_index = 1})
-            else
-                core.setWidgetValues(checkboxTagId, {background_bitmap_index = 0})
-            end
-            if bitmapIndex == 0 then
-                callback(true)
-            else
-                callback(false)
-            end
-        end
-    end
-end
-
----@param self uiComponent
 function components.onFocus(self, callback)
     self.events.onFocus = callback
-end
-
----@param self uiComponent
-function components.onInputText(self, callback)
-    if self.widgetDefinition.type == 1 then
-        self.events.onInputText = callback
-    else
-        error("onInputText can only be used on uiWidgetDefinition of type 1")
-    end
-end
-
----@param self uiComponent
-function components.onSelect(self, callback)
-    ---@type uiWidgetDefinition
-    local widgetDefinition = self.widgetDefinition
-    if widgetDefinition.type == 2 then
-        self.events.onSelect = callback
-    else
-        error("onSelect can only be used on uiWidgetDefinition of type 2")
-    end
 end
 
 ---@param self uiComponent

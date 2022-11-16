@@ -11,11 +11,9 @@ local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
 local ends = require"glue".string.ends
 local constants = require "insurrection.constants"
--- Useful debug global tools
 
--- UI state and stuff
 clua_version = 2.056
-DebugMode = false
+DebugMode = true
 -- Import API after setting up debug mode
 api = require "insurrection.api"
 IsUICompatible = false
@@ -45,8 +43,7 @@ local lastMap = ""
 local loadingSprite = optic.create_sprite("loading_orb.png", 32, 32)
 local rotateOrbAnimation = optic.create_animation(5000)
 optic.set_animation_property(rotateOrbAnimation, "linear", "rotation", 360)
-local screenWidth = read_word(0x637CF2)
-local screenHeight = read_word(0x637CF0)
+local screenWidth, screenHeight = core.getScreenResolution()
 
 local function onGameStart()
     interface.load()
@@ -138,10 +135,12 @@ end
 function OnMenuListTab(pressedKey,
                        listWidgetInstanceIndex,
                        previousFocusedWidgetInstanceIndex)
-    local listWidgetId = harmony.menu.get_widget_values(listWidgetInstanceIndex).tag_id
+    local listWidgetTagId = harmony.menu.get_widget_values(listWidgetInstanceIndex).tag_id
     local previousFocusedWidgetId = harmony.menu.get_widget_values(
                                         previousFocusedWidgetInstanceIndex).tag_id
-    local widgetList = blam.uiWidgetDefinition(listWidgetId)
+    local widgetListTag = blam.getTag(listWidgetTagId) --[[@as tag]]
+    dprint("List: " .. widgetListTag.path, "info")
+    local widgetList = blam.uiWidgetDefinition(listWidgetTagId)
     -- local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
     for childIndex, child in pairs(widgetList.childWidgets) do
         if child.widgetTag == previousFocusedWidgetId then
@@ -162,7 +161,7 @@ function OnMenuListTab(pressedKey,
             local widgetTagId = widgetList.childWidgets[nextChildIndex].widgetTag
             if widgetTagId and not isNull(widgetTagId) then
                 -- local widgetTag = blam.getTag(widgetTagId)
-                -- dprint(widgetTag.path)
+                dprint(nextChildIndex)
                 onWidgetFocus(widgetTagId)
             end
         end
@@ -278,7 +277,6 @@ function OnCommand(command)
 end
 
 function OnMapLoad()
-    stop_timer(animationsTimerId)
     gameStarted = false
     editableWidget = nil
     editableWidgetTag = nil
@@ -294,7 +292,7 @@ end
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnFrame")
 set_callback("command", "OnCommand")
--- set_callback("map load", "OnMapLoad")
+set_callback("map load", "OnMapLoad")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")

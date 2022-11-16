@@ -218,8 +218,14 @@ end
 function core.setWidgetValues(widgetTagId, values)
     local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
     if sucess and widgetInstanceId then
-        harmony.menu.set_widget_values(widgetInstanceId, values);
+        harmony.menu.set_widget_values(widgetInstanceId, values)
     end
+end
+
+function core.getScreenResolution()
+    local width = read_word(0x637CF2)
+    local height = read_word(0x637CF0)
+    return width, height
 end
 
 return core
