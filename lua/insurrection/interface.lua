@@ -1,6 +1,9 @@
 local harmony = require "mods.harmony"
 local components = require "insurrection.components"
 local menus = require "insurrection.menus"
+local checkbox = require "insurrection.components.checkbox"
+local button = require "insurrection.components.button"
+local list = require "insurrection.components.list"
 local createBezierCurve = harmony.math.create_bezier_curve
 local bezierCurve = harmony.math.get_bezier_curve_point
 local openWidget = harmony.menu.open_widget
@@ -46,11 +49,14 @@ function interface.load()
         -- Load Insurrection features
         core.loadInsurrectionPatches()
 
-        -- Change UI aspect ratio
-        harmony.menu.set_aspect_ratio(16, 9)
-
-        -- Execute basic Halo commands
-        execute_script("menu_blur_on")
+        if map == "ui" then
+            -- Change UI aspect ratio
+            harmony.menu.set_aspect_ratio(16, 9)
+            -- Execute basic Halo commands
+            execute_script("menu_blur_on")
+        else
+            harmony.menu.set_aspect_ratio(4, 3)
+        end
 
         interface.loadProfileNameplate()
         core.cleanAllEditableWidgets()
@@ -59,27 +65,27 @@ function interface.load()
         -- Components initialization
         if constants.widgets.login then
             local login = components.new(constants.widgets.login.id)
-            local usernameInput = components.new(login:findChildWidgetTag("username_input").id)
-            local passwordInput = components.new(login:findChildWidgetTag("password_input").id)
+            local usernameInput = button.new(login:findChildWidgetTag("username_input").id)
+            local passwordInput = button.new(login:findChildWidgetTag("password_input").id)
             -- Load login data
             local username, password = core.loadCredentials()
             if username and password then
                 usernameInput:setText(username)
                 passwordInput:setText(password, "*")
             end
-            local loginButton = components.new(login:findChildWidgetTag("login_button").id)
+            local loginButton = button.new(login:findChildWidgetTag("login_button").id)
             loginButton:onClick(function()
                 dprint("Login button clicked")
                 api.login(usernameInput:getText(), passwordInput:getText())
             end)
-            local registerButton = components.new(login:findChildWidgetTag("register_button").id)
+            local registerButton = button.new(login:findChildWidgetTag("register_button").id)
             registerButton:onClick(function()
                 interface.dialog("INFORMATION", "Join us on our Discord server!",
                                  "We have a Discord Bot to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
             end)
 
             local dashboard = components.new(constants.widgets.dashboard.id)
-            local createLobbyButton = components.new(
+            local createLobbyButton = button.new(
                                           dashboard:findChildWidgetTag("create_lobby_button").id)
             createLobbyButton:onClick(function()
                 dprint("Create lobby button clicked")
@@ -100,7 +106,7 @@ function interface.load()
             end)
 
             local tester = components.new(constants.widgets.tester.id)
-            local testerButton = components.new(tester:findChildWidgetTag("test_1_button").id)
+            local testerButton = button.new(tester:findChildWidgetTag("test_1_button").id)
             testerButton:onClick(function()
                 dprint("Tester button clicked")
             end)
@@ -108,17 +114,35 @@ function interface.load()
             local testerAnimatedElement = components.new(tester:findChildWidgetTag("anim_test").id)
             testerAnimatedElement:animate()
 
-            local testerCheckbox = components.new(tester:findChildWidgetTag("test_checkbox_1").id)
-            testerCheckbox:onClick(function(value)
+            local testerCheckbox = checkbox.new(tester:findChildWidgetTag("test_checkbox_1").id)
+            testerCheckbox:onToggle(function(value)
+                dprint("Checkbox value: " .. tostring(value))
+            end)
+
+            local testerCheckbox2 = checkbox.new(tester:findChildWidgetTag("test_checkbox_2").id)
+            testerCheckbox2:onToggle(function(value)
                 dprint("Tester checkbox clicked")
                 dprint(value)
             end)
 
-            local testerCheckbox2 = components.new(tester:findChildWidgetTag("test_checkbox_2").id)
-            testerCheckbox2:onClick(function(value)
-                dprint("Tester checkbox clicked")
-                dprint(value)
+            local customization = components.new(constants.widgets.customization.id)
+            local nameplatesList = list.new(
+                                       customization:findChildWidgetTag("customization_options").id,
+                                       2, 10)
+            nameplatesList:onSelect(function(value)
+                api.playerEditNameplate(value)
             end)
+            -- nameplatesList:setItems({
+            --    {label = "test",
+            --    value = 1,
+            --    bitmap = blam.tagCollection(constants.tagCollections.nameplates.id).tagList[1]}
+            -- })
+            nameplatesList:setItems(glue.map(blam.tagCollection(
+                                                 constants.tagCollections.nameplates.id).tagList,
+                                             function(tagId)
+                local pathSplit = glue.string.split(blam.getTag(tagId).path, "\\")
+                return {label = "", value = tonumber(pathSplit[#pathSplit]), bitmap = tagId}
+            end))
         end
 
         -- Insurrection is running outside the UI
@@ -128,15 +152,30 @@ function interface.load()
             if multiplayerWidgetsCollection then
                 local pause = components.new(multiplayerWidgetsCollection.tagList[1])
                 if pause then
-                    pause:onOpen(function()
-                        if map ~= "ui" and (isGameDedicated() or DebugMode) and
-                            constants.widgets.pause then
-                            dprint("Loading Insurrection UI in external map...")
-                            interface.blur(true)
-                            menus.pause()
-                        end
-                    end)
+                    if constants.widgets.pause then
+                        harmony.menu.set_aspect_ratio(16, 9)
+                        local insurrectionPause = components.new(constants.widgets.pause.id)
+                        local resumeButton = button.new(
+                                                 insurrectionPause:findChildWidgetTag(
+                                                     "resume_game_button").id)
+                        resumeButton:onClick(function()
+                            dprint("Resume button clicked")
+                            interface.blur(false)
+                            interface.sound("back")
+                        end)
+                        pause:onOpen(function()
+                            if map ~= "ui" and (isGameDedicated() or DebugMode) then
+                                dprint("Loading Insurrection UI in external map...")
+                                interface.blur(true)
+                                menus.pause()
+                            end
+                        end)
+                        insurrectionPause:onClose(function()
+                            interface.blur(false)
+                        end)
+                    end
                 end
+
             end
         end
     end
@@ -209,7 +248,6 @@ end
 ---@param subtitleText string
 ---@param bodyText string
 function interface.dialog(titleText, subtitleText, bodyText)
-
     if titleText == "WARNING" or titleText == "ERROR" then
         playSound(constants.sounds.error.path)
     else
@@ -237,10 +275,16 @@ function interface.dialog(titleText, subtitleText, bodyText)
 end
 
 ---Play a special interface sound
----@param sound '"error"'
+---@param sound '"error"' | '"success"' | '"back"'
 function interface.sound(sound)
     if sound == "error" then
-        playSound(errorSoundTag.path)
+        playSound(constants.sounds.error.id)
+    elseif sound == "success" then
+        playSound(constants.sounds.success.id)
+    elseif sound == "back" then
+        playSound(constants.sounds.back.id)
+    else
+        dprint("Invalid sound: " .. sound, "error")
     end
 end
 

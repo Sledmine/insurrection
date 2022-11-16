@@ -345,7 +345,7 @@ function onPlayerEditNameplateResponse(response)
         else
             local jsonResponse = response.json()
             if jsonResponse then
-                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
+                interface.dialog("WARNING", "ERROR " .. response.code, jsonResponse.message)
             end
             return false
         end

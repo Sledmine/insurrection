@@ -74,6 +74,7 @@ function constants.get()
 
     constants.sounds = {
         error = findTag("flag_failure", tagClasses.sound),
+        back = findTag("back", tagClasses.sound),
         success = findTag("forward", tagClasses.sound)
     }
 
