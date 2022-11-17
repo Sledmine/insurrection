@@ -250,6 +250,7 @@ local function onLobbyRefreshResponse(response)
                 interface.lobbyUpdate()
                 -- Lobby already started, join the server
                 if lobby.server and not blam.isGameDedicated() then
+                    api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,
                             lobby.server.password)
                 end
