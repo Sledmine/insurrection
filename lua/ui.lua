@@ -28,6 +28,8 @@ local lastOpenWidgetTag
 ---@type tag
 local lastClosedWidgetTag
 ---@type tag
+local lastListFocusedWidgetTag
+---@type tag
 local lastFocusedWidgetTag
 -- Multithread lanes
 Lanes = {}
@@ -78,7 +80,7 @@ function OnTick()
 end
 
 function OnKeypress(modifiers, char, keycode)
-    if IsUICompatible and editableWidget then
+    if editableWidget and editableWidgetTag then
         -- Get pressed key from the keyboard
         local pressedKey
         if (char) then

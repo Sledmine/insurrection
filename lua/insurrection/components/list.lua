@@ -1,6 +1,8 @@
-local blam = require "blam"
+local isNull = require"blam".isNull
 local components = require "insurrection.components"
 local button = require "insurrection.components.button"
+local core = require "insurrection.core"
+local glue = require "glue"
 
 ---@class uiComponentListClass : uiComponentClass
 local list = setmetatable({
@@ -10,12 +12,21 @@ local list = setmetatable({
     lastWidgetIndex = nil,
     ---@type number
     currentItemIndex = 1,
-    ---@type {label: string, value: string | boolean | number, bitmap?: number}[]
-    items = {}
+    ---@type number
+    lastSelectedItemIndex = nil,
+    ---@type uiComponentListItem[]
+    items = {},
+    ---@type uiWidgetDefinitionChild[]
+    backupChildWidgets = {}
 }, {__index = components})
 
+---@class uiComponentListItem 
+---@field label string
+---@field value string | boolean | number | any
+---@field bitmap?number
+
 ---@class uiComponentListEvents : uiComponentEvents
----@field onSelect fun(value: string | boolean | number):boolean | nil
+---@field onSelect fun(item: uiComponentListItem)
 
 ---@class uiComponentList : uiComponentListClass
 ---@field events uiComponentListEvents
@@ -24,12 +35,13 @@ local list = setmetatable({
 ---@return uiComponentList
 function list.new(tagId, firstWidgetIndex, lastWidgetIndex)
     local instance = setmetatable(components.new(tagId), {__index = list}) --[[@as uiComponentList]]
-    instance.firstWidgetIndex = firstWidgetIndex
-    instance.lastWidgetIndex = lastWidgetIndex
+    instance.firstWidgetIndex = firstWidgetIndex or 1
+    instance.lastWidgetIndex = lastWidgetIndex or instance.widgetDefinition.childWidgetsCount
     return instance
 end
 
 ---@param self uiComponentList
+---@param callback fun(item: uiComponentListItem)
 function list.onSelect(self, callback)
     self.events.onSelect = callback
 end
@@ -52,30 +64,36 @@ function list.refresh(self)
     local items = self.items
     local itemIndex = self.currentItemIndex
     local widgetDefinition = self.widgetDefinition
-    for i = self.firstWidgetIndex + 1, self.lastWidgetIndex - 1 do
+    for widgetIndex = (self.firstWidgetIndex + 1), (self.lastWidgetIndex - 1) do
         local item = items[itemIndex]
+        local childWidget = widgetDefinition.childWidgets[widgetIndex]
         if item then
-            local childWidget = widgetDefinition.childWidgets[i]
-            if childWidget and not blam.isNull(childWidget.widgetTag) then
+            core.setWidgetValues(childWidget.widgetTag, {opacity = 1})
+            if childWidget and not isNull(childWidget.widgetTag) then
                 local listButton = button.new(childWidget.widgetTag)
                 listButton:setText(item.label)
-                listButton:animate()
-                if self.events.onSelect then
+                local onSelect = self.events.onSelect
+                if onSelect then
+                    local lastSelectedItemIndex = itemIndex
                     listButton:onClick(function()
-                        self.events.onSelect(item.value)
+                        self.lastSelectedItemIndex = lastSelectedItemIndex
+                        onSelect(item)
                     end)
                 end
                 if item.bitmap then
+                    listButton:animate()
                     listButton.widgetDefinition.backgroundBitmap = item.bitmap
                 end
+                itemIndex = itemIndex + 1
             end
-            itemIndex = itemIndex + 1
+        else
+            core.setWidgetValues(childWidget.widgetTag, {opacity = 0})
         end
     end
 end
 
 ---@param self uiComponentList
----@param items {label: string, value: string | boolean | number, bitmap?: number}[]
+---@param items uiComponentListItem[]
 function list.setItems(self, items)
     local widgetDefinition = self.widgetDefinition
     if not widgetDefinition.type == 3 then
@@ -84,6 +102,18 @@ function list.setItems(self, items)
     if not (#items > 0) then
         error("setItems requires at least one item")
     end
+    if not self.backupChildWidgets then
+        self.backupChildWidgets = glue.map(widgetDefinition.childWidgets, function(childWidget)
+            return {
+                widgetTag = childWidget.widgetTag,
+                name = childWidget.name,
+                customControllerIndex = childWidget.customControllerIndex,
+                verticalOffset = childWidget.verticalOffset,
+                horizontalOffset = childWidget.horizontalOffset
+            }
+        end)
+    end
+    self.currentItemIndex = 1
     self.items = items
     local firstWidgetTagId = widgetDefinition.childWidgets[self.firstWidgetIndex].widgetTag
     local lastWidgetTagId = widgetDefinition.childWidgets[self.lastWidgetIndex].widgetTag
@@ -96,6 +126,12 @@ function list.setItems(self, items)
         self:scroll(1)
     end)
     self:refresh()
+end
+
+---@param self uiComponentList
+function list.getSelectedItem(self)
+    dprint(self.lastSelectedItemIndex)
+    return self.items[self.lastSelectedItemIndex]
 end
 
 return list

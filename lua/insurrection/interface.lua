@@ -27,6 +27,8 @@ local isGameDedicated = blam.isGameDedicated
 
 local interface = {}
 
+interface.shared = {}
+
 function interface.load()
     components.free()
     constants.get()
@@ -68,15 +70,20 @@ function interface.load()
             local usernameInput = button.new(login:findChildWidgetTag("username_input").id)
             local passwordInput = button.new(login:findChildWidgetTag("password_input").id)
             -- Load login data
-            local username, password = core.loadCredentials()
-            if username and password then
-                usernameInput:setText(username)
-                passwordInput:setText(password, "*")
+            local savedUserName, savedPassword = core.loadCredentials()
+            if savedUserName and savedPassword then
+                usernameInput:setText(savedUserName)
+                passwordInput:setText(savedPassword, "*")
             end
             local loginButton = button.new(login:findChildWidgetTag("login_button").id)
             loginButton:onClick(function()
-                dprint("Login button clicked")
-                api.login(usernameInput:getText(), passwordInput:getText())
+                local username, password = usernameInput:getText(), passwordInput:getText()
+                if username and password and username ~= "" and password ~= "" then
+                    core.saveCredentials(username, password)
+                    api.login(username, password)
+                else
+                    interface.dialog("WARNING", "", "Please enter a username and password.")
+                end
             end)
             local registerButton = button.new(login:findChildWidgetTag("register_button").id)
             registerButton:onClick(function()
@@ -96,6 +103,7 @@ function interface.load()
             end)
 
             local lobby = components.new(constants.widgets.lobby.id)
+            interface.shared.lobby = lobby
             lobby:onClose(function()
                 api.stopRefreshLobby()
             end)
@@ -129,20 +137,25 @@ function interface.load()
             local nameplatesList = list.new(
                                        customization:findChildWidgetTag("customization_options").id,
                                        2, 10)
-            nameplatesList:onSelect(function(value)
-                api.playerEditNameplate(value)
+            local nameplatePreview = components.new(
+                                         customization:findChildWidgetTag("nameplate_preview").id)
+            nameplatePreview:animate()
+            local saveCustomizationButton = button.new(
+                                                customization:findChildWidgetTag(
+                                                    "save_customization").id)
+            nameplatesList:onSelect(function(item)
+                nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap
             end)
-            -- nameplatesList:setItems({
-            --    {label = "test",
-            --    value = 1,
-            --    bitmap = blam.tagCollection(constants.tagCollections.nameplates.id).tagList[1]}
-            -- })
-            nameplatesList:setItems(glue.map(blam.tagCollection(
-                                                 constants.tagCollections.nameplates.id).tagList,
-                                             function(tagId)
-                local pathSplit = glue.string.split(blam.getTag(tagId).path, "\\")
-                return {label = "", value = tonumber(pathSplit[#pathSplit]), bitmap = tagId}
+            nameplatesList:setItems(glue.map(glue.keys(constants.nameplates), function(nameplateId)
+                print(#glue.keys(constants.nameplates))
+                return {label = "", value = nameplateId, bitmap = constants.nameplates[nameplateId].id}
             end))
+            saveCustomizationButton:onClick(function()
+                local selectedNameplateItem = nameplatesList:getSelectedItem() --[[@as string]]
+                if selectedNameplateItem then
+                    api.playerEditNameplate(selectedNameplateItem.value)
+                end
+            end)
         end
 
         -- Insurrection is running outside the UI
@@ -185,7 +198,7 @@ function interface.load()
     end
 end
 
-function interface.loadProfileNameplate(nameplateIndex)
+function interface.loadProfileNameplate(nameplateId)
     if not constants.tagCollections.nameplates then
         dprint("Error, no nameplates collection found", "error")
         return
@@ -196,23 +209,23 @@ function interface.loadProfileNameplate(nameplateIndex)
         local nameplateBitmapTags = {}
         for _, tagId in ipairs(nameplatesTagCollection.tagList) do
             local tag = blam.getTag(tagId) --[[@as tag]]
-            local nameplateNumber = tonumber(core.getTagName(tag.path))
-            if nameplateNumber and not nameplateBitmapTags[nameplateNumber] then
-                nameplateBitmapTags[nameplateNumber] = tag
+            local nameplateId = core.getTagName(tag.path)
+            if nameplateId and not nameplateBitmapTags[nameplateId] then
+                nameplateBitmapTags[nameplateId] = tag
             end
         end
         nameplate:animate()
-        if nameplateIndex then
-            if nameplateIndex > nameplatesTagCollection.count then
-                dprint("Invalid nameplate index: " .. nameplateIndex, "warning")
-                nameplateIndex = nameplatesTagCollection.count
+        if nameplateId then
+            if not nameplateBitmapTags[nameplateId] then
+                dprint("Invalid nameplate id: " .. nameplateId, "warning")
+                return
             end
-            nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[nameplateIndex].id
+            nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[nameplateId].id
             return
         end
 
         local settings = core.loadSettings()
-        if settings and settings.nameplate then
+        if settings and settings.nameplate and nameplateBitmapTags[settings.nameplate] then
             nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id
         end
     end
@@ -364,46 +377,6 @@ function interface.onButton(widgetTagId)
                 template = state.selected.template
             })
         end
-    elseif ends(buttonPath, "\\customization_button") then
-        interface.customization()
-        store:dispatch(actions.clean())
-        local filteredNameplateTagIds = glue.map(nameplatesBitmapTagIds, function(tagId)
-            local bitmapTag = blam.getTag(tagId)
-            local nameplateNumber = tonumber(core.getTagName(bitmapTag.path))
-            if not glue.index(blockedNameplates)[nameplateNumber] then
-                return tagId
-            end
-        end)
-        store:dispatch(actions.setList(filteredNameplateTagIds, 7))
-        if api.session and api.session.player.rank > 0 then
-            store:dispatch(actions.setList(nameplatesBitmapTagIds, 7))
-        end
-        return true
-    elseif string.find(buttonPath, "scroll_") then
-        local scrollDirection = split(core.getTagName(buttonPath), "_")[2]
-        if scrollDirection == "up" then
-            store:dispatch(actions.scroll(true))
-        elseif scrollDirection == "down" then
-            store:dispatch(actions.scroll(false))
-        end
-    elseif string.find(buttonPath, "nameplate_button_") then
-        local buttonIndex = tonumber(split(core.getTagName(buttonPath), "_")[3])
-        ---@type interfaceState
-        local state = store:getState()
-        local bitmapTag = blam.getTag(state.displayed[buttonIndex])
-        if bitmapTag then
-            local nameplateNumber = tonumber(core.getTagName(bitmapTag.path))
-            store:dispatch(actions.setSelectedItem(bitmapTag.id))
-        end
-    elseif ends(buttonPath, "save_customization_button") then
-        ---@type interfaceState
-        local state = store:getState()
-        local nameplateNumber = tonumber(glue.index(nameplatesBitmapTagIds)[state.selected])
-        if nameplateNumber then
-            api.playerEditNameplate(nameplateNumber)
-        end
-    elseif ends(buttonPath, "resume_game_button") then
-        interface.blur(false)
     end
 end
 

@@ -150,9 +150,9 @@ function core.mapKeyToText(pressedKey, text)
     end
 end
 
-function core.getStringFromWidget(widgetId)
-    local widget = blam.uiWidgetDefinition(widgetId)
-    local virtualValue = VirtualInputValue[widget.name]
+function core.getStringFromWidget(widgetTagId)
+    local widget = blam.uiWidgetDefinition(widgetTagId)
+    local virtualValue = VirtualInputValue[widgetTagId]
     if virtualValue then
         return virtualValue
     end
@@ -173,8 +173,8 @@ function core.cleanAllEditableWidgets()
     end
 end
 
-function core.setStringToWidget(text, widgetId, mask)
-    local widgetDefinition = blam.uiWidgetDefinition(widgetId)
+function core.setStringToWidget(text, widgetTagId, mask)
+    local widgetDefinition = blam.uiWidgetDefinition(widgetTagId)
     if widgetDefinition then
         local unicodeStrings = blam.unicodeStringList(widgetDefinition.unicodeStringListTag)
         if unicodeStrings then
@@ -184,7 +184,7 @@ function core.setStringToWidget(text, widgetId, mask)
             local stringListIndex = widgetDefinition.stringListIndex
             local newStrings = unicodeStrings.stringList
             if mask then
-                VirtualInputValue[self.tagId] = text
+                VirtualInputValue[widgetTagId] = text
                 newStrings[stringListIndex + 1] = string.rep(mask, #text)
             else
                 newStrings[stringListIndex + 1] = text
@@ -209,16 +209,20 @@ function core.getMyGamesHaloCEPath()
 end
 
 function core.getWidgetValues(widgetTagId)
-    local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
-    if sucess and widgetInstanceId then
-        return harmony.menu.get_widget_values(widgetInstanceId)
+    if core.getCurrentUIWidgetTag() then
+        local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
+        if sucess and widgetInstanceId then
+            return harmony.menu.get_widget_values(widgetInstanceId)
+        end
     end
 end
 
 function core.setWidgetValues(widgetTagId, values)
-    local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
-    if sucess and widgetInstanceId then
-        harmony.menu.set_widget_values(widgetInstanceId, values)
+    if core.getCurrentUIWidgetTag() then
+        local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
+        if sucess and widgetInstanceId then
+            harmony.menu.set_widget_values(widgetInstanceId, values)
+        end
     end
 end
 

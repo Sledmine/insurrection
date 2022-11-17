@@ -6,8 +6,15 @@ return {
         text = "1, 1, 1, 1",
         title = "1, 1, 1, 1",
         subtitle = "1, 0.301961, 0.454902, 0.623529",
-        selected = "0.8, 0.8, 0.8, 0.8"
+        selected = "0.8, 0.8, 0.8, 0.8",
+        palette = {
+            primary = "#3d6cc1",
+            secondary = "#6d90cd",
+            phighlight = "#97b2e0",
+            shighlight = "#2996ff"
+        }
     },
+    opacity = {primary = 12.5, secondary = 34.5},
     fonts = {
         title = [[ui\ticker.font]],
         subtitle = [[ui\gamespy.font]],
@@ -38,26 +45,14 @@ return {
             }
         },
         arrow = {
-            left = {
-                width = 16,
-                height = 16,
-                bitmap = [[insurrection\ui\bitmaps\arrow_left.bitmap]]
-            },
+            left = {width = 16, height = 16, bitmap = [[insurrection\ui\bitmaps\arrow_left.bitmap]]},
             right = {
                 width = 16,
                 height = 16,
                 bitmap = [[insurrection\ui\bitmaps\arrow_right.bitmap]]
             },
-            up = {
-                width = 10,
-                height = 8,
-                bitmap = [[insurrection\ui\bitmaps\arrow_up.bitmap]]
-            },
-            down = {
-                width = 10,
-                height = 8,
-                bitmap = [[insurrection\ui\bitmaps\arrow_down.bitmap]]
-            }
+            up = {width = 10, height = 8, bitmap = [[insurrection\ui\bitmaps\arrow_up.bitmap]]},
+            down = {width = 10, height = 8, bitmap = [[insurrection\ui\bitmaps\arrow_down.bitmap]]}
         }
     }
 }

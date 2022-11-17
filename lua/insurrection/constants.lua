@@ -4,6 +4,7 @@ local findTag = blam.findTag
 local function findWidgetTag(partialName)
     return findTag(partialName, blam.tagClasses.uiWidgetDefinition)
 end
+local core = require "insurrection.core"
 
 local constants = {}
 
@@ -69,7 +70,7 @@ function constants.get()
         lobbyElement3 = findWidgetTag("lobby_element_button_3"),
         lobbyElement4 = findWidgetTag("lobby_element_button_4"),
         lobbyElement5 = findWidgetTag("lobby_element_button_5"),
-        tester = findWidgetTag("tester_menu"),
+        tester = findWidgetTag("tester_menu")
     }
 
     constants.sounds = {
@@ -83,6 +84,22 @@ function constants.get()
     constants.widgetCollections = {
         multiplayer = findTag("ui\\shell\\multiplayer", tagClasses.uiWidgetCollection)
     }
+
+    if constants.tagCollections.nameplates then
+        local nameplatesTagCollection = blam.tagCollection(constants.tagCollections.nameplates.id)
+        if nameplatesTagCollection then
+            local nameplateBitmapTags = {}
+            for _, tagId in ipairs(nameplatesTagCollection.tagList) do
+                local tag = blam.getTag(tagId) --[[@as tag]]
+                local nameplateId = core.getTagName(tag.path)
+                if nameplateId and not nameplateBitmapTags[nameplateId] then
+                    nameplateBitmapTags[nameplateId] = tag
+                end
+            end
+            constants.nameplates = nameplateBitmapTags
+        end
+    end
+
 end
 
 return constants

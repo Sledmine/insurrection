@@ -1,5 +1,8 @@
 local lanes = require"lanes".configure()
 local json = require "json"
+local button = require "insurrection.components.button"
+local list = require "insurrection.components.list"
+local components = require "insurrection.components"
 local asyncLibs = "base, table, package, string"
 local blam = require "blam"
 local requests = require "requestscurl"
@@ -11,6 +14,7 @@ local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
 local harmony = require "mods.harmony"
 local menus = require "insurrection.menus"
+local shared = interface.shared
 
 local api = {}
 api.host = read_file("insurrection_host") or "http://localhost:4343/"
@@ -95,7 +99,7 @@ function async(func, callback, ...)
 end
 
 local function connect(map, host, port, password)
-    --dprint("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
+    -- dprint("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
     if exists("maps\\" .. map .. ".map") or
         exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. map .. ".map") then
         core.connectServer(host, port, password)
@@ -177,7 +181,54 @@ local function onLobbyResponse(response)
                 -- We asked for a new lobby room
                 if jsonResponse.key then
                     api.session.lobbyKey = jsonResponse.key
-                    store:dispatch(actions.setLobby(jsonResponse.key, jsonResponse.lobby))
+                    -- store:dispatch(actions.setLobby(jsonResponse.key, jsonResponse.lobby))
+                    local lobbyDefs = components.new(
+                                          shared.lobby:findChildWidgetTag("lobby_definitions").id)
+                    local lobbyDef1 = button.new(lobbyDefs:findChildWidgetTag(
+                                                     "lobby_definition_button_1").id)
+                    local lobbyDef2 = button.new(lobbyDefs:findChildWidgetTag(
+                                                     "lobby_definition_button_2").id)
+                    local lobbyDef3 = button.new(lobbyDefs:findChildWidgetTag(
+                                                     "lobby_definition_button_3").id)
+                    lobbyDef1:setText(jsonResponse.lobby.template)
+                    lobbyDef2:setText(jsonResponse.lobby.map)
+                    lobbyDef3:setText(jsonResponse.lobby.gametype)
+
+                    local lobbyElementsList = list.new(
+                                                  shared.lobby:findChildWidgetTag("lobby_elements")
+                                                      .id)
+                    lobbyElementsList:onSelect(function(item)
+                        item.value:setText(item.label)
+                    end)
+
+                    lobbyDef1:onClick(function()
+                        ---@type interfaceState
+                        local state = store:getState()
+                        lobbyElementsList:setItems(
+                            glue.map(state.available.templates, function(element)
+                                return {label = element, value = lobbyDef1}
+                            end))
+                    end)
+                    lobbyDef1.events.onClick()
+
+                    lobbyDef2:onClick(function()
+                        ---@type interfaceState
+                        local state = store:getState()
+                        lobbyElementsList:setItems(
+                            glue.map(state.available.maps, function(element)
+                                return {label = element, value = lobbyDef2}
+                            end))
+                    end)
+
+                    lobbyDef3:onClick(function()
+                        ---@type interfaceState
+                        local state = store:getState()
+                        lobbyElementsList:setItems(
+                            glue.map(state.available.gametypes, function(element)
+                                return {label = element, value = lobbyDef3}
+                            end))
+                    end)
+
                 else
                     -- We have to joined an existing lobby
                     local lobby = jsonResponse
@@ -354,13 +405,15 @@ function onPlayerEditNameplateResponse(response)
                      "An unknown error has ocurred, please try again later.")
     return false
 end
-function api.playerEditNameplate(nameplateNumber)
+---Edit player nameplate
+---@param nameplateId string
+function api.playerEditNameplate(nameplateId)
     loading(true, "Editing nameplate...", false)
     async(requests.patch, function(result)
         if onPlayerEditNameplateResponse(result[1]) then
-            interface.loadProfileNameplate(nameplateNumber)
+            interface.loadProfileNameplate(nameplateId)
         end
-    end, api.url .. "/players", {nameplate = nameplateNumber})
+    end, api.url .. "/players", {nameplate = nameplateId})
 end
 
 local function onLobbyEditResponse(response)
