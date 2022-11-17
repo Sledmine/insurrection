@@ -11,6 +11,8 @@ commands:
     - mv package/manifest.json package/manifest.json.bak
     - jq --indent 4 ".version = \"$(luajit -e 'print(require("lua.insurrection.version"))')\"" package/manifest.json.bak > package/manifest.json
     - rm package/manifest.json.bak
+  nameplates:
+    - luajit lua/scripts/ui/nameplates/createNameplates.lua
   package:
     - rm -rf dist
     - mkdir -p dist

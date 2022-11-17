@@ -74,7 +74,7 @@ end
 function core.loadCredentials()
     local credentialsFile = read_file("credentials.json")
     if credentialsFile then
-        local credentials = json.decode(credentialsFile)
+        local success, credentials = pcall(json.decode, credentialsFile)
         if credentials then
             return credentials.username, base64.decode(credentials.password)
         end
@@ -84,7 +84,7 @@ end
 function core.loadSettings()
     local settingsFile = read_file("settings.json")
     if settingsFile then
-        local settings = json.decode(settingsFile)
+        local sucess, settings = pcall(json.decode, settingsFile)
         if settings then
             return settings
         end
