@@ -1,8 +1,5 @@
 local lanes = require"lanes".configure()
 local json = require "json"
-local button = require "insurrection.components.button"
-local list = require "insurrection.components.list"
-local components = require "insurrection.components"
 local asyncLibs = "base, table, package, string"
 local blam = require "blam"
 local requests = require "requestscurl"
@@ -15,6 +12,7 @@ local core = require "insurrection.core"
 local harmony = require "mods.harmony"
 local menus = require "insurrection.menus"
 local shared = interface.shared
+local constants = require "insurrection.constants"
 
 local api = {}
 api.host = read_file("insurrection_host") or "http://localhost:4343/"
@@ -181,58 +179,17 @@ local function onLobbyResponse(response)
                 -- We asked for a new lobby room
                 if jsonResponse.key then
                     api.session.lobbyKey = jsonResponse.key
-                    -- store:dispatch(actions.setLobby(jsonResponse.key, jsonResponse.lobby))
-                    local lobbyDefs = components.new(
-                                          shared.lobby:findChildWidgetTag("lobby_definitions").id)
-                    local lobbyDef1 = button.new(lobbyDefs:findChildWidgetTag(
-                                                     "lobby_definition_button_1").id)
-                    local lobbyDef2 = button.new(lobbyDefs:findChildWidgetTag(
-                                                     "lobby_definition_button_2").id)
-                    local lobbyDef3 = button.new(lobbyDefs:findChildWidgetTag(
-                                                     "lobby_definition_button_3").id)
-                    lobbyDef1:setText(jsonResponse.lobby.template)
-                    lobbyDef2:setText(jsonResponse.lobby.map)
-                    lobbyDef3:setText(jsonResponse.lobby.gametype)
-
-                    local lobbyElementsList = list.new(
-                                                  shared.lobby:findChildWidgetTag("lobby_elements")
-                                                      .id)
-                    lobbyElementsList:onSelect(function(item)
-                        item.value:setText(item.label)
-                    end)
-
-                    lobbyDef1:onClick(function()
-                        ---@type interfaceState
-                        local state = store:getState()
-                        lobbyElementsList:setItems(
-                            glue.map(state.available.templates, function(element)
-                                return {label = element, value = lobbyDef1}
-                            end))
-                    end)
-                    lobbyDef1.events.onClick()
-
-                    lobbyDef2:onClick(function()
-                        ---@type interfaceState
-                        local state = store:getState()
-                        lobbyElementsList:setItems(
-                            glue.map(state.available.maps, function(element)
-                                return {label = element, value = lobbyDef2}
-                            end))
-                    end)
-
-                    lobbyDef3:onClick(function()
-                        ---@type interfaceState
-                        local state = store:getState()
-                        lobbyElementsList:setItems(
-                            glue.map(state.available.gametypes, function(element)
-                                return {label = element, value = lobbyDef3}
-                            end))
-                    end)
-
+                    store:dispatch(actions.setLobby(jsonResponse.key, jsonResponse.lobby))
+                    ---@type interfaceState
+                    local state = store:getState()
+                    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+                                                   state.lobby.owner
+                    interface.lobbyInit()
                 else
                     -- We have to joined an existing lobby
                     local lobby = jsonResponse
                     store:dispatch(actions.setLobby(api.session.lobbyKey, lobby))
+                    interface.lobbyInit()
                     -- There is a server already running for this lobby, connect to it
                     if lobby.server then
                         connect(lobby.server.map, lobby.server.host, lobby.server.port,
@@ -290,6 +247,7 @@ local function onLobbyRefreshResponse(response)
             if lobby then
                 -- Update previously joined lobby data
                 store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
+                interface.lobbyUpdate()
                 -- Lobby already started, join the server
                 if lobby.server and not blam.isGameDedicated() then
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,

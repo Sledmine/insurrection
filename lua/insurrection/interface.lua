@@ -4,6 +4,7 @@ local menus = require "insurrection.menus"
 local checkbox = require "insurrection.components.checkbox"
 local button = require "insurrection.components.button"
 local list = require "insurrection.components.list"
+local input = require "insurrection.components.input"
 local createBezierCurve = harmony.math.create_bezier_curve
 local bezierCurve = harmony.math.get_bezier_curve_point
 local openWidget = harmony.menu.open_widget
@@ -28,6 +29,7 @@ local isGameDedicated = blam.isGameDedicated
 local interface = {}
 
 interface.shared = {}
+local shared = interface.shared
 
 function interface.load()
     components.free()
@@ -98,12 +100,46 @@ function interface.load()
                 dprint("Create lobby button clicked")
                 api.lobby()
             end)
+            local joinLobbyButton = button.new(dashboard:findChildWidgetTag("join_lobby_button").id)
+            local joinLobbyInput = input.new(dashboard:findChildWidgetTag("lobby_key_input").id)
+            joinLobbyButton:onClick(function()
+                local lobbyKey = joinLobbyInput:getText()
+                if lobbyKey ~= "" then
+                    api.lobby(lobbyKey)
+                else
+                    interface.dialog("WARNING", "", "Please specify a lobby key to join.")
+                end
+            end)
+
             dashboard:onOpen(function()
                 api.stopRefreshLobby()
             end)
 
             local lobby = components.new(constants.widgets.lobby.id)
+            local lobbyDefs = components.new(lobby:findChildWidgetTag("lobby_definitions").id)
+            local lobbyDef1 = button.new(
+                                  lobbyDefs:findChildWidgetTag("lobby_definition_button_1").id)
+            local lobbyDef2 = button.new(
+                                  lobbyDefs:findChildWidgetTag("lobby_definition_button_2").id)
+            local lobbyDef3 = button.new(
+                                  lobbyDefs:findChildWidgetTag("lobby_definition_button_3").id)
+            local lobbyDef4 = button.new(
+                                  lobbyDefs:findChildWidgetTag("lobby_definition_button_4").id)
+            local lobbyElementsList = list.new(lobby:findChildWidgetTag("lobby_elements").id)
+            local lobbyPlayers = list.new(lobby:findChildWidgetTag("lobby_players_nameplates").id)
+            lobbyPlayers:scrollable(false)
+            local lobbySearch = input.new(lobby:findChildWidgetTag("lobby_input_search").id)
+
             interface.shared.lobby = lobby
+            interface.shared.lobbyDefs = lobbyDefs
+            interface.shared.lobbyDef1 = lobbyDef1
+            interface.shared.lobbyDef2 = lobbyDef2
+            interface.shared.lobbyDef3 = lobbyDef3
+            interface.shared.lobbyDef4 = lobbyDef4
+            interface.shared.lobbyElementsList = lobbyElementsList
+            interface.shared.lobbyPlayers = lobbyPlayers
+            interface.shared.lobbySearch = lobbySearch
+
             lobby:onClose(function()
                 api.stopRefreshLobby()
             end)
@@ -147,8 +183,11 @@ function interface.load()
                 nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap
             end)
             nameplatesList:setItems(glue.map(glue.keys(constants.nameplates), function(nameplateId)
-                print(#glue.keys(constants.nameplates))
-                return {label = "", value = nameplateId, bitmap = constants.nameplates[nameplateId].id}
+                return {
+                    label = "",
+                    value = nameplateId,
+                    bitmap = constants.nameplates[nameplateId].id
+                }
             end))
             saveCustomizationButton:onClick(function()
                 local selectedNameplateItem = nameplatesList:getSelectedItem() --[[@as string]]
@@ -301,184 +340,128 @@ function interface.sound(sound)
     end
 end
 
-local lobbyDefinitions = {
-    template = "lobby_definition_button_1",
-    map = "lobby_definition_button_2",
-    gametype = "lobby_definition_button_3"
-}
-
---- Map selected button from the UI
----@param widgetTagId number
-function interface.onButton(widgetTagId)
-    local buttonPath = blam.getTag(widgetTagId).path
-    ---@type interfaceState
-    local state = store:getState()
-    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
-                                   state.lobby.owner
-    if ends(buttonPath, "login_button") then
-        local username = getWidgetString(findWidgetTag("username_input").id)
-        local password = getWidgetString(findWidgetTag("password_input").id)
-        if username and password and username ~= "" and password ~= "" then
-            -- dprint("Login with username: " .. username .. " and password: " .. password)
-            core.saveCredentials(username, password)
-            api.login(username, password)
-        else
-            interface.dialog("WARNING", "", "Please enter a username and password.")
-        end
-    elseif ends(buttonPath, "register_button") then
-        interface.dialog("INFORMATION", "Join us on our Discord server!",
-                         "We have a Discord Bot to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
-    elseif ends(buttonPath, "create_lobby_button") then
-        api.lobby()
-    elseif ends(buttonPath, "join_lobby_button") then
-        local lobbyKey = getWidgetString(findWidgetTag("lobby_key_input").id)
-        if lobbyKey ~= "" then
-            api.lobby(lobbyKey)
-        else
-            interface.dialog("WARNING", "", "Please specify a lobby key to join.")
-        end
-    elseif ends(buttonPath, "lobby_definition_button_1") then
-        if isPlayerLobbyOwner then
-            store:dispatch(actions.setLobbyDefinition("template"))
-        end
-    elseif ends(buttonPath, "lobby_definition_button_2") then
-        if isPlayerLobbyOwner then
-            store:dispatch(actions.setLobbyDefinition("map"))
-        end
-    elseif ends(buttonPath, "lobby_definition_button_3") then
-        if isPlayerLobbyOwner then
-            store:dispatch(actions.setLobbyDefinition("gametype"))
-        end
-
-    elseif ends(buttonPath, "lobby_definition_button_4") then
-        if isPlayerLobbyOwner then
-            local template = getWidgetString(findWidgetTag("lobby_definition_button_1").id)
-            local map = getWidgetString(findWidgetTag("lobby_definition_button_2").id)
-            local gametype = getWidgetString(findWidgetTag("lobby_definition_button_3").id)
-            api.borrow(template:lower(), map, gametype:lower())
-        else
-            interface.dialog("WARNING", "", "You are not the owner of the lobby.")
-        end
-    elseif string.find(buttonPath, "lobby_element_button_") then
-        if isPlayerLobbyOwner then
-            local buttonIndex = tonumber(split(core.getTagName(buttonPath), "_")[4])
-            if buttonIndex == 1 then
-                store:dispatch(actions.scroll(true))
-                return
-            elseif buttonIndex == 6 then
-                store:dispatch(actions.scroll())
-                return
-            end
-            local value = getWidgetString(findWidgetTag("lobby_element_button_" .. buttonIndex).id)
-            store:dispatch(actions.setSelected(value))
-            api.editLobby(state.lobbyKey, {
-                map = state.selected.map,
-                gametype = state.selected.gametype,
-                template = state.selected.template
-            })
-        end
-    end
-end
-
-function interface.update()
+function interface.lobbyInit()
     local time = os.clock()
     ---@type interfaceState
     local state = store:getState()
-    local renderedWidgetId = core.getRenderedUIWidgetTagId()
-    if renderedWidgetId == constants.widgets.lobby.id then
-        local lobbyWidget = uiWidgetTag(constants.widgets.lobby.id)
-        local optionsWidget = uiWidgetTag(lobbyWidget.childWidgets[2].widgetTag)
-        local definitionsWidget = uiWidgetTag(optionsWidget.childWidgets[1].widgetTag)
-        local elementsWidget = uiWidgetTag(optionsWidget.childWidgets[2].widgetTag)
-        local playersNameplates = uiWidgetTag(constants.widgets.lobbyPlayersNameplates.id)
 
-        -- Update players in lobby
-        for playerIndex = 1, 16 do
-            interface.setWidgetValues(playersNameplates.childWidgets[playerIndex].widgetTag,
-                                      {opacity = 0})
-        end
+    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+                                   state.lobby.owner
 
-        -- TODO Fix this, we need the current profile name, player does not exist yet
-        local currentPlayerName = blam.player(get_player()).name:lower()
-        for playerIndex, player in pairs(state.lobby.players) do
-            local playerName = player.name
-            if playerName ~= currentPlayerName then
-                local nameplateWidgetTagId = playersNameplates.childWidgets[playerIndex].widgetTag
-                -- Unhide nameplate overlay
-                interface.setWidgetValues(nameplateWidgetTagId, {opacity = 1})
-                -- Update nameplate background
-                local nameplateWidgetDefinition = uiWidgetTag(nameplateWidgetTagId)
-                -- nameplateWidgetDefinition.backgroundBitmap =
-                --    nameplatesBitmapTagIds[player.nameplate]
-                ---- Update nameplate overlay
-                -- local overlayWidgetTagId = nameplateWidgetDefinition.childWidgets[1].widgetTag
-                setWidgetString(playerName, overlayWidgetTagId)
-            end
-        end
+    local lobbyDef1 = shared.lobbyDef1
+    local lobbyDef2 = shared.lobbyDef2
+    local lobbyDef3 = shared.lobbyDef3
+    local lobbyDef4 = shared.lobbyDef4
+    local lobbyElementsList = shared.lobbyElementsList
+    local lobbyPlayers = shared.lobbyPlayers
+    local lobbySearch = shared.lobbySearch
 
-        setWidgetString(state.selected.template, definitionsWidget.childWidgets[1].widgetTag)
-        setWidgetString(state.selected.map, definitionsWidget.childWidgets[2].widgetTag)
-        setWidgetString(state.selected.gametype, definitionsWidget.childWidgets[3].widgetTag)
+    if not isPlayerLobbyOwner then
+        core.setWidgetValues(lobbyElementsList.tagId, {opacity = 0})
+        core.setWidgetValues(lobbySearch.tagId, {opacity = 0})
+        core.setWidgetValues(lobbyDef4.tagId, {opacity = 0})
+    end
 
-        -- Restore normal list widget state
-        local newChilds = elementsWidget.childWidgets
-        newChilds[2].widgetTag = constants.widgets.lobbyElement2.id
-        newChilds[3].widgetTag = constants.widgets.lobbyElement3.id
-        newChilds[4].widgetTag = constants.widgets.lobbyElement4.id
-        newChilds[5].widgetTag = constants.widgets.lobbyElement5.id
-        elementsWidget.childWidgets = newChilds
+    lobbyDef1:setText(state.lobby.template)
+    lobbyDef2:setText(state.lobby.map)
+    lobbyDef3:setText(state.lobby.gametype)
 
-        -- Apply modifications based on lua state
-        local elements = state.displayed
-        for childIndex = 2, 5 do
-            childWidget = elementsWidget.childWidgets[childIndex]
-            local elementIndex = childIndex - 1
-            if elements[elementIndex] then
-                setWidgetString(elements[elementIndex], childWidget.widgetTag)
+    if isPlayerLobbyOwner then
+        lobbyElementsList:onSelect(function(item)
+            item.value:setText(item.label)
+            api.editLobby(api.session.lobbyKey, {
+                template = lobbyDef1:getText(),
+                map = lobbyDef2:getText(),
+                gametype = lobbyDef3:getText()
+            })
+        end)
+
+        lobbyDef1:onClick(function()
+            ---@type interfaceState
+            local state = store:getState()
+            lobbyElementsList:setItems(glue.map(state.available.templates, function(element)
+                return {label = element, value = lobbyDef1}
+            end))
+            store:dispatch(actions.setLobbyDefinition("template"))
+        end)
+        lobbyDef1.events.onClick()
+
+        lobbyDef2:onClick(function()
+            ---@type interfaceState
+            local state = store:getState()
+            lobbyElementsList:setItems(glue.map(state.available.maps, function(element)
+                return {label = element, value = lobbyDef2}
+            end))
+            store:dispatch(actions.setLobbyDefinition("map"))
+        end)
+
+        lobbyDef3:onClick(function()
+            ---@type interfaceState
+            local state = store:getState()
+            lobbyElementsList:setItems(glue.map(state.available.gametypes, function(element)
+                return {label = element, value = lobbyDef3}
+            end))
+            store:dispatch(actions.setLobbyDefinition("gametype"))
+        end)
+
+        lobbyDef4:onClick(function()
+            if isPlayerLobbyOwner then
+                local template = lobbyDef1:getText()
+                local map = lobbyDef2:getText()
+                local gametype = lobbyDef3:getText()
+                api.borrow(template:lower(), map, gametype:lower())
             else
-                newChilds[childIndex].widgetTag = 0xFFFFFFFF
+                interface.dialog("WARNING", "", "You are not the owner of the lobby.")
             end
-        end
-        elementsWidget.childWidgets = newChilds
+        end)
 
-        -- Reload dynamically changed widgets from tags, effectively redrawing the UI
-        local foundWidgets = findWidgets(optionsWidget.childWidgets[2].widgetTag, true)
-        local widgetInstanceIndex = foundWidgets[1]
-        if widgetInstanceIndex then
-            reloadWidget(widgetInstanceIndex)
-        end
+    end
 
-        -- Hide elements widget if you are not the owner of the lobby
-        if state.lobby.owner ~= api.session.player.publicId then
-            -- Hide elements widget
-            interface.setWidgetValues(optionsWidget.childWidgets[2].widgetTag, {opacity = 0})
-            -- Hide search bar
-            interface.setWidgetValues(optionsWidget.childWidgets[3].widgetTag, {opacity = 0})
-        end
-    elseif renderedWidgetId == constants.widgets.customization.id then
-        local nameplatePreviewWidgetDef = uiWidgetTag(nameplatePreviewTag.id)
-        if state.selected and glue.index(nameplatesBitmapTagIds)[state.selected] and
-            nameplatePreviewWidgetDef then
-            nameplatePreviewWidgetDef.backgroundBitmap = state.selected --[[@as number]]
-        end
-        local customizationMenuWidgetDef = uiWidgetTag(customizationWidgetTag.id)
-        local optionsWidgetDef = uiWidgetTag(customizationMenuWidgetDef.childWidgets[2].widgetTag)
-        for childIndex, childWidget in pairs(optionsWidgetDef.childWidgets) do
-            local nameplateWidget = uiWidgetTag(childWidget.widgetTag)
-            if starts(nameplateWidget.name, "nameplate_button") then
-                local nameplateBitmapTagId = state.displayed[childIndex - 2]
-                if nameplateBitmapTagId then
-                    nameplateWidget.backgroundBitmap = nameplateBitmapTagId
-                    interface.setWidgetValues(childWidget.widgetTag, {opacity = 1})
-                else
-                    interface.setWidgetValues(childWidget.widgetTag, {opacity = 0})
+    lobbyPlayers:setItems(glue.map(state.lobby.players, function(player)
+        local nameplateTag = constants.nameplates[player.nameplate] or {}
+        return {label = player.name, value = player, bitmap = nameplateTag.id}
+    end))
+
+    local definitionsToComponent = {template = lobbyDef1, map = lobbyDef2, gametype = lobbyDef3}
+    lobbySearch:onInputText(function(text)
+        ---@type interfaceState
+        local state = store:getState()
+        local definition = state.definition or "template"
+        if definition then
+            local filtered = {}
+            for _, element in pairs(state.available[definition .. "s"]) do
+                if element:lower():find(text:lower(), 1, true) then
+                    table.insert(filtered, element)
                 end
             end
+            lobbyElementsList:setItems(glue.map(filtered, function(element)
+                return {label = element, value = definitionsToComponent[definition]}
+            end))
         end
-    end
+    end)
+
     if renderedWidgetId then
         dprint(string.format("Interface update time: %.6f\n", os.clock() - time, "warning"))
     end
+end
+
+function interface.lobbyUpdate()
+    ---@type interfaceState
+    local state = store:getState()
+
+    local lobbyDef1 = shared.lobbyDef1
+    local lobbyDef2 = shared.lobbyDef2
+    local lobbyDef3 = shared.lobbyDef3
+    local lobbyPlayers = shared.lobbyPlayers
+
+    lobbyDef1:setText(state.lobby.template)
+    lobbyDef2:setText(state.lobby.map)
+    lobbyDef3:setText(state.lobby.gametype)
+
+    lobbyPlayers:setItems(glue.map(state.lobby.players, function(player)
+        local nameplateTag = constants.nameplates[player.nameplate] or {}
+        return {label = player.name, value = player, bitmap = nameplateTag.id}
+    end))
 end
 
 function interface.getWidgetValues(widgetTagId)

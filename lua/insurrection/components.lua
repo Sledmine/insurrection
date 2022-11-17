@@ -17,7 +17,7 @@ local components = {
     ---@type uiComponentEvents
     events = {},
     ---@type boolean
-    isBackgroundAnimated = false,
+    isBackgroundAnimated = false
 }
 
 ---@class uiComponentEvents
@@ -42,7 +42,7 @@ function components.new(tagId)
     instance.widgetDefinition = uiWidgetDefinition(tagId) or error("Invalid tagId") --[[@as uiWidgetDefinition]]
     instance.events = {}
     instance.isBackgroundAnimated = false
-    dprint("Created component: " .. instance.tag.path, "info")
+    --dprint("Created component: " .. instance.tag.path, "info")
     components.widgets[tagId] = instance
     return instance
 end
@@ -70,21 +70,31 @@ end
 ---@param text string
 ---@param mask? string
 function components.setText(self, text, mask)
-    local unicodeStrings = unicodeStringList(self.widgetDefinition.unicodeStringListTag)
-    if unicodeStrings then
-        if isNull(unicodeStrings) then
-            error("No unicodeStringList, can't assign text to this widget")
-        end
-        local stringListIndex = self.widgetDefinition.stringListIndex
-        local newStrings = unicodeStrings.stringList
-        if mask then
-            VirtualInputValue[self.tagId] = text
-            newStrings[stringListIndex + 1] = string.rep(mask, #text)
-        else
-            newStrings[stringListIndex + 1] = text
-        end
-        unicodeStrings.stringList = newStrings
+    local childUnicodeStrings
+    local childWidgetDefinition
+    local widgetDefinition = self.widgetDefinition
+    if self.widgetDefinition.childWidgetsCount > 0 then
+        local childTagId = self.widgetDefinition.childWidgets[1].widgetTag
+        childWidgetDefinition = uiWidgetDefinition(childTagId)
+        childUnicodeStrings = unicodeStringList(childWidgetDefinition.unicodeStringListTag)
     end
+    local unicodeStrings = unicodeStringList(self.widgetDefinition.unicodeStringListTag)
+    if not (unicodeStrings and not isNull(unicodeStrings)) then
+        unicodeStrings = childUnicodeStrings --[[@as unicodeStringList]]
+        widgetDefinition = childWidgetDefinition --[[@as uiWidgetDefinition]]
+    end
+    if not (unicodeStrings and not isNull(unicodeStrings)) then
+        error("No unicodeStringList found for widgetDefinition")
+    end
+    local stringListIndex = widgetDefinition.stringListIndex
+    local newStrings = unicodeStrings.stringList
+    if mask then
+        VirtualInputValue[self.tagId] = text
+        newStrings[stringListIndex + 1] = string.rep(mask, #text)
+    else
+        newStrings[stringListIndex + 1] = text
+    end
+    unicodeStrings.stringList = newStrings
 end
 
 ---@param self uiComponent

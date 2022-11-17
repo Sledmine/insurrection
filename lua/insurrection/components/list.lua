@@ -17,7 +17,9 @@ local list = setmetatable({
     ---@type uiComponentListItem[]
     items = {},
     ---@type uiWidgetDefinitionChild[]
-    backupChildWidgets = {}
+    backupChildWidgets = {},
+    ---@type boolean
+    isScrollable = true
 }, {__index = components})
 
 ---@class uiComponentListItem 
@@ -64,7 +66,13 @@ function list.refresh(self)
     local items = self.items
     local itemIndex = self.currentItemIndex
     local widgetDefinition = self.widgetDefinition
-    for widgetIndex = (self.firstWidgetIndex + 1), (self.lastWidgetIndex - 1) do
+    local firstWidgetIndex = self.firstWidgetIndex
+    local lastWidgetIndex = self.lastWidgetIndex
+    if self.isScrollable then
+        firstWidgetIndex = firstWidgetIndex + 1
+        lastWidgetIndex = lastWidgetIndex - 1
+    end
+    for widgetIndex = firstWidgetIndex, lastWidgetIndex do
         local item = items[itemIndex]
         local childWidget = widgetDefinition.childWidgets[widgetIndex]
         if item then
@@ -99,9 +107,9 @@ function list.setItems(self, items)
     if not widgetDefinition.type == 3 then
         error("setItems can only be used on uiWidgetDefinition of type column_list")
     end
-    if not (#items > 0) then
-        error("setItems requires at least one item")
-    end
+    -- if not (#items > 0) then
+    --    error("setItems requires at least one item")
+    -- end
     if not self.backupChildWidgets then
         self.backupChildWidgets = glue.map(widgetDefinition.childWidgets, function(childWidget)
             return {
@@ -113,18 +121,22 @@ function list.setItems(self, items)
             }
         end)
     end
-    self.currentItemIndex = 1
     self.items = items
-    local firstWidgetTagId = widgetDefinition.childWidgets[self.firstWidgetIndex].widgetTag
-    local lastWidgetTagId = widgetDefinition.childWidgets[self.lastWidgetIndex].widgetTag
-    local firstWidget = button.new(firstWidgetTagId)
-    local lastWidget = button.new(lastWidgetTagId)
-    firstWidget:onClick(function()
-        self:scroll(-1)
-    end)
-    lastWidget:onClick(function()
-        self:scroll(1)
-    end)
+    if self.currentItemIndex > #items then
+        self.currentItemIndex = 1
+    end
+    if self.isScrollable then
+        local firstWidgetTagId = widgetDefinition.childWidgets[self.firstWidgetIndex].widgetTag
+        local lastWidgetTagId = widgetDefinition.childWidgets[self.lastWidgetIndex].widgetTag
+        local firstWidget = button.new(firstWidgetTagId)
+        local lastWidget = button.new(lastWidgetTagId)
+        firstWidget:onClick(function()
+            self:scroll(-1)
+        end)
+        lastWidget:onClick(function()
+            self:scroll(1)
+        end)
+    end
     self:refresh()
 end
 
@@ -132,6 +144,11 @@ end
 function list.getSelectedItem(self)
     dprint(self.lastSelectedItemIndex)
     return self.items[self.lastSelectedItemIndex]
+end
+
+---@param self uiComponentList
+function list.scrollable(self, isScrollable)
+    self.isScrollable = isScrollable
 end
 
 return list
