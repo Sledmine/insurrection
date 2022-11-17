@@ -13,7 +13,7 @@ local ends = require"glue".string.ends
 local constants = require "insurrection.constants"
 
 clua_version = 2.056
-DebugMode = true
+DebugMode = false
 -- Import API after setting up debug mode
 api = require "insurrection.api"
 IsUICompatible = false
