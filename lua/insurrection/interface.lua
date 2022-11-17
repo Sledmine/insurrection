@@ -37,6 +37,9 @@ function interface.load()
     -- TODO Remove this hack
     IsUICompatible = true
     if IsUICompatible then
+        if api.session.lobbyKey and map == "ui" then
+            api.lobby(api.session.lobbyKey)
+        end
         -- Start widgets background animation routine
         if BitmapsAnimationTimerId then
             stop_timer(BitmapsAnimationTimerId)
