@@ -53,6 +53,18 @@ return {
             },
             up = {width = 10, height = 8, bitmap = [[insurrection\ui\bitmaps\arrow_up.bitmap]]},
             down = {width = 10, height = 8, bitmap = [[insurrection\ui\bitmaps\arrow_down.bitmap]]}
+        },
+        complexButton = {
+            normal = {
+                width = 120,
+                height = 110,
+                bitmap = [[insurrection\ui\bitmaps\complex_button.bitmap]]
+            },
+            vertical = {
+                width = 144,
+                height = 158,
+                bitmap = [[insurrection\ui\bitmaps\vertical_complex_button.bitmap]]
+            }
         }
     }
 }
