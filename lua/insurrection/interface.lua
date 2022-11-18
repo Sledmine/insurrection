@@ -34,6 +34,10 @@ local shared = interface.shared
 function interface.load()
     components.free()
     constants.get()
+    if script_type ~= "global" then
+        interface.dialog("WARNING", "This script must be loaded as a global script.",
+                         "Insurrection will move itself to the correct location, please reload the game.")
+    end
     -- TODO Remove this hack
     IsUICompatible = true
     if IsUICompatible then
@@ -213,10 +217,16 @@ function interface.load()
                         local resumeButton = button.new(
                                                  insurrectionPause:findChildWidgetTag(
                                                      "resume_game_button").id)
+                        local exitButton = button.new(
+                                               insurrectionPause:findChildWidgetTag(
+                                                   "exit_button").id)
                         resumeButton:onClick(function()
                             dprint("Resume button clicked")
                             interface.blur(false)
                             interface.sound("back")
+                        end)
+                        exitButton:onClick(function()
+                            api.deleteLobby()
                         end)
                         pause:onOpen(function()
                             if map ~= "ui" and (isGameDedicated() or DebugMode) then
@@ -457,9 +467,13 @@ function interface.lobbyUpdate()
     local lobbyDef3 = shared.lobbyDef3
     local lobbyPlayers = shared.lobbyPlayers
 
-    lobbyDef1:setText(state.lobby.template)
-    lobbyDef2:setText(state.lobby.map)
-    lobbyDef3:setText(state.lobby.gametype)
+    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+                                   state.lobby.owner
+    if not isPlayerLobbyOwner then
+        lobbyDef1:setText(state.lobby.template)
+        lobbyDef2:setText(state.lobby.map)
+        lobbyDef3:setText(state.lobby.gametype)
+    end
 
     lobbyPlayers:setItems(glue.map(state.lobby.players, function(player)
         local nameplateTag = constants.nameplates[player.nameplate] or {}
