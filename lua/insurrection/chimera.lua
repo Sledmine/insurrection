@@ -153,7 +153,7 @@ local inspect = require "inspect"
 --- Attempt to query a game server
 ---@param serverIp string
 ---@param serverPort number
----@return serverInfo
+---@return serverInfo | boolean, string?
 function chimera.queryServer(serverIp, serverPort)
     local result, info = pcall(harmony.server.query_status, serverIp, serverPort)
     if (result) then

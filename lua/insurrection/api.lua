@@ -10,6 +10,9 @@ local trim = glue.string.trim
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
 local harmony = require "mods.harmony"
+local menus = require "insurrection.menus"
+local shared = interface.shared
+local constants = require "insurrection.constants"
 
 local api = {}
 api.host = read_file("insurrection_host") or "http://localhost:4343/"
@@ -19,6 +22,7 @@ end
 api.version = "v1"
 api.url = api.host .. api.version
 api.variables = {refreshRate = 5000, refreshTimerId = nil}
+---@type loginResponse
 api.session = {token = nil, lobbyKey = nil, username = nil}
 
 -- Models
@@ -28,9 +32,14 @@ api.session = {token = nil, lobbyKey = nil, username = nil}
 
 ---@class loginResponse
 ---@field message string
----@field token string
+---@field token? string
 ---@field player {nameplate: number, publicId: string, name: string, rank: number}
 ---@field secondsToExpire number
+
+---@class availableParameters
+---@field maps string[]
+---@field gametypes string[]
+---@field templates string[]
 
 ---@class serverInstance
 ---@field password string
@@ -43,18 +52,12 @@ api.session = {token = nil, lobbyKey = nil, username = nil}
 ---@field owner string
 ---@field lobbyKey string
 
----@class availableParameters
----@field maps string[]
----@field gametypes string[]
----@field templates string[]
-
 ---@class lobbyRoom
 ---@field owner string
 ---@field members string[]
 ---@field map string
 ---@field gametype string
 ---@field template string
----@field available availableParameters
 ---@field server serverInstance
 
 local function isThreadRunning()
@@ -78,6 +81,7 @@ local function loading(isLoading, text, blockInput)
             harmony.menu.block_input(true)
         end
         LoadingText = text or "Loading..."
+        dprint(LoadingText)
     else
         harmony.menu.block_input(false)
         LoadingText = nil
@@ -93,6 +97,7 @@ function async(func, callback, ...)
 end
 
 local function connect(map, host, port, password)
+    -- dprint("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
     if exists("maps\\" .. map .. ".map") or
         exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. map .. ".map") then
         core.connectServer(host, port, password)
@@ -115,7 +120,8 @@ local function onLoginResponse(response)
             -- Save last defined nameplate
             core.saveSettings({nameplate = jsonResponse.player.nameplate})
             interface.loadProfileNameplate()
-            interface.dashboard()
+            api.available()
+            menus.dashboard()
             return true
         elseif response.code == 401 then
             local jsonResponse = response.json()
@@ -123,14 +129,37 @@ local function onLoginResponse(response)
             return false
         end
     end
-    interface.dialog("ERROR", "UNKNOWN ERROR",
+    interface.dialog("WARNING", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
+    return false
 end
 function api.login(username, password)
     loading(true, "Logging in...")
     async(requests.post, function(result)
         onLoginResponse(result[1])
     end, api.url .. "/login", {username = username, password = password})
+end
+
+---@param response httpResponse<availableParameters>
+---@return boolean
+function onAvailableResponse(response)
+    loading(false)
+    if response then
+        if response.code == 200 then
+            local jsonResponse = response.json()
+            store:dispatch(actions.setAvailableResources(jsonResponse))
+            return true
+        end
+    end
+    interface.dialog("ERROR", "UNKNOWN ERROR",
+                     "An unknown error has ocurred, please try again later.")
+    return false
+end
+function api.available()
+    loading(true, "Loading available parameters...")
+    async(requests.get, function(result)
+        onAvailableResponse(result[1])
+    end, api.url .. "/available")
 end
 
 ---@param response httpResponse<lobbyResponse | lobbyRoom | requestResult>
@@ -146,15 +175,21 @@ local function onLobbyResponse(response)
 
             local jsonResponse = response.json()
             if jsonResponse then
-                interface.lobby()
+                menus.lobby()
                 -- We asked for a new lobby room
                 if jsonResponse.key then
                     api.session.lobbyKey = jsonResponse.key
                     store:dispatch(actions.setLobby(jsonResponse.key, jsonResponse.lobby))
+                    ---@type interfaceState
+                    local state = store:getState()
+                    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+                                                   state.lobby.owner
+                    interface.lobbyInit()
                 else
                     -- We have to joined an existing lobby
                     local lobby = jsonResponse
                     store:dispatch(actions.setLobby(api.session.lobbyKey, lobby))
+                    interface.lobbyInit()
                     -- There is a server already running for this lobby, connect to it
                     if lobby.server then
                         connect(lobby.server.map, lobby.server.host, lobby.server.port,
@@ -185,6 +220,7 @@ local function onLobbyResponse(response)
     end
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
+    return false
 end
 function api.lobby(lobbyKey)
     loading(true, "Loading lobby...")
@@ -211,8 +247,10 @@ local function onLobbyRefreshResponse(response)
             if lobby then
                 -- Update previously joined lobby data
                 store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
+                interface.lobbyUpdate()
                 -- Lobby already started, join the server
-                if lobby.server then
+                if lobby.server and not blam.isGameDedicated() then
+                    api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,
                             lobby.server.password)
                 end
@@ -222,7 +260,7 @@ local function onLobbyRefreshResponse(response)
             api.stopRefreshLobby()
             -- TODO Add a generic error handling function for this
             local jsonResponse = response.json()
-            interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
+            interface.dialog("ERROR", "ERROR " .. response.code, jsonResponse.message)
             return false
         end
     end
@@ -242,6 +280,12 @@ end
 function api.stopRefreshLobby()
     if api.session.lobbyKey then
         dprint("Stopping lobby refresh...", "warning")
+        pcall(stop_timer, api.variables.refreshTimerId)
+    end
+end
+function api.deleteLobby()
+    if api.session.lobbyKey then
+        dprint("DELETING lobby", "warning")
         pcall(stop_timer, api.variables.refreshTimerId)
         api.variables.refreshTimerId = nil
         api.session.lobbyKey = nil
@@ -266,6 +310,7 @@ local function onBorrowResponse(response)
 
             local jsonResponse = response.json()
             if jsonResponse then
+                dprint(jsonResponse)
                 connect(jsonResponse.map, jsonResponse.host, jsonResponse.port,
                         jsonResponse.password)
             end
@@ -289,6 +334,7 @@ local function onBorrowResponse(response)
     api.stopRefreshLobby()
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please try again later.")
+    return false
 end
 function api.borrow(template, map, gametype)
     loading(true, "Borrowing game server...", false)
@@ -309,6 +355,34 @@ function onPlayerEditNameplateResponse(response)
         else
             local jsonResponse = response.json()
             if jsonResponse then
+                interface.dialog("WARNING", "ERROR " .. response.code, jsonResponse.message)
+            end
+            return false
+        end
+    end
+    interface.dialog("ERROR", "UNKNOWN ERROR",
+                     "An unknown error has ocurred, please try again later.")
+    return false
+end
+---Edit player nameplate
+---@param nameplateId string
+function api.playerEditNameplate(nameplateId)
+    loading(true, "Editing nameplate...", false)
+    async(requests.patch, function(result)
+        if onPlayerEditNameplateResponse(result[1]) then
+            interface.loadProfileNameplate(nameplateId)
+        end
+    end, api.url .. "/players", {nameplate = nameplateId})
+end
+
+local function onLobbyEditResponse(response)
+    loading(false)
+    if response then
+        if response.code == 200 then
+            return true
+        else
+            local jsonResponse = response.json()
+            if jsonResponse then
                 interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
             end
             return false
@@ -318,14 +392,11 @@ function onPlayerEditNameplateResponse(response)
                      "An unknown error has ocurred, please try again later.")
     return false
 end
-
-function api.playerEditNameplate(nameplateNumber)
-    loading(true, "Editing nameplate...", false)
+function api.editLobby(lobbyKey, data)
+    loading(true, "Editing lobby...", false)
     async(requests.patch, function(result)
-        if onPlayerEditNameplateResponse(result[1]) then
-            interface.loadProfileNameplate(nameplateNumber)
-        end
-    end, api.url .. "/players", {nameplate = nameplateNumber})
+        onLobbyEditResponse(result[1])
+    end, api.url .. "/lobby/" .. lobbyKey, data)
 end
 
 return api

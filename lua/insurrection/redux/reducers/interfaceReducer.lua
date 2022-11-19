@@ -8,13 +8,13 @@ local defaultState = {
     isLoading = false,
     definition = "template",
     lobbyKey = nil,
+    available = {maps = {}, gametypes = {}, templates = {}},
     lobby = {
-        available = {maps = {}, gametypes = {}, templates = {}},
         owner = "",
         map = "",
         gametype = "",
-        member = "",
-        template = ""
+        template = "",
+        players = {}
     },
     ---@type table | string | number
     selected = {template = nil, map = nil, gametype = nil},
@@ -29,33 +29,48 @@ local defaultState = {
 ---@param state interfaceState
 ---@param action reduxAction
 local function interfaceReducer(state, action)
+    dprint(action.type, "info")
     if action.type == redux.actionTypes.INIT then
         return glue.deepcopy(defaultState)
+    elseif action.type == actions.types.CLEANUP then
+        local clean = glue.deepcopy(defaultState)
+        clean.available = state.available
+        return clean
     elseif action.type == actions.types.SET_IS_LOADING then
         state.isLoading = action.payload
+        return state
+    elseif action.type == actions.types.SET_AVAILABLE_RESOURCES then
+        state.available = action.payload
+        dprint(state)
         return state
     elseif action.type == actions.types.SET_LOBBY then
         state.lobbyKey = action.payload.key
         state.lobby = action.payload.lobby
-        local available = state.lobby.available
+        local available = state.available
         state.chunkSize = 4
         state.currentChunk = 1
-        state.list = state.lobby.available[state.definition .. "s"]
+        state.list = available[state.definition .. "s"]
         state.displayed = chunks(available.templates, state.chunkSize)[1]
         state.selected = glue.deepcopy(defaultState.selected)
-        state.selected.template = available.templates[1]
-        state.selected.map = available.maps[1]
-        state.selected.gametype = available.gametypes[1]
+        state.selected.template = state.lobby.template
+        state.selected.map = state.lobby.map
+        state.selected.gametype = state.lobby.gametype
         return state
     elseif action.type == actions.types.UPDATE_LOBBY then
         if action.payload.key then
             state.lobbyKey = action.payload.key
         end
         if action.payload.lobby then
+            local session = api.session
+            if session and not (session.player.publicId == action.payload.lobby.owner) then
+                state.selected.template = action.payload.lobby.template
+                state.selected.map = action.payload.lobby.map
+                state.selected.gametype = action.payload.lobby.gametype
+            end
             state.lobby = action.payload.lobby
         end
         if action.payload.filter then
-            state.filtered = glue.map(state.lobby.available[state.definition .. "s"],
+            state.filtered = glue.map(state.available[state.definition .. "s"],
                                       function(mapName)
                 if mapName:lower():find(action.payload.filter:lower(), 1, true) then
                     return mapName
@@ -74,7 +89,7 @@ local function interfaceReducer(state, action)
         return state
     elseif action.type == actions.types.SET_LOBBY_DEFINITION then
         state.definition = action.payload
-        state.list = state.lobby.available[state.definition .. "s"]
+        state.list = state.available[state.definition .. "s"]
         state.currentChunk = 1
         state.chunkSize = 4
         state.displayed = chunks(state.list, state.chunkSize)[state.currentChunk]
@@ -86,6 +101,7 @@ local function interfaceReducer(state, action)
         state.selected[state.definition] = action.payload
         return state
     elseif action.type == actions.types.SET_LIST then
+        dprint(state)
         state.chunkSize = action.payload.chunkSize or defaultState.chunkSize
         state.currentChunk = 1
         state.list = action.payload.list

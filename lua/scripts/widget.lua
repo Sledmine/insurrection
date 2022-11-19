@@ -7,6 +7,12 @@ local widget = {path = nil}
 
 _ALIGNMENTS = {}
 
+---@class invaderWidgetListFlags
+---@field list_items_generated_in_code boolean
+---@field list_items_from_string_list_tag boolean
+---@field list_items_only_one_tooltip boolean
+---@field list_single_preview_no_scroll boolean
+
 ---@class invaderWidgetStringFlags
 ---@field editable boolean
 ---@field password boolean
@@ -71,15 +77,20 @@ _ALIGNMENTS = {}
 ---@field background_bitmap string
 ---@field game_data_inputs invaderWidgetGameDataInput[]
 ---@field event_handlers invaderWidgetEventHandler[]
----@field extended_description_widget string
----@field justification '"left_justify"' | '"center_justify"' | '"right_justify"'
----@field flags_1 invaderWidgetStringFlags
 ---@field text_label_unicode_strings_list string
 ---@field text_font string
 ---@field text_color string
+---@field justification '"left_justify"' | '"center_justify"' | '"right_justify"'
+---@field flags_1 invaderWidgetStringFlags
 ---@field string_list_index number
 ---@field horiz_offset number
 ---@field vert_offset number
+---@field flags_2 invaderWidgetListFlags
+---@field list_header_bitmap string
+---@field list_footer_bitmap string
+---@field header_bounds string
+---@field footer_bounds string
+---@field extended_description_widget string
 ---@field conditional_widgets invaderWidgetConditionalWidget[]
 ---@field child_widgets invaderWidgetChildWidget[]
 
@@ -205,12 +216,22 @@ function widget.createV2(widgetPath, keys)
     if keys.child_widgets then
         keys.child_widgets = glue.map(keys.child_widgets, function(child)
             if #child > 0 then
-                return widget.wrap(child[1], child[2], child[3])
+                return widget.wrap(child[1], child[2] or 0, child[3] or 0)
             end
             return child
         end)
     end
     return tag.create(widgetPath, keys)
+end
+
+---Return bounds formatted string
+---@param y number
+---@param x number
+---@param height number
+---@param width number
+---@return string
+function widget.bounds(y, x, height, width)
+    return string.format("%d, %d, %d, %d", y, x, height, width)
 end
 
 return widget

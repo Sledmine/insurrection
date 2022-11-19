@@ -1,6 +1,6 @@
 local widget = require "lua.scripts.widget"
 local ustr = require "lua.scripts.modules.ustr"
-local image= require "lua.scripts.ui.componentsV2.image"
+local image = require "lua.scripts.ui.componentsV2.image"
 
 local constants = require "lua.scripts.ui.components.constants"
 
@@ -8,7 +8,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@param name string Component name
 ---@param texts string[] Texts to display
 ---@param bitmap? string Bitmap path to display
----@param variant? '"maps"' | '"gametypes"' | '"difficulties"' | '"campaign"' Variant to use
+---@param variant? '"lan_maps"' | '"network_gametypes"' | '"difficulties"' | '"campaign"' Variant to use
 return function(name, texts, bitmap, variant)
     local widgetPath = widget.path .. name .. "_description.ui_widget_definition"
     local overlayImageDescriptionPath =
@@ -28,7 +28,7 @@ return function(name, texts, bitmap, variant)
         bitmapPath = bitmapPath
         dataStringsPath = ustr(widget.path .. "strings/" .. name ..
                                    "_description_data.unicode_string_list", texts)
-    elseif variant == "maps" then
+    elseif variant == "lan_maps" then
         nameStringsPath = [[ui\shell\main_menu\mp_map_list.unicode_string_list]]
         bitmapPath = [[insurrection\ui\bitmaps\map_previews.bitmap]]
         -- dataStringsPath =
@@ -59,8 +59,7 @@ return function(name, texts, bitmap, variant)
         })
         contentDescriptionPath = widget.path .. variant ..
                                      [[_description_content.ui_widget_definition]]
-        dataDescriptionPath = widget .. path .. variant ..
-                                  [[_description_data.ui_widget_definition]]
+        dataDescriptionPath = widget.path .. variant .. [[_description_data.ui_widget_definition]]
         imageDescriptionPath = widget.path .. variant .. [[_description_image.ui_widget_definition]]
         nameDescriptionPath = [[insurrection\ui\shared\descriptions\]] .. variant ..
                                   [[_name.ui_widget_definition]]
@@ -88,10 +87,57 @@ return function(name, texts, bitmap, variant)
             [[You cannot play this level... yet!]],
             "You have a game in progress on this level.\r\nSelect to continue your game."
         })
-    elseif variant == "gametypes" then
-        -- TODO add correct strings path
-        -- stringsListPath = [[ui\shell\main_menu\mp_map_list]]
-        error("Variant gametypes not implemented")
+    elseif variant == "network_gametypes" then
+        ustr([[ui/shell/strings/game_variant_descriptions.unicode_string_list]], {
+            [[Custom Game Type Capture the Flag]],
+            [[Custom Game Type Capture the Flag]],
+            [[Custom Game Type Slayer Free for All]],
+            [[Custom Game Type Slayer Teams Enabled]],
+            [[Custom Game Type Oddball Free for All]],
+            [[Custom Game Type Oddball Teams Enabled]],
+            [[Custom Game Type King of the Hill Free for All]],
+            [[Custom Game Type King of the Hill Teams Enabled]],
+            [[Custom Game Type Racing Free for All]],
+            [[Custom Game Type Racing Teams Enabled]],
+            [[Classic deathmatch. 15 kills to win.]],
+            [[Classic deathmatch. 25 kills to win. Start with Pistol, AR and Grenades.]],
+            [[Each player has  only one life. The winner is the last cyborg standing!]],
+            [[All players are invisible. To win, follow the nav points and kill your targets in order.]],
+            [[Each player has 5 lives. Respawn Time Growth and Odd Man Out rules apply. 10 kills or the last man standing wins.]],
+            [[Everybody has Rocket Launchers, and nobody has a Motion Tracker. 25 kills to win.]],
+            [[Everybody has sniper weapons, and the Respawn Time Growth rules are on. Watch out! 15 kills to win.]],
+            [[Hold the Skull for 2 minutes to win.]],
+            [[When you're "it", you run slowly but you score time. Accumulate 2 minutes to win.]],
+            [[Score 5 minutes to win. Kills speed up  your timer, but you lose your time bonus if you die.]],
+            [[The Juggernaut does extra damage. Kill the Juggernaut to steal his powers. Score 10 kills to win the game.]],
+            [[One sneaky player is invisible. Find him and kill him to gain his sneaky powers. Score 10 kills to win the game.]],
+            [[Control the hill for a total of 2 minutes to win the match.]],
+            [[Control the hill for a total of 2 minutes to win the match. Start with Grenades, Pistol and AR.]],
+            [[Control the hill for a total of 2 minutes to win the match, but watch out: it moves from place to place!]],
+            [[The first player to complete 3 laps by touching all the flag points wins the race.]],
+            [[The first player to collect 15 flag points wins the rally.]],
+            [[The first team to capture the enemy's flag and return it to their own base 3 times wins the game.]],
+            [[Carry the enemy flag into their base and plant it at their flag station. 3 successful assaults wins, but you only get 5 lives!]],
+            [[All players start with health at 200% and both teams have Scorpion tanks. 3 flag captures wins the game.]],
+            [[3 flag captures wins the game, but your flag must be at home to score. Start with Grenades, Pistol and AR.]],
+            [[The first team to have all of its players touch all of the flag points in order 3 times wins the race.]],
+            [[The first team to have all of its players collect 5 flag points wins the rally.]],
+            [[The first team to hold the Skull for 2 minutes wins. 10-second respawn time.]],
+            [[The first team to control the hill for a total of 2 minutes wins. 10-second respawn time.]],
+            [[The first team to amass 50 kills wins this fragfest. Kills make you slower, but dying makes you faster.]],
+            [[Classic deathmatch. 25 kills to win.]],
+            [[Hold the Skull for 2 minutes to win.]],
+            [[The Juggernaut does extra damage. Kill the Juggernaut to steal his powers. Score 15 kills to win the game.]],
+            [[Control the hill for a total of 2 minutes to win the match.]],
+            [[Control the hill for a total of 2 minutes to win the match, but watch out: it moves from place to place!]],
+            [[The first player to complete 3 laps by touching all the flag points wins the race.]],
+            "The first team to capture the enemy's flag and return it to their own base 3 times wins the game.\r\nYou must have your own flag to capture.",
+            [[Teams alternate offense and defense every 2 minutes.  Carry the enemy flag into their base to their flag station. 5 assaults wins.]],
+            [[The first team to amass 50 kills wins this fragfest.]],
+            [[The first team to hold the Skull for 2 minutes wins. 5-second respawn time.]],
+            [[The first team to control the hill for a total of 2 minutes wins. 10-second respawn time.]],
+            [[The first team to have all of its players touch all of the flag points in order 3 times wins the race.]]
+        })
     end
 
     widget.create(nameDescriptionPath, {
@@ -126,6 +172,7 @@ return function(name, texts, bitmap, variant)
         widget_type = "container",
         bounds = constants.getScreenBounds(),
         justification = "left_justify",
+        -- Remove profile name in legacy usage
         child_widgets = {{widget_tag = [[insurrection\ui\shared\void.ui_widget_definition]]}}
     }
     if variant == "difficulties" then
@@ -151,17 +198,23 @@ return function(name, texts, bitmap, variant)
                 {widget_tag = imageDescriptionPath, horizontal_offset = 348, vertical_offset = 77},
                 {widget_tag = dataDescriptionPath, horizontal_offset = 364, vertical_offset = 305},
                 {
-                    widget_tag = image("left_item_difficulty", [[insurrection/ui/bitmaps/singleplayer_difficulties.bitmap]], 245, 270, 0.15),
+                    widget_tag = image("left_item_difficulty",
+                                       [[insurrection/ui/bitmaps/singleplayer_difficulties.bitmap]],
+                                       245, 270, 0.15),
                     horizontal_offset = 770,
                     vertical_offset = 250
                 },
                 {
-                    widget_tag = image("center_item_difficulty", [[insurrection/ui/bitmaps/singleplayer_difficulties.bitmap]], 245, 270, 0.15),
+                    widget_tag = image("center_item_difficulty",
+                                       [[insurrection/ui/bitmaps/singleplayer_difficulties.bitmap]],
+                                       245, 270, 0.15),
                     horizontal_offset = 0,
                     vertical_offset = 0
                 },
                 {
-                    widget_tag = image("right_item_difficulty", [[insurrection/ui/bitmaps/singleplayer_difficulties.bitmap]], 245, 270, 0.15),
+                    widget_tag = image("right_item_difficulty",
+                                       [[insurrection/ui/bitmaps/singleplayer_difficulties.bitmap]],
+                                       245, 270, 0.15),
                     horizontal_offset = 0,
                     vertical_offset = 0
                 }
@@ -180,6 +233,26 @@ return function(name, texts, bitmap, variant)
                 {widget_tag = contentDescriptionPath, vertical_offset = 0, horizontal_offset = 0}
 
             }
+        }
+    elseif variant == "network_gametypes" then
+        widget.create(contentDescriptionPath, {
+            bounds = constants.getScreenBounds(),
+            child_widgets = {
+                {widget_tag = nameDescriptionPath, horizontal_offset = 364, vertical_offset = 300},
+                {widget_tag = imageDescriptionPath, horizontal_offset = 348, vertical_offset = 77},
+                {widget_tag = dataDescriptionPath, horizontal_offset = 364, vertical_offset = 305},
+                {
+                    --widget_tag = [[ui/shell/main_menu/gametype_select/locked_gametype_icon.ui_widget_definition]],
+                    widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]],
+                    horizontal_offset = 364,
+                    vertical_offset = 305
+                }
+            }
+        })
+        wid.child_widgets[2] = {
+            widget_tag = contentDescriptionPath,
+            vertical_offset = 0,
+            horizontal_offset = 0
         }
     else
         widget.create(contentDescriptionPath, {

@@ -7,7 +7,7 @@ local pos = constants.position
 
 widget.init [[insurrection\ui\menus\main\]]
 
-local layout = widget.align("vertical", 24, 40, 266, 2)
+local layout = widget.align("vertical", 24, 40, 260, 2)
 
 return container("main_menu", {
     {
@@ -50,7 +50,7 @@ return container("main_menu", {
                 }),
                 layout()
             },
-            {button("credits", "CREDITS"), layout()},
+            --{button("credits", "CREDITS"), layout()},
             {button("exit", "EXIT GAME", {func = "main_menu_quit_game"}), layout()}
         })
     },

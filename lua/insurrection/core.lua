@@ -5,6 +5,7 @@ local blam = require "blam"
 local tagClasses = blam.tagClasses
 local json = require "json"
 local base64 = require "base64"
+local harmony = require "mods.harmony"
 
 local mercury = require "insurrection.mercury"
 local scriptVersion = "insurrection-" .. require "insurrection.version"
@@ -73,8 +74,8 @@ end
 function core.loadCredentials()
     local credentialsFile = read_file("credentials.json")
     if credentialsFile then
-        local credentials = json.decode(credentialsFile)
-        if credentials then
+        local success, credentials = pcall(json.decode, credentialsFile)
+        if success and credentials then
             return credentials.username, base64.decode(credentials.password)
         end
     end
@@ -83,8 +84,8 @@ end
 function core.loadSettings()
     local settingsFile = read_file("settings.json")
     if settingsFile then
-        local settings = json.decode(settingsFile)
-        if settings then
+        local success, settings = pcall(json.decode, settingsFile)
+        if success and settings then
             return settings
         end
     end
@@ -149,9 +150,9 @@ function core.mapKeyToText(pressedKey, text)
     end
 end
 
-function core.getStringFromWidget(widgetId)
-    local widget = blam.uiWidgetDefinition(widgetId)
-    local virtualValue = VirtualInputValue[widget.name]
+function core.getStringFromWidget(widgetTagId)
+    local widget = blam.uiWidgetDefinition(widgetTagId)
+    local virtualValue = VirtualInputValue[widgetTagId]
     if virtualValue then
         return virtualValue
     end
@@ -160,7 +161,8 @@ function core.getStringFromWidget(widgetId)
 end
 
 function core.cleanAllEditableWidgets()
-    for _, widgetTag in pairs(blam.findTagsList("input", tagClasses.uiWidgetDefinition)) do
+    local editableWidgets = blam.findTagsList("input", tagClasses.uiWidgetDefinition) or {}
+    for _, widgetTag in pairs(editableWidgets) do
         local widget = blam.uiWidgetDefinition(widgetTag.id)
         local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
         if widgetStrings then
@@ -171,13 +173,24 @@ function core.cleanAllEditableWidgets()
     end
 end
 
-function core.setStringToWidget(str, widgetId, mask)
-    local widget = blam.uiWidgetDefinition(widgetId)
-    if mask then
-        VirtualInputValue[widget.name] = str
-        blam.unicodeStringList(widget.unicodeStringListTag).stringList = {string.rep(mask, #str)}
-    else
-        blam.unicodeStringList(widget.unicodeStringListTag).stringList = {str}
+function core.setStringToWidget(text, widgetTagId, mask)
+    local widgetDefinition = blam.uiWidgetDefinition(widgetTagId)
+    if widgetDefinition then
+        local unicodeStrings = blam.unicodeStringList(widgetDefinition.unicodeStringListTag)
+        if unicodeStrings then
+            if blam.isNull(unicodeStrings) then
+                error("No unicodeStringList, can't assign text to this widget")
+            end
+            local stringListIndex = widgetDefinition.stringListIndex
+            local newStrings = unicodeStrings.stringList
+            if mask then
+                VirtualInputValue[widgetTagId] = text
+                newStrings[stringListIndex + 1] = string.rep(mask, #text)
+            else
+                newStrings[stringListIndex + 1] = text
+            end
+            unicodeStrings.stringList = newStrings
+        end
     end
 end
 
@@ -186,13 +199,37 @@ end
 ---@param port number
 ---@param password string
 function core.connectServer(host, port, password)
-    local command = "connect %s:%s %s"
+    local command = "connect %s:%s \"%s\""
     execute_script(command:format(host, port, password))
 end
 
 function core.getMyGamesHaloCEPath()
     local myGamesPath = read_string(0x00647830)
     return myGamesPath
+end
+
+function core.getWidgetValues(widgetTagId)
+    if core.getCurrentUIWidgetTag() then
+        local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
+        if sucess and widgetInstanceId then
+            return harmony.menu.get_widget_values(widgetInstanceId)
+        end
+    end
+end
+
+function core.setWidgetValues(widgetTagId, values)
+    if core.getCurrentUIWidgetTag() then
+        local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
+        if sucess and widgetInstanceId then
+            harmony.menu.set_widget_values(widgetInstanceId, values)
+        end
+    end
+end
+
+function core.getScreenResolution()
+    local width = read_word(0x637CF2)
+    local height = read_word(0x637CF0)
+    return width, height
 end
 
 return core

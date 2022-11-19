@@ -9,7 +9,9 @@ actions.types = {
     SET_SELECTED = "SET_SELECTED",
     SET_SELECTED_ITEM = "SET_SELECTED_ITEM",
     SCROLL_LIST = "SCROLL_LIST",
-    SET_LIST = "SET_LIST"
+    SET_LIST = "SET_LIST",
+    SET_AVAILABLE_RESOURCES = "SET_AVAILABLE_RESOURCES",
+    CLEANUP = "CLEANUP",
 }
 
 function actions.setIsLoading(loading)
@@ -54,6 +56,14 @@ end
 
 function actions.reset()
     return {type = redux.actionTypes.INIT}
+end
+
+function actions.clean()
+    return {type = actions.types.CLEANUP}
+end
+
+function actions.setAvailableResources(available)
+    return {type = actions.types.SET_AVAILABLE_RESOURCES, payload = available}
 end
 
 return actions

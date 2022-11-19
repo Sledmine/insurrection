@@ -1,10 +1,11 @@
 local widget = require "lua.scripts.widget"
 local constants = require "lua.scripts.ui.components.constants"
 ---Options list component, scroll trough elements using dpad, etc
+---@param name string
 ---@param childWidgets invaderWidgetChildWidget
 ---@param alignment '"vertical"' | '"horizontal"'
 ---@param description? string Tag path for description to display
----@param props? {func?: string, branch?: true, conditionalWidgets?: invaderWidgetConditionalWidget[], dataInput?: string, eventsToChildren?: boolean, useItems?: boolean, campaignMaps?: true} Props of the component
+---@param props? {func?: string, branch?: true, conditionalWidgets?: invaderWidgetConditionalWidget[], dataInput?: string, eventsToChildren?: boolean, useItems?: boolean, campaignMaps?: true, multiplayerMaps?: string, gametypes: string} Props of the component
 ---@return string
 return function(name, alignment, childWidgets, description, props)
     local props = props or {}
@@ -58,6 +59,40 @@ return function(name, alignment, childWidgets, description, props)
             --["function"] = "init_sp_level_list"
             ["function"] = "solo_level_set_map",
             widget_tag = [[insurrection/ui/menus/classic_campaign_difficulty_select/classic_campaign_difficulty_select_menu.ui_widget_definition]],
+        }
+    elseif props.multiplayerMaps then
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "created",
+            flags = {run_function = true},
+            ["function"] = "mp_level_list_initialize",
+        }
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "deleted",
+            flags = {run_function = true},
+            ["function"] = "mp_level_list_dispose"
+        }
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "custom_activation",
+            flags = {run_function = true, open_widget = true},
+            ["function"] = "mp_level_select",
+            widget_tag = props.multiplayerMaps
+        }
+    elseif props.gametypes then
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "created",
+            flags = {run_function = true},
+            ["function"] = "mp_profiles_list_initialize",
+        }
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "deleted",
+            flags = {run_function = true},
+            ["function"] = "mp_profiles_list_dispose"
+        }
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "custom_activation",
+            flags = {run_function = true, open_widget = true},
+            ["function"] = "mp_profile_set_for_game",
+            widget_tag = props.gametypes
         }
     end
     widget.createV2(widgetPath, wid)

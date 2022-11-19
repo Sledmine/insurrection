@@ -32,15 +32,14 @@ local descriptions = {
 }
 
 local nameplatesCollection = {tags = {}}
-fs.cd("data")
-for name, d in fs.dir([[insurrection/ui/shared/bitmaps/nameplates]]) do
+for name, d in fs.dir([[data/insurrection/ui/shared/bitmaps/nameplates]]) do
     if not name then
         print("error: ", d)
         break
     end
     local type = d:attr "type"
     if type == "file" then
-        local filePath = d:path()
+        local filePath = d:path():gsub("data%/", "")
         print(filePath)
         nameplatesCollection.tags[#nameplatesCollection.tags + 1] = {
             reference = filePath:gsub("%.png", ".bitmap")
