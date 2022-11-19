@@ -17,9 +17,9 @@ commands:
     - rm -rf dist
     - mkdir -p dist
     - mercury luabundle
-    - cp dist/ui.lua package/lua-map/ui.lua
+    - cp dist/ui.lua package/lua-global/ui.lua
     - mercury pack package/ dist/
-    - rm package/lua-map/ui.lua
+    - rm package/lua-global/ui.lua
   release:
     - mercury build --release
     - mercury build version

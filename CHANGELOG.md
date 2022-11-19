@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2022-11-18
+### Added
+- More than 100 new nameplates to use
+- Support for Balltze integration
+- In game pause menu for Insurrection lobbies
+
+### Changed
+- Multiplayer network games have a more Insurrection appearance
+- Internal way to control UI dynamically
+- UI script is now loaded globally to take more control over the game
+- All nameplates will be available to use until further notice due to testing purposes
+- UI script commands now will display a dialog message when needed
+
+### Fixed
+- UI loading after settings corruption when game closes unexpectedly
+- Lobby elements filtering is now applied to the entire list instead of only available elements
+
 ## [1.0.0] - 2022-09-17
 ### Fixed
 - Issues with lobby navigation when creating a new one
