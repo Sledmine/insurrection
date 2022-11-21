@@ -213,6 +213,25 @@ function interface.load()
                 end
             end)
             interface.shared.dialog = dialog
+
+            -- Hard code settings description text change, because the game doesn't support it
+            local settings = components.new(constants.widgets.settings.id)
+            local settingsOptions =
+                list.new(settings:findChildWidgetTag("settings_menu_options").id)
+            -- TODO Add extended description widget support to lua-blam
+            local settingsDescription = components.new(
+                                            blam.findTag("settings_elements_description",
+                                                         blam.tagClasses.uiWidgetDefinition).id)
+            local settingsDescriptionText = components.new(
+                                                settingsDescription:findChildWidgetTag(
+                                                    "settings_elements_description_data").id)
+            for i = 1, settingsOptions.widgetDefinition.childWidgetsCount do
+                local childWidget = settingsOptions.widgetDefinition.childWidgets[i]
+                local button = button.new(childWidget.widgetTag)
+                button:onFocus(function()
+                    settingsDescriptionText.widgetDefinition.stringListIndex = i - 1
+                end)
+            end
         end
 
         -- Insurrection is running outside the UI
@@ -265,7 +284,7 @@ function interface.load()
                                             preferences.chimera_block_server_ip == 0)
             if notServerIpBlocking then
                 interface.shared.dialog:onClose(function()
-                    -- chimeraPreferences.chimera_block_server_ip = 1
+                    preferences.chimera_block_server_ip = 1
                     chimera.savePreferences(preferences)
                     execute_script("quit")
                 end)

@@ -85,7 +85,28 @@ local widgetPath = container("lan_map_select_menu", {
                     {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
                 }, nil, {useItems = true})
             }
-        }, description("lan_maps_description", {}, nil, "lan_maps"), {
+        }, description("lan_maps_description", {
+            "Battle Creek - Splash Splash, Bang Bang (2-8 players)",
+            "Sidewinder - Red Blood, White Snow (4-16 players, supports vehicles)",
+            "Damnation - Covenant Hydro-Processing Center (4-8 players)",
+            "Rat Race - Up the Ramps, Down the Tubes (2-6 players)",
+            "Prisoner - Get on Top (2-8 players)",
+            "Hang'Em High - Tombstones for Everybody (4-16 players)",
+            "Chill Out - Dude, you really need to... (2-8 players)",
+            "Derelict - Deep-Space Anomaly #0198 (4-8 players)",
+            "Boarding Action - Ship-to-Ship Combat (4-16 players)",
+            "Blood Gulch - The Quick and the Dead (4-16 players, supports vehicles)",
+            "Wizard - You spin my head right round, right round (2-8 players)",
+            "Chiron TL34 - Spartan Clone Training Complex (2-16 players)",
+            "Longest - A long walk down a short hall... (2-8 players)",
+            "Ice Fields - Splipping and Sliding (4-16 players, supports vehicles)",
+            "Death Island - Sand, Surf and Spent Shells (4-16 players, supports vehicles)",
+            "Danger Canyon - Don't Look Down Unless You Fall (4-16 players, supports vehicles)",
+            "Infinity - I Imagined it Would Be Bigger (4-16 players, supports vehicles)",
+            "Timberland - An Enemy Behind Every Tree (4-16 players, supports vehicles)",
+            "Gephyrophobia - Scary, huh? (2-12 players, supports vehicles)",
+            "Custom Map - Community Made Map"
+        }, [[insurrection\ui\bitmaps\map_previews.bitmap]], "lan_maps"), {
             multiplayerMaps = [[ui/shell/main_menu/multiplayer_type_select/connected/gametype_select_screen_wrapper.ui_widget_definition]],
             dataInput = "mp_map_list_update"
         })

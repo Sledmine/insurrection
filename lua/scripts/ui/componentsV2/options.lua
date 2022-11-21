@@ -9,7 +9,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@return string
 return function(name, alignment, childWidgets, description, props)
     local props = props or {}
-    local widgetPath = widget.path .. name .. ".ui_widget_definition"
+    local widgetPath = widget.path .. name .. "_options.ui_widget_definition"
     local horizontal = alignment == "horizontal"
     ---@type invaderWidget
     local wid = {

@@ -7,6 +7,10 @@ local widget = {path = nil}
 
 _ALIGNMENTS = {}
 
+---@class invaderWidgetSearchAndReplaceFunctions
+---@field search_string string?
+---@field replace_function '"null"' | '"widget s_controller"' | '"build_number"' | '"pid"'
+
 ---@class invaderWidgetListFlags
 ---@field list_items_generated_in_code boolean
 ---@field list_items_from_string_list_tag boolean
@@ -76,6 +80,7 @@ _ALIGNMENTS = {}
 ---@field milliseconds_to_auto_close_fade_time number
 ---@field background_bitmap string
 ---@field game_data_inputs invaderWidgetGameDataInput[]
+---@field search_and_replace_functions invaderWidgetSearchAndReplaceFunctions[]
 ---@field event_handlers invaderWidgetEventHandler[]
 ---@field text_label_unicode_strings_list string
 ---@field text_font string

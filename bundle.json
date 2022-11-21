@@ -17,6 +17,7 @@
         "base64",
         "ini",
         "insurrection.constants",
+        "insurrection.translations",
         "insurrection.menus",
         "insurrection.version",
         "insurrection.mercury",

@@ -27,7 +27,7 @@ return container("pause_menu", {
             },
             {
                 button("settings", "SETTINGS", {
-                    opens = [[insurrection\ui\menus\settings_menu\player_profile_edit_screen.ui_widget_definition]],
+                    opens = [[insurrection/ui/menus/settings/settings_menu.ui_widget_definition]],
                     func = "profile_set_edit_begin",
                     branch = true
                 }),
