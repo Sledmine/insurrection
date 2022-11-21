@@ -485,6 +485,8 @@ function chimera.getConfiguration()
     end
 end
 
+---Save chimera configuration
+---@param configuration chimeraConfiguration
 function chimera.saveConfiguration(configuration)
     local configIni = ini.encode(configuration)
     return glue.writefile("chimera.ini", configIni, "t")
@@ -493,7 +495,6 @@ end
 function chimera.setupFonts(revert)
     local chimeraIni = glue.readfile("chimera.ini", "t")
     if chimeraIni then
-        ---@type chimeraConfiguration
         local configuration = chimera.getConfiguration()
         if configuration then
             configuration.font_override = insurrectionFontOverride
@@ -506,6 +507,34 @@ function chimera.setupFonts(revert)
     return false
 end
 
+function chimera.enableBlockServerIp()
+    local preferences = chimera.getPreferences()
+    if preferences then
+        preferences.chimera_block_server_ip = 1
+        return chimera.savePreferences(preferences)
+    end
+    return false
+end
+
+---@class chimeraPreferences
+---@field chimera_devmode 1|0
+---@field chimera_widescreen_fix 1|0
+---@field chimera_block_gametype_rules 1
+---@field chimera_block_gametype_indicator true | false
+---@field chimera_uncap_cinematic 1|0
+---@field chimera_fov number | "auto"
+---@field chimera_af 1|0
+---@field chimera_invert_shader_flags 1|0
+---@field chimera_show_coordinates 1|0
+---@field chimera_mouse_sensitivity number[]
+---@field chimera_throttle_fps number
+---@field chimera_block_zoom_blur 1|0
+---@field chimera_block_server_ip 1|0
+---@field chimera_block_buffering 1|0
+---@field chimera_show_fps 1|0
+
+---Get chimera preferences
+---@return chimeraPreferences?
 function chimera.getPreferences()
     local preferencesTxt = glue.readfile(
                                core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt", "t")
@@ -518,6 +547,11 @@ function chimera.getPreferences()
                 -- Get key and value from line separeted by a space
                 local key, value = line:match("([^ ]+) (.+)")
                 if key and value then
+                    -- Convert value to number if possible
+                    local number = tonumber(value)
+                    if number then
+                        value = number
+                    end
                     preferences[key] = value
                 end
             end
@@ -529,7 +563,7 @@ end
 function chimera.savePreferences(preferences)
     local preferencesTxt = ""
     for key, value in pairs(preferences) do
-        preferencesTxt = preferencesTxt .. key .. " " .. value .. "\r\n"
+        preferencesTxt = preferencesTxt .. key .. " " .. value .. "\r"
     end
     return glue.writefile(core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt",
                           preferencesTxt, "t")

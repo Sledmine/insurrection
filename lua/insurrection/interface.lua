@@ -5,6 +5,7 @@ local checkbox = require "insurrection.components.checkbox"
 local button = require "insurrection.components.button"
 local list = require "insurrection.components.list"
 local input = require "insurrection.components.input"
+local translations = require "insurrection.translations"
 local createBezierCurve = harmony.math.create_bezier_curve
 local bezierCurve = harmony.math.get_bezier_curve_point
 local openWidget = harmony.menu.open_widget
@@ -25,6 +26,7 @@ local uiWidgetTag = blam.uiWidgetDefinition
 local uiWidgetCollection = blam.uiWidgetCollection
 local constants = require "insurrection.constants"
 local isGameDedicated = blam.isGameDedicated
+local chimera = require "insurrection.chimera"
 
 local interface = {}
 
@@ -202,6 +204,15 @@ function interface.load()
                     api.playerEditNameplate(selectedNameplateItem.value)
                 end
             end)
+
+            local dialog = components.new(constants.widgets.dialog.id)
+            local dialogBackButton = button.new(dialog:findChildWidgetTag("dialog_back_button").id)
+            dialogBackButton:onClick(function()
+                if dialog.events.onClose then
+                    dialog.events.onClose()
+                end
+            end)
+            interface.shared.dialog = dialog
         end
 
         -- Insurrection is running outside the UI
@@ -218,8 +229,7 @@ function interface.load()
                                                  insurrectionPause:findChildWidgetTag(
                                                      "resume_game_button").id)
                         local exitButton = button.new(
-                                               insurrectionPause:findChildWidgetTag(
-                                                   "exit_button").id)
+                                               insurrectionPause:findChildWidgetTag("exit_button").id)
                         resumeButton:onClick(function()
                             dprint("Resume button clicked")
                             interface.blur(false)
@@ -247,6 +257,22 @@ function interface.load()
     -- Workaround fix to prevent players from getting stuck in a game server at menu
     if map == "ui" then
         execute_script("disconnect")
+
+        -- Set up some chimera configs
+        local preferences = chimera.getPreferences()
+        if preferences then
+            local notServerIpBlocking = (not preferences.chimera_block_server_ip or
+                                            preferences.chimera_block_server_ip == 0)
+            if notServerIpBlocking then
+                interface.shared.dialog:onClose(function()
+                    -- chimeraPreferences.chimera_block_server_ip = 1
+                    chimera.savePreferences(preferences)
+                    execute_script("quit")
+                end)
+                interface.dialog("WARNING", translations.eng.block_server_ips_subtitle,
+                                 translations.eng.block_server_ips_message)
+            end
+        end
     end
 end
 
