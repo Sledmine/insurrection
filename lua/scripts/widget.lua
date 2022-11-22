@@ -194,12 +194,13 @@ end
 function widget.align(alignment, size, horizontal, vertical, margin)
     local alignmentHash = table.concat({alignment, size, horizontal, vertical, margin}, "")
     _ALIGNMENTS[alignmentHash] = 0
-    return function()
+    return function(offset)
+        local offset = offset or 0
         _ALIGNMENTS[alignmentHash] = _ALIGNMENTS[alignmentHash] + 1
         if alignment == "vertical" then
-            return horizontal, widget.offset(vertical, size, margin, _ALIGNMENTS[alignmentHash])
+            return horizontal, widget.offset(vertical, size, margin, _ALIGNMENTS[alignmentHash]) + offset
         else
-            return widget.offset(horizontal, size, margin, _ALIGNMENTS[alignmentHash]), vertical
+            return widget.offset(horizontal, size, margin, _ALIGNMENTS[alignmentHash]) + offset, vertical
         end
     end
 end
