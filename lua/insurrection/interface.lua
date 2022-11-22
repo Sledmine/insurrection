@@ -225,13 +225,98 @@ function interface.load()
             local settingsDescriptionText = components.new(
                                                 settingsDescription:findChildWidgetTag(
                                                     "settings_elements_description_data").id)
-            for i = 1, settingsOptions.widgetDefinition.childWidgetsCount do
+            for i = 1, settingsOptions.widgetDefinition.childWidgetsCount - 1 do
                 local childWidget = settingsOptions.widgetDefinition.childWidgets[i]
                 local button = button.new(childWidget.widgetTag)
                 button:onFocus(function()
                     settingsDescriptionText.widgetDefinition.stringListIndex = i - 1
                 end)
             end
+
+            local chimeraMod = components.new(constants.widgets.chimera.id)
+            local chimeraOptions = components.new(chimeraMod:findChildWidgetTag(
+                                                      "chimera_mod_options").id)
+            local checkboxes = {}
+            local config = chimera.getConfiguration() or {}
+            local preferences = chimera.getPreferences() or {}
+            for i = 1, chimeraOptions.widgetDefinition.childWidgetsCount - 1 do
+                local childWidget = chimeraOptions.widgetDefinition.childWidgets[i]
+                local check = checkbox.new(childWidget.widgetTag)
+                checkboxes[check:getText()] = check
+                check:onToggle(function(value)
+                    dprint(check:getText() .. " " .. tostring(value))
+                    local optionsWrite = {
+                        ["USE VSYNC"] = function(value)
+                            config.video_mode.vsync = value and 1 or 0
+                            chimera.saveConfiguration(config)
+                        end,
+                        ["SHOW FPS"] = function(value)
+                            preferences.chimera_show_fps = value and 1 or 0
+                            chimera.savePreferences(preferences)
+                        end,
+                        ["WINDOWED MODE"] = function(value)
+                            config.video_mode.windowed = value and 1 or 0
+                            chimera.saveConfiguration(config)
+                        end,
+                        ["BORDERLESS"] = function(value)
+                            config.video_mode.borderless = value and 1 or 0
+                            chimera.saveConfiguration(config)
+                        end,
+                        ["LOAD MAPS ON RAM"] = function(value)
+                            config.memory.enable_map_memory_buffer = value and 1 or 0
+                            chimera.saveConfiguration(config)
+                        end,
+                        ["ANISOTROPIC FILTER"] = function(value)
+                            preferences.chimera_af = value and 1 or 0
+                            chimera.savePreferences(preferences)
+                        end,
+                        ["BLOCK BUFFERING"] = function(value)
+                            preferences.chimera_block_buffering = value and 1 or 0
+                            chimera.savePreferences(preferences)
+                        end,
+                        ["BLOCK HOLD F1 AT START"] = function(value)
+                            preferences.chimera_block_hold_f1 = value and 1 or 0
+                            chimera.savePreferences(preferences)
+                        end,
+                        ["BLOCK LOADING SCREEN"] = function(value)
+                            preferences.chimera_block_loading_screen = value and 1 or 0
+                            chimera.savePreferences(preferences)
+                        end,
+                        ["BLOCK ZOOM BLUR"] = function(value)
+                            preferences.chimera_block_zoom_blur = value and 1 or 0
+                            chimera.savePreferences(preferences)
+                        end,
+                        ["BLOCK MOUSE ACCELERATION"] = function(value)
+                            preferences.chimera_block_mouse_acceleration = value and 1 or 0
+                            chimera.savePreferences(preferences)
+                        end
+                    }
+                    if optionsWrite[check:getText()] then
+                        optionsWrite[check:getText()](value)
+                    end
+                end)
+            end
+            chimeraMod:onOpen(function()
+                config = chimera.getConfiguration() or {}
+                preferences = chimera.getPreferences() or {}
+                dprint(preferences)
+                local optionsMapping = {
+                    ["USE VSYNC"] = config.video_mode.vsync,
+                    ["SHOW FPS"] = preferences.chimera_show_fps,
+                    ["WINDOWED MODE"] = config.video_mode.windowed,
+                    ["BORDERLESS"] = config.video_mode.borderless,
+                    ["LOAD MAPS ON RAM"] = config.memory.enable_map_memory_buffer,
+                    ["ANISOTROPIC FILTER"] = preferences.chimera_af,
+                    ["BLOCK BUFFERING"] = preferences.chimera_block_buffering,
+                    ["BLOCK HOLD F1 AT START"] = preferences.chimera_block_hold_f1,
+                    ["BLOCK LOADING SCREEN"] = preferences.chimera_block_loading_screen,
+                    ["BLOCK ZOOM BLUR"] = preferences.chimera_block_zoom_blur,
+                    ["BLOCK MOUSE ACCELERATION"] = preferences.chimera_block_mouse_acceleration
+                }
+                for k, check in pairs(checkboxes) do
+                    check:setValue(optionsMapping[k] == 1)
+                end
+            end)
         end
 
         -- Insurrection is running outside the UI

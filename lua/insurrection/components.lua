@@ -17,7 +17,9 @@ local components = {
     ---@type uiComponentEvents
     events = {},
     ---@type boolean
-    isBackgroundAnimated = false
+    isBackgroundAnimated = false,
+    ---@type '"generic"' | '"list"' | '"button"' | '"checkbox"' | '"slider"' | '"dropdown"' | '"text"' | '"image"'
+    type = "generic"
 }
 
 ---@class uiComponentEvents
@@ -42,7 +44,7 @@ function components.new(tagId)
     instance.widgetDefinition = uiWidgetDefinition(tagId) or error("Invalid tagId") --[[@as uiWidgetDefinition]]
     instance.events = {}
     instance.isBackgroundAnimated = false
-    --dprint("Created component: " .. instance.tag.path, "info")
+    -- dprint("Created component: " .. instance.tag.path, "info")
     components.widgets[tagId] = instance
     return instance
 end
@@ -160,6 +162,11 @@ function components.findChildWidgetTag(self, name)
             end
         end
     end
+end
+
+---@param self uiComponent
+function components.getType(self)
+    return self.type
 end
 
 return components

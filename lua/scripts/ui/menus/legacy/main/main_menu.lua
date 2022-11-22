@@ -7,7 +7,7 @@ local pos = constants.position
 
 widget.init [[insurrection/ui/menus/main/]]
 
-local layout = widget.align("vertical", 24, 40, 260, 2)
+local layout = widget.align("vertical", 24, 40, 240, 2)
 
 return container("main_menu", {
     {
@@ -35,6 +35,7 @@ return container("main_menu", {
                 }),
                 layout()
             },
+            {button("mods", "MODS", {opens = [[insurrection/ui/menus/mods/mods_menu.ui_widget_definition]]}), layout()},
             {
                 button("profiles", "PROFILES", {
                     opens = [[ui/shell/main_menu/profile_manager/player_profile_manager.ui_widget_definition]],
@@ -50,7 +51,6 @@ return container("main_menu", {
                 }),
                 layout()
             },
-            --{button("credits", "CREDITS"), layout()},
             {button("exit", "EXIT GAME", {func = "main_menu_quit_game"}), layout()}
         })
     },

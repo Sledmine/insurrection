@@ -23,6 +23,7 @@ function constants.get()
         nameplate = findWidgetTag("shared\\current_profile"),
         tester = findWidgetTag("tester_menu"),
         settings = findWidgetTag("settings\\settings_menu"),
+        chimera = findWidgetTag("chimera\\chimera_mod_menu"),
     }
 
     constants.sounds = {

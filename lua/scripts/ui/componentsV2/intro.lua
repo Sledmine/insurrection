@@ -8,7 +8,8 @@ local widget = require "lua.scripts.widget"
 return function(name, childWidgets)
     local widgetPath = widget.path .. name .. ".ui_widget_definition"
     local wid = {
-        bounds = constants.getScreenBounds(),
+        --bounds = constants.getScreenBounds(),
+        bounds = widget.bounds(-constants.screen.height, -constants.screen.width, constants.screen.height, constants.screen.width),
         background_bitmap = [[insurrection/ui/bitmaps/background_transparent.bitmap]],
         event_handlers = {
             {event_type = "b_button", ["function"] = "null"},

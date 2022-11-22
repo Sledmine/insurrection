@@ -11,7 +11,8 @@ return function(name, childWidgets, props)
     local widgetPath = widget.path .. name .. ".ui_widget_definition"
     ---@type invaderWidget
     local wid = {
-        bounds = constants.getScreenBounds(),
+        --bounds = constants.getScreenBounds(),
+        bounds = widget.bounds(-constants.screen.height, -constants.screen.width, constants.screen.height, constants.screen.width),
         background_bitmap = [[insurrection/ui/bitmaps/background_transparent.bitmap]],
         flags = {pass_unhandled_events_to_focused_child = true},
         event_handlers = {

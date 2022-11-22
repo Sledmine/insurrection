@@ -29,6 +29,8 @@ return {
         header = {x = 40, y = 20},
         options = {x = 40, y = 60},
         back = {x = 630, y = 415},
+        action = {x = 444, y = 415},
+        footer = {x = 40, y = 415},
         logo = {x = 202, y = 105}
     },
     components = {

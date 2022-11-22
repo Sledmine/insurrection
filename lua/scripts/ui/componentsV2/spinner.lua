@@ -80,7 +80,11 @@ return function(name, text, values, props)
             dpad_left_right_tabs_thru_list_items = true
         },
         event_handlers = {
-            {flags = {run_function = true}, event_type = "a_button", ["function"] = props.func}
+            {
+                flags = {run_function = true},
+                event_type = "a_button",
+                ["function"] = props.func or "mouse_spinner_1wide_click"
+            }
         },
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
