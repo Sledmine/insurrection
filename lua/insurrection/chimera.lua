@@ -532,6 +532,9 @@ end
 ---@field chimera_block_server_ip 1|0
 ---@field chimera_block_buffering 1|0
 ---@field chimera_show_fps 1|0
+---@field chimera_block_loading_screen 1|0
+---@field chimera_block_hold_f1 1|0
+---@field chimera_block_mouse_acceleration 1|0
 
 ---Get chimera preferences
 ---@return chimeraPreferences?
@@ -540,17 +543,23 @@ function chimera.getPreferences()
                                core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt", "t")
     if preferencesTxt then
         local preferences = {}
-        -- Split the file into lines and iterate over them (using Windows line endings)
-        for line in preferencesTxt:gmatch("[^\r\n]+") do
+        -- Split the file into lines and iterate over them
+        for line in preferencesTxt:gmatch("[^\n]+") do
             -- Search for line that starts with "chimera"
             if line:sub(1, 7) == "chimera" then
-                -- Get key and value from line separeted by a space
+                -- Get key and value from line separeted by a space, support numbers as well
                 local key, value = line:match("([^ ]+) (.+)")
                 if key and value then
                     -- Convert value to number if possible
                     local number = tonumber(value)
                     if number then
                         value = number
+                    end
+                    -- Convert boolean to flag number if possible
+                    if value == "true" then
+                        value = 1
+                    elseif value == "false" then
+                        value = 0
                     end
                     preferences[key] = value
                 end
@@ -563,7 +572,7 @@ end
 function chimera.savePreferences(preferences)
     local preferencesTxt = ""
     for key, value in pairs(preferences) do
-        preferencesTxt = preferencesTxt .. key .. " " .. value .. "\r"
+        preferencesTxt = preferencesTxt .. key .. " " .. value .. "\n"
     end
     return glue.writefile(core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt",
                           preferencesTxt, "t")
