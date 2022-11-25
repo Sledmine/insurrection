@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.2] - 2022-11-24
+### Added
+- Custom mods configuration menu, including a menu to configure Chimera 
+- Requirement to enable Chimera feature to block server IPs while playing
+
+### Changed
+- A new sky space and Halo ring model that are more aligned with the classic Halo CE style
+- New menu background with better resolution and a few extra details (broken in some menus by now)
+
 ## [2.0.1] - 2022-11-18
 ### Fixed
 - Missing package dependency
