@@ -12,6 +12,8 @@ local pos = constants.position
 widget.init [[insurrection/ui/menus/mods/chimera/]]
 
 local layout = widget.align("vertical", 24, pos.options.x, pos.options.y, 2)
+local spinnersLayout = widget.align("vertical", 24, pos.options.x + constants.components.button.normal.width + 8,
+                                    pos.options.y, 2)
 
 local fovs = {}
 for i = 60, 120, 5 do
@@ -43,9 +45,11 @@ return container("chimera_mod_menu", {
             {checkbox("block_loading_screen", "BLOCK LOADING SCREEN"), layout()},
             {checkbox("block_zoom_blur", "BLOCK ZOOM BLUR"), layout()},
             {checkbox("block_mouse_acceleration", "BLOCK MOUSE ACCELERATION"), layout()},
-            -- {spinner("fov", "FOV", fovs), layout()},
-            -- {spinner("mouse_sensitivity_x", "MOUSE SENSITIVITY X", sensitivities), layout()},
-            -- {spinner("mouse_sensitivity_y", "MOUSE SENSITIVITY Y", sensitivities), layout()},
+            {checkbox("devmode", "DEVMODE"), layout()},
+            {checkbox("show_budget", "SHOW BUDGET"), layout()},
+            --{spinner("fov", "FOV", fovs), spinnersLayout()},
+            --{spinner("mouse_sensitivity_x", "MOUSE SENSITIVITY X", sensitivities), spinnersLayout()},
+            --{spinner("mouse_sensitivity_y", "MOUSE SENSITIVITY Y", sensitivities), spinnersLayout()},
             -- {button("save_settings", "SAVE SETTINGS", {save = true}), pos.action.x, pos.action.y},
             {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
         })
@@ -53,7 +57,7 @@ return container("chimera_mod_menu", {
     {
         footer("chimera_mod_footer", "SETTINGS",
                "Choose which Chimera options you want to enable or disable.\r\nKeep in mind you need to restart the game to apply these changes."),
-        layout(20)
+        layout(4)
     },
     {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
     {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}

@@ -24,7 +24,7 @@ return container("mods_menu", {
                 }),
                 layout()
             },
-            {button("optic", "OPTIC", {}), layout()},
+            --{button("optic", "OPTIC", {}), layout()},
             {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
         })
     },

@@ -31,7 +31,7 @@ return container("main_menu", {
             },
             {
                 button("insurrection", "INSURRECTION", {
-                    opens = [[insurrection/ui/menus/insurrection_login/insurrection_login_menu.ui_widget_definition]]
+                    opens = [[insurrection/ui/menus/login/login_menu.ui_widget_definition]]
                 }),
                 layout()
             },

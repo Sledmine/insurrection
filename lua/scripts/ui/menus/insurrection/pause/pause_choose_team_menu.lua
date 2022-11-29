@@ -20,7 +20,7 @@ return container("pause_choose_team_menu", {
     },
     {[[insurrection\ui\shared\void.ui_widget_definition]]},
     {
-        options("pause_choose_team", "vertical", {
+        options("pause_choose_team", "horizontal", {
             {
                 complexButton("blue_team", "BLUE TEAM", nil,
                               {variant = "vertical", func = "mp_choose_team", close = true, icon = [[insurrection/ui/bitmaps/keagle_icon.bitmap]]}),
