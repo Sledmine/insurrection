@@ -232,4 +232,32 @@ function core.getScreenResolution()
     return width, height
 end
 
+local function isThreadRunning()
+    if #Lanes == 0 then
+        return false
+    end
+    return true
+end
+
+---Set game in loading state
+---@param isLoading boolean
+---@param text? string
+---@param blockInput? boolean
+function core.loading(isLoading, text, blockInput)
+    if isLoading then
+        -- There is already another thread running, do not modify loading status
+        if isThreadRunning() then
+            return
+        end
+        if blockInput then
+            harmony.menu.block_input(true)
+        end
+        LoadingText = text or "Loading..."
+        dprint(LoadingText)
+    else
+        harmony.menu.block_input(false)
+        LoadingText = nil
+    end
+end
+
 return core

@@ -41,6 +41,9 @@ ScreenCornerText = ""
 LoadingText = nil
 local lastMap = ""
 
+discord = require "insurrection.discord"
+discord.startPresence()
+
 -- Setup loading orb sprite
 local loadingSprite = optic.create_sprite("loading_orb.png", 32, 32)
 local rotateOrbAnimation = optic.create_animation(5000)
@@ -188,7 +191,7 @@ function OnFrame()
               "right", table.unpack(textColor))
     -- Draw loading text on the left side of the screen
     if LoadingText then
-        draw_text(LoadingText or "", bounds.left + 12, bounds.top, bounds.left + 200, bounds.bottom,
+        draw_text(LoadingText or "", bounds.left + 16, bounds.top, bounds.left + 200, bounds.bottom,
                   "small", "left", table.unpack(textColor))
         optic.render_sprite(loadingSprite, 8, screenHeight - 32 - 8, 255, ticks() * 8, 1,
                             rotateOrbAnimation, optic.create_animation(0))
@@ -291,10 +294,16 @@ function OnMapLoad()
     LoadingText = nil
 end
 
+function OnUnload()
+    print("Unloading Insurrection...")
+    discord.stopPresence()
+end
+
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnFrame")
 set_callback("command", "OnCommand")
 set_callback("map load", "OnMapLoad")
+set_callback("unload", "OnUnload")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")

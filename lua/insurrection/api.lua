@@ -13,6 +13,7 @@ local harmony = require "mods.harmony"
 local menus = require "insurrection.menus"
 local shared = interface.shared
 local constants = require "insurrection.constants"
+local loading = core.loading
 
 local api = {}
 api.host = read_file("insurrection_host") or "http://localhost:4343/"
@@ -21,7 +22,7 @@ if DebugMode then
 end
 api.version = "v1"
 api.url = api.host .. api.version
-api.variables = {refreshRate = 5000, refreshTimerId = nil}
+api.variables = {refreshRate = 3000, refreshTimerId = nil}
 ---@type loginResponse
 api.session = {token = nil, lobbyKey = nil, username = nil}
 
@@ -54,39 +55,11 @@ api.session = {token = nil, lobbyKey = nil, username = nil}
 
 ---@class lobbyRoom
 ---@field owner string
----@field members string[]
+---@field players string[]
 ---@field map string
 ---@field gametype string
 ---@field template string
 ---@field server serverInstance
-
-local function isThreadRunning()
-    if #Lanes == 0 then
-        return false
-    end
-    return true
-end
-
----Set game in loading state
----@param isLoading boolean
----@param text? string
----@param blockInput? boolean
-local function loading(isLoading, text, blockInput)
-    if isLoading then
-        -- There is already another thread running, do not modify loading status
-        if isThreadRunning() then
-            return
-        end
-        if blockInput then
-            harmony.menu.block_input(true)
-        end
-        LoadingText = text or "Loading..."
-        dprint(LoadingText)
-    else
-        harmony.menu.block_input(false)
-        LoadingText = nil
-    end
-end
 
 function async(func, callback, ...)
     if (#Lanes == 0) then
@@ -180,10 +153,6 @@ local function onLobbyResponse(response)
                 if jsonResponse.key then
                     api.session.lobbyKey = jsonResponse.key
                     store:dispatch(actions.setLobby(jsonResponse.key, jsonResponse.lobby))
-                    ---@type interfaceState
-                    local state = store:getState()
-                    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
-                                                   state.lobby.owner
                     interface.lobbyInit()
                 else
                     -- We have to joined an existing lobby
@@ -197,7 +166,6 @@ local function onLobbyResponse(response)
                         return true
                     end
                 end
-                ScreenCornerText = api.session.lobbyKey
                 -- Start a timer to pull lobby data every certain time
                 if api.variables.refreshTimerId then
                     api.stopRefreshLobby()
@@ -209,6 +177,16 @@ local function onLobbyResponse(response)
                     end
                 end
                 api.variables.refreshTimerId = set_timer(api.variables.refreshRate, "refreshLobby")
+                ---@type interfaceState
+                local state = store:getState()
+                local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+                                               state.lobby.owner
+                if isPlayerLobbyOwner then
+                    discord.updatePresence("Hosting a lobby", "Waiting for players...")
+                    discord.setParty(api.session.lobbyKey, #state.lobby.players, 16)
+                else
+                    discord.updatePresence("In a lobby", "Waiting for players...")
+                end
             end
             return true
         else
@@ -248,6 +226,7 @@ local function onLobbyRefreshResponse(response)
                 -- Update previously joined lobby data
                 store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
                 interface.lobbyUpdate()
+                discord.setParty(nil, #lobby.players, 16)
                 -- Lobby already started, join the server
                 if lobby.server and not blam.isGameDedicated() then
                     api.stopRefreshLobby()
@@ -279,12 +258,14 @@ function api.refreshLobby()
 end
 function api.stopRefreshLobby()
     if api.session.lobbyKey then
+        discord.clearPresence()
         dprint("Stopping lobby refresh...", "warning")
         pcall(stop_timer, api.variables.refreshTimerId)
     end
 end
 function api.deleteLobby()
     if api.session.lobbyKey then
+        discord.clearPresence()
         dprint("DELETING lobby", "warning")
         pcall(stop_timer, api.variables.refreshTimerId)
         api.variables.refreshTimerId = nil

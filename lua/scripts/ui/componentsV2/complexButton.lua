@@ -53,7 +53,7 @@ return function(name, text, label, props)
         text_color = constants.color.text,
         justification = "left_justify",
         horiz_offset = 10,
-        vert_offset = height - 25,
+        vert_offset = height - 34,
         child_widgets = {}
     }
     if props.icon then
@@ -64,6 +64,7 @@ return function(name, text, label, props)
         }
     end
     if label then
+        wid.vert_offset = height - 25
         if props.variant == "vertical" then
             wid.vert_offset = wid.vert_offset - 10
         elseif props.variant == "horizontal" then

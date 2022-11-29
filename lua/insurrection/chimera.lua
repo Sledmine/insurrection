@@ -518,6 +518,7 @@ end
 
 ---@class chimeraPreferences
 ---@field chimera_devmode 1|0
+---@field chimera_budget 1|0
 ---@field chimera_widescreen_fix 1|0
 ---@field chimera_block_gametype_rules 1
 ---@field chimera_block_gametype_indicator true | false

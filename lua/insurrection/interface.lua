@@ -77,6 +77,15 @@ function interface.load()
         -- interface.animate()
         -- Components initialization
         if constants.widgets.login then
+            local dialog = components.new(constants.widgets.dialog.id)
+            local dialogBackButton = button.new(dialog:findChildWidgetTag("dialog_back_button").id)
+            dialogBackButton:onClick(function()
+                if dialog.events.onClose then
+                    dialog.events.onClose()
+                end
+            end)
+            interface.shared.dialog = dialog
+
             local login = components.new(constants.widgets.login.id)
             local usernameInput = button.new(login:findChildWidgetTag("username_input").id)
             local passwordInput = button.new(login:findChildWidgetTag("password_input").id)
@@ -97,6 +106,10 @@ function interface.load()
                 end
             end)
             local registerButton = button.new(login:findChildWidgetTag("register_button").id)
+            -- dialogBackButton:onClick(function()
+            --    os.execute("start https://discord.shadowmods.net")
+            --    dialogBackButton:onClick(nil)
+            -- end)
             registerButton:onClick(function()
                 interface.dialog("INFORMATION", "Join us on our Discord server!",
                                  "We have a Discord Bot to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
@@ -122,29 +135,34 @@ function interface.load()
 
             dashboard:onOpen(function()
                 api.stopRefreshLobby()
+                discord.updatePresence("Playing Insurrection", "In the dashboard")
+            end)
+            dashboard:onClose(function()
+                api.stopRefreshLobby()
+                discord.updatePresence("Playing Insurrection", "In the main menu")
             end)
 
             local lobby = components.new(constants.widgets.lobby.id)
-            local lobbyDefs = components.new(lobby:findChildWidgetTag("lobby_definitions").id)
-            local lobbyDef1 = button.new(
-                                  lobbyDefs:findChildWidgetTag("lobby_definition_button_1").id)
-            local lobbyDef2 = button.new(
-                                  lobbyDefs:findChildWidgetTag("lobby_definition_button_2").id)
-            local lobbyDef3 = button.new(
-                                  lobbyDefs:findChildWidgetTag("lobby_definition_button_3").id)
-            local lobbyDef4 = button.new(
-                                  lobbyDefs:findChildWidgetTag("lobby_definition_button_4").id)
-            local lobbyElementsList = list.new(lobby:findChildWidgetTag("lobby_elements").id)
-            local lobbyPlayers = list.new(lobby:findChildWidgetTag("lobby_players_nameplates").id)
+            local lobbyDefs = components.new(lobby:findChildWidgetTag("definitions").id)
+            local lobbyDef1 = button.new(lobbyDefs:findChildWidgetTag("template").id)
+            local lobbyDef2 = button.new(lobbyDefs:findChildWidgetTag("map").id)
+            local lobbyDef3 = button.new(lobbyDefs:findChildWidgetTag("gametype").id)
+            -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
+
+            local lobbyOptions = components.new(lobby:findChildWidgetTag("options").id)
+            local lobbyPlay = button.new(lobbyOptions:findChildWidgetTag("play").id)
+            local lobbyElementsList = list.new(lobby:findChildWidgetTag("elements").id)
+            local lobbyPlayers = list.new(lobby:findChildWidgetTag("players").id)
             lobbyPlayers:scrollable(false)
-            local lobbySearch = input.new(lobby:findChildWidgetTag("lobby_input_search").id)
+            local lobbySearch = input.new(lobby:findChildWidgetTag("search").id)
 
             interface.shared.lobby = lobby
             interface.shared.lobbyDefs = lobbyDefs
             interface.shared.lobbyDef1 = lobbyDef1
             interface.shared.lobbyDef2 = lobbyDef2
             interface.shared.lobbyDef3 = lobbyDef3
-            interface.shared.lobbyDef4 = lobbyDef4
+            -- interface.shared.lobbySettings = lobbySettings
+            interface.shared.lobbyPlay = lobbyPlay
             interface.shared.lobbyElementsList = lobbyElementsList
             interface.shared.lobbyPlayers = lobbyPlayers
             interface.shared.lobbySearch = lobbySearch
@@ -159,24 +177,6 @@ function interface.load()
             end)
 
             local tester = components.new(constants.widgets.tester.id)
-            local testerButton = button.new(tester:findChildWidgetTag("test_1_button").id)
-            testerButton:onClick(function()
-                dprint("Tester button clicked")
-            end)
-
-            local testerAnimatedElement = components.new(tester:findChildWidgetTag("anim_test").id)
-            testerAnimatedElement:animate()
-
-            local testerCheckbox = checkbox.new(tester:findChildWidgetTag("test_checkbox_1").id)
-            testerCheckbox:onToggle(function(value)
-                dprint("Checkbox value: " .. tostring(value))
-            end)
-
-            local testerCheckbox2 = checkbox.new(tester:findChildWidgetTag("test_checkbox_2").id)
-            testerCheckbox2:onToggle(function(value)
-                dprint("Tester checkbox clicked")
-                dprint(value)
-            end)
 
             local customization = components.new(constants.widgets.customization.id)
             local nameplatesList = list.new(
@@ -191,28 +191,23 @@ function interface.load()
             nameplatesList:onSelect(function(item)
                 nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap
             end)
-            nameplatesList:setItems(glue.map(glue.keys(constants.nameplates), function(nameplateId)
+            local sortedNameplates = glue.map(glue.keys(constants.nameplates), function(nameplateId)
                 return {
                     label = "",
                     value = nameplateId,
                     bitmap = constants.nameplates[nameplateId].id
                 }
-            end))
+            end)
+            table.sort(sortedNameplates, function(a, b)
+                return a.value > b.value
+            end)
+            nameplatesList:setItems(sortedNameplates)
             saveCustomizationButton:onClick(function()
                 local selectedNameplateItem = nameplatesList:getSelectedItem() --[[@as string]]
                 if selectedNameplateItem then
                     api.playerEditNameplate(selectedNameplateItem.value)
                 end
             end)
-
-            local dialog = components.new(constants.widgets.dialog.id)
-            local dialogBackButton = button.new(dialog:findChildWidgetTag("dialog_back_button").id)
-            dialogBackButton:onClick(function()
-                if dialog.events.onClose then
-                    dialog.events.onClose()
-                end
-            end)
-            interface.shared.dialog = dialog
 
             -- Hard code settings description text change, because the game doesn't support it
             local settings = components.new(constants.widgets.settings.id)
@@ -253,6 +248,7 @@ function interface.load()
                         ["SHOW FPS"] = function(value)
                             preferences.chimera_show_fps = value and 1 or 0
                             chimera.savePreferences(preferences)
+                            execute_script("chimera_show_fps " .. (value and 1 or 0))
                         end,
                         ["WINDOWED MODE"] = function(value)
                             config.video_mode.windowed = value and 1 or 0
@@ -265,6 +261,9 @@ function interface.load()
                         ["LOAD MAPS ON RAM"] = function(value)
                             config.memory.enable_map_memory_buffer = value and 1 or 0
                             chimera.saveConfiguration(config)
+                            interface.dialog("INFORMATION",
+                                             "You have changed a critical Chimera setting.",
+                                             "You need to restart the game for the changes to take effect.")
                         end,
                         ["ANISOTROPIC FILTER"] = function(value)
                             preferences.chimera_af = value and 1 or 0
@@ -285,10 +284,21 @@ function interface.load()
                         ["BLOCK ZOOM BLUR"] = function(value)
                             preferences.chimera_block_zoom_blur = value and 1 or 0
                             chimera.savePreferences(preferences)
+                            execute_script("chimera_block_zoom_blur " .. (value and 1 or 0))
                         end,
                         ["BLOCK MOUSE ACCELERATION"] = function(value)
                             preferences.chimera_block_mouse_acceleration = value and 1 or 0
                             chimera.savePreferences(preferences)
+                        end,
+                        ["DEVMODE"] = function(value)
+                            preferences.chimera_devmode = value and 1 or 0
+                            chimera.savePreferences(preferences)
+                            execute_script("chimera_devmode " .. (value and 1 or 0))
+                        end,
+                        ["SHOW BUDGET"] = function(value)
+                            preferences.chimera_budget = value and 1 or 0
+                            chimera.savePreferences(preferences)
+                            execute_script("chimera_budget " .. (value and 1 or 0))
                         end
                     }
                     if optionsWrite[check:getText()] then
@@ -311,7 +321,9 @@ function interface.load()
                     ["BLOCK HOLD F1 AT START"] = preferences.chimera_block_hold_f1,
                     ["BLOCK LOADING SCREEN"] = preferences.chimera_block_loading_screen,
                     ["BLOCK ZOOM BLUR"] = preferences.chimera_block_zoom_blur,
-                    ["BLOCK MOUSE ACCELERATION"] = preferences.chimera_block_mouse_acceleration
+                    ["BLOCK MOUSE ACCELERATION"] = preferences.chimera_block_mouse_acceleration,
+                    ["DEVMODE"] = preferences.chimera_devmode,
+                    ["SHOW BUDGET"] = preferences.chimera_budget
                 }
                 for k, check in pairs(checkboxes) do
                     check:setValue(optionsMapping[k] == 1)
@@ -443,10 +455,12 @@ end
 ---@param subtitleText string
 ---@param bodyText string
 function interface.dialog(titleText, subtitleText, bodyText)
-    if titleText == "WARNING" or titleText == "ERROR" then
-        playSound(constants.sounds.error.path)
-    else
-        playSound(constants.sounds.success.path)
+    if constants.sounds then
+        if titleText == "WARNING" or titleText == "ERROR" then
+            playSound(constants.sounds.error.path)
+        else
+            playSound(constants.sounds.success.path)
+        end
     end
     local dialog = uiWidgetTag(constants.widgets.dialog.id)
     local header = uiWidgetTag(dialog.childWidgets[1].widgetTag)
@@ -494,7 +508,7 @@ function interface.lobbyInit()
     local lobbyDef1 = shared.lobbyDef1
     local lobbyDef2 = shared.lobbyDef2
     local lobbyDef3 = shared.lobbyDef3
-    local lobbyDef4 = shared.lobbyDef4
+    local play = shared.lobbyPlay
     local lobbyElementsList = shared.lobbyElementsList
     local lobbyPlayers = shared.lobbyPlayers
     local lobbySearch = shared.lobbySearch
@@ -502,7 +516,7 @@ function interface.lobbyInit()
     if not isPlayerLobbyOwner then
         core.setWidgetValues(lobbyElementsList.tagId, {opacity = 0})
         core.setWidgetValues(lobbySearch.tagId, {opacity = 0})
-        core.setWidgetValues(lobbyDef4.tagId, {opacity = 0})
+        core.setWidgetValues(play.tagId, {opacity = 0})
     end
 
     lobbyDef1:setText(state.lobby.template)
@@ -547,7 +561,7 @@ function interface.lobbyInit()
             store:dispatch(actions.setLobbyDefinition("gametype"))
         end)
 
-        lobbyDef4:onClick(function()
+        play:onClick(function()
             if isPlayerLobbyOwner then
                 local template = lobbyDef1:getText()
                 local map = lobbyDef2:getText()
