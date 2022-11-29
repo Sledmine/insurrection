@@ -51,6 +51,7 @@ local function interfaceReducer(state, action)
         state.currentChunk = 1
         state.list = available[state.definition .. "s"]
         state.displayed = chunks(available.templates, state.chunkSize)[1]
+        ---@diagnostic disable-next-line
         state.selected = glue.deepcopy(defaultState.selected)
         state.selected.template = state.lobby.template
         state.selected.map = state.lobby.map
@@ -83,6 +84,7 @@ local function interfaceReducer(state, action)
                     if a and b then
                         return a < b
                     end
+                    return false
                 end)
             end
         end

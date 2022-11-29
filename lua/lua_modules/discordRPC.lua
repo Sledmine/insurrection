@@ -1,15 +1,15 @@
 local ffi = require "cffi"
-local discordRPClib = ffi.load("discord-rpc")
+local discordRPClib = ffi.load "discord-rpc"
 
 function newproxy(new_meta)
     local proxy = {}
 
-    if(new_meta == true) then
+    if (new_meta == true) then
         local mt = {}
         setmetatable(proxy, mt)
-    elseif(new_meta == false) then
+    elseif (new_meta == false) then
     else
-        --new_meta must have a metatable.
+        -- new_meta must have a metatable.
         local mt = getmetatable(new_meta)
         setmetatable(proxy, mt)
     end
@@ -17,7 +17,7 @@ function newproxy(new_meta)
     return proxy
 end
 
-ffi.cdef[[
+ffi.cdef [[
 typedef struct DiscordRichPresence {
     const char* state;   /* max 128 bytes */
     const char* details; /* max 128 bytes */
@@ -84,7 +84,7 @@ discordRPC.gcDummy = newproxy(true)
 
 local function unpackDiscordUser(request)
     return ffi.string(request.userId), ffi.string(request.username),
-        ffi.string(request.discriminator), ffi.string(request.avatar)
+           ffi.string(request.discriminator), ffi.string(request.avatar)
 end
 
 -- callback proxies
@@ -128,16 +128,16 @@ end)
 
 -- helpers
 local function checkArg(arg, argType, argName, func, maybeNil)
-    assert(type(arg) == argType or (maybeNil and arg == nil),
-        string.format("Argument \"%s\" to function \"%s\" has to be of type \"%s\"",
-            argName, func, argType))
+    assert(type(arg) == argType or (maybeNil and arg == nil), string.format(
+               "Argument \"%s\" to function \"%s\" has to be of type \"%s\"", argName, func, argType))
 end
 
 local function checkStrArg(arg, maxLen, argName, func, maybeNil)
     if maxLen then
         assert(type(arg) == "string" and arg:len() <= maxLen or (maybeNil and arg == nil),
-            string.format("Argument \"%s\" of function \"%s\" has to be of type string with maximum length %d",
-                argName, func, maxLen))
+               string.format(
+                   "Argument \"%s\" of function \"%s\" has to be of type string with maximum length %d",
+                   argName, func, maxLen))
     else
         checkArg(arg, "string", argName, func, true)
     end
@@ -145,12 +145,11 @@ end
 
 local function checkIntArg(arg, maxBits, argName, func, maybeNil)
     maxBits = math.min(maxBits or 32, 52) -- lua number (double) can only store integers < 2^53
-    local maxVal = 2^(maxBits-1) -- assuming signed integers, which, for now, are the only ones in use
-    assert(type(arg) == "number" and math.floor(arg) == arg
-        and arg < maxVal and arg >= -maxVal
-        or (maybeNil and arg == nil),
-        string.format("Argument \"%s\" of function \"%s\" has to be a whole number <= %d",
-            argName, func, maxVal))
+    local maxVal = 2 ^ (maxBits - 1) -- assuming signed integers, which, for now, are the only ones in use
+    assert(type(arg) == "number" and math.floor(arg) == arg and arg < maxVal and arg >= -maxVal or
+               (maybeNil and arg == nil),
+           string.format("Argument \"%s\" of function \"%s\" has to be a whole number <= %d",
+                         argName, func, maxVal))
 end
 
 -- function wrappers
@@ -170,8 +169,8 @@ function discordRPC.initialize(applicationId, autoRegister, optionalSteamId)
     eventHandlers.spectateGame = spectateGame_proxy
     eventHandlers.joinRequest = joinRequest_proxy
 
-    discordRPClib.Discord_Initialize(applicationId, eventHandlers,
-        autoRegister and 1 or 0, optionalSteamId)
+    discordRPClib.Discord_Initialize(applicationId, eventHandlers, autoRegister and 1 or 0,
+                                     optionalSteamId)
 end
 
 function discordRPC.shutdown()
@@ -189,7 +188,7 @@ end
 -- solution:
 -- "Then you'll need to manually turn off JIT-compilation with jit.off() for
 -- the surrounding Lua function that invokes such a message polling function."
---jit.off(discordRPC.runCallbacks)
+-- jit.off(discordRPC.runCallbacks)
 
 function discordRPC.updatePresence(presence)
     local func = "discordRPC.updatePresence"
@@ -241,16 +240,13 @@ function discordRPC.clearPresence()
     discordRPClib.Discord_ClearPresence()
 end
 
-local replyMap = {
-    no = 0,
-    yes = 1,
-    ignore = 2
-}
+local replyMap = {no = 0, yes = 1, ignore = 2}
 
 -- maybe let reply take ints too (0, 1, 2) and add constants to the module
 function discordRPC.respond(userId, reply)
     checkStrArg(userId, nil, "userId", "discordRPC.respond")
-    assert(replyMap[reply], "Argument 'reply' to discordRPC.respond has to be one of \"yes\", \"no\" or \"ignore\"")
+    assert(replyMap[reply],
+           "Argument 'reply' to discordRPC.respond has to be one of \"yes\", \"no\" or \"ignore\"")
     discordRPClib.Discord_Respond(userId, replyMap[reply])
 end
 

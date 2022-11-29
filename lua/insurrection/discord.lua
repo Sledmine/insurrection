@@ -1,6 +1,7 @@
 local discord = {}
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
+local base64 = require "base64"
 
 local discordRPC = require "discordRPC"
 
@@ -9,7 +10,7 @@ discord.presence = {
     details = "Main Menu",
     largeImageKey = "insurrection",
     largeImageText = "Insurrection",
-    startTimestamp = os.time(os.date("*t"))
+    startTimestamp = os.time(os.date("*t") --[[@as osdate]] )
     -- smallImageKey = "insurrection",
     -- smallImageText = "Insurrection",
     -- instance = 0
@@ -39,7 +40,7 @@ end
 
 function discord.startPresence()
     core.loading(true, "Starting Discord Presence...")
-    discordRPC.initialize(read_file("id"), true)
+    discordRPC.initialize(base64.decode(read_file("micro")), true)
     discordRPC.clearPresence()
     discordRPC.runCallbacks()
     if DiscordPresenceTimerId then
