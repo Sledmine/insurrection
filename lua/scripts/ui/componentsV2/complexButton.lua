@@ -59,12 +59,16 @@ return function(name, text, label, props)
     if props.icon then
         wid.child_widgets[#wid.child_widgets + 1] = {
             image(name .. "_button_icon", props.icon, 512, 512, 0.25),
-            1,
-            1
+            8,
+            2
         }
     end
     if label then
-        wid.vert_offset = wid.vert_offset - 10
+        if props.variant == "vertical" then
+            wid.vert_offset = wid.vert_offset - 10
+        elseif props.variant == "horizontal" then
+            wid.vert_offset = wid.vert_offset - 6
+        end
         local labelPath = widget.path .. "buttons/" .. name .. "_button_label.ui_widget_definition"
         widget.createV2(labelPath, {
             widget_type = "text_box",
@@ -77,7 +81,7 @@ return function(name, text, label, props)
             horiz_offset = wid.horiz_offset,
             vert_offset = wid.vert_offset + 12
         })
-        wid.child_widgets[#wid.child_widgets + 1] = {{subtitlePath}}
+        wid.child_widgets[#wid.child_widgets + 1] = {labelPath}
     end
     widget.createV2(widgetPath, wid)
     return widgetPath

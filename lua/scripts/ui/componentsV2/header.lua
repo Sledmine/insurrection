@@ -8,11 +8,11 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@return string
 return function(name, title, subtitle)
     -- Generate strings tag
-    local stringsTagPath = widget.path .. "strings/" .. name .. ".unicode_string_list"
+    local stringsTagPath = widget.path .. "strings/" .. name .. "_header.unicode_string_list"
     local titlePath = widget.path .. name .. [[_title.ui_widget_definition]]
     local subtitlePath = widget.path .. name .. [[_subtitle.ui_widget_definition]]
-
     ustr(stringsTagPath, {title, subtitle})
+    local widgetPath = widget.path .. name .. [[_header.ui_widget_definition]]
 
     -- Generate title
     widget.create(titlePath, {
@@ -23,7 +23,7 @@ return function(name, title, subtitle)
         text_color = constants.color.title,
         string_list_index = 0
     })
-    
+
     -- Generate subtitle
     widget.create(subtitlePath, {
         widget_type = "text_box",
@@ -33,7 +33,6 @@ return function(name, title, subtitle)
         text_color = constants.color.subtitle,
         string_list_index = 1
     })
-    local widgetPath = widget.path .. name .. [[_header.ui_widget_definition]]
     widget.create(widgetPath, {
         bounds = "0, 0, 40, 450",
         child_widgets = {

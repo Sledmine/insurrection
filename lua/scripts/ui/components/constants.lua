@@ -6,7 +6,8 @@ return {
         text = "1, 1, 1, 1",
         title = "1, 1, 1, 1",
         subtitle = "1, 0.301961, 0.454902, 0.623529",
-        selected = "0.8, 0.8, 0.8, 0.8",
+        selected = "1, 0.5, 0.5, 0.5",
+        nameplate = "1, 0.8, 0.8, 0.8",
         palette = {
             primary = "#3d6cc1",
             secondary = "#6d90cd",
@@ -16,10 +17,10 @@ return {
     },
     opacity = {primary = 12.5, secondary = 34.5},
     fonts = {
-        title = [[ui\ticker.font]],
-        subtitle = [[ui\gamespy.font]],
-        text = [[ui\large_ui.font]],
-        button = [[ui\large_ui.font]]
+        title = [[ui/ticker.font]],
+        subtitle = [[ui/gamespy.font]],
+        text = [[ui/large_ui.font]],
+        button = [[ui/large_ui.font]]
     },
     screen = {width = width, height = height},
     getScreenBounds = function()
@@ -30,7 +31,7 @@ return {
         options = {x = 40, y = 60},
         back = {x = 630, y = 415},
         action = {x = 444, y = 415},
-        footer = {x = 40, y = 415},
+        footer = {x = 40, y = 330},
         logo = {x = 202, y = 105}
     },
     components = {
@@ -66,6 +67,23 @@ return {
                 width = 144,
                 height = 158,
                 bitmap = [[insurrection\ui\bitmaps\vertical_complex_button.bitmap]]
+            },
+            horizontal = {
+                width = 149,
+                height = 36,
+                bitmap = [[insurrection\ui\bitmaps\horizontal_complex_button.bitmap]]
+            }
+        },
+        input = {
+            small = {
+                width = 184,
+                height = 23,
+                bitmap = [[insurrection\ui\bitmaps\input_small.bitmap]]
+            },
+            normal = {
+                width = 187,
+                height = 34,
+                bitmap = [[insurrection\ui\bitmaps\input.bitmap]]
             }
         }
     }
