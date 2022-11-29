@@ -13,6 +13,7 @@ commands:
     - rm package/manifest.json.bak
   nameplates:
     - luajit lua/scripts/ui/nameplates/createNameplates.lua
+    - mercury build
   package:
     - rm -rf dist
     - mkdir -p dist
