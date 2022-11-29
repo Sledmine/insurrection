@@ -21,7 +21,7 @@ return container("settings_menu", {
         options("settings_menu", "vertical", {
             {
                 button("profile_name", "PROFILE NAME", {
-                    opens = [[insurrection/ui/menus/settings_menu/name_profile_item.ui_widget_definition]],
+                    opens = [[insurrection/ui/menus/settings_menu/name_edit/profile_name_screen.ui_widget_definition]],
                     func = "player_profile_change_name"
                 }),
                 layout()
