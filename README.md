@@ -1,6 +1,6 @@
 <html>
     <p align="center">
-        <img width="400px" src="images/design/logos/insurrection_logo_2.png"/>
+        <img width="400px" src="images/design/logos/insurrection_logo.png"/>
     </p>
 </html>
 
