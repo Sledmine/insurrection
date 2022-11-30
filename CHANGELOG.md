@@ -4,14 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.2] - 2022-11-24
+## [2.1.0] - 2022-11-29
 ### Added
-- Custom mods configuration menu, including a menu to configure Chimera 
+- Custom mods customization menu, including a menu to configure Chimera
 - Requirement to enable Chimera feature to block server IPs while playing
+- Discord Rich Presence integration to join and invite to lobbies
+- Redesigned login, lobby and dashboard menus
+- Over 27 new nameplates to choose
 
 ### Changed
 - A new sky space and Halo ring model that are more aligned with the classic Halo CE style
 - New menu background with better resolution and a few extra details (broken in some menus by now)
+
+### Fixed
+- Icons alignment for choose team buttons in pause menu
+- Horizontal navigation for choose team buttons in pause menu
+- Profile name change opening wrong menu
 
 ## [2.0.1] - 2022-11-18
 ### Fixed
