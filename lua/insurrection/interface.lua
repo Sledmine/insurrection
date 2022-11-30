@@ -143,6 +143,9 @@ function interface.load()
             end)
 
             local lobby = components.new(constants.widgets.lobby.id)
+            local lobbySummary = components.new(components.new(
+                                                    lobby:findChildWidgetTag("summary").id):findChildWidgetTag(
+                                                    "text").id)
             local lobbyDefs = components.new(lobby:findChildWidgetTag("definitions").id)
             local lobbyDef1 = button.new(lobbyDefs:findChildWidgetTag("template").id)
             local lobbyDef2 = button.new(lobbyDefs:findChildWidgetTag("map").id)
@@ -157,6 +160,7 @@ function interface.load()
             local lobbySearch = input.new(lobby:findChildWidgetTag("search").id)
 
             interface.shared.lobby = lobby
+            interface.shared.lobbySummary = lobbySummary
             interface.shared.lobbyDefs = lobbyDefs
             interface.shared.lobbyDef1 = lobbyDef1
             interface.shared.lobbyDef2 = lobbyDef2
@@ -199,7 +203,7 @@ function interface.load()
                 }
             end)
             table.sort(sortedNameplates, function(a, b)
-                return a.value > b.value
+                return a.value < b.value
             end)
             nameplatesList:setItems(sortedNameplates)
             saveCustomizationButton:onClick(function()
@@ -505,6 +509,7 @@ function interface.lobbyInit()
     local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                    state.lobby.owner
 
+    local lobbySummary = shared.lobbySummary
     local lobbyDef1 = shared.lobbyDef1
     local lobbyDef2 = shared.lobbyDef2
     local lobbyDef3 = shared.lobbyDef3
@@ -542,6 +547,10 @@ function interface.lobbyInit()
             store:dispatch(actions.setLobbyDefinition("template"))
         end)
         lobbyDef1.events.onClick()
+        lobbyDef1:onFocus(function()
+            lobbySummary:setText(
+                "Template defines a set of changes to the base server that will be applied when the lobby is created.")
+        end)
 
         lobbyDef2:onClick(function()
             ---@type interfaceState
@@ -551,6 +560,9 @@ function interface.lobbyInit()
             end))
             store:dispatch(actions.setLobbyDefinition("map"))
         end)
+        lobbyDef2:onFocus(function()
+            lobbySummary:setText("Choose a map from the available list to play on, you need to have the map installed.")
+        end)
 
         lobbyDef3:onClick(function()
             ---@type interfaceState
@@ -559,6 +571,9 @@ function interface.lobbyInit()
                 return {label = element, value = lobbyDef3}
             end))
             store:dispatch(actions.setLobbyDefinition("gametype"))
+        end)
+        lobbyDef3:onFocus(function()
+            lobbySummary:setText("Game type defines the rules of the game, defines team play, scoring, etc.")
         end)
 
         play:onClick(function()
