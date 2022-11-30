@@ -7,7 +7,7 @@ local discordRPC = require "discordRPC"
 
 discord.presence = {
     state = "Playing Insurrection",
-    details = "Main Menu",
+    details = nil,
     largeImageKey = "insurrection",
     largeImageText = "Insurrection",
     startTimestamp = os.time(os.date("*t") --[[@as osdate]] )
@@ -15,6 +15,7 @@ discord.presence = {
     -- smallImageText = "Insurrection",
     -- instance = 0
 }
+discord.presence.details = "In the main menu"
 
 discord.ready = false
 
@@ -62,7 +63,7 @@ end
 
 --- Update the presence state and details
 ---@param state string
----@param details string
+---@param details? string
 function discord.updatePresence(state, details)
     discord.presence.state = state
     discord.presence.details = details

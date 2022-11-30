@@ -226,7 +226,13 @@ local function onLobbyRefreshResponse(response)
                 -- Update previously joined lobby data
                 store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
                 interface.lobbyUpdate()
-                discord.setParty(nil, #lobby.players, 16)
+                ---@type interfaceState
+                local state = store:getState()
+                local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+                                               state.lobby.owner
+                if not isPlayerLobbyOwner then
+                    discord.setParty(nil, #lobby.players, 16)
+                end
                 -- Lobby already started, join the server
                 if lobby.server and not blam.isGameDedicated() then
                     api.stopRefreshLobby()
@@ -258,14 +264,14 @@ function api.refreshLobby()
 end
 function api.stopRefreshLobby()
     if api.session.lobbyKey then
-        discord.clearPresence()
-        dprint("Stopping lobby refresh...", "warning")
+        discord.updatePresence("Playing Insurrection")
         pcall(stop_timer, api.variables.refreshTimerId)
     end
 end
 function api.deleteLobby()
     if api.session.lobbyKey then
-        discord.clearPresence()
+        discord.updatePresence("Playing Insurrection")
+        discord.setParty()
         dprint("DELETING lobby", "warning")
         pcall(stop_timer, api.variables.refreshTimerId)
         api.variables.refreshTimerId = nil
