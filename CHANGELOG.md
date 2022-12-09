@@ -7,12 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.1.3] - 2022-12-09
 ### Added
 - Lobby summary text now changes based on selected definition option
+- Expanded game network connection timeout limit at joining a server
 
 ### Fixed
 - Rich presence behavior
-- Loading interface after failing connecting to a server
-
-
+- Interface not loading properly after failed server connection
 
 ## [2.1.2] - 2022-11-30
 ### Fixed
