@@ -50,9 +50,6 @@ function core.loadInsurrectionPatches()
     -- if clientPort ~= friendlyClientPort then
     --    write_dword(clientPortAddress, friendlyClientPort)
     -- end
-    -- Force enable sound extensions
-    execute_script("sound_enable_eax 1")
-    execute_script("sound_enable_hardware 1")
     local scriptVersionTag = blam.findTag("variable_info", tagClasses.unicodeStringList)
     if (scriptVersionTag) then
         local scriptVersionString = blam.unicodeStringList(scriptVersionTag.id)
@@ -210,18 +207,27 @@ end
 
 function core.getWidgetValues(widgetTagId)
     if core.getCurrentUIWidgetTag() then
-        local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
-        if sucess and widgetInstanceId then
-            return harmony.menu.get_widget_values(widgetInstanceId)
+        local sucess, widgetHandle = pcall(harmony.menu.find_widgets, widgetTagId)
+        if sucess and widgetHandle then
+            return harmony.menu.get_widget_values(widgetHandle)
         end
     end
 end
 
 function core.setWidgetValues(widgetTagId, values)
     if core.getCurrentUIWidgetTag() then
-        local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
-        if sucess and widgetInstanceId then
-            harmony.menu.set_widget_values(widgetInstanceId, values)
+        local sucess, widgetHandle = pcall(harmony.menu.find_widgets, widgetTagId)
+        if sucess and widgetHandle then
+            harmony.menu.set_widget_values(widgetHandle, values)
+        end
+    end
+end
+
+function core.getWidgetHandle(widgetTagId)
+    if core.getCurrentUIWidgetTag() then
+        local sucess, widgetHandle = pcall(harmony.menu.find_widgets, widgetTagId)
+        if sucess and widgetHandle then
+            return widgetHandle
         end
     end
 end
