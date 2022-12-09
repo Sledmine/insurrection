@@ -1,5 +1,4 @@
 require "insecticide"
-local actions = require "insurrection.redux.actions"
 local blam = require "blam"
 local components = require "insurrection.components"
 local isNull = blam.isNull
@@ -10,7 +9,6 @@ local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
 local ends = require"glue".string.ends
-local constants = require "insurrection.constants"
 
 clua_version = 2.056
 DebugMode = false
@@ -50,19 +48,37 @@ local rotateOrbAnimation = optic.create_animation(5000)
 optic.set_animation_property(rotateOrbAnimation, "linear", "rotation", 360)
 local screenWidth, screenHeight = core.getScreenResolution()
 
-local function onGameStart()
+---This event will run when at least a tick has passed.
+---Allowing you to safeley run code that requires the game to be loaded.
+local function onPostGameLoad()
+    dprint("Game started!", "success")
+    -- Load insurrection interface, load constants, widgets, etc.
     interface.load()
-    -- chimera.getConfiguration()
+    if map == "ui" then
+        -- Change UI aspect ratio
+        harmony.menu.set_aspect_ratio(16, 9)
+        -- Disable menu blur
+        execute_script("menu_blur_on")
+        -- Enable EAX
+        execute_script("sound_enable_eax 1")
+        execute_script("sound_enable_hardware 1")
+        -- Disconnect from server (prevents getting stuck in a server)
+        execute_script("disconnect")
+        -- Set network timeout to 10 seconds (keeps connection alive at loading huge maps)
+        execute_script("network_connect_timeout 30000")
+    else
+        harmony.menu.set_aspect_ratio(4, 3)
+    end
 end
 
 function OnTick()
-    -- Game started event trick
+    -- Post game load event
     if lastMap ~= map then
         gameStarted = false
         lastMap = map
         if not gameStarted then
             gameStarted = true
-            onGameStart()
+            onPostGameLoad()
         end
     end
     -- Multithread callback resolve
@@ -282,20 +298,21 @@ function OnCommand(command)
 end
 
 function OnMapLoad()
+    -- Reset post map load state
     gameStarted = false
+    lastMap = ""
+    -- Reset script state
     editableWidget = nil
     editableWidgetTag = nil
-
     Lanes = {}
     VirtualInputValue = {}
     WidgetAnimations = {}
-
     ScreenCornerText = ""
     LoadingText = nil
 end
 
 function OnUnload()
-    print("Unloading Insurrection...")
+    dprint("Unloading Insurrection...")
     discord.stopPresence()
 end
 

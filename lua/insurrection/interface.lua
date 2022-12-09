@@ -38,15 +38,17 @@ function interface.load()
     constants.get()
     if script_type ~= "global" then
         interface.dialog("WARNING", "This script must be loaded as a global script.",
-                         "Insurrection will move itself to the correct location, please reload the game.")
+                         "Please move it to the global scripts folder and restart the game.")
     end
     -- TODO Remove this hack
     IsUICompatible = true
     if IsUICompatible then
+        dprint("Checking if lobby is active...")
         if api.session.lobbyKey and map == "ui" then
             api.lobby(api.session.lobbyKey)
         end
-        -- Start widgets background animation routine
+        -- Start widgets background animation
+        dprint("Starting widgets background animation...")
         if BitmapsAnimationTimerId then
             stop_timer(BitmapsAnimationTimerId)
         end
@@ -60,22 +62,15 @@ function interface.load()
         BitmapsAnimationTimerId = set_timer(33, "On30FPSRate")
 
         -- Load Insurrection features
+        dprint("Loading Insurrection patches...")
         core.loadInsurrectionPatches()
 
-        if map == "ui" then
-            -- Change UI aspect ratio
-            harmony.menu.set_aspect_ratio(16, 9)
-            -- Execute basic Halo commands
-            execute_script("menu_blur_on")
-        else
-            harmony.menu.set_aspect_ratio(4, 3)
-        end
-
+        -- Components initialization
+        dprint("Initializing components...")
         interface.loadProfileNameplate()
         core.cleanAllEditableWidgets()
 
         -- interface.animate()
-        -- Components initialization
         if constants.widgets.login then
             local dialog = components.new(constants.widgets.dialog.id)
             local dialogBackButton = button.new(dialog:findChildWidgetTag("dialog_back_button").id)
@@ -146,18 +141,21 @@ function interface.load()
             local lobbySummary = components.new(components.new(
                                                     lobby:findChildWidgetTag("summary").id):findChildWidgetTag(
                                                     "text").id)
-            local lobbyDefs = components.new(lobby:findChildWidgetTag("definitions").id)
+
+            local lobbyOptions = components.new(lobby:findChildWidgetTag("options").id)
+            local lobbyDefs = components.new(lobbyOptions:findChildWidgetTag("definitions").id)
             local lobbyDef1 = button.new(lobbyDefs:findChildWidgetTag("template").id)
             local lobbyDef2 = button.new(lobbyDefs:findChildWidgetTag("map").id)
             local lobbyDef3 = button.new(lobbyDefs:findChildWidgetTag("gametype").id)
             -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
 
-            local lobbyOptions = components.new(lobby:findChildWidgetTag("options").id)
+            local lobbyElementsList = list.new(lobbyOptions:findChildWidgetTag("elements").id)
+            local lobbySearch = input.new(lobbyOptions:findChildWidgetTag("search").id)
             local lobbyPlay = button.new(lobbyOptions:findChildWidgetTag("play").id)
-            local lobbyElementsList = list.new(lobby:findChildWidgetTag("elements").id)
+            local lobbyBack = button.new(lobbyOptions:findChildWidgetTag("back").id)
+
             local lobbyPlayers = list.new(lobby:findChildWidgetTag("players").id)
             lobbyPlayers:scrollable(false)
-            local lobbySearch = input.new(lobby:findChildWidgetTag("search").id)
 
             interface.shared.lobby = lobby
             interface.shared.lobbySummary = lobbySummary
@@ -172,7 +170,10 @@ function interface.load()
             interface.shared.lobbySearch = lobbySearch
 
             lobby:onClose(function()
-                api.stopRefreshLobby()
+                api.deleteLobby()
+            end)
+            lobbyBack:onClick(function()
+                lobby.events.onClose()
             end)
 
             local pause = components.new(constants.widgets.pause.id)
@@ -376,8 +377,6 @@ function interface.load()
     end
     -- Workaround fix to prevent players from getting stuck in a game server at menu
     if map == "ui" then
-        execute_script("disconnect")
-
         -- Set up some chimera configs
         local preferences = chimera.getPreferences()
         if preferences then
@@ -509,78 +508,77 @@ function interface.lobbyInit()
     local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                    state.lobby.owner
 
-    local lobbySummary = shared.lobbySummary
-    local lobbyDef1 = shared.lobbyDef1
-    local lobbyDef2 = shared.lobbyDef2
-    local lobbyDef3 = shared.lobbyDef3
+    local summary = shared.lobbySummary
+    local template = shared.lobbyDef1
+    local map = shared.lobbyDef2
+    local gametype = shared.lobbyDef3
     local play = shared.lobbyPlay
-    local lobbyElementsList = shared.lobbyElementsList
-    local lobbyPlayers = shared.lobbyPlayers
-    local lobbySearch = shared.lobbySearch
+    local elementsList = shared.lobbyElementsList
+    local playersList = shared.lobbyPlayers
+    local search = shared.lobbySearch
+    summary:setText("Play with your friends, define your rules and enjoy.")
 
     if not isPlayerLobbyOwner then
-        core.setWidgetValues(lobbyElementsList.tagId, {opacity = 0})
-        core.setWidgetValues(lobbySearch.tagId, {opacity = 0})
+        core.setWidgetValues(elementsList.tagId, {opacity = 0})
+        core.setWidgetValues(search.tagId, {opacity = 0})
         core.setWidgetValues(play.tagId, {opacity = 0})
     end
 
-    lobbyDef1:setText(state.lobby.template)
-    lobbyDef2:setText(state.lobby.map)
-    lobbyDef3:setText(state.lobby.gametype)
+    template:setText(state.lobby.template)
+    map:setText(state.lobby.map)
+    gametype:setText(state.lobby.gametype)
 
     if isPlayerLobbyOwner then
-        lobbyElementsList:onSelect(function(item)
+        elementsList:onSelect(function(item)
             item.value:setText(item.label)
             api.editLobby(api.session.lobbyKey, {
-                template = lobbyDef1:getText(),
-                map = lobbyDef2:getText(),
-                gametype = lobbyDef3:getText()
+                template = template:getText(),
+                map = map:getText(),
+                gametype = gametype:getText()
             })
         end)
 
-        lobbyDef1:onClick(function()
+        local definitionClick = function(lobbyDef, definition)
+            search:setText("")
             ---@type interfaceState
             local state = store:getState()
-            lobbyElementsList:setItems(glue.map(state.available.templates, function(element)
-                return {label = element, value = lobbyDef1}
+            elementsList:setItems(glue.map(state.available[definition .. "s"], function(element)
+                return {label = element, value = lobbyDef}
             end))
-            store:dispatch(actions.setLobbyDefinition("template"))
+            store:dispatch(actions.setLobbyDefinition(definition))
+        end
+
+        template:onClick(function()
+            definitionClick(template, "template")
         end)
-        lobbyDef1.events.onClick()
-        lobbyDef1:onFocus(function()
-            lobbySummary:setText(
+        -- Force selection of template at start
+        template.events.onClick()
+        template:onFocus(function()
+            summary:setText(
                 "Template defines a set of changes to the base server that will be applied when the lobby is created.")
         end)
 
-        lobbyDef2:onClick(function()
-            ---@type interfaceState
-            local state = store:getState()
-            lobbyElementsList:setItems(glue.map(state.available.maps, function(element)
-                return {label = element, value = lobbyDef2}
-            end))
-            store:dispatch(actions.setLobbyDefinition("map"))
+        map:onClick(function()
+            definitionClick(map, "map")
         end)
-        lobbyDef2:onFocus(function()
-            lobbySummary:setText("Choose a map from the available list to play on, you need to have the map installed.")
+        map:onFocus(function()
+            summary:setText(
+                "Choose a map from the available list to play on, you need to have the map installed.")
         end)
 
-        lobbyDef3:onClick(function()
-            ---@type interfaceState
-            local state = store:getState()
-            lobbyElementsList:setItems(glue.map(state.available.gametypes, function(element)
-                return {label = element, value = lobbyDef3}
-            end))
-            store:dispatch(actions.setLobbyDefinition("gametype"))
+        gametype:onClick(function()
+            definitionClick(gametype, "gametype")
         end)
-        lobbyDef3:onFocus(function()
-            lobbySummary:setText("Game type defines the rules of the game, defines team play, scoring, etc.")
+        gametype:onFocus(function()
+            summary:setText(
+                "Game type defines the rules of the game, defines team play, scoring, etc.")
         end)
 
         play:onClick(function()
             if isPlayerLobbyOwner then
-                local template = lobbyDef1:getText()
-                local map = lobbyDef2:getText()
-                local gametype = lobbyDef3:getText()
+                local template = template:getText()
+                local map = map:getText()
+                local gametype = gametype:getText()
                 api.borrow(template:lower(), map, gametype:lower())
             else
                 interface.dialog("WARNING", "", "You are not the owner of the lobby.")
@@ -589,13 +587,13 @@ function interface.lobbyInit()
 
     end
 
-    lobbyPlayers:setItems(glue.map(state.lobby.players, function(player)
+    playersList:setItems(glue.map(state.lobby.players, function(player)
         local nameplateTag = constants.nameplates[player.nameplate] or {}
         return {label = player.name, value = player, bitmap = nameplateTag.id}
     end))
 
-    local definitionsToComponent = {template = lobbyDef1, map = lobbyDef2, gametype = lobbyDef3}
-    lobbySearch:onInputText(function(text)
+    local definitionsToComponent = {template = template, map = map, gametype = gametype}
+    search:onInputText(function(text)
         ---@type interfaceState
         local state = store:getState()
         local definition = state.definition or "template"
@@ -606,7 +604,7 @@ function interface.lobbyInit()
                     table.insert(filtered, element)
                 end
             end
-            lobbyElementsList:setItems(glue.map(filtered, function(element)
+            elementsList:setItems(glue.map(filtered, function(element)
                 return {label = element, value = definitionsToComponent[definition]}
             end))
         end

@@ -383,6 +383,7 @@ function dprint(message, color)
                 message = tostring(message)
             end
         end
+        print(message)
         if (color == "info") then
             console_out(message, 0.31, 0.631, 0.976)
         elseif (color == "warning") then
