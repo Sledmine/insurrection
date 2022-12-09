@@ -73,6 +73,7 @@ local function connect(map, host, port, password)
     -- dprint("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
     if exists("maps\\" .. map .. ".map") or
         exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. map .. ".map") then
+        discord.setPartyWithLobby()
         core.connectServer(host, port, password)
     else
         interface.dialog("ERROR", "LOCAL MAP NOT FOUND",
@@ -183,7 +184,7 @@ local function onLobbyResponse(response)
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     discord.updatePresence("Hosting a lobby", "Waiting for players...")
-                    discord.setParty(api.session.lobbyKey, #state.lobby.players, 16)
+                    discord.setParty(api.session.lobbyKey, #state.lobby.players, 16, state.lobby.map)
                 else
                     discord.updatePresence("In a lobby", "Waiting for players...")
                 end
@@ -231,7 +232,9 @@ local function onLobbyRefreshResponse(response)
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
                 if not isPlayerLobbyOwner then
-                    discord.setParty(nil, #lobby.players, 16)
+                    discord.setParty(nil, #lobby.players, 16, lobby.map)
+                else
+                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
                 end
                 -- Lobby already started, join the server
                 if lobby.server and not blam.isGameDedicated() then
@@ -271,7 +274,7 @@ end
 function api.deleteLobby()
     if api.session.lobbyKey then
         discord.updatePresence("Playing Insurrection")
-        discord.setParty()
+        discord.setParty(nil)
         dprint("DELETING lobby", "warning")
         pcall(stop_timer, api.variables.refreshTimerId)
         api.variables.refreshTimerId = nil

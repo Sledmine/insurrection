@@ -75,16 +75,28 @@ end
 ---@param partyId string?
 ---@param partySize number?
 ---@param partyMax number?
-function discord.setParty(partyId, partySize, partyMax)
+---@param map? string
+function discord.setParty(partyId, partySize, partyMax, map)
     if partyId then
         -- TODO Replace with a proper party unique ID
         discord.presence.partyId = partyId .. partyId:reverse()
+        discord.presence.joinSecret = partyId
     end
     discord.presence.partySize = partySize
     discord.presence.partyMax = partyMax
-    discord.presence.joinSecret = partyId
+    if map then
+        discord.presence.details = map
+        discord.presence.largeImageKey = map
+        discord.presence.largeImageText = map
+    end
     discordRPC.updatePresence(discord.presence)
     discordRPC.runCallbacks()
+end
+
+function discord.setPartyWithLobby()
+    ---@type interfaceState
+    local state = store:getState()
+    discord.setParty(nil, #state.lobby.players, 16, state.lobby.map)
 end
 
 --- Clear the presence info
