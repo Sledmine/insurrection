@@ -52,8 +52,6 @@ local screenWidth, screenHeight = core.getScreenResolution()
 ---Allowing you to safeley run code that requires the game to be loaded.
 local function onPostGameLoad()
     dprint("Game started!", "success")
-    -- Load insurrection interface, load constants, widgets, etc.
-    interface.load()
     if map == "ui" then
         -- Change UI aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
@@ -69,6 +67,8 @@ local function onPostGameLoad()
     else
         harmony.menu.set_aspect_ratio(4, 3)
     end
+    -- Load insurrection interface, load constants, widgets, etc.
+    interface.load()
 end
 
 function OnTick()

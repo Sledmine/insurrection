@@ -344,6 +344,7 @@ function interface.load()
                 local pause = components.new(multiplayerWidgetsCollection.tagList[1])
                 if pause then
                     if constants.widgets.pause then
+                        dprint("Loading Insurrection UI in external map...")
                         harmony.menu.set_aspect_ratio(16, 9)
                         local insurrectionPause = components.new(constants.widgets.pause.id)
                         local resumeButton = button.new(
