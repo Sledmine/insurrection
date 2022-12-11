@@ -10,6 +10,7 @@ local input = require "lua.scripts.ui.componentsV2.input"
 local complexButton = require "lua.scripts.ui.componentsV2.complexButton"
 local slider = require "lua.scripts.ui.componentsV2.slider"
 local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
+local preview = require "lua.scripts.ui.componentsV2.preview"
 local pos = constants.position
 
 widget.init [[insurrection/ui/menus/tester/]]
@@ -23,7 +24,12 @@ return container("tester_menu", {
         pos.header.y
     },
     {image("anim_test", [[insurrection/ui/bitmaps/anim_test.bitmap]], 123, 135, 0.5), 300, 60},
-    {nameplate("nameplate", "NAMEPLATE", "NAMEPLATE"), 624, 20},
+    {nameplate("nameplate", "NAMEPLATE"), 624, 20},
+    {
+        preview("test_preview_1", "insurrection/ui/bitmaps/insurrection_maps/cold_shoulder.bitmap"),
+        400,
+        150
+    },
     {
         options("tester_options", "vertical", {
             {button("test_1", "NORMAL BUTTON"), layout()},
@@ -43,7 +49,7 @@ return container("tester_menu", {
                 input("test_input_1", "NORMAL",
                       {icon = "insurrection/ui/bitmaps/search_icon.bitmap"}),
                 40,
-                370
+                360
             },
             {
                 input("test_input_2", "SMALL",

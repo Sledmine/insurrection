@@ -198,9 +198,11 @@ function widget.align(alignment, size, horizontal, vertical, margin)
         local offset = offset or 0
         _ALIGNMENTS[alignmentHash] = _ALIGNMENTS[alignmentHash] + 1
         if alignment == "vertical" then
-            return horizontal, widget.offset(vertical, size, margin, _ALIGNMENTS[alignmentHash]) + offset
+            return horizontal,
+                   widget.offset(vertical, size, margin, _ALIGNMENTS[alignmentHash]) + offset
         else
-            return widget.offset(horizontal, size, margin, _ALIGNMENTS[alignmentHash]) + offset, vertical
+            return widget.offset(horizontal, size, margin, _ALIGNMENTS[alignmentHash]) + offset,
+                   vertical
         end
     end
 end
@@ -238,6 +240,28 @@ end
 ---@return string
 function widget.bounds(y, x, height, width)
     return string.format("%d, %d, %d, %d", y, x, height, width)
+end
+
+local floor = math.floor
+
+---Return scale formatted bounds
+---@param width number
+---@param height number
+---@param scale number
+---@return string
+function widget.scale(width, height, scale)
+    local scale = scale or 1
+    local originalWidth = width
+    local originalHeight = height
+    local width = floor(width * scale)
+    local height = floor(height * scale)
+    local top = -(floor(originalHeight - height))
+    local left = -(floor(originalWidth - width))
+    if scale >= 1 then
+        top = 0
+        left = 0
+    end
+    return top .. ", " .. left .. ", " .. height .. ", " .. width
 end
 
 return widget
