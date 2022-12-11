@@ -17,3 +17,6 @@ six-shooter.ini
 
 # DXVK
 *.log
+
+# Other
+images/design/descriptions/insurrection_maps_description
