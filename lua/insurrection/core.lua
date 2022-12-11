@@ -232,6 +232,13 @@ function core.getWidgetHandle(widgetTagId)
     end
 end
 
+function core.replaceWidgetInDom(widgetTagId, newWidgetTagId)
+    local widgetHandle = core.getWidgetHandle(widgetTagId)
+    if widgetHandle then
+        harmony.menu.replace_widget(widgetHandle, newWidgetTagId)
+    end
+end
+
 function core.getScreenResolution()
     local width = read_word(0x637CF2)
     local height = read_word(0x637CF0)

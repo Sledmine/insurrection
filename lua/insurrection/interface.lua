@@ -150,6 +150,8 @@ function interface.load()
             -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
 
             local lobbyElementsList = list.new(lobbyOptions:findChildWidgetTag("elements").id)
+            local lobbyMapsList = list.new(blam.findTag("lobby_maps",
+                                                        blam.tagClasses.uiWidgetDefinition).id)
             local lobbySearch = input.new(lobbyOptions:findChildWidgetTag("search").id)
             local lobbyPlay = button.new(lobbyOptions:findChildWidgetTag("play").id)
             local lobbyBack = button.new(lobbyOptions:findChildWidgetTag("back").id)
@@ -157,17 +159,18 @@ function interface.load()
             local lobbyPlayers = list.new(lobby:findChildWidgetTag("players").id)
             lobbyPlayers:scrollable(false)
 
-            interface.shared.lobby = lobby
-            interface.shared.lobbySummary = lobbySummary
-            interface.shared.lobbyDefs = lobbyDefs
-            interface.shared.lobbyDef1 = lobbyDef1
-            interface.shared.lobbyDef2 = lobbyDef2
-            interface.shared.lobbyDef3 = lobbyDef3
-            -- interface.shared.lobbySettings = lobbySettings
-            interface.shared.lobbyPlay = lobbyPlay
-            interface.shared.lobbyElementsList = lobbyElementsList
-            interface.shared.lobbyPlayers = lobbyPlayers
-            interface.shared.lobbySearch = lobbySearch
+            shared.lobby = lobby
+            shared.lobbySummary = lobbySummary
+            shared.lobbyDefs = lobbyDefs
+            shared.lobbyDef1 = lobbyDef1
+            shared.lobbyDef2 = lobbyDef2
+            shared.lobbyDef3 = lobbyDef3
+            -- shared.lobbySettings = lobbySettings
+            shared.lobbyPlay = lobbyPlay
+            shared.lobbyElementsList = lobbyElementsList
+            shared.lobbyMapsList = lobbyMapsList
+            shared.lobbyPlayers = lobbyPlayers
+            shared.lobbySearch = lobbySearch
 
             lobby:onClose(function()
                 api.deleteLobby()
@@ -515,6 +518,9 @@ function interface.lobbyInit()
     local gametype = shared.lobbyDef3
     local play = shared.lobbyPlay
     local elementsList = shared.lobbyElementsList
+    local mapsList = shared.lobbyMapsList
+    local mapPreview = components.new(blam.findTag("map_small_preview",
+                                                   blam.tagClasses.uiWidgetDefinition).id)
     local playersList = shared.lobbyPlayers
     local search = shared.lobbySearch
     summary:setText("Play with your friends, define your rules and enjoy.")
@@ -537,13 +543,30 @@ function interface.lobbyInit()
                 map = map:getText(),
                 gametype = gametype:getText()
             })
+
+        end)
+        mapsList:onSelect(function(item)
+            item.value:setText(item.label)
+            api.editLobby(api.session.lobbyKey, {
+                template = template:getText(),
+                map = map:getText(),
+                gametype = gametype:getText()
+            })
+            local mapBitmap = blam.findTag(item.label, blam.tagClasses.bitmap).id
+            if mapBitmap then
+                mapPreview.widgetDefinition.backgroundBitmap = mapBitmap
+            end
         end)
 
         local definitionClick = function(lobbyDef, definition)
             search:setText("")
             ---@type interfaceState
             local state = store:getState()
-            elementsList:setItems(glue.map(state.available[definition .. "s"], function(element)
+            local component = elementsList
+            if definition == "map" then
+                component = mapsList
+            end
+            component:setItems(glue.map(state.available[definition .. "s"], function(element)
                 return {label = element, value = lobbyDef}
             end))
             store:dispatch(actions.setLobbyDefinition(definition))
@@ -551,6 +574,7 @@ function interface.lobbyInit()
 
         template:onClick(function()
             definitionClick(template, "template")
+            mapsList:replace(elementsList.tagId)
         end)
         -- Force selection of template at start
         template.events.onClick()
@@ -561,6 +585,7 @@ function interface.lobbyInit()
 
         map:onClick(function()
             definitionClick(map, "map")
+            elementsList:replace(mapsList.tagId)
         end)
         map:onFocus(function()
             summary:setText(
@@ -569,6 +594,7 @@ function interface.lobbyInit()
 
         gametype:onClick(function()
             definitionClick(gametype, "gametype")
+            mapsList:replace(elementsList.tagId)
         end)
         gametype:onFocus(function()
             summary:setText(
@@ -605,7 +631,11 @@ function interface.lobbyInit()
                     table.insert(filtered, element)
                 end
             end
-            elementsList:setItems(glue.map(filtered, function(element)
+            local component = elementsList
+            if definition == "map" then
+                component = mapsList
+            end
+            component:setItems(glue.map(filtered, function(element)
                 return {label = element, value = definitionsToComponent[definition]}
             end))
         end

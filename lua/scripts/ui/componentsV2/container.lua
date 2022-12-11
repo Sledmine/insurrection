@@ -27,6 +27,7 @@ return function(name, childWidgets, props)
                 ["function"] = props.func
             }
         },
+        conditional_widgets = props.conditionalWidgets,
         child_widgets = childWidgets or {}
     }
     if props.dataInput then

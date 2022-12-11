@@ -1,4 +1,5 @@
 local fs = require "fs"
+local tag= require "lua.scripts.modules.tag"
 
 local images = {
     "ascetic",
@@ -25,11 +26,12 @@ local images = {
     "nitra",
     "Ruins_of_alph",
     "sali_creek",
-    "sympathy_mp",
+    --"sympathy_mp",
     "warren"
 }
 
 for _, image in ipairs(images) do
+    local image = image:lower()
     local imageFolderPath = [[images/design/descriptions/insurrection_maps_description/]] .. image
     local imageDataFolderPath = [[data/insurrection/ui/bitmaps/descriptions/insurrection_maps_description/]] .. image
     local bitmapFolderPath = [[data/insurrection/ui/bitmaps/insurrection_maps/]] .. image
@@ -51,3 +53,13 @@ for _, image in ipairs(images) do
     os.execute([[cd ]] .. imageDataFolderPath .. [[ && convert -bordercolor blue -border 1 +append $(ls -1v) "../../../insurrection_maps/]] .. image .. [[.png"]])
     os.execute([[invader-bitmap -F 32-bit -T interface_bitmaps "]] .. bitmapPath .. [["]])
 end
+
+local bitmapsTagCollection = {tags = {}}
+for _, image in ipairs(images) do
+    local image = image:lower()
+    bitmapsTagCollection.tags[#bitmapsTagCollection.tags + 1] = {
+        reference = [[insurrection/ui/bitmaps/insurrection_maps/]] .. image .. [[.bitmap]]
+    }
+end
+tag.create([[insurrection/ui/shared/insurrection_maps.tag_collection]], bitmapsTagCollection)
+

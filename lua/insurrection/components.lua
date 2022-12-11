@@ -169,4 +169,10 @@ function components.getType(self)
     return self.type
 end
 
+---@param self uiComponent
+---@param newWidgetTagId number
+function components.replace(self, newWidgetTagId)
+    core.replaceWidgetInDom(self.tagId, newWidgetTagId)
+end
+
 return components

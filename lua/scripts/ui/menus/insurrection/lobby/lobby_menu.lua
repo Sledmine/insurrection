@@ -11,6 +11,7 @@ local complexButton = require "lua.scripts.ui.componentsV2.complexButton"
 local slider = require "lua.scripts.ui.componentsV2.slider"
 local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
 local box = require "lua.scripts.ui.componentsV2.box"
+local preview = require "lua.scripts.ui.componentsV2.preview"
 local pos = constants.position
 
 widget.init [[insurrection/ui/menus/lobby/]]
@@ -20,6 +21,8 @@ local defsLayout = widget.align("horizontal", constants.components.complexButton
 
 local elementsLayout = widget.align("horizontal", constants.components.complexButton.normal.width,
                                     59, 180, 2)
+local elementsLayoutVertical = widget.align("vertical", constants.components.button.normal.height,
+                                            pos.options.x, 170, 2)
 
 local nameplatesLayout = widget.align("vertical", 26, 624, 12, 2)
 
@@ -110,5 +113,37 @@ return container("lobby_menu", {
             {nameplate("nameplate_15", string.rep(" ", 64)), nameplatesLayout()},
             {nameplate("nameplate_16", string.rep(" ", 64)), nameplatesLayout()}
         })
+    }
+}, {
+    conditionalWidgets = {
+        {
+            widget_tag = options("lobby_maps", "vertical", {
+                {button("scroll_map_list_up", nil, {arrow = "up"}), elementsLayoutVertical()},
+                {
+                    button("element_map_1", string.rep(" ", 32), {variant = "normal"}),
+                    elementsLayoutVertical()
+                },
+                {
+                    button("element_map_2", string.rep(" ", 32), {variant = "normal"}),
+                    elementsLayoutVertical()
+                },
+                {
+                    button("element_map_3", string.rep(" ", 32), {variant = "normal"}),
+                    elementsLayoutVertical()
+                },
+                {
+                    button("element_map_4", string.rep(" ", 32), {variant = "normal"}),
+                    elementsLayoutVertical()
+                },
+                {button("scroll_map_list_down", nil, {arrow = "down"}), elementsLayoutVertical()}
+            }, box("map_description", {
+                {
+                    preview("map_small",
+                            [[insurrection/ui/bitmaps/insurrection_maps/cold_shoulder.bitmap]]),
+                    232,
+                    170
+                }
+            }))
+        }
     }
 })
