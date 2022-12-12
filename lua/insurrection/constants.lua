@@ -53,6 +53,9 @@ function constants.get()
         end
     end
 
+    constants.bitmaps = {
+        unknownMapPreview = findTag("unknown_map_preview", tagClasses.bitmap),
+    }
 end
 
 return constants

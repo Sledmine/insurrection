@@ -543,7 +543,6 @@ function interface.lobbyInit()
                 map = map:getText(),
                 gametype = gametype:getText()
             })
-
         end)
         mapsList:onSelect(function(item)
             item.value:setText(item.label)
@@ -552,9 +551,11 @@ function interface.lobbyInit()
                 map = map:getText(),
                 gametype = gametype:getText()
             })
-            local mapBitmap = blam.findTag(item.label, blam.tagClasses.bitmap).id
-            if mapBitmap then
-                mapPreview.widgetDefinition.backgroundBitmap = mapBitmap
+            local mapBitmapTag = blam.findTag(item.label:lower(), blam.tagClasses.bitmap)
+            if mapBitmapTag then
+                mapPreview.widgetDefinition.backgroundBitmap = mapBitmapTag.id
+            else
+                mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
             end
         end)
 

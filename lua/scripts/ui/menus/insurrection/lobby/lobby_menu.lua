@@ -139,7 +139,7 @@ return container("lobby_menu", {
             }, box("map_description", {
                 {
                     preview("map_small",
-                            [[insurrection/ui/bitmaps/insurrection_maps/cold_shoulder.bitmap]]),
+                            [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]),
                     232,
                     170
                 }
