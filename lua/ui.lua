@@ -40,7 +40,10 @@ LoadingText = nil
 local lastMap = ""
 
 discord = require "insurrection.discord"
-discord.startPresence()
+-- Start discord presence only if script is loaded in the UI map, prevent crashes in other maps
+if map == "ui" then
+    discord.startPresence()
+end
 
 -- Setup loading orb sprite
 local loadingSprite = optic.create_sprite("loading_orb.png", 32, 32)
@@ -48,8 +51,9 @@ local rotateOrbAnimation = optic.create_animation(5000)
 optic.set_animation_property(rotateOrbAnimation, "linear", "rotation", 360)
 local screenWidth, screenHeight = core.getScreenResolution()
 
----This event will run when at least a tick has passed.
----Allowing you to safeley run code that requires the game to be loaded.
+---This event will run when at least one tick has passed after the game has loaded.
+---
+---Allowing you to safely run code that requires a full loaded game state.
 local function onPostGameLoad()
     dprint("Game started!", "success")
     if map == "ui" then
@@ -213,20 +217,13 @@ function OnFrame()
                             rotateOrbAnimation, optic.create_animation(0))
     end
 
-    -- Process widget animations queue
+    -- Process widget animations queue only if we have a widget open
     local widgetTag = core.getCurrentUIWidgetTag()
     if widgetTag then
-        for animationWidgetId, animation in pairs(WidgetAnimations) do
-            if not animation.finished then
-                if widgetTag.id == animation.widgetContainerTagId then
-                    if animation.animateOn == "show" then
-                        animation.animate()
-                    elseif animation.animateOn == "focus" then
-                        if lastFocusedWidgetTag and lastFocusedWidgetTag.id ==
-                            animation.targetWidgetTagId then
-                            animation.animate()
-                        end
-                    end
+        for _, component in pairs(components.widgets) do
+            for _, animation in pairs(component.animations) do
+                if not animation.finished then
+                    animation.play()
                 end
             end
         end

@@ -11,9 +11,12 @@ local constants = {}
 function constants.get()
     constants.widgets = {
         --[[
-        The following widgets are not used by the game, but are used by the
-        Insurrection mod. They are included here for completeness.
+        The following widgets are not used by the game, but are used by Insurrection.
+        They are gathered here for later use.
+        Ideally, we only want root widgets, so we can search for nested widgets later.
     ]]
+        intro = findWidgetTag("intro\\intro_menu"),
+        main = findWidgetTag("main_menu"),
         dialog = findWidgetTag("dialog_menu"),
         login = findWidgetTag("login_menu"),
         lobby = findWidgetTag("lobby_menu"),

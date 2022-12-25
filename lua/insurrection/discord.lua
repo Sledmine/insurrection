@@ -53,8 +53,10 @@ function discord.startPresence()
             discordRPC.updatePresence(discord.presence)
         else
             core.loading(false)
-            interface.dialog("WARNING", "An error occurred while starting Discord Presence.",
+            if not DebugMode then
+                interface.dialog("WARNING", "An error occurred while starting Discord Presence.",
                              "Please ensure that Discord is running and try again.\nDiscord is a required dependency for Insurrection services.")
+            end
             return false
         end
     end

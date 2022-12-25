@@ -6,8 +6,6 @@ local button = require "insurrection.components.button"
 local list = require "insurrection.components.list"
 local input = require "insurrection.components.input"
 local translations = require "insurrection.translations"
-local createBezierCurve = harmony.math.create_bezier_curve
-local bezierCurve = harmony.math.get_bezier_curve_point
 local openWidget = harmony.menu.open_widget
 local reloadWidget = harmony.menu.reload_widget
 local findWidgets = harmony.menu.find_widgets
@@ -185,6 +183,9 @@ function interface.load()
             end)
 
             local tester = components.new(constants.widgets.tester.id)
+            local testerAnimTest = components.new(tester:findChildWidgetTag("anim_test").id)
+            testerAnimTest:animate()
+            testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
 
             local customization = components.new(constants.widgets.customization.id)
             local nameplatesList = list.new(
@@ -555,7 +556,8 @@ function interface.lobbyInit()
             if mapBitmapTag then
                 mapPreview.widgetDefinition.backgroundBitmap = mapBitmapTag.id
             else
-                mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
+                mapPreview.widgetDefinition.backgroundBitmap =
+                    constants.bitmaps.unknownMapPreview.id
             end
         end)
 
@@ -682,85 +684,6 @@ function interface.setWidgetValues(widgetTagId, values)
     if sucess and widgetInstanceId then
         harmony.menu.set_widget_values(widgetInstanceId, values);
     end
-end
-
-local bezierCurves = {
-    ["ease in"] = createBezierCurve("ease in"),
-    ["ease out"] = createBezierCurve("ease out")
-}
----Setup an animation to apply to a widget
----@param targetWidgetTagId number Tag id of the target widget
----@param widgetContainerTagId number Tag id of the widget container
----@param duration number Duration of the animation in seconds
----@param property '"horizontal"' | '"vertical' | '"opacity"' | string Property to animate (e.g. "opacity")
----@param originalOffset number Original offset of the widget
----@param offset number Offset to apply to the widget
----@param bezier? '"ease in"' | '"ease out"' | string Bezier curve to use, e.g. "ease in"
----@param animateOn? '"show"' | '"focus"' | string Animation to apply to the widget, e.g. "show"
-function interface.animation(targetWidgetTagId,
-                             widgetContainerTagId,
-                             duration,
-                             property,
-                             originalOffset,
-                             offset,
-                             bezier,
-                             animateOn)
-    local animationId = targetWidgetTagId .. widgetContainerTagId .. property
-    WidgetAnimations[animationId] = {
-        finished = false,
-        widgetContainerTagId = widgetContainerTagId,
-        targetWidgetTagId = targetWidgetTagId,
-        timestamp = nil,
-        animateOn = animateOn or "show",
-        animate = function()
-            local originalOffset = originalOffset
-            local bezierCurveHandle = bezierCurves[bezier] or bezierCurves["ease in"]
-            if not WidgetAnimations[animationId].timestamp then
-                WidgetAnimations[animationId].timestamp = harmony.time.set_timestamp()
-            end
-            local elapsed = harmony.time.get_elapsed_milliseconds(
-                                WidgetAnimations[animationId].timestamp) / 1000
-            WidgetAnimations[animationId].elapsed = elapsed
-            -- console_out(elapsed)
-            -- console_out(duration)
-            if (elapsed >= duration) then
-
-                if property == "horizontal" then
-                    interface.setWidgetValues(targetWidgetTagId, {left_bound = offset})
-                elseif property == "vertical" then
-                    interface.setWidgetValues(targetWidgetTagId, {top_bound = offset})
-                else
-                    interface.setWidgetValues(targetWidgetTagId, {opacity = offset})
-                end
-
-                WidgetAnimations[animationId].timestamp = nil
-                WidgetAnimations[animationId].finished = true
-                return
-            end
-
-            local widgetTag = blam.uiWidgetDefinition(widgetContainerTagId)
-            if not originalOffset then
-                for _, childWidget in pairs(widgetTag.childWidgets) do
-                    if childWidget.widgetTag == targetWidgetTagId then
-                        if property == "horizontal" then
-                            originalOffset = childWidget.horizontalOffset
-                        elseif property == "vertical" then
-                            originalOffset = childWidget.verticalOffset
-                        end
-                    end
-                end
-            end
-            local t = (elapsed / duration)
-            local newPosition = bezierCurve(bezierCurveHandle, originalOffset, offset, t)
-            if property == "horizontal" then
-                interface.setWidgetValues(targetWidgetTagId, {left_bound = math.floor(newPosition)})
-            elseif property == "vertical" then
-                interface.setWidgetValues(targetWidgetTagId, {top_bound = math.floor(newPosition)})
-            else
-                interface.setWidgetValues(targetWidgetTagId, {opacity = newPosition})
-            end
-        end
-    }
 end
 
 function interface.animate()

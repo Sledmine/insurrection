@@ -5,6 +5,9 @@ local unicodeStringList = blam.unicodeStringList
 local isNull = blam.isNull
 local glue = require "glue"
 local core = require "insurrection.core"
+local harmony = require "mods.harmony"
+local createBezierCurve = harmony.math.create_bezier_curve
+local bezierCurve = harmony.math.get_bezier_curve_point
 
 ---@class uiComponentClass
 local components = {
@@ -19,7 +22,9 @@ local components = {
     ---@type boolean
     isBackgroundAnimated = false,
     ---@type '"generic"' | '"list"' | '"button"' | '"checkbox"' | '"slider"' | '"dropdown"' | '"text"' | '"image"'
-    type = "generic"
+    type = "generic",
+    ---@type table<string, widgetAnimation>
+    animations = {}
 }
 
 ---@class uiComponentEvents
@@ -173,6 +178,75 @@ end
 ---@param newWidgetTagId number
 function components.replace(self, newWidgetTagId)
     core.replaceWidgetInDom(self.tagId, newWidgetTagId)
+end
+
+---@enum bezierCurves
+local bezierCurves = {
+    ["ease in"] = createBezierCurve("ease in"),
+    ["ease out"] = createBezierCurve("ease out"),
+    ["ease in out"] = createBezierCurve("ease in out")
+}
+
+---@class widgetAnimation
+---@field finished boolean
+---@field timestamp number
+---@field play fun()
+
+---Setup an animation to apply to a widget
+---@param duration number Duration of the animation in seconds
+---@param property '"horizontal"' | '"vertical"' | '"opacity"' | string Property to animate (e.g. "opacity")
+---@param originalOffset number Original offset of the widget
+---@param offset number Offset to apply to the widget
+---@param bezier? bezierCurves Bezier curve to use, e.g. "ease in"
+function components.setAnimation(self,
+                                 duration,
+                                 property,
+                                 originalOffset,
+                                 offset,
+                                 bezier)
+    local targetWidgetTagId = self.tagId
+    local animationId = targetWidgetTagId .. property
+    self.animations[animationId] = {
+        finished = false,
+        timestamp = nil,
+        play = function()
+            console_out("Playing animation " .. animationId)
+            local originalOffset = originalOffset
+            local bezierCurveHandle = bezierCurves[bezier] or bezierCurves["ease in"]
+            if not self.animations[animationId].timestamp then
+                self.animations[animationId].timestamp = harmony.time.set_timestamp()
+            end
+            local elapsed = harmony.time.get_elapsed_milliseconds(
+                                self.animations[animationId].timestamp) / 1000
+            self.animations[animationId].elapsed = elapsed
+            -- console_out(elapsed)
+            -- console_out(duration)
+            if (elapsed >= duration) then
+
+                if property == "horizontal" then
+                    core.setWidgetValues(targetWidgetTagId, {left_bound = offset})
+                elseif property == "vertical" then
+                    core.setWidgetValues(targetWidgetTagId, {top_bound = offset})
+                else
+                    core.setWidgetValues(targetWidgetTagId, {opacity = offset})
+                end
+
+                self.animations[animationId].timestamp = nil
+                self.animations[animationId].finished = true
+                return
+            end
+
+            local t = (elapsed / duration)
+            local newPosition = bezierCurve(bezierCurveHandle, originalOffset, offset, t)
+            if property == "horizontal" then
+                core.setWidgetValues(targetWidgetTagId, {left_bound = math.floor(newPosition)})
+            elseif property == "vertical" then
+                core.setWidgetValues(targetWidgetTagId, {top_bound = math.floor(newPosition)})
+            else
+                core.setWidgetValues(targetWidgetTagId, {opacity = newPosition})
+            end
+        end
+    }
 end
 
 return components
