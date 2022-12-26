@@ -34,11 +34,11 @@ return container("pause_menu", {
                 layout()
             },
             {
-                button("mods", "MODS", {
-                    opens = [[insurrection/ui/menus/mods/mods_menu.ui_widget_definition]],
-                }),
+                button("mods", "MODS",
+                       {opens = [[insurrection/ui/menus/mods/mods_menu.ui_widget_definition]]}),
                 layout()
             },
+            {button("open_map_pause", "MAP MENU", {}), layout()},
             {button("exit", "EXIT TO MAIN MENU", {func = "mp_game_player_quit"}), layout()}
         }, nil, {func = "mp_pause_menu_open"})
     },

@@ -17,7 +17,7 @@ function constants.get()
     ]]
         intro = findWidgetTag("intro\\intro_menu"),
         main = findWidgetTag("main_menu"),
-        dialog = findWidgetTag("dialog_menu"),
+        dialog = findWidgetTag("dialog\\dialog_menu"),
         login = findWidgetTag("login_menu"),
         lobby = findWidgetTag("lobby_menu"),
         dashboard = findWidgetTag("dashboard\\dashboard_menu"),

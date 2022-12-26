@@ -20,4 +20,8 @@ function menus.pause()
     openWidget(constants.widgets.pause.id, false)
 end
 
+function menus.open(widget)
+    openWidget(widget, false)
+end 
+
 return menus

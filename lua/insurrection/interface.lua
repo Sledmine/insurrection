@@ -365,14 +365,24 @@ function interface.load()
                             api.deleteLobby()
                         end)
                         pause:onOpen(function()
-                            if map ~= "ui" and (isGameDedicated() or DebugMode) then
-                                dprint("Loading Insurrection UI in external map...")
-                                interface.blur(true)
-                                menus.pause()
+                            if not InvalidatePauseOverride then
+                                if map ~= "ui" and (isGameDedicated() or DebugMode) then
+                                    dprint("Loading Insurrection UI in external map...")
+                                    interface.blur(true)
+                                    menus.pause()
+                                end
                             end
+                            InvalidatePauseOverride = false
                         end)
                         insurrectionPause:onClose(function()
                             interface.blur(false)
+                        end)
+                        local openMapPauseButton = button.new(
+                                                       insurrectionPause:findChildWidgetTag(
+                                                           "open_map_pause").id)
+                        openMapPauseButton:onClick(function()
+                            InvalidatePauseOverride = true
+                            menus.open(pause.tagId)
                         end)
                     end
                 end
