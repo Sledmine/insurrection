@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2022-12-27
+### Added
+- Preview images at selecting lobby map
+- Option in pause menu while playing in an insurrection lobby to open default map pause menu
+
+### Fixed
+- Interface loading on external maps, stability improved in general
+- Game crash related to Discord Rich Presence at reloading lua scripts
+
 ## [2.1.4] - 2022-12-10
 ### Fixed
 - Menu aspect ratio not changing properly while Insurrection menu is loaded externally
