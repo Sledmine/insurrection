@@ -219,6 +219,7 @@ function OnFrame()
 
     -- Process widget animations queue only if we have a widget open
     local widgetTag = core.getCurrentUIWidgetTag()
+    --[[
     if widgetTag then
         for _, component in pairs(components.widgets) do
             for _, animation in pairs(component.animations) do
@@ -227,7 +228,7 @@ function OnFrame()
                 end
             end
         end
-    end
+    end]]
 end
 
 function OnWidgetOpen(widgetInstanceIndex)
