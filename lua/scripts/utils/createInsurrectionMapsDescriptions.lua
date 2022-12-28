@@ -2,6 +2,7 @@ local fs = require "fs"
 local tag = require "lua.scripts.modules.tag"
 
 local images = {
+    -- "gridiron",
     "ascetic",
     "asylum_v3",
     "augurer",
@@ -13,9 +14,9 @@ local images = {
     "delta_ruined",
     "disconnect_beta2",
     "fissurefall",
+    "forge_island",
     "frigid_keep",
     "gothra-mp",
-    -- "gridiron",
     "hk-bowser",
     "hk-koopa",
     "hk-peach",
