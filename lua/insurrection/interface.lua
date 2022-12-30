@@ -189,8 +189,8 @@ function interface.load()
 
             local customization = components.new(constants.widgets.customization.id)
             local nameplatesList = list.new(
-                                       customization:findChildWidgetTag("customization_options").id,
-                                       2, 10)
+                                       customization:findChildWidgetTag("nameplates_options").id, 2,
+                                       10)
             local nameplatePreview = components.new(
                                          customization:findChildWidgetTag("nameplate_preview").id)
             nameplatePreview:animate()
@@ -202,7 +202,6 @@ function interface.load()
             end)
             local sortedNameplates = glue.map(glue.keys(constants.nameplates), function(nameplateId)
                 return {
-                    label = "",
                     value = nameplateId,
                     bitmap = constants.nameplates[nameplateId].id
                 }
