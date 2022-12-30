@@ -192,6 +192,11 @@ local function onLobbyResponse(response)
                 end
             end
             return true
+        elseif response.code == 403 then
+            local jsonResponse = response.json()
+            if jsonResponse and jsonResponse.key then
+                api.lobby(jsonResponse.key)
+            end
         else
             api.session.lobbyKey = nil
             local jsonResponse = response.json()
