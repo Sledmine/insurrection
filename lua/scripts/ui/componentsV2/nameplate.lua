@@ -4,7 +4,7 @@ local constants = require "lua.scripts.ui.components.constants"
 
 ---Nameplate component
 ---@param name string
----@param text string
+---@param text? string
 ---@param props? {preview?: boolean, profile?: boolean}
 ---@return string
 return function(name, text, props)
@@ -16,10 +16,10 @@ return function(name, text, props)
     local stringsTagPath
     if text then
         -- Generate strings tag
-        stringsTagPath = widget.path .. "strings/" .. name .. "_nameplate.unicode_string_list"
+        stringsTagPath = widget.path .. "strings/nameplate_" .. name .. ".unicode_string_list"
         ustr(stringsTagPath, {text})
     end
-    local widgetPath = widget.path .. "buttons/" .. name .. "_nameplate.ui_widget_definition"
+    local widgetPath = widget.path .. "buttons/nameplate_" .. name .. ".ui_widget_definition"
     local overlayPath = widget.path .. "buttons/" .. name ..
                             "_nameplate_overlay.ui_widget_definition"
 

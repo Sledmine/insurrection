@@ -69,6 +69,8 @@ return function(name, text, label, props)
             wid.vert_offset = wid.vert_offset - 10
         elseif props.variant == "horizontal" then
             wid.vert_offset = wid.vert_offset - 6
+        else
+            wid.vert_offset = wid.vert_offset - 18
         end
         local labelPath = widget.path .. "buttons/" .. name .. "_button_label.ui_widget_definition"
         widget.createV2(labelPath, {

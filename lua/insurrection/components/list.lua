@@ -79,7 +79,9 @@ function list.refresh(self)
             core.setWidgetValues(childWidget.widgetTag, {opacity = 1})
             if childWidget and not isNull(childWidget.widgetTag) then
                 local listButton = button.new(childWidget.widgetTag)
-                listButton:setText(item.label)
+                if item.label then
+                    listButton:setText(item.label)
+                end
                 local onSelect = self.events.onSelect
                 if onSelect then
                     local lastSelectedItemIndex = itemIndex

@@ -91,7 +91,7 @@ function components.setText(self, text, mask)
         widgetDefinition = childWidgetDefinition --[[@as uiWidgetDefinition]]
     end
     if not (unicodeStrings and not isNull(unicodeStrings)) then
-        error("No unicodeStringList found for widgetDefinition")
+        error("No unicodeStringList found for widgetDefinition " .. self.tag.path)
     end
     local stringListIndex = widgetDefinition.stringListIndex
     local newStrings = unicodeStrings.stringList
