@@ -15,6 +15,7 @@ local keyboardInputAddress = 0x64C550
 local clientPortAddress = 0x6337F8
 local clientPort = read_word(clientPortAddress)
 local friendlyClientPort = 2305
+local profileNameAddress = 0x6ADE22
 
 local core = {}
 
@@ -271,6 +272,19 @@ function core.loading(isLoading, text, blockInput)
         harmony.menu.block_input(false)
         LoadingText = nil
     end
+end
+
+function core.gameProfileName(name)
+    local name = name
+    if name then
+        -- Limit name to 11 characters
+        if #name > 11 then
+            name = name:sub(1, 11)
+        end
+        blam.writeUnicodeString(profileNameAddress, name, true)
+    end
+    local profileName = blam.readUnicodeString(profileNameAddress, true)
+    return profileName
 end
 
 return core

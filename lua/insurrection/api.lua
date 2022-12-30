@@ -74,6 +74,8 @@ local function connect(map, host, port, password)
     if exists("maps\\" .. map .. ".map") or
         exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. map .. ".map") then
         discord.setPartyWithLobby()
+        -- Force game profile name to be the same as the player's name
+        core.gameProfileName(api.session.player.name)
         core.connectServer(host, port, password)
     else
         interface.dialog("ERROR", "LOCAL MAP NOT FOUND",
