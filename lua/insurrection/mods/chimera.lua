@@ -98,28 +98,6 @@ function chimera.loadServers(loadHistory)
     return nil
 end
 
---- Map selected bookmark from the UI
----@param widgetTagId number
-function chimera.onButton(widgetTagId)
-    local widgetTag = blam.getTag(widgetTagId)
-    local widgetPath = widgetTag.path
-    if widgetPath:find "chimera_server_button" then
-        local buttonName = core.getTagName(widgetPath)
-        local buttonSplit = split(buttonName, "_")
-        local buttonIndex = tonumber(buttonSplit[#buttonSplit])
-
-        local bookmark = servers[buttonIndex]
-        local serverIp = bookmark.ip
-        local serverPort = bookmark.port
-        local serverPassword = bookmark.password
-        execute_script("connect " .. serverIp .. ":" .. serverPort .. " " .. serverPassword)
-    elseif ends(widgetPath, "bookmark_servers") then
-        chimera.loadServers()
-    elseif ends(widgetPath, "history_servers") then
-        chimera.loadServers(true)
-    end
-end
-
 ---@class serverInfo
 ---@field dedicated string
 ---@field final string
