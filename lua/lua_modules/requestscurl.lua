@@ -79,7 +79,7 @@ end
 ---@param url string
 ---@param params? table<string, string | number>
 ---@return httpResponse?
-function requests.post(url, params)
+function requests.postform(url, params)
     -- TODO Implement different types of POST
     local curl = require "lcurl.safe"
 
@@ -130,11 +130,12 @@ end
 ---@return httpResponse?
 function requests.patch(url, params)
     local curl = require "lcurl.safe"
+    
     local requestHeaders = {}
     for k, v in pairs(requests.headers) do
         requestHeaders[#requestHeaders + 1] = v
     end
-    requestHeaders[#requestHeaders + 1] = "Content-Type: application/x-www-form-urlencoded"
+    requestHeaders[#requestHeaders + 1] = "Content-Type: application/json"
 
     local responseBody = {}
     local responseHeaders = {}
@@ -152,7 +153,7 @@ function requests.patch(url, params)
                 responseHeaders[key] = header:sub(#key + 2, #header - 2)
             end
         end,
-        postfields = paramsToBodyString(params),
+        postfields = json.encode(params),
         customrequest = "PATCH"
     }:perform()
 
