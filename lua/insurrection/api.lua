@@ -111,7 +111,7 @@ local function onLoginResponse(response)
 end
 function api.login(username, password)
     loading(true, "Logging in...")
-    async(requests.post, function(result)
+    async(requests.postform, function(result)
         onLoginResponse(result[1])
     end, api.url .. "/login", {username = username, password = password})
 end
@@ -347,7 +347,7 @@ function onPlayerEditNameplateResponse(response)
     loading(false)
     if response then
         if response.code == 200 then
-            interface.dialog("INFORMATION", "CONGRATULATIONS", "Nameplate updated successfully.")
+            interface.dialog("INFORMATION", "CONGRATULATIONS", "Profile customized successfully.")
             return true
         else
             local jsonResponse = response.json()
@@ -362,14 +362,14 @@ function onPlayerEditNameplateResponse(response)
     return false
 end
 ---Edit player nameplate
----@param nameplateId string
-function api.playerEditNameplate(nameplateId)
-    loading(true, "Editing nameplate...", false)
+---@param data {nameplateId: string, bipeds: table<string, string>}
+function api.playerProfileEdit(data)
+    loading(true, "Editing profile...", false)
     async(requests.patch, function(result)
         if onPlayerEditNameplateResponse(result[1]) then
             interface.loadProfileNameplate(nameplateId)
         end
-    end, api.url .. "/players", {nameplate = nameplateId})
+    end, api.url .. "/players", data)
 end
 
 local function onLobbyEditResponse(response)

@@ -83,6 +83,7 @@ function list.refresh(self)
                     listButton:setText(item.label)
                 end
                 local onSelect = self.events.onSelect
+                -- TODO Check if we need to apply a select event even if no onSelect callback is provided
                 if onSelect then
                     local lastSelectedItemIndex = itemIndex
                     listButton:onClick(function()

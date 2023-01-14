@@ -17,6 +17,7 @@
         "base64",
         "ini",
         "discordRPC",
+        "insurrection.utils",
         "insurrection.constants",
         "insurrection.translations",
         "insurrection.menus",

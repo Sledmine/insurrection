@@ -8,7 +8,7 @@ local defaultState = {
     isLoading = false,
     definition = "template",
     lobbyKey = nil,
-    available = {maps = {}, gametypes = {}, templates = {}},
+    available = {maps = {}, gametypes = {}, templates = {}, customization = {}},
     lobby = {
         owner = "",
         map = "",

@@ -6,6 +6,7 @@ local button = require "insurrection.components.button"
 local list = require "insurrection.components.list"
 local input = require "insurrection.components.input"
 local translations = require "insurrection.translations"
+local utils = require "insurrection.utils"
 local openWidget = harmony.menu.open_widget
 local reloadWidget = harmony.menu.reload_widget
 local findWidgets = harmony.menu.find_widgets
@@ -24,7 +25,7 @@ local uiWidgetTag = blam.uiWidgetDefinition
 local uiWidgetCollection = blam.uiWidgetCollection
 local constants = require "insurrection.constants"
 local isGameDedicated = blam.isGameDedicated
-local chimera = require "insurrection.chimera"
+local chimera = require "insurrection.mods.chimera"
 
 local interface = {}
 
@@ -188,11 +189,13 @@ function interface.load()
             testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
 
             local customization = components.new(constants.widgets.customization.id)
+
             local nameplatesList = list.new(
-                                       customization:findChildWidgetTag("nameplates_options").id, 2,
-                                       10)
+                                       customization:findChildWidgetTag("nameplates_options").id, 1,
+                                       9)
             local nameplatePreview = components.new(
-                                         customization:findChildWidgetTag("nameplate_preview").id)
+                                         blam.findTag("nameplate_preview",
+                                                      blam.tagClasses.uiWidgetDefinition).id)
             nameplatePreview:animate()
             local saveCustomizationButton = button.new(
                                                 customization:findChildWidgetTag(
@@ -201,19 +204,70 @@ function interface.load()
                 nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap
             end)
             local sortedNameplates = glue.map(glue.keys(constants.nameplates), function(nameplateId)
-                return {
-                    value = nameplateId,
-                    bitmap = constants.nameplates[nameplateId].id
-                }
+                return {value = nameplateId, bitmap = constants.nameplates[nameplateId].id}
             end)
             table.sort(sortedNameplates, function(a, b)
                 return a.value < b.value
             end)
             nameplatesList:setItems(sortedNameplates)
+
+            local selectBipedsList = list.new(blam.findTag("select_bipeds",
+                                                           blam.tagClasses.uiWidgetDefinition).id)
+            local mapsList = list.new(selectBipedsList:findChildWidgetTag("select_map_biped").id)
+            local bipedsList = list.new(
+                                   selectBipedsList:findChildWidgetTag("select_custom_biped").id)
+            local customizationTypesList = components.new(
+                                               customization:findChildWidgetTag("types").id)
+            local customizationNameplatesButton = button.new(
+                                                      customizationTypesList:findChildWidgetTag(
+                                                          "nameplates").id)
+            customizationNameplatesButton:onClick(function()
+                selectBipedsList:replace(nameplatesList.tagId)
+            end)
+            local customizationBipedsButton = button.new(
+                                                  customizationTypesList:findChildWidgetTag("bipeds").id)
+            customizationBipedsButton:onClick(function()
+                nameplatesList:replace(selectBipedsList.tagId)
+                ---@type interfaceState
+                local state = store:getState()
+                local maps = glue.keys(state.available.customization)
+                mapsList:onSelect(function(item)
+                    dprint("mapsList:onSelect")
+                    bipedsList:setItems(glue.map(item.value, function(bipedPath)
+                        return {label = utils.path(bipedPath).name, value = bipedPath}
+                    end))
+                end)
+                mapsList:setItems(glue.map(maps, function(map)
+                    return {label = map, value = state.available.customization[map]}
+                end))
+                bipedsList:setItems(glue.map(state.available.customization[maps[1]],
+                                             function(bipedPath)
+                    return {label = utils.path(bipedPath).name, value = bipedPath}
+                end))
+                bipedsList:onSelect(function(item)
+                    dprint("bipedsList:onSelect")
+                    
+                end)
+            end)
+
+            local settings = core.loadSettings()
             saveCustomizationButton:onClick(function()
-                local selectedNameplateItem = nameplatesList:getSelectedItem() --[[@as string]]
-                if selectedNameplateItem then
-                    api.playerEditNameplate(selectedNameplateItem.value)
+                local selectedMapItem = mapsList:getSelectedItem() or {}
+                local selectedBipedItem = bipedsList:getSelectedItem() or {}
+                local currentNameplateId
+                if settings and settings.nameplate then
+                    currentNameplateId = settings.nameplate
+                end
+                local selectedNameplateItem = nameplatesList:getSelectedItem() or {
+                    value = currentNameplateId
+                }
+                dprint("saveCustomizationButton:onClick")
+                dprint(selectedMapItem)
+                dprint(selectedBipedItem)
+                if selectedNameplateItem or (selectedMapItem and selectedBipedItem) then
+                    api.playerProfileEdit({nameplate = selectedNameplateItem.value, bipeds = {
+                        [selectedMapItem.label] = selectedBipedItem.value
+                    }})
                 end
             end)
 
@@ -393,19 +447,18 @@ function interface.load()
     if map == "ui" then
         -- Set up some chimera configs
         local preferences = chimera.getPreferences()
-        if preferences then
-            local notServerIpBlocking = (not preferences.chimera_block_server_ip or
-                                            preferences.chimera_block_server_ip == 0)
-            if notServerIpBlocking then
-                interface.shared.dialog:onClose(function()
-                    preferences.chimera_block_server_ip = 1
-                    chimera.savePreferences(preferences)
-                    execute_script("quit")
-                end)
-                interface.dialog("WARNING", translations.eng.block_server_ips_subtitle,
-                                 translations.eng.block_server_ips_message)
-            end
+        local notServerIpBlocking = (not preferences or not preferences.chimera_block_server_ip or
+                                        preferences.chimera_block_server_ip == 0)
+        if notServerIpBlocking then
+            interface.shared.dialog:onClose(function()
+                preferences.chimera_block_server_ip = 1
+                chimera.savePreferences(preferences)
+                execute_script("quit")
+            end)
+            interface.dialog("WARNING", translations.eng.block_server_ips_subtitle,
+                             translations.eng.block_server_ips_message)
         end
+
     end
 end
 
