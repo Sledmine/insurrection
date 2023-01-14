@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2023-01-14
+### Added
+- Insurrection public profile name will be now used while in game
+- Bipeds selection feature, select a custom biped to use in insurrection for some custom maps
+
+### Changed
+- Attempting joining/creating a lobby will reconnect you to a previous match if there is an on going game in another lobby
+
 ## [2.2.0] - 2022-12-27
 ### Added
 - Preview images at selecting lobby map
