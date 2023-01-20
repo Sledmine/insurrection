@@ -5,9 +5,9 @@ local constants = require "lua.scripts.ui.components.constants"
 
 ---Complex button component
 ---@param name string Name of the component
----@param text string Text to display
----@param label string? Label of the button
----@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string, close: boolean, variant: '"normal"' | '"vertical"' | '"horizontal"', icon?: string} Button properties
+---@param text? string Text to display
+---@param label? string Label of the button
+---@param props? {back: boolean, opens: string, script: string, branch: boolean, func: string, close: boolean, variant: '"normal"' | '"vertical"' | '"horizontal"', icon?: string, legacy?: boolean} Button properties
 ---@return string
 return function(name, text, label, props)
     local props = props or {}
@@ -56,12 +56,46 @@ return function(name, text, label, props)
         vert_offset = height - 34,
         child_widgets = {}
     }
-    if props.icon then
+    if props.legacy then
+        local textPath = widget.path .. "buttons/" .. name .. "_button_text.ui_widget_definition"
+        widget.createV2(textPath, {
+            widget_type = "text_box",
+            bounds = wid.bounds,
+            text_font = wid.text_font,
+            text_color = constants.color.selected,
+            string_list_index = wid.string_list_index,
+            justification = wid.justification,
+            flags_1 = {dont_do_that_weird_focus_test = true},
+            horiz_offset = wid.horiz_offset,
+            vert_offset = wid.vert_offset
+        })
+        wid.text_color = nil
+        wid.text_font = nil
+        wid.child_widgets[#wid.child_widgets + 1] = {textPath}
         wid.child_widgets[#wid.child_widgets + 1] = {
-            image(name .. "_button_icon", props.icon, 512, 512, 0.25),
-            8,
-            2
+            [[insurrection/ui/shared/void.ui_widget_definition]]
         }
+        wid.child_widgets[#wid.child_widgets + 1] = {
+            [[insurrection/ui/shared/void.ui_widget_definition]]
+        }
+        wid.child_widgets[#wid.child_widgets + 1] = {
+            [[insurrection/ui/shared/void.ui_widget_definition]]
+        }
+    end
+    if props.icon then
+        if props.variant == "normal" then
+            wid.child_widgets[#wid.child_widgets + 1] = {
+                image(name .. "_button_icon", props.icon, 512, 512, 0.16),
+                19,
+                4
+            }
+        else
+            wid.child_widgets[#wid.child_widgets + 1] = {
+                image(name .. "_button_icon", props.icon, 512, 512, 0.25),
+                8,
+                2
+            }
+        end
     end
     if label then
         wid.vert_offset = height - 25

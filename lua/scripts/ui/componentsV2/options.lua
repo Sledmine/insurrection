@@ -5,7 +5,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@param childWidgets invaderWidgetChildWidget
 ---@param alignment '"vertical"' | '"horizontal"'
 ---@param description? string Tag path for description to display
----@param props? {func?: string, branch?: true, conditionalWidgets?: invaderWidgetConditionalWidget[], dataInput?: string, eventsToChildren?: boolean, useItems?: boolean, campaignMaps?: true, multiplayerMaps?: string, gametypes: string} Props of the component
+---@param props? {func?: string, branch?: true, conditionalWidgets?: invaderWidgetConditionalWidget[], dataInput?: string, eventsToChildren?: boolean, useItems?: boolean, campaignMaps?: boolean, multiplayerMaps?: string, gametypes: string, colorPicker?: boolean} Props of the component
 ---@return string
 return function(name, alignment, childWidgets, description, props)
     local props = props or {}
@@ -93,6 +93,22 @@ return function(name, alignment, childWidgets, description, props)
             flags = {run_function = true, open_widget = true},
             ["function"] = "mp_profile_set_for_game",
             widget_tag = props.gametypes
+        }
+    elseif props.colorPicker then
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "created",
+            flags = {run_function = true},
+            ["function"] = "color_picker_menu_initialize",
+        }
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "deleted",
+            flags = {run_function = true},
+            ["function"] = "color_picker_menu_dispose"
+        }
+        wid.event_handlers[#wid.event_handlers + 1] = {
+            event_type = "custom_activation",
+            flags = {run_function = true},
+            ["function"] = "color_picker_select_color",
         }
     end
     widget.createV2(widgetPath, wid)

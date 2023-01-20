@@ -27,7 +27,8 @@
     (object_pvs_set_camera "load_campaign")
     (object_pvs_set_camera "multiplayer")
     (object_pvs_set_camera "settings")
-    (object_pvs_set_camera "customization")
+    (object_pvs_set_camera "customization_color")
+    (object_pvs_set_camera "customization_lobby")
 )
 
 ;; Block controls, prevent player from sending inputs
@@ -62,7 +63,7 @@
 (script static void set_customization_background
     (menu_blur_off)
     (camera_control 1)
-    (camera_set customization 0)
+    (camera_set customization_color 0)
 )
 
 ;; UI Main

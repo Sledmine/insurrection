@@ -65,7 +65,7 @@ return container("settings_menu", {
             },
             {
                 button("color_setup", "COLOR", {
-                    opens = [[insurrection/ui/menus/settings_menu/color_edit/color_select_screen.ui_widget_definition]]
+                    opens = [[insurrection/ui/menus/customization_color/customization_color_menu.ui_widget_definition]]
                 }),
                 layout()
             },
