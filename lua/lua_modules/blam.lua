@@ -3,7 +3,7 @@
 -- Sledmine, JerryBrick
 -- Easier memory handle and provides standard functions for scripting
 ------------------------------------------------------------------------------
-local blam = {_VERSION = "1.6.0"}
+local blam = {_VERSION = "1.7.0"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -1117,9 +1117,30 @@ local deviceGroupsTableStructure = {
 ---@field model number Gbxmodel tag ID
 ---@field health number Current health of the object
 ---@field shield number Current shield of the object
----@field redA number Red color channel for A modifier
----@field greenA number Green color channel for A modifier
----@field blueA number Blue color channel for A modifier
+---@field colorAUpperRed number Red color channel for A modifier
+---@field colorAUpperGreen number Green color channel for A modifier
+---@field colorAUpperBlue number Blue color channel for A modifier
+---@field colorBUpperRed number Red color channel for B modifier
+---@field colorBUpperGreen number Green color channel for B modifier
+---@field colorBUpperBlue number Blue color channel for B modifier
+---@field colorCUpperRed number Red color channel for C modifier
+---@field colorCUpperGreen number Green color channel for C modifier
+---@field colorCUpperBlue number Blue color channel for C modifier
+---@field colorDUpperRed number Red color channel for D modifier
+---@field colorDUpperGreen number Green color channel for D modifier
+---@field colorDUpperBlue number Blue color channel for D modifier
+---@field colorALowerRed number Red color channel for A modifier
+---@field colorALowerGreen number Green color channel for A modifier
+---@field colorALowerBlue number Blue color channel for A modifier
+---@field colorBLowerRed number Red color channel for B modifier
+---@field colorBLowerGreen number Green color channel for B modifier
+---@field colorBLowerBlue number Blue color channel for B modifier
+---@field colorCLowerRed number Red color channel for C modifier
+---@field colorCLowerGreen number Green color channel for C modifier
+---@field colorCLowerBlue number Blue color channel for C modifier
+---@field colorDLowerRed number Red color channel for D modifier
+---@field colorDLowerGreen number Green color channel for D modifier
+---@field colorDLowerBlue number Blue color channel for D modifier
 ---@field x number Current position of the object on X axis
 ---@field y number Current position of the object on Y axis
 ---@field z number Current position of the object on Z axis
@@ -1177,9 +1198,36 @@ local objectStructure = {
     model = {type = "dword", offset = 0x34},
     health = {type = "float", offset = 0xE0},
     shield = {type = "float", offset = 0xE4},
+    ---@deprecated
     redA = {type = "float", offset = 0x1B8},
+    ---@deprecated
     greenA = {type = "float", offset = 0x1BC},
+    ---@deprecated
     blueA = {type = "float", offset = 0x1C0},
+    colorAUpperRed = {type = "float", offset = 0x188},
+    colorAUpperGreen = {type = "float", offset = 0x18C},
+    colorAUpperBlue = {type = "float", offset = 0x190},
+    colorBUpperRed = {type = "float", offset = 0x194},
+    colorBUpperGreen = {type = "float", offset = 0x198},
+    colorBUpperBlue = {type = "float", offset = 0x19C},
+    colorCUpperRed = {type = "float", offset = 0x1A0},
+    colorCUpperGreen = {type = "float", offset = 0x1A4},
+    colorCUpperBlue = {type = "float", offset = 0x1A8},
+    colorDUpperRed = {type = "float", offset = 0x1AC},
+    colorDUpperGreen = {type = "float", offset = 0x1B0},
+    colorDUpperBlue = {type = "float", offset = 0x1B4},
+    colorALowerRed = {type = "float", offset = 0x1B8},
+    colorALowerGreen = {type = "float", offset = 0x1BC},
+    colorALowerBlue = {type = "float", offset = 0x1C0},
+    colorBLowerRed = {type = "float", offset = 0x1C4},
+    colorBLowerGreen = {type = "float", offset = 0x1C8},
+    colorBLowerBlue = {type = "float", offset = 0x1CC},
+    colorCLowerRed = {type = "float", offset = 0x1D0},
+    colorCLowerGreen = {type = "float", offset = 0x1D4},
+    colorCLowerBlue = {type = "float", offset = 0x1D8},
+    colorDLowerRed = {type = "float", offset = 0x1DC},
+    colorDLowerGreen = {type = "float", offset = 0x1E0},
+    colorDLowerBlue = {type = "float", offset = 0x1E4},
     x = {type = "float", offset = 0x5C},
     y = {type = "float", offset = 0x60},
     z = {type = "float", offset = 0x64},
@@ -2581,6 +2629,15 @@ function blam.findTagsList(partialTagPath, searchTagType)
         end
     end
     return tagsList
+end
+
+local fmod = math.fmod
+function blam.getIndexById(id)
+    if id then
+        local index = fmod(id, 0x10000)
+        return index
+    end
+    return nil
 end
 
 return blam

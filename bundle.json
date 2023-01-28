@@ -17,6 +17,7 @@
         "base64",
         "ini",
         "discordRPC",
+        "color",
         "insurrection.utils",
         "insurrection.constants",
         "insurrection.translations",
