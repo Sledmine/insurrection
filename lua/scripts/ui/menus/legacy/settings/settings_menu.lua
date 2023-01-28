@@ -98,4 +98,4 @@ return container("settings_menu", {
     },
     {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
     {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
-}, {variant = "settings", func = "close_if_not_editing_profile"})
+}, {variant = "settings", func = "close_if_not_editing_profile", script = "set_ui_background"})

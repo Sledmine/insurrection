@@ -56,4 +56,4 @@ return container("customization_color_menu", {
     },
     {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
     {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
-}, {noBackgroud = true})
+}, {noBackgroud = true, script = "set_customization_background"})

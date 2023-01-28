@@ -50,6 +50,7 @@
 )
 
 (script static void set_ui_background
+    (menu_blur_on)
     (camera_control 1)
     (camera_set ui_camera 0)
 )
