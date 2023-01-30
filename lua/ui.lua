@@ -1,6 +1,8 @@
+DebugMode = false
 require "insecticide"
 local blam = require "blam"
 local components = require "insurrection.components"
+local constants  = require "insurrection.constants"
 local isNull = blam.isNull
 local harmony = require "mods.harmony"
 local optic = harmony.optic
@@ -9,9 +11,9 @@ local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
 local ends = require"glue".string.ends
+local balltze = require "mods.balltze"
 
 clua_version = 2.056
-DebugMode = false
 -- Import API after setting up debug mode
 api = require "insurrection.api"
 IsUICompatible = false
@@ -128,7 +130,6 @@ function OnKeypress(modifiers, char, keycode)
 end
 
 function OnMenuAccept(widgetInstanceIndex)
-    -- local allow = not (chimera.onButton(widgetTagId) or interface.onButton(widgetTagId) or false
     local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
     local component = components.widgets[widgetTagId]
     if component then
@@ -314,6 +315,12 @@ function OnUnload()
     discord.stopPresence()
 end
 
+---@param mapName string
+function OnMapFileLoad(mapName) 
+    balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
+    balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
+end
+
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnFrame")
 set_callback("command", "OnCommand")
@@ -325,3 +332,4 @@ harmony.set_callback("widget mouse focus", "OnMouseFocus")
 harmony.set_callback("widget close", "OnWidgetClose")
 harmony.set_callback("widget open", "OnWidgetOpen")
 harmony.set_callback("key press", "OnKeypress")
+balltze.set_callback("map file load", "OnMapFileLoad")
