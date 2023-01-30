@@ -147,7 +147,6 @@ local function onWidgetFocus(widgetTagId)
     end
     local focusedWidget = blam.uiWidgetDefinition(widgetTagId)
     local tag = blam.getTag(widgetTagId)
-    dprint(tag.path)
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
     if focusedWidget and ends(focusedWidget.name, "_input") then
         editableWidget = focusedWidget
@@ -165,7 +164,6 @@ function OnMenuListTab(pressedKey,
     local previousFocusedWidgetId = harmony.menu.get_widget_values(
                                         previousFocusedWidgetInstanceIndex).tag_id
     local widgetListTag = blam.getTag(listWidgetTagId) --[[@as tag]]
-    dprint("List: " .. widgetListTag.path, "info")
     local widgetList = blam.uiWidgetDefinition(listWidgetTagId)
     -- local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
     for childIndex, child in pairs(widgetList.childWidgets) do
@@ -187,7 +185,6 @@ function OnMenuListTab(pressedKey,
             local widgetTagId = widgetList.childWidgets[nextChildIndex].widgetTag
             if widgetTagId and not isNull(widgetTagId) then
                 -- local widgetTag = blam.getTag(widgetTagId)
-                dprint(nextChildIndex)
                 onWidgetFocus(widgetTagId)
             end
         end
@@ -255,7 +252,6 @@ function OnWidgetOpen(widgetInstanceIndex)
                 interface.animationsReset(widgetTag.id)
 
             end
-            dprint("Opened widget: " .. widgetTag.path)
             if DebugMode then
                 ScreenCornerText = widgetTag.path
             end
