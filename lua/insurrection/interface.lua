@@ -7,6 +7,7 @@ local list = require "insurrection.components.list"
 local input = require "insurrection.components.input"
 local translations = require "insurrection.translations"
 local utils = require "insurrection.utils"
+local color = require "color"
 local openWidget = harmony.menu.open_widget
 local reloadWidget = harmony.menu.reload_widget
 local findWidgets = harmony.menu.find_widgets
@@ -71,6 +72,56 @@ function interface.load()
 
         -- interface.animate()
         if constants.widgets.login then
+            local customizationColor = components.new(constants.widgets.color.id)
+            local customizationColorListOptions = list.new(
+                                                      customizationColor:findChildWidgetTag(
+                                                          "options").id)
+            local colorButtons = customizationColorListOptions:getChildWidgetTags()
+            updateColorMenu = function()
+                for buttonIndex, tag in pairs(colorButtons) do
+                    if buttonIndex > 1 and buttonIndex < #colorButtons - 1 then
+                        local colorButton = button.new(tag.id)
+                        local colorButtonText = button.new(
+                                                    colorButton:findChildWidgetTag("_text").id)
+                        local colorIcon = button.new(colorButton:findChildWidgetTag("_icon").id)
+                        local colorName = blam.readUnicodeString(core.getWidgetValues(
+                                                                     colorButtonText.tag.id).text,
+                                                                 true):lower()
+
+                        local colorValue = constants.color[colorName]
+                        if colorValue then
+                            local colorIndex = glue.index(constants.colors)[colorValue] - 1
+                            core.setWidgetValues(colorIcon.tag.id,
+                                                 {background_bitmap_index = colorIndex})
+                            colorButton:onClick(function()
+                                local colorValue = constants.color[colorName]
+                                for objectIndex = 1, 2048 do
+                                    local object = blam.getObject(objectIndex)
+                                    if object and object.class == blam.objectClasses.scenery then
+                                        local tag = blam.getTag(object.tagId)
+                                        if tag and tag.path:find "cyborg" then
+                                            local r, g, b = color.hexToDec(colorValue)
+                                            object.colorCLowerRed = r
+                                            object.colorCLowerGreen = g
+                                            object.colorCLowerBlue = b
+                                        end
+                                    end
+                                end
+                            end)
+                        end
+                    else
+                        local scrollButton = button.new(tag.id)
+                        scrollButton:onClick(function()
+                            set_timer(30, "updateColorMenu")
+                        end)
+                    end
+                end
+                return false
+            end
+            customizationColor:onOpen(function()
+                set_timer(30, "updateColorMenu")
+            end)
+
             local dialog = components.new(constants.widgets.dialog.id)
             local dialogBackButton = button.new(dialog:findChildWidgetTag("dialog_back_button").id)
             dialogBackButton:onClick(function()
@@ -246,7 +297,6 @@ function interface.load()
                 end))
                 bipedsList:onSelect(function(item)
                     dprint("bipedsList:onSelect")
-                    
                 end)
             end)
 
@@ -258,16 +308,16 @@ function interface.load()
                 if settings and settings.nameplate then
                     currentNameplateId = settings.nameplate
                 end
-                local selectedNameplateItem = nameplatesList:getSelectedItem() or {
-                    value = currentNameplateId
-                }
+                local selectedNameplateItem = nameplatesList:getSelectedItem() or
+                                                  {value = currentNameplateId}
                 dprint("saveCustomizationButton:onClick")
                 dprint(selectedMapItem)
                 dprint(selectedBipedItem)
                 if selectedNameplateItem or (selectedMapItem and selectedBipedItem) then
-                    api.playerProfileEdit({nameplate = selectedNameplateItem.value, bipeds = {
-                        [selectedMapItem.label] = selectedBipedItem.value
-                    }})
+                    api.playerProfileEdit({
+                        nameplate = selectedNameplateItem.value,
+                        bipeds = {[selectedMapItem.label] = selectedBipedItem.value}
+                    })
                 end
             end)
 
