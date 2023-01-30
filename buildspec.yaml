@@ -8,9 +8,12 @@ commands:
     - ./generate.sh
     - mercury build
   version:
+    - NOMETADATA=$(cat "lua/insurrection/version.lua" | grep -v "local metadata =") ; echo "local metadata = \"$(git rev-parse --short HEAD).$(date +%Y%m%d)\"\n$NOMETADATA" > "lua/insurrection/version.lua"
     - mv package/manifest.json package/manifest.json.bak
     - jq --indent 4 ".version = \"$(luajit -e 'print(require("lua.insurrection.version"))')\"" package/manifest.json.bak > package/manifest.json
     - rm package/manifest.json.bak
+    - git add lua/insurrection/version.lua package/manifest.json
+    - git commit -m "bump version"
   nameplates:
     - luajit lua/scripts/ui/nameplates/createNameplates.lua
     - mercury build
