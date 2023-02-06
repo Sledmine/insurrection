@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2023-02-06
+### Added
+- New color customization menu with in game preview
+- Map preview for "treason" map
+
+### Changed
+- Insurrection now will only load a set of specific UI tags when running outside of the main menu
+
+### Fixed
+- Services now return a proper error message when there is an issue with a request
+
 ## [2.3.0] - 2023-01-14
 ### Added
 - Insurrection public profile name will be now used while in game
