@@ -1,8 +1,5 @@
-local constants = require "lua.scripts.ui.components.constants"
 local widget = require "lua.scripts.widget"
 local button = require "lua.scripts.ui.componentsV2.button"
-local ustr = require "lua.scripts.modules.ustr"
-local label = require "lua.scripts.ui.componentsV2.label"
 
 ---Checkbox component
 ---@param name string Name of the component
@@ -27,7 +24,4 @@ return function(name, text, props)
     return button(name .. "_checkbox", text, {
         childs = {{widget_tag = widgetPath, horizontal_offset = 184 - 14 - 5, vertical_offset = 5}}
     })
-    -- return label(name .. "_checkbox", text, {
-    --    childs = {{widget_tag = widgetPath, horizontal_offset = 184 - 14 - 5, vertical_offset = 5}}
-    -- })
 end
