@@ -15,6 +15,7 @@ local layout = widget.align("vertical", 24, pos.options.x, pos.options.y, 2)
 local spinnersLayout = widget.align("vertical", 24, pos.options.x + constants.components.button.normal.width + 8,
                                     pos.options.y, 2)
 
+-- Create fovs list with values from 60 to 120 in steps of 5
 local fovs = {}
 for i = 60, 120, 5 do
     table.insert(fovs, tostring(i))
@@ -47,9 +48,9 @@ return container("chimera_mod_menu", {
             {checkbox("block_mouse_acceleration", "BLOCK MOUSE ACCELERATION"), layout()},
             {checkbox("devmode", "DEVMODE"), layout()},
             {checkbox("show_budget", "SHOW BUDGET"), layout()},
-            --{spinner("fov", "FOV", fovs), spinnersLayout()},
-            --{spinner("mouse_sensitivity_x", "MOUSE SENSITIVITY X", sensitivities), spinnersLayout()},
-            --{spinner("mouse_sensitivity_y", "MOUSE SENSITIVITY Y", sensitivities), spinnersLayout()},
+            {spinner("fov", "FOV", fovs), spinnersLayout()},
+            {spinner("mouse_sensitivity_x", "MOUSE SENSITIVITY X", sensitivities), spinnersLayout()},
+            {spinner("mouse_sensitivity_y", "MOUSE SENSITIVITY Y", sensitivities), spinnersLayout()},
             -- {button("save_settings", "SAVE SETTINGS", {save = true}), pos.action.x, pos.action.y},
             {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
         })

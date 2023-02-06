@@ -557,4 +557,17 @@ function chimera.savePreferences(preferences)
                           preferencesTxt, "t")
 end
 
+function chimera.executeCommand(command)
+    if not execute_chimera_command then
+        console_out("execute_chimera_command is not available.")
+        return false
+    end
+    local result, error = pcall(execute_chimera_command, command, true)
+    if result then
+        return true
+    end
+    console_out(error)
+    return false
+end
+
 return chimera

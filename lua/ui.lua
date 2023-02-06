@@ -313,8 +313,9 @@ end
 
 ---@param mapName string
 function OnMapFileLoad(mapName) 
-    balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
     balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
+    balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
+    balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
 end
 
 set_callback("tick", "OnTick")

@@ -76,6 +76,19 @@ function interface.load()
             local customizationColorListOptions = list.new(
                                                       customizationColor:findChildWidgetTag(
                                                           "options").id)
+            local customizationColorListActions = list.new(
+                                                      customizationColor:findChildWidgetTag(
+                                                          "actions").id)
+            local customizationColorSaveButton = button.new(
+                                                      customizationColorListActions:findChildWidgetTag(
+                                                          "save").id)
+            openSettingsMenu = function()
+                menus.open(constants.widgets.settings.id)
+                return false
+            end
+            customizationColorSaveButton:onClick(function()
+                set_timer(30, "openSettingsMenu")
+            end)
             local colorButtons = customizationColorListOptions:getChildWidgetTags()
             updateColorMenu = function()
                 for buttonIndex, tag in pairs(colorButtons) do
@@ -339,28 +352,29 @@ function interface.load()
                     settingsDescriptionText.widgetDefinition.stringListIndex = i - 1
                 end)
             end
+        end
 
+        if constants.widgets.chimera then
             local chimeraMod = components.new(constants.widgets.chimera.id)
             local chimeraOptions = components.new(chimeraMod:findChildWidgetTag(
                                                       "chimera_mod_options").id)
             local checkboxes = {}
             local config = chimera.getConfiguration() or {}
             local preferences = chimera.getPreferences() or {}
-            for i = 1, chimeraOptions.widgetDefinition.childWidgetsCount - 1 do
+            for i = 1, chimeraOptions.widgetDefinition.childWidgetsCount - 4 do
                 local childWidget = chimeraOptions.widgetDefinition.childWidgets[i]
                 local check = checkbox.new(childWidget.widgetTag)
                 checkboxes[check:getText()] = check
                 check:onToggle(function(value)
-                    dprint(check:getText() .. " " .. tostring(value))
-                    local optionsWrite = {
+                    local optionName = check:getText()
+                    local optionsToggle = {
                         ["USE VSYNC"] = function(value)
                             config.video_mode.vsync = value and 1 or 0
                             chimera.saveConfiguration(config)
                         end,
                         ["SHOW FPS"] = function(value)
                             preferences.chimera_show_fps = value and 1 or 0
-                            chimera.savePreferences(preferences)
-                            execute_script("chimera_show_fps " .. (value and 1 or 0))
+                            chimera.executeCommand("chimera_show_fps " .. (value and 1 or 0))
                         end,
                         ["WINDOWED MODE"] = function(value)
                             config.video_mode.windowed = value and 1 or 0
@@ -379,42 +393,41 @@ function interface.load()
                         end,
                         ["ANISOTROPIC FILTER"] = function(value)
                             preferences.chimera_af = value and 1 or 0
-                            chimera.savePreferences(preferences)
+                            chimera.executeCommand("chimera_af " .. (value and 1 or 0))
                         end,
                         ["BLOCK BUFFERING"] = function(value)
                             preferences.chimera_block_buffering = value and 1 or 0
-                            chimera.savePreferences(preferences)
+                            chimera.executeCommand("chimera_block_buffering " .. (value and 1 or 0))
                         end,
                         ["BLOCK HOLD F1 AT START"] = function(value)
                             preferences.chimera_block_hold_f1 = value and 1 or 0
-                            chimera.savePreferences(preferences)
+                            chimera.executeCommand("chimera_block_hold_f1 " .. (value and 1 or 0))
                         end,
                         ["BLOCK LOADING SCREEN"] = function(value)
                             preferences.chimera_block_loading_screen = value and 1 or 0
-                            chimera.savePreferences(preferences)
+                            chimera.executeCommand("chimera_block_loading_screen " ..
+                                                       (value and 1 or 0))
                         end,
                         ["BLOCK ZOOM BLUR"] = function(value)
                             preferences.chimera_block_zoom_blur = value and 1 or 0
-                            chimera.savePreferences(preferences)
-                            execute_script("chimera_block_zoom_blur " .. (value and 1 or 0))
+                            chimera.executeCommand("chimera_block_zoom_blur " .. (value and 1 or 0))
                         end,
                         ["BLOCK MOUSE ACCELERATION"] = function(value)
                             preferences.chimera_block_mouse_acceleration = value and 1 or 0
-                            chimera.savePreferences(preferences)
+                            chimera.executeCommand("chimera_block_mouse_acceleration " ..
+                                                       (value and 1 or 0))
                         end,
                         ["DEVMODE"] = function(value)
                             preferences.chimera_devmode = value and 1 or 0
-                            chimera.savePreferences(preferences)
-                            execute_script("chimera_devmode " .. (value and 1 or 0))
+                            chimera.executeCommand("chimera_devmode " .. (value and 1 or 0))
                         end,
                         ["SHOW BUDGET"] = function(value)
                             preferences.chimera_budget = value and 1 or 0
-                            chimera.savePreferences(preferences)
-                            execute_script("chimera_budget " .. (value and 1 or 0))
+                            chimera.executeCommand("chimera_budget " .. (value and 1 or 0))
                         end
                     }
-                    if optionsWrite[check:getText()] then
-                        optionsWrite[check:getText()](value)
+                    if optionsToggle[optionName] then
+                        optionsToggle[optionName](value)
                     end
                 end)
             end

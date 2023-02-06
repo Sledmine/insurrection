@@ -11,6 +11,7 @@ local constants = {}
 constants.path = {
     pauseMenu = [[insurrection\ui\menus\pause\pause_menu]],
     nameplateCollection = [[insurrection\ui\shared\nameplates]],
+    dialog = [[insurrection\ui\menus\dialog\dialog_menu]],
 }
 
 function constants.get()
