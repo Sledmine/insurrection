@@ -29,16 +29,20 @@ local images = {
     "Ruins_of_alph",
     "sali_creek",
     "sympathy",
-    "warren"
+    "warren",
+    "treason"
 }
 
 for _, image in ipairs(images) do
     local image = image:lower()
-    local imageFolderPath = [[images/design/descriptions/insurrection_maps_description/]] .. image
+    local imageFolderPath = [[data/insurrection/ui/bitmaps/descriptions/insurrection_maps_description_source/]] .. image
     local imageDataFolderPath =
         [[data/insurrection/ui/bitmaps/descriptions/insurrection_maps_description/]] .. image
     local bitmapFolderPath = [[data/insurrection/ui/bitmaps/insurrection_maps/]] .. image
     local bitmapPath = [[insurrection/ui/bitmaps/insurrection_maps/]] .. image
+    if fs.is(imageDataFolderPath) then
+        goto continue
+    end
     fs.mkdir(imageFolderPath)
     fs.mkdir(imageDataFolderPath)
     for name, d in fs.dir(imageFolderPath) do
@@ -59,6 +63,7 @@ for _, image in ipairs(images) do
                    [[ && convert -bordercolor blue -border 1 +append $(ls -1v) "../../../insurrection_maps/]] ..
                    image .. [[.png"]])
     os.execute([[invader-bitmap -F 32-bit -T interface_bitmaps "]] .. bitmapPath .. [["]])
+    ::continue::
 end
 
 local bitmapsTagCollection = {tags = {}}
