@@ -26,5 +26,4 @@ commands:
     - rm package/lua-global/ui.lua
   release:
     - mercury build --release --output package/game-maps/
-    - mercury build version
     - mercury build package
