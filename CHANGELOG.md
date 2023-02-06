@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Services now return a proper error message when there is an issue with a request
+- Interface blur effect stuck when selecting a team in pause menu
 
 ## [2.3.0] - 2023-01-14
 ### Added
