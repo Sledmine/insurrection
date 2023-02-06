@@ -315,8 +315,8 @@ function interface.load()
 
             local settings = core.loadSettings()
             saveCustomizationButton:onClick(function()
-                local selectedMapItem = mapsList:getSelectedItem() or {}
-                local selectedBipedItem = bipedsList:getSelectedItem() or {}
+                local selectedMapItem = mapsList:getSelectedItem()
+                local selectedBipedItem = bipedsList:getSelectedItem()
                 local currentNameplateId
                 if settings and settings.nameplate then
                     currentNameplateId = settings.nameplate
@@ -326,12 +326,18 @@ function interface.load()
                 dprint("saveCustomizationButton:onClick")
                 dprint(selectedMapItem)
                 dprint(selectedBipedItem)
-                if selectedNameplateItem or (selectedMapItem and selectedBipedItem) then
-                    api.playerProfileEdit({
-                        nameplate = selectedNameplateItem.value,
-                        bipeds = {[selectedMapItem.label] = selectedBipedItem.value}
-                    })
+                local nameplate = selectedNameplateItem.value
+                local bipeds
+                if selectedNameplateItem then
+                    nameplate = selectedNameplateItem.value
                 end
+                if selectedMapItem and selectedBipedItem then
+                    bipeds = {[selectedMapItem.label] = selectedBipedItem.value}
+                end
+                api.playerProfileEdit({
+                    nameplate = nameplate,
+                    bipeds = bipeds
+                })
             end)
 
             -- Hard code settings description text change, because the game doesn't support it
