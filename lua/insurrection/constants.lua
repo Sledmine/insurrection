@@ -33,7 +33,8 @@ function constants.get()
         tester = findWidgetTag("tester_menu"),
         settings = findWidgetTag("settings\\settings_menu"),
         chimera = findWidgetTag("chimera\\chimera_mod_menu"),
-        color = findWidgetTag("customization_color_menu")
+        color = findWidgetTag("customization_color_menu"),
+        team = findWidgetTag("pause_choose_team_menu"),
     }
 
     constants.sounds = {

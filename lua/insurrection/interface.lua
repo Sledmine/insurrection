@@ -80,8 +80,8 @@ function interface.load()
                                                       customizationColor:findChildWidgetTag(
                                                           "actions").id)
             local customizationColorSaveButton = button.new(
-                                                      customizationColorListActions:findChildWidgetTag(
-                                                          "save").id)
+                                                     customizationColorListActions:findChildWidgetTag(
+                                                         "save").id)
             openSettingsMenu = function()
                 menus.open(constants.widgets.settings.id)
                 return false
@@ -334,10 +334,7 @@ function interface.load()
                 if selectedMapItem and selectedBipedItem then
                     bipeds = {[selectedMapItem.label] = selectedBipedItem.value}
                 end
-                api.playerProfileEdit({
-                    nameplate = nameplate,
-                    bipeds = bipeds
-                })
+                api.playerProfileEdit({nameplate = nameplate, bipeds = bipeds})
             end)
 
             -- Hard code settings description text change, because the game doesn't support it
@@ -411,8 +408,8 @@ function interface.load()
                         end,
                         ["BLOCK LOADING SCREEN"] = function(value)
                             preferences.chimera_block_loading_screen = value and 1 or 0
-                            chimera.executeCommand("chimera_block_loading_screen " ..
-                                                       (value and 1 or 0))
+                            chimera.executeCommand(
+                                "chimera_block_loading_screen " .. (value and 1 or 0))
                         end,
                         ["BLOCK ZOOM BLUR"] = function(value)
                             preferences.chimera_block_zoom_blur = value and 1 or 0
@@ -420,8 +417,8 @@ function interface.load()
                         end,
                         ["BLOCK MOUSE ACCELERATION"] = function(value)
                             preferences.chimera_block_mouse_acceleration = value and 1 or 0
-                            chimera.executeCommand("chimera_block_mouse_acceleration " ..
-                                                       (value and 1 or 0))
+                            chimera.executeCommand(
+                                "chimera_block_mouse_acceleration " .. (value and 1 or 0))
                         end,
                         ["DEVMODE"] = function(value)
                             preferences.chimera_devmode = value and 1 or 0
@@ -485,6 +482,19 @@ function interface.load()
                         end)
                         exitButton:onClick(function()
                             api.deleteLobby()
+                        end)
+                        local insurrectionChooseTeam = components.new(constants.widgets.team.id)
+                        local blueTeamButton = button.new(
+                                                   insurrectionChooseTeam:findChildWidgetTag(
+                                                       "blue_team_button").id)
+                        local redTeamButton = button.new(
+                                                  insurrectionChooseTeam:findChildWidgetTag(
+                                                      "red_team_button").id)
+                        blueTeamButton:onClick(function()
+                            interface.blur(false)
+                        end)
+                        redTeamButton:onClick(function()
+                            interface.blur(false)
                         end)
                         pause:onOpen(function()
                             if not InvalidatePauseOverride then
