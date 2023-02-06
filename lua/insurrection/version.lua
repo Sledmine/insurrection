@@ -1,4 +1,4 @@
-local metadata = "a45dc2d.20230130"
+local metadata = "9340d95.20230206"
 local releaseVersion = "2.4.0"
 local version = releaseVersion
 if DebugMode then
