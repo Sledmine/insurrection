@@ -14,7 +14,7 @@ local layout = widget.align("horizontal", constants.components.complexButton.ver
 
 return container("pause_choose_team_menu", {
     {
-        header("pause_game_options_menu", "CHOOSE TEAM", "CHOOSE SIDE IN TEAM TO FIGHT FOR"),
+        header("pause_choose_team_menu", "CHOOSE TEAM", "CHOOSE SIDE IN TEAM TO FIGHT FOR"),
         pos.header.x,
         pos.header.y
     },
