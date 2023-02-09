@@ -4,23 +4,14 @@ local menus = require "insurrection.menus"
 local checkbox = require "insurrection.components.checkbox"
 local button = require "insurrection.components.button"
 local list = require "insurrection.components.list"
-local input = require "insurrection.components.input"
 local translations = require "insurrection.translations"
-local utils = require "insurrection.utils"
-local color = require "color"
+
 local openWidget = harmony.menu.open_widget
-local reloadWidget = harmony.menu.reload_widget
-local findWidgets = harmony.menu.find_widgets
 local playSound = harmony.menu.play_sound
 local blam = require "blam"
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
-local getWidgetString = core.getStringFromWidget
-local setWidgetString = core.setStringToWidget
 local glue = require "glue"
-local split = glue.string.split
-local starts = glue.string.starts
-local ends = glue.string.ends
 local unicodeStringTag = blam.unicodeStringList
 local uiWidgetTag = blam.uiWidgetDefinition
 local uiWidgetCollection = blam.uiWidgetCollection
@@ -29,9 +20,9 @@ local isGameDedicated = blam.isGameDedicated
 local chimera = require "insurrection.mods.chimera"
 
 local interface = {}
-
 interface.shared = {}
-local shared = interface.shared
+
+shared = interface.shared
 
 function interface.load()
     components.free()
@@ -72,192 +63,13 @@ function interface.load()
 
         -- interface.animate()
         if constants.widgets.login then
-            local customizationColor = components.new(constants.widgets.color.id)
-            local customizationColorListOptions = list.new(
-                                                      customizationColor:findChildWidgetTag(
-                                                          "options").id)
-            local customizationColorListActions = list.new(
-                                                      customizationColor:findChildWidgetTag(
-                                                          "actions").id)
-            local customizationColorSaveButton = button.new(
-                                                     customizationColorListActions:findChildWidgetTag(
-                                                         "save").id)
-            openSettingsMenu = function()
-                menus.open(constants.widgets.settings.id)
-                return false
-            end
-            customizationColorSaveButton:onClick(function()
-                set_timer(30, "openSettingsMenu")
-            end)
-            local colorButtons = customizationColorListOptions:getChildWidgetTags()
-            updateColorMenu = function()
-                local currentColorDescription = components.new(
-                                                    blam.findTag("current_color_label",
-                                                                 blam.tagClasses.uiWidgetDefinition)
-                                                        .id)
-                -- TODO Get this from memory, not from the UI
-                -- It seems like this widget is not found by harmony.menu.find_widgets
-                --local currentColorName = blam.readUnicodeString(core.getWidgetValues(
-                --                                                    currentColorDescription.tag.id)
-                --                                                    .text, true):lower()
-                local colorValue = constants.color[currentColorName]
-                local menuBiped
-                for objectIndex = 1, 2048 do
-                    menuBiped = blam.getObject(objectIndex)
-                    if menuBiped and menuBiped.class == blam.objectClasses.scenery then
-                        local tag = blam.getTag(menuBiped.tagId)
-                        if tag and tag.path:find "cyborg" then
-                            if colorValue then
-                                local r, g, b = color.hexToDec(colorValue)
-                                menuBiped.colorCLowerRed = r
-                                menuBiped.colorCLowerGreen = g
-                                menuBiped.colorCLowerBlue = b
-                            end
-                            break
-                        end
-                    end
-                end
-
-                for buttonIndex, tag in pairs(colorButtons) do
-                    if buttonIndex > 1 and buttonIndex < #colorButtons - 1 then
-                        local colorButton = button.new(tag.id)
-                        local colorButtonText = button.new(
-                                                    colorButton:findChildWidgetTag("_text").id)
-                        local colorIcon = button.new(colorButton:findChildWidgetTag("_icon").id)
-                        local colorName = blam.readUnicodeString(core.getWidgetValues(
-                                                                     colorButtonText.tag.id).text,
-                                                                 true):lower()
-                        local colorValue = constants.color[colorName]
-                        if colorValue then
-                            local colorIndex = glue.index(constants.colors)[colorValue] - 1
-                            core.setWidgetValues(colorIcon.tag.id,
-                                                 {background_bitmap_index = colorIndex})
-                            colorButton:onClick(function()
-                                local r, g, b = color.hexToDec(colorValue)
-                                menuBiped.colorCLowerRed = r
-                                menuBiped.colorCLowerGreen = g
-                                menuBiped.colorCLowerBlue = b
-                            end)
-                        end
-                    else
-                        local scrollButton = button.new(tag.id)
-                        scrollButton:onClick(function()
-                            set_timer(30, "updateColorMenu")
-                        end)
-                    end
-                end
-                return false
-            end
-            customizationColor:onOpen(function()
-                set_timer(30, "updateColorMenu")
-            end)
-
-            local dialog = components.new(constants.widgets.dialog.id)
-            local dialogBackButton = button.new(dialog:findChildWidgetTag("dialog_back_button").id)
-            dialogBackButton:onClick(function()
-                if dialog.events.onClose then
-                    dialog.events.onClose()
-                end
-            end)
-            interface.shared.dialog = dialog
-
-            local login = components.new(constants.widgets.login.id)
-            local usernameInput = button.new(login:findChildWidgetTag("username_input").id)
-            local passwordInput = button.new(login:findChildWidgetTag("password_input").id)
-            -- Load login data
-            local savedUserName, savedPassword = core.loadCredentials()
-            if savedUserName and savedPassword then
-                usernameInput:setText(savedUserName)
-                passwordInput:setText(savedPassword, "*")
-            end
-            local loginButton = button.new(login:findChildWidgetTag("login_button").id)
-            loginButton:onClick(function()
-                local username, password = usernameInput:getText(), passwordInput:getText()
-                if username and password and username ~= "" and password ~= "" then
-                    core.saveCredentials(username, password)
-                    api.login(username, password)
-                else
-                    interface.dialog("WARNING", "", "Please enter a username and password.")
-                end
-            end)
-            local registerButton = button.new(login:findChildWidgetTag("register_button").id)
-            -- dialogBackButton:onClick(function()
-            --    os.execute("start https://discord.shadowmods.net")
-            --    dialogBackButton:onClick(nil)
-            -- end)
-            registerButton:onClick(function()
-                interface.dialog("INFORMATION", "Join us on our Discord server!",
-                                 "We have a Discord Bot to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
-            end)
-
-            local dashboard = components.new(constants.widgets.dashboard.id)
-            local createLobbyButton = button.new(
-                                          dashboard:findChildWidgetTag("create_lobby_button").id)
-            createLobbyButton:onClick(function()
-                dprint("Create lobby button clicked")
-                api.lobby()
-            end)
-            local joinLobbyButton = button.new(dashboard:findChildWidgetTag("join_lobby_button").id)
-            local joinLobbyInput = input.new(dashboard:findChildWidgetTag("lobby_key_input").id)
-            joinLobbyButton:onClick(function()
-                local lobbyKey = joinLobbyInput:getText()
-                if lobbyKey ~= "" then
-                    api.lobby(lobbyKey)
-                else
-                    interface.dialog("WARNING", "", "Please specify a lobby key to join.")
-                end
-            end)
-
-            dashboard:onOpen(function()
-                api.stopRefreshLobby()
-                discord.updatePresence("Playing Insurrection", "In the dashboard")
-            end)
-            dashboard:onClose(function()
-                api.stopRefreshLobby()
-                discord.updatePresence("Playing Insurrection", "In the main menu")
-            end)
-
-            local lobby = components.new(constants.widgets.lobby.id)
-            local lobbySummary = components.new(components.new(
-                                                    lobby:findChildWidgetTag("summary").id):findChildWidgetTag(
-                                                    "text").id)
-
-            local lobbyOptions = components.new(lobby:findChildWidgetTag("options").id)
-            local lobbyDefs = components.new(lobbyOptions:findChildWidgetTag("definitions").id)
-            local lobbyDef1 = button.new(lobbyDefs:findChildWidgetTag("template").id)
-            local lobbyDef2 = button.new(lobbyDefs:findChildWidgetTag("map").id)
-            local lobbyDef3 = button.new(lobbyDefs:findChildWidgetTag("gametype").id)
-            -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
-
-            local lobbyElementsList = list.new(lobbyOptions:findChildWidgetTag("elements").id)
-            local lobbyMapsList = list.new(blam.findTag("lobby_maps",
-                                                        blam.tagClasses.uiWidgetDefinition).id)
-            local lobbySearch = input.new(lobbyOptions:findChildWidgetTag("search").id)
-            local lobbyPlay = button.new(lobbyOptions:findChildWidgetTag("play").id)
-            local lobbyBack = button.new(lobbyOptions:findChildWidgetTag("back").id)
-
-            local lobbyPlayers = list.new(lobby:findChildWidgetTag("players").id)
-            lobbyPlayers:scrollable(false)
-
-            shared.lobby = lobby
-            shared.lobbySummary = lobbySummary
-            shared.lobbyDefs = lobbyDefs
-            shared.lobbyDef1 = lobbyDef1
-            shared.lobbyDef2 = lobbyDef2
-            shared.lobbyDef3 = lobbyDef3
-            -- shared.lobbySettings = lobbySettings
-            shared.lobbyPlay = lobbyPlay
-            shared.lobbyElementsList = lobbyElementsList
-            shared.lobbyMapsList = lobbyMapsList
-            shared.lobbyPlayers = lobbyPlayers
-            shared.lobbySearch = lobbySearch
-
-            lobby:onClose(function()
-                api.deleteLobby()
-            end)
-            lobbyBack:onClick(function()
-                lobby.events.onClose()
-            end)
+            require "insurrection.components.dynamic.dialog"()
+            require "insurrection.components.dynamic.customizationColorMenu"()
+            require "insurrection.components.dynamic.settingsMenu"()
+            require "insurrection.components.dynamic.loginMenu"()
+            require "insurrection.components.dynamic.dashboardMenu"()
+            require "insurrection.components.dynamic.customizationMenu"()
+            require "insurrection.components.dynamic.lobbyMenu"()
 
             local pause = components.new(constants.widgets.pause.id)
             pause:onClose(function()
@@ -268,110 +80,6 @@ function interface.load()
             local testerAnimTest = components.new(tester:findChildWidgetTag("anim_test").id)
             testerAnimTest:animate()
             testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
-
-            local customization = components.new(constants.widgets.customization.id)
-
-            local nameplatesList = list.new(
-                                       customization:findChildWidgetTag("nameplates_options").id, 1,
-                                       9)
-            local nameplatePreview = components.new(
-                                         blam.findTag("nameplate_preview",
-                                                      blam.tagClasses.uiWidgetDefinition).id)
-            nameplatePreview:animate()
-            local saveCustomizationButton = button.new(
-                                                customization:findChildWidgetTag(
-                                                    "save_customization").id)
-            nameplatesList:onSelect(function(item)
-                nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap
-            end)
-            local sortedNameplates = glue.map(glue.keys(constants.nameplates), function(nameplateId)
-                return {value = nameplateId, bitmap = constants.nameplates[nameplateId].id}
-            end)
-            table.sort(sortedNameplates, function(a, b)
-                return a.value < b.value
-            end)
-            nameplatesList:setItems(sortedNameplates)
-
-            local selectBipedsList = list.new(blam.findTag("select_bipeds",
-                                                           blam.tagClasses.uiWidgetDefinition).id)
-            local mapsList = list.new(selectBipedsList:findChildWidgetTag("select_map_biped").id)
-            local bipedsList = list.new(
-                                   selectBipedsList:findChildWidgetTag("select_custom_biped").id)
-            local customizationTypesList = components.new(
-                                               customization:findChildWidgetTag("types").id)
-            local customizationNameplatesButton = button.new(
-                                                      customizationTypesList:findChildWidgetTag(
-                                                          "nameplates").id)
-            customizationNameplatesButton:onClick(function()
-                selectBipedsList:replace(nameplatesList.tagId)
-            end)
-            local customizationBipedsButton = button.new(
-                                                  customizationTypesList:findChildWidgetTag("bipeds").id)
-            customizationBipedsButton:onClick(function()
-                nameplatesList:replace(selectBipedsList.tagId)
-                ---@type interfaceState
-                local state = store:getState()
-                local maps = glue.keys(state.available.customization)
-                mapsList:onSelect(function(item)
-                    dprint("mapsList:onSelect")
-                    bipedsList:setItems(glue.map(item.value, function(bipedPath)
-                        return {label = utils.path(bipedPath).name, value = bipedPath}
-                    end))
-                end)
-                mapsList:setItems(glue.map(maps, function(map)
-                    return {label = map, value = state.available.customization[map]}
-                end))
-                bipedsList:setItems(glue.map(state.available.customization[maps[1]],
-                                             function(bipedPath)
-                    return {label = utils.path(bipedPath).name, value = bipedPath}
-                end))
-                bipedsList:onSelect(function(item)
-                    dprint("bipedsList:onSelect")
-                end)
-            end)
-
-            local settings = core.loadSettings()
-            saveCustomizationButton:onClick(function()
-                local selectedMapItem = mapsList:getSelectedItem()
-                local selectedBipedItem = bipedsList:getSelectedItem()
-                local currentNameplateId
-                if settings and settings.nameplate then
-                    currentNameplateId = settings.nameplate
-                end
-                local selectedNameplateItem = nameplatesList:getSelectedItem() or
-                                                  {value = currentNameplateId}
-                dprint("saveCustomizationButton:onClick")
-                dprint(selectedMapItem)
-                dprint(selectedBipedItem)
-                local nameplate = selectedNameplateItem.value
-                local bipeds
-                if selectedNameplateItem then
-                    nameplate = selectedNameplateItem.value
-                end
-                if selectedMapItem and selectedBipedItem then
-                    bipeds = {[selectedMapItem.label] = selectedBipedItem.value}
-                end
-                api.playerProfileEdit({nameplate = nameplate, bipeds = bipeds})
-            end)
-
-            -- Hard code settings description text change, because the game doesn't support it
-            local settings = components.new(constants.widgets.settings.id)
-            local settingsOptions =
-                list.new(settings:findChildWidgetTag("settings_menu_options").id)
-            -- TODO Add extended description widget support to lua-blam
-            local settingsDescription = components.new(
-                                            blam.findTag("settings_elements_description",
-                                                         blam.tagClasses.uiWidgetDefinition).id)
-            local settingsDescriptionText = components.new(
-                                                settingsDescription:findChildWidgetTag(
-                                                    "settings_elements_description_data").id)
-            for i = 1, settingsOptions.widgetDefinition.childWidgetsCount - 1 do
-                local childWidget = settingsOptions.widgetDefinition.childWidgets[i]
-                local button = button.new(childWidget.widgetTag)
-                button:onFocus(function()
-                    settingsDescriptionText.widgetDefinition.stringListIndex = i - 1
-                end)
-            end
         end
 
         if constants.widgets.chimera then
@@ -603,14 +311,12 @@ function interface.animateUIWidgetBackground(widgetTagId)
             local widgetBitmap = blam.bitmap(uiWidgetTag(widgetTagId).backgroundBitmap)
             if widgetBitmap then
                 if widgetBitmap.bitmapsCount > 1 then
-                    if widgetRender then
-                        if widgetRender.background_bitmap_index < widgetBitmap.bitmapsCount then
-                            interface.setWidgetValues(widgetTagId, {
-                                background_bitmap_index = widgetRender.background_bitmap_index + 1
-                            })
-                        else
-                            interface.setWidgetValues(widgetTagId, {background_bitmap_index = 0})
-                        end
+                    if widgetRender.background_bitmap_index < widgetBitmap.bitmapsCount then
+                        interface.setWidgetValues(widgetTagId, {
+                            background_bitmap_index = widgetRender.background_bitmap_index + 1
+                        })
+                    else
+                        interface.setWidgetValues(widgetTagId, {background_bitmap_index = 0})
                     end
                 end
             end
