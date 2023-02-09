@@ -91,6 +91,33 @@ function interface.load()
             end)
             local colorButtons = customizationColorListOptions:getChildWidgetTags()
             updateColorMenu = function()
+                local currentColorDescription = components.new(
+                                                    blam.findTag("current_color_label",
+                                                                 blam.tagClasses.uiWidgetDefinition)
+                                                        .id)
+                -- TODO Get this from memory, not from the UI
+                -- It seems like this widget is not found by harmony.menu.find_widgets
+                --local currentColorName = blam.readUnicodeString(core.getWidgetValues(
+                --                                                    currentColorDescription.tag.id)
+                --                                                    .text, true):lower()
+                local colorValue = constants.color[currentColorName]
+                local menuBiped
+                for objectIndex = 1, 2048 do
+                    menuBiped = blam.getObject(objectIndex)
+                    if menuBiped and menuBiped.class == blam.objectClasses.scenery then
+                        local tag = blam.getTag(menuBiped.tagId)
+                        if tag and tag.path:find "cyborg" then
+                            if colorValue then
+                                local r, g, b = color.hexToDec(colorValue)
+                                menuBiped.colorCLowerRed = r
+                                menuBiped.colorCLowerGreen = g
+                                menuBiped.colorCLowerBlue = b
+                            end
+                            break
+                        end
+                    end
+                end
+
                 for buttonIndex, tag in pairs(colorButtons) do
                     if buttonIndex > 1 and buttonIndex < #colorButtons - 1 then
                         local colorButton = button.new(tag.id)
@@ -100,26 +127,16 @@ function interface.load()
                         local colorName = blam.readUnicodeString(core.getWidgetValues(
                                                                      colorButtonText.tag.id).text,
                                                                  true):lower()
-
                         local colorValue = constants.color[colorName]
                         if colorValue then
                             local colorIndex = glue.index(constants.colors)[colorValue] - 1
                             core.setWidgetValues(colorIcon.tag.id,
                                                  {background_bitmap_index = colorIndex})
                             colorButton:onClick(function()
-                                local colorValue = constants.color[colorName]
-                                for objectIndex = 1, 2048 do
-                                    local object = blam.getObject(objectIndex)
-                                    if object and object.class == blam.objectClasses.scenery then
-                                        local tag = blam.getTag(object.tagId)
-                                        if tag and tag.path:find "cyborg" then
-                                            local r, g, b = color.hexToDec(colorValue)
-                                            object.colorCLowerRed = r
-                                            object.colorCLowerGreen = g
-                                            object.colorCLowerBlue = b
-                                        end
-                                    end
-                                end
+                                local r, g, b = color.hexToDec(colorValue)
+                                menuBiped.colorCLowerRed = r
+                                menuBiped.colorCLowerGreen = g
+                                menuBiped.colorCLowerBlue = b
                             end)
                         end
                     else
@@ -532,7 +549,9 @@ function interface.load()
             interface.shared.dialog:onClose(function()
                 preferences.chimera_block_server_ip = 1
                 chimera.savePreferences(preferences)
-                execute_script("quit")
+                if not chimera.executeCommand("chimera_block_server_ip 1") then
+                    execute_script("quit")
+                end
             end)
             interface.dialog("WARNING", translations.eng.block_server_ips_subtitle,
                              translations.eng.block_server_ips_message)
