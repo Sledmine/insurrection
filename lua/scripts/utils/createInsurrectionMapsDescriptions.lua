@@ -2,13 +2,32 @@ local fs = require "fs"
 local tag = require "lua.scripts.modules.tag"
 
 local images = {
-    -- "gridiron",
+    -- Stock maps
+    "beavercreek",
+    "sidewinder",
+    "damnation",
+    "ratrace",
+    "prisoner",
+    "hangemhigh",
+    "chillout",
+    "carousel", -- derelict
+    "boardingaction",
+    "bloodgulch",
+    "wizard",
+    "putput", -- chirontl34
+    "longest",
+    "icefields",
+    "deathisland",
+    "dangercanyon",
+    "infinity",
+    "timberland",
+    "gephyrophobia",
+    -- Custom maps
+    --"gridiron",
     "ascetic",
-    "asylum_v3",
     "augurer",
     "bigassv2,104",
     "blamite_mines",
-    "blood_covenant_classic",
     "blood_covenantv3",
     "cold_shoulder",
     "delta_ruined",
@@ -26,21 +45,27 @@ local images = {
     "intensity-plus",
     "metrobyte",
     "nitra",
-    "Ruins_of_alph",
+    "ruins_of_alph",
     "sali_creek",
     "sympathy",
     "warren",
+    -- Keymind maps
     "treason"
 }
 
+local existingImages = {}
+
 for _, image in ipairs(images) do
     local image = image:lower()
-    local imageFolderPath = [[data/insurrection/ui/bitmaps/descriptions/insurrection_maps_description_source/]] .. image
+    local imageFolderPath =
+        [[data/insurrection/ui/bitmaps/descriptions/insurrection_maps_description_source/]] .. image
     local imageDataFolderPath =
         [[data/insurrection/ui/bitmaps/descriptions/insurrection_maps_description/]] .. image
     local bitmapFolderPath = [[data/insurrection/ui/bitmaps/insurrection_maps/]] .. image
     local bitmapPath = [[insurrection/ui/bitmaps/insurrection_maps/]] .. image
     if fs.is(imageDataFolderPath) then
+        print("Skipping " .. image .. " because it already exists")
+        existingImages[#existingImages + 1] = image
         goto continue
     end
     fs.mkdir(imageFolderPath)
@@ -67,11 +92,14 @@ for _, image in ipairs(images) do
 end
 
 local bitmapsTagCollection = {tags = {}}
-for _, image in ipairs(images) do
+for _, image in ipairs(existingImages) do
     local image = image:lower()
-    bitmapsTagCollection.tags[#bitmapsTagCollection.tags + 1] = {
-        reference = [[insurrection/ui/bitmaps/insurrection_maps/]] .. image .. [[.bitmap]]
-    }
+    local tagPath = [[insurrection/ui/bitmaps/insurrection_maps/]] .. image .. [[.bitmap]]
+    if fs.is("tags/" .. tagPath) then
+        bitmapsTagCollection.tags[#bitmapsTagCollection.tags + 1] = {
+            reference = tagPath
+        }
+    end
 end
 tag.create([[insurrection/ui/shared/insurrection_maps.tag_collection]], bitmapsTagCollection)
 
