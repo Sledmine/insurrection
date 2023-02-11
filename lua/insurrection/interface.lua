@@ -418,7 +418,7 @@ function interface.lobbyInit()
                 map = map:getText(),
                 gametype = gametype:getText()
             })
-            local mapBitmapTag = blam.findTag(item.label:lower(), blam.tagClasses.bitmap)
+            local mapBitmapTag = blam.findTag("insurrection_maps\\" .. item.label:lower(), blam.tagClasses.bitmap)
             if mapBitmapTag then
                 mapPreview.widgetDefinition.backgroundBitmap = mapBitmapTag.id
             else
