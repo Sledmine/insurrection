@@ -1,6 +1,13 @@
 set -e
 
-export LUA_WRAPPER="luajit lua/scripts/ui/menus"
+LUA_WRAPPER="luajit lua/scripts/ui/menus"
+
+# Generate fonts
+FONT_PATH="insurrection/ui/fonts/geogrotesque-regular"
+invader-font $FONT_PATH-text -s 12
+invader-font $FONT_PATH-title -s 16
+invader-font $FONT_PATH-subtitle -s 8
+invader-font $FONT_PATH-button -s 11
 
 # Generate the UI
 $LUA_WRAPPER"/legacy/intro/intro_menu.lua"

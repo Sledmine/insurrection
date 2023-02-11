@@ -17,7 +17,7 @@ return function(name, title, subtitle)
     -- Generate title
     widget.create(titlePath, {
         widget_type = "text_box",
-        bounds = "0, 0, 20, 343",
+        bounds = "0, 0, 20, 450",
         text_label_unicode_strings_list = stringsTagPath,
         text_font = constants.fonts.title,
         text_color = constants.color.title,
@@ -27,9 +27,9 @@ return function(name, title, subtitle)
     -- Generate subtitle
     widget.create(subtitlePath, {
         widget_type = "text_box",
-        bounds = "0, 0, 20, 343",
+        bounds = "0, 0, 20, 450",
         text_label_unicode_strings_list = stringsTagPath,
-        text_font = [[ui/gamespy.font]],
+        text_font = constants.fonts.subtitle,
         text_color = constants.color.subtitle,
         string_list_index = 1
     })
@@ -37,7 +37,7 @@ return function(name, title, subtitle)
         bounds = "0, 0, 40, 450",
         child_widgets = {
             {widget_tag = titlePath, vertical_offset = 0, horizontal_offset = 0},
-            {widget_tag = subtitlePath, vertical_offset = 15, horizontal_offset = 0}
+            {widget_tag = subtitlePath, vertical_offset = 17, horizontal_offset = 0}
         }
     })
     return widgetPath

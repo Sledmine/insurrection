@@ -16,11 +16,15 @@ return {
         }
     },
     opacity = {primary = 12.5, secondary = 34.5},
-    fonts = {
-        title = [[ui/ticker.font]],
-        subtitle = [[ui/gamespy.font]],
-        text = [[ui/large_ui.font]],
-        button = [[ui/large_ui.font]]
+    fonts = { 
+        --title = [[ui/ticker.font]],
+        --subtitle = [[ui/gamespy.font]],
+        --text = [[ui/large_ui.font]],
+        --button = [[ui/large_ui.font]],
+        text = [[insurrection/ui/fonts/geogrotesque-regular-text.font]], -- small
+        title = [[insurrection/ui/fonts/geogrotesque-regular-title.font]], -- ticker
+        subtitle = [[insurrection/ui/fonts/geogrotesque-regular-subtitle.font]], -- gamespy/subtitle
+        button = [[insurrection/ui/fonts/geogrotesque-regular-button.font]], -- large
     },
     screen = {width = width, height = height},
     getScreenBounds = function()

@@ -47,7 +47,7 @@ return function(name, text, props)
         },
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
-        text_font = constants.fonts.text,
+        text_font = constants.fonts.button,
         text_color = constants.color.text,
         justification = props.justification or "left_justify",
         horiz_offset = 10,

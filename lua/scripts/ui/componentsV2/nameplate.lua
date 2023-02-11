@@ -30,11 +30,11 @@ return function(name, text, props)
         background_bitmap = [[insurrection/ui/shared/bitmaps/nameplate_overlay.bitmap]],
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
-        text_font = constants.fonts.text,
+        text_font = constants.fonts.button,
         text_color = constants.color.nameplate,
         justification = "left_justify",
         horiz_offset = 225,
-        vert_offset = 31
+        vert_offset = 32
     }
     if props.profile then
         overlay.game_data_inputs = {{["function"] = "get_active_plyr_profile_name"}}

@@ -31,9 +31,14 @@ function interface.load()
         interface.dialog("WARNING", "This script must be loaded as a global script.",
                          "Please move it to the global scripts folder and restart the game.")
     end
-    -- TODO Remove this hack
     IsUICompatible = true
     if IsUICompatible then
+        if create_font_override then
+            create_font_override(constants.fonts.text.id, "Geogrotesque-Regular", 14, 400, 2, 2, 1, 1)
+            create_font_override(constants.fonts.title.id, "Geogrotesque-Regular", 18, 400, 2, 2, 0, 0)
+            create_font_override(constants.fonts.subtitle.id, "Geogrotesque-Regular", 10, 400, 2, 2, 0, 0)
+            create_font_override(constants.fonts.button.id, "Geogrotesque-Regular", 13, 400, 2, 2, 1, 1)
+        end
         dprint("Checking if lobby is active...")
         if api.session.lobbyKey and map == "ui" then
             api.lobby(api.session.lobbyKey)
@@ -246,25 +251,24 @@ function interface.load()
 
             end
         end
-    end
-    -- Workaround fix to prevent players from getting stuck in a game server at menu
-    if map == "ui" then
-        -- Set up some chimera configs
-        local preferences = chimera.getPreferences()
-        local notServerIpBlocking = (not preferences or not preferences.chimera_block_server_ip or
-                                        preferences.chimera_block_server_ip == 0)
-        if notServerIpBlocking then
-            interface.shared.dialog:onClose(function()
-                preferences.chimera_block_server_ip = 1
-                chimera.savePreferences(preferences)
-                if not chimera.executeCommand("chimera_block_server_ip 1") then
-                    execute_script("quit")
-                end
-            end)
-            interface.dialog("WARNING", translations.eng.block_server_ips_subtitle,
-                             translations.eng.block_server_ips_message)
-        end
 
+        -- Set up some chimera configs
+        if map == "ui" then
+            local preferences = chimera.getPreferences()
+            local notServerIpBlocking = (not preferences or not preferences.chimera_block_server_ip or
+                                            preferences.chimera_block_server_ip == 0)
+            if notServerIpBlocking then
+                interface.shared.dialog:onClose(function()
+                    preferences.chimera_block_server_ip = 1
+                    chimera.savePreferences(preferences)
+                    if not chimera.executeCommand("chimera_block_server_ip 1") then
+                        execute_script("quit")
+                    end
+                end)
+                interface.dialog("WARNING", translations.eng.block_server_ips_subtitle,
+                                 translations.eng.block_server_ips_message)
+            end
+        end
     end
 end
 
