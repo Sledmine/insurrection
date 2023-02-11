@@ -3,7 +3,11 @@ local container = require "lua.scripts.ui.componentsV2.container"
 local options = require "lua.scripts.ui.componentsV2.options"
 local button = require "lua.scripts.ui.componentsV2.button"
 local constants = require "lua.scripts.ui.components.constants"
+local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
 local pos = constants.position
+
+widget.init [[insurrection/ui/shared/current_profile/]]
+local nameplatePath = nameplate("current_profile", nil, {profile = true})
 
 widget.init [[insurrection/ui/menus/main/]]
 
@@ -54,6 +58,6 @@ return container("main_menu", {
             {button("exit", "EXIT GAME", {func = "main_menu_quit_game"}), layout()}
         })
     },
-    {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
+    {nameplatePath, 624, 20},
     {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
 }, {script = "set_ui_background"})

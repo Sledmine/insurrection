@@ -71,7 +71,7 @@ function constants.get()
         dashboard = findWidgetTag("dashboard\\dashboard_menu"),
         customization = findWidgetTag("customization_menu"),
         pause = findWidgetTag("pause\\pause_menu"),
-        nameplate = findWidgetTag("shared\\current_profile"),
+        nameplate = findWidgetTag("nameplate_current_profile"),
         tester = findWidgetTag("tester_menu"),
         settings = findWidgetTag("settings\\settings_menu"),
         chimera = findWidgetTag("chimera\\chimera_mod_menu"),

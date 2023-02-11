@@ -1,12 +1,10 @@
 local harmony = require "mods.harmony"
 local glue = require "glue"
 local split = glue.string.split
-local ends = glue.string.ends
-local chunks = glue.chunks
 local blam = require "blam"
 local tagClasses = blam.tagClasses
 local ini = require "ini"
-local json = require "json"
+local constants = require "insurrection.constants"
 
 local core = require "insurrection.core"
 
@@ -567,6 +565,18 @@ function chimera.executeCommand(command)
         return true
     end
     console_out(error)
+    return false
+end
+
+function chimera.fontOverride()
+    if create_font_override then
+        create_font_override(constants.fonts.text.id, "Geogrotesque-Regular", 14, 400, 2, 2, 1, 1)
+        create_font_override(constants.fonts.title.id, "Geogrotesque-Regular", 18, 400, 2, 2, 0, 0)
+        create_font_override(constants.fonts.subtitle.id, "Geogrotesque-Regular", 10, 400, 2, 2, 0, 0)
+        create_font_override(constants.fonts.button.id, "Geogrotesque-Regular", 13, 400, 2, 2, 1, 1)
+        return true
+    end
+    console_out("create_font_override is not available.")
     return false
 end
 

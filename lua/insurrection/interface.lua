@@ -33,12 +33,10 @@ function interface.load()
     end
     IsUICompatible = true
     if IsUICompatible then
-        if create_font_override then
-            create_font_override(constants.fonts.text.id, "Geogrotesque-Regular", 14, 400, 2, 2, 1, 1)
-            create_font_override(constants.fonts.title.id, "Geogrotesque-Regular", 18, 400, 2, 2, 0, 0)
-            create_font_override(constants.fonts.subtitle.id, "Geogrotesque-Regular", 10, 400, 2, 2, 0, 0)
-            create_font_override(constants.fonts.button.id, "Geogrotesque-Regular", 13, 400, 2, 2, 1, 1)
-        end
+        
+        dprint("Overriding Chimera font...")
+        chimera.fontOverride()
+
         dprint("Checking if lobby is active...")
         if api.session.lobbyKey and map == "ui" then
             api.lobby(api.session.lobbyKey)
