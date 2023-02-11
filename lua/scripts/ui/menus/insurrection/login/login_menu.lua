@@ -49,5 +49,5 @@ return container("login_menu", {
             {button("back", "BACK", {justification = "center_justify", back = true}), layout2()}
         })
     },
-    {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
+    {constants.components.version.path, 0, 460}
 })

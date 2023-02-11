@@ -3,6 +3,7 @@ local container = require "lua.scripts.ui.componentsV2.container"
 local options = require "lua.scripts.ui.componentsV2.options"
 local button = require "lua.scripts.ui.componentsV2.button"
 local image = require "lua.scripts.ui.componentsV2.image"
+local constants = require "lua.scripts.ui.components.constants"
 
 widget.init([[insurrection/ui/menus/classic_campaign/]])
 local layout = widget.align("vertical", 24, 335, 312, 2)
@@ -47,6 +48,6 @@ container("classic_campaign_menu", {
             }
         })
     },
-    {[[insurrection/ui/shared/current_profile/buttons/nameplate_current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
+    {constants.components.currentProfile.path, 624, 20},
+    {constants.components.version.path, 0, 460}
 })

@@ -43,6 +43,6 @@ return container("dashboard_menu", {
                "Welcome to the dashboard!\r\nHere you can choose from different actions from Insurrection services."),
         layout(8)
     },
-    {[[insurrection/ui/shared/current_profile/buttons/nameplate_current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
+    {constants.components.currentProfile.path, 624, 20},
+    {constants.components.version.path, 0, 460}
 })

@@ -60,6 +60,6 @@ return container("chimera_mod_menu", {
                "Choose which Chimera options you want to enable or disable.\r\nKeep in mind you need to restart the game to apply these changes."),
         layout(4)
     },
-    {[[insurrection/ui/shared/current_profile/buttons/nameplate_current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
+    {constants.components.currentProfile.path, 624, 20},
+    {constants.components.version.path, 0, 460}
 })
