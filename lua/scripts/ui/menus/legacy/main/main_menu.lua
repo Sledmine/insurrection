@@ -34,12 +34,15 @@ return container("main_menu", {
                 layout()
             },
             {
-                button("insurrection", "INSURRECTION", {
-                    opens = [[insurrection/ui/menus/login/login_menu.ui_widget_definition]]
-                }),
+                button("insurrection", "INSURRECTION",
+                       {opens = [[insurrection/ui/menus/login/login_menu.ui_widget_definition]]}),
                 layout()
             },
-            {button("mods", "MODS", {opens = [[insurrection/ui/menus/mods/mods_menu.ui_widget_definition]]}), layout()},
+            {
+                button("mods", "MODS",
+                       {opens = [[insurrection/ui/menus/mods/mods_menu.ui_widget_definition]]}),
+                layout()
+            },
             {
                 button("profiles", "PROFILES", {
                     opens = [[ui/shell/main_menu/profile_manager/player_profile_manager.ui_widget_definition]],
@@ -59,5 +62,5 @@ return container("main_menu", {
         })
     },
     {nameplatePath, 624, 20},
-    {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
+    {constants.components.version.path, 0, 460}
 }, {script = "set_ui_background"})

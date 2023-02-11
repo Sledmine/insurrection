@@ -131,7 +131,7 @@ return container("customization_color_menu", {
             }
         }), {colorPicker = true, dataInput = "color_picker_update"})
     },
-    {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
+    {[[insurrection/ui/shared/current_profile/buttons/nameplate_current_profile.ui_widget_definition]], 624, 20},
     {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
 }, {noBackgroud = true, script = "set_customization_background"})
 

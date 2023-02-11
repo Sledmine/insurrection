@@ -29,6 +29,6 @@ container("singleplayer_menu", {
             "Classic Campaign - While the Covenant had us locked up in here, I overheard the guards talking about this ring world.\r\nThey call it... Halo.",
         }, [[insurrection/ui/bitmaps/previews/singleplayer/classic_campaign.bitmap]]))
     },
-    {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
+    {[[insurrection/ui/shared/current_profile/buttons/nameplate_current_profile.ui_widget_definition]], 624, 20},
     {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
 })

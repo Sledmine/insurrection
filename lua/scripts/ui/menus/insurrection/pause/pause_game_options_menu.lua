@@ -29,7 +29,7 @@ return container("pause_game_options_menu", {
             {button("back", "BACK", {back = true}), layout()}
         }, nil, {func = "mp_game_options_open"})
     },
-    {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
+    {[[insurrection/ui/shared/current_profile/buttons/nameplate_current_profile.ui_widget_definition]], 624, 20},
     {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
 })
 

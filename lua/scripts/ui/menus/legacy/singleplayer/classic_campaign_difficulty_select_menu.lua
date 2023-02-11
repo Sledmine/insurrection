@@ -48,6 +48,6 @@ container("classic_campaign_difficulty_select_menu", {
         pos.header.x,
         pos.header.y
     },
-    {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
+    {[[insurrection/ui/shared/current_profile/buttons/nameplate_current_profile.ui_widget_definition]], 624, 20},
     {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
 }, {dataInput = "warn_if_diff_will_nuke_saved_game"})

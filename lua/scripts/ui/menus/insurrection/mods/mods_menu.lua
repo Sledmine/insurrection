@@ -28,6 +28,6 @@ return container("mods_menu", {
             {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
         })
     },
-    {[[insurrection/ui/shared/current_profile.ui_widget_definition]], 624, 20},
+    {[[insurrection/ui/shared/current_profile/buttons/nameplate_current_profile.ui_widget_definition]], 624, 20},
     {[[insurrection/ui/shared/version.ui_widget_definition]], 0, 460}
 })
