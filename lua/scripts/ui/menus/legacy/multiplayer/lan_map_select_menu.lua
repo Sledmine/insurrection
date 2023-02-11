@@ -111,8 +111,8 @@ local widgetPath = container("lan_map_select_menu", {
             dataInput = "mp_map_list_update"
         })
     },
-    {[[insurrection\ui\shared\current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection\ui\shared\version.ui_widget_definition]], 0, 460}
+    {constants.components.currentProfile.path, 624, 20},
+    {constants.components.version.path, 0, 460}
 }, {func = "net_server_defer_start"})
 
 widget.init([[ui\shell\main_menu\multiplayer_type_select\connected\]])

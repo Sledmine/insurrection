@@ -165,7 +165,6 @@ function interface.load()
             chimeraMod:onOpen(function()
                 config = chimera.getConfiguration() or {}
                 preferences = chimera.getPreferences() or {}
-                dprint(preferences)
                 local optionsMapping = {
                     ["USE VSYNC"] = config.video_mode.vsync,
                     ["SHOW FPS"] = preferences.chimera_show_fps,

@@ -42,6 +42,6 @@ return container("pause_menu", {
             {button("exit", "EXIT TO MAIN MENU", {func = "mp_game_player_quit"}), layout()}
         }, nil, {func = "mp_pause_menu_open"})
     },
-    {[[insurrection\ui\shared\current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection\ui\shared\version.ui_widget_definition]], 0, 460}
+    {constants.components.currentProfile.path, 624, 20},
+    {constants.components.version.path, 0, 460}
 })

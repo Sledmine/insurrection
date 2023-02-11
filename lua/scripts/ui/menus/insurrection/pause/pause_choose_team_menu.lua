@@ -34,6 +34,6 @@ return container("pause_choose_team_menu", {
             {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
         })
     },
-    {[[insurrection\ui\shared\current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection\ui\shared\version.ui_widget_definition]], 0, 460}
+    {constants.components.currentProfile.path, 624, 20},
+    {constants.components.version.path, 0, 460}
 })

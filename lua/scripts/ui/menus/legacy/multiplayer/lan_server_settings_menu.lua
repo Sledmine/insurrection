@@ -71,7 +71,7 @@ local widgetPath = container("lan_server_settings_menu", {
                 [[ui/shell/main_menu/multiplayer_type_select/server_settings/server_settings_help.ui_widget_definition]],
                 {func = "server_settings_init", dataInput = "server_settings_update"})
     },
-    {[[insurrection\ui\shared\current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection\ui\shared\version.ui_widget_definition]], 0, 460}
+    {constants.components.currentProfile.path, 624, 20},
+    {constants.components.version.path, 0, 460}
     -- })
 })

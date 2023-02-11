@@ -146,8 +146,8 @@ local widgetPath = container("lan_gametype_select_menu", {
             dataInput = "gt_select_list_update"
         })
     },
-    {[[insurrection\ui\shared\current_profile.ui_widget_definition]], 624, 20},
-    {[[insurrection\ui\shared\version.ui_widget_definition]], 0, 460}
+    {constants.components.currentProfile.path, 624, 20},
+    {constants.components.version.path, 0, 460}
 }, {func = "net_server_defer_start"})
 
 -- ui/shell/strings/game_variant_descriptions.unicode_string_list
