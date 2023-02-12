@@ -195,16 +195,21 @@ function interface.load()
                 if pause then
                     if constants.widgets.pause then
                         dprint("Loading Insurrection UI in external map...")
-                        harmony.menu.set_aspect_ratio(16, 9)
                         local insurrectionPause = components.new(constants.widgets.pause.id)
                         local resumeButton = button.new(
                                                  insurrectionPause:findChildWidgetTag(
                                                      "resume_game_button").id)
+                        local stockResumeButton = button.new(
+                                                      pause:findChildWidgetTag("resume").id)
                         local exitButton = button.new(
                                                insurrectionPause:findChildWidgetTag("exit_button").id)
                         resumeButton:onClick(function()
                             dprint("Resume button clicked")
                             interface.blur(false)
+                            interface.sound("back")
+                        end)
+                        stockResumeButton:onClick(function()
+                            dprint("Stock resume button clicked")
                             interface.sound("back")
                         end)
                         exitButton:onClick(function()
@@ -228,18 +233,23 @@ function interface.load()
                                 if map ~= "ui" and (isGameDedicated() or DebugMode) then
                                     dprint("Loading Insurrection UI in external map...")
                                     interface.blur(true)
+                                    harmony.menu.set_aspect_ratio(16, 9)
                                     menus.pause()
                                 end
+                            else
+                                harmony.menu.set_aspect_ratio(4, 3)
                             end
                             InvalidatePauseOverride = false
                         end)
                         insurrectionPause:onClose(function()
                             interface.blur(false)
+                            harmony.menu.set_aspect_ratio(4, 3)
                         end)
                         local openMapPauseButton = button.new(
                                                        insurrectionPause:findChildWidgetTag(
                                                            "open_map_pause").id)
                         openMapPauseButton:onClick(function()
+                            interface.blur(false)
                             InvalidatePauseOverride = true
                             menus.open(pause.tagId)
                         end)
