@@ -419,12 +419,14 @@ function interface.lobbyInit()
                 map = map:getText(),
                 gametype = gametype:getText()
             })
-            local mapBitmapTag = blam.findTag("insurrection_maps\\" .. item.label:lower(), blam.tagClasses.bitmap)
-            if mapBitmapTag then
-                mapPreview.widgetDefinition.backgroundBitmap = mapBitmapTag.id
-            else
-                mapPreview.widgetDefinition.backgroundBitmap =
-                    constants.bitmaps.unknownMapPreview.id
+            mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
+            local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
+            for k,v in pairs(mapCollection.tagList) do
+                local bitmapTag = blam.getTag(v) --[[@as tag]]
+                local mapName = core.getTagName(bitmapTag.path):lower()
+                if mapName == item.label:lower() then
+                    mapPreview.widgetDefinition.backgroundBitmap = bitmapTag.id
+                end
             end
         end)
 

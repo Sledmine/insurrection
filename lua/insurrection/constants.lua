@@ -85,7 +85,10 @@ function constants.get()
         success = findTag("forward", tagClasses.sound)
     }
 
-    constants.tagCollections = {nameplates = findTag("nameplates", tagClasses.tagCollection)}
+    constants.tagCollections = {
+        nameplates = findTag("nameplates", tagClasses.tagCollection),
+        maps = findTag("insurrection_maps", tagClasses.tagCollection)
+    }
 
     constants.widgetCollections = {
         multiplayer = findTag("ui\\shell\\multiplayer", tagClasses.uiWidgetCollection)

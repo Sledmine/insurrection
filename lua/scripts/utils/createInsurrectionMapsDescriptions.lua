@@ -23,10 +23,10 @@ local images = {
     "timberland",
     "gephyrophobia",
     -- Custom maps
-    --"gridiron",
+    -- "gridiron",
     "ascetic",
     "augurer",
-    "bigassv2,104",
+    "bigass",
     "blamite_mines",
     "blood_covenantv3",
     "cold_shoulder",
@@ -41,6 +41,7 @@ local images = {
     "hk-peach",
     "hk-wario",
     "hk-yoshi",
+    "h3 foundry",
     "immure",
     "intensity-plus",
     "metrobyte",
@@ -84,8 +85,8 @@ for _, image in ipairs(images) do
         end
     end
     -- Merge images with each other and save it to the new directory
-    os.execute([[cd ]] .. imageDataFolderPath ..
-                   [[ && convert -bordercolor blue -border 1 +append $(ls -1v) "../../../insurrection_maps/]] ..
+    os.execute([[cd "]] .. imageDataFolderPath ..
+                   [[" && convert -bordercolor blue -border 1 +append $(ls -1v) "../../../insurrection_maps/]] ..
                    image .. [[.png"]])
     os.execute([[invader-bitmap -F 32-bit -T interface_bitmaps "]] .. bitmapPath .. [["]])
     ::continue::
@@ -96,10 +97,7 @@ for _, image in ipairs(existingImages) do
     local image = image:lower()
     local tagPath = [[insurrection/ui/bitmaps/insurrection_maps/]] .. image .. [[.bitmap]]
     if fs.is("tags/" .. tagPath) then
-        bitmapsTagCollection.tags[#bitmapsTagCollection.tags + 1] = {
-            reference = tagPath
-        }
+        bitmapsTagCollection.tags[#bitmapsTagCollection.tags + 1] = {reference = tagPath}
     end
 end
 tag.create([[insurrection/ui/shared/insurrection_maps.tag_collection]], bitmapsTagCollection)
-
