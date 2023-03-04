@@ -36,13 +36,8 @@ return function(name, text, props)
                     close_all_widgets = props.close or false
                 },
                 event_type = "a_button",
-                widget_tag = props.opens or ".ui_widget_definition",
-                script = props.script or ""
-            },
-            {
-                flags = {run_function = true},
-                event_type = "left_mouse",
-                ["function"] = "mouse_emit_accept_event"
+                widget_tag = props.opens,
+                script = props.script
             }
         },
         text_label_unicode_strings_list = stringsTagPath,
@@ -100,8 +95,12 @@ return function(name, text, props)
         }
     end
     if props.func then
+        -- We want to run multiple functions on the same button
         if type(props.func) == "table" then
-            for i, func in ipairs(props.func) do
+            -- Replace first function with the first function from props
+            wid.event_handlers[1]["function"] = props.func[1]
+            table.remove(props.func --[[@as table]], 1)
+            for i, func in ipairs(props.func --[=[@as string[]]=] ) do
                 wid.event_handlers[#wid.event_handlers + 1] = {
                     flags = {run_function = true},
                     ["function"] = func,
@@ -112,6 +111,12 @@ return function(name, text, props)
             wid.event_handlers[1]["function"] = props.func --[[@as string]]
         end
     end
+    -- Add mouse event handler
+    wid.event_handlers[#wid.event_handlers + 1] = {
+        flags = {run_function = true},
+        event_type = "left_mouse",
+        ["function"] = "mouse_emit_accept_event"
+    }
     if props.arrow then
         local arrowX = floor(constants.components.button[props.variant].width / 2)
         local arrowY = 8
