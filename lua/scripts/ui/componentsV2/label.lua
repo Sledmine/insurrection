@@ -18,10 +18,12 @@ return function(name, text, props)
         ustr(stringsPath, text)
     end
     local textFont = constants.fonts.text
+    local textColor = constants.color.text
     if props.variant == "title" then
         textFont = constants.fonts.title
     elseif props.variant == "subtitle" then
         textFont = constants.fonts.subtitle
+        textColor = constants.color.subtitle
     end
     ---@type invaderWidget
     local wid = {
@@ -29,7 +31,7 @@ return function(name, text, props)
         bounds = "0, 0, 24, 184",
         flags = {pass_unhandled_events_to_focused_child = true},
         text_font = textFont,
-        text_color = constants.color.text,
+        text_color = textColor,
         text_label_unicode_strings_list = stringsPath,
         string_list_index = 0,
         horiz_offset = 10,
