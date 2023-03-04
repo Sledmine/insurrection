@@ -29,7 +29,7 @@ return container("main_menu", {
             },
             {
                 button("multiplayer", "MULTIPLAYER", {
-                    opens = [[insurrection/ui/main_menu/menu_options/multiplayer_menu/multiplayer_menu.ui_widget_definition]]
+                    opens = [[insurrection/ui/menus/multiplayer/multiplayer_menu.ui_widget_definition]]
                 }),
                 layout()
             },
