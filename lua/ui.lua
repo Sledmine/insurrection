@@ -205,12 +205,12 @@ end
 function OnFrame()
     local bounds = {left = 0, top = 460, right = 640, bottom = 480}
     local textColor = {1, 1, 1, 1}
-    draw_text(ScreenCornerText or "", bounds.left, bounds.top, bounds.right, bounds.bottom, "small",
+    draw_text(ScreenCornerText or "", bounds.left, bounds.top, bounds.right, bounds.bottom, "console",
               "right", table.unpack(textColor))
     -- Draw loading text on the left side of the screen
     if LoadingText then
         draw_text(LoadingText or "", bounds.left + 16, bounds.top, bounds.left + 200, bounds.bottom,
-                  "small", "left", table.unpack(textColor))
+                  "console", "left", table.unpack(textColor))
         optic.render_sprite(loadingSprite, 8, screenHeight - 32 - 8, 255, ticks() * 8, 1,
                             rotateOrbAnimation, optic.create_animation(0))
     end
