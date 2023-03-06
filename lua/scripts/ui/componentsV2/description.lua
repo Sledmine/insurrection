@@ -8,7 +8,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@param name string Component name
 ---@param texts? string[] Texts to display
 ---@param bitmap? string Bitmap path to display
----@param variant? '"lan_maps"' | '"network_gametypes"' | '"difficulties"' | '"campaign"' | '"settings"' Variant to use
+---@param variant? '"lan_maps"' | '"network_gametypes"' | '"difficulties"' | '"campaign"' | '"settings"' | '"multiplayer"' Variant to use
 return function(name, texts, bitmap, variant)
     local widgetPath = widget.path .. name .. "_description.ui_widget_definition"
     local overlayImageDescriptionPath =
@@ -195,6 +195,21 @@ return function(name, texts, bitmap, variant)
                 {widget_tag = dataDescriptionPath, horizontal_offset = 364, vertical_offset = 305},
                 {widget_tag = imageDescriptionPath, horizontal_offset = 348, vertical_offset = 77},
                 {widget_tag = dataDescriptionPath, horizontal_offset = 364, vertical_offset = 305}
+            }
+        }
+    elseif variant == "multiplayer" then
+        wid = {
+            widget_type = "container",
+            bounds = constants.getScreenBounds(),
+            justification = "left_justify",
+            child_widgets = {
+                {widget_tag = imageDescriptionPath, horizontal_offset = 348, vertical_offset = 77},
+                {widget_tag = dataDescriptionPath, horizontal_offset = 364, vertical_offset = 305},
+                {
+                    widget_tag = [[insurrection/ui/shared/void.ui_widget_definition]],
+                    horizontal_offset = 0,
+                    vertical_offset = 0
+                }
             }
         }
     else

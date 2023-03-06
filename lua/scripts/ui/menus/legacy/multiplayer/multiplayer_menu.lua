@@ -60,16 +60,16 @@ local widgetPath = container("multiplayer_menu", {
                 layout(50)
             },
             {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
-        }, [[insurrection/ui/main_menu/menu_options/multiplayer_menu/options/options_description/options_description.ui_widget_definition]],
-            --description("multiplayer_legacy_options", {
-            --    "Join a multiplayer game on the Internet. Play against other players and prove them all that Halo Custom Edition is still alive.\r\nIf you can join a server without bots...",
-            --    "Join a multiplayer game on your local area network.",
-            --    "Join a multiplayer game at a specific server address.",
-            --    "Create a multiplayer game on the Internet, if this somehow works...",
-            --    "Create a multiplayer game on your local area network."
-            --},
-            --[[insurrection/ui/main_menu/menu_options/multiplayer_menu/options/options_description/bitmaps/description_preview.bitmap]]
-            --"multiplayer"),
+        }, description("multiplayer_legacy_options", {
+                "Join a multiplayer game on the Internet. Play against other players and prove them all that Halo Custom Edition is still alive.\r\nIf you can join a server without bots...",
+                "Join a multiplayer game on your local area network.",
+                "Join a multiplayer game at a specific server address.",
+                "Create a multiplayer game on the Internet, if this somehow works...",
+                "Create a multiplayer game on your local area network.",
+                "Go back to the previous menu."
+            },
+            [[insurrection/ui/main_menu/menu_options/multiplayer_menu/options/options_description/bitmaps/description_preview.bitmap]],
+            "multiplayer"),
         {dataInput = "multiplayer_type_menu_update_desc"})
     },
     {constants.components.currentProfile.path, 624, 20},
