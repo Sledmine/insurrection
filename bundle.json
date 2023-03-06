@@ -18,6 +18,7 @@
         "ini",
         "discordRPC",
         "color",
+        "luna",
         "insurrection.utils",
         "insurrection.constants",
         "insurrection.translations",
