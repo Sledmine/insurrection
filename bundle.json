@@ -41,6 +41,7 @@
         "insurrection.components.dynamic.lobbyMenu",
         "insurrection.components.dynamic.customizationMenu",
         "insurrection.components.dynamic.settingsMenu",
+        "insurrection.components.dynamic.chimeraMenu",
         "insurrection.interface",
         "insurrection.redux.reducers.interfaceReducer",
         "insurrection.redux.actions",

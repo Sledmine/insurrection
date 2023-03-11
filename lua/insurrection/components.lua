@@ -249,4 +249,20 @@ function components.setAnimation(self,
     }
 end
 
+---@param self uiComponent
+---@return table?
+function components.getWidgetValues(self)
+    if core.getWidgetHandle(self.tagId) then
+        return core.getWidgetValues(self.tagId)
+    end
+end
+
+---@param self uiComponent
+---@param values table
+function components.setWidgetValues(self, values)
+    if core.getWidgetHandle(self.tagId) then
+        core.setWidgetValues(self.tagId, values)
+    end
+end
+
 return components
