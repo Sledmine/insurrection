@@ -74,7 +74,10 @@ return container("customization_menu", {
                         {button("biped_map_5", string.rep(" ", 32)), mapsLayout()},
                         {button("biped_map_6", string.rep(" ", 32)), mapsLayout()},
                         {button("biped_map_7", string.rep(" ", 32)), mapsLayout()},
-                        {button("scroll_bipeds_maps_list_down", nil, {arrow = "down"}), mapsLayout()}
+                        {
+                            button("scroll_bipeds_maps_list_down", nil, {arrow = "down"}),
+                            mapsLayout()
+                        }
                     })
                 },
                 {
@@ -92,5 +95,6 @@ return container("customization_menu", {
                 }
             })
         }
-    }
+    },
+    noBackgroud = true
 })

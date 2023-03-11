@@ -2,6 +2,7 @@ local components = require "insurrection.components"
 local constants = require "insurrection.constants"
 local button = require "insurrection.components.button"
 local core = require "insurrection.core"
+local interface = require "insurrection.interface"
 
 return function()
     local login = components.new(constants.widgets.login.id)

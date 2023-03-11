@@ -23,6 +23,7 @@ return function()
     end)
 
     dashboard:onOpen(function()
+        execute_script("set_ui_background")
         api.stopRefreshLobby()
         discord.updatePresence("Playing Insurrection", "In the dashboard")
     end)

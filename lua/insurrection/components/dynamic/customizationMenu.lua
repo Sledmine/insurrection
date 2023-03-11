@@ -34,12 +34,14 @@ return function()
     local customizationNameplatesButton = button.new(
                                               customizationTypesList:findChildWidgetTag("nameplates").id)
     customizationNameplatesButton:onClick(function()
+        execute_script("set_ui_background")
         selectBipedsList:replace(nameplatesList.tagId)
     end)
     local customizationBipedsButton = button.new(
                                           customizationTypesList:findChildWidgetTag("bipeds").id)
 
     customizationBipedsButton:onClick(function()
+        execute_script("set_customization_background")
         nameplatesList:replace(selectBipedsList.tagId)
         ---@type interfaceState
         local state = store:getState()
