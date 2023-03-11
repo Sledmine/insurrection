@@ -70,5 +70,6 @@
 ;; UI Main
 (script startup ui_main
     ;; Fade screen from black to transparent
+    (objects_attach customization_biped "right hand" customization_prop_ar "attach_point")
     (fade_screen_in)
 )
