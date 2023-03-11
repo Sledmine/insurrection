@@ -11,7 +11,7 @@ local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
 local ends = require"glue".string.ends
-local balltze = require "mods.balltze"
+local _, balltze = pcall(require, "mods.balltze")
 
 clua_version = 2.056
 -- Import API after setting up debug mode
@@ -313,9 +313,11 @@ end
 
 ---@param mapName string
 function OnMapFileLoad(mapName) 
-    balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
-    balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
-    balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
+    if balltze then
+        balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
+        balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
+        balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
+    end
 end
 
 set_callback("tick", "OnTick")
@@ -329,4 +331,6 @@ harmony.set_callback("widget mouse focus", "OnMouseFocus")
 harmony.set_callback("widget close", "OnWidgetClose")
 harmony.set_callback("widget open", "OnWidgetOpen")
 harmony.set_callback("key press", "OnKeypress")
-balltze.set_callback("map file load", "OnMapFileLoad")
+if balltze then
+    balltze.set_callback("map file load", "OnMapFileLoad")
+end
