@@ -563,10 +563,36 @@ function hud_message(message)
 end
 
 ---Set the callback for an event game from the game events available on Chimera
----@param event '"command"' | '"frame"' | '"preframe"' | '"map_load"' | '"precamera"' | '"rcon message"' | '"tick"' | '"pretick"' | '"unload"'
----@param callback string global function name to call when the event is triggered
+---@param event '"command"' | '"frame"' | '"preframe"' | '"map load"' | '"precamera"' | '"rcon message"' | '"tick"' | '"pretick"' | '"unload"'
+---@param callback string Global function name to call when the event is triggered
 function set_callback(event, callback)
-    error("Chimera events can not be used on SAPP, use register_callback instead.")
+    if event == "tick" then
+        register_callback(cb["EVENT_TICK"], callback)
+    elseif event == "pretick" then
+        error("SAPP does not support pretick event")
+    elseif event == "frame" then
+        error("SAPP does not support frame event")
+    elseif event == "preframe" then
+        error("SAPP does not support preframe event")
+    elseif event == "map_load" then
+        register_callback(cb["EVENT_GAME_START"], callback)
+    elseif event == "precamera" then
+        error("SAPP does not support precamera event")
+    elseif event == "rcon message" then
+        _G[callback .. "_rcon_message"] = function (playerIndex, command, environment, password)
+            return _G[callback](playerIndex, command, password)
+        end
+        register_callback(cb["EVENT_COMMAND"], callback .. "_rcon_message")
+    elseif event == "command" then
+        _G[callback .. "_command"] = function (playerIndex, command, environment)
+            return _G[callback](playerIndex, command, environment)
+        end
+        register_callback(cb["EVENT_COMMAND"], callback .. "_command")
+    elseif event == "unload" then
+        register_callback(cb["EVENT_GAME_END"], callback)
+    else
+        error("Unknown event: " .. event)
+    end
 end
 
 if (api_version) then
@@ -668,12 +694,12 @@ local function tagClassFromInt(tagClassInt)
     return nil
 end
 
---- Return the current existing objects in the current map, ONLY WORKS FOR CHIMERA!!!
+--- Return a list of all the objects currently in the map
 ---@return table
 function blam.getObjects()
     local currentObjectsList = {}
     for i = 0, 2047 do
-        if (get_object(i)) then
+        if (blam.getObject(i)) then
             currentObjectsList[#currentObjectsList + 1] = i
         end
     end
@@ -2568,23 +2594,23 @@ local requestId = -1
 local requestPathMaxLength = 60
 ---Send a server request to current server trough rcon
 ---@param method '"GET"' | '"SEND"'
----@param url string Path or name of the resource we want to get
+---@param path string Path or name of the resource we want to get
 ---@param timeout number Time this request will wait for a response, 120ms by default
 ---@param callback function<boolean, string> Callback function to call when this response returns
 ---@param retry boolean Retry this request if timeout reaches it's limit
 ---@param params table<string, any> Optional parameters to send in the request, careful, this will create two requests, one for the resource and another one for the parameters
 ---@return boolean success
-function blam.request(method, url, timeout, callback, retry, params)
+function blam.request(method, path, timeout, callback, retry, params)
     if (server_type ~= "dedicated") then
         console_out("Warning, requests only work while connected to a dedicated server.")
     end
     if (params) then
         console_out("Warning, request params are not supported yet.")
     end
-    if (url and url:len() <= requestPathMaxLength) then
+    if (path and path:len() <= requestPathMaxLength) then
         if (method == "GET") then
             requestId = requestId + 1
-            local rconRequest = ("rcon blam ?%s?%s"):format(requestId, url)
+            local rconRequest = ("rcon blam ?%s?%s"):format(requestId, path)
             requestQueue[requestId] = {
                 requestString = rconRequest,
                 timeout = timeout or 120,
@@ -2597,6 +2623,35 @@ function blam.request(method, url, timeout, callback, retry, params)
     end
     error("Error, url can not contain more than " .. requestPathMaxLength .. " chars.")
     return false
+end
+
+---Evaluate if rcon event is a request
+---@param password string
+---@param message string
+---@return boolean
+function blam.isRequest(password, message)
+    if password == "blam" then
+        return true
+    end
+    if message:sub(1, 1) == "?" then
+        return true
+    end
+    return false
+end
+
+---Evaluate rcon event and handle it as a request
+---@param message string
+---@param password string
+---@param playerIndex number
+---@return boolean | nil
+function blam.handleRequest(message, password, playerIndex)
+    if password == "blam" then
+        if message:sub(1, 1) == "?" then
+            return false
+        end
+    end
+    -- Pass request to the server
+    return nil
 end
 
 --- Find the path, index and id of a tag given partial tag path and tag type
