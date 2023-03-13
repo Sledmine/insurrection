@@ -17,7 +17,7 @@ return container("dialog_menu", {
         0,
         0
     },
-    {label("dialog_title", string.rep(" ", 64), {variant = "title", justify = "center"}), 0, 113},
+    {label("dialog_title", string.rep(" ", 64), {variant = "title", justify = "center"}), 0, 104},
     {label("dialog_subtitle", string.rep(" ", 128), {variant = "text", justify = "center"}), 0, 154},
     {
         label("dialog_text", string.rep(" ", 4096),
