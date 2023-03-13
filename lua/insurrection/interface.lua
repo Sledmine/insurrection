@@ -33,7 +33,7 @@ function interface.load()
     end
     IsUICompatible = true
     if IsUICompatible then
-        
+
         dprint("Overriding Chimera font...")
         chimera.fontOverride()
 
@@ -102,8 +102,7 @@ function interface.load()
                         local resumeButton = button.new(
                                                  insurrectionPause:findChildWidgetTag(
                                                      "resume_game_button").id)
-                        local stockResumeButton = button.new(
-                                                      pause:findChildWidgetTag("resume").id)
+                        local stockResumeButton = button.new(pause:findChildWidgetTag("resume").id)
                         local exitButton = button.new(
                                                insurrectionPause:findChildWidgetTag("exit_button").id)
                         resumeButton:onClick(function()
@@ -165,8 +164,9 @@ function interface.load()
         -- Set up some chimera configs
         if map == "ui" then
             local preferences = chimera.getPreferences()
-            local notServerIpBlocking = (not preferences or not preferences.chimera_block_server_ip or
-                                            preferences.chimera_block_server_ip == 0)
+            local notServerIpBlocking =
+                (not preferences or not preferences.chimera_block_server_ip or
+                    preferences.chimera_block_server_ip == 0)
             if notServerIpBlocking then
                 interface.shared.dialog:onClose(function()
                     preferences.chimera_block_server_ip = 1
@@ -250,19 +250,16 @@ function interface.dialog(titleText, subtitleText, bodyText)
             playSound(constants.sounds.success.path)
         end
     end
-    local dialog = uiWidgetTag(constants.widgets.dialog.id)
-    local header = uiWidgetTag(dialog.childWidgets[1].widgetTag)
-    local title = uiWidgetTag(header.childWidgets[1].widgetTag)
-    local headerStrings = blam.unicodeStringList(title.unicodeStringListTag)
-    local strings = headerStrings.stringList
-    strings[1] = titleText
-    strings[2] = subtitleText
-    headerStrings.stringList = strings
-    local body = uiWidgetTag(dialog.childWidgets[3].widgetTag)
-    local bodyStrings = unicodeStringTag(body.unicodeStringListTag)
-    local strings = bodyStrings.stringList
-    strings[1] = bodyText
-    bodyStrings.stringList = strings
+    local dialog = shared.dialog
+
+    local title = components.new(dialog:findChildWidgetTag("title").id)
+    title:setText(titleText)
+
+    local subtitle = components.new(dialog:findChildWidgetTag("subtitle").id)
+    subtitle:setText(subtitleText)
+
+    local body = components.new(dialog:findChildWidgetTag("text").id)
+    body:setText(bodyText)
 
     if titleText == "ERROR" then
         openWidget(constants.widgets.dialog.id, false)
@@ -334,7 +331,7 @@ function interface.lobbyInit()
             })
             mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
             local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
-            for k,v in pairs(mapCollection.tagList) do
+            for k, v in pairs(mapCollection.tagList) do
                 local bitmapTag = blam.getTag(v) --[[@as tag]]
                 local mapName = core.getTagName(bitmapTag.path):lower()
                 if mapName == item.label:lower() then
