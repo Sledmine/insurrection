@@ -1,7 +1,9 @@
 --- Widget automated modifier using Invader
 --- Sledmine
 local glue = require "lua.lua_modules.glue"
+local fs = require "fs"
 local tag = require "lua.scripts.modules.tag"
+local luna = require "lua.scripts.modules.luna"
 
 local widget = {path = nil}
 
@@ -221,6 +223,12 @@ end
 ---@return boolean
 function widget.createV2(widgetPath, keys)
     -- Create widget from scratch
+    if keys.background_bitmap and not fs.is("tags/" .. keys.background_bitmap) then
+        local bitmapPath = keys.background_bitmap:replace(".bitmap", "")
+        if not os.execute("invader-bitmap -F 32-bit -T interface_bitmaps " .. bitmapPath) then
+            error("Background bitmap " .. bitmapPath .. " does not exist")
+        end
+    end
     if keys.child_widgets then
         keys.child_widgets = glue.map(keys.child_widgets, function(child)
             if #child > 0 then

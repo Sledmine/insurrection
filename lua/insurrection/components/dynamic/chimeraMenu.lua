@@ -1,8 +1,8 @@
 local components = require "insurrection.components"
-local button = require "insurrection.components.button"
 local checkbox = require "insurrection.components.checkbox"
 local constants = require "insurrection.constants"
 local chimera = require "insurrection.mods.chimera"
+local interface = require "insurrection.interface"
 local blam = require "blam"
 
 return function()

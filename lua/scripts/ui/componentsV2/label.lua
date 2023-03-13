@@ -6,7 +6,7 @@ local ustr = require "lua.scripts.modules.ustr"
 ---Label component
 ---@param name string Name of the component
 ---@param text string | string[] Text to display
----@param props? {childs: invaderWidgetChildWidget[], variant?: '"title"' | '"subtitle"' | '"text"'} Properties of the component
+---@param props? {childs: invaderWidgetChildWidget[], variant?: '"title"' | '"subtitle"' | '"text"', justify?: "left" | "center" | "right", size?: number} Properties of the component
 ---@return string
 return function(name, text, props)
     local props = props or {}
@@ -28,10 +28,12 @@ return function(name, text, props)
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        bounds = "0, 0, 24, 184",
+        -- bounds = widget.bounds(0, 0, 20, 184),
+        bounds = widget.bounds(0, 0, props.size or 20, constants.screen.width),
         flags = {pass_unhandled_events_to_focused_child = true},
         text_font = textFont,
         text_color = textColor,
+        justification = (props.justify or "left") .. "_justify",
         text_label_unicode_strings_list = stringsPath,
         string_list_index = 0,
         horiz_offset = 10,
