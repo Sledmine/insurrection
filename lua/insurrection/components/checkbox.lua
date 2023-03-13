@@ -1,7 +1,7 @@
 local core = require "insurrection.core"
 local components = require "insurrection.components"
 
----@class uiComponentCheckboxClass : uiComponentClass
+---@class uiComponentCheckboxClass : uiComponent
 local checkbox = setmetatable({
     ---@type number
     checkboxTagId = nil

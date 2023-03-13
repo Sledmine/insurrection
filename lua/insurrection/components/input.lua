@@ -1,6 +1,6 @@
 local components = require "insurrection.components"
 
----@class uiComponentInputClass : uiComponentClass
+---@class uiComponentInputClass : uiComponent
 local input = setmetatable({}, {__index = components})
 
 ---@class uiComponentInputEvents : uiComponentEvents

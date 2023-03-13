@@ -9,7 +9,7 @@ local harmony = require "mods.harmony"
 local createBezierCurve = harmony.math.create_bezier_curve
 local bezierCurve = harmony.math.get_bezier_curve_point
 
----@class uiComponentClass
+---@class uiComponent
 local components = {
     ---@type number
     tagId = nil,
@@ -33,8 +33,6 @@ local components = {
 ---@field onOpen function | nil
 ---@field onClose function | nil
 ---@field animate function | nil
-
----@class uiComponent : uiComponentClass
 
 ---@type table<number, uiComponent>
 components.widgets = {}
@@ -82,7 +80,7 @@ function components.setText(self, text, mask)
     local widgetDefinition = self.widgetDefinition
     if self.widgetDefinition.childWidgetsCount > 0 then
         local childTagId = self.widgetDefinition.childWidgets[1].widgetTag
-        childWidgetDefinition = uiWidgetDefinition(childTagId)
+        childWidgetDefinition = uiWidgetDefinition(childTagId) --[[@as uiWidgetDefinition]]
         childUnicodeStrings = unicodeStringList(childWidgetDefinition.unicodeStringListTag)
     end
     local unicodeStrings = unicodeStringList(self.widgetDefinition.unicodeStringListTag)
@@ -189,7 +187,7 @@ local bezierCurves = {
 
 ---@class widgetAnimation
 ---@field finished boolean
----@field timestamp number
+---@field timestamp number?
 ---@field play fun()
 
 ---Setup an animation to apply to a widget

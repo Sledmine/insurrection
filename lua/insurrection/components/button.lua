@@ -1,7 +1,7 @@
 local core = require "insurrection.core"
 local components = require "insurrection.components"
 
----@class uiComponentButtonClass : uiComponentClass
+---@class uiComponentButtonClass : uiComponent
 local button = setmetatable({}, {__index = components})
 
 ---@class uiComponentButtonEvents : uiComponentEvents

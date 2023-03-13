@@ -4,7 +4,7 @@ local button = require "insurrection.components.button"
 local core = require "insurrection.core"
 local glue = require "glue"
 
----@class uiComponentListClass : uiComponentClass
+---@class uiComponentListClass : uiComponent
 local list = setmetatable({
     ---@type number
     firstWidgetIndex = nil,
