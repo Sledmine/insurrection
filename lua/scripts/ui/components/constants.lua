@@ -47,48 +47,48 @@ return {
             normal = {
                 width = 184,
                 height = 24,
-                bitmap = [[insurrection\ui\bitmaps\normal_button.bitmap]]
+                bitmap = [[insurrection/ui/bitmaps/normal_button.bitmap]]
             },
             large = {
                 width = 389,
                 height = 24,
-                bitmap = [[insurrection\ui\bitmaps\large_button.bitmap]]
+                bitmap = [[insurrection/ui/bitmaps/large_button.bitmap]]
             }
         },
         arrow = {
-            left = {width = 16, height = 16, bitmap = [[insurrection\ui\bitmaps\arrow_left.bitmap]]},
+            left = {width = 16, height = 16, bitmap = [[insurrection/ui/bitmaps/arrow_left.bitmap]]},
             right = {
                 width = 16,
                 height = 16,
-                bitmap = [[insurrection\ui\bitmaps\arrow_right.bitmap]]
+                bitmap = [[insurrection/ui/bitmaps/arrow_right.bitmap]]
             },
-            up = {width = 10, height = 8, bitmap = [[insurrection\ui\bitmaps\arrow_up.bitmap]]},
-            down = {width = 10, height = 8, bitmap = [[insurrection\ui\bitmaps\arrow_down.bitmap]]}
+            up = {width = 10, height = 8, bitmap = [[insurrection/ui/bitmaps/arrow_up.bitmap]]},
+            down = {width = 10, height = 8, bitmap = [[insurrection/ui/bitmaps/arrow_down.bitmap]]}
         },
         complexButton = {
             normal = {
                 width = 120,
                 height = 110,
-                bitmap = [[insurrection\ui\bitmaps\complex_button.bitmap]]
+                bitmap = [[insurrection/ui/bitmaps/complex_button.bitmap]]
             },
             vertical = {
                 width = 144,
                 height = 158,
-                bitmap = [[insurrection\ui\bitmaps\vertical_complex_button.bitmap]]
+                bitmap = [[insurrection/ui/bitmaps/vertical_complex_button.bitmap]]
             },
             horizontal = {
                 width = 149,
                 height = 36,
-                bitmap = [[insurrection\ui\bitmaps\horizontal_complex_button.bitmap]]
+                bitmap = [[insurrection/ui/bitmaps/horizontal_complex_button.bitmap]]
             }
         },
         input = {
             small = {
                 width = 184,
                 height = 23,
-                bitmap = [[insurrection\ui\bitmaps\input_small.bitmap]]
+                bitmap = [[insurrection/ui/bitmaps/input_small.bitmap]]
             },
-            normal = {width = 187, height = 34, bitmap = [[insurrection\ui\bitmaps\input.bitmap]]}
+            normal = {width = 187, height = 34, bitmap = [[insurrection/ui/bitmaps/input.bitmap]]}
         }
     }
 }
