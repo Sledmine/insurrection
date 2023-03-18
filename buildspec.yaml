@@ -25,6 +25,8 @@ commands:
     - cp dist/ui.lua package/lua-global/ui.lua
     - mercury pack package/ dist/
     - rm package/lua-global/ui.lua
+  symlinks:
+    - ln -s "$PWD/dist/ui.lua" "$HALO_CE_DATA_PATH/chimera/lua/scripts/global/ui.lua"
   release:
     - mercury build --release --output package/game-maps/
     - mercury build package
