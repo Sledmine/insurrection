@@ -562,6 +562,7 @@ function chimera.executeCommand(command)
     end
     local result, error = pcall(execute_chimera_command, command, true)
     if result then
+        execute_script("cls")
         return true
     end
     console_out(error)
