@@ -14,7 +14,7 @@ local char = string.char
 local pack = string.pack
 local unpack = string.unpack
 local concat = table.concat
-local bit = require "lua.scripts.modules.bit"
+local bit = require "bit"
 
 ---Decode a buffer containing Unicode data.
 --@param buf The string/buffer to be decoded

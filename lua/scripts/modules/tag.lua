@@ -1,5 +1,5 @@
---- Tag automated modifier using Invader
---- Sledmine
+-- Tag creator/editor module
+-- This module is a wrapper for invader-edit to create and edit tags
 local glue = require "lua.lua_modules.glue"
 local tag = {}
 
@@ -115,7 +115,7 @@ end
 ---@param key string
 ---@param index? number
 ---@param subkey? string
----@return string | number
+---@return string | number | nil
 function tag.get(tagPath, key, index, subkey)
     local cmd = getCmd:format(tagPath, key)
     if (index) then
@@ -125,6 +125,7 @@ function tag.get(tagPath, key, index, subkey)
         end
     end
     local pipe = io.popen(cmd)
+    assert(pipe, "Error at attempting to read: " .. tagPath .. " " .. key)
     local value = pipe:read("*a")
     if not pipe:close() then
         print("Attempting to read:")
@@ -140,19 +141,20 @@ end
 ---@return number
 function tag.count(tagPath, key)
     local pipe = io.popen(countCmd:format(tagPath, key))
+    assert(pipe, "Error at attempting to count: " .. tagPath .. " " .. key)
     local value = pipe:read("*a")
     if not pipe:close() then
         print("Attempting to count:")
         print(tagPath, key)
         error(value)
     end
-    return tonumber(value)
+    return tonumber(value) --[[@as number]]
 end
 
 ---Erase structure from a tag given key
 ---@param tagPath any
 ---@param key any
----@return number
+---@return boolean
 function tag.erase(tagPath, key)
     if os.execute(eraseCmd:format(tagPath, key)) then
         return true
