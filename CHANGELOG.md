@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2023-04-03
+### Added
+- Font UI overriding by Lua using Chimera
+- Attach Assault Rifle to custom selection biped
+
+### Changed
+- Dialog menu design
+- Chimera configuration buttons do not show chimera config messages anymore
+
+### Fixed
+- Wrong menu header in pause menu screen
+
 ## [2.4.0] - 2023-02-06
 ### Added
 - New color customization menu with in game preview
