@@ -48,9 +48,9 @@ return container("chimera_mod_menu", {
             {checkbox("block_mouse_acceleration", "BLOCK MOUSE ACCELERATION"), layout()},
             {checkbox("devmode", "DEVMODE"), layout()},
             {checkbox("show_budget", "SHOW BUDGET"), layout()},
-            {spinner("fov", "FOV", fovs), spinnersLayout()},
-            {spinner("mouse_sensitivity_x", "MOUSE SENSITIVITY X", sensitivities), spinnersLayout()},
-            {spinner("mouse_sensitivity_y", "MOUSE SENSITIVITY Y", sensitivities), spinnersLayout()},
+            --{spinner("fov", "FOV", fovs), spinnersLayout()},
+            --{spinner("mouse_sensitivity_x", "MOUSE SENSITIVITY X", sensitivities), spinnersLayout()},
+            --{spinner("mouse_sensitivity_y", "MOUSE SENSITIVITY Y", sensitivities), spinnersLayout()},
             -- {button("save_settings", "SAVE SETTINGS", {save = true}), pos.action.x, pos.action.y},
             {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
         })

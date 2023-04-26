@@ -24,7 +24,8 @@ return {
         text = [[insurrection/ui/fonts/geogrotesque-regular-text.font]], -- small
         title = [[insurrection/ui/fonts/geogrotesque-regular-title.font]], -- ticker
         subtitle = [[insurrection/ui/fonts/geogrotesque-regular-subtitle.font]], -- gamespy/subtitle
-        button = [[insurrection/ui/fonts/geogrotesque-regular-button.font]] -- large
+        button = [[insurrection/ui/fonts/geogrotesque-regular-button.font]], -- large
+        shadow = [[insurrection/ui/fonts/geogrotesque-regular-shadow.font]]
     },
     screen = {width = width, height = height},
     getScreenBounds = function()

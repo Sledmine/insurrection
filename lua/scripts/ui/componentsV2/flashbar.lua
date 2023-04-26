@@ -19,9 +19,9 @@ return function(name, text)
         text_label_unicode_strings_list = ustr(stringsTagPath, {text}) or ".unicode_string_list",
         string_list_index = 0,
         justification = "center_justify",
-        text_font = constants.fonts.subtitle,
+        text_font = constants.fonts.shadow,
         text_color = "1, 0, 0, 0",
-        vert_offset = 3
+        vert_offset = 5
     })
     return widgetPath
 end

@@ -8,6 +8,7 @@ invader-font $FONT_PATH-text -s 12
 invader-font $FONT_PATH-title -s 16
 invader-font $FONT_PATH-subtitle -s 8
 invader-font $FONT_PATH-button -s 11
+invader-font $FONT_PATH-shadow -s 8
 
 # Generate the UI
 $LUA_WRAPPER"/legacy/intro/intro_menu.lua"

@@ -43,10 +43,6 @@ local lastMap = ""
 local playerCount = 0
 
 discord = require "insurrection.discord"
--- Start discord presence only if script is loaded in the UI map, prevent crashes in other maps
-if map == "ui" then
-    discord.startPresence()
-end
 
 -- Setup loading orb sprite
 local loadingSprite = optic.create_sprite("loading_orb.png", 32, 32)

@@ -11,7 +11,7 @@ return function()
     local checkboxes = {}
     local config = chimera.getConfiguration() or {}
     local preferences = chimera.getPreferences() or {}
-    for i = 1, chimeraOptions.widgetDefinition.childWidgetsCount - 4 do
+    for i = 1, chimeraOptions.widgetDefinition.childWidgetsCount - 1 do
         local childWidget = chimeraOptions.widgetDefinition.childWidgets[i]
         local check = checkbox.new(childWidget.widgetTag)
         checkboxes[check:getText()] = check

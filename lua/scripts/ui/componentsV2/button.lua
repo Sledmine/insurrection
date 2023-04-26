@@ -70,6 +70,7 @@ return function(name, text, props)
             vert_offset = 5
         }
         if text then
+            wid.text_label_unicode_strings_list = nil
             widgetText.text_label_unicode_strings_list = stringsTagPath
         end
         local widgetTextPath = widget.path .. "buttons/" .. name ..
