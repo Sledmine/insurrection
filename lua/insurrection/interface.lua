@@ -163,10 +163,9 @@ function interface.load()
 
         -- Set up some chimera configs
         if map == "ui" then
-            local preferences = chimera.getPreferences()
-            local notServerIpBlocking =
-                (not preferences or not preferences.chimera_block_server_ip or
-                    preferences.chimera_block_server_ip == 0)
+            local preferences = chimera.getPreferences() or {}
+            local notServerIpBlocking = not preferences.chimera_block_server_ip or
+                                            preferences.chimera_block_server_ip == 0
             if notServerIpBlocking then
                 interface.shared.dialog:onClose(function()
                     preferences.chimera_block_server_ip = 1
@@ -269,7 +268,7 @@ function interface.dialog(titleText, subtitleText, bodyText)
 end
 
 ---Play a special interface sound
----@param sound '"error"' | '"success"' | '"back"'
+---@param sound '"error"' | '"success"' | '"back"' | '"join"' | '"leave"'
 function interface.sound(sound)
     if sound == "error" then
         playSound(constants.sounds.error.id)
@@ -277,6 +276,10 @@ function interface.sound(sound)
         playSound(constants.sounds.success.id)
     elseif sound == "back" then
         playSound(constants.sounds.back.id)
+    elseif sound == "join" then
+        playSound(constants.sounds.join.id)
+    elseif sound == "leave" then
+        playSound(constants.sounds.leave.id)
     else
         dprint("Invalid sound: " .. sound, "error")
     end

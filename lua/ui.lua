@@ -40,6 +40,7 @@ WidgetAnimations = {}
 ScreenCornerText = ""
 LoadingText = nil
 local lastMap = ""
+local playerCount = 0
 
 discord = require "insurrection.discord"
 -- Start discord presence only if script is loaded in the UI map, prevent crashes in other maps
@@ -102,6 +103,29 @@ function OnTick()
             dprint(lane.thread.status, "warning")
         end
     end
+    if server_type =="dedicated" or server_type == "local" then
+        local newPlayerCount = 0
+        for playerIndex = 0, 15 do
+            local player = blam.player(get_player(playerIndex))
+            if player then
+                newPlayerCount = newPlayerCount + 1
+            end
+        end
+        if newPlayerCount < playerCount then
+            OnPlayerLeave()
+        elseif newPlayerCount > playerCount then
+            OnPlayerJoin()
+        end
+        playerCount = newPlayerCount
+    end
+end
+
+function OnPlayerJoin()
+    --interface.sound("join")
+end
+
+function OnPlayerLeave()
+    --interface.sound("leave")
 end
 
 function OnKeypress(modifiers, char, keycode)
@@ -317,6 +341,7 @@ function OnMapFileLoad(mapName)
         balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
         balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
+        balltze.import_tag_data("ui", constants.path.customSounds, "tag_collection")
     end
 end
 

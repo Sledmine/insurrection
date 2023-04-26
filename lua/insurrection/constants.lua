@@ -11,7 +11,8 @@ local constants = {}
 constants.path = {
     pauseMenu = [[insurrection\ui\menus\pause\pause_menu]],
     nameplateCollection = [[insurrection\ui\shared\nameplates]],
-    dialog = [[insurrection\ui\menus\dialog\dialog_menu]]
+    dialog = [[insurrection\ui\menus\dialog\dialog_menu]],
+    customSounds = [[insurrection\sound\custom_sounds]],
 }
 
 constants.color = {
@@ -82,7 +83,9 @@ function constants.get()
     constants.sounds = {
         error = findTag("flag_failure", tagClasses.sound),
         back = findTag("back", tagClasses.sound),
-        success = findTag("forward", tagClasses.sound)
+        success = findTag("forward", tagClasses.sound),
+        join = findTag("player_join", tagClasses.sound),
+        leave = findTag("player_leave", tagClasses.sound),
     }
 
     constants.tagCollections = {
