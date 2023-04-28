@@ -1,5 +1,5 @@
-local releaseVersion = "2.5.0"
-local metadata = "92b9004.20230410"
+local releaseVersion = "2.4.2"
+local metadata = "29b15b1.20230428"
 local version = releaseVersion
 if DebugMode then
     return releaseVersion .. "-dev+" .. metadata
