@@ -41,7 +41,9 @@ end
 
 function discord.startPresence()
     core.loading(true, "Starting Discord Presence...")
-    discordRPC.initialize(base64.decode(read_file("micro")), true)
+    if not discord.ready then
+        discordRPC.initialize(base64.decode(read_file("micro")), true)
+    end
     discordRPC.clearPresence()
     discordRPC.runCallbacks()
     if DiscordPresenceTimerId then
