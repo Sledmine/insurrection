@@ -196,12 +196,7 @@ local bezierCurves = {
 ---@param originalOffset number Original offset of the widget
 ---@param offset number Offset to apply to the widget
 ---@param bezier? bezierCurves Bezier curve to use, e.g. "ease in"
-function components.setAnimation(self,
-                                 duration,
-                                 property,
-                                 originalOffset,
-                                 offset,
-                                 bezier)
+function components.setAnimation(self, duration, property, originalOffset, offset, bezier)
     local targetWidgetTagId = self.tagId
     local animationId = targetWidgetTagId .. property
     self.animations[animationId] = {
@@ -258,9 +253,7 @@ end
 ---@param self uiComponent
 ---@param values table
 function components.setWidgetValues(self, values)
-    if core.getWidgetHandle(self.tagId) then
-        core.setWidgetValues(self.tagId, values)
-    end
+    core.setWidgetValues(self.tagId, values)
 end
 
 return components

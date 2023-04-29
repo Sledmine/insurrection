@@ -19,4 +19,16 @@ function utils.path(path)
     return {path = path, name = name, extension = extension}
 end
 
+---Executes a function after a delay
+---@param delay number
+---@param callback function
+function utils.delay(delay, callback)
+    _G[tostring(callback)] = function ()
+        callback()
+        return false
+    end
+    local timerId = set_timer(delay, tostring(callback))
+end
+
+
 return utils

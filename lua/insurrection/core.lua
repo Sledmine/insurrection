@@ -9,6 +9,7 @@ local harmony = require "mods.harmony"
 
 local mercury = require "insurrection.mercury"
 local scriptVersion = "insurrection-" .. require "insurrection.version"
+local utils = require "insurrection.utils"
 
 local currentWidgetIdAddress = 0x6B401C
 local keyboardInputAddress = 0x64C550
@@ -51,7 +52,8 @@ function core.loadInsurrectionPatches()
     -- if clientPort ~= friendlyClientPort then
     --    write_dword(clientPortAddress, friendlyClientPort)
     -- end
-    local scriptVersionTag = blam.findTag("insurrection_version_footer", tagClasses.unicodeStringList)
+    local scriptVersionTag = blam.findTag("insurrection_version_footer",
+                                          tagClasses.unicodeStringList)
     if (scriptVersionTag) then
         local scriptVersionString = blam.unicodeStringList(scriptVersionTag.id)
         if (scriptVersionString) then
@@ -216,11 +218,20 @@ function core.getWidgetValues(widgetTagId)
 end
 
 function core.setWidgetValues(widgetTagId, values)
-    if core.getCurrentUIWidgetTag() then
-        local sucess, widgetHandle = pcall(harmony.menu.find_widgets, widgetTagId)
-        if sucess and widgetHandle then
+    local function setValuesDOMSafe()
+        -- Verify there is a widget loaded in the DOM
+        local widgetHandle = core.getWidgetHandle(widgetTagId)
+        if widgetHandle then
             harmony.menu.set_widget_values(widgetHandle, values)
+            return true
         end
+    end
+    if not setValuesDOMSafe() then
+        -- If there is no widget loaded in the DOM, wait 30ms and try again
+        -- (this is a workaround for the DOM not being loaded yet)
+        utils.delay(30, function()
+            setValuesDOMSafe()
+        end)
     end
 end
 

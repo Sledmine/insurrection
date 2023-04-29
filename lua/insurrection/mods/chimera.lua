@@ -575,7 +575,9 @@ function chimera.fontOverride()
         create_font_override(constants.fonts.title.id, "Geogrotesque-Regular", 18, 400, 2, 2, 0, 0)
         create_font_override(constants.fonts.subtitle.id, "Geogrotesque-Regular", 10, 400, 2, 2, 0, 0)
         create_font_override(constants.fonts.button.id, "Geogrotesque-Regular", 13, 400, 2, 2, 1, 1)
-        create_font_override(constants.fonts.shadow.id, "Geogrotesque-Regular", 10, 400, 0, 0, 0, 0)
+        if constants.fonts.shadow then
+            create_font_override(constants.fonts.shadow.id, "Geogrotesque-Regular", 10, 400, 0, 0, 0, 0)
+        end
         return true
     end
     console_out("create_font_override is not available.")

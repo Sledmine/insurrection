@@ -5,6 +5,7 @@ local checkbox = require "insurrection.components.checkbox"
 local button = require "insurrection.components.button"
 local list = require "insurrection.components.list"
 local translations = require "insurrection.translations"
+local utils = require "insurrection.utils"
 
 local openWidget = harmony.menu.open_widget
 local playSound = harmony.menu.play_sound
@@ -351,8 +352,40 @@ function interface.lobbyInit()
             if definition == "map" then
                 component = mapsList
             end
-            component:setItems(glue.map(state.available[definition .. "s"], function(element)
-                return {label = element, value = lobbyDef}
+            component:setItems(table.map(state.available[definition .. "s"], function(element)
+                ---@type uiComponentListItem
+                local item = {label = element, value = lobbyDef}
+                if definition ~= "map" then
+                    local gametypeIcons = {
+                        "unknown",
+                        "assault",
+                        "ctf",
+                        "forge",
+                        "infection",
+                        "juggernaut",
+                        "king",
+                        "oddball",
+                        "race",
+                        "slayer",
+                        "team_slayer"
+                    }
+                    item.bitmap = function(uiComponent)
+                        local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
+                        local iconToUse = table.find(gametypeIcons, function(icon)
+                            if element:find(icon, 1, true) then
+                                return true
+                            end
+                            return false
+                        end)
+                        local backgroundBitmapIndex = (table.indexof(gametypeIcons, iconToUse) or 1) - 1
+                        if backgroundBitmapIndex then
+                            icon:setWidgetValues({
+                                background_bitmap_index = backgroundBitmapIndex
+                            })
+                        end
+                    end
+                end
+                return item
             end))
             store:dispatch(actions.setLobbyDefinition(definition))
         end

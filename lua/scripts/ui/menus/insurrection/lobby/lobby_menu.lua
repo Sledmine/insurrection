@@ -71,19 +71,31 @@ return container("lobby_menu", {
                 options("elements", "horizontal", {
                     {slider("elements_left", "left"), pos.options.x, 180},
                     {
-                        complexButton("element_1", string.rep(" ", 32), nil, {variant = "normal"}),
+                        complexButton("element_1", string.rep(" ", 32), nil, {
+                            variant = "normal",
+                            icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
+                        }),
                         elementsLayout()
                     },
                     {
-                        complexButton("element_2", string.rep(" ", 32), nil, {variant = "normal"}),
+                        complexButton("element_2", string.rep(" ", 32), nil, {
+                            variant = "normal",
+                            icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
+                        }),
                         elementsLayout()
                     },
                     {
-                        complexButton("element_3", string.rep(" ", 32), nil, {variant = "normal"}),
+                        complexButton("element_3", string.rep(" ", 32), nil, {
+                            variant = "normal",
+                            icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
+                        }),
                         elementsLayout()
                     },
                     {
-                        complexButton("element_4", string.rep(" ", 32), nil, {variant = "normal"}),
+                        complexButton("element_4", string.rep(" ", 32), nil, {
+                            variant = "normal",
+                            icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
+                        }),
                         elementsLayout()
                     },
                     {slider("elements_right", "right"), elementsLayout(2)}
@@ -113,7 +125,8 @@ return container("lobby_menu", {
             {nameplate("nameplate_15", string.rep(" ", 64)), nameplatesLayout()},
             {nameplate("nameplate_16", string.rep(" ", 64)), nameplatesLayout()}
         })
-    }
+    },
+    {constants.components.version.path, 0, 460}
 }, {
     conditionalWidgets = {
         {
@@ -138,8 +151,7 @@ return container("lobby_menu", {
                 {button("scroll_map_list_down", nil, {arrow = "down"}), elementsLayoutVertical()}
             }, box("map_description", {
                 {
-                    preview("map_small",
-                            [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]),
+                    preview("map_small", [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]),
                     232,
                     170
                 }

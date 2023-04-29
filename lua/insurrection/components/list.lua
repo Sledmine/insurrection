@@ -25,7 +25,7 @@ local list = setmetatable({
 ---@class uiComponentListItem 
 ---@field label string
 ---@field value string | boolean | number | any
----@field bitmap?number
+---@field bitmap? number | fun(uiComponent: uiComponent)
 
 ---@class uiComponentListEvents : uiComponentEvents
 ---@field onSelect fun(item: uiComponentListItem)
@@ -92,8 +92,13 @@ function list.refresh(self)
                     end)
                 end
                 if item.bitmap then
-                    listButton:animate()
-                    listButton.widgetDefinition.backgroundBitmap = item.bitmap
+                    if type(item.bitmap) == "number" then
+                        -- TODO We might need to animate bitmaps when selected by a function
+                        listButton:animate()
+                        listButton.widgetDefinition.backgroundBitmap = item.bitmap --[[@as number]]
+                    elseif type(item.bitmap) == "function" then
+                        item.bitmap(listButton)
+                    end
                 end
                 itemIndex = itemIndex + 1
             end
