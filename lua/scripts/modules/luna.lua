@@ -1,5 +1,5 @@
 local luna = {
-    _VERSION = "0.0.1",
+    _VERSION = "1.0.0",
 }
 
 luna.string = {}
@@ -142,6 +142,7 @@ luna.table = {}
 ---@nodiscard
 function table.copy(t)
     assert(t ~= nil, "table.copy: t must not be nil")
+    assert(type(t) == "table", "table.copy: t must be a table")
     local u = {}
     for k, v in pairs(t) do
         u[k] = type(v) == "table" and table.copy(v) or v
@@ -249,6 +250,26 @@ function table.filter(t, f)
         end
     end
     return filtered
+end
+
+--- Returns a table with all elements of `t` mapped by the function `f`.
+---
+--- **NOTE**: It keeps original keys in the new table.
+---@generic K, V, R
+---@param t table<K, V>
+---@param f fun(v: V, k: K): R
+---@return table<K, R>
+---@nodiscard
+function table.map(t, f)
+    assert(t ~= nil, "table.map: t must not be nil")
+    assert(type(t) == "table", "table.map: t must be a table")
+    assert(f ~= nil, "table.map: f must not be nil")
+    assert(type(f) == "function", "table.map: f must be a function")
+    local mapped = {}
+    for k, v in pairs(t) do
+        mapped[k] = f(v, k)
+    end
+    return mapped
 end
 
 luna.table.copy = table.copy

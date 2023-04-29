@@ -12,6 +12,7 @@ local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
 local ends = require"glue".string.ends
 local _, balltze = pcall(require, "mods.balltze")
+require "luna"
 
 clua_version = 2.056
 -- Import API after setting up debug mode

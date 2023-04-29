@@ -1,5 +1,5 @@
 local luna = {
-    _VERSION = "0.0.1",
+    _VERSION = "1.0.0",
 }
 
 luna.string = {}
@@ -142,6 +142,7 @@ luna.table = {}
 ---@nodiscard
 function table.copy(t)
     assert(t ~= nil, "table.copy: t must not be nil")
+    assert(type(t) == "table", "table.copy: t must be a table")
     local u = {}
     for k, v in pairs(t) do
         u[k] = type(v) == "table" and table.copy(v) or v
@@ -251,6 +252,26 @@ function table.filter(t, f)
     return filtered
 end
 
+--- Returns a table with all elements of `t` mapped by the function `f`.
+---
+--- **NOTE**: It keeps original keys in the new table.
+---@generic K, V, R
+---@param t table<K, V>
+---@param f fun(v: V, k: K): R
+---@return table<K, R>
+---@nodiscard
+function table.map(t, f)
+    assert(t ~= nil, "table.map: t must not be nil")
+    assert(type(t) == "table", "table.map: t must be a table")
+    assert(f ~= nil, "table.map: f must not be nil")
+    assert(type(f) == "function", "table.map: f must be a function")
+    local mapped = {}
+    for k, v in pairs(t) do
+        mapped[k] = f(v, k)
+    end
+    return mapped
+end
+
 luna.table.copy = table.copy
 luna.table.indexof = table.indexof
 luna.table.flip = table.flip
@@ -258,5 +279,38 @@ luna.table.find = table.find
 luna.table.keys = table.keys
 luna.table.values = table.values
 luna.table.filter = table.filter
+luna.table.map = table.map
+
+luna.file = {}
+
+--- Read a file as text and return its contents.
+---@param path string
+---@return string?
+---@nodiscard
+function luna.file.read(path)
+    assert(path ~= nil, "file.read: path must not be nil")
+    local file = io.open(path, "r")
+    if file then
+        local content = file:read "*a"
+        file:close()
+        return content
+    end
+end
+
+--- Write text to a file.
+---@param path string
+---@param content string
+---@return boolean
+function luna.file.write(path, content)
+    assert(path ~= nil, "file.write: path must not be nil")
+    assert(content ~= nil, "file.write: content must not be nil")
+    local file = io.open(path, "w")
+    if file then
+        file:write(content)
+        file:close()
+        return true
+    end
+    return false
+end
 
 return luna
