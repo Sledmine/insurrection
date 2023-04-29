@@ -51,7 +51,8 @@ local images = {
     "sympathy",
     "warren",
     -- Keymind maps
-    "treason"
+    "treason",
+    "bleed_it_out"
 }
 
 local existingImages = {}
