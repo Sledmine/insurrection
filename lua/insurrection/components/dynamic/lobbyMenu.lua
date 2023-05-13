@@ -22,7 +22,7 @@ return function()
     local lobbyMapsList =
         list.new(blam.findTag("lobby_maps", blam.tagClasses.uiWidgetDefinition).id)
     local lobbyFullMaps = components.new(blam.findTag("full_maps", blam.tagClasses.uiWidgetDefinition).id)
-    local mapDescription = components.new(blam.findTag("map_description",
+    local mapDescription = components.new(blam.findTag("map_small",
                                                        blam.tagClasses.uiWidgetDefinition).id)
     local mapOverlay =
         components.new(mapDescription:findChildWidgetTag("overlay_scanner").id):animate()

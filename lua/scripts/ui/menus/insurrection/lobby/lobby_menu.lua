@@ -1,6 +1,7 @@
 local widget = require "lua.scripts.widget"
 local container = require "lua.scripts.ui.componentsV2.container"
-local options = require "lua.scripts.ui.componentsV2.options"
+local optionsV2 = require "lua.scripts.ui.componentsV2.options"
+local options = require "lua.scripts.ui.componentsV3.options"
 local button = require "lua.scripts.ui.componentsV2.button"
 local header = require "lua.scripts.ui.componentsV2.header"
 local input = require "lua.scripts.ui.componentsV2.input"
@@ -12,7 +13,7 @@ local slider = require "lua.scripts.ui.componentsV2.slider"
 local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
 local box = require "lua.scripts.ui.componentsV2.box"
 local preview = require "lua.scripts.ui.componentsV2.preview"
-local wrapper = require "lua.scripts.ui.componentsV2.wrapper"
+local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local pos = constants.position
 
 widget.init [[insurrection/ui/menus/lobby/]]
@@ -21,9 +22,9 @@ local defsLayout = widget.align("horizontal", constants.components.complexButton
                                 pos.options.x, pos.options.y, 2)
 
 local elementsLayout = widget.align("horizontal", constants.components.complexButton.normal.width,
-                                    59, 180, 2)
+                                    19, 0, 2)
 local elementsLayoutVertical = widget.align("vertical", constants.components.button.normal.height,
-                                            pos.options.x, 170, 2)
+                                            0, 0, 2)
 
 local nameplatesLayout = widget.align("vertical", 26, 624, 12, 2)
 
@@ -38,9 +39,9 @@ return container("lobby_menu", {
         pos.header.y
     },
     {
-        options("lobby", "vertical", {
+        optionsV2("lobby", "vertical", {
             {
-                options("definitions", "horizontal", {
+                optionsV2("definitions", "horizontal", {
                     {
                         complexButton("definition_template", string.rep(" ", 32), "TEMPLATE",
                                       {variant = "horizontal"}),
@@ -69,44 +70,52 @@ return container("lobby_menu", {
                 140
             },
             {
-                options("elements", "horizontal", {
-                    {slider("elements_left", "left"), pos.options.x, 180},
+                options {
+                    name = "elements",
+                    variant = "vertical",
+                    width = 530,
+                    height = 110,
                     {
-                        complexButton("element_1", string.rep(" ", 32), nil, {
-                            variant = "normal",
-                            icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
-                        }),
-                        elementsLayout()
-                    },
-                    {
-                        complexButton("element_2", string.rep(" ", 32), nil, {
-                            variant = "normal",
-                            icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
-                        }),
-                        elementsLayout()
-                    },
-                    {
-                        complexButton("element_3", string.rep(" ", 32), nil, {
-                            variant = "normal",
-                            icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
-                        }),
-                        elementsLayout()
-                    },
-                    {
-                        complexButton("element_4", string.rep(" ", 32), nil, {
-                            variant = "normal",
-                            icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
-                        }),
-                        elementsLayout()
-                    },
-                    {slider("elements_right", "right"), elementsLayout(2)}
-                })
+                        {slider("elements_left", "left")},
+                        {
+                            complexButton("element_1", string.rep(" ", 32), nil, {
+                                variant = "normal",
+                                icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
+                            }),
+                            elementsLayout()
+                        },
+                        {
+                            complexButton("element_2", string.rep(" ", 32), nil, {
+                                variant = "normal",
+                                icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
+                            }),
+                            elementsLayout()
+                        },
+                        {
+                            complexButton("element_3", string.rep(" ", 32), nil, {
+                                variant = "normal",
+                                icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
+                            }),
+                            elementsLayout()
+                        },
+                        {
+                            complexButton("element_4", string.rep(" ", 32), nil, {
+                                variant = "normal",
+                                icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
+                            }),
+                            elementsLayout()
+                        },
+                        {slider("elements_right", "right"), elementsLayout(2)}
+                    }
+                },
+                pos.options.x,
+                170
             },
             {button("back", "BACK", {back = true}), actionsLayout()},
             {button("play", "PLAY"), actionsLayout()}
         })
     },
-    {footer("summary", "SUMMARY", string.rep(" ", 256)), pos.footer.x, 330},
+    {footer("summary", "SUMMARY", string.rep(" ", 256)), pos.footer.x, 335},
     {
         box("players", {
             {nameplate("nameplate_1", string.rep(" ", 64)), nameplatesLayout()},
@@ -131,46 +140,56 @@ return container("lobby_menu", {
 }, {
     conditionalWidgets = {
         {
-            widget_tag = box("full_maps", {
+            widget_tag = wrapper {
+                name = "lobby_maps",
+                width = 465,
+                height = 160,
                 {
-                    options("lobby_maps", "vertical", {
-                        {
-                            button("scroll_map_list_up", nil, {arrow = "up"}),
-                            elementsLayoutVertical()
-                        },
-                        {
-                            button("element_map_1", string.rep(" ", 32), {variant = "normal"}),
-                            elementsLayoutVertical()
-                        },
-                        {
-                            button("element_map_2", string.rep(" ", 32), {variant = "normal"}),
-                            elementsLayoutVertical()
-                        },
-                        {
-                            button("element_map_3", string.rep(" ", 32), {variant = "normal"}),
-                            elementsLayoutVertical()
-                        },
-                        {
-                            button("element_map_4", string.rep(" ", 32), {variant = "normal"}),
-                            elementsLayoutVertical()
-                        },
-                        {
-                            button("scroll_map_list_down", nil, {arrow = "down"}),
-                            elementsLayoutVertical()
+                    {
+                        options {
+                            name = "lobby_maps",
+                            variant = "vertical",
+                            width = 465,
+                            height = 160,
+                            {
+                                {
+                                    button("scroll_map_list_up", nil, {arrow = "up"}),
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button("element_map_1", string.rep(" ", 32),
+                                           {variant = "normal"}),
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button("element_map_2", string.rep(" ", 32),
+                                           {variant = "normal"}),
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button("element_map_3", string.rep(" ", 32),
+                                           {variant = "normal"}),
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button("element_map_4", string.rep(" ", 32),
+                                           {variant = "normal"}),
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button("scroll_map_list_down", nil, {arrow = "down"}),
+                                    elementsLayoutVertical()
+                                }
+                            }
                         }
-                    })
-                },
-                {
-                    box("map_description", {
-                        {
-                            preview("map_small",
-                                    [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]),
-                            232,
-                            170
-                        }
-                    })
+                    },
+                    {
+                        preview("map_small", [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]),
+                        190,
+                        1
+                    }
                 }
-            })
+            }
         }
     }
 })
