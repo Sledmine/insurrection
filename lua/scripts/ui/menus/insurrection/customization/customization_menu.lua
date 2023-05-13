@@ -95,6 +95,5 @@ return container("customization_menu", {
                 }
             })
         }
-    },
-    noBackgroud = true
+    }
 })

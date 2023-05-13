@@ -77,7 +77,8 @@ function constants.get()
         settings = findWidgetTag("settings\\settings_menu"),
         chimera = findWidgetTag("chimera\\chimera_mod_menu"),
         color = findWidgetTag("customization_color_menu"),
-        team = findWidgetTag("pause_choose_team_menu")
+        team = findWidgetTag("pause_choose_team_menu"),
+        optic = findWidgetTag("optic\\optic_mod_menu"),
     }
 
     constants.sounds = {
@@ -113,12 +114,13 @@ function constants.get()
     end
 
     constants.bitmaps = {unknownMapPreview = findTag("unknown_map_preview", tagClasses.bitmap)}
+    local fontName = "geogrotesque-regular-"
     constants.fonts = {
-        text = findTag("text", tagClasses.font),
-        title = findTag("title", tagClasses.font),
-        subtitle = findTag("subtitle", tagClasses.font),
-        button = findTag("button", tagClasses.font),
-        shadow = findTag("shadow", tagClasses.font)
+        text = findTag(fontName .. "text", tagClasses.font),
+        title = findTag(fontName .. "title", tagClasses.font),
+        subtitle = findTag(fontName .. "subtitle", tagClasses.font),
+        button = findTag(fontName .. "button", tagClasses.font),
+        shadow = findTag(fontName .. "shadow", tagClasses.font)
     }
 end
 

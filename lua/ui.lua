@@ -2,7 +2,7 @@ DebugMode = false
 require "insecticide"
 local blam = require "blam"
 local components = require "insurrection.components"
-local constants  = require "insurrection.constants"
+local constants = require "insurrection.constants"
 local isNull = blam.isNull
 local harmony = require "mods.harmony"
 local optic = harmony.optic
@@ -100,7 +100,7 @@ function OnTick()
             dprint(lane.thread.status, "warning")
         end
     end
-    if server_type =="dedicated" or server_type == "local" then
+    if server_type == "dedicated" or server_type == "local" then
         local newPlayerCount = 0
         for playerIndex = 0, 15 do
             local player = blam.player(get_player(playerIndex))
@@ -118,11 +118,11 @@ function OnTick()
 end
 
 function OnPlayerJoin()
-    --interface.sound("join")
+    -- interface.sound("join")
 end
 
 function OnPlayerLeave()
-    --interface.sound("leave")
+    -- interface.sound("leave")
 end
 
 function OnKeypress(modifiers, char, keycode)
@@ -226,8 +226,8 @@ end
 function OnFrame()
     local bounds = {left = 0, top = 460, right = 640, bottom = 480}
     local textColor = {1, 1, 1, 1}
-    draw_text(ScreenCornerText or "", bounds.left, bounds.top, bounds.right, bounds.bottom, "console",
-              "right", table.unpack(textColor))
+    draw_text(ScreenCornerText or "", bounds.left, bounds.top, bounds.right, bounds.bottom,
+              "console", "right", table.unpack(textColor))
     -- Draw loading text on the left side of the screen
     if LoadingText then
         draw_text(LoadingText or "", bounds.left + 16, bounds.top, bounds.left + 200, bounds.bottom,
@@ -333,7 +333,7 @@ function OnUnload()
 end
 
 ---@param mapName string
-function OnMapFileLoad(mapName) 
+function OnMapFileLoad(mapName)
     if balltze then
         balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
         balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")

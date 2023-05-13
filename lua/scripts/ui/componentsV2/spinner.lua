@@ -6,7 +6,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@param name string Name of the component
 ---@param text? string Text to display
 ---@param values string[] Value to display
----@param props? {variant: '"normal"' | '"large"', func?: string, length?: number} Component properties
+---@param props? {variant: '"normal"' | '"large"', func?: string, length?: number, fake?: boolean} Component properties
 ---@return string
 return function(name, text, values, props)
     local props = props or {}

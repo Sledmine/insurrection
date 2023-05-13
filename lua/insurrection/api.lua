@@ -14,6 +14,7 @@ local menus = require "insurrection.menus"
 local shared = interface.shared
 local constants = require "insurrection.constants"
 local loading = core.loading
+local luna = require "luna"
 
 local api = {}
 api.host = read_file("insurrection_host") or "http://localhost:4343/"
@@ -83,6 +84,16 @@ local function connect(map, host, port, password)
     end
 end
 
+local function unknownError(logs)
+    interface.dialog("ERROR", "UNKNOWN ERROR",
+                     "An unknown error has ocurred, please try again later.")
+    if logs then
+        local log = read_file("insurrection.log") or ""
+        log = log .. "\n" .. logs
+        write_file("insurrection.log", log)
+    end
+end
+
 ---@param response httpResponse<loginResponse>
 ---@return boolean
 local function onLoginResponse(response)
@@ -105,8 +116,7 @@ local function onLoginResponse(response)
             return false
         end
     end
-    interface.dialog("WARNING", "UNKNOWN ERROR",
-                     "An unknown error has ocurred, please try again later.")
+    unknownError(tostring(inspect(response)))
     return false
 end
 function api.login(username, password)
@@ -127,8 +137,7 @@ function onAvailableResponse(response)
             return true
         end
     end
-    interface.dialog("ERROR", "UNKNOWN ERROR",
-                     "An unknown error has ocurred, please try again later.")
+    unknownError(tostring(inspect(response)))
     return false
 end
 function api.available()
@@ -204,8 +213,7 @@ local function onLobbyResponse(response)
             return false
         end
     end
-    interface.dialog("ERROR", "UNKNOWN ERROR",
-                     "An unknown error has ocurred, please try again later.")
+    unknownError(tostring(inspect(response)))
     return false
 end
 function api.lobby(lobbyKey)
@@ -260,7 +268,7 @@ local function onLobbyRefreshResponse(response)
         end
     end
     api.stopRefreshLobby()
-    interface.dialog("ERROR", "UNKNOWN ERROR", "An error has ocurred, at refreshing lobby data.")
+    unknownError(tostring(inspect(response)))
     return false
 end
 function api.refreshLobby()
@@ -329,8 +337,7 @@ local function onBorrowResponse(response)
         end
     end
     api.stopRefreshLobby()
-    interface.dialog("ERROR", "UNKNOWN ERROR",
-                     "An unknown error has ocurred, please try again later.")
+    unknownError(tostring(inspect(response)))
     return false
 end
 function api.borrow(template, map, gametype)
@@ -357,8 +364,7 @@ function onPlayerEditNameplateResponse(response)
             return false
         end
     end
-    interface.dialog("ERROR", "UNKNOWN ERROR",
-                     "An unknown error has ocurred, please try again later.")
+    unknownError(tostring(inspect(response)))
     return false
 end
 ---Edit player nameplate
@@ -385,8 +391,7 @@ local function onLobbyEditResponse(response)
             return false
         end
     end
-    interface.dialog("ERROR", "UNKNOWN ERROR",
-                     "An unknown error has ocurred, please try again later.")
+    unknownError(tostring(inspect(response)))
     return false
 end
 function api.editLobby(lobbyKey, data)

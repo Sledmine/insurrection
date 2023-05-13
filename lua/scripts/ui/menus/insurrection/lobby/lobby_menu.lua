@@ -12,6 +12,7 @@ local slider = require "lua.scripts.ui.componentsV2.slider"
 local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
 local box = require "lua.scripts.ui.componentsV2.box"
 local preview = require "lua.scripts.ui.componentsV2.preview"
+local wrapper = require "lua.scripts.ui.componentsV2.wrapper"
 local pos = constants.position
 
 widget.init [[insurrection/ui/menus/lobby/]]
@@ -130,32 +131,46 @@ return container("lobby_menu", {
 }, {
     conditionalWidgets = {
         {
-            widget_tag = options("lobby_maps", "vertical", {
-                {button("scroll_map_list_up", nil, {arrow = "up"}), elementsLayoutVertical()},
+            widget_tag = box("full_maps", {
                 {
-                    button("element_map_1", string.rep(" ", 32), {variant = "normal"}),
-                    elementsLayoutVertical()
+                    options("lobby_maps", "vertical", {
+                        {
+                            button("scroll_map_list_up", nil, {arrow = "up"}),
+                            elementsLayoutVertical()
+                        },
+                        {
+                            button("element_map_1", string.rep(" ", 32), {variant = "normal"}),
+                            elementsLayoutVertical()
+                        },
+                        {
+                            button("element_map_2", string.rep(" ", 32), {variant = "normal"}),
+                            elementsLayoutVertical()
+                        },
+                        {
+                            button("element_map_3", string.rep(" ", 32), {variant = "normal"}),
+                            elementsLayoutVertical()
+                        },
+                        {
+                            button("element_map_4", string.rep(" ", 32), {variant = "normal"}),
+                            elementsLayoutVertical()
+                        },
+                        {
+                            button("scroll_map_list_down", nil, {arrow = "down"}),
+                            elementsLayoutVertical()
+                        }
+                    })
                 },
                 {
-                    button("element_map_2", string.rep(" ", 32), {variant = "normal"}),
-                    elementsLayoutVertical()
-                },
-                {
-                    button("element_map_3", string.rep(" ", 32), {variant = "normal"}),
-                    elementsLayoutVertical()
-                },
-                {
-                    button("element_map_4", string.rep(" ", 32), {variant = "normal"}),
-                    elementsLayoutVertical()
-                },
-                {button("scroll_map_list_down", nil, {arrow = "down"}), elementsLayoutVertical()}
-            }, box("map_description", {
-                {
-                    preview("map_small", [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]),
-                    232,
-                    170
+                    box("map_description", {
+                        {
+                            preview("map_small",
+                                    [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]),
+                            232,
+                            170
+                        }
+                    })
                 }
-            }))
+            })
         }
     }
 })

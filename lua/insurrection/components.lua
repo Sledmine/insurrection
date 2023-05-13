@@ -21,6 +21,8 @@ local components = {
     events = {},
     ---@type boolean
     isBackgroundAnimated = false,
+    ---@type boolean
+    isBackgroundLoop = false,
     ---@type '"generic"' | '"list"' | '"button"' | '"checkbox"' | '"slider"' | '"dropdown"' | '"text"' | '"image"'
     type = "generic",
     ---@type table<string, widgetAnimation>
@@ -127,8 +129,9 @@ end
 ]]
 
 ---@param self uiComponent
-function components.animate(self)
+function components.animate(self, isLooped)
     self.isBackgroundAnimated = true
+    self.isBackgroundLoop = isLooped
 end
 
 function components.free()

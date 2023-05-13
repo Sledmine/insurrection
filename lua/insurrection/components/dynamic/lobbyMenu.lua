@@ -21,6 +21,11 @@ return function()
     local lobbyElementsList = list.new(lobbyOptions:findChildWidgetTag("elements").id)
     local lobbyMapsList =
         list.new(blam.findTag("lobby_maps", blam.tagClasses.uiWidgetDefinition).id)
+    local lobbyFullMaps = components.new(blam.findTag("full_maps", blam.tagClasses.uiWidgetDefinition).id)
+    local mapDescription = components.new(blam.findTag("map_description",
+                                                       blam.tagClasses.uiWidgetDefinition).id)
+    local mapOverlay =
+        components.new(mapDescription:findChildWidgetTag("overlay_scanner").id):animate()
     local lobbySearch = input.new(lobbyOptions:findChildWidgetTag("search").id)
     local lobbyPlay = button.new(lobbyOptions:findChildWidgetTag("play").id)
     local lobbyBack = button.new(lobbyOptions:findChildWidgetTag("back").id)
@@ -40,6 +45,7 @@ return function()
     shared.lobbyMapsList = lobbyMapsList
     shared.lobbyPlayers = lobbyPlayers
     shared.lobbySearch = lobbySearch
+    shared.lobbyFullMaps = lobbyFullMaps
 
     lobby:onClose(function()
         api.deleteLobby()

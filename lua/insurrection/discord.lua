@@ -17,6 +17,7 @@ discord.presence = {
 }
 discord.presence.details = "In the main menu"
 
+discord.attempted = false
 discord.ready = false
 
 function discordRPC.ready(userId, username, discriminator, avatar)
@@ -40,8 +41,8 @@ function discordRPC.joinRequest(userId, username, discriminator, avatar)
 end
 
 function discord.startPresence()
-    core.loading(true, "Starting Discord Presence...")
     if not discord.ready then
+        core.loading(true, "Starting Discord Presence...")
         discordRPC.initialize(base64.decode(read_file("micro")), true)
     end
     discordRPC.clearPresence()
@@ -55,9 +56,10 @@ function discord.startPresence()
             discordRPC.updatePresence(discord.presence)
         else
             core.loading(false)
-            if not DebugMode then
+            if not DebugMode and not discord.attempted then
                 interface.dialog("WARNING", "An error occurred while starting Discord Presence.",
-                             "Please ensure that Discord is running and try again.\nDiscord is a required dependency for Insurrection services.")
+                                 "Please ensure that Discord is running and try again.\nDiscord is a required dependency for Insurrection services.")
+                discord.attempted = true
             end
             return false
         end

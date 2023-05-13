@@ -24,7 +24,13 @@ return container("mods_menu", {
                 }),
                 layout()
             },
-            --{button("optic", "OPTIC", {}), layout()},
+            {
+                button("optic", "OPTIC", {
+                    opens = [[insurrection/ui/menus/mods/optic/optic_mod_menu.ui_widget_definition]]
+                }),
+                layout()
+            },
+            {button("insurrection", "INSURRECTION", {}), layout()},
             {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
         })
     },

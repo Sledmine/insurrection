@@ -89,6 +89,9 @@ function interface.load()
         if constants.widgets.chimera then
             require "insurrection.components.dynamic.chimeraMenu"()
         end
+        if constants.widgets.optic then
+            require "insurrection.components.dynamic.opticMenu"()
+        end
 
         -- Insurrection is running outside the UI
         if constants.widgetCollections.multiplayer then
@@ -217,7 +220,8 @@ end
 
 ---Animates UI elements by animating background bitmap
 ---@param widgetTagId number
-function interface.animateUIWidgetBackground(widgetTagId)
+function interface.animateUIWidgetBackground(widgetTagId, willRepeat)
+    local willRepeat = willRepeat or true
     local isUIRendering = core.getRenderedUIWidgetTagId()
     if isUIRendering then
         local widgetRender = interface.getWidgetValues(widgetTagId)
@@ -301,6 +305,7 @@ function interface.lobbyInit()
     local play = shared.lobbyPlay
     local elementsList = shared.lobbyElementsList
     local mapsList = shared.lobbyMapsList
+    local fullMapList = shared.lobbyFullMaps
     local mapPreview = components.new(blam.findTag("map_small_preview",
                                                    blam.tagClasses.uiWidgetDefinition).id)
     local playersList = shared.lobbyPlayers
@@ -392,7 +397,7 @@ function interface.lobbyInit()
 
         template:onClick(function()
             definitionClick(template, "template")
-            mapsList:replace(elementsList.tagId)
+            fullMapList:replace(elementsList.tagId)
         end)
         -- Force selection of template at start
         template.events.onClick()
@@ -403,7 +408,7 @@ function interface.lobbyInit()
 
         map:onClick(function()
             definitionClick(map, "map")
-            elementsList:replace(mapsList.tagId)
+            elementsList:replace(fullMapList.tagId)
         end)
         map:onFocus(function()
             summary:setText(
@@ -412,7 +417,7 @@ function interface.lobbyInit()
 
         gametype:onClick(function()
             definitionClick(gametype, "gametype")
-            mapsList:replace(elementsList.tagId)
+            fullMapList:replace(elementsList.tagId)
         end)
         gametype:onFocus(function()
             summary:setText(

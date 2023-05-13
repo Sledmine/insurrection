@@ -14,6 +14,11 @@ return function(name, bitmap)
         background_bitmap = bitmap,
         child_widgets = {
             {
+                image(name .. "_preview_overlay_scanner",
+                      [[insurrection/ui/bitmaps/description_overlay_small_scanner.bitmap]], 533,
+                      300, 0.5)
+            },
+            {
                 image(name .. "_preview_overlay",
                       [[insurrection/ui/bitmaps/description_overlay_small.bitmap]], 267, 150)
             }

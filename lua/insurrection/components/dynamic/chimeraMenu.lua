@@ -79,6 +79,7 @@ return function()
         end)
     end
     chimeraMod:onOpen(function()
+        dprint("chimeraMod:onOpen")
         config = chimera.getConfiguration() or {}
         preferences = chimera.getPreferences() or {}
         local optionsMapping = {
