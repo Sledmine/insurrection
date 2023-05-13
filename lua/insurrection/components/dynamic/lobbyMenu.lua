@@ -20,8 +20,8 @@ return function()
 
     local lobbyElementsList = list.new(lobbyOptions:findChildWidgetTag("elements").id)
     local lobbyMapsList =
-        list.new(blam.findTag("lobby_maps", blam.tagClasses.uiWidgetDefinition).id)
-    local lobbyFullMaps = components.new(blam.findTag("full_maps", blam.tagClasses.uiWidgetDefinition).id)
+        list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition).id)
+    local lobbyFullMaps = components.new(blam.findTag("lobby_maps_wrapper", blam.tagClasses.uiWidgetDefinition).id)
     local mapDescription = components.new(blam.findTag("map_small",
                                                        blam.tagClasses.uiWidgetDefinition).id)
     local mapOverlay =

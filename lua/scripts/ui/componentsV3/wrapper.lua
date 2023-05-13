@@ -14,7 +14,7 @@ return function(props)
     ---@type invaderWidget
     local wid = {
         bounds = widget.bounds(0, 0, height, width),
-        background_bitmap = "insurrection/ui/bitmaps/solid_green.bitmap",
+        --background_bitmap = "insurrection/ui/bitmaps/solid_green.bitmap",
         flags = {pass_unhandled_events_to_focused_child = true},
         child_widgets = childWidgets or {}
     }
