@@ -86,7 +86,7 @@ end
 
 local function unknownError(logs)
     interface.dialog("ERROR", "UNKNOWN ERROR",
-                     "An unknown error has ocurred, please try again later.")
+                     "An unknown error has ocurred, please check logs and try again later.")
     if logs then
         local log = read_file("insurrection.log") or ""
         log = log .. "\n" .. logs
@@ -160,17 +160,14 @@ local function onLobbyResponse(response)
 
             local jsonResponse = response.json()
             if jsonResponse then
-                menus.lobby()
                 -- We asked for a new lobby room
                 if jsonResponse.key then
                     api.session.lobbyKey = jsonResponse.key
                     store:dispatch(actions.setLobby(jsonResponse.key, jsonResponse.lobby))
-                    interface.lobbyInit()
                 else
                     -- We have to joined an existing lobby
                     local lobby = jsonResponse
                     store:dispatch(actions.setLobby(api.session.lobbyKey, lobby))
-                    interface.lobbyInit()
                     -- There is a server already running for this lobby, connect to it
                     if lobby.server then
                         connect(lobby.server.map, lobby.server.host, lobby.server.port,
@@ -194,11 +191,14 @@ local function onLobbyResponse(response)
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
+                    menus.lobby()
                     discord.updatePresence("Hosting a lobby", "Waiting for players...")
                     discord.setParty(api.session.lobbyKey, #state.lobby.players, 16, state.lobby.map)
                 else
+                    menus.lobby(true)
                     discord.updatePresence("In a lobby", "Waiting for players...")
                 end
+                require"insurrection.components.dynamic.lobbyMenu".init()
             end
             return true
         elseif response.code == 403 then
@@ -241,7 +241,7 @@ local function onLobbyRefreshResponse(response)
             if lobby then
                 -- Update previously joined lobby data
                 store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
-                interface.lobbyUpdate()
+                require"insurrection.components.dynamic.lobbyMenu".update()
                 ---@type interfaceState
                 local state = store:getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==

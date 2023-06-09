@@ -69,6 +69,7 @@ function constants.get()
         dialog = findWidgetTag("dialog\\dialog_menu"),
         login = findWidgetTag("login_menu"),
         lobby = findWidgetTag("lobby_menu"),
+        lobbyClient = findWidgetTag("lobby_client_menu"),
         dashboard = findWidgetTag("dashboard\\dashboard_menu"),
         customization = findWidgetTag("customization_menu"),
         pause = findWidgetTag("pause\\pause_menu"),
@@ -78,7 +79,7 @@ function constants.get()
         chimera = findWidgetTag("chimera\\chimera_mod_menu"),
         color = findWidgetTag("customization_color_menu"),
         team = findWidgetTag("pause_choose_team_menu"),
-        optic = findWidgetTag("optic\\optic_mod_menu"),
+        optic = findWidgetTag("optic\\optic_mod_menu")
     }
 
     constants.sounds = {

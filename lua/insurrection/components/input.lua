@@ -17,7 +17,7 @@ function input.new(tagId)
 end
 
 ---@param self uiComponentInput
-function components.onInputText(self, callback)
+function input.onInputText(self, callback)
     if self.widgetDefinition.type == 1 then
         self.events.onInputText = callback
     else

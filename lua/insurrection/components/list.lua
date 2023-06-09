@@ -2,7 +2,6 @@ local isNull = require"blam".isNull
 local components = require "insurrection.components"
 local button = require "insurrection.components.button"
 local core = require "insurrection.core"
-local glue = require "glue"
 
 ---@class uiComponentListClass : uiComponent
 local list = setmetatable({
@@ -119,7 +118,7 @@ function list.setItems(self, items)
     --    error("setItems requires at least one item")
     -- end
     if not self.backupChildWidgets then
-        self.backupChildWidgets = glue.map(widgetDefinition.childWidgets, function(childWidget)
+        self.backupChildWidgets = table.map(widgetDefinition.childWidgets, function(childWidget)
             return {
                 widgetTag = childWidget.widgetTag,
                 name = childWidget.name,

@@ -12,7 +12,11 @@ function menus.customization()
     openWidget(constants.widgets.customization.id, true)
 end
 
-function menus.lobby()
+function menus.lobby(client)
+    if client then
+        openWidget(constants.widgets.lobbyClient.id, true)
+        return
+    end
     openWidget(constants.widgets.lobby.id, true)
 end
 
