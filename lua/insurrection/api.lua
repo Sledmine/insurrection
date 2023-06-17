@@ -89,6 +89,7 @@ local function unknownError(logs)
                      "An unknown error has ocurred, please check logs and try again later.")
     if logs then
         local log = read_file("insurrection.log") or ""
+        log = log .. "\n" .. debug.traceback()
         log = log .. "\n" .. logs
         write_file("insurrection.log", log)
     end
