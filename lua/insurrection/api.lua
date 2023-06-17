@@ -196,7 +196,8 @@ local function onLobbyResponse(response)
                     discord.updatePresence("Hosting a lobby", "Waiting for players...")
                     discord.setParty(api.session.lobbyKey, #state.lobby.players, 16, state.lobby.map)
                 else
-                    menus.lobby(true)
+                    --menus.lobby(true)
+                    menus.lobby()
                     discord.updatePresence("In a lobby", "Waiting for players...")
                 end
                 require"insurrection.components.dynamic.lobbyMenu".init()
