@@ -85,6 +85,13 @@ local function connect(map, host, port, password)
 end
 
 local function unknownError(logs)
+    if type(logs) ~= "string" then
+        if type(logs) == "table" and logs.json then
+            logs = tostring(inspect(logs)) .. "\n" .. tostring(inspect(logs.json()))
+        else
+            logs = tostring(inspect(logs))
+        end
+    end
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please check logs and try again later.")
     if logs then
@@ -117,7 +124,7 @@ local function onLoginResponse(response)
             return false
         end
     end
-    unknownError(tostring(inspect(response)))
+    unknownError(response)
     return false
 end
 function api.login(username, password)
@@ -138,7 +145,7 @@ function onAvailableResponse(response)
             return true
         end
     end
-    unknownError(tostring(inspect(response)))
+    unknownError(response)
     return false
 end
 function api.available()
@@ -215,7 +222,7 @@ local function onLobbyResponse(response)
             return false
         end
     end
-    unknownError(tostring(inspect(response)))
+    unknownError(response)
     return false
 end
 function api.lobby(lobbyKey)
@@ -270,7 +277,7 @@ local function onLobbyRefreshResponse(response)
         end
     end
     api.stopRefreshLobby()
-    unknownError(tostring(inspect(response)))
+    unknownError(response)
     return false
 end
 function api.refreshLobby()
@@ -339,7 +346,7 @@ local function onBorrowResponse(response)
         end
     end
     api.stopRefreshLobby()
-    unknownError(tostring(inspect(response)))
+    unknownError(response)
     return false
 end
 function api.borrow(template, map, gametype)
@@ -366,7 +373,7 @@ function onPlayerEditNameplateResponse(response)
             return false
         end
     end
-    unknownError(tostring(inspect(response)))
+    unknownError(response)
     return false
 end
 ---Edit player nameplate
@@ -393,7 +400,7 @@ local function onLobbyEditResponse(response)
             return false
         end
     end
-    unknownError(tostring(inspect(response)))
+    unknownError(response)
     return false
 end
 function api.editLobby(lobbyKey, data)

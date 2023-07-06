@@ -2,15 +2,14 @@
     "manifestVersion": "1.1.0",
     "files": {},
     "label": "insurrection",
-    "version": "2.5.0",
+    "version": "2.5.1",
     "category": "map",
     "author": "Insurrection Team",
     "name": "Insurrection",
     "description": "Game experience overhaul for Halo Custom Edition",
     "dependencies": [
         {
-            "label": "luamodules",
-            "version": "1.1.0"
+            "label": "luamodules"
         },
         {
             "label": "harmony",
