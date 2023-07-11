@@ -31,21 +31,26 @@ return container("lobby_client_menu", {
     },
     {
         options {
-            name = "lobby_client",
-            variant = "horizontal",
+            name = "lobby_client_list",
+            alignment = "horizontal",
             {{button("back", "BACK", {back = true}), actionsLayout()}}
         }
     },
-    {label {name = "current_lobby_gametype", text = string.rep(" ", 64)}, 40, 109},
-    {preview("lobby_current_map", [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]), 40, 124},
+    {label {name = "lobby_client_template", text = string.rep(" ", 64), width = 267}, 40, 100},
+    {preview("lobby_client_map", [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]), 40, 124},
     {
-        image("lobby_current_gametype_icon", [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]],
+        image("lobby_client_gametype_icon", [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]],
               512, 512, 1 / 12),
         250,
         215
     },
     {
-        label {name = "current_lobby_description", text = string.rep(" ", 64), justify = "right"},
+        label {
+            name = "lobby_client_description",
+            text = string.rep(" ", 64),
+            justify = "right",
+            width = 267
+        },
         40,
         277
     },

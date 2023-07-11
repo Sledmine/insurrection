@@ -30,5 +30,10 @@ function utils.delay(delay, callback)
     local timerId = set_timer(delay, tostring(callback))
 end
 
+---Returns an upper sentence case string from a snake case string
+---@param s string
+function utils.snakeCaseToUpperSentenceCase(s)
+    return s:upper():replace("_", " ")
+end
 
 return utils

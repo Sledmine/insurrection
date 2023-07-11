@@ -178,6 +178,7 @@ local function onLobbyResponse(response)
                     store:dispatch(actions.setLobby(api.session.lobbyKey, lobby))
                     -- There is a server already running for this lobby, connect to it
                     if lobby.server then
+                        discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
                         connect(lobby.server.map, lobby.server.host, lobby.server.port,
                                 lobby.server.password)
                         return true
@@ -202,12 +203,13 @@ local function onLobbyResponse(response)
                     menus.lobby()
                     discord.updatePresence("Hosting a lobby", "Waiting for players...")
                     discord.setParty(api.session.lobbyKey, #state.lobby.players, 16, state.lobby.map)
+                    require"insurrection.components.dynamic.lobbyMenu".init()
                 else
-                    --menus.lobby(true)
-                    menus.lobby()
+                    menus.lobby(true)
+                    --menus.lobby()
                     discord.updatePresence("In a lobby", "Waiting for players...")
+                    require"insurrection.components.dynamic.lobbyMenuClient".init()
                 end
-                require"insurrection.components.dynamic.lobbyMenu".init()
             end
             return true
         elseif response.code == 403 then
@@ -250,14 +252,15 @@ local function onLobbyRefreshResponse(response)
             if lobby then
                 -- Update previously joined lobby data
                 store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
-                require"insurrection.components.dynamic.lobbyMenu".update()
                 ---@type interfaceState
                 local state = store:getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
                 if not isPlayerLobbyOwner then
                     discord.setParty(nil, #lobby.players, 16, lobby.map)
+                    require"insurrection.components.dynamic.lobbyMenuClient".update()
                 else
+                    require"insurrection.components.dynamic.lobbyMenu".update()
                     discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
                 end
                 -- Lobby already started, join the server
