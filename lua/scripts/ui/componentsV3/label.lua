@@ -9,6 +9,8 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@field variant? '"title"' | '"subtitle"' | '"text"'
 ---@field justify? "left" | "center" | "right"
 ---@field size? number
+---@field width? number
+---@field height? number
 ---@field [1]? invaderWidgetChildWidget[]
 ---@field childs? invaderWidgetChildWidget[]
 
@@ -34,18 +36,24 @@ return function(props)
         textFont = constants.fonts.subtitle
         textColor = constants.color.subtitle
     end
+    local bounds
+    if props.width or props.height then
+        bounds = widget.bounds(0, 0, props.height or size or 20, props.width or 0)
+    end
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
         -- bounds = widget.bounds(0, 0, 20, 184),
-        bounds = widget.bounds(0, 0, props.size or 20, constants.screen.width),
+        --bounds = widget.bounds(0, 0, props.size or 20, constants.screen.width),
+        bounds = bounds or widget.bounds(0, 0, props.size or 20, constants.screen.width),
         flags = {pass_unhandled_events_to_focused_child = true},
         text_font = textFont,
         text_color = textColor,
         justification = (props.justify or "left") .. "_justify",
         text_label_unicode_strings_list = stringsPath,
         string_list_index = 0,
-        horiz_offset = 10,
+        --horiz_offset = 10,
+        horiz_offset = 0,
         vert_offset = 5,
         child_widgets = props[1] or props.childs or {}
     }

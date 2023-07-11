@@ -73,6 +73,12 @@ end
 function discord.updatePresence(state, details)
     discord.presence.state = state
     discord.presence.details = details
+    discord.presence.partyId = nil
+    discord.presence.joinSecret = nil
+    if not details then
+        discord.presence.largeImageKey = "insurrection"
+        discord.presence.largeImageText = "Insurrection"
+    end
     discordRPC.updatePresence(discord.presence)
     discordRPC.runCallbacks()
 end

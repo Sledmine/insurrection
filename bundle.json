@@ -44,10 +44,12 @@
         "insurrection.components.dynamic.settingsMenu",
         "insurrection.components.dynamic.chimeraMenu",
         "insurrection.components.dynamic.opticMenu",
+        "insurrection.components.dynamic.lobbyMenuClient",
         "insurrection.interface",
         "insurrection.redux.reducers.interfaceReducer",
         "insurrection.redux.actions",
-        "insurrection.redux.store"
+        "insurrection.redux.store",
+        "insurrection.redux.getState"
     ],
     "main": "lua/ui",
     "output": "dist/ui.lua"
