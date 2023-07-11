@@ -52,24 +52,44 @@ local images = {
     "warren",
     -- Keymind maps
     "treason",
-    "bleed_it_out"
+    "bleed_it_out",
+    "last_voyage"
 }
 
 local existingImages = {}
 
+local descriptionsPath = [[data/insurrection/ui/bitmaps/descriptions]]
+
 for _, image in ipairs(images) do
     local image = image:lower()
-    local imageFolderPath =
-        [[data/insurrection/ui/bitmaps/descriptions/insurrection_maps_description_source/]] .. image
-    local imageDataFolderPath =
-        [[data/insurrection/ui/bitmaps/descriptions/insurrection_maps_description/]] .. image
+    local imageFolderPath = descriptionsPath .. [[/insurrection_maps_description_source/]] .. image
+    local imageDataFolderPath = descriptionsPath .. [[/insurrection_maps_description/]] .. image
+
     local bitmapFolderPath = [[data/insurrection/ui/bitmaps/insurrection_maps/]] .. image
     local bitmapPath = [[insurrection/ui/bitmaps/insurrection_maps/]] .. image
+    local richPresencePath = descriptionsPath .. [[/insurrection_rich_presence/]] .. image .. ".jpg"
+
     if fs.is(imageDataFolderPath) then
         print("Skipping " .. image .. " because it already exists")
         existingImages[#existingImages + 1] = image
         goto continue
     end
+
+    -- Create Rich Presence image
+    for name, d in fs.dir(imageFolderPath) do
+        if not name then
+            print("error: ", d)
+            break
+        end
+        local type = d:attr "type"
+        if type == "file" then
+            local convertedPath = "\"" .. d:path() .. "\" \"" .. richPresencePath .. "\""
+            os.execute("convert -resize 1820x1024 -crop 1024x1024+455-0 " .. convertedPath)
+        end
+        break
+    end
+
+    -- Create insurrection preview
     fs.mkdir(imageFolderPath)
     fs.mkdir(imageDataFolderPath)
     for name, d in fs.dir(imageFolderPath) do
@@ -90,6 +110,7 @@ for _, image in ipairs(images) do
                    [[" && convert -bordercolor blue -border 1 +append $(ls -1v) "../../../insurrection_maps/]] ..
                    image .. [[.png"]])
     os.execute([[invader-bitmap -F 32-bit -T interface_bitmaps "]] .. bitmapPath .. [["]])
+    existingImages[#existingImages + 1] = image
     ::continue::
 end
 
