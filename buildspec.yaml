@@ -27,6 +27,9 @@ commands:
     - rm package/lua-global/ui.lua
   symlinks:
     - ln -f -s "$PWD/dist/ui.lua" "$HALO_CE_DATA_PATH/chimera/lua/scripts/global/ui.lua"
+    - ln -f -s "$PWD/hsc/ui.hsc" "data/insurrection/map/ui/scripts/ui.hsc"
+  hsc:
+    - invader-script -g gbx-custom insurrection/map/ui/ui
   release:
     - mercury build --release --output package/game-maps/
     - mercury build package
