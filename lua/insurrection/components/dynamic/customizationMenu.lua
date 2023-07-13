@@ -29,7 +29,7 @@ return function()
     local selectBipedsList = list.new(blam.findTag("select_bipeds",
                                                    blam.tagClasses.uiWidgetDefinition).id)
     local mapsList = list.new(selectBipedsList:findChildWidgetTag("select_map_biped").id)
-    local bipedsList = list.new(selectBipedsList:findChildWidgetTag("select_custom_biped").id)
+    --local bipedsList = list.new(selectBipedsList:findChildWidgetTag("select_custom_biped").id)
     local customizationTypesList = components.new(customization:findChildWidgetTag("types").id)
     local customizationNameplatesButton = button.new(
                                               customizationTypesList:findChildWidgetTag("nameplates").id)
@@ -42,6 +42,15 @@ return function()
 
     customizationBipedsButton:onClick(function()
         execute_script("set_customization_background")
+        --local scenario = blam.scenario(0)
+        --assert(scenario)
+        --for k,v in pairs(blam.getObjects()) do
+        --    local object = blam.object(get_object(v))
+        --    if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
+        --        local scenery = blam.scenery(object.tagId)
+        --        scenery.model = blam.findTag("haunted", blam.tagClasses.gbxmodel).id
+        --    end
+        --end
         nameplatesList:replace(selectBipedsList.tagId)
         ---@type interfaceState
         local state = store:getState()
@@ -55,12 +64,12 @@ return function()
         mapsList:setItems(glue.map(maps, function(map)
             return {label = map, value = state.available.customization[map]}
         end))
-        bipedsList:setItems(glue.map(state.available.customization[maps[1]], function(bipedPath)
-            return {label = utils.path(bipedPath).name, value = bipedPath}
-        end))
-        bipedsList:onSelect(function(item)
-            dprint("bipedsList:onSelect")
-        end)
+        --bipedsList:setItems(glue.map(state.available.customization[maps[1]], function(bipedPath)
+        --    return {label = utils.path(bipedPath).name, value = bipedPath}
+        --end))
+        --bipedsList:onSelect(function(item)
+        --    dprint("bipedsList:onSelect")
+        --end)
     end)
 
     saveCustomizationButton:onClick(function()

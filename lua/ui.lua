@@ -339,6 +339,20 @@ function OnMapFileLoad(mapName)
         balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.customSounds, "tag_collection")
+        --if mapName == "ui" then
+        --    local bigassBipeds = {
+        --        "bourrin/halo reach/spartan/male/odst",
+        --        "bourrin/halo reach/spartan/male/mp masterchief",
+        --        "bourrin/halo reach/spartan/female/female",
+        --        "bourrin/halo reach/spartan/male/117",
+        --        "bourrin/halo reach/spartan/male/haunted",
+        --        "bourrin/halo reach/spartan/male/spec_ops",
+        --        "characters/floodcombat_human/player/flood player",
+        --    }
+        --    for k,v in pairs(bigassBipeds) do
+        --        balltze.import_tag_data("bigass_mod", v:replace("/", "\\"), "biped")
+        --    end
+        --end
     end
 end
 

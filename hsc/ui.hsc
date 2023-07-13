@@ -1,10 +1,3 @@
-(global boolean gametypes_menu_trigger_1 false)
-(global boolean gametypes_menu_trigger_2 false)
-(global boolean gametypes_menu_trigger_3 false)
-(global boolean gametypes_menu_trigger_4 false)
-(global boolean gametypes_menu_trigger_5 false)
-(global boolean gametypes_menu_trigger_6 false)
-
 ;; UI FX
 (script static void menu_blur_on
     (begin
@@ -31,6 +24,13 @@
     (object_pvs_set_camera "customization_lobby")
 )
 
+(script static void restore_halo_background
+    (switch_bsp 0)
+    (object_create halo)
+    (object_destroy_containing "customization")
+    (object_destroy_containing "prop")
+)
+
 ;; Block controls, prevent player from sending inputs
 (script static void block_controls
     (begin
@@ -41,35 +41,42 @@
     )
 )
 
+;; Fade screen from black to transparent
 (script static void fade_screen_in
     (fade_in 0 0 0 60)
 )
 
+;; Fade screen from transparent to black
 (script static void fade_screen_out
     (fade_out 0 0 0 60)
 )
 
 (script static void set_ui_background
     (menu_blur_on)
+    (restore_halo_background)
     (camera_control 1)
     (camera_set ui_camera 0)
 )
 
 (script static void set_multiplayer_background
     (menu_blur_on)
+    (restore_halo_background)
     (camera_control 1)
     (camera_set multiplayer 0)
 )
 
 (script static void set_customization_background
     (menu_blur_off)
+    (switch_bsp 1)
+    (object_destroy halo)
+    (object_create_containing "customization")
+    (object_create_containing "prop")
+    (objects_attach customization_biped "right hand" customization_prop_ar "attach_point")
     (camera_control 1)
-    (camera_set customization_color 0)
+    (camera_set customization_lobby 0)
 )
 
 ;; UI Main
 (script startup ui_main
-    ;; Fade screen from black to transparent
-    (objects_attach customization_biped "right hand" customization_prop_ar "attach_point")
     (fade_screen_in)
 )
