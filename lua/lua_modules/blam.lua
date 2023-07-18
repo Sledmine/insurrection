@@ -330,6 +330,8 @@ backupFunctions.get_global = _G.get_global
 -- backupFunctions.set_global = _G.set_global
 backupFunctions.get_tag = _G.get_tag
 backupFunctions.set_callback = _G.set_callback
+backupFunctions.set_timer = _G.set_timer
+backupFunctions.stop_timer = _G.stop_timer
 
 backupFunctions.spawn_object = _G.spawn_object
 backupFunctions.delete_object = _G.delete_object
@@ -532,7 +534,7 @@ end
 
 ---Output text to the console, optional text colors in decimal format.<br>
 ---Avoid sending console messages if console_is_open() is true to avoid annoying the player.
----@param message string
+---@param message string | number
 ---@param red? number
 ---@param green? number
 ---@param blue? number
@@ -595,7 +597,23 @@ function set_callback(event, callback)
     end
 end
 
-if (api_version) then
+---Register a timer to be called every intervalMilliseconds.<br>
+---The callback function will be called with the arguments passed after the callbackName.<br>
+---
+---**WARNING:** SAPP will not return a timerId, it will return nil instead so timers can not be stopped.
+---@param intervalMilliseconds number
+---@param globalFunctionCallbackName string
+---@vararg any
+---@return number?
+function set_timer(intervalMilliseconds, globalFunctionCallbackName, ...)
+    return timer(intervalMilliseconds, globalFunctionCallbackName, ...)
+end
+
+function stop_timer(timerId)
+    error("SAPP does not support stopping timers")
+end
+
+if api_version then
     -- Provide global server type variable on SAPP
     server_type = "sapp"
     print("Compatibility with Chimera Lua API has been loaded!")
@@ -607,6 +625,8 @@ else
     -- set_global = -- backupFunctions.set_global
     get_tag = backupFunctions.get_tag
     set_callback = backupFunctions.set_callback
+    set_timer = backupFunctions.set_timer
+    stop_timer = backupFunctions.stop_timer
     spawn_object = backupFunctions.spawn_object
     delete_object = backupFunctions.delete_object
     get_object = backupFunctions.get_object
@@ -694,16 +714,16 @@ local function tagClassFromInt(tagClassInt)
     return nil
 end
 
---- Return a list of all the objects currently in the map
----@return table
+--- Return a list of object indexes that are currently spawned
+---@return number[]
 function blam.getObjects()
-    local currentObjectsList = {}
-    for i = 0, 2047 do
-        if (blam.getObject(i)) then
-            currentObjectsList[#currentObjectsList + 1] = i
+    local objects = {}
+    for objectIndex = 0, 2047 do
+        if blam.getObject(objectIndex) then
+            objects[#objects + 1] = objectIndex
         end
     end
-    return currentObjectsList
+    return objects
 end
 
 -- Local reference to the original console_out function
@@ -2039,9 +2059,13 @@ local globalsTagStructure = {
 local firstPersonStructure = {weaponObjectId = {type = "dword", offset = 0x10}}
 
 ---@class bipedTag
+---@field model number Gbxmodel tag Id of this biped tag
 ---@field disableCollision number Disable collision of this biped tag
 
-local bipedTagStructure = {disableCollision = {type = "bit", offset = 0x2F4, bitLevel = 5}}
+local bipedTagStructure = {
+    model = {type = "dword", offset = 0x34},
+    disableCollision = {type = "bit", offset = 0x2F4, bitLevel = 5}
+}
 
 ---@class deviceMachine : blamObject
 ---@field powerGroupIndex number Power index from the device groups table
@@ -2270,39 +2294,40 @@ function blam.getTag(tagIdOrTagPath, tagClass, ...)
 end
 
 --- Create a player object given player entry table address
+---@param address? number
 ---@return player?
 function blam.player(address)
-    if (isValid(address)) then
+    if address and isValid(address) then
         return createObject(address, playerStructure)
     end
     return nil
 end
 
 --- Create a blamObject given address
----@param address number
+---@param address? number
 ---@return blamObject?
 function blam.object(address)
-    if (isValid(address)) then
+    if address and isValid(address) then
         return createObject(address, objectStructure)
     end
     return nil
 end
 
 --- Create a Projectile object given address
----@param address number
+---@param address? number
 ---@return projectile?
 function blam.projectile(address)
-    if (isValid(address)) then
+    if address and isValid(address) then
         return createObject(address, projectileStructure)
     end
     return nil
 end
 
 --- Create a Biped object from a given address
----@param address number
+---@param address? number
 ---@return biped?
 function blam.biped(address)
-    if (isValid(address)) then
+    if address and isValid(address) then
         return createObject(address, bipedStructure)
     end
     return nil
@@ -2448,10 +2473,10 @@ function blam.modelAnimations(tag)
 end
 
 --- Create a Weapon object from the given object address
----@param address number
+---@param address? number
 ---@return weapon?
 function blam.weapon(address)
-    if (isValid(address)) then
+    if address and isValid(address) then
         return createObject(address, weaponStructure)
     end
     return nil
@@ -2507,10 +2532,10 @@ function blam.firstPerson(address)
 end
 
 --- Create a Device Machine object from a given address
----@param address number
+---@param address? number
 ---@return deviceMachine?
 function blam.deviceMachine(address)
-    if (isValid(address)) then
+    if address and isValid(address) then
         return createObject(address, deviceMachineStructure)
     end
     return nil
