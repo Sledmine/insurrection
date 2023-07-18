@@ -70,17 +70,17 @@ function async(func, callback, ...)
     end
 end
 
-local function connect(map, host, port, password)
+local function connect(desiredMap, host, port, password)
     -- dprint("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
-    if exists("maps\\" .. map .. ".map") or
-        exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. map .. ".map") then
+    if exists("maps\\" .. desiredMap .. ".map") or
+        exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
         discord.setPartyWithLobby()
         -- Force game profile name to be the same as the player's name
-        core.gameProfileName(api.session.player.name)
+        core.setGameProfileName(api.session.player.name)
         core.connectServer(host, port, password)
     else
         interface.dialog("ERROR", "LOCAL MAP NOT FOUND",
-                         "Map \"" .. map .. "\" was not found on your game files.")
+                         "Map \"" .. desiredMap .. "\" was not found on your game files.")
     end
 end
 

@@ -285,7 +285,7 @@ function core.loading(isLoading, text, blockInput)
     end
 end
 
-function core.gameProfileName(name)
+function core.setGameProfileName(name)
     local name = name
     if name then
         -- Limit name to 11 characters

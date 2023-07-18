@@ -5,6 +5,12 @@ local base64 = require "base64"
 
 local discordRPC = require "discordRPC"
 
+
+---@type number?
+DiscordPresenceTimerId = nil
+---@type number?
+DiscordCheckTimerId = nil
+
 discord.presence = {
     state = "Playing Insurrection",
     details = nil,
@@ -50,21 +56,31 @@ function discord.startPresence()
     if DiscordPresenceTimerId then
         pcall(stop_timer, DiscordPresenceTimerId)
     end
+
+    -- Routines to handle Discord presence
+    
     function DiscordUpdate()
         discordRPC.runCallbacks()
         if discord.ready then
+            if DiscordCheckTimerId then
+                pcall(stop_timer, DiscordCheckTimerId)
+            end
             discordRPC.updatePresence(discord.presence)
-        else
+        end
+    end
+    function DiscordCheck()
+        if not discord.ready then
             core.loading(false)
             if not DebugMode and not discord.attempted then
                 interface.dialog("WARNING", "An error occurred while starting Discord Presence.",
                                  "Please ensure that Discord is running and try again.\nDiscord is a required dependency for Insurrection services.")
                 discord.attempted = true
             end
-            return false
         end
+        return false
     end
     DiscordPresenceTimerId = set_timer(2000, "DiscordUpdate")
+    DiscordCheckTimerId = set_timer(3000, "DiscordCheck")
 end
 
 --- Update the presence state and details

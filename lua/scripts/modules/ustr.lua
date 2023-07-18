@@ -69,7 +69,7 @@ local function ustr(tagPath, strings)
         -- local tagBody = table.concat(tag, "", 10)
         -- local crc = crc32(tagBody)
         -- print(crc)
-        -- tag[3] = glue.string.fromhex(tostring(crc))
+        -- tag[3] = string.fromhex(tostring(crc))
 
         stringTag:close()
         return tagPath

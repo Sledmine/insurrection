@@ -5,8 +5,8 @@ local utils = {}
 ---@param path string
 ---@return {path: string, name: string, extension?: string}
 function utils.path(path)
-    local split = glue.string.split(path, "\\")
-    local pathElements = glue.deepcopy(split --[[@as table]])
+    local split = path:split("\\")
+    local pathElements = table.copy(split)
     table.remove(pathElements, #pathElements)
     local path = table.concat(pathElements, "\\")
     local name = split[#split]
@@ -34,6 +34,12 @@ end
 ---@param s string
 function utils.snakeCaseToUpperSentenceCase(s)
     return s:upper():replace("_", " ")
+end
+
+---Returns a sentence case string from a snake case string
+---@param s string
+function utils.snakeCaseToSentenceCase(s)
+    return s:replace("_", " "):gsub("^%l", string.upper)
 end
 
 return utils
