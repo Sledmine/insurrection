@@ -9,6 +9,7 @@ local getWidgetValues = core.getWidgetValues
 local setWidgetValues = core.setWidgetValues
 local glue = require "glue"
 local menus = require "insurrection.menus"
+local delay = require "insurrection.utils".delay
 
 return function()
     local customizationColor = components.new(constants.widgets.color.id)
@@ -77,13 +78,13 @@ return function()
             else
                 local scrollButton = button.new(tag.id)
                 scrollButton:onClick(function()
-                    set_timer(30, "updateColorMenu")
+                    delay(45, updateColorMenu)
                 end)
             end
         end
         return false
     end
     customizationColor:onOpen(function()
-        set_timer(30, "updateColorMenu")
+        delay(45, updateColorMenu)
     end)
 end

@@ -150,6 +150,7 @@ function components.getChildWidgetTags(self)
 end
 
 ---@param self uiComponent
+---@param name string
 function components.findChildWidgetTag(self, name)
     local childWidgetTags = self:getChildWidgetTags()
     for _, childTag in pairs(childWidgetTags) do
