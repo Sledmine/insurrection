@@ -272,4 +272,11 @@ function widget.scale(width, height, scale)
     return top .. ", " .. left .. ", " .. height .. ", " .. width
 end
 
+---Generate a string of spaces to reserve memory for a string
+---@param size number
+---@return string
+function widget.strmem(size)
+    return string.rep(" ", size)
+end
+
 return widget

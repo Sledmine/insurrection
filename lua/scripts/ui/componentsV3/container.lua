@@ -9,6 +9,7 @@ local widget = require "lua.scripts.widget"
 ---@field conditionalWidgets? invaderWidgetConditionalWidget[]
 ---@field dataInput? string
 ---@field noBackgroud? boolean
+---@field background "transparent" | "solid" | "fade"
 ---@field variant? '"settings"'
 ---@field [1]? invaderWidgetChildWidget[]
 ---@field childs? invaderWidgetChildWidget[]
@@ -44,6 +45,15 @@ return function(props)
     }
     if props.dataInput then
         wid.game_data_inputs = {{["function"] = props.dataInput}}
+    end
+    if props.background then
+        if props.background == "transparent" then
+            wid.background_bitmap = [[insurrection/ui/bitmaps/background_transparent.bitmap]]
+        elseif props.background == "solid" then
+            wid.background_bitmap = [[insurrection/ui/bitmaps/background_solid.bitmap]]
+        elseif props.background == "fade" then
+            wid.background_bitmap = [[insurrection/ui/bitmaps/background_transparent_fade.bitmap]]
+        end
     end
     if props.noBackgroud then
         wid.background_bitmap = nil
