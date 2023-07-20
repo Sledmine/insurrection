@@ -28,4 +28,11 @@ function menus.open(widget)
     openWidget(widget, false)
 end 
 
+function menus.main()
+    execute_script("fade_screen_in")
+    execute_script("set_ui_background")
+    load_ui_widget(constants.widgets.main.path)
+end
+
 return menus
+

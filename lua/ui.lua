@@ -13,6 +13,7 @@ store = require "insurrection.redux.store"
 local ends = require"glue".string.ends
 local _, balltze = pcall(require, "mods.balltze")
 require "luna"
+local menus = require "insurrection.menus"
 
 clua_version = 2.056
 -- Import API after setting up debug mode
@@ -42,6 +43,7 @@ ScreenCornerText = ""
 LoadingText = nil
 local lastMap = ""
 local playerCount = 0
+local forcedReload = false
 
 discord = require "insurrection.discord"
 
@@ -57,9 +59,19 @@ local screenWidth, screenHeight = core.getScreenResolution()
 local function onPostGameLoad()
     dprint("Game started!", "success")
     if map == "ui" then
+        if not blam.getTag(constants.customBipedPaths.treason[1], blam.tagClasses.biped) then
+            execute_script("map_name ui")
+            forcedReload = true
+            return
+        end
+        if forcedReload then
+            forcedReload = false
+            constants.get()
+            menus.main()
+        end
         -- Change UI aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
-        -- Disable menu blur
+        -- Enable menu blur
         execute_script("menu_blur_on")
         -- Enable EAX
         execute_script("sound_enable_eax 1")
@@ -118,11 +130,11 @@ function OnTick()
 end
 
 function OnPlayerJoin()
-    -- interface.sound("join")
+    interface.sound("join")
 end
 
 function OnPlayerLeave()
-    -- interface.sound("leave")
+    interface.sound("leave")
 end
 
 function OnKeypress(modifiers, char, keycode)
@@ -187,6 +199,7 @@ function OnMenuListTab(pressedKey,
     local widgetListTag = blam.getTag(listWidgetTagId) --[[@as tag]]
     local widgetList = blam.uiWidgetDefinition(listWidgetTagId)
     -- local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
+    assert(widgetList, "Invalid widget list tag id")
     for childIndex, child in pairs(widgetList.childWidgets) do
         if child.widgetTag == previousFocusedWidgetId then
             local nextChildIndex
@@ -332,27 +345,20 @@ function OnUnload()
     discord.stopPresence()
 end
 
----@param mapName string
-function OnMapFileLoad(mapName)
+---@param currentMapName string
+function OnMapFileLoad(currentMapName)
     if balltze then
         balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
         balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.customSounds, "tag_collection")
-        --if mapName == "ui" then
-        --    local bigassBipeds = {
-        --        "bourrin/halo reach/spartan/male/odst",
-        --        "bourrin/halo reach/spartan/male/mp masterchief",
-        --        "bourrin/halo reach/spartan/female/female",
-        --        "bourrin/halo reach/spartan/male/117",
-        --        "bourrin/halo reach/spartan/male/haunted",
-        --        "bourrin/halo reach/spartan/male/spec_ops",
-        --        "characters/floodcombat_human/player/flood player",
-        --    }
-        --    for k,v in pairs(bigassBipeds) do
-        --        balltze.import_tag_data("bigass_mod", v:replace("/", "\\"), "biped")
-        --    end
-        --end
+        if currentMapName == "ui" then
+            for mapName, bipeds in pairs(constants.customBipedPaths) do
+                for _, bipedPath in pairs(bipeds) do
+                    balltze.import_tag_data(mapName, bipedPath, "biped")
+                end
+            end
+        end
     end
 end
 

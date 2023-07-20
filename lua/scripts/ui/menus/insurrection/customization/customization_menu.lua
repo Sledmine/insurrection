@@ -1,4 +1,5 @@
 local widget = require "lua.scripts.widget"
+local strmem = widget.strmem
 local container = require "lua.scripts.ui.componentsV3.container"
 local options = require "lua.scripts.ui.componentsV3.options"
 local button = require "lua.scripts.ui.componentsV2.button"
@@ -11,6 +12,8 @@ local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
 local complexButton = require "lua.scripts.ui.componentsV2.complexButton"
 local box = require "lua.scripts.ui.componentsV2.box"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
+local slider = require "lua.scripts.ui.componentsV3.slider"
+local checkbox = require "lua.scripts.ui.componentsV3.checkbox"
 local pos = constants.position
 
 widget.init [[insurrection/ui/menus/customization/]]
@@ -20,39 +23,45 @@ local optionsLayout = widget.align("horizontal",
                                    pos.options.x, pos.options.y, 2)
 local nameplatesLayout = widget.align("vertical", 26, pos.options.x, 170, 3)
 local projectLayout = widget.align("vertical", 24, pos.options.x, 170, 2)
-local bipedsLayout = widget.align("vertical", 24,
-                                  pos.options.x + constants.components.button.normal.width + 2, 170,
-                                  2)
+local bipedsLayout = widget.align("horizontal", 260, 298, 410, 2)
 
 return container {
     name = "customization_menu",
-    noBackgroud = true,
+    --noBackgroud = true,
+    background = "fade",
     conditionalWidgets = {
         {
             widget_tag = options {
                 name = "select_bipeds",
-                alignment = "horizontal",
                 childs = {
                     {
                         options {
-                            name = "select_map_biped",
+                            name = "select_project",
                             alignment = "vertical",
                             childs = {
                                 {
-                                    button("scroll_bipeds_maps_list_up", nil, {arrow = "up"}),
+                                    button("scroll_project_list_up", nil, {arrow = "up"}),
                                     projectLayout()
                                 },
-                                {button("biped_map_1", string.rep(" ", 32)), projectLayout()},
-                                {button("biped_map_2", string.rep(" ", 32)), projectLayout()},
-                                {button("biped_map_3", string.rep(" ", 32)), projectLayout()},
-                                {button("biped_map_4", string.rep(" ", 32)), projectLayout()},
-                                --{button("biped_map_5", string.rep(" ", 32)), projectLayout()},
-                                --{button("biped_map_6", string.rep(" ", 32)), projectLayout()},
-                                --{button("biped_map_7", string.rep(" ", 32)), projectLayout()},
+                                {button("project_1", strmem(64)), projectLayout()},
+                                {button("project_2", strmem(64)), projectLayout()},
+                                {button("project_3", strmem(64)), projectLayout()},
+                                {button("project_4", strmem(64)), projectLayout()},
                                 {
-                                    button("scroll_bipeds_maps_list_down", nil, {arrow = "down"}),
+                                    button("scroll_project_list_down", nil, {arrow = "down"}),
                                     projectLayout()
                                 }
+                            }
+                        }
+                    },
+                    {
+                        options {
+                            name = "select_project_biped",
+                            alignment = "vertical",
+                            childs = {
+                                {slider {name = "bipeds_left", direction = "left"}, 280, 378},
+                                {checkbox {name = "biped_1", text = strmem(64)}, bipedsLayout()},
+                                {slider {name = "bipeds_right", direction = "right"}, bipedsLayout(2)}
                             }
                         }
                     }
@@ -117,7 +126,7 @@ return container {
                             }
                         }
                     },
-                    {button("save_customization", "SAVE"), pos.back.x - 186, pos.back.y},
+                    {button("save_customization", "SAVE"), pos.back.x, pos.back.y - 26},
                     {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
                 }
             }

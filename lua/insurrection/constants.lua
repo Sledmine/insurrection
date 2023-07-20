@@ -57,6 +57,55 @@ constants.colors = {
     constants.color.salmon
 }
 
+constants.customBipedPaths = {
+    bigass_mod = {
+        "bourrin\\halo reach\\spartan\\male\\odst",
+        "bourrin\\halo reach\\spartan\\male\\mp masterchief",
+        "bourrin\\halo reach\\spartan\\female\\female",
+        "bourrin\\halo reach\\spartan\\male\\117",
+        "bourrin\\halo reach\\spartan\\male\\haunted",
+        "bourrin\\halo reach\\spartan\\male\\spec_ops"
+    },
+    treason = {
+        "keymind\\the_flood\\characters\\unsc\\odst_multiplayer\\_types\\nova\\nova",
+        "keymind\\the_flood\\characters\\unsc\\odst_multiplayer\\_types\\mkvb\\mkvb",
+        "keymind\\the_flood\\characters\\unsc\\odst_multiplayer\\_types\\orion\\orion",
+        "keymind\\the_flood\\characters\\unsc\\odst_multiplayer\\_types\\spi_warrior\\spi_warrior"
+    },
+    rp_crossview = {
+		"ecd\\characters\\ecd_mark\\ecd_mark_mp",
+		"characters\\cyborg\\cyborg",
+		"ecd\\characters\\ecd_mark_iv\\ecd_mark_iv_mp"
+    },
+    forge_island = {
+        "[shm]\\halo_4\\characters\\commando\\commando",
+        "[shm]\\halo_4\\characters\\eva\\eva",
+        "[shm]\\halo_4\\characters\\hazop\\hazop",
+        "[shm]\\halo_4\\characters\\mariner\\mariner",
+        "[shm]\\halo_4\\characters\\mark v\\mark v",
+        "[shm]\\halo_4\\characters\\mark vi\\mark vi",
+        "[shm]\\halo_4\\characters\\mark vii\\mark vii",
+        "[shm]\\halo_1\\characters\\masterchief\\master chief halo 1",
+        "[shm]\\halo_cea\\characters\\masterchief\\master chief halo 1 anniversary",
+        "[shm]\\halo_2\\characters\\masterchief\\master chief halo 2",
+        "[shm]\\h2a\\characters\\masterchief\\master chief halo 2 anniversary",
+        "[shm]\\halo_3\\characters\\masterchief\\master chief halo 3",
+        "[shm]\\halo_4\\characters\\master chief\\master chief halo 4",
+        "[shm]\\halo_infinite\\characters\\masterchief\\master chief halo infinite",
+        "[shm]\\halo_4\\characters\\odst\\odst",
+        "[shm]\\h2a\\characters\\orion\\orion",
+        "[shm]\\halo_4\\characters\\prefect\\prefect",
+        "[shm]\\halo_4\\characters\\recon\\recon",
+        "[shm]\\halo_4\\characters\\recruit\\recruit",
+        "[shm]\\halo_4\\characters\\ricochet\\ricochet",
+        "[shm]\\halo_4\\characters\\rogue\\rogue",
+        "[shm]\\halo_4\\characters\\scanner\\scanner",
+        "[shm]\\halo_4\\characters\\scout\\scout",
+        "[shm]\\halo_3\\characters\\spi\\spi",
+        "[shm]\\halo_4\\characters\\strider\\strider"
+    },
+}
+
 function constants.get()
     constants.widgets = {
         --[[
@@ -102,6 +151,7 @@ function constants.get()
     if constants.tagCollections.nameplates then
         local nameplatesTagCollection = blam.tagCollection(constants.tagCollections.nameplates.id)
         if nameplatesTagCollection then
+            ---@type table<number, tag>
             local nameplateBitmapTags = {}
             for _, tagId in ipairs(nameplatesTagCollection.tagList) do
                 local tag = blam.getTag(tagId) --[[@as tag]]
