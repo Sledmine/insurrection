@@ -1,22 +1,32 @@
-local luna = {
-    _VERSION = "1.0.0",
-}
+local luna = {_VERSION = "1.2.0"}
 
 luna.string = {}
 
---- Split a string into a table of substrings by `sep`.
+--- Split a string into a table of substrings by `sep`, or by each character if `sep` is not provided.
 ---@param s string
----@param sep string
+---@param sep? string
 ---@return string[]
 ---@nodiscard
 function string.split(s, sep)
     assert(s ~= nil, "string.split: s must not be nil")
-    local fields = {}
-    local pattern = string.format("([^%s]+)", sep)
-    local _ = s:gsub(pattern, function(c)
-        fields[#fields + 1] = c
-    end)
-    return fields
+    local elements = {}
+    -- Support splitting by any character or string.
+    if sep == nil or sep == "" then
+        for i = 1, #s do
+            elements[i] = s:sub(i, i)
+        end
+    else
+        -- Avoid using a pattern
+        local position = 0
+        for st, sp in function()
+            return s:find(sep, position, true)
+        end do
+            table.insert(elements, s:sub(position, st - 1))
+            position = sp + 1
+        end
+        table.insert(elements, s:sub(position))
+    end
+    return elements
 end
 
 --- Return a string with all leading whitespace removed.
@@ -122,6 +132,26 @@ function string.template(s, t)
     end))
 end
 
+--- Return if a string includes a given substring.
+---@param s string
+---@param substring string
+---@return boolean
+---@nodiscard
+function string.includes(s, substring)
+    assert(s ~= nil, "string.includes: s must not be nil")
+    assert(substring ~= nil, "string.includes: substring must not be nil")
+    return string.find(s, substring, 1, true) ~= nil
+end
+
+--- Return a string with all lua pattern characters escaped.
+---@param s string
+---@return string
+---@nodiscard
+function string.escapep(s)
+    assert(s ~= nil, "string.escape: s must not be nil")
+    return (s:gsub("%%", "%%%%"):gsub("%z", "%%z"):gsub("([%^%$%(%)%.%[%]%*%+%-%?])", "%%%1"))
+end
+
 luna.string.split = string.split
 luna.string.ltrim = string.ltrim
 luna.string.rtrim = string.rtrim
@@ -132,6 +162,8 @@ luna.string.fromhex = string.fromhex
 luna.string.startswith = string.startswith
 luna.string.endswith = string.endswith
 luna.string.template = string.template
+luna.string.includes = string.includes
+luna.string.escapep = string.escapep
 
 luna.table = {}
 
@@ -272,6 +304,21 @@ function table.map(t, f)
     return mapped
 end
 
+--- Returns a table merged from all tables passed as arguments.
+---@generic K, V
+---@vararg table<K, V>
+---@return table<K, V>
+---@nodiscard
+function table.merge(...)
+    local merged = {}
+    for _, t in ipairs {...} do
+        for k, v in pairs(t) do
+            merged[k] = v
+        end
+    end
+    return merged
+end
+
 luna.table.copy = table.copy
 luna.table.indexof = table.indexof
 luna.table.flip = table.flip
@@ -280,6 +327,7 @@ luna.table.keys = table.keys
 luna.table.values = table.values
 luna.table.filter = table.filter
 luna.table.map = table.map
+luna.table.merge = table.merge
 
 luna.file = {}
 
