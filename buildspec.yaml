@@ -29,6 +29,7 @@ commands:
   symlinks:
     - ln -f -s "$PWD/dist/ui.lua" "$HALO_CE_DATA_PATH/chimera/lua/scripts/global/ui.lua"
     - ln -f -s "$PWD/hsc/ui.hsc" "data/insurrection/map/ui/scripts/ui.hsc"
+    - ln -f -s "$PWD/package/my-games-data-path/balltze/plugins/insurrection.lua" "$HALO_CE_DATA_PATH/balltze/plugins/insurrection.lua"
   hsc:
     - invader-script -g gbx-custom insurrection/map/ui/ui
   release:
