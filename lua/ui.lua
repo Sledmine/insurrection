@@ -63,11 +63,11 @@ local function onPostGameLoad()
         harmony.menu.set_aspect_ratio(16, 9)
         -- Enable menu blur
         execute_script("menu_blur_on")
-        
+
         -- Set network timeout to 10 seconds (keeps connection alive at loading huge maps)
         execute_script("network_connect_timeout 30000")
     else
-        --os.execute("ping 127.0.0.1 -n 5 > nul")
+        -- os.execute("ping 127.0.0.1 -n 5 > nul")
         harmony.menu.set_aspect_ratio(4, 3)
     end
     -- Load insurrection interface, load constants, widgets, etc.

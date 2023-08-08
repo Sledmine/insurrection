@@ -73,7 +73,7 @@ function interface.load()
             require "insurrection.components.dynamic.loginMenu"()
             require "insurrection.components.dynamic.dashboardMenu"()
             require "insurrection.components.dynamic.customizationMenu"()
-            require "insurrection.components.dynamic.lobbyMenu".render()
+            require"insurrection.components.dynamic.lobbyMenu".render()
 
             local pause = components.new(constants.widgets.pause.id)
             pause:onClose(function()
