@@ -1,10 +1,10 @@
 local harmony = require "mods.harmony"
-local glue = require "glue"
-local split = glue.string.split
 local blam = require "blam"
 local tagClasses = blam.tagClasses
 local ini = require "ini"
 local constants = require "insurrection.constants"
+local luna = require "luna"
+local split = luna.string.split
 
 local core = require "insurrection.core"
 
@@ -31,8 +31,8 @@ function chimera.loadServers(loadHistory)
     if loadHistory then
         serversFilePath = myGamesPath .. "\\chimera\\history.txt"
     end
-    local serversFile = glue.readfile(serversFilePath, "t")
-    if (serversFile) then
+    local serversFile = luna.file.read(serversFilePath)
+    if serversFile then
         -- Get each server entry from the bookmarks file
         local storedServers = split(serversFile, "\n")
         for serverIndex, serverData in ipairs(storedServers) do
@@ -60,11 +60,13 @@ function chimera.loadServers(loadHistory)
         local serversTag = blam.findTag("chimera_servers_options", tagClasses.uiWidgetDefinition)
         if serversTag then
             local serversList = blam.uiWidgetDefinition(serversTag.id)
+            assert(serversList, "Failed to get servers list")
             for serverIndex = 1, maximumDisplayedServers do
                 local server = servers[serverIndex]
                 local childWidget = serversList.childWidgets[serverIndex + 1]
                 if server and childWidget then
                     local serverOption = blam.uiWidgetDefinition(childWidget.widgetTag)
+                    assert(serverOption, "Failed to get server option")
                     local serverOptionStringList = blam.unicodeStringList(
                                                        serverOption.unicodeStringListTag)
                     local stringList = serverOptionStringList.stringList
@@ -453,7 +455,7 @@ local chimeraFontOverride = {
 ---Get chimera configuration
 ---@return chimeraConfiguration?
 function chimera.getConfiguration()
-    local configIni = glue.readfile("chimera.ini", "t")
+    local configIni = luna.file.read("chimera.ini")
     if configIni then
         ---@type chimeraConfiguration
         local configuration = ini.decode(configIni)
@@ -465,11 +467,11 @@ end
 ---@param configuration chimeraConfiguration
 function chimera.saveConfiguration(configuration)
     local configIni = ini.encode(configuration)
-    return glue.writefile("chimera.ini", configIni, "t")
+    return luna.file.write("chimera.ini", configIni)
 end
 
 function chimera.setupFonts(revert)
-    local chimeraIni = glue.readfile("chimera.ini", "t")
+    local chimeraIni = luna.file.read("chimera.ini")
     if chimeraIni then
         local configuration = chimera.getConfiguration()
         if configuration then
@@ -516,8 +518,8 @@ end
 ---Get chimera preferences
 ---@return chimeraPreferences?
 function chimera.getPreferences()
-    local preferencesTxt = glue.readfile(
-                               core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt", "t")
+    local preferencesTxt = luna.file.read(
+                               core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt")
     if preferencesTxt then
         local preferences = {}
         -- Split the file into lines and iterate over them
@@ -551,8 +553,8 @@ function chimera.savePreferences(preferences)
     for key, value in pairs(preferences) do
         preferencesTxt = preferencesTxt .. key .. " " .. value .. "\n"
     end
-    return glue.writefile(core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt",
-                          preferencesTxt, "t")
+    return luna.file.write(core.getMyGamesHaloCEPath() .. "\\chimera\\preferences.txt",
+                          preferencesTxt)
 end
 
 function chimera.executeCommand(command)

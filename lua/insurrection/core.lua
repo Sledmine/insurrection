@@ -1,4 +1,5 @@
 local glue = require "glue"
+local exists = glue.canopen
 local split = glue.string.split
 local inspect = require "inspect"
 local blam = require "blam"
@@ -121,9 +122,9 @@ end
 ---@param keyCode integer
 ---@return string | nil name of the given key code
 function core.translateKeycode(keyCode)
-    if (keyCode == 29) then
+    if keyCode == 29 then
         return "backspace"
-    elseif (keyCode == 72) then
+    elseif keyCode == 72 then
         return "space"
     else
         return nil
