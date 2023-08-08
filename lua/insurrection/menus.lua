@@ -26,7 +26,7 @@ end
 
 function menus.open(widget)
     openWidget(widget, false)
-end 
+end
 
 function menus.main()
     execute_script("fade_screen_in")
