@@ -28,6 +28,7 @@ local list = setmetatable({
 
 ---@class uiComponentListEvents : uiComponentEvents
 ---@field onSelect fun(item: uiComponentListItem)
+---@field onScroll fun(item: uiComponentListItem)
 
 ---@class uiComponentList : uiComponentListClass
 ---@field events uiComponentListEvents
@@ -48,6 +49,12 @@ function list.onSelect(self, callback)
 end
 
 ---@param self uiComponentList
+---@param callback fun(item: uiComponentListItem)
+function list.onScroll(self, callback)
+    self.events.onScroll = callback
+end
+
+---@param self uiComponentList
 function list.scroll(self, direction)
     local itemIndex = self.currentItemIndex + direction
     if itemIndex < 1 then
@@ -57,6 +64,9 @@ function list.scroll(self, direction)
     end
     dprint("Scrolling list to item " .. itemIndex)
     self.currentItemIndex = itemIndex
+    if self.events.onScroll then
+        self.events.onScroll(self.items[itemIndex])
+    end
     self:refresh()
 end
 
@@ -112,7 +122,7 @@ end
 function list.setItems(self, items)
     local widgetDefinition = self.widgetDefinition
     if not widgetDefinition.type == 3 then
-        error("setItems can only be used on uiWidgetDefinition of type column_list")
+        dprint("Widget: " .. self.tag.path .. " is being used as a list but is not a column_list")
     end
     -- if not (#items > 0) then
     --    error("setItems requires at least one item")
@@ -156,6 +166,11 @@ end
 ---@param self uiComponentList
 function list.scrollable(self, isScrollable)
     self.isScrollable = isScrollable
+end
+
+---@param self uiComponentList
+function list.getCurrentItem(self)
+    return self.items[self.currentItemIndex]
 end
 
 return list

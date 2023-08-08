@@ -4,7 +4,9 @@ local components = require "insurrection.components"
 ---@class uiComponentCheckboxClass : uiComponent
 local checkbox = setmetatable({
     ---@type number
-    checkboxTagId = nil
+    checkboxTagId = nil,
+    ---@type boolean
+    value = false
 }, {__index = components})
 
 ---@class uiComponentCheckboxEvents : uiComponentEvents
@@ -30,11 +32,13 @@ function checkbox.getValue(self)
     return widgetValues.background_bitmap_index == 1
 end
 
+---@param self uiComponentCheckbox
 function checkbox.setValue(self, value)
     local value = value and 1 or 0
     core.setWidgetValues(self.checkboxTagId, {background_bitmap_index = value})
 end
 
+---@param self uiComponentCheckbox
 function checkbox.toggle(self)
     local value = self:getValue()
     self:setValue(not value)
@@ -44,13 +48,8 @@ end
 function checkbox.onToggle(self, callback)
     self.events.onClick = function()
         local value = self:getValue()
-        if value then
-            self:toggle()
-            callback(false)
-        else
-            self:toggle()
-            callback(true)
-        end
+        self:toggle()
+        return callback(not value)
     end
 end
 
