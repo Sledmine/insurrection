@@ -53,11 +53,13 @@ function core.loadInsurrectionPatches()
     -- if clientPort ~= friendlyClientPort then
     --    write_dword(clientPortAddress, friendlyClientPort)
     -- end
+
+    -- Setting up version string
     local scriptVersionTag = blam.findTag("insurrection_version_footer",
                                           tagClasses.unicodeStringList)
-    if (scriptVersionTag) then
+    if scriptVersionTag then
         local scriptVersionString = blam.unicodeStringList(scriptVersionTag.id)
-        if (scriptVersionString) then
+        if scriptVersionString then
             local strings = scriptVersionString.stringList
             -- Write string version to map tag
             strings[1] = scriptVersion
