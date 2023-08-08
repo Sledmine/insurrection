@@ -14,92 +14,91 @@ _ALIGNMENTS = {}
 ---@field replace_function '"null"' | '"widget s_controller"' | '"build_number"' | '"pid"'
 
 ---@class invaderWidgetListFlags
----@field list_items_generated_in_code boolean
----@field list_items_from_string_list_tag boolean
----@field list_items_only_one_tooltip boolean
----@field list_single_preview_no_scroll boolean
+---@field list_items_generated_in_code? boolean
+---@field list_items_from_string_list_tag? boolean
+---@field list_items_only_one_tooltip? boolean
+---@field list_single_preview_no_scroll? boolean
 
 ---@class invaderWidgetStringFlags
----@field editable boolean
----@field password boolean
----@field flashing boolean
----@field dont_do_that_weird_focus_test boolean
+---@field editable? boolean
+---@field password? boolean
+---@field flashing? boolean
+---@field dont_do_that_weird_focus_test? boolean
 
 ---@class invaderWidgetEventHandlerFlags
----@field close_current_widget boolean
----@field close_other_widget boolean
----@field close_all_widgets boolean
----@field open_widget boolean
----@field reload_self boolean
----@field reload_other_widget boolean
----@field give_focus_to_widget boolean
----@field run_function boolean
----@field replace_self_w_widget boolean
----@field go_back_to_previous_widget boolean
----@field run_scenario_script boolean
----@field try_to_branch_on_failure boolean
+---@field close_current_widget? boolean
+---@field close_other_widget? boolean
+---@field close_all_widgets? boolean
+---@field open_widget? boolean
+---@field reload_self? boolean
+---@field reload_other_widget? boolean
+---@field give_focus_to_widget? boolean
+---@field run_function? boolean
+---@field replace_self_w_widget? boolean
+---@field go_back_to_previous_widget? boolean
+---@field run_scenario_script? boolean
+---@field try_to_branch_on_failure? boolean
 
 ---@class invaderWidgetEventHandler
----@field flags invaderWidgetEventHandlerFlags
+---@field flags? invaderWidgetEventHandlerFlags
 ---@field event_type '"a_button"' | '"b_button"' | '"back_button"' | '"start_button"' |  '"dpad_left"' | '"dpad_right"' | '"created"' | '"deleted"' | '"left_mouse"' | '"double_click"' | '"custom_activation"' | '"post_render"'
----@field function '"mouse_emit_accept_event"' | string
----@field widget_tag string
----@field sound_effect string
----@field script string
+---@field function? '"mouse_emit_accept_event"' | string
+---@field widget_tag? string
+---@field sound_effect? string
+---@field script? string
 
 ---@class invaderWidgetChildWidget
----@field widget_tag string
----@field name string
----@field vertical_offset number
----@field horizontal_offset number
+---@field widget_tag? string
+---@field name? string
+---@field vertical_offset? number
+---@field horizontal_offset? number
 
 ---@class invaderWidgetFlags
----@field pass_unhandled_events_to_focused_child boolean
----@field pause_game_time boolean
----@field flash_background_bitmap boolean
----@field dpad_up_down_tabs_thru_children boolean
----@field dpad_left_right_tabs_thru_children boolean
----@field dpad_up_down_tabs_thru_list_items boolean
----@field dpad_left_right_tabs_thru_list_items boolean
+---@field pass_unhandled_events_to_focused_child? boolean
+---@field pause_game_time? boolean
+---@field flash_background_bitmap? boolean
+---@field dpad_up_down_tabs_thru_children? boolean
+---@field dpad_left_right_tabs_thru_children? boolean
+---@field dpad_up_down_tabs_thru_list_items? boolean
+---@field dpad_left_right_tabs_thru_list_items? boolean
 
 ---@class invaderWidgetConditionalWidgetFlags
 ---@field load_if_event_handler_function_fails boolean
 
 ---@class invaderWidgetConditionalWidget
 ---@field widget_tag string
----@field name string
----@field flags invaderWidgetConditionalWidgetFlags
----@field custom_controller_index number
+---@field name? string
+---@field flags? invaderWidgetConditionalWidgetFlags
+---@field custom_controller_index? number
 
 ---@class invaderWidgetGameDataInput
 ---@field function string
 
 ---@class invaderWidget
----@field widget_type '"container"' | '"text_box"' | '"spinner_list"' | '"column_list"'
----@field bounds string
----@field flags invaderWidgetFlags
----@field milliseconds_to_auto_close number
----@field milliseconds_to_auto_close_fade_time number
----@field background_bitmap string
----@field game_data_inputs invaderWidgetGameDataInput[]
----@field search_and_replace_functions invaderWidgetSearchAndReplaceFunctions[]
----@field event_handlers invaderWidgetEventHandler[]
----@field text_label_unicode_strings_list string
----@field text_font string
----@field text_color string
----@field justification '"left_justify"' | '"center_justify"' | '"right_justify"'
----@field flags_1 invaderWidgetStringFlags
----@field string_list_index number
----@field horiz_offset number
----@field vert_offset number
----@field flags_2 invaderWidgetListFlags
----@field list_header_bitmap string
----@field list_footer_bitmap string
----@field header_bounds string
----@field footer_bounds string
----@field extended_description_widget string
----@field conditional_widgets invaderWidgetConditionalWidget[]
----@field child_widgets invaderWidgetChildWidget[]
+---@field widget_type? '"container"' | '"text_box"' | '"spinner_list"' | '"column_list"'
+---@field bounds? string
+---@field flags? invaderWidgetFlags
+---@field milliseconds_to_auto_close_fade_time? number
+---@field background_bitmap? string
+---@field game_data_inputs? invaderWidgetGameDataInput[]
+---@field search_and_replace_functions? invaderWidgetSearchAndReplaceFunctions[]
+---@field event_handlers? invaderWidgetEventHandler[]
+---@field text_label_unicode_strings_list? string
+---@field text_font? string
+---@field text_color? string
+---@field justification? '"left_justify"' | '"center_justify"' | '"right_justify"'
+---@field flags_1? invaderWidgetStringFlags
+---@field string_list_index? number
+---@field horiz_offset? number
+---@field vert_offset? number
+---@field flags_2? invaderWidgetListFlags
+---@field list_header_bitmap? string
+---@field list_footer_bitmap? string
+---@field header_bounds? string
+---@field footer_bounds? string
+---@field extended_description_widget? string
+---@field conditional_widgets? invaderWidgetConditionalWidget[]
+---@field child_widgets? invaderWidgetChildWidget[]
 
 --- Set properties to widget
 ---@param widgetPath string Path to widget tag
@@ -114,7 +113,7 @@ end
 ---@param key string
 ---@param index? number
 ---@param subkey? string
----@return string | number
+---@return string | number | nil
 function widget.get(widgetPath, key, index, subkey)
     return tag.get(widgetPath, key, index, subkey)
 end

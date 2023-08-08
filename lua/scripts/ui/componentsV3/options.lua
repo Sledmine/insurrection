@@ -3,7 +3,7 @@ local constants = require "lua.scripts.ui.components.constants"
 
 ---@class optionsProps
 ---@field name string
----@field alignment '"vertical"' | '"horizontal"'
+---@field alignment? '"vertical"' | '"horizontal"'
 ---@field [1]? invaderWidgetChildWidget[]
 ---@field childs? invaderWidgetChildWidget[]
 ---@field description? string Tag path for description to display
@@ -15,10 +15,10 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@field useItems? boolean
 ---@field campaignMaps? boolean
 ---@field multiplayerMaps? string
----@field gametypes string
+---@field gametypes? string
 ---@field colorPicker? boolean
----@field width number
----@field height number
+---@field width? number
+---@field height? number
 
 ---Options list component, scroll trough elements using dpad, etc
 ---@param props optionsProps
