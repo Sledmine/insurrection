@@ -2,7 +2,7 @@ DebugMode = false
 require "insecticide"
 local blam = require "blam"
 local components = require "insurrection.components"
-local constants = require "insurrection.constants"
+constants = require "insurrection.constants"
 local isNull = blam.isNull
 local harmony = require "mods.harmony"
 local optic = harmony.optic
@@ -59,28 +59,15 @@ local screenWidth, screenHeight = core.getScreenResolution()
 local function onPostGameLoad()
     dprint("Game started!", "success")
     if map == "ui" then
-        if not blam.getTag(constants.customBipedPaths.treason[1], blam.tagClasses.biped) then
-            execute_script("map_name ui")
-            forcedReload = true
-            return
-        end
-        if forcedReload then
-            forcedReload = false
-            constants.get()
-            menus.main()
-        end
         -- Change UI aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
         -- Enable menu blur
         execute_script("menu_blur_on")
-        -- Enable EAX
-        execute_script("sound_enable_eax 1")
-        execute_script("sound_enable_hardware 1")
-        -- Disconnect from server (prevents getting stuck in a server)
-        execute_script("disconnect")
+        
         -- Set network timeout to 10 seconds (keeps connection alive at loading huge maps)
         execute_script("network_connect_timeout 30000")
     else
+        --os.execute("ping 127.0.0.1 -n 5 > nul")
         harmony.menu.set_aspect_ratio(4, 3)
     end
     -- Load insurrection interface, load constants, widgets, etc.
@@ -352,13 +339,6 @@ function OnMapFileLoad(currentMapName)
         balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.customSounds, "tag_collection")
-        if currentMapName == "ui" then
-            for mapName, bipeds in pairs(constants.customBipedPaths) do
-                for _, bipedPath in pairs(bipeds) do
-                    balltze.import_tag_data(mapName, bipedPath, "biped")
-                end
-            end
-        end
     end
 end
 

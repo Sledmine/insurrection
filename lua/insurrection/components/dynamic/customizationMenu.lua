@@ -53,16 +53,26 @@ return function()
             dprint(bipedsList:getSelectedItem())
             local scenario = blam.scenario(0)
             assert(scenario)
+
             for k, objectIndex in pairs(blam.getObjects()) do
                 local object = blam.object(get_object(objectIndex))
                 if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
                     object.isNotCastingShadow = false
-                    local scenery = blam.scenery(object.tagId)
-                    local biped = findTag(item.value[1]:replace(".biped", ""), tagClasses.biped)
-                    assert(biped, "custom biped tag not found")
-                    local bipedTag = blam.bipedTag(biped.id)
-                    assert(bipedTag, "biped tag not found")
-                    scenery.model = bipedTag.model
+                    local sceneryTagData = blam.scenery(object.tagId)
+                    execute_script "object_destroy customization_biped"
+                    local customBipedTag = findTag(item.value[1]:replace(".biped", ""),
+                                                   tagClasses.biped)
+                    assert(customBipedTag, "custom biped tag not found")
+                    for _, scenery in pairs(scenario.sceneries) do
+                        local sceneryName = scenario.objectNames[scenery.nameIndex + 1]
+                        if sceneryName == "customization_biped" then
+                            local newPaletteList = scenario.sceneryPaletteList
+                            -- Replace the biped tag with the custom biped tag
+                            newPaletteList[scenery.typeIndex + 1] = customBipedTag.id
+                            scenario.sceneryPaletteList = newPaletteList
+                        end
+                    end
+                    execute_script "object_create_anew customization_biped"
                 end
             end
             bipedsList:setItems(table.map(item.value, function(bipedPath)
@@ -75,8 +85,10 @@ return function()
         -- bipedsList:setItems(glue.map(state.available.customization[maps[1]], function(bipedPath)
         --    return {label = utils.path(bipedPath).name, value = bipedPath}
         -- end))
-        bipedsList:onSelect(function(item)
-            dprint("bipedsList:onSelect")
+        -- bipedsList:onSelect(function(item)            
+        -- end)
+        bipedsList:onScroll(function(item)
+            dprint("bipedsList:onScroll")
             local scenario = blam.scenario(0)
             assert(scenario)
             for k, objectIndex in pairs(blam.getObjects()) do
