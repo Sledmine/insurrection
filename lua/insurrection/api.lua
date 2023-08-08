@@ -24,7 +24,13 @@ end
 api.version = "v1"
 api.url = api.host .. api.version
 api.variables = {refreshRate = 3000, refreshTimerId = nil}
----@type loginResponse
+
+---@class insurrectionSession
+---@field token? string
+---@field lobbyKey? string
+---@field username? string
+
+---@type insurrectionSession
 api.session = {token = nil, lobbyKey = nil, username = nil}
 
 -- Models

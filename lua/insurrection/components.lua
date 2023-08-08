@@ -30,11 +30,11 @@ local components = {
 }
 
 ---@class uiComponentEvents
----@field onClick fun(value?: string | boolean | number):boolean | nil
----@field onFocus function | nil
----@field onOpen function | nil
----@field onClose function | nil
----@field animate function | nil
+---@field onClick? fun(value?: string | boolean | number):boolean
+---@field onFocus? function
+---@field onOpen? function
+---@field onClose? function
+---@field animate? function
 
 ---@type table<number, uiComponent>
 components.widgets = {}

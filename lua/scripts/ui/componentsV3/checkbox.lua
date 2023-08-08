@@ -4,7 +4,7 @@ local button = require "lua.scripts.ui.componentsV2.button"
 ---@class checkboxProps
 ---@field name string
 ---@field text string
----@field variant "large_button"
+---@field variant? "large_button"
 
 ---Checkbox component
 ---@param props checkboxProps
