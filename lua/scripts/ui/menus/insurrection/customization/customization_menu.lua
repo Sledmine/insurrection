@@ -27,7 +27,6 @@ local bipedsLayout = widget.align("horizontal", 260, 298, 410, 2)
 
 return container {
     name = "customization_menu",
-    --noBackgroud = true,
     background = "fade",
     conditionalWidgets = {
         {
@@ -59,9 +58,30 @@ return container {
                             name = "select_project_biped",
                             alignment = "vertical",
                             childs = {
-                                {slider {name = "bipeds_left", direction = "left"}, 280, 378},
-                                {checkbox {name = "biped_1", text = strmem(64)}, bipedsLayout()},
-                                {slider {name = "bipeds_right", direction = "right"}, bipedsLayout(2)}
+                                {
+                                    slider {
+                                        name = "bipeds_left",
+                                        direction = "left",
+                                        variant = "small"
+                                    },
+                                    280,
+                                    410
+                                },
+                                {
+                                    checkbox {
+                                        name = "biped_1",
+                                        text = strmem(64)
+                                    },
+                                    bipedsLayout()
+                                },
+                                {
+                                    slider {
+                                        name = "bipeds_right",
+                                        direction = "right",
+                                        variant = "small"
+                                    },
+                                    bipedsLayout(2)
+                                }
                             }
                         }
                     }

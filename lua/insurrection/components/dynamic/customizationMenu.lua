@@ -42,6 +42,34 @@ return function()
     local customizationBipedsButton = button.new(
                                           customizationTypesList:findChildWidgetTag("bipeds").id)
 
+    local selectBipedAction = function(path)
+        local bipedPath = path:replace(".biped", "")
+        local scenario = blam.scenario(0)
+        assert(scenario)
+        for k, objectIndex in pairs(blam.getObjects()) do
+            local object = blam.object(get_object(objectIndex))
+            if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
+                object.isNotCastingShadow = false
+                local customBipedTag = findTag(bipedPath, tagClasses.biped)
+                assert(customBipedTag, "biped tag " .. bipedPath .. " not found")
+                if customBipedTag then
+                    for _, scenery in pairs(scenario.sceneries) do
+                        local sceneryName = scenario.objectNames[scenery.nameIndex + 1]
+                        if sceneryName == "customization_biped" then
+                            local newPaletteList = scenario.sceneryPaletteList
+                            -- Replace the biped tag with the custom biped tag
+                            newPaletteList[scenery.typeIndex + 1] = customBipedTag.id
+                            scenario.sceneryPaletteList = newPaletteList
+                            execute_script "object_destroy customization_biped"
+                            break
+                        end
+                    end
+                    execute_script "object_create_anew customization_biped"
+                end
+            end
+        end
+    end
+
     customizationBipedsButton:onClick(function()
         execute_script("set_customization_background")
         nameplatesList:replace(selectBipedsWrapper.tagId)
@@ -49,75 +77,25 @@ return function()
         local state = store:getState()
         local projects = table.keys(state.available.customization)
         selectProjectsList:onSelect(function(item)
-            dprint("mapsList:onSelect " .. item.value[1])
-            dprint(bipedsList:getSelectedItem())
-            local scenario = blam.scenario(0)
-            assert(scenario)
-
-            for k, objectIndex in pairs(blam.getObjects()) do
-                local object = blam.object(get_object(objectIndex))
-                if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
-                    object.isNotCastingShadow = false
-                    local sceneryTagData = blam.scenery(object.tagId)
-                    local customBipedTag = findTag(item.value[1]:replace(".biped", ""),
-                                                   tagClasses.biped)
-                    -- assert(customBipedTag, "biped tag " .. item.value[1] .. " not found")
-                    if customBipedTag then
-                        for _, scenery in pairs(scenario.sceneries) do
-                            local sceneryName = scenario.objectNames[scenery.nameIndex + 1]
-                            if sceneryName == "customization_biped" then
-                                local newPaletteList = scenario.sceneryPaletteList
-                                -- Replace the biped tag with the custom biped tag
-                                newPaletteList[scenery.typeIndex + 1] = customBipedTag.id
-                                scenario.sceneryPaletteList = newPaletteList
-                                execute_script "object_destroy customization_biped"
-                                break
-                            end
-                        end
-                        execute_script "object_create_anew customization_biped"
-                    end
-                end
-            end
-            bipedsList:setItems(table.map(item.value, function(bipedPath)
-                return {label = utils.path(bipedPath).name, value = bipedPath}
-            end))
+            local bipeds = table.map(item.value, function(bipedPath)
+                return {
+                    label = utils.snakeCaseToUpperTitleCase(utils.path(bipedPath).name),
+                    value = bipedPath
+                }
+            end)
+            bipeds = utils.sortTableAlphabetically(bipeds)
+            bipedsList:setItems(bipeds)
+            selectBipedAction(item.value[1])
         end)
         selectProjectsList:setItems(table.map(projects, function(map)
-            return {label = map, value = state.available.customization[map]}
+            return {
+                label = utils.snakeCaseToTitleCase(map),
+                value = state.available.customization[map]
+            }
         end))
-        -- bipedsList:setItems(glue.map(state.available.customization[maps[1]], function(bipedPath)
-        --    return {label = utils.path(bipedPath).name, value = bipedPath}
-        -- end))
-        -- bipedsList:onSelect(function(item)            
-        -- end)
-        bipedsList:onScroll(function(item)
-            dprint("bipedsList:onScroll")
-            local scenario = blam.scenario(0)
-            assert(scenario)
 
-            for k, objectIndex in pairs(blam.getObjects()) do
-                local object = blam.object(get_object(objectIndex))
-                if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
-                    object.isNotCastingShadow = false
-                    local sceneryTagData = blam.scenery(object.tagId)
-                    local customBipedTag = findTag(item.value:replace(".biped", ""),
-                                                   tagClasses.biped)
-                    if customBipedTag then
-                        for _, scenery in pairs(scenario.sceneries) do
-                            local sceneryName = scenario.objectNames[scenery.nameIndex + 1]
-                            if sceneryName == "customization_biped" then
-                                local newPaletteList = scenario.sceneryPaletteList
-                                -- Replace the biped tag with the custom biped tag
-                                newPaletteList[scenery.typeIndex + 1] = customBipedTag.id
-                                scenario.sceneryPaletteList = newPaletteList
-                                execute_script "object_destroy customization_biped"
-                                break
-                            end
-                        end
-                        execute_script "object_create_anew customization_biped"
-                    end
-                end
-            end
+        bipedsList:onScroll(function(item)
+            selectBipedAction(item.value)
         end)
     end)
 
