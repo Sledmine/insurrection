@@ -6,6 +6,7 @@ local input = require "insurrection.components.input"
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
 local blam = require "blam"
+local getState = require "insurrection.redux.getState"
 
 local function init()
     local time = os.clock()
@@ -72,8 +73,7 @@ local function init()
 
         local definitionClick = function(lobbyDef, definition)
             search:setText("")
-            ---@type interfaceState
-            local state = store:getState()
+            local state = getState()
             local component = elementsList
             if definition == "map" then
                 component = mapsList
@@ -98,10 +98,7 @@ local function init()
                     item.bitmap = function(uiComponent)
                         local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
                         local iconToUse = table.find(gametypeIcons, function(icon)
-                            if element:find(icon, 1, true) then
-                                return true
-                            end
-                            return false
+                            return element:includes(icon)
                         end)
                         local backgroundBitmapIndex =
                             (table.indexof(gametypeIcons, iconToUse) or 1) - 1
@@ -164,21 +161,18 @@ local function init()
 
     local definitionsToComponent = {template = template, map = map, gametype = gametype}
     search:onInputText(function(text)
-        ---@type interfaceState
-        local state = store:getState()
+        local state = getState()
         local definition = state.definition or "template"
         if definition then
-            local filtered = {}
-            for _, element in pairs(state.available[definition .. "s"]) do
-                if element:lower():find(text:lower(), 1, true) then
-                    table.insert(filtered, element)
-                end
-            end
+            local elements = state.available[definition .. "s"] --[=[@as string[]]=]
+            elements = table.filter(elements, function(element)
+                return element:lower():includes(text:lower())
+            end, true)
             local component = elementsList
             if definition == "map" then
                 component = mapsList
             end
-            component:setItems(table.map(filtered, function(element)
+            component:setItems(table.map(elements, function(element)
                 return {label = element, value = definitionsToComponent[definition]}
             end))
         end

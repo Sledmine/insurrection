@@ -101,6 +101,7 @@ function interface.load()
                 local pause = components.new(multiplayerWidgetsCollection.tagList[1])
                 if pause then
                     if constants.widgets.pause then
+                        require "insurrection.components.dynamic.dialog"()
                         dprint("Loading Insurrection UI in external map...")
                         local insurrectionPause = components.new(constants.widgets.pause.id)
                         local resumeButton = button.new(
