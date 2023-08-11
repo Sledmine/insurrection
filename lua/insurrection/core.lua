@@ -230,9 +230,9 @@ function core.setWidgetValues(widgetTagId, values)
         end
     end
     if not setValuesDOMSafe() then
-        -- If there is no widget loaded in the DOM, wait 30ms and try again
+        -- If there is no widget loaded in the DOM, wait 33ms and try again
         -- (this is a workaround for the DOM not being loaded yet)
-        utils.delay(30, function()
+        utils.delay(33, function()
             setValuesDOMSafe()
         end)
     end

@@ -332,9 +332,10 @@ function OnUnload()
     discord.stopPresence()
 end
 
+--- Execute before the game laods a map file, used to load custom tags
 ---@param currentMapName string
 function OnMapFileLoad(currentMapName)
-    if balltze then
+    if balltze and currentMapName ~= "ui" then
         balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
         balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")

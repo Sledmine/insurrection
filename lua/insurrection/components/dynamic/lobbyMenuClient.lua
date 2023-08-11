@@ -9,7 +9,7 @@ local core = require "insurrection.core"
 local blam = require "blam"
 local findTag = blam.findTag
 local tagClasses = blam.tagClasses
-local s = require"insurrection.utils".snakeCaseToUpperSentenceCase
+local s = require"insurrection.utils".snakeCaseToUpperTitleCase
 
 local shared = {}
 

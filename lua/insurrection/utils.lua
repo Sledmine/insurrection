@@ -32,14 +32,26 @@ end
 
 ---Returns an upper sentence case string from a snake case string
 ---@param s string
-function utils.snakeCaseToUpperSentenceCase(s)
+function utils.snakeCaseToUpperTitleCase(s)
     return s:upper():replace("_", " ")
 end
 
----Returns a sentence case string from a snake case string
+---Returns a tile case string from a snake case string
 ---@param s string
-function utils.snakeCaseToSentenceCase(s)
-    return s:replace("_", " "):gsub("^%l", string.upper)
+function utils.snakeCaseToTitleCase(s)
+    return s:replace("_", " "):gsub("(%l)(%w*)", function(a, b) return a:upper() .. b end)
+end
+
+---Returns a table sorted alphabetically by key
+---@generic K,V
+---@param t table<K,V>
+---@return table<K,V>
+function utils.sortTableAlphabetically(t)
+    local sorted = table.copy(t)
+    table.sort(sorted, function(a, b)
+        return a.label < b.label
+    end)
+    return sorted
 end
 
 return utils
