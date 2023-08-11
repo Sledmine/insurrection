@@ -1,4 +1,4 @@
-local luna = {_VERSION = "1.2.0"}
+local luna = {_VERSION = "1.3.0"}
 
 luna.string = {}
 
@@ -268,9 +268,10 @@ end
 ---@generic K, V
 ---@param t table<K, V>
 ---@param f fun(v: V, k: K): boolean
+---@param newkeys? boolean If true, the new table will have new keys starting from 1.
 ---@return table<K, V>
 ---@nodiscard
-function table.filter(t, f)
+function table.filter(t, f, newkeys)
     assert(t ~= nil, "table.filter: t must not be nil")
     assert(type(t) == "table", "table.filter: t must be a table")
     assert(f ~= nil, "table.filter: f must not be nil")
@@ -278,7 +279,11 @@ function table.filter(t, f)
     local filtered = {}
     for k, v in pairs(t) do
         if f(v, k) then
-            filtered[k] = v
+            if newkeys then
+                filtered[#filtered + 1] = v
+            else
+                filtered[k] = v
+            end
         end
     end
     return filtered
