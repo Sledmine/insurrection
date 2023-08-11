@@ -53,7 +53,8 @@ local images = {
     -- Keymind maps
     "treason",
     "bleed_it_out",
-    "last_voyage"
+    "last_voyage",
+    "impasse"
 }
 
 local existingImages = {}
