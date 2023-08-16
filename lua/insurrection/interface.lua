@@ -12,7 +12,6 @@ local playSound = harmony.menu.play_sound
 local blam = require "blam"
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
-local glue = require "glue"
 local unicodeStringTag = blam.unicodeStringList
 local uiWidgetTag = blam.uiWidgetDefinition
 local uiWidgetCollection = blam.uiWidgetCollection
@@ -169,6 +168,7 @@ function interface.load()
         -- Set up some chimera configs
         if map == "ui" then
             local preferences = chimera.getPreferences() or {}
+            -- TODO Check forced server name preference
             local notServerIpBlocking = not preferences.chimera_block_server_ip or
                                             preferences.chimera_block_server_ip == 0
             if notServerIpBlocking then
@@ -223,20 +223,21 @@ end
 ---@param widgetTagId number
 function interface.animateUIWidgetBackground(widgetTagId, willRepeat)
     local willRepeat = willRepeat or true
+    local newValues
     local isUIRendering = core.getRenderedUIWidgetTagId()
     if isUIRendering then
-        local widgetRender = interface.getWidgetValues(widgetTagId)
-        if widgetRender then
+        local widgetValues = interface.getWidgetValues(widgetTagId)
+        if widgetValues then
             local widgetBitmap = blam.bitmap(uiWidgetTag(widgetTagId).backgroundBitmap)
             if widgetBitmap then
                 if widgetBitmap.bitmapsCount > 1 then
-                    if widgetRender.background_bitmap_index < widgetBitmap.bitmapsCount then
-                        interface.setWidgetValues(widgetTagId, {
-                            background_bitmap_index = widgetRender.background_bitmap_index + 1
-                        })
+                    newValues = {background_bitmap_index = 0}
+                    if widgetValues.background_bitmap_index < widgetBitmap.bitmapsCount then
+                        newValues.background_bitmap_index = widgetValues.background_bitmap_index + 1
                     else
-                        interface.setWidgetValues(widgetTagId, {background_bitmap_index = 0})
+                        newValues.background_bitmap_index = 0
                     end
+                    interface.setWidgetValues(widgetTagId, newValues)
                 end
             end
         end

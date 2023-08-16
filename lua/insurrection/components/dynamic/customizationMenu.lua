@@ -3,7 +3,6 @@ local constants = require "insurrection.constants"
 local button = require "insurrection.components.button"
 local list = require "insurrection.components.list"
 local utils = require "insurrection.utils"
-local glue = require "glue"
 local blam = require "blam"
 local tagClasses = blam.tagClasses
 local findTag = blam.findTag

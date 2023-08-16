@@ -9,13 +9,7 @@ local defaultState = {
     definition = "template",
     lobbyKey = nil,
     available = {maps = {}, gametypes = {}, templates = {}, customization = {}},
-    lobby = {
-        owner = "",
-        map = "",
-        gametype = "",
-        template = "",
-        players = {}
-    },
+    lobby = {owner = "", map = "", gametype = "", template = "", players = {}},
     ---@type table | string | number
     selected = {template = nil, map = nil, gametype = nil},
     displayed = {},
@@ -31,9 +25,9 @@ local defaultState = {
 local function interfaceReducer(state, action)
     dprint(action.type, "info")
     if action.type == redux.actionTypes.INIT then
-        return glue.deepcopy(defaultState)
+        return table.copy(defaultState)
     elseif action.type == actions.types.CLEANUP then
-        local clean = glue.deepcopy(defaultState)
+        local clean = table.copy(defaultState)
         clean.available = state.available
         return clean
     elseif action.type == actions.types.SET_IS_LOADING then
@@ -52,7 +46,7 @@ local function interfaceReducer(state, action)
         state.list = available[state.definition .. "s"]
         state.displayed = chunks(available.templates, state.chunkSize)[1]
         ---@diagnostic disable-next-line
-        state.selected = glue.deepcopy(defaultState.selected)
+        state.selected = table.copy(defaultState.selected)
         state.selected.template = state.lobby.template
         state.selected.map = state.lobby.map
         state.selected.gametype = state.lobby.gametype
@@ -71,11 +65,9 @@ local function interfaceReducer(state, action)
             state.lobby = action.payload.lobby
         end
         if action.payload.filter then
-            state.filtered = glue.map(state.available[state.definition .. "s"],
-                                      function(mapName)
-                if mapName:lower():find(action.payload.filter:lower(), 1, true) then
-                    return mapName
-                end
+            state.filtered = table.filter(state.available[state.definition .. "s"],
+                                          function(mapName)
+                return mapName:lower():includes(action.payload.filter:lower())
             end)
             state.currentChunk = 1
             if state.filtered then

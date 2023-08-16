@@ -6,7 +6,6 @@ local requests = require "requestscurl"
 local interface = require "insurrection.interface"
 local glue = require "glue"
 local exists = glue.canopen
-local trim = glue.string.trim
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
 local harmony = require "mods.harmony"
