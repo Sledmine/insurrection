@@ -1,4 +1,3 @@
-local glue = require "glue"
 local utils = {}
 
 ---Returns the path, filename or name, and extension of a path
@@ -11,8 +10,8 @@ function utils.path(path)
     local path = table.concat(pathElements, "\\")
     local name = split[#split]
     local extension
-    if name:find(".", 1, true) then
-        local split = glue.string.split(name, ".")
+    if name:includes "." then
+        split = name:split "."
         name = split[1]
         extension = split[#split]
     end
@@ -23,7 +22,7 @@ end
 ---@param milliseconds number
 ---@param callback function
 function utils.delay(milliseconds, callback)
-    _G[tostring(callback)] = function ()
+    _G[tostring(callback)] = function()
         callback()
         return false
     end
@@ -39,7 +38,9 @@ end
 ---Returns a tile case string from a snake case string
 ---@param s string
 function utils.snakeCaseToTitleCase(s)
-    return s:replace("_", " "):gsub("(%l)(%w*)", function(a, b) return a:upper() .. b end)
+    return s:replace("_", " "):gsub("(%l)(%w*)", function(a, b)
+        return a:upper() .. b
+    end)
 end
 
 ---Returns a table sorted alphabetically by key

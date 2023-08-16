@@ -10,7 +10,6 @@ local chimera = require "insurrection.mods.chimera"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
-local ends = require"glue".string.ends
 local _, balltze = pcall(require, "mods.balltze")
 require "luna"
 local menus = require "insurrection.menus"
@@ -43,7 +42,6 @@ ScreenCornerText = ""
 LoadingText = nil
 local lastMap = ""
 local playerCount = 0
-local forcedReload = false
 
 discord = require "insurrection.discord"
 
@@ -67,7 +65,6 @@ local function onPostGameLoad()
         -- Set network timeout to 10 seconds (keeps connection alive at loading huge maps)
         execute_script("network_connect_timeout 30000")
     else
-        -- os.execute("ping 127.0.0.1 -n 5 > nul")
         harmony.menu.set_aspect_ratio(4, 3)
     end
     -- Load insurrection interface, load constants, widgets, etc.
@@ -128,9 +125,9 @@ function OnKeypress(modifiers, char, keycode)
     if editableWidget and editableWidgetTag then
         -- Get pressed key from the keyboard
         local pressedKey
-        if (char) then
+        if char then
             pressedKey = char
-        elseif (keycode) then
+        elseif keycode then
             pressedKey = core.translateKeycode(keycode)
         end
         -- If we pressed a key, update our editable widget
@@ -138,6 +135,7 @@ function OnKeypress(modifiers, char, keycode)
             local inputString = core.getStringFromWidget(editableWidgetTag.id)
             local text = core.mapKeyToText(pressedKey, inputString)
             if text then
+                -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
                 if editableWidget.name:find "password" then
                     core.setStringToWidget(text, editableWidgetTag.id, "*")
                 else
@@ -168,7 +166,8 @@ local function onWidgetFocus(widgetTagId)
     local focusedWidget = blam.uiWidgetDefinition(widgetTagId)
     local tag = blam.getTag(widgetTagId)
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
-    if focusedWidget and ends(focusedWidget.name, "_input") then
+    -- if focusedWidget and ends(focusedWidget.name, "_input") then
+    if focusedWidget and focusedWidget.name:endswith "_input" then
         editableWidget = focusedWidget
         editableWidgetTag = tag
     else
@@ -332,7 +331,7 @@ function OnUnload()
     discord.stopPresence()
 end
 
---- Execute before the game laods a map file, used to load custom tags
+--- Execute before the game loads a map file, used to load custom tags
 ---@param currentMapName string
 function OnMapFileLoad(currentMapName)
     if balltze and currentMapName ~= "ui" then

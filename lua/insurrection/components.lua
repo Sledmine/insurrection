@@ -3,7 +3,6 @@ local getTag = blam.getTag
 local uiWidgetDefinition = blam.uiWidgetDefinition
 local unicodeStringList = blam.unicodeStringList
 local isNull = blam.isNull
-local glue = require "glue"
 local core = require "insurrection.core"
 local harmony = require "mods.harmony"
 local createBezierCurve = harmony.math.create_bezier_curve
@@ -141,11 +140,13 @@ end
 ---@param self uiComponent
 ---@return tag[]
 function components.getChildWidgetTags(self)
-    return glue.map(self.widgetDefinition.childWidgets, function(childWidget)
+    -- TODO Filter this instead of mapping
+    return table.map(self.widgetDefinition.childWidgets, function(childWidget)
         if not isNull(childWidget.widgetTag) then
             local tag = getTag(childWidget.widgetTag)
             return tag
         end
+        return nil
     end)
 end
 

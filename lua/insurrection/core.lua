@@ -1,6 +1,3 @@
-local glue = require "glue"
-local exists = glue.canopen
-local split = glue.string.split
 local inspect = require "inspect"
 local blam = require "blam"
 local tagClasses = blam.tagClasses
@@ -32,7 +29,7 @@ function core.loadMercuryPackages()
         for stringIndex = 1, serverStrings.count do
             newServers[stringIndex] = " "
         end
-        for packageIndex, packageLabel in pairs(glue.keys(installedPackages)) do
+        for packageIndex, packageLabel in pairs(table.keys(installedPackages)) do
             local package = installedPackages[packageLabel]
             newServers[packageIndex] = package.name .. " - " .. package.version
         end
@@ -43,7 +40,7 @@ end
 --- Return the file name of a tag file path
 ---@param tagPath string
 function core.getTagName(tagPath)
-    local tagSplit = split(tagPath, "\\")
+    local tagSplit = tagPath:split "\\"
     local tagName = tagSplit[#tagSplit]
     return tagName
 end
