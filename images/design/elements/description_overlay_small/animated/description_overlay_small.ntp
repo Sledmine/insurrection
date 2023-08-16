@@ -22,8 +22,12 @@
 			<Plugin_minor_version>0</Plugin_minor_version>
 			<KnobsCount>0</KnobsCount>
 			<Inputs_map class_id="3" tracking_level="0" version="0">
-				<count>0</count>
+				<count>1</count>
 				<item_version>0</item_version>
+				<item class_id="4" tracking_level="0" version="0">
+					<first>1</first>
+					<second>Glow1</second>
+				</item>
 			</Inputs_map>
 			<KnobsAge>0</KnobsAge>
 			<MasterNode></MasterNode>
@@ -33,7 +37,7 @@
 			<UserPagesCount>0</UserPagesCount>
 			<PagesCount>0</PagesCount>
 			<Children>0</Children>
-			<UserComponents class_id="4" tracking_level="0" version="0">
+			<UserComponents class_id="5" tracking_level="0" version="0">
 				<count>0</count>
 				<item_version>2</item_version>
 			</UserComponents>
@@ -48,13 +52,13 @@
 			<Plugin_major_version>1</Plugin_major_version>
 			<Plugin_minor_version>0</Plugin_minor_version>
 			<KnobsCount>14</KnobsCount>
-			<item class_id="5" tracking_level="0" version="14">
+			<item class_id="6" tracking_level="0" version="14">
 				<Name>decodingPluginID</Name>
 				<Type>String</Type>
 				<Dimension>1</Dimension>
 				<Secret>1</Secret>
 				<MasterIsAlias>0</MasterIsAlias>
-				<item class_id="6" tracking_level="0" version="7">
+				<item class_id="7" tracking_level="0" version="7">
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
 					<Value>fr.inria.openfx.ReadPNG</Value>
@@ -63,7 +67,7 @@
 					<Expression></Expression>
 					<ExprHasRet>0</ExprHasRet>
 				</item>
-				<StringsAnimation class_id="7" tracking_level="0" version="0">
+				<StringsAnimation class_id="8" tracking_level="0" version="0">
 					<count>0</count>
 					<item_version>0</item_version>
 				</StringsAnimation>
@@ -78,7 +82,7 @@
 				<item>
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>&lt;font size=&quot;6&quot; color=&quot;#000000&quot; face=&quot;Droid Sans&quot;&gt;&lt;Natron&gt;(shadertoy.png)&lt;/Natron&gt;&lt;/font&gt;</Value>
+					<Value>&lt;font size=&quot;6&quot; color=&quot;#000000&quot; face=&quot;Droid Sans&quot;&gt;&lt;Natron&gt;(square_grid.png)&lt;/Natron&gt;&lt;/font&gt;</Value>
 					<Default></Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -99,7 +103,7 @@
 				<item>
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>/home/sledmine/Documents/shadertoy.png</Value>
+					<Value>[Project]/square_grid.png</Value>
 					<Default></Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -320,7 +324,7 @@
 				<count>0</count>
 				<item_version>0</item_version>
 			</Inputs_map>
-			<KnobsAge>1</KnobsAge>
+			<KnobsAge>3</KnobsAge>
 			<MasterNode></MasterNode>
 			<HasRotoContext>0</HasRotoContext>
 			<HasTrackerContext>0</HasTrackerContext>
@@ -356,7 +360,7 @@
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
 					<HasMaster>1</HasMaster>
-					<Master class_id="8" tracking_level="0" version="3">
+					<Master class_id="9" tracking_level="0" version="3">
 						<MasterDimension>0</MasterDimension>
 						<MasterNodeName>Read1</MasterNodeName>
 						<MasterNodeNameFull>Read1</MasterNodeNameFull>
@@ -452,7 +456,7 @@
 				<item>
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>&lt;font size=&quot;6&quot; color=&quot;#000000&quot; face=&quot;Droid Sans&quot;&gt;&lt;Natron&gt;(shadertoy.png)&lt;/Natron&gt;&lt;/font&gt;</Value>
+					<Value>&lt;font size=&quot;6&quot; color=&quot;#000000&quot; face=&quot;Droid Sans&quot;&gt;&lt;Natron&gt;(square_grid.png)&lt;/Natron&gt;&lt;/font&gt;</Value>
 					<Default></Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -473,7 +477,7 @@
 				<item>
 					<Enabled>0</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>/home/sledmine/Documents/shadertoy.png</Value>
+					<Value>[Project]/square_grid.png</Value>
 					<Default></Default>
 					<HasMaster>1</HasMaster>
 					<Master>
@@ -1016,7 +1020,7 @@
 				<item>
 					<Enabled>0</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>shadertoy.png</Value>
+					<Value>square_grid.png</Value>
 					<Default></Default>
 					<HasMaster>1</HasMaster>
 					<Master>
@@ -1511,7 +1515,7 @@
 				<count>0</count>
 				<item_version>0</item_version>
 			</Inputs_map>
-			<KnobsAge>8</KnobsAge>
+			<KnobsAge>5</KnobsAge>
 			<MasterNode>Read1</MasterNode>
 			<HasRotoContext>0</HasRotoContext>
 			<HasTrackerContext>0</HasTrackerContext>
@@ -1633,7 +1637,7 @@
 			<Inputs_map>
 				<count>2</count>
 				<item_version>0</item_version>
-				<item class_id="9" tracking_level="0" version="0">
+				<item>
 					<first>A</first>
 					<second>Read1_2</second>
 				</item>
@@ -2431,7 +2435,7 @@
 							</item>
 						</KeyFrameSet>
 					</Curve>
-					<Value>1.00000000000000000e+00</Value>
+					<Value>4.40800000000000036e+00</Value>
 					<Default>1.00000000000000000e+00</Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -2699,12 +2703,8 @@
 				<UserKnob>0</UserKnob>
 			</item>
 			<Inputs_map>
-				<count>1</count>
+				<count>0</count>
 				<item_version>0</item_version>
-				<item>
-					<first>Source</first>
-					<second>Glow1</second>
-				</item>
 			</Inputs_map>
 			<KnobsAge>33</KnobsAge>
 			<MasterNode></MasterNode>
@@ -8968,7 +8968,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<item>
 			<Enabled>0</Enabled>
 			<HasAnimation>0</HasAnimation>
-			<Value>Sat May 13 15:10:06 2023</Value>
+			<Value>Tue Aug 15 23:23:09 2023</Value>
 			<Default></Default>
 			<HasMaster>0</HasMaster>
 			<Expression></Expression>
@@ -8994,7 +8994,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 			<Name></Name>
 		</item>
 	</AdditionalFormats>
-	<Timeline_current_time>34</Timeline_current_time>
+	<Timeline_current_time>24</Timeline_current_time>
 	<CreationDate>1683682322482</CreationDate>
 </Project>
 <ProjectGui class_id="19" tracking_level="0" version="12">
@@ -9809,7 +9809,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 				<Orientation>1</Orientation>
 				<ChildIsSplitter>1</ChildIsSplitter>
 				<Child object_id="_1">
-					<Sizes>482 482</Sizes>
+					<Sizes>478 478</Sizes>
 					<Orientation>2</Orientation>
 					<ChildIsSplitter>0</ChildIsSplitter>
 					<Child class_id="25" tracking_level="1" version="5" object_id="_2">
@@ -9825,12 +9825,11 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 					<ChildIsSplitter>0</ChildIsSplitter>
 					<Child object_id="_3">
 						<Tabs>
-							<count>4</count>
+							<count>3</count>
 							<item_version>0</item_version>
 							<item>nodeGraph</item>
 							<item>curveEditor</item>
 							<item>dopeSheetEditor</item>
-							<item>progress</item>
 						</Tabs>
 						<Index>0</Index>
 						<Name>pane3</Name>
@@ -9851,9 +9850,9 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 			</Child>
 			<MainWindow>1</MainWindow>
 			<x>1086</x>
-			<y>30</y>
+			<y>69</y>
 			<w>2528</w>
-			<h>995</h>
+			<h>987</h>
 		</Window>
 	</Gui_Layout>
 	<ViewersData class_id="27" tracking_level="0" version="0">
@@ -9863,7 +9862,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 			<first>Viewer1</first>
 			<second class_id="29" tracking_level="0" version="14">
 				<zoomLeft>-1.50618419327404490e+03</zoomLeft>
-				<zoomBottom>-6.14950947385719928e+01</zoomBottom>
+				<zoomBottom>-1.13064614910482817e+01</zoomBottom>
 				<zoomFactor>3.78571775531214572e-01</zoomFactor>
 				<UserRoIEnabled>0</UserRoIEnabled>
 				<UserRoI class_id="30" tracking_level="0" version="0">
@@ -9877,8 +9876,8 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 				<Gain>1.00000000000000000e+00</Gain>
 				<Gain>1.00000000000000000e+00</Gain>
 				<ColorSpace>sRGB</ColorSpace>
-				<Layer>-</Layer>
-				<AlphaLayer>-</AlphaLayer>
+				<Layer>Color.RGBA</Layer>
+				<AlphaLayer>Color.A</AlphaLayer>
 				<Channels>A</Channels>
 				<RenderScaleActivated>1</RenderScaleActivated>
 				<MipMapLevel>1</MipMapLevel>
@@ -9897,7 +9896,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 				<CheckerboardEnabled>0</CheckerboardEnabled>
 				<Fps>3.00000000000000000e+01</Fps>
 				<FpsLocked>1</FpsLocked>
-				<aInput>-1</aInput>
+				<aInput>0</aInput>
 				<bInput>0</bInput>
 				<fullFrame>0</fullFrame>
 			</second>
@@ -9908,8 +9907,9 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<item_version>0</item_version>
 	</Histograms>
 	<OpenedPanels>
-		<count>5</count>
+		<count>6</count>
 		<item_version>0</item_version>
+		<item>Read1</item>
 		<item>Write1</item>
 		<item>Glow1</item>
 		<item>Natron_Project_Settings_Panel</item>
