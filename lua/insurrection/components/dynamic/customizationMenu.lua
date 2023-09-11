@@ -8,24 +8,30 @@ local tagClasses = blam.tagClasses
 local findTag = blam.findTag
 
 return function()
+    -- Get customization widget menu
     local customization = components.new(constants.widgets.customization.id)
+    customization:onOpen(function()
+        execute_script("set_ui_background")
+    end)
 
+    -- Get nameplate preview widget
     local nameplatePreview = components.new(findTag("nameplate_preview",
                                                     tagClasses.uiWidgetDefinition).id)
     nameplatePreview:animate()
 
+    -- Get nameplate list widget
     local nameplatesList = list.new(customization:findChildWidgetTag("nameplates_options").id, 1, 9)
     nameplatesList:onSelect(function(item)
         nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap --[[@as number]]
     end)
-    local sortedNameplates = table.map(table.keys(constants.nameplates), function(nameplateId)
+    local sortedNameplates = table.keys(constants.nameplates)
+    table.sort(sortedNameplates)
+    sortedNameplates = table.map(sortedNameplates, function(nameplateId)
         return {value = nameplateId, bitmap = constants.nameplates[nameplateId].id}
-    end)
-    table.sort(sortedNameplates, function(a, b)
-        return a.value < b.value
     end)
     nameplatesList:setItems(sortedNameplates)
 
+    -- Get select bipeds widget
     local selectBipedsWrapper = components.new(findTag("select_bipeds",
                                                        tagClasses.uiWidgetDefinition).id)
     local selectProjectsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project").id)
@@ -41,7 +47,7 @@ return function()
     local customizationBipedsButton = button.new(
                                           customizationTypesList:findChildWidgetTag("bipeds").id)
 
-    local selectBipedAction = function(path)
+    local handleSelectBiped = function(path)
         local bipedPath = path:replace(".biped", "")
         local scenario = blam.scenario(0)
         assert(scenario)
@@ -84,25 +90,26 @@ return function()
             end)
             bipeds = utils.sortTableAlphabetically(bipeds)
             bipedsList:setItems(bipeds)
-            selectBipedAction(item.value[1])
+            handleSelectBiped(item.value[1])
         end)
         selectProjectsList:setItems(table.map(projects, function(map)
             return {
                 label = utils.snakeCaseToTitleCase(map),
-                value = state.available.customization[map]
+                value = state.available.customization[map].tags
             }
         end))
 
         bipedsList:onScroll(function(item)
-            selectBipedAction(item.value)
+            handleSelectBiped(item.value)
         end)
     end)
 
+    -- Get save customization button
     local saveCustomizationButton = button.new(
                                         customization:findChildWidgetTag("save_customization").id)
     saveCustomizationButton:onClick(function()
-        local selectedMapItem = selectProjectsList:getSelectedItem()
-        local selectedBipedItem = bipedsList:getSelectedItem()
+        local selectedProjectItem = selectProjectsList:getSelectedItem()
+        local selectedBipedItem = bipedsList:getCurrentItem()
         local currentNameplateId
         if settings and settings.nameplate then
             currentNameplateId = settings.nameplate
@@ -110,15 +117,15 @@ return function()
         local selectedNameplateItem = nameplatesList:getSelectedItem() or
                                           {value = currentNameplateId}
         dprint("saveCustomizationButton:onClick")
-        dprint(selectedMapItem)
+        dprint(selectedProjectItem)
         dprint(selectedBipedItem)
         local nameplate = selectedNameplateItem.value
         local bipeds
         if selectedNameplateItem then
             nameplate = selectedNameplateItem.value
         end
-        if selectedMapItem and selectedBipedItem then
-            bipeds = {[selectedMapItem.label] = selectedBipedItem.value}
+        if selectedProjectItem and selectedBipedItem then
+            bipeds = {[selectedProjectItem.label] = selectedBipedItem.value}
         end
         api.playerProfileEdit({nameplate = nameplate, bipeds = bipeds})
     end)
