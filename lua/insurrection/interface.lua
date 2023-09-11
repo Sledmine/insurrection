@@ -211,7 +211,7 @@ function interface.loadProfileNameplate(nameplateId)
             nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[nameplateId].id
             return
         end
-
+        dprint("Loading nameplate from settings...")
         local settings = core.loadSettings()
         if settings and settings.nameplate and nameplateBitmapTags[settings.nameplate] then
             nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id

@@ -103,7 +103,7 @@ function constants.get()
     if constants.tagCollections.nameplates then
         local nameplatesTagCollection = blam.tagCollection(constants.tagCollections.nameplates.id)
         if nameplatesTagCollection then
-            ---@type table<number, tag>
+            ---@type table<string, tag>
             local nameplateBitmapTags = {}
             for _, tagId in ipairs(nameplatesTagCollection.tagList) do
                 local tag = blam.getTag(tagId) --[[@as tag]]

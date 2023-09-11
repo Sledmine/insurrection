@@ -95,6 +95,7 @@ local function unknownError(logs)
             logs = tostring(inspect(logs)) .. "\n" .. tostring(inspect(logs.json()))
         else
             logs = tostring(inspect(logs))
+            dprint("Unknown error: " .. logs, "error")
         end
     end
     interface.dialog("ERROR", "UNKNOWN ERROR",
@@ -166,7 +167,7 @@ local function onLobbyResponse(response)
     dprint("onLobbyResponse", "info")
     loading(false)
     if response then
-        if response.code == 200 then
+        if response.code == requests.codes.ok then
             ---@class lobbyResponse
             ---@field key string
             ---@field lobby lobbyRoom
@@ -217,7 +218,7 @@ local function onLobbyResponse(response)
                 end
             end
             return true
-        elseif response.code == 403 then
+        elseif response.code == requests.codes.forbidden then
             local jsonResponse = response.json()
             if jsonResponse and jsonResponse.key then
                 api.lobby(jsonResponse.key)
@@ -385,12 +386,12 @@ function onPlayerEditNameplateResponse(response)
     return false
 end
 ---Edit player nameplate
----@param data {nameplateId: string, bipeds: table<string, string>}
+---@param data {nameplate: string, bipeds: table<string, string>}
 function api.playerProfileEdit(data)
     loading(true, "Editing profile...", false)
     async(requests.patch, function(result)
         if onPlayerEditNameplateResponse(result[1]) then
-            interface.loadProfileNameplate(nameplateId)
+            interface.loadProfileNameplate(data.nameplate)
         end
     end, api.url .. "/players", data)
 end
