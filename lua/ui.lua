@@ -67,8 +67,6 @@ local function onPostGameLoad()
     else
         harmony.menu.set_aspect_ratio(4, 3)
     end
-    -- Load insurrection interface, load constants, widgets, etc.
-    interface.load()
 end
 
 function OnTick()
@@ -312,6 +310,7 @@ function OnCommand(command)
     end
 end
 
+-- Map load does not get called when the game starts, it is called when the map changes
 function OnMapLoad()
     -- Reset post map load state
     gameStarted = false
@@ -324,6 +323,9 @@ function OnMapLoad()
     WidgetAnimations = {}
     ScreenCornerText = ""
     LoadingText = nil
+
+    -- Load insurrection interface, load constants, widgets, etc.
+    interface.load()
 end
 
 function OnUnload()
@@ -356,3 +358,6 @@ harmony.set_callback("key press", "OnKeypress")
 if balltze then
     balltze.set_callback("map file load", "OnMapFileLoad")
 end
+
+-- Load insurrection interface, do it here so you can reload the script without restarting the game
+interface.load()
