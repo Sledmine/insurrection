@@ -10,7 +10,7 @@ local chimera = require "insurrection.mods.chimera"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
-local _, balltze = pcall(require, "mods.balltze")
+local isBalltzeAvailable, balltze = pcall(require, "mods.balltze")
 require "luna"
 local menus = require "insurrection.menus"
 
@@ -307,6 +307,11 @@ function OnCommand(command)
         interface.dialog("SUCCESS", "Fonts have been reverted",
                          "Please restart the game to see changes.")
         return false
+    elseif command == "insurrection_debug_customization" then
+        interface.blur(false)
+        interface.close(true)
+        execute_script("set_customization_background 1")
+        return false
     end
 end
 
@@ -336,7 +341,7 @@ end
 --- Execute before the game loads a map file, used to load custom tags
 ---@param currentMapName string
 function OnMapFileLoad(currentMapName)
-    if balltze and currentMapName ~= "ui" then
+    if isBalltzeAvailable and currentMapName ~= "ui" then
         balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
         balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
@@ -355,7 +360,7 @@ harmony.set_callback("widget mouse focus", "OnMouseFocus")
 harmony.set_callback("widget close", "OnWidgetClose")
 harmony.set_callback("widget open", "OnWidgetOpen")
 harmony.set_callback("key press", "OnKeypress")
-if balltze then
+if isBalltzeAvailable then
     balltze.set_callback("map file load", "OnMapFileLoad")
 end
 
