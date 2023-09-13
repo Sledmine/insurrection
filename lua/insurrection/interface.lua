@@ -373,4 +373,15 @@ function interface.blur(enable)
     end
 end
 
+function interface.close(closeAllWidgets)
+    if closeAllWidgets then
+        while core.getCurrentUIWidgetTag() do
+            harmony.menu.close_widget()
+        end
+        return
+    end
+    harmony.menu.close_widget()
+    return
+end
+
 return interface
