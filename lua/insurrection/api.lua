@@ -76,6 +76,11 @@ function async(func, callback, ...)
 end
 
 local function connect(desiredMap, host, port, password)
+    api.stopRefreshLobby()
+    if not map == "ui" then
+        console_out("Can't connect to a server while in-game.")
+        return
+    end
     -- dprint("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
     if exists("maps\\" .. desiredMap .. ".map") or
         exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
@@ -223,6 +228,7 @@ local function onLobbyResponse(response)
             if jsonResponse and jsonResponse.key then
                 api.lobby(jsonResponse.key)
             end
+            return true
         else
             api.session.lobbyKey = nil
             local jsonResponse = response.json()
