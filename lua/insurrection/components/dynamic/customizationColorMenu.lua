@@ -39,11 +39,14 @@ return function()
         -- local currentColorName = blam.readUnicodeString(core.getWidgetValues(
         --                                                    currentColorDescription.tag.id)
         --                                                    .text, true):lower()
+        local scenario = blam.scenario(0)
+        assert(scenario)
         local colorValue = constants.color[currentColorName]
         local menuBiped
-        for objectIndex = 1, 2048 do
-            menuBiped = blam.getObject(objectIndex)
-            if menuBiped and menuBiped.class == blam.objectClasses.scenery then
+        for k, objectIndex in pairs(blam.getObjects()) do
+            local object = blam.object(get_object(objectIndex))
+            if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
+                menuBiped = object
                 local tag = blam.getTag(menuBiped.tagId)
                 if tag and tag.path:find "cyborg" then
                     if colorValue then
@@ -56,6 +59,7 @@ return function()
                 end
             end
         end
+        
 
         for buttonIndex, tag in pairs(colorButtons) do
             if buttonIndex > 1 and buttonIndex < #colorButtons - 1 then
@@ -66,7 +70,7 @@ return function()
                                       getWidgetValues(colorButtonText.tag.id).text, true):lower()
                 local colorValue = constants.color[colorName]
                 if colorValue then
-                    local colorIndex = glue.index(constants.colors)[colorValue] - 1
+                    local colorIndex = table.flip(constants.colors)[colorValue] - 1
                     setWidgetValues(colorIcon.tag.id, {background_bitmap_index = colorIndex})
                     colorButton:onClick(function()
                         local r, g, b = color.hexToDec(colorValue)
