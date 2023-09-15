@@ -34,5 +34,9 @@ function menus.main()
     load_ui_widget(constants.widgets.main.path)
 end
 
+function menus.biped()
+    openWidget(constants.widgets.biped.id, true)
+end
+
 return menus
 
