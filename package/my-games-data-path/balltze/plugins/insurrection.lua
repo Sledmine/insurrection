@@ -25,7 +25,7 @@ end
 
 local custom_biped_paths = {
     bleed_it_out_dev = {
-        [[keymind\halo_infinite\characters\unsc\odst\mirage_core\mirage_core_mp]],
+        [[keymind\halo_infinite\characters\unsc\odst\mirage_core\mirage_mp]],
     },
     a50_coop_evolved = {
         "characters\\cyborg_mp\\cyborg_mp",
