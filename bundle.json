@@ -45,6 +45,7 @@
         "insurrection.components.dynamic.chimeraMenu",
         "insurrection.components.dynamic.opticMenu",
         "insurrection.components.dynamic.lobbyMenuClient",
+        "insurrection.components.dynamic.customizationBipedMenu",
         "insurrection.interface",
         "insurrection.redux.reducers.interfaceReducer",
         "insurrection.redux.actions",
