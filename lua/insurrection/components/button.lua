@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field, duplicate-doc-field
 local core = require "insurrection.core"
 local components = require "insurrection.components"
 
@@ -19,7 +20,13 @@ end
 
 ---@param self uiComponentButton
 function button.onClick(self, callback)
-    self.events.onClick = callback
+    self.events.onClick = function()
+        local isCanceled = callback()
+        if isCanceled == nil then
+            return false
+        end
+        return not isCanceled
+    end
 end
 
 return button

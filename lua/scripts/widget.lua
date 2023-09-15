@@ -273,9 +273,11 @@ end
 
 ---Generate a string of spaces to reserve memory for a string
 ---@param size number
+---@param default? string
 ---@return string
-function widget.strmem(size)
-    return string.rep(" ", size)
+function widget.strmem(size, default)
+    local str = default or ""
+    return string.rep(" ", size - #str)
 end
 
 return widget

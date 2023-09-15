@@ -34,7 +34,7 @@ return function(props)
     if props.width or props.height then
         bounds = widget.bounds(0, 0, props.height or 0, props.width or 0)
     end
-    local horizontal = alignment == "horizontal"
+    local isHorizontal = alignment == "horizontal"
     ---@type invaderWidget
     local wid = {
         widget_type = "column_list",
@@ -43,8 +43,8 @@ return function(props)
         bounds = bounds or constants.getScreenBounds(),
         flags = {
             pass_unhandled_events_to_focused_child = true,
-            dpad_up_down_tabs_thru_children = not horizontal,
-            dpad_left_right_tabs_thru_children = horizontal,
+            dpad_up_down_tabs_thru_children = not isHorizontal,
+            dpad_left_right_tabs_thru_children = isHorizontal,
             pass_handled_events_to_all_children = props.eventsToChildren or false
         },
         child_widgets = childWidgets or {},
@@ -55,8 +55,8 @@ return function(props)
     if props.useItems then
         wid.flags.dpad_up_down_tabs_thru_children = false
         wid.flags.dpad_left_right_tabs_thru_children = false
-        wid.flags.dpad_up_down_tabs_thru_list_items = not horizontal
-        wid.flags.dpad_left_right_tabs_thru_list_items = horizontal
+        wid.flags.dpad_up_down_tabs_thru_list_items = not isHorizontal
+        wid.flags.dpad_left_right_tabs_thru_list_items = isHorizontal
     end
     if props.dataInput then
         wid.game_data_inputs = {{["function"] = props.dataInput}}

@@ -1,3 +1,4 @@
+---@diagnostic disable: inject-field
 local isNull = require"blam".isNull
 local components = require "insurrection.components"
 local button = require "insurrection.components.button"
@@ -34,6 +35,8 @@ local list = setmetatable({
 ---@field events uiComponentListEvents
 
 ---@param tagId number
+---@param firstWidgetIndex? number
+---@param lastWidgetIndex? number
 ---@return uiComponentList
 function list.new(tagId, firstWidgetIndex, lastWidgetIndex)
     local instance = setmetatable(components.new(tagId), {__index = list}) --[[@as uiComponentList]]
@@ -62,7 +65,6 @@ function list.scroll(self, direction)
     elseif itemIndex > #self.items then
         itemIndex = #self.items
     end
-    dprint("Scrolling list to item " .. itemIndex)
     self.currentItemIndex = itemIndex
     if self.events.onScroll then
         self.events.onScroll(self.items[itemIndex])
@@ -139,9 +141,14 @@ function list.setItems(self, items)
         end)
     end
     self.items = items
-    if self.currentItemIndex > #items then
-        self.currentItemIndex = 1
+    -- if self.currentItemIndex > #items then
+    --    self.currentItemIndex = 1
+    -- end
+    for widgetIndex = 1, widgetDefinition.childWidgetsCount do
+        local widgetTagId = widgetDefinition.childWidgets[widgetIndex].widgetTag
+        button.new(widgetTagId)
     end
+    self.currentItemIndex = 1
     if self.isScrollable then
         local firstWidgetTagId = widgetDefinition.childWidgets[self.firstWidgetIndex].widgetTag
         local lastWidgetTagId = widgetDefinition.childWidgets[self.lastWidgetIndex].widgetTag
