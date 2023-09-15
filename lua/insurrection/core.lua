@@ -298,4 +298,16 @@ function core.setGameProfileName(name)
     return profileName
 end
 
+function core.getCustomizationObjectId()
+    local scenario = blam.scenario(0)
+    assert(scenario)
+    for objectId, objectIndex in pairs(blam.getObjects()) do
+        local object = blam.object(get_object(objectIndex))
+        if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
+            object.isNotCastingShadow = false
+            return objectId
+        end
+    end
+end
+
 return core

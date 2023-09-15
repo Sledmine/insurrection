@@ -1,4 +1,5 @@
 local widget = require "lua.scripts.widget"
+local label = require "lua.scripts.ui.componentsV3.label"
 local strmem = widget.strmem
 local container = require "lua.scripts.ui.componentsV3.container"
 local options = require "lua.scripts.ui.componentsV3.options"
@@ -64,15 +65,14 @@ return container {
                                         direction = "left",
                                         variant = "small"
                                     },
-                                    280,
-                                    410
+                                    317,
+                                    380
                                 },
                                 {
-                                    checkbox {
-                                        name = "biped_1",
-                                        text = strmem(64)
-                                    },
-                                    bipedsLayout()
+                                    button("biped_1", strmem(64, "CUSTOMIZE"),
+                                           {justification = "center_justify"}),
+                                    336,
+                                    pos.back.y
                                 },
                                 {
                                     slider {
@@ -80,7 +80,8 @@ return container {
                                         direction = "right",
                                         variant = "small"
                                     },
-                                    bipedsLayout(2)
+                                    523,
+                                    380
                                 }
                             }
                         }
@@ -150,6 +151,17 @@ return container {
                     {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
                 }
             }
+        },
+        {
+            label {
+                name = "current_biped",
+                text = strmem(32),
+                justify = "center",
+                width = constants.screen.width,
+                variant = "title"
+            },
+            0,
+            380
         },
         {constants.components.currentProfile.path, 624, 20},
         {constants.components.version.path, 0, 460}
