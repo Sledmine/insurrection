@@ -24,11 +24,8 @@ local function tick_event(context)
 end
 
 local custom_biped_paths = {
-    impasse = {
-        "keymind\\the_flood\\characters\\unsc\\odst_multiplayer\\_types\\nova\\nova",
-        "keymind\\the_flood\\characters\\unsc\\odst_multiplayer\\_types\\mkvb\\mkvb",
-        "keymind\\the_flood\\characters\\unsc\\odst_multiplayer\\_types\\orion\\orion",
-        "keymind\\the_flood\\characters\\unsc\\odst_multiplayer\\_types\\spi_warrior\\spi_warrior"
+    bleed_it_out_dev = {
+        [[keymind\halo_infinite\characters\unsc\odst\mirage_core\mirage_core_mp]],
     },
     a50_coop_evolved = {
         "characters\\cyborg_mp\\cyborg_mp",
