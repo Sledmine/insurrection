@@ -71,7 +71,6 @@
     (object_destroy halo)
     (object_create_containing "customization")
     (object_create_containing "prop")
-    (objects_attach customization_biped "right hand" customization_prop_ar "attach_point")
     (camera_control 1)
     (camera_set customization_lobby 0)
 )
