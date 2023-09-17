@@ -13,6 +13,7 @@ store = require "insurrection.redux.store"
 local isBalltzeAvailable, balltze = pcall(require, "mods.balltze")
 require "luna"
 local menus = require "insurrection.menus"
+local utils = require "insurrection.utils"
 
 clua_version = 2.056
 -- Import API after setting up debug mode
@@ -63,6 +64,7 @@ local function onPostGameLoad()
         execute_script("menu_blur_on")
 
         -- Set network timeout to 10 seconds (keeps connection alive at loading huge maps)
+        -- NOTE! This is meant to help server side loading time, not client side
         execute_script("network_connect_timeout 30000")
     else
         harmony.menu.set_aspect_ratio(4, 3)
@@ -94,6 +96,7 @@ function OnTick()
             dprint(lane.thread.status, "warning")
         end
     end
+    -- Custom events
     if server_type == "dedicated" or server_type == "local" then
         local newPlayerCount = 0
         for playerIndex = 0, 15 do
@@ -109,6 +112,7 @@ function OnTick()
         end
         playerCount = newPlayerCount
     end
+    interface.onTick()
 end
 
 function OnPlayerJoin()
@@ -139,7 +143,10 @@ function OnKeypress(modifiers, char, keycode)
                 else
                     core.setStringToWidget(text, editableWidgetTag.id)
                 end
-                interface.onInputText(editableWidgetTag.id, text)
+                local component = components.widgets[editableWidgetTag.id]
+                if component and component.events.onInputText then
+                    component.events.onInputText(text)
+                end
             end
         end
     end
@@ -338,7 +345,7 @@ function OnUnload()
     discord.stopPresence()
 end
 
---- Execute before the game loads a map file, used to load custom tags
+--- Execute before the game loads a map file, used to load custom external tags
 ---@param currentMapName string
 function OnMapFileLoad(currentMapName)
     if isBalltzeAvailable and currentMapName ~= "ui" then
@@ -349,11 +356,18 @@ function OnMapFileLoad(currentMapName)
     end
 end
 
+function OnPreCamera(x, y, z, fov, vX, vY, vZ, v2X, v2Y, v2Z)
+    if forcedFov then
+        return x, y, z, forcedFov, vX, vY, vZ, v2X, v2Y, v2Z
+    end
+end
+
 set_callback("tick", "OnTick")
 set_callback("preframe", "OnFrame")
 set_callback("command", "OnCommand")
 set_callback("map load", "OnMapLoad")
 set_callback("unload", "OnUnload")
+set_callback("precamera", "OnPreCamera")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")

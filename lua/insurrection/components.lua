@@ -41,7 +41,7 @@ components.widgets = {}
 ---@param tagId number
 ---@return uiComponent
 function components.new(tagId)
-    local instance = setmetatable({}, {__index = components}) --[[@as uiComponent]]
+    local instance = setmetatable({}, {__index = components})
     instance.tagId = tagId
     instance.tag = getTag(instance.tagId) or error("Invalid tagId") --[[@as tag]]
     instance.selectedWidgetTagId = nil
@@ -127,7 +127,9 @@ end
     end
 ]]
 
+---Animate component background
 ---@param self uiComponent
+---@param isLooped boolean
 function components.animate(self, isLooped)
     self.isBackgroundAnimated = true
     self.isBackgroundLoop = isLooped
@@ -193,6 +195,7 @@ local bezierCurves = {
 ---@class widgetAnimation
 ---@field finished boolean
 ---@field timestamp number?
+---@field elapsed number?
 ---@field play fun()
 
 ---Setup an animation to apply to a widget

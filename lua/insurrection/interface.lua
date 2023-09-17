@@ -351,13 +351,8 @@ function interface.animationsReset(widgetTagId)
     end
 end
 
-function interface.onInputText(widgetTagId, text)
-    local component = components.widgets[widgetTagId]
-    if component and component.events.onInputText then
-        component.events.onInputText(text)
-    end
-end
-
+---Blur UI background
+---@param enable boolean
 function interface.blur(enable)
     if enable then
         execute_script([[(begin
@@ -374,6 +369,8 @@ function interface.blur(enable)
     end
 end
 
+---Close current interface widget
+---@param closeAllWidgets boolean
 function interface.close(closeAllWidgets)
     if closeAllWidgets then
         while core.getCurrentUIWidgetTag() do
@@ -383,6 +380,31 @@ function interface.close(closeAllWidgets)
     end
     harmony.menu.close_widget()
     return
+end
+
+
+local bipedRotation = 0
+
+---Handle interface on tick events
+function interface.onTick()
+    local currentWidgetTag = core.getCurrentUIWidgetTag()
+    if not currentWidgetTag then
+        return
+    end
+    if currentWidgetTag.id == constants.widgets.biped.id then
+        local mouse = core.getMouseState()
+
+        if mouse.rightClick > 0 then
+            local objectId = core.getCustomizationObjectId()
+            if objectId then
+                bipedRotation = bipedRotation + mouse.right * 3
+                if bipedRotation > 360 then
+                    bipedRotation = 0
+                end
+                blam.rotateObject(objectId, bipedRotation, 0, 0)
+            end
+        end
+    end
 end
 
 return interface

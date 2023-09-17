@@ -129,7 +129,6 @@ return function()
     end)
 
     customization:onOpen(function()
-        -- forcedFov = 2.6
         setEditingGeometry("body")
         loadRegions()
     end)

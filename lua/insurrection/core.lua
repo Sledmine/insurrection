@@ -15,6 +15,7 @@ local clientPortAddress = 0x6337F8
 local clientPort = read_word(clientPortAddress)
 local friendlyClientPort = 2305
 local profileNameAddress = 0x6ADE22
+local mouseInputAddress = 0x64C73C
 
 local core = {}
 
@@ -251,6 +252,8 @@ function core.replaceWidgetInDom(widgetTagId, newWidgetTagId)
     end
 end
 
+---Returns the current screen resolution
+---@return number width, number height
 function core.getScreenResolution()
     local width = read_word(0x637CF2)
     local height = read_word(0x637CF0)
@@ -308,6 +311,17 @@ function core.getCustomizationObjectId()
             return objectId
         end
     end
+end
+
+function core.getMouseState()
+    return {
+        right = read_long(mouseInputAddress),
+        up = read_long(mouseInputAddress + 4),
+        scroll = read_char(mouseInputAddress + 8),
+        leftClick = read_byte(mouseInputAddress + 12),
+        scrollClick = read_byte(mouseInputAddress + 13),
+        rightClick = read_byte(mouseInputAddress + 14)
+    }
 end
 
 return core
