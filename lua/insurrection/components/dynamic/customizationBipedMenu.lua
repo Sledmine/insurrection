@@ -66,7 +66,17 @@ end
 
 local regions = table.map(staticRegions, function(region)
     local regionName = utils.snakeCaseToUpperTitleCase(region)
-    return {value = region, label = regionName}
+    return {
+        value = region,
+        label = regionName,
+        bitmap = function(uiComponent)
+            local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+            icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
+            icon:setWidgetValues({
+                background_bitmap_index = table.indexof(staticRegions, region) - 1
+            })
+        end
+    }
 end)
 
 return function()
@@ -97,7 +107,17 @@ return function()
 
         local permutations = {}
         for i = 0, maximumPermutationCount do
-            table.insert(permutations, {value = i, label = tostring(i)})
+            table.insert(permutations, {
+                value = i,
+                label = tostring(i),
+                bitmap = function(uiComponent)
+                    local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization[region].id
+                    icon:setWidgetValues({
+                        background_bitmap_index = i
+                    })
+                end
+            })
         end
         editing = "permutations"
         options:setItems(permutations)
