@@ -37,27 +37,51 @@ return container {
                 childs = {
                     {slider {name = "geometry_left", direction = "left"}, pos.options.x, yPosList},
                     {
-                        complexButton {name = "geometry_item_1", text = strmem(32, "GEOMETRY 1")},
+                        complexButton {
+                            name = "geometry_item_1",
+                            text = strmem(32, "GEOMETRY 1"),
+                            icon = "insurrection/ui/bitmaps/customization_icon.bitmap"
+                        },
                         layout()
                     },
                     {
-                        complexButton {name = "geometry_item_2", text = strmem(32, "GEOMETRY 2")},
+                        complexButton {
+                            name = "geometry_item_2",
+                            text = strmem(32, "GEOMETRY 2"),
+                            icon = "insurrection/ui/bitmaps/customization_icon.bitmap"
+                        },
                         layout()
                     },
                     {
-                        complexButton {name = "geometry_item_3", text = strmem(32, "GEOMETRY 3")},
+                        complexButton {
+                            name = "geometry_item_3",
+                            text = strmem(32, "GEOMETRY 3"),
+                            icon = "insurrection/ui/bitmaps/customization_icon.bitmap"
+                        },
                         layout()
                     },
                     {
-                        complexButton {name = "geometry_item_4", text = strmem(32, "GEOMETRY 4")},
+                        complexButton {
+                            name = "geometry_item_4",
+                            text = strmem(32, "GEOMETRY 4"),
+                            icon = "insurrection/ui/bitmaps/customization_icon.bitmap"
+                        },
                         layout()
                     },
                     {
-                        complexButton {name = "geometry_item_5", text = strmem(32, "GEOMETRY 5")},
+                        complexButton {
+                            name = "geometry_item_5",
+                            text = strmem(32, "GEOMETRY 5"),
+                            icon = "insurrection/ui/bitmaps/customization_icon.bitmap"
+                        },
                         layout()
                     },
                     {
-                        complexButton {name = "geometry_item_6", text = strmem(32, "GEOMETRY 6")},
+                        complexButton {
+                            name = "geometry_item_6",
+                            text = strmem(32, "GEOMETRY 6"),
+                            icon = "insurrection/ui/bitmaps/customization_icon.bitmap"
+                        },
                         layout()
                     },
                     {slider {name = "geometry_right", direction = "right"}, layout()},

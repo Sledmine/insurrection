@@ -117,7 +117,14 @@ function constants.get()
         end
     end
 
-    constants.bitmaps = {unknownMapPreview = findTag("unknown_map_preview", tagClasses.bitmap)}
+    constants.bitmaps = {
+        unknownMapPreview = findTag("unknown_map_preview", tagClasses.bitmap),
+        customization = {
+            left_shoulder = findTag("customization_left_shoulder", tagClasses.bitmap),
+            regions = findTag("customization_icon", tagClasses.bitmap),
+            helmet = findTag("customization_helmet", tagClasses.bitmap),
+        }
+    }
     local fontName = "geogrotesque-regular-"
     constants.fonts = {
         text = findTag(fontName .. "text", tagClasses.font),

@@ -52,6 +52,7 @@ return function()
     nameplatesList:setItems(sortedNameplates)
 
     local handleSelectBiped = function(path)
+        execute_script("object_create customization_biped")
         local bipedPath = path:replace(".biped", "")
         local bipedName = utils.snakeCaseToUpperTitleCase(utils.path(bipedPath).name)
         currentBipedLabel:setText(bipedName)
@@ -79,10 +80,10 @@ return function()
                     local customizationObjectId = core.getCustomizationObjectId()
                     if customizationObjectId then
                         local menuBiped = blam.biped(get_object(customizationObjectId))
-                        local r, g, b = color.hexToDec("#b50003")
-                        menuBiped.colorCLowerRed = r
-                        menuBiped.colorCLowerGreen = g
-                        menuBiped.colorCLowerBlue = b
+                        --local r, g, b = color.hexToDec("#b50003")
+                        --menuBiped.colorCLowerRed = r
+                        --menuBiped.colorCLowerGreen = g
+                        --menuBiped.colorCLowerBlue = b
                     end
                 end
             end
@@ -96,7 +97,6 @@ return function()
     end
 
     local function handleLoadBipeds()
-        execute_script("object_create customization_biped")
         nameplatesList:replace(selectBipedsWrapper.tagId)
         local state = getState()
         local projects = table.keys(state.available.customization)
