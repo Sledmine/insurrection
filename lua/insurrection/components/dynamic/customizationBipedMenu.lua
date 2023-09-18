@@ -112,9 +112,14 @@ return function()
                 label = tostring(i),
                 bitmap = function(uiComponent)
                     local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
-                    icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization[region].id
+                    local bitmapTag = constants.bitmaps.customization[region]
+                    local index = 1
+                    if bitmapTag then
+                        icon.widgetDefinition.backgroundBitmap = bitmapTag.id
+                        index = i
+                    end
                     icon:setWidgetValues({
-                        background_bitmap_index = i
+                        background_bitmap_index = index
                     })
                 end
             })
