@@ -9,13 +9,11 @@ local list = require "insurrection.components.list"
 local utils = require "insurrection.utils"
 local menus = require "insurrection.menus"
 local core = require "insurrection.core"
+local getState = require "insurrection.redux.getState"
 
 return function()
     -- Get customization widget menu
     local customization = components.new(constants.widgets.customization.id)
-    customization:onOpen(function()
-        execute_script("set_ui_background")
-    end)
 
     -- Get nameplate preview widget
     local nameplatePreview = components.new(findTag("nameplate_preview",
@@ -24,6 +22,25 @@ return function()
 
     -- Get nameplate list widget
     local nameplatesList = list.new(customization:findChildWidgetTag("nameplates_options").id, 1, 9)
+
+    -- Get select bipeds widget
+    local selectBipedsWrapper = components.new(findTag("select_bipeds",
+                                                       tagClasses.uiWidgetDefinition).id)
+    local selectProjectsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project").id)
+    local bipedsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project_biped").id)
+
+    local customizationTypesList = components.new(customization:findChildWidgetTag("types").id)
+    local selectNameplateButton = button.new(
+                                      customizationTypesList:findChildWidgetTag("nameplates").id)
+
+    local selectBipedButton = button.new(customizationTypesList:findChildWidgetTag("bipeds").id)
+
+    local currentBipedLabel = components.new(
+                                  customization:findChildWidgetTag("current_biped_label").id)
+    -- Get save customization button
+    local saveCustomizationButton = button.new(
+                                        customization:findChildWidgetTag("save_customization").id)
+
     nameplatesList:onSelect(function(item)
         nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap --[[@as number]]
     end)
@@ -33,25 +50,6 @@ return function()
         return {value = nameplateId, bitmap = constants.nameplates[nameplateId].id}
     end)
     nameplatesList:setItems(sortedNameplates)
-
-    -- Get select bipeds widget
-    local selectBipedsWrapper = components.new(findTag("select_bipeds",
-                                                       tagClasses.uiWidgetDefinition).id)
-    local selectProjectsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project").id)
-    local bipedsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project_biped").id)
-
-    local customizationTypesList = components.new(customization:findChildWidgetTag("types").id)
-    local customizationNameplatesButton = button.new(
-                                              customizationTypesList:findChildWidgetTag("nameplates").id)
-    customizationNameplatesButton:onClick(function()
-        execute_script("set_ui_background")
-        selectBipedsWrapper:replace(nameplatesList.tagId)
-    end)
-    local customizationBipedsButton = button.new(
-                                          customizationTypesList:findChildWidgetTag("bipeds").id)
-
-    local currentBipedLabel = components.new(
-                                  customization:findChildWidgetTag("current_biped_label").id)
 
     local handleSelectBiped = function(path)
         local bipedPath = path:replace(".biped", "")
@@ -91,11 +89,16 @@ return function()
         end
     end
 
-    customizationBipedsButton:onClick(function()
-        execute_script("set_customization_background")
+    local function handleLoadNameplates()
+        execute_script("set_ui_background")
+        currentBipedLabel:setText("")
+        selectBipedsWrapper:replace(nameplatesList.tagId)
+    end
+
+    local function handleLoadBipeds()
+        execute_script("object_create customization_biped")
         nameplatesList:replace(selectBipedsWrapper.tagId)
-        ---@type interfaceState
-        local state = store:getState()
+        local state = getState()
         local projects = table.keys(state.available.customization)
         selectProjectsList:onSelect(function(item)
             local bipeds = table.map(item.value, function(bipedPath)
@@ -124,11 +127,17 @@ return function()
             -- TODO Save selected biped
             menus.biped()
         end)
+    end
+
+    selectBipedButton:onClick(function()
+        execute_script("set_customization_background")
+        handleLoadBipeds()
     end)
 
-    -- Get save customization button
-    local saveCustomizationButton = button.new(
-                                        customization:findChildWidgetTag("save_customization").id)
+    selectNameplateButton:onClick(function()
+        handleLoadNameplates()
+    end)
+
     saveCustomizationButton:onClick(function()
         local selectedProjectItem = selectProjectsList:getSelectedItem()
         local selectedBipedItem = bipedsList:getCurrentItem()
@@ -150,5 +159,15 @@ return function()
             bipeds = {[selectedProjectItem.label] = selectedBipedItem.value}
         end
         api.playerProfileEdit({nameplate = nameplate, bipeds = bipeds})
+    end)
+
+    customization:onOpen(function(previousWidgetTag)
+        if previousWidgetTag then
+            if previousWidgetTag.id == constants.widgets.biped.id then
+                handleLoadBipeds()
+                return
+            end
+        end
+        handleLoadNameplates()
     end)
 end

@@ -120,16 +120,23 @@ return function()
         end
     end)
 
-    back:onClick(function()
+    local function onClose()
         if editing == "permutations" then
             customization.events.onOpen()
             return false
         end
-        return true
+        setCamera("lobby")
+    end
+
+    back:onClick(function()
+        return onClose()
     end)
 
     customization:onOpen(function()
         setEditingGeometry("body")
         loadRegions()
+    end)
+    customization:onClose(function()
+        return onClose()
     end)
 end
