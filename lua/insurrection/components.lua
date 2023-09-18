@@ -131,7 +131,7 @@ end
 
 ---Animate component background
 ---@param self uiComponent
----@param isLooped boolean
+---@param isLooped? boolean
 function components.animate(self, isLooped)
     self.isBackgroundAnimated = true
     self.isBackgroundLoop = isLooped
