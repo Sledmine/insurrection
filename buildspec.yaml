@@ -8,7 +8,7 @@ commands:
     - ./generate.sh
     - mercury build
   version:
-    - NOMETADATA=$(cat "lua/insurrection/version.lua" | grep -v "local metadata =") ; echo "local metadata = \"$(git rev-parse --short HEAD).\" .. os.date(\"%Y%m%d\")\n$NOMETADATA" > "lua/insurrection/version.lua"
+    - NOMETADATA=$(cat "lua/insurrection/version.lua" | grep -v "local metadata =") ; echo "local metadata = \"$(git rev-parse --short HEAD).\" .. os.date(\""%Y%m%d\"")\n$NOMETADATA" > "lua/insurrection/version.lua"
     - NOVERSION=$(cat "lua/insurrection/version.lua" | grep -v "local releaseVersion =") ; echo "local releaseVersion = \"$(git rev-parse --abbrev-ref HEAD)\"\n$NOVERSION" > "lua/insurrection/version.lua"
     - mv package/manifest.json package/manifest.json.bak
     - jq --indent 4 ".version = \"$(luajit -e 'print(require("lua.insurrection.version"))')\"" package/manifest.json.bak > package/manifest.json
