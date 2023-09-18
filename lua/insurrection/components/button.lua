@@ -20,13 +20,7 @@ end
 
 ---@param self uiComponentButton
 function button.onClick(self, callback)
-    self.events.onClick = function()
-        local isCanceled = callback()
-        if isCanceled == nil then
-            return false
-        end
-        return not isCanceled
-    end
+    self.events.onClick = callback
 end
 
 return button
