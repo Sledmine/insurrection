@@ -76,11 +76,14 @@ function string.replace(s, pattern, replacement)
 end
 
 --- Return a hex encoded string.
----@param s string
+---@param s string | number
 ---@return string
 ---@nodiscard
 function string.tohex(s)
     assert(s ~= nil, "string.hex: s must not be nil")
+    if type(s) == "number" then
+        return string.format("%08.8x", s)
+    end
     return (s:gsub(".", function(c)
         return string.format("%02x", string.byte(c))
     end))
