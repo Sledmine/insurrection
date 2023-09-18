@@ -22,6 +22,11 @@
     (object_pvs_set_camera "settings")
     (object_pvs_set_camera "customization_color")
     (object_pvs_set_camera "customization_lobby")
+    (object_pvs_set_camera "customization_body")
+    (object_pvs_set_camera "customization_chest")
+    (object_pvs_set_camera "customization_shoulders")
+    (object_pvs_set_camera "customization_legs")
+    (object_pvs_set_camera "customization_helmet")
 )
 
 (script static void restore_halo_background
@@ -69,7 +74,7 @@
     (menu_blur_off)
     (switch_bsp 1)
     (object_destroy halo)
-    (object_create_containing "customization")
+    ;(object_create_containing "customization")
     (object_create_containing "prop")
     (camera_control 1)
     (camera_set customization_lobby 0)
