@@ -43,6 +43,8 @@ ScreenCornerText = ""
 LoadingText = nil
 local lastMap = ""
 local playerCount = 0
+---@type tag?
+local previousWidgetTag = nil
 
 discord = require "insurrection.discord"
 
@@ -153,14 +155,15 @@ function OnKeypress(modifiers, char, keycode)
 end
 
 function OnMenuAccept(widgetInstanceIndex)
+    local isCanceled = false
     local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
     local component = components.widgets[widgetTagId]
     if component then
         if component.events.onClick then
-            return not component.events.onClick()
+            isCanceled = component.events.onClick() == false
         end
     end
-    return true
+    return not isCanceled
 end
 
 local function onWidgetFocus(widgetTagId)
@@ -261,7 +264,10 @@ function OnWidgetOpen(widgetInstanceIndex)
         local widgetTag = blam.getTag(widgetTagId, blam.tagClasses.uiWidgetDefinition)
         local component = components.widgets[widgetTagId]
         if component and component.events.onOpen then
-            component.events.onOpen()
+            component.events.onOpen(previousWidgetTag)
+        end
+        if previousWidgetTag ~= widgetTag then
+            previousWidgetTag = widgetTag
         end
 
         if widgetTag then
@@ -273,30 +279,30 @@ function OnWidgetOpen(widgetInstanceIndex)
                 if optionsWidget and optionsWidget.childWidgets[1] then
                     onWidgetFocus(optionsWidget.childWidgets[1].widgetTag)
                 end
-
                 interface.animationsReset(widgetTag.id)
-
             end
             if DebugMode then
                 ScreenCornerText = widgetTag.path
             end
         end
     end
-    return false
+    -- Can not be canceled!
+    return true
 end
 
 function OnWidgetClose(widgetInstanceIndex)
     local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceIndex)
+    local isCanceled = false
     if widgetExists then
         local widgetTagId = widgetValues.tag_id
         local component = components.widgets[widgetTagId]
         if component and component.events.onClose then
-            component.events.onClose()
+            isCanceled = component.events.onClose() == false
         end
         editableWidget = nil
         ScreenCornerText = ""
     end
-    return true
+    return not isCanceled
 end
 
 function OnCommand(command)

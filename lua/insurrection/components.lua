@@ -29,10 +29,10 @@ local components = {
 }
 
 ---@class uiComponentEvents
----@field onClick? fun(value?: string | boolean | number):boolean
+---@field onClick? fun(value?: string | boolean | number): boolean
 ---@field onFocus? function
----@field onOpen? function
----@field onClose? function
+---@field onOpen? fun(previousWidgetTag?: tag)
+---@field onClose? fun():boolean
 ---@field animate? function
 
 ---@type table<number, uiComponent>
@@ -104,11 +104,13 @@ function components.setText(self, text, mask)
 end
 
 ---@param self uiComponent
+---@param callback fun(previousWidgetTag?: tag)
 function components.onOpen(self, callback)
     self.events.onOpen = callback
 end
 
 ---@param self uiComponent
+---@param callback fun(): boolean
 function components.onClose(self, callback)
     self.events.onClose = callback
 end
