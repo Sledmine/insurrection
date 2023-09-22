@@ -53,6 +53,12 @@ function components.new(tagId)
     return instance
 end
 
+---@param tagId number
+---@return uiComponent
+function components.get(tagId)
+    return components.widgets[tagId]
+end
+
 ---@param self uiComponent
 function components.onFocus(self, callback)
     self.events.onFocus = callback
@@ -110,7 +116,7 @@ function components.onOpen(self, callback)
 end
 
 ---@param self uiComponent
----@param callback fun(): boolean
+---@param callback fun(): boolean?
 function components.onClose(self, callback)
     self.events.onClose = callback
 end
