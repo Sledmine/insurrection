@@ -1,49 +1,56 @@
-local components = require "insurrection.components"
+local component = require "insurrection.components"
 local constants = require "insurrection.constants"
 local button = require "insurrection.components.button"
 local list = require "insurrection.components.list"
 local input = require "insurrection.components.input"
-local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
 local blam = require "blam"
 local getState = require "insurrection.redux.getState"
 
-local function init()
-    local time = os.clock()
-    ---@type interfaceState
-    local state = store:getState()
+return function()
+    local state = getState()
+    local definition = "template"
+    local lobby = state.lobby
 
     local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                    state.lobby.owner
 
-    local summary = shared.lobbySummary
-    local template = shared.lobbyDef1
-    local map = shared.lobbyDef2
-    local gametype = shared.lobbyDef3
-    local play = shared.lobbyPlay
-    local elementsList = shared.lobbyElementsList
-    local mapsList = shared.lobbyMapsList
-    local fullMapList = shared.lobbyFullMaps
-    local mapPreview = components.new(blam.findTag("map_small_preview",
+    local lobbyMenu = component.new(constants.widgets.lobby.id)
+    local summary = component.new(
+                        component.new(lobbyMenu:findChildWidgetTag("summary").id):findChildWidgetTag(
+                            "text").id)
+
+    local options = component.new(lobbyMenu:findChildWidgetTag("options").id)
+
+    local definitionList = component.new(options:findChildWidgetTag("definitions").id)
+    local template = button.new(definitionList:findChildWidgetTag("template").id)
+    
+    local map = button.new(definitionList:findChildWidgetTag("map").id)
+    local gametype = button.new(definitionList:findChildWidgetTag("gametype").id)
+
+    -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
+
+    local elementsList = list.new(options:findChildWidgetTag("elements").id)
+    local mapsList = list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition)
+                                  .id)
+    local fullMapList = component.new(blam.findTag("lobby_maps_wrapper",
                                                    blam.tagClasses.uiWidgetDefinition).id)
-    local playersList = shared.lobbyPlayers
-    local search = shared.lobbySearch
+    local mapDescription = component.new(blam.findTag("map_small",
+                                                      blam.tagClasses.uiWidgetDefinition).id)
+    local mapOverlay =
+        component.new(mapDescription:findChildWidgetTag("overlay_scanner").id):animate()
+    local search = input.new(options:findChildWidgetTag("search").id)
+    local play = button.new(options:findChildWidgetTag("play").id)
+    local back = button.new(options:findChildWidgetTag("back").id)
+
+    local mapPreview = component.new(blam.findTag("map_small_preview",
+                                                  blam.tagClasses.uiWidgetDefinition).id)
+    local playersList = list.new(lobbyMenu:findChildWidgetTag("players").id)
+    playersList:scrollable(false)
+
     summary:setText("Play with your friends, define your rules and enjoy.")
 
-    if not isPlayerLobbyOwner then
-        -- core.setWidgetValues(elementsList.tagId, {opacity = 0})
-        elementsList:setWidgetValues({opacity = 0})
-        -- core.setWidgetValues(search.tagId, {opacity = 0})
-        search:setWidgetValues({opacity = 0})
-        -- core.setWidgetValues(play.tagId, {opacity = 0})
-        play:setWidgetValues({opacity = 0})
-    end
-
-    template:setText(state.lobby.template)
-    map:setText(state.lobby.map)
-    gametype:setText(state.lobby.gametype)
-
-    if isPlayerLobbyOwner then
+    if lobby and isPlayerLobbyOwner then
         elementsList:onSelect(function(item)
             item.value:setText(item.label)
             api.editLobby(api.session.lobbyKey, {
@@ -71,17 +78,17 @@ local function init()
             end
         end)
 
-        local definitionClick = function(lobbyDef, definition)
+        local handleDefinition = function(lobbyDef, newDefinition)
+            dprint("Changing definition to " .. newDefinition)
             search:setText("")
-            local state = getState()
             local component = elementsList
-            if definition == "map" then
+            if newDefinition == "map" then
                 component = mapsList
             end
-            component:setItems(table.map(state.available[definition .. "s"], function(element)
+            component:setItems(table.map(state.available[newDefinition .. "s"], function(element)
                 ---@type uiComponentListItem
                 local item = {label = element, value = lobbyDef}
-                if definition ~= "map" then
+                if newDefinition ~= "map" then
                     local gametypeIcons = {
                         "unknown",
                         "assault",
@@ -109,11 +116,11 @@ local function init()
                 end
                 return item
             end))
-            store:dispatch(actions.setLobbyDefinition(definition))
+            definition = newDefinition
         end
 
         template:onClick(function()
-            definitionClick(template, "template")
+            handleDefinition(template, "template")
             fullMapList:replace(elementsList.tagId)
         end)
         -- Force selection of template at start
@@ -124,7 +131,7 @@ local function init()
         end)
 
         map:onClick(function()
-            definitionClick(map, "map")
+            handleDefinition(map, "map")
             elementsList:replace(fullMapList.tagId)
         end)
         map:onFocus(function()
@@ -133,7 +140,7 @@ local function init()
         end)
 
         gametype:onClick(function()
-            definitionClick(gametype, "gametype")
+            handleDefinition(gametype, "gametype")
             fullMapList:replace(elementsList.tagId)
         end)
         gametype:onFocus(function()
@@ -154,107 +161,36 @@ local function init()
 
     end
 
-    playersList:setItems(table.map(state.lobby.players, function(player)
-        local nameplateTag = constants.nameplates[player.nameplate] or {}
-        return {label = player.name, value = player, bitmap = nameplateTag.id}
-    end))
-
     local definitionsToComponent = {template = template, map = map, gametype = gametype}
     search:onInputText(function(text)
-        local state = getState()
-        local definition = state.definition or "template"
-        if definition then
-            local elements = state.available[definition .. "s"] --[=[@as string[]]=]
-            elements = table.filter(elements, function(element)
-                return element:lower():includes(text:lower())
-            end, true)
-            local component = elementsList
-            if definition == "map" then
-                component = mapsList
-            end
-            component:setItems(table.map(elements, function(element)
-                return {label = element, value = definitionsToComponent[definition]}
-            end))
+        local elements = state.available[definition .. "s"] --[=[@as string[]]=]
+        elements = table.filter(elements, function(element)
+            return element:lower():includes(text:lower())
+        end, true)
+        local component = elementsList
+        if definition == "map" then
+            component = mapsList
         end
+        component:setItems(table.map(elements, function(element)
+            return {label = element, value = definitionsToComponent[definition]}
+        end))
     end)
 
-    if renderedWidgetId then
-        dprint(string.format("Interface update time: %.6f\n", os.clock() - time, "warning"))
-    end
-end
-
-local function update()
-    ---@type interfaceState
-    local state = store:getState()
-
-    local lobbyDef1 = shared.lobbyDef1
-    local lobbyDef2 = shared.lobbyDef2
-    local lobbyDef3 = shared.lobbyDef3
-    local lobbyPlayers = shared.lobbyPlayers
-
-    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
-                                   state.lobby.owner
-    if not isPlayerLobbyOwner then
-        lobbyDef1:setText(state.lobby.template)
-        lobbyDef2:setText(state.lobby.map)
-        lobbyDef3:setText(state.lobby.gametype)
-    end
-
-    lobbyPlayers:setItems(table.map(state.lobby.players, function(player)
-        local nameplateTag = constants.nameplates[player.nameplate] or {}
-        return {label = player.name, value = player, bitmap = nameplateTag.id}
-    end))
-end
-
-local function render()
-    local lobby = components.new(constants.widgets.lobby.id)
-    local lobbySummary = components.new(
-                             components.new(lobby:findChildWidgetTag("summary").id):findChildWidgetTag(
-                                 "text").id)
-
-    local lobbyOptions = components.new(lobby:findChildWidgetTag("options").id)
-    local lobbyDefs = components.new(lobbyOptions:findChildWidgetTag("definitions").id)
-    local lobbyDef1 = button.new(lobbyDefs:findChildWidgetTag("template").id)
-    local lobbyDef2 = button.new(lobbyDefs:findChildWidgetTag("map").id)
-    local lobbyDef3 = button.new(lobbyDefs:findChildWidgetTag("gametype").id)
-    -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
-
-    local lobbyElementsList = list.new(lobbyOptions:findChildWidgetTag("elements").id)
-    local lobbyMapsList = list.new(blam.findTag("lobby_maps_options",
-                                                blam.tagClasses.uiWidgetDefinition).id)
-    local lobbyFullMaps = components.new(blam.findTag("lobby_maps_wrapper",
-                                                      blam.tagClasses.uiWidgetDefinition).id)
-    local mapDescription = components.new(blam.findTag("map_small",
-                                                       blam.tagClasses.uiWidgetDefinition).id)
-    local mapOverlay =
-        components.new(mapDescription:findChildWidgetTag("overlay_scanner").id):animate()
-    local lobbySearch = input.new(lobbyOptions:findChildWidgetTag("search").id)
-    local lobbyPlay = button.new(lobbyOptions:findChildWidgetTag("play").id)
-    local lobbyBack = button.new(lobbyOptions:findChildWidgetTag("back").id)
-
-    local lobbyPlayers = list.new(lobby:findChildWidgetTag("players").id)
-    lobbyPlayers:scrollable(false)
-
-    shared.lobby = lobby
-    shared.lobbySummary = lobbySummary
-    shared.lobbyDefs = lobbyDefs
-    shared.lobbyDef1 = lobbyDef1
-    shared.lobbyDef2 = lobbyDef2
-    shared.lobbyDef3 = lobbyDef3
-    -- shared.lobbySettings = lobbySettings
-    shared.lobbyPlay = lobbyPlay
-    shared.lobbyElementsList = lobbyElementsList
-    shared.lobbyMapsList = lobbyMapsList
-    shared.lobbyPlayers = lobbyPlayers
-    shared.lobbySearch = lobbySearch
-    shared.lobbyFullMaps = lobbyFullMaps
-
-    lobby:onClose(function()
+    lobbyMenu:onClose(function()
         api.deleteLobby()
     end)
-    lobbyBack:onClick(function()
-        lobby.events.onClose()
+    back:onClick(function()
+        lobbyMenu.events.onClose()
     end)
-end
 
-return {init = init, update = update, render = render}
+    return function()
+        template:setText(state.lobby.template)
+        map:setText(state.lobby.map)
+        gametype:setText(state.lobby.gametype)
+
+        playersList:setItems(table.map(state.lobby.players, function(player)
+            local nameplateTag = constants.nameplates[player.nameplate] or {}
+            return {label = player.name, value = player, bitmap = nameplateTag.id}
+        end))
+    end
+end

@@ -1,5 +1,7 @@
 local lanes = require"lanes".configure()
 local json = require "json"
+local getState = require "insurrection.redux.getState"
+local react = require "insurrection.components.react"
 local asyncLibs = "base, table, package, string"
 local blam = require "blam"
 local requests = require "requestscurl"
@@ -28,25 +30,34 @@ api.variables = {refreshRate = 3000, refreshTimerId = nil}
 ---@field token? string
 ---@field lobbyKey? string
 ---@field username? string
+---@field player? insurrectionPlayer
 
 ---@type insurrectionSession
-api.session = {token = nil, lobbyKey = nil, username = nil}
+api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 
 -- Models
 
 ---@class requestResult
 ---@field message string
 
+---@class insurrectionPlayer
+---@field name string
+---@field nameplate number
+---@field publicId string
+---@field rank number
+---@field bipeds table<string, string>
+
 ---@class loginResponse
 ---@field message string
 ---@field token? string
----@field player {nameplate: number, publicId: string, name: string, rank: number}
+---@field player insurrectionPlayer
 ---@field secondsToExpire number
 
 ---@class availableParameters
 ---@field maps string[]
 ---@field gametypes string[]
 ---@field templates string[]
+---@field customization table<string, {maps: string[], tags: string[]}>
 
 ---@class serverInstance
 ---@field password string
@@ -59,9 +70,9 @@ api.session = {token = nil, lobbyKey = nil, username = nil}
 ---@field owner string
 ---@field lobbyKey string
 
----@class lobbyRoom
+---@class insurrectionLobby
 ---@field owner string
----@field players string[]
+---@field players insurrectionPlayer[]
 ---@field map string
 ---@field gametype string
 ---@field template string
@@ -166,7 +177,7 @@ function api.available()
     end, api.url .. "/available")
 end
 
----@param response httpResponse<lobbyResponse | lobbyRoom | requestResult>
+---@param response httpResponse<lobbyResponse | insurrectionLobby | requestResult>
 ---@return boolean
 local function onLobbyResponse(response)
     dprint("onLobbyResponse", "info")
@@ -175,7 +186,7 @@ local function onLobbyResponse(response)
         if response.code == requests.codes.ok then
             ---@class lobbyResponse
             ---@field key string
-            ---@field lobby lobbyRoom
+            ---@field lobby insurrectionLobby
 
             local jsonResponse = response.json()
             if jsonResponse then
@@ -206,18 +217,17 @@ local function onLobbyResponse(response)
                     end
                 end
                 api.variables.refreshTimerId = set_timer(api.variables.refreshRate, "refreshLobby")
-                ---@type interfaceState
-                local state = store:getState()
+                local state = getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     menus.lobby()
                     discord.updatePresence("Hosting a lobby", "Waiting for players...")
                     discord.setParty(api.session.lobbyKey, #state.lobby.players, 16, state.lobby.map)
-                    require"insurrection.components.dynamic.lobbyMenu".init()
+                    react.render("lobbyMenu")
                 else
                     menus.lobby(true)
-                    --menus.lobby()
+                    -- menus.lobby()
                     discord.updatePresence("In a lobby", "Waiting for players...")
                     require"insurrection.components.dynamic.lobbyMenuClient".init()
                 end
@@ -253,7 +263,7 @@ function api.lobby(lobbyKey)
     end
 end
 
----@param response httpResponse<lobbyRoom | requestResult>
+---@param response httpResponse<insurrectionLobby | requestResult>
 ---@return boolean
 local function onLobbyRefreshResponse(response)
     dprint("onLobbyRefreshResponse", "info")
@@ -263,17 +273,17 @@ local function onLobbyRefreshResponse(response)
             local lobby = response.json()
             if lobby then
                 -- Update previously joined lobby data
-                store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
-                ---@type interfaceState
-                local state = store:getState()
+                -- store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
+                store:dispatch(actions.setLobby(api.session.lobbyKey, lobby))
+                local state = getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
-                if not isPlayerLobbyOwner then
+                if isPlayerLobbyOwner then
+                    react.render("lobbyMenu")
+                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
+                else
                     discord.setParty(nil, #lobby.players, 16, lobby.map)
                     require"insurrection.components.dynamic.lobbyMenuClient".update()
-                else
-                    require"insurrection.components.dynamic.lobbyMenu".update()
-                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
                 end
                 -- Lobby already started, join the server
                 if lobby.server and not blam.isGameDedicated() then

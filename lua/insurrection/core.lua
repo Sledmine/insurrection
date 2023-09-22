@@ -308,7 +308,16 @@ function core.getCustomizationObjectId()
         local object = blam.object(get_object(objectIndex))
         if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
             object.isNotCastingShadow = false
-            return objectId
+            return objectId, {
+                object.regionPermutation1,
+                object.regionPermutation2,
+                object.regionPermutation3,
+                object.regionPermutation4,
+                object.regionPermutation5,
+                object.regionPermutation6,
+                object.regionPermutation7,
+                object.regionPermutation8
+            }
         end
     end
 end

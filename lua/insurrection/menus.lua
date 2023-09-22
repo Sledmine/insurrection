@@ -12,6 +12,8 @@ function menus.customization()
     openWidget(constants.widgets.customization.id, true)
 end
 
+--- Open the lobby widget
+---@param client? boolean
 function menus.lobby(client)
     if client then
         openWidget(constants.widgets.lobbyClient.id, true)
