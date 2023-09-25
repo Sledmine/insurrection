@@ -15,4 +15,11 @@ function react.render(component)
     return render()
 end
 
+function react.unmountAll()
+    for k, v in pairs(mounted) do
+        dprint("Unmounting component " .. k)
+        mounted[k] = nil
+    end
+end
+
 return react

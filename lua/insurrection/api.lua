@@ -229,7 +229,7 @@ local function onLobbyResponse(response)
                     menus.lobby(true)
                     -- menus.lobby()
                     discord.updatePresence("In a lobby", "Waiting for players...")
-                    require"insurrection.components.dynamic.lobbyMenuClient".init()
+                    react.render("lobbyMenuClient")
                 end
             end
             return true
@@ -283,7 +283,7 @@ local function onLobbyRefreshResponse(response)
                     discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
                 else
                     discord.setParty(nil, #lobby.players, 16, lobby.map)
-                    require"insurrection.components.dynamic.lobbyMenuClient".update()
+                    react.render("lobbyMenuClient")
                 end
                 -- Lobby already started, join the server
                 if lobby.server and not blam.isGameDedicated() then
