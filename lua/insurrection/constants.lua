@@ -58,6 +58,8 @@ constants.colors = {
     constants.color.salmon
 }
 
+constants.customization = {rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190}}
+
 function constants.get()
     constants.widgets = {
         --[[
