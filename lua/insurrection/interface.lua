@@ -382,8 +382,8 @@ function interface.close(closeAllWidgets)
     return
 end
 
-
-local bipedRotation = 0
+-- TODO Move this variable to a better global namespace
+BipedRotation = 0
 
 ---Handle interface on tick events
 function interface.onTick()
@@ -397,11 +397,11 @@ function interface.onTick()
         if mouse.rightClick > 0 then
             local objectId = core.getCustomizationObjectId()
             if objectId then
-                bipedRotation = bipedRotation + mouse.right * 3
-                if bipedRotation > 360 then
-                    bipedRotation = 0
+                BipedRotation = BipedRotation + mouse.right * 3
+                if BipedRotation > 360 then
+                    BipedRotation = 0
                 end
-                blam.rotateObject(objectId, bipedRotation, 0, 0)
+                blam.rotateObject(objectId, BipedRotation, 0, 0)
             end
         end
     end

@@ -5,8 +5,6 @@ local list = require "insurrection.components.list"
 local utils = require "insurrection.utils"
 local blam = require "blam"
 local core = require "insurrection.core"
-local tagClasses = blam.tagClasses
-local findTag = blam.findTag
 
 local staticRegions = {
     "body",
@@ -19,7 +17,7 @@ local staticRegions = {
     "helmet"
 }
 
-local specificCameras = {
+local specificRegionCameras = {
     left_shoulder = "shoulders",
     right_shoulder = "shoulders",
     left_leg = "legs",
@@ -28,7 +26,6 @@ local specificCameras = {
 }
 
 local interpolationTicks = 30
-local bipedRotationByRegion = {left_shoulder = 80, right_shoulder = 190}
 ---@type "regions"|"permutations"
 local editing = "regions"
 local regionIndex = 1
@@ -36,7 +33,7 @@ local regionIndex = 1
 local function setCamera(region)
     local command = "camera_set customization_{region} {ticks}"
     execute_script(command:template{
-        region = specificCameras[region] or region,
+        region = specificRegionCameras[region] or region,
         ticks = interpolationTicks
     })
 end
@@ -44,63 +41,81 @@ end
 local function setEditingGeometry(region)
     local customizationObjectId = core.getCustomizationObjectId()
     assert(customizationObjectId, "No customization biped found")
-    blam.rotateObject(customizationObjectId, 133.144, 0, 0)
+    blam.rotateObject(customizationObjectId, constants.customization.rotation.default, 0, 0)
 
     local command = "camera_set customization_{region} {ticks}"
 
     -- Set camera
     setCamera(region)
 
-    local rotation = bipedRotationByRegion[region]
-    if rotation then
-        blam.rotateObject(customizationObjectId, rotation, 0, 0)
-        -- local command = "custom_animation (unit {object}) \"{tag}\" \"{animation}\" {interpolate}"
-        -- command = command:template{
-        --    object = "customization_biped",
-        --    tag = blam.findTag("odst_nova", blam.tagClasses.modelAnimations).path,
-        --    animation = "stand unarmed turn-left",
-        --    interpolate = "true"
-        -- }
+    BipedRotation = constants.customization.rotation[region] or
+                        constants.customization.rotation.default
+    if BipedRotation then
+        blam.rotateObject(customizationObjectId, BipedRotation, 0, 0)
     end
 end
 
-local regions = table.map(staticRegions, function(region)
-    local regionName = utils.snakeCaseToUpperTitleCase(region)
+local function getCustomizationObjectData()
+    local customizationObjectId = core.getCustomizationObjectId()
+    assert(customizationObjectId, "No customization biped found")
+    local customizationBiped = blam.biped(get_object(customizationObjectId))
+    assert(customizationBiped, "No customization biped found")
+    local customizationBipedTag = blam.bipedTag(customizationBiped.tagId)
+    assert(customizationBipedTag, "No customization biped tag found")
+    local customizationModel = blam.model(customizationBipedTag.model)
+    assert(customizationModel, "No customization biped model found")
     return {
-        value = region,
-        label = regionName,
-        bitmap = function(uiComponent)
-            local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
-            icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
-            icon:setWidgetValues({
-                background_bitmap_index = table.indexof(staticRegions, region) - 1
-            })
-        end
+        id = customizationObjectId,
+        biped = customizationBiped,
+        tag = customizationBipedTag,
+        model = customizationModel
     }
-end)
+end
 
 return function()
-
     -- Get customization widget menu
     local customization = components.new(constants.widgets.biped.id)
     local options = list.new(customization:findChildWidgetTag("geometry_list").id, 1, 8)
     local back = button.new(options:findChildWidgetTag("back").id)
 
     local function loadRegions()
+        local customizationObjectData = getCustomizationObjectData()
+        local customizationModel = customizationObjectData.model
+
+        staticRegions = table.map(customizationModel.regionList, function(region)
+            local regionName = region.name
+            if regionName:includes("+") then
+                regionName = regionName:split("+")[2]
+            end
+            return regionName
+        end)
+
+        local regions = table.map(staticRegions, function(region)
+            local regionName = utils.snakeCaseToUpperTitleCase(region)
+            return {
+                value = region,
+                label = regionName,
+                bitmap = function(uiComponent)
+                    local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    icon.widgetDefinition.backgroundBitmap =
+                        constants.bitmaps.customization.regions.id
+                    icon:setWidgetValues({
+                        background_bitmap_index = table.indexof(staticRegions, region) - 1
+                    })
+                end
+            }
+        end)
+
         editing = "regions"
         options:setItems(regions)
     end
 
     local function loadPermutations(region)
+        local customizationObjectData = getCustomizationObjectData()
+        local customizationModel = customizationObjectData.model
+
         regionIndex = table.indexof(staticRegions, region) --[[@as number]]
-        local customizationObjectId = core.getCustomizationObjectId()
-        assert(customizationObjectId, "No customization biped found")
-        local customizationBiped = blam.biped(get_object(customizationObjectId))
-        assert(customizationBiped, "No customization biped found")
-        local customizationBipedTag = blam.bipedTag(customizationBiped.tagId)
-        assert(customizationBipedTag, "No customization biped tag found")
-        local customizationModel = blam.model(customizationBipedTag.model)
-        assert(customizationModel, "No customization biped model found")
+
         -- TODO Check if region exists
         local maximumPermutationCount =
             customizationModel.regionList[regionIndex].permutationCount - 1
@@ -118,9 +133,7 @@ return function()
                         icon.widgetDefinition.backgroundBitmap = permutationsBitmapTag.id
                         index = i
                     end
-                    icon:setWidgetValues({
-                        background_bitmap_index = index
-                    })
+                    icon:setWidgetValues({background_bitmap_index = index})
                 end
             })
         end

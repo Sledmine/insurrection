@@ -63,7 +63,8 @@ return function()
         execute_script("object_create customization_biped")
         local bipedTag = findTag(bipedPath, tagClasses.biped)
         assert(bipedTag, "biped tag not found")
-        local bipedName = utils.snakeCaseToUpperTitleCase(utils.path(bipedPath).name)
+        local bipedName = utils.snakeCaseToUpperTitleCase(
+                              utils.path(bipedPath:replace("_mp", "")).name)
         currentBipedLabel:setText(bipedName)
         local customizationObjectId = core.getCustomizationObjectId()
         if customizationObjectId then
@@ -124,6 +125,7 @@ return function()
         local state = getState()
 
         local projects = table.keys(state.available.customization)
+        table.sort(projects)
 
         selectProjectsList:onSelect(function(item)
             local value = item.value --[[@as string]]
