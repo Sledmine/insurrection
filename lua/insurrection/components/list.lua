@@ -22,7 +22,7 @@ local list = setmetatable({
     isScrollable = true
 }, {__index = components})
 
----@class uiComponentListItem 
+---@class uiComponentListItem
 ---@field label string
 ---@field value string | boolean | number | any
 ---@field bitmap? number | fun(uiComponent: uiComponent)
