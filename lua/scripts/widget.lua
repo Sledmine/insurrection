@@ -3,7 +3,7 @@
 local glue = require "lua.lua_modules.glue"
 local fs = require "fs"
 local tag = require "lua.scripts.modules.tag"
-local luna = require "lua.scripts.modules.luna"
+local luna = require "lua.lua_modules.luna"
 
 local widget = {path = nil}
 

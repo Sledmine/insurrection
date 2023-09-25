@@ -1,4 +1,4 @@
-local luna = {_VERSION = "1.4.0"}
+local luna = {_VERSION = "1.4.1"}
 
 luna.string = {}
 
@@ -203,12 +203,10 @@ function table.indexof(t, value)
     end
 end
 
--- TODO Check annotations, it seems like flipping a table key pairs with generics doesn't work.
-
 --- Return a table with all keys and values swapped.
 ---@generic K, V
 ---@param t table<K, V>
----@return table<V, K>
+---@return {[V]: K}
 ---@nodiscard
 function table.flip(t)
     assert(t ~= nil, "table.flip: t must not be nil")
@@ -275,7 +273,7 @@ end
 ---@param t table<K, V>
 ---@param f fun(v: V, k: K): boolean
 ---@param array? boolean If true, return will be an array starting from 1 discarding original keys.
----@return table<K, V>
+---@return {[K]: V}
 ---@nodiscard
 function table.filter(t, f, array)
     assert(t ~= nil, "table.filter: t must not be nil")
@@ -298,10 +296,12 @@ end
 --- Returns a table with all elements of `t` mapped by function `f`.
 ---
 --- **NOTE**: It keeps original keys in the new table.
----@generic K, V, R
+---@generic K, V
+---@generic R
 ---@param t table<K, V>
 ---@param f fun(v: V, k: K): R
----@return table<K, R>
+---@return {[K]: R}
+--@return R[]
 ---@nodiscard
 function table.map(t, f)
     assert(t ~= nil, "table.map: t must not be nil")
@@ -318,7 +318,7 @@ end
 --- Returns a table merged from all tables passed as arguments.
 ---@generic K, V
 ---@vararg table<K, V>
----@return table<K, V>
+---@return {[K]: V}
 ---@nodiscard
 function table.merge(...)
     local merged = {}
@@ -331,9 +331,9 @@ function table.merge(...)
 end
 
 --- Returns a table with all elements in reversed order.
----@generic K, V
----@param t table<K, V>
----@return table<K, V>
+---@generic T
+---@param t T
+---@return T
 ---@nodiscard
 function table.reverse(t)
     assert(t ~= nil, "table.reverse: t must not be nil")
@@ -352,7 +352,7 @@ end
 ---@param t table<K, V>
 ---@param start number Index to start slice from.
 ---@param stop? number Index to stop slice at.
----@return table<K, V>
+---@return {[K]: V}
 ---@nodiscard
 function table.slice(t, start, stop)
     assert(t ~= nil, "table.slice: t must not be nil")
@@ -375,7 +375,7 @@ end
 ---@generic K, V
 ---@param t table<K, V>
 ---@param size number
----@return table<number, table<K, V>>
+---@return {[K]: V[]}
 ---@nodiscard
 function table.chunks(t, size)
     assert(t ~= nil, "table.chunks: t must not be nil")
