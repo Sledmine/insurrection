@@ -1,7 +1,7 @@
 local lanes = require"lanes".configure()
 local json = require "json"
 local getState = require "insurrection.redux.getState"
-local react = require "insurrection.components.react"
+local react = require "insurrection.react"
 local asyncLibs = "base, table, package, string"
 local blam = require "blam"
 local requests = require "requestscurl"

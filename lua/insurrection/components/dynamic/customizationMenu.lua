@@ -10,6 +10,8 @@ local utils = require "insurrection.utils"
 local menus = require "insurrection.menus"
 local core = require "insurrection.core"
 local getState = require "insurrection.redux.getState"
+
+---@return number?
 local number = function(v)
     return tonumber(v)
 end
@@ -124,7 +126,8 @@ return function()
         local projects = table.keys(state.available.customization)
 
         selectProjectsList:onSelect(function(item)
-            local project = state.available.customization[item.value]
+            local value = item.value --[[@as string]]
+            local project = state.available.customization[value]
             local bipeds = table.map(project.tags, function(bipedPath)
                 return {label = "CUSTOMIZE", value = bipedPath:replace(".biped", "")}
             end)
@@ -132,7 +135,7 @@ return function()
             bipedsList:setItems(bipeds)
             local regions
             local bipedPath = bipeds[1].value
-            local savedBiped = savedBipeds[item.value]
+            local savedBiped = savedBipeds[value]
             if savedBiped then
                 bipedPath = savedBiped.path
                 regions = savedBiped.regions
