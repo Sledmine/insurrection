@@ -391,17 +391,19 @@ function interface.onTick()
     if not currentWidgetTag then
         return
     end
-    if currentWidgetTag.id == constants.widgets.biped.id then
-        local mouse = core.getMouseState()
+    if constants.widgets.biped then
+        if currentWidgetTag.id == constants.widgets.biped.id then
+            local mouse = core.getMouseState()
 
-        if mouse.rightClick > 0 then
-            local objectId = core.getCustomizationObjectId()
-            if objectId then
-                BipedRotation = BipedRotation + mouse.right * 3
-                if BipedRotation > 360 then
-                    BipedRotation = 0
+            if mouse.rightClick > 0 then
+                local objectId = core.getCustomizationObjectId()
+                if objectId then
+                    BipedRotation = BipedRotation + mouse.right * 3
+                    if BipedRotation > 360 then
+                        BipedRotation = 0
+                    end
+                    blam.rotateObject(objectId, BipedRotation, 0, 0)
                 end
-                blam.rotateObject(objectId, BipedRotation, 0, 0)
             end
         end
     end
