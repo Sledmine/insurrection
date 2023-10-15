@@ -27,20 +27,14 @@ local custom_biped_paths = {
     bleed_it_out_dev = {
         [[keymind\halo_infinite\characters\unsc\odst\mirage_core\mirage_mp]],
     },
-    a50_coop_evolved = {
-        "characters\\cyborg_mp\\cyborg_mp",
-        "characters\\cyborg_mp\\air_assault_mp",
-        "characters\\cyborg_mp\\commando_mp",
-        "characters\\cyborg_mp\\cqb_mp",
+    b30_coop_evolved_dev = {
+        "[shm]\\halo_1\\characters\\mjolnir_gen_1\\mjolnir_gen_1_mp",
         "characters\\elite_mp\\elite_mp",
-        "characters\\cyborg_mp\\eod_mp",
-        "characters\\cyborg_mp\\eva_mp",
-        "characters\\cyborg_mp\\hazop_mp",
         "characters\\marine_armored_mp\\marine_mp",
-        "characters\\cyborg_mp\\odst_mp",
-        "characters\\cyborg_mp\\operator_mp",
-        "characters\\cyborg_mp\\security_mp",
         "characters\\grunt\\yapyap\\yapyap_mp"
+    },
+    forge_island_dev = {
+        [[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]
     }
 }
 
@@ -56,9 +50,9 @@ local function play_video(args)
 end
 
 function plugin_init()
-    -- tick_event_listener = balltze.event.tick.add_listener(tick_event, "lowest")
+    -- tick_event_listener = balltze.event.tick.subscribe(tick_event, "lowest")
     
-    on_map_file_load_listener = balltze.event.map_load.add_listener(on_map_load, "lowest")
+    on_map_file_load_listener = balltze.event.map_load.subscribe(on_map_load, "lowest")
     logger = balltze.logger.create_logger("test logger")
     -- logger:set_file("test.log", false)
     balltze.command.register_command("play_video", "debug", "Reload upstream tag", play_video, false, 1, 1, true, false)
@@ -69,7 +63,7 @@ function plugin_load()
 end
 
 function on_map_load(event)
-    logger:info("map loaded: {}", event.args.map_name)
+    --logger:info("map loaded: {}", event.args.map_name)
     if event.args.map_name == "levels\\ui\\ui" then
         for mapName, bipeds in pairs(custom_biped_paths) do
             for _, bipedPath in pairs(bipeds) do
