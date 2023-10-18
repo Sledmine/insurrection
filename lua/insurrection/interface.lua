@@ -278,9 +278,9 @@ end
 ---Play a special interface sound
 ---@param sound '"error"' | '"success"' | '"back"' | '"join"' | '"leave"'
 function interface.sound(sound)
-    if constants.sounds.error and constants.sounds.success and constants.sounds.back and
-        constants.sounds.join and constants.sounds.leave then
-        dprint("Sounds not found", "error")
+    if not (constants.sounds.error and constants.sounds.success and constants.sounds.back and
+        constants.sounds.join and constants.sounds.leave) then
+        dprint("Error, no custom sounds found", "error")
         return
     end
     if sound == "error" then
