@@ -12,8 +12,7 @@ local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
 local isBalltzeAvailable, balltze = pcall(require, "mods.balltze")
 require "luna"
-local menus = require "insurrection.menus"
-local utils = require "insurrection.utils"
+local react = require "insurrection.react"
 
 clua_version = 2.056
 -- Import API after setting up debug mode
@@ -60,6 +59,7 @@ local screenWidth, screenHeight = core.getScreenResolution()
 local function onPostGameLoad()
     dprint("Game started!", "success")
     if map == "ui" then
+        discord.startPresence()
         -- Change UI aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
         -- Enable menu blur
@@ -290,8 +290,8 @@ function OnWidgetOpen(widgetInstanceIndex)
     return true
 end
 
-function OnWidgetClose(widgetInstanceIndex)
-    local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceIndex)
+function OnWidgetClose(widgetInstanceHandle)
+    local widgetExists, widgetValues = pcall(harmony.menu.get_widget_values, widgetInstanceHandle)
     local isCanceled = false
     if widgetExists then
         local widgetTagId = widgetValues.tag_id
@@ -343,6 +343,7 @@ function OnMapLoad()
     LoadingText = nil
 
     -- Load insurrection interface, load constants, widgets, etc.
+    react.unmountAll()
     interface.load()
 end
 
