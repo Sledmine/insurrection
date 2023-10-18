@@ -62,7 +62,7 @@ return function()
     local handleSelectBiped = function(bipedPath, regions)
         execute_script("object_create customization_biped")
         local bipedTag = findTag(bipedPath, tagClasses.biped)
-        assert(bipedTag, "biped tag not found")
+        assert(bipedTag, "biped tag " .. bipedPath .. " not found")
         local bipedName = utils.snakeCaseToUpperTitleCase(
                               utils.path(bipedPath:replace("_mp", "")).name)
         currentBipedLabel:setText(bipedName)
@@ -142,7 +142,7 @@ return function()
                 bipedPath = savedBiped.path
                 regions = savedBiped.regions
             end
-            dprint(savedBiped)
+            --dprint(savedBiped)
             handleSelectBiped(bipedPath, regions)
         end)
 

@@ -83,7 +83,7 @@ return function()
         local customizationModel = customizationObjectData.model
 
         staticRegions = table.map(customizationModel.regionList, function(region)
-            local regionName = region.name
+            local regionName = region.name:trim()
             if regionName:includes("+") then
                 regionName = regionName:split("+")[2]
             end
@@ -121,17 +121,24 @@ return function()
             customizationModel.regionList[regionIndex].permutationCount - 1
 
         local permutations = {}
-        for i = 0, maximumPermutationCount do
+        for permutationIndex = 0, maximumPermutationCount do
+            local permutation =
+                customizationModel.regionList[regionIndex].permutationsList[permutationIndex + 1]
+            local permutationName = permutation.name
+            if permutationName:includes("+") then
+                permutationName = permutationName:split("+")[4]
+            end
+            permutationName = utils.snakeCaseToUpperTitleCase(permutationName):upper()
             table.insert(permutations, {
-                value = i,
-                label = tostring(i),
+                value = permutationIndex,
+                label = permutationName,
                 bitmap = function(uiComponent)
                     local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
                     local permutationsBitmapTag = constants.bitmaps.customization[region]
                     local index = regionIndex - 1
                     if permutationsBitmapTag then
                         icon.widgetDefinition.backgroundBitmap = permutationsBitmapTag.id
-                        index = i
+                        index = permutationIndex
                     end
                     icon:setWidgetValues({background_bitmap_index = index})
                 end

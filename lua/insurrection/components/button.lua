@@ -9,7 +9,7 @@ local button = setmetatable({}, {__index = components})
 ---@field onClick fun(value?: string | boolean | number):boolean | nil
 
 ---@class uiComponentButton : uiComponentButtonClass
----@field events uiComponentCheckboxEvents
+---@field events uiComponentButtonEvents
 
 ---@param tagId number
 ---@return uiComponentButton
