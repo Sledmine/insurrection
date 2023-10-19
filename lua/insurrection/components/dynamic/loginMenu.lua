@@ -11,9 +11,10 @@ return function()
     login:onOpen(function()
         -- Start discord presence only if script is loaded in the UI map, prevent crashes in other maps
         if map == "ui" then
-            discord.startPresence()
+            if not discord.ready then
+                discord.startPresence()
+            end
         end
-        discord.clearPresence()
     end)
     -- Load login data
     local savedUserName, savedPassword = core.loadCredentials()

@@ -10,9 +10,11 @@ local chimera = require "insurrection.mods.chimera"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 store = require "insurrection.redux.store"
+local getState = require "insurrection.redux.getState"
 local isBalltzeAvailable, balltze = pcall(require, "mods.balltze")
 require "luna"
 local react = require "insurrection.react"
+local utils = require "insurrection.utils"
 
 clua_version = 2.056
 -- Import API after setting up debug mode
@@ -59,7 +61,6 @@ local screenWidth, screenHeight = core.getScreenResolution()
 local function onPostGameLoad()
     dprint("Game started!", "success")
     if map == "ui" then
-        discord.startPresence()
         -- Change UI aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
         -- Enable menu blur
@@ -70,6 +71,24 @@ local function onPostGameLoad()
         execute_script("network_connect_timeout 30000")
     else
         harmony.menu.set_aspect_ratio(4, 3)
+    end
+    if discord.ready then
+        dprint("Discord: updating map presence")
+        if map ~= "ui" then
+            local mapName = utils.snakeCaseToTitleCase(map)
+            local state = getState()
+            if state.lobby then
+                discord.setState("Playing " .. mapName, "In a game lobby", map)
+            else
+                if blam.isGameSinglePlayer() then
+                    discord.setState("Playing " .. mapName, "In a single player game", map)
+                else
+                    discord.setState("Playing " .. mapName, "In a game", map)
+                end
+            end
+        else
+            discord.clearPresence()
+        end
     end
 end
 
