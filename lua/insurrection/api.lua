@@ -95,7 +95,6 @@ local function connect(desiredMap, host, port, password)
     -- dprint("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
     if exists("maps\\" .. desiredMap .. ".map") or
         exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
-        discord.setPartyWithLobby()
         -- Force game profile name to be the same as the player's name
         core.setGameProfileName(api.session.player.name)
         core.connectServer(host, port, password)
@@ -188,47 +187,41 @@ local function onLobbyResponse(response)
             ---@field key string
             ---@field lobby insurrectionLobby
 
-            local jsonResponse = response.json()
-            if jsonResponse then
+            local data = response.json()
+            if data then
                 -- We asked for a new lobby room
-                if jsonResponse.key then
-                    api.session.lobbyKey = jsonResponse.key
-                    store:dispatch(actions.setLobby(jsonResponse.key, jsonResponse.lobby))
+                if data.key then
+                    api.session.lobbyKey = data.key
+                    store:dispatch(actions.setLobby(data.key, data.lobby))
                 else
                     -- We have to joined an existing lobby
-                    local lobby = jsonResponse
-                    store:dispatch(actions.setLobby(api.session.lobbyKey, lobby))
+                    local lobby = data --[[@as insurrectionLobby]]
+                    store:dispatch(actions.setLobby(nil, lobby))
                     -- There is a server already running for this lobby, connect to it
                     if lobby.server then
-                        discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
+                        local isPlayerLobbyOwner = api.session.player and
+                                                       api.session.player.publicId == lobby.owner
+                        if isPlayerLobbyOwner then
+                            discord.setParty(lobby.server.lobbyKey, #lobby.players, 16, lobby.map)
+                        end
                         connect(lobby.server.map, lobby.server.host, lobby.server.port,
                                 lobby.server.password)
                         return true
                     end
                 end
-                -- Start a timer to pull lobby data every certain time
-                if api.variables.refreshTimerId then
-                    api.stopRefreshLobby()
-                end
-                -- Create global function to be called by the timer
-                refreshLobby = function()
-                    if api.session.lobbyKey then
-                        api.refreshLobby()
-                    end
-                end
-                api.variables.refreshTimerId = set_timer(api.variables.refreshRate, "refreshLobby")
+                api.startLobbyRefresh()
                 local state = getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     menus.lobby()
-                    discord.updatePresence("Hosting a lobby", "Waiting for players...")
+                    discord.setState("Hosting a lobby", "Waiting for players...")
                     discord.setParty(api.session.lobbyKey, #state.lobby.players, 16, state.lobby.map)
                     react.render("lobbyMenu")
                 else
                     menus.lobby(true)
-                    -- menus.lobby()
-                    discord.updatePresence("In a lobby", "Waiting for players...")
+                    discord.setState("In a lobby", "Waiting for players...")
+                    discord.clearParty()
                     react.render("lobbyMenuClient")
                 end
             end
@@ -305,6 +298,20 @@ local function onLobbyRefreshResponse(response)
     unknownError(response)
     return false
 end
+
+function api.startLobbyRefresh()
+    -- Start a timer to pull lobby data every certain time
+    if api.variables.refreshTimerId then
+        api.stopRefreshLobby()
+    end
+    -- Create global function to be called by the timer
+    RefreshLobby = function()
+        if api.session.lobbyKey then
+            api.refreshLobby()
+        end
+    end
+    api.variables.refreshTimerId = set_timer(api.variables.refreshRate, "RefreshLobby")
+end
 function api.refreshLobby()
     loading(true, "Refreshing lobby...", false)
     if api.session.lobbyKey then
@@ -316,14 +323,11 @@ function api.refreshLobby()
 end
 function api.stopRefreshLobby()
     if api.session.lobbyKey then
-        discord.updatePresence("Playing Insurrection")
         pcall(stop_timer, api.variables.refreshTimerId)
     end
 end
 function api.deleteLobby()
     if api.session.lobbyKey then
-        discord.updatePresence("Playing Insurrection")
-        discord.setParty(nil)
         dprint("DELETING lobby", "warning")
         pcall(stop_timer, api.variables.refreshTimerId)
         api.variables.refreshTimerId = nil
