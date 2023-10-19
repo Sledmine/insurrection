@@ -175,9 +175,9 @@ end
 function widget.init(widgetPath)
     widgetPath = widgetPath:gsub("\\", "/")
     -- Create widget folders
-    os.execute("mkdir -p tags/" .. widgetPath)
-    os.execute("mkdir -p tags/" .. widgetPath .. "/strings")
-    os.execute("mkdir -p tags/" .. widgetPath .. "/buttons")
+    fs.mkdir("tags" .. widgetPath, true)
+    fs.mkdir("tags" .. widgetPath .. "/strings", true)
+    fs.mkdir("tags" .. widgetPath .. "/bitmaps", true)
     -- Check if path ends with slash, if it does not, add it
     if widgetPath:sub(-1) ~= "/" then
         widgetPath = widgetPath .. "/"
