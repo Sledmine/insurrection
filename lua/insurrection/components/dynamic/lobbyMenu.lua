@@ -166,7 +166,7 @@ return function()
         local elements = state.available[definition .. "s"] --[=[@as string[]]=]
         elements = table.filter(elements, function(element)
             return element:lower():includes(text:lower())
-        end, true)
+        end)
         local component = elementsList
         if definition == "map" then
             component = mapsList

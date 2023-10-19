@@ -13,6 +13,7 @@ return function()
         if map == "ui" then
             discord.startPresence()
         end
+        discord.clearPresence()
     end)
     -- Load login data
     local savedUserName, savedPassword = core.loadCredentials()

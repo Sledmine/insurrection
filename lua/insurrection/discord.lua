@@ -1,10 +1,11 @@
-local discord = {}
-local core = require "insurrection.core"
-local interface = require "insurrection.interface"
 local base64 = require "base64"
-
 local discordRPC = require "discordRPC"
 
+local core = require "insurrection.core"
+local interface = require "insurrection.interface"
+local getState = require "insurrection.redux.getState"
+
+local discord = {}
 
 ---@type number?
 DiscordPresenceTimerId = nil
@@ -13,15 +14,15 @@ DiscordCheckTimerId = nil
 
 discord.presence = {
     state = "Playing Insurrection",
-    details = nil,
+    details = "In the main menu",
     largeImageKey = "insurrection",
     largeImageText = "Insurrection",
-    startTimestamp = os.time(os.date("*t") --[[@as osdate]] )
-    -- smallImageKey = "insurrection",
-    -- smallImageText = "Insurrection",
+    startTimestamp = os.time(os.date("*t") --[[@as osdateparam]] ),
+    --startTimestamp = os.date("*t", os.time())
+    smallImageKey = "insurrection",
+    smallImageText = "Insurrection",
     -- instance = 0
 }
-discord.presence.details = "In the main menu"
 
 discord.attempted = false
 discord.ready = false
@@ -48,6 +49,7 @@ end
 
 function discord.startPresence()
     if not discord.ready then
+        discordRPC.shutdown()
         core.loading(true, "Starting Discord Presence...")
         discordRPC.initialize(base64.decode(read_file("micro")), true)
     end
@@ -58,14 +60,14 @@ function discord.startPresence()
     end
 
     -- Routines to handle Discord presence
-    
     function DiscordUpdate()
-        discordRPC.runCallbacks()
+        --discordRPC.runCallbacks()
         if discord.ready then
             if DiscordCheckTimerId then
                 pcall(stop_timer, DiscordCheckTimerId)
             end
-            discordRPC.updatePresence(discord.presence)
+            --discordRPC.updatePresence(discord.presence)
+            --discordRPC.runCallbacks()
         end
     end
     function DiscordCheck()
@@ -83,18 +85,13 @@ function discord.startPresence()
     DiscordCheckTimerId = set_timer(3000, "DiscordCheck")
 end
 
---- Update the presence state and details
+---Set presence state and details
 ---@param state string
 ---@param details? string
-function discord.updatePresence(state, details)
-    discord.presence.state = state
+function discord.setState(state, details)
+    dprint("discord.setState: " .. state .. ", " .. details)
+    discord.presence.state = state .. "\n"
     discord.presence.details = details
-    discord.presence.partyId = nil
-    discord.presence.joinSecret = nil
-    if not details then
-        discord.presence.largeImageKey = "insurrection"
-        discord.presence.largeImageText = "Insurrection"
-    end
     discordRPC.updatePresence(discord.presence)
     discordRPC.runCallbacks()
 end
@@ -121,15 +118,26 @@ function discord.setParty(partyId, partySize, partyMax, map)
     discordRPC.runCallbacks()
 end
 
-function discord.setPartyWithLobby()
-    ---@type interfaceState
-    local state = store:getState()
-    discord.setParty(nil, #state.lobby.players, 16, state.lobby.map)
+function discord.clearParty()
+    discord.presence.partyId = nil
+    discord.presence.joinSecret = nil
+    discord.presence.partySize = nil
+    discord.presence.partyMax = nil
+    
+    discord.presence.details = nil
+
+    discordRPC.updatePresence(discord.presence)
+    discordRPC.runCallbacks()
 end
 
 --- Clear the presence info
 function discord.clearPresence()
+    discord.presence.state = nil
+    discord.presence.details = nil
+
+    discord.clearParty()
     discordRPC.clearPresence()
+    discordRPC.runCallbacks()
 end
 
 function discord.stopPresence()
