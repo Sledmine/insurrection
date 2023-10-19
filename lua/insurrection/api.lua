@@ -202,7 +202,7 @@ local function onLobbyResponse(response)
                         local isPlayerLobbyOwner = api.session.player and
                                                        api.session.player.publicId == lobby.owner
                         if isPlayerLobbyOwner then
-                            discord.setParty(lobby.server.lobbyKey, #lobby.players, 16, lobby.map)
+                            discord.setParty(lobby.server.lobbyKey, #lobby.players, 16, lobby.map, isPlayerLobbyOwner)
                         end
                         connect(lobby.server.map, lobby.server.host, lobby.server.port,
                                 lobby.server.password)
@@ -215,12 +215,10 @@ local function onLobbyResponse(response)
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     menus.lobby()
-                    discord.setState("Hosting a lobby", "Waiting for players...")
-                    discord.setParty(api.session.lobbyKey, #state.lobby.players, 16, state.lobby.map)
+                    discord.setParty(api.session.lobbyKey, #state.lobby.players, 16, state.lobby.map, isPlayerLobbyOwner)
                     react.render("lobbyMenu")
                 else
                     menus.lobby(true)
-                    discord.setState("In a lobby", "Waiting for players...")
                     discord.clearParty()
                     react.render("lobbyMenuClient")
                 end
@@ -273,9 +271,9 @@ local function onLobbyRefreshResponse(response)
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     react.render("lobbyMenu")
-                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
+                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map, isPlayerLobbyOwner)
                 else
-                    discord.setParty(nil, #lobby.players, 16, lobby.map)
+                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
                     react.render("lobbyMenuClient")
                 end
                 -- Lobby already started, join the server
@@ -330,6 +328,7 @@ function api.deleteLobby()
     if api.session.lobbyKey then
         dprint("DELETING lobby", "warning")
         pcall(stop_timer, api.variables.refreshTimerId)
+        store:dispatch(actions.setLobby(nil, nil))
         api.variables.refreshTimerId = nil
         api.session.lobbyKey = nil
     end
