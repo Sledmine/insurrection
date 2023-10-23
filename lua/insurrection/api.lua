@@ -18,12 +18,7 @@ local loading = core.loading
 local luna = require "luna"
 
 local api = {}
-api.host = read_file("insurrection_host") or "http://localhost:4343/"
-if DebugMode then
-    api.host = "http://localhost:4343/"
-end
-api.version = "v1"
-api.url = api.host .. api.version
+
 api.variables = {refreshRate = 3000, refreshTimerId = nil}
 
 ---@class insurrectionSession
@@ -123,6 +118,17 @@ local function unknownError(logs)
     end
 end
 
+---Load Insurrection URL to be used by the API
+---@param host? string
+function api.loadUrl(host)
+    api.version = "v1"
+    api.host = read_file("insurrection_host") or host or "http://localhost:4343/"
+    if DebugMode then
+        api.host = "http://localhost:4343/"
+    end
+    api.url = api.host .. api.version
+end
+
 ---@param response httpResponse<loginResponse>
 ---@return boolean
 local function onLoginResponse(response)
@@ -202,7 +208,8 @@ local function onLobbyResponse(response)
                         local isPlayerLobbyOwner = api.session.player and
                                                        api.session.player.publicId == lobby.owner
                         if isPlayerLobbyOwner then
-                            discord.setParty(lobby.server.lobbyKey, #lobby.players, 16, lobby.map, isPlayerLobbyOwner)
+                            discord.setParty(lobby.server.lobbyKey, #lobby.players, 16, lobby.map,
+                                             isPlayerLobbyOwner)
                         end
                         connect(lobby.server.map, lobby.server.host, lobby.server.port,
                                 lobby.server.password)
@@ -215,7 +222,8 @@ local function onLobbyResponse(response)
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     menus.lobby()
-                    discord.setParty(api.session.lobbyKey, #state.lobby.players, 16, state.lobby.map, isPlayerLobbyOwner)
+                    discord.setParty(api.session.lobbyKey, #state.lobby.players, 16,
+                                     state.lobby.map, isPlayerLobbyOwner)
                     react.render("lobbyMenu")
                 else
                     menus.lobby(true)
@@ -271,7 +279,8 @@ local function onLobbyRefreshResponse(response)
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     react.render("lobbyMenu")
-                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map, isPlayerLobbyOwner)
+                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
+                                     isPlayerLobbyOwner)
                 else
                     discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
                     react.render("lobbyMenuClient")
@@ -437,5 +446,7 @@ function api.editLobby(lobbyKey, data)
         onLobbyEditResponse(result[1])
     end, api.url .. "/lobby/" .. lobbyKey, data)
 end
+
+api.loadUrl()
 
 return api
