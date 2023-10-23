@@ -7,6 +7,20 @@ local core = require "insurrection.core"
 local blam = require "blam"
 local getState = require "insurrection.redux.getState"
 
+local gametypeIcons = {
+    "unknown",
+    "assault",
+    "ctf",
+    "forge",
+    "infection",
+    "juggernaut",
+    "king",
+    "oddball",
+    "race",
+    "slayer",
+    "team_slayer"
+}
+
 return function()
     local state = getState()
     local definition = "template"
@@ -24,7 +38,7 @@ return function()
 
     local definitionList = component.new(options:findChildWidgetTag("definitions").id)
     local template = button.new(definitionList:findChildWidgetTag("template").id)
-    
+
     local map = button.new(definitionList:findChildWidgetTag("map").id)
     local gametype = button.new(definitionList:findChildWidgetTag("gametype").id)
 
@@ -89,19 +103,6 @@ return function()
                 ---@type uiComponentListItem
                 local item = {label = element, value = lobbyDef}
                 if newDefinition ~= "map" then
-                    local gametypeIcons = {
-                        "unknown",
-                        "assault",
-                        "ctf",
-                        "forge",
-                        "infection",
-                        "juggernaut",
-                        "king",
-                        "oddball",
-                        "race",
-                        "slayer",
-                        "team_slayer"
-                    }
                     item.bitmap = function(uiComponent)
                         local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
                         local iconToUse = table.find(gametypeIcons, function(icon)
@@ -171,8 +172,23 @@ return function()
         if definition == "map" then
             component = mapsList
         end
+
         component:setItems(table.map(elements, function(element)
-            return {label = element, value = definitionsToComponent[definition]}
+            ---@type uiComponentListItem
+            local item = {label = element, value = definition}
+            if newDefinition ~= "map" then
+                item.bitmap = function(uiComponent)
+                    local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    local iconToUse = table.find(gametypeIcons, function(icon)
+                        return element:includes(icon)
+                    end)
+                    local backgroundBitmapIndex = (table.indexof(gametypeIcons, iconToUse) or 1) - 1
+                    if backgroundBitmapIndex then
+                        icon:setWidgetValues({background_bitmap_index = backgroundBitmapIndex})
+                    end
+                end
+            end
+            return item
         end))
     end)
 
