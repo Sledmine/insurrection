@@ -37,9 +37,38 @@ function PluginMetadata()
     }
 end
 
+local commands = {
+    debug = {
+        description = "Enable Insurrection debug mode",
+        execute = function()
+            return true
+        end
+    },
+    setup_fonts = {
+        description = "Setup Insurrection fonts as default game fonts",
+        help = "<boolean>",
+        minArgs = 1,
+        maxArgs = 1,
+        execute = function()
+            return true
+        end
+    },
+    debug_customization = {
+        description = "Enable Insurrection customization debug mode",
+        execute = function()
+            return true
+        end
+    }
+}
+
 function PluginInit()
     balltze.event.mapLoad.subscribe(onMapLoad, "lowest")
     logger = balltze.logger.createLogger("test logger")
+    for command, data in pairs(commands) do
+        balltze.command.registerCommand(command, command, data.description, data.help, false,
+                                        data.minArgs or 0, data.maxArgs or 0, false, true,
+                                        data.execute)
+    end
     return true
 end
 
