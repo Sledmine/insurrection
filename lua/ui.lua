@@ -1,24 +1,25 @@
 DebugMode = false
 require "insecticide"
+local luna = require "luna"
 local blam = require "blam"
-local components = require "insurrection.components"
-constants = require "insurrection.constants"
 local isNull = blam.isNull
 local harmony = require "mods.harmony"
 local optic = harmony.optic
+local isBalltzeAvailable, balltze = pcall(require, "mods.balltze")
+
+constants = require "insurrection.constants"
+store = require "insurrection.redux.store"
+api = require "insurrection.api"
+local getState = require "insurrection.redux.getState"
+local components = require "insurrection.components"
 local chimera = require "insurrection.mods.chimera"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
-store = require "insurrection.redux.store"
-local getState = require "insurrection.redux.getState"
-local isBalltzeAvailable, balltze = pcall(require, "mods.balltze")
-require "luna"
 local react = require "insurrection.react"
 local utils = require "insurrection.utils"
 
 clua_version = 2.056
 -- Import API after setting up debug mode
-api = require "insurrection.api"
 IsUICompatible = false
 math.randomseed(os.time() + ticks())
 local gameStarted = false
@@ -324,18 +325,24 @@ function OnWidgetClose(widgetInstanceHandle)
     return not isCanceled
 end
 
+---Handle game commands
+---@param command string
 function OnCommand(command)
+    local args = command:split " "
+    local command = args[1]
     if command == "insurrection_debug" then
         DebugMode = not DebugMode
+        api.loadUrl()
         console_out("Debug mode: " .. tostring(DebugMode))
         return false
-    elseif command == "insurrection_fonts" then
-        chimera.setupFonts()
-        interface.dialog("SUCCESS", "Fonts have been setup",
-                         "Please restart the game to see changes.")
-        return false
-    elseif command == "insurrection_revert_fonts" then
-        chimera.setupFonts(true)
+    elseif command == "insurrection_setup_fonts" then
+        local revert = not luna.bool(args[2] or true)
+        chimera.setupFonts(revert)
+        if not revert then
+            interface.dialog("SUCCESS", "Fonts have been setup",
+                             "Please restart the game to see changes.")
+            return false
+        end
         interface.dialog("SUCCESS", "Fonts have been reverted",
                          "Please restart the game to see changes.")
         return false
