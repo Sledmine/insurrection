@@ -332,7 +332,7 @@ function OnCommand(command)
     local command = args[1]
     if command == "insurrection_debug" then
         DebugMode = not DebugMode
-        api.loadUrl()
+        interface.load()
         console_out("Debug mode: " .. tostring(DebugMode))
         return false
     elseif command == "insurrection_setup_fonts" then
