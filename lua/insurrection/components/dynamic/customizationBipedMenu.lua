@@ -30,31 +30,6 @@ local interpolationTicks = 30
 local editing = "regions"
 local regionIndex = 1
 
-local function setCamera(region)
-    local command = "camera_set customization_{region} {ticks}"
-    execute_script(command:template{
-        region = specificRegionCameras[region] or region,
-        ticks = interpolationTicks
-    })
-end
-
-local function setEditingGeometry(region)
-    local customizationObjectId = core.getCustomizationObjectId()
-    assert(customizationObjectId, "No customization biped found")
-    blam.rotateObject(customizationObjectId, constants.customization.rotation.default, 0, 0)
-
-    local command = "camera_set customization_{region} {ticks}"
-
-    -- Set camera
-    setCamera(region)
-
-    BipedRotation = constants.customization.rotation[region] or
-                        constants.customization.rotation.default
-    if BipedRotation then
-        blam.rotateObject(customizationObjectId, BipedRotation, 0, 0)
-    end
-end
-
 local function getCustomizationObjectData()
     local customizationObjectId = core.getCustomizationObjectId()
     assert(customizationObjectId, "No customization biped found")
@@ -67,9 +42,39 @@ local function getCustomizationObjectData()
     return {
         id = customizationObjectId,
         biped = customizationBiped,
-        tag = customizationBipedTag,
+        bipedTag = customizationBipedTag,
+        tag = blam.getTag(customizationBiped.tagId),
         model = customizationModel
     }
+end
+
+local function setCamera(region)
+    local command = "camera_set customization_{region}_generic {ticks}"
+
+    local customizationObjectData = getCustomizationObjectData()
+    if customizationObjectData.tag.path:find("keymind") then
+        command = "camera_set customization_{region} {ticks}"
+    end
+
+    execute_script(command:template{
+        region = specificRegionCameras[region] or region,
+        ticks = interpolationTicks
+    })
+end
+
+local function setEditingGeometry(region)
+    local customizationObjectId = core.getCustomizationObjectId()
+    assert(customizationObjectId, "No customization biped found")
+    blam.rotateObject(customizationObjectId, constants.customization.rotation.default, 0, 0)
+
+    -- Set camera
+    setCamera(region)
+
+    BipedRotation = constants.customization.rotation[region] or
+                        constants.customization.rotation.default
+    if BipedRotation then
+        blam.rotateObject(customizationObjectId, BipedRotation, 0, 0)
+    end
 end
 
 return function()
@@ -136,7 +141,7 @@ return function()
                     local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
                     local permutationsBitmapTag = constants.bitmaps.customization[region]
                     local index = regionIndex - 1
-                    if permutationsBitmapTag then
+                    if customizationObjectData.tag.path:find("keymind") and permutationsBitmapTag then
                         icon.widgetDefinition.backgroundBitmap = permutationsBitmapTag.id
                         index = permutationIndex
                     end

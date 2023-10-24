@@ -175,8 +175,8 @@ return function()
 
         component:setItems(table.map(elements, function(element)
             ---@type uiComponentListItem
-            local item = {label = element, value = definition}
-            if newDefinition ~= "map" then
+            local item = {label = element, value = definitionsToComponent[definition]}
+            if definition ~= "map" then
                 item.bitmap = function(uiComponent)
                     local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
                     local iconToUse = table.find(gametypeIcons, function(icon)
