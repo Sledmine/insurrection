@@ -43,7 +43,7 @@ return function()
         if not optic.isInstalled() then
             interface.dialog("ERROR", "Optic mod is not installed.",
                              "Please install it with Mercury and try again.")
-            return false
+            return
         end
         config = optic.getConfiguration() or {}
         dprint(config)
