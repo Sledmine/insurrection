@@ -8,9 +8,9 @@ return function()
     local login = components.new(constants.widgets.login.id)
     local usernameInput = button.new(login:findChildWidgetTag("username_input").id)
     local passwordInput = button.new(login:findChildWidgetTag("password_input").id)
-    login:onOpen(function()
+    login:onOpen(function(previousWidget)
         -- Start discord presence only if script is loaded in the UI map, prevent crashes in other maps
-        if map == "ui" then
+        if map == "ui" and (previousWidget and previousWidget.id == constants.widgets.main.id) then
             if not discord.ready then
                 discord.startPresence()
             end
