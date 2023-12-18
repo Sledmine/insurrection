@@ -13,6 +13,7 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@field height? number
 ---@field [1]? invaderWidgetChildWidget[]
 ---@field childs? invaderWidgetChildWidget[]
+---@field replace? invaderWidgetSearchAndReplaceFunctions[]
 
 ---Label component
 ---@param props labelProps
@@ -55,6 +56,7 @@ return function(props)
         --horiz_offset = 10,
         horiz_offset = 0,
         vert_offset = 5,
+        search_and_replace_functions = props.replace or {},
         child_widgets = props[1] or props.childs or {}
     }
     widget.createV2(widgetPath, wid)

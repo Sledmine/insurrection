@@ -11,7 +11,7 @@ _ALIGNMENTS = {}
 
 ---@class invaderWidgetSearchAndReplaceFunctions
 ---@field search_string string?
----@field replace_function '"null"' | '"widget s_controller"' | '"build_number"' | '"pid"'
+---@field replace_function '"null"' | '"widget_s_controller"' | '"build_number"' | '"pid"'
 
 ---@class invaderWidgetListFlags
 ---@field list_items_generated_in_code? boolean
@@ -175,9 +175,10 @@ end
 function widget.init(widgetPath)
     widgetPath = widgetPath:gsub("\\", "/")
     -- Create widget folders
-    fs.mkdir("tags" .. widgetPath, true)
-    fs.mkdir("tags" .. widgetPath .. "/strings", true)
-    fs.mkdir("tags" .. widgetPath .. "/bitmaps", true)
+    fs.mkdir("tags/" .. widgetPath, true)
+    fs.mkdir("tags/" .. widgetPath .. "/strings", true)
+    fs.mkdir("tags/" .. widgetPath .. "/bitmaps", true)
+    fs.mkdir("tags/" .. widgetPath .. "/buttons", true)
     -- Check if path ends with slash, if it does not, add it
     if widgetPath:sub(-1) ~= "/" then
         widgetPath = widgetPath .. "/"
@@ -278,6 +279,29 @@ end
 function widget.strmem(size, default)
     local str = default or ""
     return string.rep(" ", size - #str)
+end
+
+---Align multiple widgets to a specific position
+---@param props {alignment: '"vertical"' | '"horizontal"', size: number, horizontal: number, vertical: number, margin: number}
+function widget.layout(props)
+    local alignment = props.alignment
+    local size = props.size
+    local horizontal = props.horizontal
+    local vertical = props.vertical
+    local margin = props.margin
+    local alignmentHash = table.concat({alignment, size, horizontal, vertical, margin}, "")
+    _ALIGNMENTS[alignmentHash] = 0
+    return function(offset)
+        local offset = offset or 0
+        _ALIGNMENTS[alignmentHash] = _ALIGNMENTS[alignmentHash] + 1
+        if alignment == "vertical" then
+            return horizontal,
+                   widget.offset(vertical, size, margin, _ALIGNMENTS[alignmentHash]) + offset
+        else
+            return widget.offset(horizontal, size, margin, _ALIGNMENTS[alignmentHash]) + offset,
+                   vertical
+        end
+    end
 end
 
 return widget
