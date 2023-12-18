@@ -28,8 +28,8 @@ end
 local function ustr(tagPath, strings)
     local outputTagPath = "tags/" .. tagPath
     local stringTag = io.open(outputTagPath, "wb")
+    print("Creating USTR: " .. tagPath)
     if stringTag then
-        print("Creating USTR: " .. tagPath)
 
         stringTag:write(padding(36))
         -- Tag class/group
