@@ -3,7 +3,20 @@
 -- Sledmine, JerryBrick
 -- Easier memory handle and provides standard functions for scripting
 ------------------------------------------------------------------------------
-local blam = {_VERSION = "1.8.0"}
+local cos = math.cos
+local sin = math.sin
+local atan = math.atan
+local pi = math.pi
+math.atan2 = math.atan2 or function(y, x)
+    return atan(y / x) + (x < 0 and pi or 0)
+end
+local atan2 = math.atan2
+local sqrt = math.sqrt
+local fmod = math.fmod
+local rad = math.rad
+local deg = math.deg
+
+local blam = {_VERSION = "1.9.0"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -51,6 +64,8 @@ local function split(s, sep)
     return array
 end
 
+local null = 0xFFFFFFFF
+
 --- Get if given value equals a null value in game engine terms
 ---@param value any
 ---@return boolean
@@ -60,6 +75,7 @@ function blam.isNull(value)
     end
     return false
 end
+local isNull = blam.isNull
 
 ---Return if game instance is host
 ---@return boolean
@@ -101,7 +117,9 @@ local addressList = {
     deviceGroupsTable = 0x00816110,
     widgetsInstance = 0x6B401C,
     -- syncedNetworkObjects = 0x004F7FA2
-    syncedNetworkObjects = 0x006226F0 -- pointer, from Vulpes
+    syncedNetworkObjects = 0x006226F0, -- pointer, from Vulpes
+    screenResolution = 0x637CF0,
+    currentWidgetIdAddress = 0x6B401C
 }
 
 -- Server side addresses adjustment
@@ -160,7 +178,7 @@ local tagClasses = {
     particleSystem = "pctl",
     particle = "part",
     physics = "phys",
-    placeHolder = "plac",
+    placeholder = "plac",
     pointPhysics = "pphy",
     preferencesNetworkGame = "ngpr",
     projectile = "proj",
@@ -338,7 +356,7 @@ local dPadValues = {
     up = 765
 }
 
-local null = 0xFFFFFFFF
+local engineConstants = {defaultNetworkObjectsCount = 509}
 
 -- Global variables
 
@@ -1037,7 +1055,6 @@ end
 
 local function readTable(address, propertyData)
     local table = {}
-    --local elementsCount = read_byte(address - 0x4)
     local elementsCount = read_dword(address - 0x4)
     local firstElement = read_dword(address)
     for elementPosition = 1, elementsCount do
@@ -1218,13 +1235,15 @@ local deviceGroupsTableStructure = {
 ---@field networkRoleClass number Object network role class
 ---@field isGhost boolean Set object in some type of ghost mode
 ---@field isOnGround boolean Is the object touching ground
----@field ignoreGravity boolean Make object to ignore gravity
+---@field isNotAffectedByGravity boolean Enable/disable object gravity
 ---@field isInWater boolean Is the object touching on water
+---@field isStationary boolean Is the object stationary
 ---@field dynamicShading boolean Enable disable dynamic shading for lightmaps
 ---@field isNotCastingShadow boolean Enable/disable object shadow casting
 ---@field isFrozen boolean Freeze/unfreeze object existence
 ---@field isOutSideMap boolean Is object outside/inside bsp
 ---@field isCollideable boolean Enable/disable object collision, does not work with bipeds or vehicles
+---@field isBeingPickedUp boolean Is the object being picked up
 ---@field hasNoCollision boolean Enable/disable object collision, causes animation problems
 ---@field model number Gbxmodel tag ID
 ---@field scale number Object scale factor
@@ -1277,8 +1296,7 @@ local deviceGroupsTableStructure = {
 ---@field team number Object multiplayer team
 ---@field nameIndex number Index of object name in the scenario tag
 ---@field playerId number Current player id if the object
----@field parentId number Current parent id of the object, needs testing
----//@field isHealthEmpty boolean Is the object health depleted, also marked as "dead"
+---@field ownerId number Current owner id of the object any other object id
 ---@field isApparentlyDead boolean Is the object apparently dead
 ---@field isSilentlyKilled boolean Is the object really dead
 ---@field animationTagId number Current animation tag ID
@@ -1299,9 +1317,13 @@ local deviceGroupsTableStructure = {
 local objectStructure = {
     tagId = {type = "dword", offset = 0x0},
     networkRoleClass = {type = "dword", offset = 0x4},
+    isNotMoving = {type = "bit", offset = 0x8, bitLevel = 0},
+    existanceTime = {type = "dword", offset = 0xC},
     isGhost = {type = "bit", offset = 0x10, bitLevel = 0},
     isOnGround = {type = "bit", offset = 0x10, bitLevel = 1},
+    ---@deprecated
     ignoreGravity = {type = "bit", offset = 0x10, bitLevel = 2},
+    isNotAffectedByGravity = {type = "bit", offset = 0x10, bitLevel = 2},
     isInWater = {type = "bit", offset = 0x10, bitLevel = 3},
     isStationary = {type = "bit", offset = 0x10, bitLevel = 5},
     hasNoCollision = {type = "bit", offset = 0x10, bitLevel = 7},
@@ -1310,8 +1332,9 @@ local objectStructure = {
     isFrozen = {type = "bit", offset = 0x10, bitLevel = 20},
     -- FIXME Deprecated property, should be erased at a major release later
     frozen = {type = "bit", offset = 0x10, bitLevel = 20},
-    isOutSideMap = {type = "bit", offset = 0x12, bitLevel = 5},
     isCollideable = {type = "bit", offset = 0x10, bitLevel = 24},
+    isBeingPickedUp = {type = "bit", offset = 0x10, bitLevel = 26},
+    isOutSideMap = {type = "bit", offset = 0x12, bitLevel = 5},
     model = {type = "dword", offset = 0x34},
     scale = {type = "float", offset = 0xB0},
     health = {type = "float", offset = 0xE0},
@@ -1372,7 +1395,10 @@ local objectStructure = {
     team = {type = "word", offset = 0xB8},
     nameIndex = {type = "word", offset = 0xBA},
     playerId = {type = "dword", offset = 0xC0},
+    ---@deprecated
     parentId = {type = "dword", offset = 0xC4},
+    ownerId = {type = "dword", offset = 0xC4},
+    ---@deprecated
     isHealthEmpty = {type = "bit", offset = 0x106, bitLevel = 2},
     isApparentlyDead = {type = "bit", offset = 0x106, bitLevel = 2},
     isSilentlyKilled = {type = "bit", offset = 0x106, bitLevel = 5},
@@ -1380,6 +1406,7 @@ local objectStructure = {
     animation = {type = "word", offset = 0xD0},
     animationFrame = {type = "word", offset = 0xD2},
     isNotDamageable = {type = "bit", offset = 0x106, bitLevel = 11},
+    shaderPermutationIndex = {type = "word", offset = 0x176},
     regionPermutation1 = {type = "byte", offset = 0x180},
     regionPermutation2 = {type = "byte", offset = 0x181},
     regionPermutation3 = {type = "byte", offset = 0x182},
@@ -1416,6 +1443,7 @@ local objectStructure = {
 ---@field invisibleScale number Opacity amount of biped invisiblity
 ---@field primaryNades number Primary grenades count
 ---@field secondaryNades number Secondary grenades count
+---@field isNotAffectedByGravity boolean Enable/disable biped gravity
 ---@field landing number Biped landing state, 0 when landing, stays on 0 when landing hard, null otherwise
 ---@field bumpedObjectId number Object ID that the biped is bumping, vehicles, bipeds, etc, keeps the previous value if not bumping a new object
 ---@field vehicleSeatIndex number Current vehicle seat index of this biped
@@ -1432,7 +1460,6 @@ local objectStructure = {
 local bipedStructure = extendStructure(objectStructure, {
     invisible = {type = "bit", offset = 0x204, bitLevel = 4},
     noDropItems = {type = "bit", offset = 0x204, bitLevel = 20},
-    ignoreCollision = {type = "bit", offset = 0x4CC, bitLevel = 3},
     flashlight = {type = "bit", offset = 0x204, bitLevel = 19},
     cameraX = {type = "float", offset = 0x230},
     cameraY = {type = "float", offset = 0x234},
@@ -1454,6 +1481,8 @@ local bipedStructure = extendStructure(objectStructure, {
     invisibleScale = {type = "float", offset = 0x37C},
     primaryNades = {type = "byte", offset = 0x31E},
     secondaryNades = {type = "byte", offset = 0x31F},
+    isNotAffectedByGravity = {type = "bit", offset = 0x4CC, bitLevel = 2},
+    ignoreCollision = {type = "bit", offset = 0x4CC, bitLevel = 3},
     landing = {type = "byte", offset = 0x508},
     bumpedObjectId = {type = "dword", offset = 0x4FC},
     vehicleObjectId = {type = "dword", offset = 0x11C},
@@ -1466,6 +1495,52 @@ local bipedStructure = extendStructure(objectStructure, {
     thirdWeaponObjectId = {type = "dword", offset = 0x300},
     fourthWeaponObjectId = {type = "dword", offset = 0x304}
 })
+
+local vehicleStructure = extendStructure(objectStructure, {
+    invisible = {type = "bit", offset = 0x204, bitLevel = 4},
+    isTireBlur = {type = "bit", offset = 0x4CC, bitLevel = 0},
+    isHovering = {type = "bit", offset = 0x4CC, bitLevel = 1},
+    isCrouched = {type = "bit", offset = 0x4CC, bitLevel = 2},
+    isJumping = {type = "bit", offset = 0x4CC, bitLevel = 3},
+    speed = {type = "float", offset = 0x4D4},
+    slide = {type = "float", offset = 0x4D8},
+    turn = {type = "float", offset = 0x4DC},
+    tirePosition = {type = "float", offset = 0x4E0},
+    threadPositionLeft = {type = "float", offset = 0x4E4},
+    threadPositionRight = {type = "float", offset = 0x4E8},
+    hover = {type = "float", offset = 0x4EC},
+    thrust = {type = "float", offset = 0x4F0},
+    hoverX = {type = "float", offset = 0x4FC},
+    hoverY = {type = "float", offset = 0x500},
+    hoverZ = {type = "float", offset = 0x504},
+    respawnTimer = {type = "dword", offset = 0x5AC},
+    respawnTime = {type = "word", offset = 0x5B0},
+    respawnX = {type = "float", offset = 0x5B4},
+    respawnY = {type = "float", offset = 0x5B8},
+    respawnZ = {type = "float", offset = 0x5BC}
+})
+
+---@class vehicle : blamObject
+---@field isTireBlur boolean Vehicle tire blur state
+---@field isHovering boolean Vehicle hovering state
+---@field isCrouched boolean Vehicle crouch state
+---@field isJumping boolean Vehicle jumping state
+---@field speed number Vehicle speed
+---@field slide number Vehicle slide
+---@field turn number Vehicle turn
+---@field tirePosition number Vehicle tire position
+---@field threadPositionLeft number Vehicle thread position left
+---@field threadPositionRight number Vehicle thread position right
+---@field hover number Vehicle hover
+---@field thrust number Vehicle thrust
+---@field hoverX number Vehicle hover X axis
+---@field hoverY number Vehicle hover Y axis
+---@field hoverZ number Vehicle hover Z axis
+---@field respawnTimer number Vehicle respawn timer
+---@field respawnTime number Vehicle respawn time
+---@field respawnX number Vehicle respawn X axis
+---@field respawnY number Vehicle respawn Y axis
+---@field respawnZ number Vehicle respawn Z axis
 
 -- Tag data header structure
 local tagDataHeaderStructure = {
@@ -2009,6 +2084,7 @@ local modelAnimationsStructure = {
 ---@class weapon : blamObject
 ---@field pressedReloadKey boolean Is weapon trying to reload
 ---@field isWeaponPunching boolean Is weapon playing melee or grenade animation
+---@field ownerObjectId number Object ID of the weapon owner
 ---@field carrierObjectId number Object ID of the weapon owner
 ---@field isInInventory boolean Is weapon in inventory
 ---@field primaryTriggerState number Primary trigger state of the weapon
@@ -2086,8 +2162,8 @@ local modelStructure = {
                 offset = 0x44,
                 jump = 0x58,
                 rows = {
-                    name = {type = "string", offset = 0x0},
-                    --markersList = {
+                    name = {type = "string", offset = 0x0}
+                    -- markersList = {
                     --    type = "table",
                     --    offset = 0x4C,
                     --    jump = 0x0,
@@ -2095,7 +2171,7 @@ local modelStructure = {
                     --        name = {type = "string", offset = 0x0},
                     --        nodeIndex = {type = "word", offset = 0x20}
                     --    }
-                    --}
+                    -- }
                 }
             }
         }
@@ -2212,7 +2288,13 @@ local playerStructure = {
     assists = {type = "word", offset = 0XA4},
     betraysAndSuicides = {type = "word", offset = 0xAC},
     deaths = {type = "word", offset = 0xAE},
-    suicides = {type = "word", offset = 0XB0}
+    suicides = {type = "word", offset = 0XB0},
+    --[[
+        Appears to be some kind of tick or packet counter, when defined to specific value it will
+        cause the player to desync and show the "connection problems icon"
+        Counts up to 31 and then resets to 0
+    ]]
+    unknownTimer1 = {type = "dword", offset = 0xE8}
 }
 
 ---@class firstPersonInterface
@@ -2486,6 +2568,16 @@ end
 function blam.biped(address)
     if address and isValid(address) then
         return createObject(address, bipedStructure)
+    end
+    return nil
+end
+
+--- Create a Vehicle object from a given address
+---@param address? number
+---@return vehicle?
+function blam.vehicle(address)
+    if address and isValid(address) then
+        return createObject(address, vehicleStructure)
     end
     return nil
 end
@@ -2771,23 +2863,42 @@ local syncedObjectsTable = {
     firstElementAddress = {type = "dword", offset = 0x28}
 }
 
+local function getSyncedObjectsTable()
+    local tableAddress
+    if blam.isGameSAPP() then
+        tableAddress = addressList.syncedNetworkObjects
+    else
+        tableAddress = read_dword(addressList.syncedNetworkObjects)
+        if tableAddress == 0 then
+            console_out("Synced objects table is not accesible yet.")
+            return nil
+        end
+    end
+
+    return createObject(tableAddress, syncedObjectsTable)
+end
+
+--- Return the maximum allowed network objects count
+---@return number
+function blam.getMaximumNetworkObjects()
+    local syncedObjectsTable = getSyncedObjectsTable()
+    if not syncedObjectsTable then
+        return engineConstants.defaultNetworkObjectsCount
+    end
+
+    -- For some reason fist element entry is always used, so we need to substract 1
+    return syncedObjectsTable.maximumObjectsCount - 1
+end
+
 --- Return an element from the synced objects table
 ---@param index number
 ---@return number?
-function blam.getObjectIdBySincedIndex(index)
+function blam.getObjectIdBySyncedIndex(index)
     if index then
-        local tableAddress
-        if blam.isGameSAPP() then
-            tableAddress = addressList.syncedNetworkObjects
-        else
-            tableAddress = read_dword(addressList.syncedNetworkObjects)
-            if tableAddress == 0 then
-                console_out("Synced objects table is not accesible yet.")
-                return nil
-            end
+        local syncedObjectsTable = getSyncedObjectsTable()
+        if not syncedObjectsTable then
+            return nil
         end
-
-        local syncedObjectsTable = createObject(tableAddress, syncedObjectsTable)
 
         if syncedObjectsTable.objectsCount == 0 then
             return nil
@@ -2979,7 +3090,6 @@ function blam.findTagsList(partialTagPath, searchTagType)
     return tagsList
 end
 
-local fmod = math.fmod
 --- Return the index of an id number
 ---@param id number
 function blam.getIndexById(id)
@@ -2989,30 +3099,40 @@ function blam.getIndexById(id)
     return nil
 end
 
+---@class vector2D
+---@field x number
+---@field y number
+
 ---@class vector3D
 ---@field x number
 ---@field y number
 ---@field z number
+
+---@class vector4D
+---@field x number
+---@field y number
+---@field z number
+---@field w number
 
 ---Returns game rotation vectors from euler angles, return optional rotation matrix, based on
 ---[source.](https://www.mecademic.com/en/how-is-orientation-in-space-represented-with-euler-angles)
 --- @param yaw number
 --- @param pitch number
 --- @param roll number
---- @return vector3D, vector3D, table
-local function eulerToRotation(yaw, pitch, roll)
-    local yaw = math.rad(yaw)
-    local pitch = math.rad(-pitch) -- Negative pitch due to Sapien handling anticlockwise pitch
-    local roll = math.rad(roll)
+--- @return vector3D, vector3D
+local function eulerAnglesToVectors(yaw, pitch, roll)
+    local yaw = rad(yaw)
+    local pitch = rad(-pitch) -- Negative pitch due to Sapien handling anticlockwise pitch
+    local roll = rad(roll)
     local matrix = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}
 
     -- Roll, Pitch, Yaw = a, b, y
-    local cosA = math.cos(roll)
-    local sinA = math.sin(roll)
-    local cosB = math.cos(pitch)
-    local sinB = math.sin(pitch)
-    local cosY = math.cos(yaw)
-    local sinY = math.sin(yaw)
+    local cosA = cos(roll)
+    local sinA = sin(roll)
+    local cosB = cos(pitch)
+    local sinB = sin(pitch)
+    local cosY = cos(yaw)
+    local sinY = sin(yaw)
 
     matrix[1][1] = cosB * cosY
     matrix[1][2] = -cosB * sinY
@@ -3024,120 +3144,112 @@ local function eulerToRotation(yaw, pitch, roll)
     matrix[3][2] = sinA * cosY + cosA * sinB * sinY
     matrix[3][3] = cosA * cosB
 
-    local rollVector = {x = matrix[1][1], y = matrix[2][1], z = matrix[3][1]}
-    local yawVector = {x = matrix[1][3], y = matrix[2][3], z = matrix[3][3]}
-    return rollVector, yawVector, matrix
+    local v1 = {x = matrix[1][1], y = matrix[2][1], z = matrix[3][1]}
+    local v2 = {x = matrix[1][3], y = matrix[2][3], z = matrix[3][3]}
+
+    return v1, v2
 end
 
 --- Get euler angles rotation from game rotation vectors
---- @param rollVector vector3D
---- @param yawVector vector3D
---- @return number, number, number, table
-local function rotationToEuler(rollVector, yawVector)
-    -- Calculate the roll angle (around x-axis)
-    ---@diagnostic disable-next-line: deprecated
-    local roll = (math.atan2 or math.atan)(rollVector.y, rollVector.z)
-
-    -- Calculate the yaw angle (around z-axis)
-    ---@diagnostic disable-next-line: deprecated
-    local yaw = (math.atan2 or math.atan)(yawVector.x, yawVector.y)
-
-    -- Calculate the pitch angle (around y-axis)
-    local pitch = math.asin(-yawVector.z)
-
-    -- Create the rotation matrix
-    local cosRoll = math.cos(roll)
-    local sinRoll = math.sin(roll)
-    local cosYaw = math.cos(yaw)
-    local sinYaw = math.sin(yaw)
-    local cosPitch = math.cos(pitch)
-    local sinPitch = math.sin(pitch)
-
-    local matrix = {
-        {
-            cosYaw * cosRoll - sinYaw * sinPitch * sinRoll,
-            -cosYaw * sinRoll - sinYaw * sinPitch * cosRoll,
-            sinYaw * cosPitch
-        },
-        {
-            sinYaw * cosRoll + cosYaw * sinPitch * sinRoll,
-            -sinYaw * sinRoll + cosYaw * sinPitch * cosRoll,
-            -cosYaw * cosPitch
-        },
-        {cosPitch * sinRoll, cosPitch * cosRoll, sinPitch}
+--- @param v1 vector3D Vector with first column values from rotation matrix
+--- @param v2 vector3D Vector with third column values from rotation matrix
+--- @return number yaw, number pitch, number roll
+local function vectorsToEulerAngles(v1, v2)
+    local v3 = {
+        x = v1.y * v2.z - v1.z * v2.y,
+        y = v1.z * v2.x - v1.x * v2.z,
+        z = v1.x * v2.y - v1.y * v2.x
     }
 
-    return math.deg(yaw), -math.deg(pitch), math.deg(roll), matrix
+    local matrix = {{v1.x, v3.x, v2.x}, {v1.y, v3.y, v2.y}, {v1.z, v3.z, v2.z}}
+
+    -- Extract individual matrix elements
+    local m11, m12, m13 = matrix[1][1], matrix[1][2], matrix[1][3]
+    local m21, m22, m23 = matrix[2][1], matrix[2][2], matrix[2][3]
+    local m31, m32, m33 = matrix[3][1], matrix[3][2], matrix[3][3]
+
+    -- Calculate yaw (heading) angle
+    local yaw = atan2(m12, m11)
+
+    -- Calculate pitch (attitude) angle
+    local pitch = atan2(-m13, sqrt(m23 ^ 2 + m33 ^ 2))
+
+    -- Calculate roll (bank) angle
+    local roll = -atan2(m23, m33)
+
+    -- Convert angles from radians to degrees
+    yaw = deg(yaw)
+    pitch = deg(pitch)
+    roll = deg(roll)
+
+    -- Adjust angles to the range [0, 359]
+    yaw = fmod(yaw + 360, 360)
+    pitch = fmod(pitch + 360, 360)
+    roll = fmod(roll + 360, 360)
+
+    return yaw, pitch, roll
 end
 
--- @param rollVector table
--- @param yawVector table
--- @return number, number, number, table
-local function rotationToEulerAbsolute(rollVector, yawVector)
-    ---@diagnostic disable-next-line: deprecated
-    local roll = (math.atan2 or math.atan)(rollVector.y, rollVector.z)
-
-    -- Calculate the yaw angle (around z-axis)
-    ---@diagnostic disable-next-line: deprecated
-    local yaw = (math.atan2 or math.atan)(yawVector.x, yawVector.y)
-
-    -- Calculate the pitch angle (around y-axis)
-    local pitch = math.asin(-yawVector.z)
-
-    -- Create the rotation matrix
-    local cosRoll = math.cos(roll)
-    local sinRoll = math.sin(roll)
-    local cosYaw = math.cos(yaw)
-    local sinYaw = math.sin(yaw)
-    local cosPitch = math.cos(pitch)
-    local sinPitch = math.sin(pitch)
-
-    local matrix = {
-        {
-            cosYaw * cosRoll - sinYaw * sinPitch * sinRoll,
-            -cosYaw * sinRoll - sinYaw * sinPitch * cosRoll,
-            sinYaw * cosPitch
-        },
-        {
-            sinYaw * cosRoll + cosYaw * sinPitch * sinRoll,
-            -sinYaw * sinRoll + cosYaw * sinPitch * cosRoll,
-            -cosYaw * cosPitch
-        },
-        {cosPitch * sinRoll, cosPitch * cosRoll, sinPitch}
-    }
-
-    -- Calculate absolute angles (0 to 360 degrees)
-    local absYaw = (yaw >= 0) and math.deg(yaw) or math.deg(yaw) + 360
-    local absPitch = (pitch >= 0) and math.deg(pitch) or math.deg(pitch) + 360
-    local absRoll = (roll >= 0) and math.deg(roll) or math.deg(roll) + 360
-
-    return absYaw, absPitch, absRoll, matrix
-end
-
---- Get euler angles rotation from game rotation vectors
+--- Get rotation angles from game object
 ---
---- EXPERIMENTAL, values may not be accurate to rotation from Sapien
----@param rollVector vector3D
----@param yawVector vector3D
-function blam.getRotationFromVectors(rollVector, yawVector)
-    return rotationToEuler(rollVector, yawVector)
+--- Assuming clockwise rotation and absolute angles from 0 to 360
+---@param object blamObject
+---@return number yaw, number pitch, number roll
+function blam.getObjectRotation(object)
+    local v1 = {x = object.vX, y = object.vY, z = object.vZ}
+    local v2 = {x = object.v2X, y = object.v2Y, z = object.v2Z}
+    return vectorsToEulerAngles(v1, v2)
 end
 
 --- Rotate object into desired angles
----@param objectId number
+---
+--- Assuming clockwise rotation and absolute angles from 0 to 360
+---@param object blamObject
 ---@param yaw number
 ---@param pitch number
 ---@param roll number
-function blam.rotateObject(objectId, yaw, pitch, roll)
-    local rollVector, yawVector, matrix = eulerToRotation(yaw, pitch, roll)
-    local object = blam.object(get_object(objectId))
-    assert(object, "Object not found")
-    object.vX = rollVector.x
-    object.vY = rollVector.y
-    object.vZ = rollVector.z
-    object.v2X = yawVector.x
-    object.v2Y = yawVector.y
-    object.v2Z = yawVector.z
+function blam.rotateObject(object, yaw, pitch, roll)
+    local v1, v2 = eulerAnglesToVectors(yaw, pitch, roll)
+    object.vX = v1.x
+    object.vY = v1.y
+    object.vZ = v1.z
+    object.v2X = v2.x
+    object.v2Y = v2.y
+    object.v2Z = v2.z
+end
+
+--- Get screen resolution
+---@return {width: number, height: number, aspectRatio: number}
+function blam.getScreenData()
+    local height = read_word(addressList.screenResolution)
+    local width = read_word(addressList.screenResolution + 0x2)
+    return {width = width, height = height, aspectRatio = width / height}
+end
+
+--- Get the current game state
+---@return {isLayerOpened: boolean, isGamePaused: boolean}
+function blam.getGameState()
+    return {
+        isLayerOpened = read_byte(addressList.gameOnMenus) == 0,
+        isGamePaused = read_byte(addressList.gamePaused) == 0
+    }
+end
+
+--- Get object absolute coordinates
+---Returns the absolute coordinates of an object, considering parent object coordinates if any.
+---@param object blamObject
+---@return vector3D
+function blam.getAbsoluteObjectCoordinates(object)
+    local coordinates = {x = object.x, y = object.y, z = object.z}
+    if not isNull(object.parentObjectId) then
+        local parentObject = blam.object(get_object(object.parentObjectId))
+        if parentObject then
+            coordinates.x = coordinates.x + parentObject.x
+            coordinates.y = coordinates.y + parentObject.y
+            coordinates.z = coordinates.z + parentObject.z
+        end
+    end
+    return coordinates
 end
 
 return blam
