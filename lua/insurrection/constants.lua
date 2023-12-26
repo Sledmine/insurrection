@@ -68,7 +68,7 @@ function constants.get()
         Ideally, we only want root widgets, so we can search for nested widgets later.
     ]]
         intro = findWidgetTag("intro\\intro_menu"),
-        main = findWidgetTag("main_menu"),
+        main = findWidgetTag("main\\main_menu"),
         dialog = findWidgetTag("dialog\\dialog_menu"),
         login = findWidgetTag("login_menu"),
         lobby = findWidgetTag("lobby_menu"),

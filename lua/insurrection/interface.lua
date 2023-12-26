@@ -391,6 +391,18 @@ function interface.onTick()
     if not currentWidgetTag then
         return
     end
+    -- Inventory protptype code
+    --if core.getMouseState().scrollClick > 0 then
+    --    if focusedWidgetTagId then
+    --        local widget = blam.uiWidgetDefinition(focusedWidgetTagId)
+    --        console_out(widget.width .. " " .. widget.height)
+    --        local x, y = core.getWidgetCursorPosition()
+    --        -- console_out("X: " .. x .. " Y: " .. y)
+    --        local props = core.getWidgetValues(focusedWidgetTagId)
+    --        -- console_out("Focused widget: " .. focusedWidgetTagId .. " X: " .. props.left_bound .. " Y: " .. props.top_bound)
+    --        core.setWidgetValues(focusedWidgetTagId, {left_bound = x - (widget.width / 2), top_bound = y - (widget.height / 2)})
+    --    end
+    --end
     if constants.widgets.biped then
         if currentWidgetTag.id == constants.widgets.biped.id then
             local mouse = core.getMouseState()

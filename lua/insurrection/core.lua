@@ -6,7 +6,6 @@ local base64 = require "base64"
 local harmony = require "mods.harmony"
 
 local mercury = require "insurrection.mercury"
-local scriptVersion = "insurrection-" .. require "insurrection.version"
 local utils = require "insurrection.utils"
 
 local currentWidgetIdAddress = 0x6B401C
@@ -16,6 +15,7 @@ local clientPort = read_word(clientPortAddress)
 local friendlyClientPort = 2305
 local profileNameAddress = 0x6ADE22
 local mouseInputAddress = 0x64C73C
+local widgetCursorGlobals = 0x499E19
 
 local core = {}
 
@@ -47,6 +47,8 @@ function core.getTagName(tagPath)
 end
 
 function core.loadInsurrectionPatches()
+    package.loaded["insurrection.version"] = nil
+    local scriptVersion = "insurrection-" .. require "insurrection.version"
     -- Force usage a more friendly client port
     -- if clientPort ~= friendlyClientPort then
     --    write_dword(clientPortAddress, friendlyClientPort)
@@ -331,6 +333,15 @@ function core.getMouseState()
         scrollClick = read_byte(mouseInputAddress + 13),
         rightClick = read_byte(mouseInputAddress + 14)
     }
+end
+
+function core.getWidgetCursorPosition()
+    local cursorGlobals = read_dword(widgetCursorGlobals)
+    if cursorGlobals then
+        local cursorX = read_int(cursorGlobals + 0x4)
+        local cursorY = read_int(cursorGlobals + 0x8)
+        return cursorX, cursorY
+    end
 end
 
 return core
