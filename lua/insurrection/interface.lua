@@ -410,11 +410,13 @@ function interface.onTick()
             if mouse.rightClick > 0 then
                 local objectId = core.getCustomizationObjectId()
                 if objectId then
+                    local object = blam.object(get_object(objectId))
+                    assert(object)
                     BipedRotation = BipedRotation + mouse.right * 3
                     if BipedRotation > 360 then
                         BipedRotation = 0
                     end
-                    blam.rotateObject(objectId, BipedRotation, 0, 0)
+                    blam.rotateObject(object, BipedRotation, 0, 0)
                 end
             end
         end
