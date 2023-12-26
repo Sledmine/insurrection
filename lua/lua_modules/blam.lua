@@ -105,6 +105,8 @@ end
 -- Blam! engine data
 ------------------------------------------------------------------------------
 
+---@alias tagId number
+
 -- Engine address list
 local addressList = {
     tagDataHeader = 0x40440000,
@@ -1885,6 +1887,16 @@ local weaponHudInterfaceStructure = {
 ---@field type number
 ---@field teamIndex number
 
+---@class vehicleLocation
+---@field type number
+---@field nameIndex string
+---@field x number
+---@field y number
+---@field z number
+---@field yaw number
+---@field pitch number
+---@field roll number
+
 ---@class cutsceneFlag
 ---@field name string
 ---@field x number
@@ -1919,11 +1931,11 @@ local weaponHudInterfaceStructure = {
 
 ---@class scenario
 ---@field sceneryPaletteCount number Number of sceneries in the scenery palette
----@field sceneryPaletteList table Tag ID list of scenerys in the scenery palette
+---@field sceneryPaletteList tagId[] Tag ID list of scenerys in the scenery palette
 ---@field spawnLocationCount number Number of spawns in the scenario
 ---@field spawnLocationList spawnLocation[] List of spawns in the scenario
 ---@field vehicleLocationCount number Number of vehicles locations in the scenario
----@field vehicleLocationList table List of vehicles locations in the scenario
+---@field vehicleLocationList vehicleLocation[] List of vehicles locations in the scenario
 ---@field netgameEquipmentCount number Number of netgame equipments
 ---@field netgameEquipmentList table List of netgame equipments
 ---@field netgameFlagsCount number Number of netgame equipments
@@ -1934,6 +1946,8 @@ local weaponHudInterfaceStructure = {
 ---@field sceneries scenarioScenery[] List of all the sceneries in the scenario
 ---@field bipedsCount number Count of all the bipeds in the scenario
 ---@field bipeds scenarioBiped[] List of all the bipeds in the scenario
+---@field bipedPaletteCount number Count of all the bipeds in the biped palette
+---@field bipedPaletteList tagId[] List of all the bipeds in the biped palette
 ---@field cutsceneFlagsCount number Count of all the cutscene flags in the scenario
 ---@field cutsceneFlags cutsceneFlag[] List of all the cutscene flags in the scenario
 
@@ -2050,6 +2064,8 @@ local scenarioStructure = {
             roll = {type = "float", offset = 0x1C}
         }
     },
+    bipedPaletteCount = {type = "byte", offset = 0x0234},
+    bipedPaletteList = {type = "list", offset = 0x0238, elementsType = "dword", jump = 0x30},
     cutsceneFlagsCount = {type = "dword", offset = 0x4E4},
     cutsceneFlags = {
         type = "table",
@@ -2384,20 +2400,19 @@ local firstPersonStructure = {weaponObjectId = {type = "dword", offset = 0x10}}
 ---@field model number Gbxmodel tag Id of this biped tag
 ---@field disableCollision boolean Disable collision of this biped tag
 ---@field weaponCount number Number of weapons of this biped
----@field weaponList {weaponTagId: number}[] List of weapons of this biped
+---@field weaponList tagId[] List of weapons of this biped
 
 local bipedTagStructure = {
     model = {type = "dword", offset = 0x34},
     disableCollision = {type = "bit", offset = 0x2F4, bitLevel = 5},
     weaponCount = {type = "byte", offset = 0x02D8},
     weaponList = {
-        type = "table",
+        type = "list",
         offset = 0x02D8 + 0x4,
         jump = 0x24,
-        rows = {
-            weaponTagId = {type = "tagref", offset = 0x0}
-        }
+        elementsType = "dword"
     }
+
 }
 
 ---@class deviceMachine : blamObject
