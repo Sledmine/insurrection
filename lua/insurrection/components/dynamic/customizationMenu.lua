@@ -72,11 +72,12 @@ return function()
             assert(object, "customization object not found")
             local scenario = blam.scenario(0)
             assert(scenario)
+            -- Respawn biped object from scenario as it is safer than doing it from lua
             for _, scenery in pairs(scenario.sceneries) do
                 local sceneryName = scenario.objectNames[scenery.nameIndex + 1]
                 if sceneryName == "customization_biped" then
                     local newPaletteList = scenario.sceneryPaletteList
-                    -- Replace the biped tag with the custom biped tag
+                    -- Replace scenario biped tag with custom biped tag
                     if newPaletteList[scenery.typeIndex + 1] ~= bipedTag.id then
                         newPaletteList[scenery.typeIndex + 1] = bipedTag.id
                         scenario.sceneryPaletteList = newPaletteList
@@ -92,8 +93,9 @@ return function()
                 assert(customizationObjectId, "customization object not found")
                 local object = blam.object(get_object(customizationObjectId))
                 assert(object, "customization object not found")
+
                 for regionIndex, permutationIndex in pairs(regions) do
-                    object["regionPermutation" .. regionIndex] = permutationIndex
+                    core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
                 end
             end
         end
@@ -139,10 +141,14 @@ return function()
             local bipedPath = bipeds[1].value
             local savedBiped = savedBipeds[value]
             if savedBiped then
+                bipedsList:setCurrentItemIndex(table.indexof(bipeds,
+                                                             table.find(bipeds, function(biped)
+                    return biped.value == savedBiped.path
+                end)) or 1)
                 bipedPath = savedBiped.path
                 regions = savedBiped.regions
             end
-            --dprint(savedBiped)
+            -- dprint(savedBiped)
             handleSelectBiped(bipedPath, regions)
         end)
 
@@ -187,7 +193,8 @@ return function()
         end
         if selectedProjectItem and selectedBipedItem then
             local project = selectedProjectItem.value
-            local _, regions = core.getCustomizationObjectId()
+            local objectId, regions = core.getCustomizationObjectId()
+            assert(objectId and regions, "customization object not found")
             bipeds = {[project] = selectedBipedItem.value .. "+" .. table.concat(regions, "+")}
         end
         dprint(nameplate)
@@ -196,6 +203,7 @@ return function()
     end)
 
     customization:onOpen(function(previousWidgetTag)
+        discord.setState("Playing Insurrection", "In the customization menu")
         if previousWidgetTag then
             if previousWidgetTag.id == constants.widgets.biped.id then
                 handleLoadBipeds()

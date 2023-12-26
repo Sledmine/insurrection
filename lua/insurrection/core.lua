@@ -303,6 +303,8 @@ function core.setGameProfileName(name)
     return profileName
 end
 
+---Get reference to any customization object available in the map
+---@return number? objectId, table? regionPermutations
 function core.getCustomizationObjectId()
     local scenario = blam.scenario(0)
     assert(scenario)
@@ -342,6 +344,50 @@ function core.getWidgetCursorPosition()
         local cursorY = read_int(cursorGlobals + 0x8)
         return cursorX, cursorY
     end
+end
+
+function core.getCustomizationObjectData()
+    local customizationObjectId = core.getCustomizationObjectId()
+    assert(customizationObjectId, "No customization biped found")
+    local customizationBiped = blam.biped(get_object(customizationObjectId))
+    assert(customizationBiped, "No customization biped found")
+    local customizationBipedTag = blam.bipedTag(customizationBiped.tagId)
+    assert(customizationBipedTag, "No customization biped tag found")
+    local customizationModel = blam.model(customizationBipedTag.model)
+    assert(customizationModel, "No customization biped model found")
+    return {
+        id = customizationObjectId,
+        biped = customizationBiped,
+        bipedTag = customizationBipedTag,
+        tag = blam.getTag(customizationBiped.tagId),
+        model = customizationModel
+    }
+end
+
+---Set the region permutation of a customization object
+---
+---NOTE: Assumes region index starts at 1
+---@param object blamObject
+---@param regionIndex number
+---@param permutationIndex number
+function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
+    local objectBipedTag = blam.bipedTag(object.tagId)
+    assert(objectBipedTag, "No biped tag found")
+    local objectModel = blam.model(objectBipedTag.model)
+    assert(objectModel, "No biped model found")
+
+    local regionCount = objectModel.regionCount
+    if regionIndex > regionCount then
+        dprint("Region index " .. regionIndex .. " out of range, leaving object as is")
+        return
+    end
+
+    local maximumPermutationCount = objectModel.regionList[regionIndex].permutationCount
+    if permutationIndex > maximumPermutationCount then
+        dprint("Permutation index " .. permutationIndex .. " out of range, setting to 0")
+        permutationIndex = 0
+    end
+    object["regionPermutation" .. regionIndex] = permutationIndex
 end
 
 return core
