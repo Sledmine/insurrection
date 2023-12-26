@@ -65,8 +65,8 @@ return function()
         assert(bipedTagEntry, "biped tag " .. bipedPath .. " not found")
         local bipedTag = blam.bipedTag(bipedTagEntry.id)
         assert(bipedTag, "biped tag " .. bipedPath .. " not found")
-        -- TODO Remove this when marine biped animations are fixed in coop evolved
-        if not bipedTagEntry.path:includes "marine" then
+        -- TODO Remove this when biped animations are fixed in coop evolved
+        if not (bipedTagEntry.path:includes "marine" or bipedTagEntry.path:includes "grunt") then
             bipedTag.weaponCount = 0
         end
         local bipedName = utils.snakeCaseToUpperTitleCase(
