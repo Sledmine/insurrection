@@ -16,7 +16,7 @@ local fmod = math.fmod
 local rad = math.rad
 local deg = math.deg
 
-local blam = {_VERSION = "1.9.1"}
+local blam = {_VERSION = "1.10.1"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -1905,6 +1905,18 @@ local weaponHudInterfaceStructure = {
 ---@field pitch number
 ---@field roll number
 
+---@class scenarioBiped
+---@field typeIndex number
+---@field nameIndex string
+---@field notPlaced boolean
+---@field desiredPermutation number
+---@field x number
+---@field y number
+---@field z number
+---@field yaw number
+---@field pitch number
+---@field roll number
+
 ---@class scenario
 ---@field sceneryPaletteCount number Number of sceneries in the scenery palette
 ---@field sceneryPaletteList table Tag ID list of scenerys in the scenery palette
@@ -1920,6 +1932,8 @@ local weaponHudInterfaceStructure = {
 ---@field objectNames string[] List of all the object names in the scenario
 ---@field sceneriesCount number Count of all the sceneries in the scenario
 ---@field sceneries scenarioScenery[] List of all the sceneries in the scenario
+---@field bipedsCount number Count of all the bipeds in the scenario
+---@field bipeds scenarioBiped[] List of all the bipeds in the scenario
 ---@field cutsceneFlagsCount number Count of all the cutscene flags in the scenario
 ---@field cutsceneFlags cutsceneFlag[] List of all the cutscene flags in the scenario
 
@@ -2005,6 +2019,24 @@ local scenarioStructure = {
         type = "table",
         offset = 0x214,
         jump = 0x48,
+        rows = {
+            typeIndex = {type = "word", offset = 0x0},
+            nameIndex = {type = "word", offset = 0x2},
+            notPlaced = {type = "bit", offset = 0x4, bitLevel = 0},
+            desiredPermutation = {type = "byte", offset = 0x6},
+            x = {type = "float", offset = 0x8},
+            y = {type = "float", offset = 0xC},
+            z = {type = "float", offset = 0x10},
+            yaw = {type = "float", offset = 0x14},
+            pitch = {type = "float", offset = 0x18},
+            roll = {type = "float", offset = 0x1C}
+        }
+    },
+    bipedsCount = {type = "dword", offset = 0x228},
+    bipeds = {
+        type = "table",
+        offset = 0x0228 + 0x4,
+        jump = 0x78,
         rows = {
             typeIndex = {type = "word", offset = 0x0},
             nameIndex = {type = "word", offset = 0x2},
