@@ -3,14 +3,14 @@ local balltze = Balltze
 local logger
 
 local customBipedPaths = {
-    bleed_it_out_dev = {[[keymind\halo_infinite\characters\unsc\odst\mirage_core\mirage_mp]]},
-    b30_coop_evolved_dev = {
+    bleed_it_out = {[[keymind\halo_infinite\characters\unsc\odst\mirage_core\mirage_mp]]},
+    b30_coop_evolved = {
         [[[shm]\halo_1\characters\mjolnir_gen_1\mjolnir_gen_1_mp]],
-        [[characters\elite_mp\elite_mp]],
-        [[characters\marine_armored_mp\marine_mp]],
-        [[characters\grunt\yapyap\yapyap_mp]]
+        [[[shm]\halo_1\characters\marine\marine_mp]],
+        [[[shm]\halo_1\characters\elite\elite_mp]],
+        [[[shm]\halo_1\characters\grunt\grunt_mp]]
     },
-    forge_island_dev = {[[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
+    --forge_island_dev = {[[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
 }
 
 ---@type BalltzeMapLoadEventCallback
