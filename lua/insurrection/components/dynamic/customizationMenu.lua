@@ -61,8 +61,14 @@ return function()
     ---@param regions? number[]
     local handleSelectBiped = function(bipedPath, regions)
         execute_script("object_create customization_biped")
-        local bipedTag = findTag(bipedPath, tagClasses.biped)
+        local bipedTagEntry = findTag(bipedPath, tagClasses.biped)
+        assert(bipedTagEntry, "biped tag " .. bipedPath .. " not found")
+        local bipedTag = blam.bipedTag(bipedTagEntry.id)
         assert(bipedTag, "biped tag " .. bipedPath .. " not found")
+        -- TODO Remove this when marine biped animations are fixed in coop evolved
+        if not bipedTagEntry.path:includes "marine" then
+            bipedTag.weaponCount = 0
+        end
         local bipedName = utils.snakeCaseToUpperTitleCase(
                               utils.path(bipedPath:replace("_mp", "")).name)
         currentBipedLabel:setText(bipedName)
@@ -78,8 +84,8 @@ return function()
                 if sceneryName == "customization_biped" then
                     local newPaletteList = scenario.sceneryPaletteList
                     -- Replace scenario biped tag with custom biped tag
-                    if newPaletteList[scenery.typeIndex + 1] ~= bipedTag.id then
-                        newPaletteList[scenery.typeIndex + 1] = bipedTag.id
+                    if newPaletteList[scenery.typeIndex + 1] ~= bipedTagEntry.id then
+                        newPaletteList[scenery.typeIndex + 1] = bipedTagEntry.id
                         scenario.sceneryPaletteList = newPaletteList
                         execute_script "object_destroy customization_biped"
                         execute_script "object_create customization_biped"
