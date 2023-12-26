@@ -16,6 +16,7 @@ local shared = interface.shared
 local constants = require "insurrection.constants"
 local loading = core.loading
 local luna = require "luna"
+local utils = require "insurrection.utils"
 
 local api = {}
 
@@ -112,10 +113,30 @@ local function unknownError(logs)
                      "An unknown error has ocurred, please check logs and try again later.")
     if logs then
         local log = read_file("insurrection.log") or ""
+        -- Check if log is over 100,000 kilobytes and reset it
+        if #log > 100000 then
+            log = ""
+        end
         log = log .. "\n" .. debug.traceback()
         log = log .. "\n" .. logs
         write_file("insurrection.log", log)
     end
+end
+
+---Prevent players from getting stuck in the joining screen if the server connection fails
+local function preventStuckLobby()
+    -- Check after 5 seconds if we are still in the UI map
+    utils.delay(5000, function()
+        if map == "ui" then
+            -- If we were trying to join a lobby and the widget is closed, delete the lobby
+            if api.session.lobbyKey then
+                console_out(
+                    "It seems like there is a problem joining the server, deleting lobby...",
+                    table.unpack(blam.consoleColors.warning))
+                api.deleteLobby()
+            end
+        end
+    end)
 end
 
 ---Load Insurrection URL to be used by the API
@@ -285,11 +306,12 @@ local function onLobbyRefreshResponse(response)
                     discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
                     react.render("lobbyMenuClient")
                 end
-                -- Lobby already started, join the server
+                -- Lobby alreadydeleteLobby
                 if lobby.server and not blam.isGameDedicated() then
                     api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,
                             lobby.server.password)
+                    preventStuckLobby()
                 end
             end
             return true
@@ -324,6 +346,7 @@ function api.refreshLobby()
     if api.session.lobbyKey then
         dprint("Refreshing lobby data...", "info")
         async(requests.get, function(result)
+
             onLobbyRefreshResponse(result[1])
         end, api.url .. "/lobby/" .. api.session.lobbyKey)
     end
@@ -364,6 +387,7 @@ local function onBorrowResponse(response)
                 dprint(jsonResponse)
                 connect(jsonResponse.map, jsonResponse.host, jsonResponse.port,
                         jsonResponse.password)
+                preventStuckLobby()
             end
             return true
         elseif response.code == 404 then
