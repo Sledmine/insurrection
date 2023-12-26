@@ -278,7 +278,9 @@ end
 ---@return string
 function widget.strmem(size, default)
     local str = default or ""
-    return string.rep(" ", size - #str)
+    local size = size - #str
+    str = str .. string.rep(" ", size)
+    return str
 end
 
 ---Align multiple widgets to a specific position
