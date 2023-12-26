@@ -180,4 +180,11 @@ function list.getCurrentItem(self)
     return self.items[self.currentItemIndex]
 end
 
+---@param self uiComponentList
+---@param itemIndex number
+function list.setCurrentItemIndex(self, itemIndex)
+    self.currentItemIndex = itemIndex
+    self:refresh()
+end
+
 return list
