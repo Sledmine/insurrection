@@ -54,7 +54,15 @@ local images = {
     "treason",
     "bleed_it_out",
     "last_voyage",
-    "impasse"
+    "impasse",
+    -- Coop Evolved maps
+    "a30_coop_evolved",
+    "a50_coop_evolved",
+    "b30_coop_evolved",
+    "b40_coop_evolved",
+    "c10_coop_evolved",
+    "c20_coop_evolved",
+    "d40_coop_evolved"
 }
 
 local existingImages = {}
@@ -110,7 +118,7 @@ for _, image in ipairs(images) do
     os.execute([[cd "]] .. imageDataFolderPath ..
                    [[" && convert -bordercolor blue -border 1 +append $(ls -1v) "../../../insurrection_maps/]] ..
                    image .. [[.png"]])
-    os.execute([[invader-bitmap -F 32-bit -T interface_bitmaps "]] .. bitmapPath .. [["]])
+    os.execute([[invader-bitmap -F 16-bit -T interface_bitmaps "]] .. bitmapPath .. [["]])
     existingImages[#existingImages + 1] = image
     ::continue::
 end
