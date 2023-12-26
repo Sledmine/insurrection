@@ -29,7 +29,11 @@ return container {
             pos.header.x,
             pos.header.y
         },
-        {label {name = "geometry_name", text = strmem(32, "GEOMETRY")}},
+        {
+            label {name = "geometry_name", text = strmem(32, "GEOMETRY_NAME"), variant = "title"},
+            53,
+            yPosList - 26
+        },
         {
             options {
                 name = "customization_geometry_list",
