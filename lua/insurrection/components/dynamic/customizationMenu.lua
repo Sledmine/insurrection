@@ -10,6 +10,7 @@ local utils = require "insurrection.utils"
 local menus = require "insurrection.menus"
 local core = require "insurrection.core"
 local getState = require "insurrection.redux.getState"
+local t = utils.snakeCaseToUpperTitleCase
 
 ---@return number?
 local number = function(v)
@@ -69,8 +70,7 @@ return function()
         if not (bipedTagEntry.path:includes "marine" or bipedTagEntry.path:includes "grunt") then
             bipedTag.weaponCount = 0
         end
-        local bipedName = utils.snakeCaseToUpperTitleCase(
-                              utils.path(bipedPath:replace("_mp", "")).name)
+        local bipedName = t(utils.path(bipedPath:replace("_mp", "")).name)
         currentBipedLabel:setText(bipedName)
         local customizationObjectId = core.getCustomizationObjectId()
         if customizationObjectId then

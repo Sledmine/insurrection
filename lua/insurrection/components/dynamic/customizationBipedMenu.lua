@@ -5,6 +5,7 @@ local list = require "insurrection.components.list"
 local utils = require "insurrection.utils"
 local blam = require "blam"
 local core = require "insurrection.core"
+local t = utils.snakeCaseToUpperTitleCase
 
 local staticRegions = {
     "body",
@@ -70,15 +71,24 @@ local function setEditingGeometry(region)
     end
 end
 
+local function getBipedName(tagPath)
+    local name = utils.path(tagPath).name
+    return name:replace("_mp", "")
+end
+
 return function()
     -- Get customization widget menu
     local customization = components.new(constants.widgets.biped.id)
+    local geometryName = components.new(customization:findChildWidgetTag("geometry_name").id)
     local options = list.new(customization:findChildWidgetTag("geometry_list").id, 1, 8)
     local back = button.new(options:findChildWidgetTag("back").id)
 
     local function loadRegions()
         local customizationObjectData = getCustomizationObjectData()
         local customizationModel = customizationObjectData.model
+
+        local bipedName = getBipedName(customizationObjectData.tag.path)
+        geometryName:setText(t(bipedName))
 
         dynamicRegions = table.map(customizationModel.regionList, function(region)
             local regionName = region.name:trim()
@@ -89,7 +99,7 @@ return function()
         end)
 
         local regions = table.map(dynamicRegions, function(region)
-            local regionName = utils.snakeCaseToUpperTitleCase(region)
+            local regionName = t(region)
             return {
                 value = region,
                 label = regionName,
@@ -111,14 +121,16 @@ return function()
     end
 
     local function loadPermutations(region)
+        geometryName:setText(t(region))
+
         local customizationObjectData = getCustomizationObjectData()
         local customizationModel = customizationObjectData.model
 
         currentRegionIndex = table.indexof(dynamicRegions, region) --[[@as number]]
 
         -- TODO Check if region exists
-        local lastPermutation = customizationModel.regionList[currentRegionIndex]
-                                            .permutationCount - 1
+        local lastPermutation = customizationModel.regionList[currentRegionIndex].permutationCount -
+                                    1
 
         local permutations = {}
         for permutationIndex = 0, lastPermutation do
@@ -129,7 +141,7 @@ return function()
             if permutationName:includes("+") then
                 permutationName = permutationName:split("+")[4]
             end
-            permutationName = utils.snakeCaseToUpperTitleCase(permutationName):upper()
+            permutationName = t(permutationName):upper()
             table.insert(permutations, {
                 value = permutationIndex,
                 label = permutationName,
