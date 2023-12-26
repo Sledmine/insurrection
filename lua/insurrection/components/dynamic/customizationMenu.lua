@@ -174,8 +174,6 @@ return function()
         local selectedProjectItem = selectProjectsList:getSelectedItem()
         local selectedBipedItem = bipedsList:getCurrentItem()
 
-        local project = selectedProjectItem.value
-
         local currentNameplateId
         if settings and settings.nameplate then
             currentNameplateId = settings.nameplate
@@ -188,6 +186,7 @@ return function()
             nameplate = selectedNameplateItem.value
         end
         if selectedProjectItem and selectedBipedItem then
+            local project = selectedProjectItem.value
             local _, regions = core.getCustomizationObjectId()
             bipeds = {[project] = selectedBipedItem.value .. "+" .. table.concat(regions, "+")}
         end
