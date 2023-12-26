@@ -16,7 +16,7 @@ local fmod = math.fmod
 local rad = math.rad
 local deg = math.deg
 
-local blam = {_VERSION = "1.9.0"}
+local blam = {_VERSION = "1.9.1"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -1071,7 +1071,7 @@ local function readTable(address, propertyData)
 end
 
 local function writeTable(address, propertyData, propertyValue)
-    local elementCount = read_byte(address - 0x4)
+    local elementCount = read_dword(address - 0x4)
     local firstElement = read_dword(address)
     for currentElement = 1, elementCount do
         local elementAddress = firstElement + (currentElement - 1) * propertyData.jump
@@ -1094,13 +1094,16 @@ end
 
 local function readTagReference(address)
     -- local tagClass = read_dword(address)
-    -- local tagPathPointer = read_dword(address = 0x4)
+    -- local tagPathPointer = read_dword(address + 0x4)
+    -- local tagPath = read_string(tagPathPointer)
+    -- local unknown = read_dword(address + 0x8)
     local tagId = read_dword(address + 0xC)
     return tagId
 end
 
-local function writeTagReference(address, propertyData, propertyValue)
-    write_dword(address + 0xC, propertyValue)
+local function writeTagReference(address, propertyData, tagId)
+    -- TODO Attempt to validate tag classes and overwrite tag path pointer
+    write_dword(address + 0xC, tagId)
 end
 
 -- Data types operations references
@@ -1303,6 +1306,7 @@ local deviceGroupsTableStructure = {
 ---@field animation number Current animation index
 ---@field animationFrame number Current animation frame
 ---@field isNotDamageable boolean Make the object undamageable
+---@field shaderPermutationIndex number Current shader permutation index
 ---@field regionPermutation1 number
 ---@field regionPermutation2 number
 ---@field regionPermutation3 number
@@ -1418,7 +1422,68 @@ local objectStructure = {
     parentObjectId = {type = "dword", offset = 0x11C}
 }
 
----@class biped : blamObject
+local unitStructure = extendStructure(objectStructure, {
+    ---@deprecated
+    invisible = {type = "bit", offset = 0x204, bitLevel = 4},
+    isCamoActive = {type = "bit", offset = 0x204, bitLevel = 4},
+    isControllable = {type = "bit", offset = 0x204, bitLevel = 5},
+    isPlayerNotAllowedToEntry = {type = "bit", offset = 0x204, bitLevel = 16},
+    parentSeatIndex = {type = "word", offset = 0x2F0},
+    firstWeaponObjectId = {type = "dword", offset = 0x2F8},
+    secondWeaponObjectId = {type = "dword", offset = 0x2FC},
+    thirdWeaponObjectId = {type = "dword", offset = 0x300},
+    fourthWeaponObjectId = {type = "dword", offset = 0x304},
+    camoScale = {type = "float", offset = 0x37C}
+})
+
+---@class unit : blamObject
+---@field isCamoActive boolean Unit camo state
+---@field isControllable boolean Unit controllable state
+---@field isPlayerNotAllowedToEntry boolean Unit player not allowed to entry
+---@field parentSeatIndex number Unit parent seat index
+---@field firstWeaponObjectId number First weapon object id
+---@field secondWeaponObjectId number Second weapon object id
+---@field thirdWeaponObjectId number Third weapon object id
+---@field fourthWeaponObjectId number Fourth weapon object id
+---@field camoScale number Unit camo scale
+
+-- Biped structure (extends object structure)
+local bipedStructure = extendStructure(unitStructure, {
+    noDropItems = {type = "bit", offset = 0x204, bitLevel = 20},
+    flashlight = {type = "bit", offset = 0x204, bitLevel = 19},
+    cameraX = {type = "float", offset = 0x230},
+    cameraY = {type = "float", offset = 0x234},
+    cameraZ = {type = "float", offset = 0x238},
+    crouchHold = {type = "bit", offset = 0x208, bitLevel = 0},
+    jumpHold = {type = "bit", offset = 0x208, bitLevel = 1},
+    actionKeyHold = {type = "bit", offset = 0x208, bitLevel = 14},
+    actionKey = {type = "bit", offset = 0x208, bitLevel = 6},
+    meleeKey = {type = "bit", offset = 0x208, bitLevel = 7},
+    reloadKey = {type = "bit", offset = 0x208, bitLevel = 10},
+    weaponPTH = {type = "bit", offset = 0x208, bitLevel = 11},
+    weaponSTH = {type = "bit", offset = 0x208, bitLevel = 12},
+    flashlightKey = {type = "bit", offset = 0x208, bitLevel = 4},
+    grenadeHold = {type = "bit", offset = 0x208, bitLevel = 13},
+    crouch = {type = "byte", offset = 0x2A0},
+    shooting = {type = "float", offset = 0x284},
+    weaponSlot = {type = "byte", offset = 0x2A1},
+    zoomLevel = {type = "byte", offset = 0x320},
+    ---@deprecated
+    invisibleScale = {type = "float", offset = 0x37C},
+    primaryNades = {type = "byte", offset = 0x31E},
+    secondaryNades = {type = "byte", offset = 0x31F},
+    isNotAffectedByGravity = {type = "bit", offset = 0x4CC, bitLevel = 2},
+    ignoreCollision = {type = "bit", offset = 0x4CC, bitLevel = 3},
+    landing = {type = "byte", offset = 0x508},
+    bumpedObjectId = {type = "dword", offset = 0x4FC},
+    vehicleObjectId = {type = "dword", offset = 0x11C},
+    vehicleSeatIndex = {type = "word", offset = 0x2F0},
+    walkingState = {type = "char", offset = 0x503},
+    motionState = {type = "byte", offset = 0x4D2},
+    mostRecentDamagerPlayer = {type = "dword", offset = 0x43C}
+})
+
+---@class biped : unit
 ---@field invisible boolean Biped invisible state
 ---@field noDropItems boolean Biped ability to drop items at dead
 ---@field ignoreCollision boolean Biped ignores collisiion
@@ -1451,53 +1516,8 @@ local objectStructure = {
 ---@field walkingState number Biped walking state, 0 = not walking, 1 = walking, 2 = stoping walking, 3 = stationary
 ---@field motionState number Biped motion state, 0 = standing , 1 = walking , 2 = jumping/falling
 ---@field mostRecentDamagerPlayer number Id of the player that caused the most recent damage to this biped
----@field firstWeaponObjectId number First weapon object id
----@field secondWeaponObjectId number Second weapon object id
----@field thirdWeaponObjectId number Third weapon object id
----@field fourthWeaponObjectId number Fourth weapon object id
 
--- Biped structure (extends object structure)
-local bipedStructure = extendStructure(objectStructure, {
-    invisible = {type = "bit", offset = 0x204, bitLevel = 4},
-    noDropItems = {type = "bit", offset = 0x204, bitLevel = 20},
-    flashlight = {type = "bit", offset = 0x204, bitLevel = 19},
-    cameraX = {type = "float", offset = 0x230},
-    cameraY = {type = "float", offset = 0x234},
-    cameraZ = {type = "float", offset = 0x238},
-    crouchHold = {type = "bit", offset = 0x208, bitLevel = 0},
-    jumpHold = {type = "bit", offset = 0x208, bitLevel = 1},
-    actionKeyHold = {type = "bit", offset = 0x208, bitLevel = 14},
-    actionKey = {type = "bit", offset = 0x208, bitLevel = 6},
-    meleeKey = {type = "bit", offset = 0x208, bitLevel = 7},
-    reloadKey = {type = "bit", offset = 0x208, bitLevel = 10},
-    weaponPTH = {type = "bit", offset = 0x208, bitLevel = 11},
-    weaponSTH = {type = "bit", offset = 0x208, bitLevel = 12},
-    flashlightKey = {type = "bit", offset = 0x208, bitLevel = 4},
-    grenadeHold = {type = "bit", offset = 0x208, bitLevel = 13},
-    crouch = {type = "byte", offset = 0x2A0},
-    shooting = {type = "float", offset = 0x284},
-    weaponSlot = {type = "byte", offset = 0x2A1},
-    zoomLevel = {type = "byte", offset = 0x320},
-    invisibleScale = {type = "float", offset = 0x37C},
-    primaryNades = {type = "byte", offset = 0x31E},
-    secondaryNades = {type = "byte", offset = 0x31F},
-    isNotAffectedByGravity = {type = "bit", offset = 0x4CC, bitLevel = 2},
-    ignoreCollision = {type = "bit", offset = 0x4CC, bitLevel = 3},
-    landing = {type = "byte", offset = 0x508},
-    bumpedObjectId = {type = "dword", offset = 0x4FC},
-    vehicleObjectId = {type = "dword", offset = 0x11C},
-    vehicleSeatIndex = {type = "word", offset = 0x2F0},
-    walkingState = {type = "char", offset = 0x503},
-    motionState = {type = "byte", offset = 0x4D2},
-    mostRecentDamagerPlayer = {type = "dword", offset = 0x43C},
-    firstWeaponObjectId = {type = "dword", offset = 0x2F8},
-    secondWeaponObjectId = {type = "dword", offset = 0x2FC},
-    thirdWeaponObjectId = {type = "dword", offset = 0x300},
-    fourthWeaponObjectId = {type = "dword", offset = 0x304}
-})
-
-local vehicleStructure = extendStructure(objectStructure, {
-    invisible = {type = "bit", offset = 0x204, bitLevel = 4},
+local vehicleStructure = extendStructure(unitStructure, {
     isTireBlur = {type = "bit", offset = 0x4CC, bitLevel = 0},
     isHovering = {type = "bit", offset = 0x4CC, bitLevel = 1},
     isCrouched = {type = "bit", offset = 0x4CC, bitLevel = 2},
@@ -1520,7 +1540,7 @@ local vehicleStructure = extendStructure(objectStructure, {
     respawnZ = {type = "float", offset = 0x5BC}
 })
 
----@class vehicle : blamObject
+---@class vehicle : unit
 ---@field isTireBlur boolean Vehicle tire blur state
 ---@field isHovering boolean Vehicle hovering state
 ---@field isCrouched boolean Vehicle crouch state
@@ -2331,10 +2351,21 @@ local firstPersonStructure = {weaponObjectId = {type = "dword", offset = 0x10}}
 ---@class bipedTag
 ---@field model number Gbxmodel tag Id of this biped tag
 ---@field disableCollision boolean Disable collision of this biped tag
+---@field weaponCount number Number of weapons of this biped
+---@field weaponList {weaponTagId: number}[] List of weapons of this biped
 
 local bipedTagStructure = {
     model = {type = "dword", offset = 0x34},
-    disableCollision = {type = "bit", offset = 0x2F4, bitLevel = 5}
+    disableCollision = {type = "bit", offset = 0x2F4, bitLevel = 5},
+    weaponCount = {type = "byte", offset = 0x02D8},
+    weaponList = {
+        type = "table",
+        offset = 0x02D8 + 0x4,
+        jump = 0x24,
+        rows = {
+            weaponTagId = {type = "tagref", offset = 0x0}
+        }
+    }
 }
 
 ---@class deviceMachine : blamObject
@@ -2558,6 +2589,16 @@ end
 function blam.projectile(address)
     if address and isValid(address) then
         return createObject(address, projectileStructure)
+    end
+    return nil
+end
+
+--- Create a Unit object from a given address
+---@param address? number
+---@return unit?
+function blam.unit(address)
+    if address and isValid(address) then
+        return createObject(address, unitStructure)
     end
     return nil
 end
@@ -3198,6 +3239,16 @@ end
 function blam.getObjectRotation(object)
     local v1 = {x = object.vX, y = object.vY, z = object.vZ}
     local v2 = {x = object.v2X, y = object.v2Y, z = object.v2Z}
+    return vectorsToEulerAngles(v1, v2)
+end
+
+--- Get rotation angles from game vectors
+---
+--- Assuming clockwise rotation and absolute angles from 0 to 360
+---@param v1 vector3D
+---@param v2 vector3D
+---@return number yaw, number pitch, number roll
+function blam.getVectorRotation(v1, v2)
     return vectorsToEulerAngles(v1, v2)
 end
 
