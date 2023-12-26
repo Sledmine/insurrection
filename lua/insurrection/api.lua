@@ -168,46 +168,6 @@ function onAvailableResponse(response)
     if response then
         if response.code == 200 then
             local jsonResponse = response.json()
-            if DebugMode then
-                jsonResponse.customization = json.decode([[{
-                    "the_flood_mp": {
-                        "maps": [
-                            "treason",
-                            "bleed_it_out",
-                            "impasse",
-                            "last_voyage"
-                        ],
-                        "tags": [
-                            "keymind\\halo_infinite\\characters\\unsc\\odst\\mirage_core\\mirage_mp.biped"
-                        ]
-                    },
-                    "forge_island": {
-                        "maps": [
-                            "forge_island_dev",
-                            "forge_island"
-                        ],
-                        "tags": [
-                            "[shm]\\halo_4\\characters\\mjolnir_gen2\\mjolnir_gen2_mp.biped"
-                        ]
-                    },
-                    "coop_evolved": {
-                        "maps": [
-                            "b30_coop_evolved_dev",
-                            "a50_coop_evolved",
-                            "b30_coop_evolved",
-                            "c10_coop_evolved",
-                            "c20_coop_evolved",
-                            "d40_coop_evolved"
-                        ],
-                        "tags": [
-                            "[shm]\\halo_1\\characters\\mjolnir_gen_1\\mjolnir_gen_1_mp.biped",
-                            "characters\\elite_mp\\elite_mp.biped",
-                            "characters\\grunt\\yapyap\\yapyap_mp.biped",
-                            "characters\\marine_armored_mp\\marine_mp.biped"
-                        ]
-                    }
-                }]])
-            end
             store:dispatch(actions.setAvailableResources(jsonResponse))
             return true
         end
@@ -460,6 +420,7 @@ function api.playerProfileEdit(data)
     async(requests.patch, function(result)
         if onPlayerEditNameplateResponse(result[1]) then
             interface.loadProfileNameplate(data.nameplate)
+            api.session.player.bipeds = data.bipeds
         end
     end, api.url .. "/players", data)
 end

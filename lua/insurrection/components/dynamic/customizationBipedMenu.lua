@@ -17,6 +17,8 @@ local staticRegions = {
     "helmet"
 }
 
+local dynamicRegions = staticRegions
+
 local specificRegionCameras = {
     left_shoulder = "shoulders",
     right_shoulder = "shoulders",
@@ -28,31 +30,19 @@ local specificRegionCameras = {
 local interpolationTicks = 30
 ---@type "regions"|"permutations"
 local editing = "regions"
-local regionIndex = 1
+local currentRegionIndex = 1
 
-local function getCustomizationObjectData()
-    local customizationObjectId = core.getCustomizationObjectId()
-    assert(customizationObjectId, "No customization biped found")
-    local customizationBiped = blam.biped(get_object(customizationObjectId))
-    assert(customizationBiped, "No customization biped found")
-    local customizationBipedTag = blam.bipedTag(customizationBiped.tagId)
-    assert(customizationBipedTag, "No customization biped tag found")
-    local customizationModel = blam.model(customizationBipedTag.model)
-    assert(customizationModel, "No customization biped model found")
-    return {
-        id = customizationObjectId,
-        biped = customizationBiped,
-        bipedTag = customizationBipedTag,
-        tag = blam.getTag(customizationBiped.tagId),
-        model = customizationModel
-    }
-end
+local getCustomizationObjectData = core.getCustomizationObjectData
 
 local function setCamera(region)
     local command = "camera_set customization_{region}_generic {ticks}"
 
     local customizationObjectData = getCustomizationObjectData()
     if customizationObjectData.tag.path:find("keymind") then
+        command = "camera_set customization_{region} {ticks}"
+    end
+    -- FIXME This is a hack to use the lobby cammera, find a better way to do this
+    if region == "lobby" then
         command = "camera_set customization_{region} {ticks}"
     end
 
@@ -90,7 +80,7 @@ return function()
         local customizationObjectData = getCustomizationObjectData()
         local customizationModel = customizationObjectData.model
 
-        staticRegions = table.map(customizationModel.regionList, function(region)
+        dynamicRegions = table.map(customizationModel.regionList, function(region)
             local regionName = region.name:trim()
             if regionName:includes("+") then
                 regionName = regionName:split("+")[2]
@@ -98,17 +88,19 @@ return function()
             return regionName
         end)
 
-        local regions = table.map(staticRegions, function(region)
+        local regions = table.map(dynamicRegions, function(region)
             local regionName = utils.snakeCaseToUpperTitleCase(region)
             return {
                 value = region,
                 label = regionName,
                 bitmap = function(uiComponent)
                     local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    -- Default bitmap
                     icon.widgetDefinition.backgroundBitmap =
                         constants.bitmaps.customization.regions.id
+                    -- Set bitmap index
                     icon:setWidgetValues({
-                        background_bitmap_index = table.indexof(staticRegions, region) - 1
+                        background_bitmap_index = (table.indexof(staticRegions, region) or 1) - 1
                     })
                 end
             }
@@ -122,16 +114,17 @@ return function()
         local customizationObjectData = getCustomizationObjectData()
         local customizationModel = customizationObjectData.model
 
-        regionIndex = table.indexof(staticRegions, region) --[[@as number]]
+        currentRegionIndex = table.indexof(dynamicRegions, region) --[[@as number]]
 
         -- TODO Check if region exists
-        local maximumPermutationCount =
-            customizationModel.regionList[regionIndex].permutationCount - 1
+        local lastPermutation = customizationModel.regionList[currentRegionIndex]
+                                            .permutationCount - 1
 
         local permutations = {}
-        for permutationIndex = 0, maximumPermutationCount do
+        for permutationIndex = 0, lastPermutation do
             local permutation =
-                customizationModel.regionList[regionIndex].permutationsList[permutationIndex + 1]
+                customizationModel.regionList[currentRegionIndex].permutationsList[permutationIndex +
+                    1]
             local permutationName = permutation.name
             if permutationName:includes("+") then
                 permutationName = permutationName:split("+")[4]
@@ -142,8 +135,8 @@ return function()
                 label = permutationName,
                 bitmap = function(uiComponent)
                     local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    local index = (table.indexof(staticRegions, region) or 1) - 1
                     local permutationsBitmapTag = constants.bitmaps.customization[region]
-                    local index = regionIndex - 1
                     if customizationObjectData.tag.path:find("keymind") and permutationsBitmapTag then
                         icon.widgetDefinition.backgroundBitmap = permutationsBitmapTag.id
                         index = permutationIndex
@@ -161,7 +154,8 @@ return function()
         assert(customizationObjectId, "No customization biped found")
         local customizationBiped = blam.biped(get_object(customizationObjectId))
         assert(customizationBiped, "No customization biped found")
-        customizationBiped["regionPermutation" .. regionIndex] = permutationIndex
+
+        core.setObjectPermutationSafely(customizationBiped, currentRegionIndex, permutationIndex)
     end
 
     options:onSelect(function(item)
