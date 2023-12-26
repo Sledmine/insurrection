@@ -115,6 +115,7 @@ end
 ---@param map? string
 ---@param isLobbyOpen? boolean
 function discord.setParty(partyId, partySize, partyMax, map, isLobbyOpen)
+    -- Party ID sometines is nil, so we need to check for it
     dprint(
         "discord.setParty: " .. partyId .. ", " .. partySize .. ", " .. partyMax .. ", " .. map ..
             ", " .. tostring(isLobbyOpen))

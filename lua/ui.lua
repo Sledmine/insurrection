@@ -61,6 +61,7 @@ local screenWidth, screenHeight = core.getScreenResolution()
 ---Allowing you to safely run code that requires a full loaded game state.
 local function onPostGameLoad()
     dprint("Game started!", "success")
+    -- TODO Add widescreen widget bounds validation
     if map == "ui" then
         -- Change UI aspect ratio
         harmony.menu.set_aspect_ratio(16, 9)
@@ -191,6 +192,7 @@ local function onWidgetFocus(widgetTagId)
     if component and component.events.onFocus then
         component.events.onFocus()
     end
+    focusedWidgetTagId = widgetTagId
     local focusedWidget = blam.uiWidgetDefinition(widgetTagId)
     local tag = blam.getTag(widgetTagId)
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
@@ -386,6 +388,7 @@ function OnMapFileLoad(currentMapName)
         balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.customSounds, "tag_collection")
+        balltze.import_tag_data("ui", constants.path.gizmo, "placeholder")
     end
 end
 

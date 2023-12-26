@@ -65,15 +65,18 @@ end
 local function setEditingGeometry(region)
     local customizationObjectId = core.getCustomizationObjectId()
     assert(customizationObjectId, "No customization biped found")
-    blam.rotateObject(customizationObjectId, constants.customization.rotation.default, 0, 0)
+    local object = blam.getObject(customizationObjectId)
+    if object then
+        blam.rotateObject(object, constants.customization.rotation.default, 0, 0)
+    end
 
     -- Set camera
     setCamera(region)
 
     BipedRotation = constants.customization.rotation[region] or
                         constants.customization.rotation.default
-    if BipedRotation then
-        blam.rotateObject(customizationObjectId, BipedRotation, 0, 0)
+    if BipedRotation and object then
+        blam.rotateObject(object, BipedRotation, 0, 0)
     end
 end
 
