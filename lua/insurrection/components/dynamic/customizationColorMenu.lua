@@ -89,6 +89,7 @@ return function()
         return false
     end
     customizationColor:onOpen(function()
+        execute_script "object_create customization_biped"
         delay(45, updateColorMenu)
     end)
 end

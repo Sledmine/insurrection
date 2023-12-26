@@ -79,14 +79,14 @@ return function()
             local scenario = blam.scenario(0)
             assert(scenario)
             -- Respawn biped object from scenario as it is safer than doing it from lua
-            for _, scenery in pairs(scenario.sceneries) do
-                local sceneryName = scenario.objectNames[scenery.nameIndex + 1]
+            for _, biped in pairs(scenario.bipeds) do
+                local sceneryName = scenario.objectNames[biped.nameIndex + 1]
                 if sceneryName == "customization_biped" then
-                    local newPaletteList = scenario.sceneryPaletteList
+                    local newPaletteList = scenario.bipedPaletteList
                     -- Replace scenario biped tag with custom biped tag
-                    if newPaletteList[scenery.typeIndex + 1] ~= bipedTagEntry.id then
-                        newPaletteList[scenery.typeIndex + 1] = bipedTagEntry.id
-                        scenario.sceneryPaletteList = newPaletteList
+                    if newPaletteList[biped.typeIndex + 1] ~= bipedTagEntry.id then
+                        newPaletteList[biped.typeIndex + 1] = bipedTagEntry.id
+                        scenario.bipedPaletteList = newPaletteList
                         execute_script "object_destroy customization_biped"
                         execute_script "object_create customization_biped"
                         execute_script "fade_screen_in"
