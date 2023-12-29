@@ -34,5 +34,9 @@ function menus.biped()
     openWidget(constants.widgets.biped.id, true)
 end
 
+function menus.lobbies()
+    openWidget(constants.widgets.browser.id, true)
+end
+
 return menus
 

@@ -3,6 +3,7 @@ local constants = require "insurrection.constants"
 local button = require "insurrection.components.button"
 local input = require "insurrection.components.input"
 local interface = require "insurrection.interface"
+local menus     = require "insurrection.menus"
 
 return function()
     local dashboard = components.new(constants.widgets.dashboard.id)
@@ -20,6 +21,10 @@ return function()
         else
             interface.dialog("WARNING", "", "Please specify a lobby key to join.")
         end
+    end)
+    local browseLobby = button.new(dashboard:findChildWidgetTag("browse_lobby").id)
+    browseLobby:onClick(function()
+        menus.lobbies()
     end)
 
     dashboard:onOpen(function()
