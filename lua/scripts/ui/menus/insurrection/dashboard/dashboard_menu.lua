@@ -22,6 +22,7 @@ return container("dashboard_menu", {
     },
     {
         options("dashboard", "vertical", {
+            {button("browse_lobby", "BROWSE LOBBIES"), layout()},
             {button("create_lobby", "CREATE LOBBY"), layout()},
             {button("join_lobby", "JOIN LOBBY"), layout()},
             {

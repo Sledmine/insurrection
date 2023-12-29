@@ -6,7 +6,8 @@ actions.types = {
     SET_LOBBY = "SET_LOBBY",
     SET_AVAILABLE_RESOURCES = "SET_AVAILABLE_RESOURCES",
     RESET = "RESET",
-    SET_PLAYER = "SET_PLAYER"
+    SET_PLAYER = "SET_PLAYER",
+    SET_LOBBIES = "SET_LOBBIES"
 }
 
 function actions.setIsLoading(loading)
@@ -27,6 +28,10 @@ end
 
 function actions.setPlayer(player)
     return {type = actions.types.SET_PLAYER, payload = player}
+end
+
+function actions.setLobbies(lobbies)
+    return {type = actions.types.SET_LOBBIES, payload = lobbies}
 end
 
 return actions

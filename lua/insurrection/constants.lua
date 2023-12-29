@@ -83,7 +83,8 @@ function constants.get()
         color = findWidgetTag("customization_color_menu"),
         team = findWidgetTag("pause_choose_team_menu"),
         optic = findWidgetTag("optic\\optic_mod_menu"),
-        biped = findWidgetTag("customization_biped\\customization_biped_menu")
+        biped = findWidgetTag("customization_biped\\customization_biped_menu"),
+        browser = findWidgetTag("lobby_browser_menu")
     }
 
     constants.sounds = {

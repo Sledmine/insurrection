@@ -472,6 +472,42 @@ function api.editLobby(lobbyKey, data)
     end, api.url .. "/lobby/" .. lobbyKey, data)
 end
 
+---@param response httpResponse<insurrectionLobby[]>
+---@return boolean
+local function onGetLobbiesResponse(response)
+    loading(false)
+    if response then
+        if response.code == 200 then
+            local jsonResponse = response.json()
+            if jsonResponse then
+                if #jsonResponse == 0 then
+                    interface.dialog("INFORMATION", "NO LOBBIES FOUND",
+                                     "There are no lobbies available at the moment.")
+                    return false
+                else
+                    store:dispatch(actions.setLobbies(jsonResponse))
+                    react.render("lobbyBrowserMenu")
+                end
+                return true
+            end
+        else
+            local jsonResponse = response.json()
+            if jsonResponse then
+                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
+            end
+            return false
+        end
+    end
+    unknownError(response)
+    return false
+end
+function api.getLobbies()
+    loading(true, "Loading lobbies...", false)
+    async(requests.get, function(result)
+        onGetLobbiesResponse(result[1])
+    end, api.url .. "/lobbies")
+end
+
 api.loadUrl()
 
 return api

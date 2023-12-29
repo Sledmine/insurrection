@@ -8,6 +8,7 @@ local chunks = glue.chunks
 ---@field player insurrectionPlayer?
 ---@field available availableParameters?
 ---@field lobby insurrectionLobby?
+---@field lobbies insurrectionLobby[]?
 
 ---@type interfaceState
 local defaultState = {
@@ -15,7 +16,8 @@ local defaultState = {
     lobbyKey = nil,
     available = nil,
     lobby = nil,
-    player = nil
+    player = nil,
+    lobbies = nil
 }
 
 ---Game interface reducer
@@ -35,6 +37,9 @@ local function interfaceReducer(state, action)
         return state
     elseif action.type == actions.types.SET_LOBBY then
         state.lobby = action.payload.lobby
+        return state
+    elseif action.type == actions.types.SET_LOBBIES then
+        state.lobbies = action.payload
         return state
     else
         error("Undefined redux action type!")
