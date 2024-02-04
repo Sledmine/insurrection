@@ -6,6 +6,7 @@ local input = require "insurrection.components.input"
 local core = require "insurrection.core"
 local blam = require "blam"
 local getState = require "insurrection.redux.getState"
+local checkbox = require "insurrection.components.checkbox"
 
 local gametypeIcons = {
     "unknown",
@@ -56,6 +57,7 @@ return function()
     local search = input.new(options:findChildWidgetTag("search").id)
     local play = button.new(options:findChildWidgetTag("play").id)
     local back = button.new(options:findChildWidgetTag("back").id)
+    local makePublic = checkbox.new(options:findChildWidgetTag("make_public").id)
 
     local mapPreview = component.new(blam.findTag("map_small_preview",
                                                   blam.tagClasses.uiWidgetDefinition).id)
@@ -197,6 +199,10 @@ return function()
     end)
     back:onClick(function()
         lobbyMenu.events.onClose()
+    end)
+    makePublic:onToggle(function(value)
+        console_out("Setting lobby to public: " .. tostring(value))
+        api.editLobby(api.session.lobbyKey, {isPublic = value})
     end)
 
     return function()

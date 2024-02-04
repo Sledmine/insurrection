@@ -23,8 +23,8 @@ return function()
 
     browser:onOpen(function(previousWidgetTag)
         if previousWidgetTag and previousWidgetTag.id == constants.widgets.dashboard.id then
+            api.getLobbies()
         end
-        api.getLobbies()
         api.stopRefreshLobby()
     end)
 
