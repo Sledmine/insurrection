@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Issue with Discord Rich Presence not getting reset properly after leaving a lobby
 - Nameplate not being updated immediately after changing it
 - Customization menu not loading proper background when a dialog is opened
+- Stuck in a lobby when an error occurs while joining a server
 
 ## [2.5.1] - 2023-07-05
 ### Fixed
