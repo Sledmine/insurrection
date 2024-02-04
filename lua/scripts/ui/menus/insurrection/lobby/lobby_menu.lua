@@ -15,6 +15,7 @@ local box = require "lua.scripts.ui.componentsV2.box"
 local preview = require "lua.scripts.ui.componentsV2.preview"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local pos = constants.position
+local checkbox = require "lua.scripts.ui.componentsV3.checkbox"
 
 widget.init [[insurrection/ui/menus/lobby/]]
 
@@ -111,6 +112,7 @@ return container("lobby_menu", {
                 pos.options.x,
                 170
             },
+            {checkbox {name = "make_public", text = "Public Lobby"}, pos.options.x, 371},
             {button("back", "BACK", {back = true}), actionsLayout()},
             {button("play", "PLAY"), actionsLayout()}
         })

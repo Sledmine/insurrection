@@ -481,7 +481,7 @@ local function onGetLobbiesResponse(response)
             local jsonResponse = response.json()
             if jsonResponse then
                 if #jsonResponse == 0 then
-                    interface.dialog("INFORMATION", "NO LOBBIES FOUND",
+                    interface.dialog("ERROR", "NO LOBBIES FOUND",
                                      "There are no lobbies available at the moment.")
                     return false
                 else
