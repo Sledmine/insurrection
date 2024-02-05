@@ -24,7 +24,7 @@ return container("dashboard_menu", {
         options("dashboard", "vertical", {
             {button("browse_lobby", "BROWSE LOBBIES"), layout()},
             {button("create_lobby", "CREATE LOBBY"), layout()},
-            {button("join_lobby", "JOIN LOBBY"), layout()},
+            {button("join_lobby", "JOIN LOBBY BY KEY"), layout()},
             {
                 input("lobby_key", string.rep(" ", 16),
                       {variant = "small", icon = [[insurrection/ui/bitmaps/key_icon.bitmap]]}),

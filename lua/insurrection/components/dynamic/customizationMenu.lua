@@ -48,6 +48,7 @@ return function()
                                         customization:findChildWidgetTag("save_customization").id)
 
     nameplatesList:onSelect(function(item)
+        console_debug(item.value)
         nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap --[[@as number]]
     end)
     local sortedNameplates = table.keys(constants.nameplates)
@@ -61,6 +62,7 @@ return function()
     ---@param bipedPath string
     ---@param regions? number[]
     local handleSelectBiped = function(bipedPath, regions)
+        bipedsList:setWidgetValues({opacity = 1})
         execute_script("object_create customization_biped")
         local bipedTagEntry = findTag(bipedPath, tagClasses.biped)
         assert(bipedTagEntry, "biped tag " .. bipedPath .. " not found")
@@ -118,6 +120,7 @@ return function()
     end
 
     local function handleLoadBipeds()
+        bipedsList:setWidgetValues({opacity = 0})
         local savedBipeds = {}
         if api.session and api.session.player and api.session.player.bipeds then
             savedBipeds = table.map(api.session.player.bipeds, function(data)
@@ -167,8 +170,14 @@ return function()
         end)
 
         bipedsList:onSelect(function(item)
-            -- TODO Save selected biped
-            menus.biped()
+            -- FIXME State from components should have been reset at this point
+            -- Due to current implementation, setItems is not executed when coming back from another
+            -- widget, so we need to reset the state manually or prevent scenarios where we get
+            -- and invalid state
+            console_debug(item.value)
+            if core.getCustomizationObjectId() then
+                menus.biped()
+            end
         end)
 
     end
@@ -198,10 +207,11 @@ return function()
             nameplate = selectedNameplateItem.value
         end
         if selectedProjectItem and selectedBipedItem then
-            local project = selectedProjectItem.value
             local objectId, regions = core.getCustomizationObjectId()
-            assert(objectId and regions, "customization object not found")
-            bipeds = {[project] = selectedBipedItem.value .. "+" .. table.concat(regions, "+")}
+            if objectId and regions then
+                local project = selectedProjectItem.value
+                bipeds = {[project] = selectedBipedItem.value .. "+" .. table.concat(regions, "+")}
+            end
         end
         dprint(nameplate)
         dprint(bipeds)
