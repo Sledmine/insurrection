@@ -149,6 +149,7 @@ function list.setItems(self, items)
         button.new(widgetTagId)
     end
     self.currentItemIndex = 1
+    self.lastSelectedItemIndex = nil
     if self.isScrollable then
         local firstWidgetTagId = widgetDefinition.childWidgets[self.firstWidgetIndex].widgetTag
         local lastWidgetTagId = widgetDefinition.childWidgets[self.lastWidgetIndex].widgetTag
@@ -166,8 +167,9 @@ end
 
 ---@param self uiComponentList
 function list.getSelectedItem(self)
-    dprint(self.lastSelectedItemIndex)
-    return self.items[self.lastSelectedItemIndex]
+    if self:getWidgetValues() then
+        return self.items[self.lastSelectedItemIndex]
+    end
 end
 
 ---@param self uiComponentList
