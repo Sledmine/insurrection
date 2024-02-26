@@ -447,7 +447,8 @@ function api.playerProfileEdit(data)
     async(requests.patch, function(result)
         if onPlayerEditNameplateResponse(result[1]) then
             interface.loadProfileNameplate(data.nameplate)
-            api.session.player.bipeds = data.bipeds
+            -- Refresh player data
+            api.session.player.bipeds = table.merge(api.session.player.bipeds, data.bipeds)
         end
     end, api.url .. "/players", data)
 end
