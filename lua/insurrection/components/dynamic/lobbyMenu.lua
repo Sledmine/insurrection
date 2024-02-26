@@ -27,7 +27,7 @@ return function()
     local definition = "template"
     local lobby = state.lobby
 
-    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+    local isPlayerLobbyOwner = api.session.player and state.lobby and api.session.player.publicId ==
                                    state.lobby.owner
 
     local lobbyMenu = component.new(constants.widgets.lobby.id)
