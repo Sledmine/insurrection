@@ -84,7 +84,8 @@ function constants.get()
         team = findWidgetTag("pause_choose_team_menu"),
         optic = findWidgetTag("optic\\optic_mod_menu"),
         biped = findWidgetTag("customization_biped\\customization_biped_menu"),
-        browser = findWidgetTag("lobby_browser_menu")
+        browser = findWidgetTag("lobby_browser_menu"),
+        legacyModalError = findWidgetTag("error_modal_fullscreen"),
     }
 
     constants.sounds = {

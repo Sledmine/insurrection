@@ -37,10 +37,6 @@ function interface.load()
         dprint("Overriding Chimera font...")
         chimera.fontOverride()
 
-        dprint("Checking if lobby is active...")
-        if api.session.lobbyKey and map == "ui" then
-            api.lobby(api.session.lobbyKey)
-        end
         -- Start widgets background animation
         dprint("Starting widgets background animation...")
         if BitmapsAnimationTimerId then
@@ -75,6 +71,14 @@ function interface.load()
             require "insurrection.components.dynamic.lobbyMenu"()
             require "insurrection.components.dynamic.customizationBipedMenu"()
             require "insurrection.components.dynamic.lobbyBrowserMenu"()
+
+            local errorModalLegacy = components.new(constants.widgets.legacyModalError.id)
+            errorModalLegacy:onOpen(function()
+                dprint("Checking if lobby is active...")
+                if api.session.lobbyKey and map == "ui" then
+                    api.lobby(api.session.lobbyKey)
+                end
+            end)
 
             local pause = components.new(constants.widgets.pause.id)
             pause:onClose(function()

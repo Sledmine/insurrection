@@ -270,6 +270,8 @@ local function onLobbyResponse(response)
     unknownError(response)
     return false
 end
+---Create or join a lobby
+---@param lobbyKey? string
 function api.lobby(lobbyKey)
     loading(true, "Loading lobby...")
     if lobbyKey then
