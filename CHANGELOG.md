@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.6.0] - 2023-07-13
+## [2.6.1] - 2024-02-25
+### Fixed
+- Customize biped button dissapearing after getting back to the menu
+- Public lobby toggle not being updated after rejoing a lobby
+- Bugged menu when rejoing a lobby after leaving server due to a race condition
+
+## [2.6.0] - 2024-02-05
 ### Added
 - New menu for players joining a lobby that displays the lobby data such as map, game type, etc
 - Work in progress armory customization menu
