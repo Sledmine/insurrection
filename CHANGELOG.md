@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.2] - 2024-02-26
+### Fixed
+- Customized biped UI data not being persisted properly
+- Error in some scenarios where lobby does not exist anymore and some menus still want to access it
+- Biped region customization not being saved after leaving the menu
+
 ## [2.6.1] - 2024-02-25
 ### Fixed
 - Customize biped button dissapearing after getting back to the menu
