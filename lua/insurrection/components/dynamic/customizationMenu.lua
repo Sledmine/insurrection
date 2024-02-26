@@ -119,8 +119,11 @@ return function()
         selectBipedsWrapper:replace(nameplatesList.tagId)
     end
 
-    local function handleLoadBipeds()
-        bipedsList:setWidgetValues({opacity = 0})
+    ---@param reset boolean?
+    local function handleLoadBipeds(reset)
+        if reset then
+            bipedsList:setWidgetValues({opacity = 0})
+        end
         local savedBipeds = {}
         if api.session and api.session.player and api.session.player.bipeds then
             savedBipeds = table.map(api.session.player.bipeds, function(data)
@@ -184,7 +187,7 @@ return function()
 
     selectBipedButton:onClick(function()
         execute_script("set_customization_background")
-        handleLoadBipeds()
+        handleLoadBipeds(true)
     end)
 
     selectNameplateButton:onClick(function()
