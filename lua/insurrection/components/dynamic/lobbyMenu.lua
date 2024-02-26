@@ -201,7 +201,6 @@ return function()
         lobbyMenu.events.onClose()
     end)
     makePublic:onToggle(function(value)
-        console_out("Setting lobby to public: " .. tostring(value))
         api.editLobby(api.session.lobbyKey, {isPublic = value})
     end)
 
@@ -209,6 +208,7 @@ return function()
         template:setText(state.lobby.template)
         map:setText(state.lobby.map)
         gametype:setText(state.lobby.gametype)
+        makePublic:setValue(state.lobby.isPublic)
 
         playersList:setItems(table.map(state.lobby.players, function(player)
             local nameplateTag = constants.nameplates[player.nameplate] or {}
