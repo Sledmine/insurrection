@@ -18,6 +18,9 @@ local number = function(v)
 end
 
 return function()
+    local selectedProject
+    local selectedBiped
+
     -- Get customization widget menu
     local customization = components.new(constants.widgets.customization.id)
 
@@ -62,6 +65,7 @@ return function()
     ---@param bipedPath string
     ---@param regions? number[]
     local handleSelectBiped = function(bipedPath, regions)
+        selectedBiped = bipedPath
         bipedsList:setWidgetValues({opacity = 1})
         execute_script("object_create customization_biped")
         local bipedTagEntry = findTag(bipedPath, tagClasses.biped)
@@ -142,8 +146,9 @@ return function()
         table.sort(projects)
 
         selectProjectsList:onSelect(function(item)
-            local value = item.value --[[@as string]]
-            local project = state.available.customization[value]
+            local projectName = item.value --[[@as string]]
+            selectedProject = projectName
+            local project = state.available.customization[projectName]
             local bipeds = table.map(project.tags, function(bipedPath)
                 return {label = "CUSTOMIZE", value = bipedPath:replace(".biped", "")}
             end)
@@ -151,7 +156,7 @@ return function()
             bipedsList:setItems(bipeds)
             local regions
             local bipedPath = bipeds[1].value
-            local savedBiped = savedBipeds[value]
+            local savedBiped = savedBipeds[projectName]
             if savedBiped then
                 bipedsList:setCurrentItemIndex(table.indexof(bipeds,
                                                              table.find(bipeds, function(biped)
@@ -195,9 +200,6 @@ return function()
     end)
 
     saveCustomizationButton:onClick(function()
-        local selectedProjectItem = selectProjectsList:getSelectedItem()
-        local selectedBipedItem = bipedsList:getCurrentItem()
-
         local currentNameplateId
         if settings and settings.nameplate then
             currentNameplateId = settings.nameplate
@@ -209,11 +211,11 @@ return function()
         if selectedNameplateItem then
             nameplate = selectedNameplateItem.value
         end
-        if selectedProjectItem and selectedBipedItem then
+        if selectedProject and selectedBiped then
             local objectId, regions = core.getCustomizationObjectId()
             if objectId and regions then
-                local project = selectedProjectItem.value
-                bipeds = {[project] = selectedBipedItem.value .. "+" .. table.concat(regions, "+")}
+                local project = selectedProject
+                bipeds = {[project] = selectedBiped .. "+" .. table.concat(regions, "+")}
             end
         end
         dprint(nameplate)
