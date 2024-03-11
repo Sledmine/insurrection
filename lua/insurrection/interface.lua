@@ -1,18 +1,12 @@
 local harmony = require "mods.harmony"
-local components = require "insurrection.components"
-local menus = require "insurrection.menus"
-local checkbox = require "insurrection.components.checkbox"
-local button = require "insurrection.components.button"
-local list = require "insurrection.components.list"
-local translations = require "insurrection.translations"
-local utils = require "insurrection.utils"
-
 local openWidget = harmony.menu.open_widget
 local playSound = harmony.menu.play_sound
+local components = require "insurrection.components"
+local menus = require "insurrection.menus"
+local button = require "insurrection.components.button"
+local translations = require "insurrection.translations"
 local blam = require "blam"
-local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
-local unicodeStringTag = blam.unicodeStringList
 local uiWidgetTag = blam.uiWidgetDefinition
 local uiWidgetCollection = blam.uiWidgetCollection
 local constants = require "insurrection.constants"
