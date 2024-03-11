@@ -3,6 +3,7 @@ local isNull = require"blam".isNull
 local components = require "insurrection.components"
 local button = require "insurrection.components.button"
 local core = require "insurrection.core"
+local interface = require "insurrection.interface"
 
 ---@class uiComponentListClass : uiComponent
 local list = setmetatable({
@@ -61,10 +62,25 @@ end
 function list.scroll(self, direction)
     local itemIndex = self.currentItemIndex + direction
     if itemIndex < 1 then
+        interface.sound("error")
         itemIndex = 1
     elseif itemIndex > #self.items then
         itemIndex = #self.items
     end
+
+    local lastWidgetIndex = self.lastWidgetIndex
+    if self.isScrollable then
+        lastWidgetIndex = lastWidgetIndex - 2
+    end
+    local maximumDisplayableIndex = #self.items - lastWidgetIndex + 1
+    if maximumDisplayableIndex < 1 then
+        maximumDisplayableIndex = 1
+    end
+    if itemIndex > maximumDisplayableIndex then
+        interface.sound("error")
+        itemIndex = maximumDisplayableIndex
+    end
+
     self.currentItemIndex = itemIndex
     if self.events.onScroll then
         self.events.onScroll(self.items[itemIndex])
