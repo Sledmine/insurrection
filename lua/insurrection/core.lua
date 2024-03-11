@@ -155,23 +155,26 @@ end
 
 function core.getStringFromWidget(widgetTagId)
     local widget = blam.uiWidgetDefinition(widgetTagId)
+    assert(widget, "No widget found with tag id " .. widgetTagId)
     local virtualValue = VirtualInputValue[widgetTagId]
     if virtualValue then
         return virtualValue
     end
     local unicodeStrings = blam.unicodeStringList(widget.unicodeStringListTag)
-    return unicodeStrings.stringList[widget.stringListIndex + 1]
+    assert(unicodeStrings, "No unicodeStringList, can't get text from this widget")
+    return unicodeStrings.strings[widget.stringListIndex + 1]
 end
 
 function core.cleanAllEditableWidgets()
     local editableWidgets = blam.findTagsList("input", tagClasses.uiWidgetDefinition) or {}
     for _, widgetTag in pairs(editableWidgets) do
         local widget = blam.uiWidgetDefinition(widgetTag.id)
+        assert(widget, "No widget found with tag id " .. widgetTag.id)
         local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
         if widgetStrings then
-            local strings = widgetStrings.stringList
+            local strings = widgetStrings.strings
             strings[1] = ""
-            widgetStrings.stringList = strings
+            widgetStrings.strings = strings
         end
     end
 end
@@ -185,14 +188,14 @@ function core.setStringToWidget(text, widgetTagId, mask)
                 error("No unicodeStringList, can't assign text to this widget")
             end
             local stringListIndex = widgetDefinition.stringListIndex
-            local newStrings = unicodeStrings.stringList
+            local newStrings = unicodeStrings.strings
             if mask then
                 VirtualInputValue[widgetTagId] = text
                 newStrings[stringListIndex + 1] = string.rep(mask, #text)
             else
                 newStrings[stringListIndex + 1] = text
             end
-            unicodeStrings.stringList = newStrings
+            unicodeStrings.strings = newStrings
         end
     end
 end

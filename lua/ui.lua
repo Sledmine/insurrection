@@ -187,6 +187,26 @@ function OnMenuAccept(widgetInstanceIndex)
     return not isCanceled
 end
 
+function OnMouseButtonPress(widgetInstanceIndex, button)
+    local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
+    if editableWidget and editableWidgetTag then
+        if widgetTagId == editableWidgetTag.id then
+            if button == "right" then
+                if isBalltzeAvailable then
+                    local inputString = core.getStringFromWidget(editableWidgetTag.id)
+                    local text = inputString .. balltze.get_clipboard()
+                    core.setStringToWidget(text, editableWidgetTag.id)
+                    local component = components.widgets[editableWidgetTag.id]
+                    if component and component.events.onInputText then
+                        component.events.onInputText(text)
+                    end
+                end
+            end
+        end
+    end
+    return true
+end
+
 local function onWidgetFocus(widgetTagId)
     local component = components.widgets[widgetTagId]
     if component and component.events.onFocus then
@@ -407,6 +427,7 @@ set_callback("precamera", "OnPreCamera")
 harmony.set_callback("widget accept", "OnMenuAccept")
 harmony.set_callback("widget list tab", "OnMenuListTab")
 harmony.set_callback("widget mouse focus", "OnMouseFocus")
+harmony.set_callback("widget mouse button press", "OnMouseButtonPress")
 harmony.set_callback("widget close", "OnWidgetClose")
 harmony.set_callback("widget open", "OnWidgetOpen")
 harmony.set_callback("key press", "OnKeypress")
