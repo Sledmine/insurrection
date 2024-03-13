@@ -4,6 +4,7 @@ local tagClasses = blam.tagClasses
 local json = require "json"
 local base64 = require "base64"
 local harmony = require "mods.harmony"
+local isBalltzeAvailable, balltze = pcall(require, "mods.balltze")
 
 local mercury = require "insurrection.mercury"
 local utils = require "insurrection.utils"
@@ -391,6 +392,18 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
         permutationIndex = 0
     end
     object["regionPermutation" .. regionIndex] = permutationIndex
+end
+
+function core.copyToClipboard(text)
+    if isBalltzeAvailable then
+        return balltze.set_clipboard(text)
+    end
+end
+
+function core.getClipboard()
+    if isBalltzeAvailable then
+        return balltze.get_clipboard()
+    end
 end
 
 return core

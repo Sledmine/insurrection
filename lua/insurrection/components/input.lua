@@ -1,7 +1,7 @@
-local components = require "insurrection.components"
+local button = require "insurrection.components.button"
 
----@class uiComponentInputClass : uiComponent
-local input = setmetatable({}, {__index = components})
+---@class uiComponentInputClass : uiComponentButton
+local input = setmetatable({}, {__index = button})
 
 ---@class uiComponentInputEvents : uiComponentEvents
 ---@field onInputText fun(text: string) | nil
@@ -12,7 +12,7 @@ local input = setmetatable({}, {__index = components})
 ---@param tagId number
 ---@return uiComponentInput
 function input.new(tagId)
-    local instance = setmetatable(components.new(tagId), {__index = input}) --[[@as uiComponentInput]]
+    local instance = setmetatable(button.new(tagId), {__index = input}) --[[@as uiComponentInput]]
     return instance
 end
 

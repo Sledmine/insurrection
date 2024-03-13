@@ -58,6 +58,14 @@ return function()
     local play = button.new(options:findChildWidgetTag("play").id)
     local back = button.new(options:findChildWidgetTag("back").id)
     local makePublic = checkbox.new(options:findChildWidgetTag("make_public").id)
+    local key = input.new(options:findChildWidgetTag("lobby_key").id)
+    key:onFocus(function()
+        key:setText(api.session.lobbyKey)
+    end)
+    key:onClick(function()
+        core.copyToClipboard(api.session.lobbyKey)
+        key:setText(string.rep("*", #api.session.lobbyKey))
+    end)
 
     local mapPreview = component.new(blam.findTag("map_small_preview",
                                                   blam.tagClasses.uiWidgetDefinition).id)
@@ -209,6 +217,9 @@ return function()
         map:setText(state.lobby.map)
         gametype:setText(state.lobby.gametype)
         makePublic:setValue(state.lobby.isPublic)
+        if api.session.lobbyKey then
+            key:setText(string.rep("*", #api.session.lobbyKey))
+        end
 
         playersList:setItems(table.map(state.lobby.players, function(player)
             local nameplateTag = constants.nameplates[player.nameplate] or {}
