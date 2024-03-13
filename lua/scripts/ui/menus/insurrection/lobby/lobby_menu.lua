@@ -1,10 +1,11 @@
 local widget = require "lua.scripts.widget"
+local strmem = widget.strmem
 local container = require "lua.scripts.ui.componentsV2.container"
 local optionsV2 = require "lua.scripts.ui.componentsV2.options"
 local options = require "lua.scripts.ui.componentsV3.options"
 local button = require "lua.scripts.ui.componentsV2.button"
 local header = require "lua.scripts.ui.componentsV2.header"
-local input = require "lua.scripts.ui.componentsV2.input"
+local input = require "lua.scripts.ui.componentsV3.input"
 local constants = require "lua.scripts.ui.components.constants"
 local image = require "lua.scripts.ui.componentsV2.image"
 local footer = require "lua.scripts.ui.componentsV2.footer"
@@ -16,6 +17,7 @@ local preview = require "lua.scripts.ui.componentsV2.preview"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local pos = constants.position
 local checkbox = require "lua.scripts.ui.componentsV3.checkbox"
+local label = require "lua.scripts.ui.componentsV3.label"
 
 widget.init [[insurrection/ui/menus/lobby/]]
 
@@ -65,8 +67,12 @@ return container("lobby_menu", {
                 })
             },
             {
-                input("search", string.rep(" ", 32),
-                      {variant = "small", icon = [[insurrection/ui/bitmaps/search_icon.bitmap]]}),
+                input {
+                    name = "search",
+                    text = strmem(32),
+                    variant = "small",
+                    icon = [[insurrection/ui/bitmaps/search_icon.bitmap]]
+                },
                 pos.options.x,
                 140
             },
@@ -113,6 +119,16 @@ return container("lobby_menu", {
                 170
             },
             {checkbox {name = "make_public", text = "Public Lobby"}, pos.options.x, 371},
+            {
+                input {
+                    name = "lobby_key",
+                    text = strmem(512, "Lobby Key"),
+                    variant = "small",
+                    icon = [[insurrection/ui/bitmaps/copy_icon.bitmap]]
+                },
+                pos.options.x + constants.components.button.normal.width + 8,
+                371
+            },
             {button("back", "BACK", {back = true}), actionsLayout()},
             {button("play", "PLAY"), actionsLayout()}
         })

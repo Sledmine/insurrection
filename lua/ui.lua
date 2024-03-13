@@ -194,7 +194,7 @@ function OnMouseButtonPress(widgetInstanceIndex, button)
             if button == "right" then
                 if isBalltzeAvailable then
                     local inputString = core.getStringFromWidget(editableWidgetTag.id)
-                    local text = inputString .. balltze.get_clipboard()
+                    local text = inputString .. core.getClipboard()
                     core.setStringToWidget(text, editableWidgetTag.id)
                     local component = components.widgets[editableWidgetTag.id]
                     if component and component.events.onInputText then
