@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.3] - 2024-03-15
+### Fixed
+- UI elements overflow when reaching the end of the list in some menus
+- Safer string widget manipulation, preventing crashes when the string is too long
+- Edge cases when using invalid combinations of biped customization after updating custom biped data
+
+### Added
+- Lobby keys are back, now you can copy the lobby key to the clipboard and share it with your friends
+
 ## [2.6.2] - 2024-02-26
 ### Fixed
 - Customized biped UI data not being persisted properly
