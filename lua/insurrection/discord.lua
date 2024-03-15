@@ -57,7 +57,7 @@ end
 function discord.startPresence()
     if not discord.ready then
         -- discordRPC.shutdown()
-        core.loading(true, "Starting Discord Presence...", true)
+        core.loading(true, "Starting Discord Presence...")
         discord.initialize()
     end
 
@@ -80,8 +80,8 @@ function discord.startPresence()
         if not discord.ready then
             core.loading(false)
             if not DebugMode and not discord.attempted then
-                interface.dialog("WARNING", "Discord Rich Presence failed to start.",
-                                 "Please make sure you have Discord running and allow Discord to display your game status.")
+                --interface.dialog("WARNING", "Discord Rich Presence failed to start.",
+                --                 "Please make sure you have Discord running and allow Discord to display your game status.")
                 discord.attempted = true
             end
         end
