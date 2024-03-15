@@ -380,15 +380,17 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
     local objectModel = blam.model(objectBipedTag.model)
     assert(objectModel, "No biped model found")
 
-    local regionCount = objectModel.regionCount
-    if regionIndex > regionCount then
+    -- This one does not need to be substrated by 1 because property name is Lua 1-based
+    local maximumRegionIndex = objectModel.regionCount
+    if regionIndex > maximumRegionIndex then
         dprint("Region index " .. regionIndex .. " out of range, leaving object as is")
         return
     end
 
-    local maximumPermutationCount = objectModel.regionList[regionIndex].permutationCount
-    if permutationIndex > maximumPermutationCount then
-        dprint("Permutation index " .. permutationIndex .. " out of range, setting to 0")
+    local maximumPermutationIndex = objectModel.regionList[regionIndex].permutationCount - 1
+    if permutationIndex > maximumPermutationIndex then
+        dprint("Permutation index " .. permutationIndex .. " for region " .. regionIndex ..
+                   " out of range, setting to 0")
         permutationIndex = 0
     end
     object["regionPermutation" .. regionIndex] = permutationIndex
