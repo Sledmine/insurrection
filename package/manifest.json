@@ -22,8 +22,12 @@
         },
         {
             "label": "balltze",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "forced": true
+        },
+        {
+            "label": "mimic",
+            "version": "3.0.5"
         }
     ]
 }
