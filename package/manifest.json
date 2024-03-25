@@ -2,7 +2,7 @@
     "manifestVersion": "1.1.0",
     "files": {},
     "label": "insurrection",
-    "version": "2.6.3",
+    "version": "2.6.4",
     "category": "service",
     "author": "Insurrection Team",
     "name": "Insurrection",
@@ -22,8 +22,7 @@
         },
         {
             "label": "balltze",
-            "version": "1.1.0",
-            "forced": true
+            "version": "1.1.1"
         },
         {
             "label": "mimic",
