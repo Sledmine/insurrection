@@ -371,6 +371,11 @@ setmetatable(inspect, {
     end
 })
 
+local originalConsoleDebug = console_debug
+console_debug = function (value)
+    return originalConsoleDebug(inspect(value):replace("\n", ""))
+end
+
 --- Function to send debug messages to console output
 ---@param message string | number | table | any
 ---@param color? '"info"' | '"warning"' | '"error"' | '"success"'
