@@ -79,7 +79,7 @@ return container("lobby_menu", {
             {
                 options {
                     name = "elements",
-                    variant = "vertical",
+                    alignment = "horizontal",
                     width = 530,
                     height = 110,
                     {
@@ -166,7 +166,7 @@ return container("lobby_menu", {
                     {
                         options {
                             name = "lobby_maps",
-                            variant = "vertical",
+                            alignment = "vertical",
                             width = 465,
                             height = 160,
                             {
