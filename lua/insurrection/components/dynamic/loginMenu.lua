@@ -39,6 +39,6 @@ return function()
     -- end)
     registerButton:onClick(function()
         interface.dialog("INFORMATION", "Join us on our Discord server!",
-                         "We have a Discord Bot to help with the registering process:\n\n\nhttps://discord.shadowmods.net")
+                         "We have a Discord Bot for the registering process:\n\n\nhttps://discord.shadowmods.net")
     end)
 end
