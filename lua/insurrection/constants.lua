@@ -86,6 +86,7 @@ function constants.get()
         biped = findWidgetTag("customization_biped\\customization_biped_menu"),
         browser = findWidgetTag("lobby_browser_menu"),
         legacyModalError = findWidgetTag("error_modal_fullscreen"),
+        balltze = findWidgetTag("balltze\\balltze_mod_menu"),
     }
 
     constants.sounds = {

@@ -91,6 +91,9 @@ function interface.load()
         if constants.widgets.optic then
             require "insurrection.components.dynamic.opticMenu"()
         end
+        if constants.widgets.balltze then
+            require "insurrection.components.dynamic.balltzeMenu"()
+        end
 
         -- Insurrection is running outside the UI
         if constants.widgetCollections.multiplayer then
