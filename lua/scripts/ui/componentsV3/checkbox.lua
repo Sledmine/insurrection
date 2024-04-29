@@ -1,5 +1,5 @@
 local widget = require "lua.scripts.widget"
-local button = require "lua.scripts.ui.componentsV2.button"
+local button = require "lua.scripts.ui.componentsV3.button"
 local constants = require "lua.scripts.ui.components.constants"
 
 ---@class checkboxProps
@@ -25,7 +25,9 @@ return function(props)
         event_handlers = {{event_type = "a_button"}}
     }
     widget.createV2(widgetPath, checkbox)
-    return button(name .. "_checkbox", text, {
+    return button {
+        name = name .. "_checkbox",
+        text = text,
         variant = variant,
         childs = {
             {
@@ -34,5 +36,15 @@ return function(props)
                 vertical_offset = 5
             }
         }
-    })
+    }
+    --return button(name .. "_checkbox", text, {
+    --    variant = variant,
+    --    childs = {
+    --        {
+    --            widget_tag = widgetPath,
+    --            horizontal_offset = constants.components.button[variant].width - 14 - 5,
+    --            vertical_offset = 5
+    --        }
+    --    }
+    --})
 end
