@@ -408,4 +408,28 @@ function core.getClipboard()
     end
 end
 
+---Get the current screen aspect ratio
+---@return number aspectWidth, number aspectHeight
+function core.getScreenAspectRatio()
+    local screenWidth, screenHeight = core.getScreenResolution()
+    console_out("Screen resolution: " .. screenWidth .. "x" .. screenHeight)
+    -- Calculate the greatest common divisor (GCD) using Euclidean algorithm
+    local function gcd(a, b)
+        while b ~= 0 do
+            a, b = b, a % b
+        end
+        return a
+    end
+
+    -- Calculate the aspect ratio
+    local divisor = gcd(screenWidth, screenHeight)
+    local aspectWidth = screenWidth / divisor
+    local aspectHeight = screenHeight / divisor
+
+    -- Format the aspect ratio as a string
+    --local aspectRatioString = string.format("%d:%d", aspectWidth, aspectHeight)
+
+    return aspectWidth, aspectHeight
+end
+
 return core
