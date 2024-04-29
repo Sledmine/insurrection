@@ -117,11 +117,11 @@ return function()
 
                 -- Not proud of this, but it works for now
                 if isUltraWide then
-                    chimera.executeCommand("chimera_fov " .. value)
-                    console_debug("Setting horizontal FOV")
-                else
                     chimera.executeCommand("chimera_fov " .. value .. "v")
                     console_debug("Setting vertical FOV")
+                else
+                    chimera.executeCommand("chimera_fov " .. value)
+                    console_debug("Setting horizontal FOV")
                 end
             end
         }
