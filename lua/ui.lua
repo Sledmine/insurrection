@@ -237,6 +237,13 @@ function OnMenuListTab(pressedKey,
     local widgetList = blam.uiWidgetDefinition(listWidgetTagId)
     -- local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
     assert(widgetList, "Invalid widget list tag id")
+    if pressedKey == "dpad left" or pressedKey == "dpad right" then
+        local component = components.widgets[listWidgetTagId] --[[@as uiComponentSpinner]]
+        if component and component.type == "spinner" and component.events.onScroll then
+            component:scroll(pressedKey == "dpad left" and -1 or 1)
+            return true
+        end
+    end
     for childIndex, child in pairs(widgetList.childWidgets) do
         if child.widgetTag == previousFocusedWidgetId then
             local nextChildIndex

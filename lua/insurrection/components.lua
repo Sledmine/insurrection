@@ -21,8 +21,8 @@ local components = {
     ---@type boolean
     isBackgroundAnimated = false,
     ---@type boolean
-    isBackgroundLoop = false,
-    ---@type '"generic"' | '"list"' | '"button"' | '"checkbox"' | '"slider"' | '"dropdown"' | '"text"' | '"image"'
+    isBackgroundLooped = false,
+    ---@type '"generic"' | '"list"' | '"button"' | '"checkbox"' | '"slider"' | '"dropdown"' | '"text"' | '"image"' | '"spinner"' | '"progress"'
     type = "generic",
     ---@type table<string, widgetAnimation>
     animations = {}
@@ -73,7 +73,7 @@ function components.getText(self)
     end
     local unicodeStrings = blam.unicodeStringList(self.widgetDefinition.unicodeStringListTag)
     if unicodeStrings then
-        return unicodeStrings.stringList[self.widgetDefinition.stringListIndex + 1]
+        return unicodeStrings.strings[self.widgetDefinition.stringListIndex + 1]
     end
     error("No unicodeStringList found for widgetDefinition")
 end
@@ -99,14 +99,14 @@ function components.setText(self, text, mask)
         error("No unicodeStringList found for widgetDefinition " .. self.tag.path)
     end
     local stringListIndex = widgetDefinition.stringListIndex
-    local newStrings = unicodeStrings.stringList
+    local newStrings = unicodeStrings.strings
     if mask then
         VirtualInputValue[self.tagId] = text
         newStrings[stringListIndex + 1] = string.rep(mask, #text)
     else
         newStrings[stringListIndex + 1] = text
     end
-    unicodeStrings.stringList = newStrings
+    unicodeStrings.strings = newStrings
 end
 
 ---@param self uiComponent
@@ -139,8 +139,10 @@ end
 ---@param self uiComponent
 ---@param isLooped? boolean
 function components.animate(self, isLooped)
+    ---@diagnostic disable-next-line: inject-field
     self.isBackgroundAnimated = true
-    self.isBackgroundLoop = isLooped
+    ---@diagnostic disable-next-line: inject-field
+    self.isBackgroundLooped = isLooped or false
 end
 
 function components.free()

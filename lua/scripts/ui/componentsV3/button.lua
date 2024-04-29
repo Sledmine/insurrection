@@ -27,7 +27,7 @@ return function(props)
     local name = props.name
     local text = props.text
     local variant = props.variant or "normal"
-    
+
     local stringsTagPath
     if text then
         -- Generate strings tag
@@ -38,8 +38,8 @@ return function(props)
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        bounds = "0, 0, " .. constants.components.button[variant].height .. ", " ..
-            constants.components.button[variant].width,
+        bounds = widget.bounds(0, 0, constants.components.button[variant].height,
+                               constants.components.button[variant].width),
         flags = {pass_unhandled_events_to_focused_child = true},
         background_bitmap = constants.components.button[variant].bitmap,
         event_handlers = {

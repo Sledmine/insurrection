@@ -3,6 +3,8 @@ local components = require "insurrection.components"
 
 ---@class uiComponentCheckboxClass : uiComponent
 local checkbox = setmetatable({
+    ---@type string
+    type = "checkbox",
     ---@type number
     checkboxTagId = nil,
     ---@type boolean
@@ -15,6 +17,7 @@ local checkbox = setmetatable({
 ---@class uiComponentCheckbox : uiComponentCheckboxClass
 ---@field events uiComponentCheckboxEvents
 
+---@param tagId number
 ---@return uiComponentCheckbox
 function checkbox.new(tagId)
     local instance = setmetatable(components.new(tagId), {__index = checkbox}) --[[@as uiComponentCheckbox]]
