@@ -5,7 +5,7 @@ local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
 local checkbox = require "insurrection.components.checkbox"
 local spinner = require "insurrection.components.spinner"
-local core    = require "insurrection.core"
+local core = require "insurrection.core"
 
 return function()
     local chimeraMod = components.new(constants.widgets.chimera.id)
@@ -114,15 +114,8 @@ return function()
             value = preferences.chimera_fov,
             change = function(value)
                 preferences.chimera_fov = value
-
-                -- Not proud of this, but it works for now
-                if isUltraWide then
-                    chimera.executeCommand("chimera_fov " .. value .. "v")
-                    console_debug("Setting vertical FOV")
-                else
-                    chimera.executeCommand("chimera_fov " .. value)
-                    console_debug("Setting horizontal FOV")
-                end
+                chimera.executeCommand("chimera_fov " .. value)
+                console_debug("Setting horizontal FOV")
             end
         }
     }
@@ -189,7 +182,7 @@ return function()
                     component:setValue(data.value)
                 end
             else
-                --error("Element from list not found: " .. k)
+                -- error("Element from list not found: " .. k)
             end
         end
     end)
