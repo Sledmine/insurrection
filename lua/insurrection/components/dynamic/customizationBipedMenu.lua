@@ -18,6 +18,34 @@ local staticRegions = {
     "helmet"
 }
 
+local staticVisors = {
+"Sulfur",
+"Silver",
+"Blue",
+"Green",
+"Purple",
+"Golden",
+"Red",
+"Orange",
+"Black",
+"White",
+"Cyanotic",
+"Nightfall",
+"Matrix",
+"Sunshine",
+"Chimera",
+"Iridescent",
+"Coalescence",
+"Hologram",
+"Blizzard",
+"Legend",
+"Frostbite",
+"Scattered",
+"Pink Pop",
+"Moonlight",
+"Gilver"
+}
+
 local dynamicRegions = staticRegions
 
 local specificRegionCameras = {
@@ -29,7 +57,7 @@ local specificRegionCameras = {
 }
 
 local interpolationTicks = 30
----@type "regions"|"permutations"
+---@type "regions"|"permutations"|"visor"
 local editing = "regions"
 local currentRegionIndex = 1
 
@@ -45,6 +73,8 @@ local function setCamera(region)
     -- FIXME This is a hack to use the lobby cammera, find a better way to do this
     if region == "lobby" then
         command = "camera_set customization_{region} {ticks}"
+    elseif region == "visor" then
+        command = "camera_set customization_helmet {ticks}"
     end
 
     execute_script(command:template{
@@ -74,6 +104,10 @@ end
 local function getBipedName(tagPath)
     local name = utils.path(tagPath).name
     return name:replace("_mp", "")
+end
+
+local function getBitmapIndexForRegion(region)
+    return (table.indexof(staticRegions, region) or 1) - 1
 end
 
 return function()
@@ -110,11 +144,21 @@ return function()
                         constants.bitmaps.customization.regions.id
                     -- Set bitmap index
                     icon:setWidgetValues({
-                        background_bitmap_index = (table.indexof(staticRegions, region) or 1) - 1
+                        background_bitmap_index = getBitmapIndexForRegion(region)
                     })
                 end
             }
         end)
+
+        table.insert(regions, {
+            value = "visor",
+            label = t("visor"),
+            bitmap = function(uiComponent)
+                local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
+                icon:setWidgetValues({background_bitmap_index = getBitmapIndexForRegion("helmet")})
+            end
+        })
 
         editing = "regions"
         options:setItems(regions)
@@ -122,6 +166,29 @@ return function()
 
     local function loadPermutations(region)
         geometryName:setText(t(region))
+        if region == "visor" then
+            local visors = {}
+            --for visorIndex = 0, 24 do
+            --    table.insert(visors, {
+            --        value = visorIndex,
+            --        label = t("visor") .. " " .. visorIndex
+            --    })
+            --end
+            for _, visorName in ipairs(staticVisors) do
+                table.insert(visors, {
+                    value = table.indexof(staticVisors, visorName) - 1,
+                    label = visorName:upper(),
+                    bitmap = function(uiComponent)
+                        local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                        icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
+                        icon:setWidgetValues({background_bitmap_index = getBitmapIndexForRegion("helmet")})
+                    end
+                })
+            end
+            editing = "visor"
+            options:setItems(visors)
+            return
+        end
 
         local customizationObjectData = getCustomizationObjectData()
         local customizationModel = customizationObjectData.model
@@ -170,17 +237,30 @@ return function()
         core.setObjectPermutationSafely(customizationBiped, currentRegionIndex, permutationIndex)
     end
 
+    local function setVisor(visorIndex)
+        local customizationBiped = getCustomizationObjectData().biped
+        assert(customizationBiped, "No customization biped found")
+
+        customizationBiped.shaderPermutationIndex = visorIndex
+    end
+
     options:onSelect(function(item)
         if editing == "regions" then
-            setEditingGeometry(item.value)
-            loadPermutations(item.value)
+            local geometry = item.value
+            setEditingGeometry(geometry)
+            loadPermutations(geometry)
+        elseif editing == "permutations" then
+            local permutation = item.value
+            setPermutation(permutation)
         else
-            setPermutation(item.value)
+            local visor = item.value
+            setVisor(visor)
         end
     end)
 
     local function onClose()
-        if editing == "permutations" then
+        --- TODO Mix permutations and visor in one concept
+        if editing == "permutations" or editing == "visor" then
             customization.events.onOpen()
             return false
         end
