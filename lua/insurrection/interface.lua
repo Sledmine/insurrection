@@ -384,6 +384,23 @@ function interface.close(closeAllWidgets)
     return
 end
 
+function interface.rotateCustomizationBiped()
+    local mouse = core.getMouseState()
+
+    if mouse.rightClick > 0 then
+        local objectId = core.getCustomizationObjectId()
+        if objectId then
+            local object = blam.object(get_object(objectId))
+            assert(object)
+            BipedRotation = BipedRotation + mouse.right * 3
+            if BipedRotation > 360 then
+                BipedRotation = 0
+            end
+            blam.rotateObject(object, BipedRotation, 0, 0)
+        end
+    end
+end
+
 -- TODO Move this variable to a better global namespace
 BipedRotation = 0
 
@@ -395,24 +412,11 @@ function interface.onTick()
     end
     if constants.widgets.biped then
         if currentWidgetTag.id == constants.widgets.biped.id then
-            local mouse = core.getMouseState()
-
-            if mouse.rightClick > 0 then
-                local objectId = core.getCustomizationObjectId()
-                if objectId then
-                    local object = blam.object(get_object(objectId))
-                    assert(object)
-                    BipedRotation = BipedRotation + mouse.right * 3
-                    if BipedRotation > 360 then
-                        BipedRotation = 0
-                    end
-                    blam.rotateObject(object, BipedRotation, 0, 0)
-                end
-            end
+            interface.rotateCustomizationBiped()
         end
     end
     -- Inventory protptype code
-    --if core.getMouseState().scrollClick > 0 then
+    -- if core.getMouseState().scrollClick > 0 then
     --    if focusedWidgetTagId then
     --        local widget = blam.uiWidgetDefinition(focusedWidgetTagId)
     --        console_out(widget.width .. " " .. widget.height)
@@ -422,7 +426,7 @@ function interface.onTick()
     --        -- console_out("Focused widget: " .. focusedWidgetTagId .. " X: " .. props.left_bound .. " Y: " .. props.top_bound)
     --        core.setWidgetValues(focusedWidgetTagId, {left_bound = x - (widget.width / 2), top_bound = y - (widget.height / 2)})
     --    end
-    --end
+    -- end
 end
 
 return interface
