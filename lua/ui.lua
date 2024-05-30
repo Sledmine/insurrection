@@ -47,6 +47,8 @@ local lastMap = ""
 local playerCount = 0
 ---@type tag?
 local previousWidgetTag = nil
+IsUIPhotoSessionRunning = false
+IsDebugCustomization = false
 
 discord = require "insurrection.discord"
 
@@ -135,6 +137,14 @@ function OnTick()
         end
         playerCount = newPlayerCount
     end
+    if IsDebugCustomization then
+        interface.rotateCustomizationBiped()
+    end
+    -- console_out("--------------------")
+    -- for button in pairs(blam.joystickInputs) do
+    --    console_out(button .. ": " .. tostring(blam.getJoystickInput(blam.joystickInputs[button])))
+    -- end
+
     interface.onTick()
 end
 
@@ -178,6 +188,10 @@ end
 function OnMenuAccept(widgetInstanceIndex)
     local isCanceled = false
     local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
+    -- local tag = blam.getTag(widgetTagId)
+    -- if tag then
+    --    console_debug("Widget path: " .. tag.path)
+    -- end
     local component = components.widgets[widgetTagId]
     if component then
         if component.events.onClick then
@@ -213,7 +227,7 @@ local function onWidgetFocus(widgetTagId)
         component.events.onFocus()
     end
     -- Global used for inventory prototype
-    --focusedWidgetTagId = widgetTagId
+    -- focusedWidgetTagId = widgetTagId
     local focusedWidget = blam.uiWidgetDefinition(widgetTagId)
     local tag = blam.getTag(widgetTagId)
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
@@ -237,6 +251,8 @@ function OnMenuListTab(pressedKey,
     local widgetList = blam.uiWidgetDefinition(listWidgetTagId)
     -- local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
     assert(widgetList, "Invalid widget list tag id")
+    -- console_debug("Widget list tag: " .. widgetListTag.path)
+    -- console_debug("Pressed key: " .. pressedKey)
     if pressedKey == "dpad left" or pressedKey == "dpad right" then
         local component = components.widgets[listWidgetTagId] --[[@as uiComponentSpinner]]
         if component and component.type == "spinner" and component.events.onScroll then
@@ -281,10 +297,18 @@ function OnMouseFocus(widgetInstanceId)
 end
 
 function OnFrame()
+    if IsUIPhotoSessionRunning then
+        local customizationObjectData = core.getCustomizationObjectData()
+        assert(customizationObjectData.biped, "No customization biped found")
+        local customizationBiped = customizationObjectData.biped
+        customizationBiped.animationFrame = 0
+    end
     local bounds = {left = 0, top = 460, right = 640, bottom = 480}
     local textColor = {1, 1, 1, 1}
-    draw_text(ScreenCornerText or "", bounds.left, bounds.top, bounds.right, bounds.bottom,
-              "console", "right", table.unpack(textColor))
+    if not IsUIPhotoSessionRunning then
+        draw_text(ScreenCornerText or "", bounds.left, bounds.top, bounds.right, bounds.bottom,
+                  "console", "right", table.unpack(textColor))
+    end
     -- Draw loading text on the left side of the screen
     if LoadingText then
         draw_text(LoadingText or "", bounds.left + 16, bounds.top, bounds.left + 200, bounds.bottom,
@@ -377,9 +401,11 @@ function OnCommand(command)
                          "Please restart the game to see changes.")
         return false
     elseif command == "insurrection_debug_customization" then
+        IsDebugCustomization = true
         interface.blur(false)
         interface.close(true)
         execute_script("set_customization_background 1")
+        execute_script("object_create customization_biped")
         return false
     end
 end
