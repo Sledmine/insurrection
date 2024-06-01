@@ -5,6 +5,7 @@ local list = require "insurrection.components.list"
 local utils = require "insurrection.utils"
 local blam = require "blam"
 local core = require "insurrection.core"
+local color = require "color"
 local t = utils.snakeCaseToUpperTitleCase
 
 local staticRegions = {
@@ -13,37 +14,41 @@ local staticRegions = {
     "left_shoulder",
     "right_shoulder",
     "arms",
-    "left_leg",
-    "right_leg",
-    "helmet"
+    "knees",
+    "helmet",
+    "visor",
+    "color",
+    "gear",
+    "legs",
+    "bundle"
 }
 
 local staticVisors = {
-"Sulfur",
-"Silver",
-"Blue",
-"Green",
-"Purple",
-"Golden",
-"Red",
-"Orange",
-"Black",
-"White",
-"Cyanotic",
-"Nightfall",
-"Matrix",
-"Sunshine",
-"Chimera",
-"Iridescent",
-"Coalescence",
-"Hologram",
-"Blizzard",
-"Legend",
-"Frostbite",
-"Scattered",
-"Pink Pop",
-"Moonlight",
-"Gilver"
+    "Sulfur",
+    "Silver",
+    "Blue",
+    "Green",
+    "Purple",
+    "Golden",
+    "Red",
+    "Orange",
+    "Black",
+    "White",
+    "Cyanotic",
+    "Nightfall",
+    "Matrix",
+    "Sunshine",
+    "Chimera",
+    "Iridescent",
+    "Coalescence",
+    "Hologram",
+    "Blizzard",
+    "Legend",
+    "Frostbite",
+    "Scattered",
+    "Pink Pop",
+    "Moonlight",
+    "Gilver"
 }
 
 local dynamicRegions = staticRegions
@@ -52,8 +57,7 @@ local specificRegionCameras = {
     left_shoulder = "shoulders",
     right_shoulder = "shoulders",
     left_leg = "legs",
-    right_leg = "legs",
-    arms = "body"
+    right_leg = "legs"
 }
 
 local interpolationTicks = 30
@@ -63,7 +67,20 @@ local currentRegionIndex = 1
 
 local getCustomizationObjectData = core.getCustomizationObjectData
 
-local function setCamera(region)
+---@param biped biped
+---@param colorInHex string
+local function setBipedColor(biped, colorInHex)
+    local r, g, b = color.hexToDec(colorInHex)
+    biped.colorCLowerRed = r
+    biped.colorCLowerGreen = g
+    biped.colorCLowerBlue = b
+
+    biped.colorDLowerRed = r
+    biped.colorDLowerGreen = g
+    biped.colorDLowerBlue = b
+end
+
+local function setCamera(region, ticks)
     local command = "camera_set customization_{region}_generic {ticks}"
 
     local customizationObjectData = getCustomizationObjectData()
@@ -79,11 +96,11 @@ local function setCamera(region)
 
     execute_script(command:template{
         region = specificRegionCameras[region] or region,
-        ticks = interpolationTicks
+        ticks = ticks or interpolationTicks
     })
 end
 
-local function setEditingGeometry(region)
+local function setEditingGeometry(region, ticks)
     local customizationObjectId = core.getCustomizationObjectId()
     assert(customizationObjectId, "No customization biped found")
     local object = blam.getObject(customizationObjectId)
@@ -92,7 +109,7 @@ local function setEditingGeometry(region)
     end
 
     -- Set camera
-    setCamera(region)
+    setCamera(region, ticks)
 
     BipedRotation = constants.customization.rotation[region] or
                         constants.customization.rotation.default
@@ -110,7 +127,9 @@ local function getBitmapIndexForRegion(region)
     return (table.indexof(staticRegions, region) or 1) - 1
 end
 
-return function()
+return function(props)
+    props = props or {}
+    local isBipedPreviewGenEnabled = props.isBipedPreviewGenEnabled
     -- Get customization widget menu
     local customization = components.new(constants.widgets.biped.id)
     local geometryName = components.new(customization:findChildWidgetTag("geometry_name").id)
@@ -143,22 +162,25 @@ return function()
                     icon.widgetDefinition.backgroundBitmap =
                         constants.bitmaps.customization.regions.id
                     -- Set bitmap index
-                    icon:setWidgetValues({
-                        background_bitmap_index = getBitmapIndexForRegion(region)
-                    })
+                    icon:setWidgetValues({background_bitmap_index = getBitmapIndexForRegion(region)})
                 end
             }
         end)
 
-        table.insert(regions, {
-            value = "visor",
-            label = t("visor"),
-            bitmap = function(uiComponent)
-                local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
-                icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
-                icon:setWidgetValues({background_bitmap_index = getBitmapIndexForRegion("helmet")})
-            end
-        })
+        if DebugMode then
+            table.insert(regions, {
+                value = "visor",
+                label = t("visor"),
+                bitmap = function(uiComponent)
+                    local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    icon.widgetDefinition.backgroundBitmap =
+                        constants.bitmaps.customization.regions.id
+                    icon:setWidgetValues({
+                        background_bitmap_index = getBitmapIndexForRegion("visor")
+                    })
+                end
+            })
+        end
 
         editing = "regions"
         options:setItems(regions)
@@ -168,20 +190,24 @@ return function()
         geometryName:setText(t(region))
         if region == "visor" then
             local visors = {}
-            --for visorIndex = 0, 24 do
+            -- for visorIndex = 0, 24 do
             --    table.insert(visors, {
             --        value = visorIndex,
             --        label = t("visor") .. " " .. visorIndex
             --    })
-            --end
+            -- end
             for _, visorName in ipairs(staticVisors) do
                 table.insert(visors, {
                     value = table.indexof(staticVisors, visorName) - 1,
                     label = visorName:upper(),
                     bitmap = function(uiComponent)
-                        local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
-                        icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
-                        icon:setWidgetValues({background_bitmap_index = getBitmapIndexForRegion("helmet")})
+                        local icon =
+                            components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                        icon.widgetDefinition.backgroundBitmap =
+                            constants.bitmaps.customization.regions.id
+                        icon:setWidgetValues({
+                            background_bitmap_index = getBitmapIndexForRegion("visor")
+                        })
                     end
                 })
             end
@@ -209,14 +235,15 @@ return function()
                 permutationName = permutationName:split("+")[4]
             end
             permutationName = t(permutationName):upper()
+            local isTheFloodProject = customizationObjectData.tag.path:includes("keymind")
             table.insert(permutations, {
                 value = permutationIndex,
                 label = permutationName,
                 bitmap = function(uiComponent)
                     local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
-                    local index = (table.indexof(staticRegions, region) or 1) - 1
+                    local index = getBitmapIndexForRegion(region)
                     local permutationsBitmapTag = constants.bitmaps.customization[region]
-                    if customizationObjectData.tag.path:find("keymind") and permutationsBitmapTag then
+                    if isTheFloodProject and permutationsBitmapTag then
                         icon.widgetDefinition.backgroundBitmap = permutationsBitmapTag.id
                         index = permutationIndex
                     end
@@ -242,6 +269,82 @@ return function()
         assert(customizationBiped, "No customization biped found")
 
         customizationBiped.shaderPermutationIndex = visorIndex
+    end
+
+    local function generateBipedPreviews()
+        IsUIPhotoSessionRunning = true
+        execute_script("object_create green_screen")
+        console_debug("Generating biped previews")
+        execute_script("cls")
+        -- core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 0.04})
+        core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 0})
+
+        local customizationObjectData = getCustomizationObjectData()
+        local customizationModel = customizationObjectData.model
+        local customizationBiped = customizationObjectData.biped
+        assert(customizationBiped, "No customization biped found")
+        customizationBiped.animationFrame = 0
+        setBipedColor(customizationBiped, "#A6B0B5")
+
+        local delay = 600
+        for regionIndex, region in ipairs(customizationModel.regionList) do
+            local currentRegionName = region.name:split("+")[2] or region.name
+            utils.delay(delay, function()
+                for i = 1, 8 do
+                    customizationBiped["regionPermutation" .. i] = 0
+                end
+                setEditingGeometry(currentRegionName, 1)
+                if currentRegionName == "helmet" then
+                    customizationBiped["regionPermutation" .. regionIndex] = blam.null
+                end
+
+                local screenShotName = region.name .. "+00.png"
+                local screenShotPath = "/home/sledmine/Pictures/CaptureCustomization/" ..
+                                           screenShotName
+                os.execute(("cmd /c start /unix /usr/bin/gnome-screenshot -w -f %s"):format(
+                               screenShotPath))
+                -- os.execute("convert *.png -fuzz 5% -transparent 'rgb(0, 255, 0)' -set filename:base "%[basename]" "%[filename:base]_transparent.png"")
+            end)
+            delay = delay + 600
+        end
+
+        for regionIndex, region in ipairs(customizationModel.regionList) do
+            local currentRegionName = region.name:split("+")[2] or region.name
+            for permutationIndex, permutation in ipairs(region.permutationsList) do
+                utils.delay(delay, function()
+                    -- Hide all non editing regions
+                    for otherRegionIndex, region in ipairs(customizationModel.regionList) do
+                        local otherRegionName = region.name:split("+")[2] or region.name
+                        if currentRegionName ~= otherRegionName then
+                            customizationBiped["regionPermutation" .. otherRegionIndex] = blam.null
+                        end
+                    end
+
+                    setEditingGeometry(currentRegionName, 1)
+                    core.setObjectPermutationSafely(customizationBiped, regionIndex,
+                                                    permutationIndex - 1)
+                    -- console_debug("Generating biped preview for " .. regionName .. " " .. permutation.name)
+                    customizationBiped.animationFrame = 0
+                    local screenShotName = region.name .. "+" ..
+                                               string.format("%02d", permutationIndex) .. ".png"
+                    local screenShotPath = "/home/sledmine/Pictures/CaptureCustomization/" ..
+                                               screenShotName
+                    os.execute(("cmd /c start /unix /usr/bin/gnome-screenshot -w -f %s"):format(
+                                   screenShotPath))
+                end)
+                delay = delay + 600
+            end
+        end
+
+        utils.delay(delay, function()
+            console_debug("Finished generating biped previews")
+            execute_script("object_destroy green_screen")
+            IsUIPhotoSessionRunning = false
+            core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 1})
+            for i = 1, 8 do
+                customizationBiped["regionPermutation" .. i] = 0
+            end
+        end)
     end
 
     options:onSelect(function(item)
@@ -274,6 +377,9 @@ return function()
     customization:onOpen(function()
         setEditingGeometry("body")
         loadRegions()
+        if isBipedPreviewGenEnabled then
+            generateBipedPreviews()
+        end
     end)
     customization:onClose(function()
         return onClose()
