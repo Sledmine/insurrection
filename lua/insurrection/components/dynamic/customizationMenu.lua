@@ -20,6 +20,7 @@ end
 return function()
     local selectedProject
     local selectedBiped
+    local profile = core.getPlayerProfile()
 
     -- Get customization widget menu
     local customization = components.new(constants.widgets.customization.id)
@@ -65,6 +66,8 @@ return function()
     ---@param bipedPath string
     ---@param regions? number[]
     local handleSelectBiped = function(bipedPath, regions)
+        console_debug(bipedPath)
+        console_debug(regions)
         selectedBiped = bipedPath
         bipedsList:setWidgetValues({opacity = 1})
         execute_script("object_create customization_biped")
@@ -78,43 +81,49 @@ return function()
         end
         local bipedName = t(utils.path(bipedPath:replace("_mp", "")).name)
         currentBipedLabel:setText(bipedName)
-        local customizationObjectId = core.getCustomizationObjectId()
-        if customizationObjectId then
-            local object = blam.object(get_object(customizationObjectId))
-            assert(object, "customization object not found")
-            local scenario = blam.scenario(0)
-            assert(scenario)
-            -- Respawn biped object from scenario as it is safer than doing it from lua
-            for _, biped in pairs(scenario.bipeds) do
-                local sceneryName = scenario.objectNames[biped.nameIndex + 1]
-                if sceneryName == "customization_biped" then
-                    local newPaletteList = scenario.bipedPaletteList
-                    -- Replace scenario biped tag with custom biped tag
-                    if newPaletteList[biped.typeIndex + 1] ~= bipedTagEntry.id then
-                        newPaletteList[biped.typeIndex + 1] = bipedTagEntry.id
-                        scenario.bipedPaletteList = newPaletteList
-                        execute_script "object_destroy customization_biped"
-                        execute_script "object_create customization_biped"
-                        execute_script "fade_screen_in"
-                    end
-                    break
-                end
-            end
-            if regions then
-                local customizationObjectId = core.getCustomizationObjectId()
-                assert(customizationObjectId, "customization object not found")
-                local object = blam.object(get_object(customizationObjectId))
-                assert(object, "customization object not found")
 
-                for regionIndex, permutationIndex in pairs(regions) do
-                    core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
+        local scenario = blam.scenario(0)
+        assert(scenario)
+        -- Respawn biped object from scenario as it is safer than doing it from lua
+        for _, biped in pairs(scenario.bipeds) do
+            local sceneryName = scenario.objectNames[biped.nameIndex + 1]
+            if sceneryName == "customization_biped" then
+                local newPaletteList = scenario.bipedPaletteList
+                -- Replace scenario biped tag with custom biped tag
+                if newPaletteList[biped.typeIndex + 1] ~= bipedTagEntry.id then
+                    newPaletteList[biped.typeIndex + 1] = bipedTagEntry.id
+                    scenario.bipedPaletteList = newPaletteList
+                    execute_script "object_destroy customization_biped"
+                    execute_script "object_create customization_biped"
+                    execute_script "fade_screen_in"
+                    console_debug("Biped tag replaced")
                 end
+                break
             end
         end
-        -- local r, g, b = color.hexToDec("#b50003")
-        -- menuBiped.colorCLowerRed = r
-        -- menuBiped.colorCLowerGreen = g
-        -- menuBiped.colorCLowerBlue = b
+
+        local customizationObjectData = core.getCustomizationObjectData()
+        local customizationBiped = customizationObjectData.biped
+        assert(customizationBiped, "No customization biped found")
+
+        console_debug(profile)
+        local colorFromGame = constants.colors[profile.colorIndex]
+        console_debug(colorFromGame)
+        local r, g, b = color.hexToDec(colorFromGame)
+        customizationBiped.colorCLowerRed = r
+        customizationBiped.colorCLowerGreen = g
+        customizationBiped.colorCLowerBlue = b
+
+        -- TODO Change with secondary color later
+        customizationBiped.colorDLowerRed = r
+        customizationBiped.colorDLowerGreen = g
+        customizationBiped.colorDLowerBlue = b
+        if regions then
+            console_debug("Setting regions")
+            for regionIndex, permutationIndex in pairs(regions) do
+                core.setObjectPermutationSafely(customizationBiped, regionIndex, permutationIndex)
+            end
+        end
     end
 
     local function handleLoadNameplates()
@@ -225,6 +234,7 @@ return function()
 
     customization:onOpen(function(previousWidgetTag)
         discord.setState("Playing Insurrection", "In the customization menu")
+        prtofile = core.getPlayerProfile()
         if previousWidgetTag then
             if previousWidgetTag.id == constants.widgets.biped.id then
                 handleLoadBipeds()
