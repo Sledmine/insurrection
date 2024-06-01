@@ -58,7 +58,9 @@ constants.colors = {
     constants.color.salmon
 }
 
-constants.customization = {rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190}}
+constants.customization = {
+    rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190, arms = 80, gear = 0},
+}
 
 function constants.get()
     constants.widgets = {
@@ -86,7 +88,7 @@ function constants.get()
         biped = findWidgetTag("customization_biped\\customization_biped_menu"),
         browser = findWidgetTag("lobby_browser_menu"),
         legacyModalError = findWidgetTag("error_modal_fullscreen"),
-        balltze = findWidgetTag("balltze\\balltze_mod_menu"),
+        balltze = findWidgetTag("balltze\\balltze_mod_menu")
     }
 
     constants.sounds = {
