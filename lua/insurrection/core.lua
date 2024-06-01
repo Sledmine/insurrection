@@ -15,6 +15,7 @@ local clientPortAddress = 0x6337F8
 local clientPort = read_word(clientPortAddress)
 local friendlyClientPort = 2305
 local profileNameAddress = 0x6ADE22
+local profileColorAddress = 0x6ADF3A
 local mouseInputAddress = 0x64C73C
 local widgetCursorGlobals = 0x499E19
 
@@ -380,17 +381,17 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
     local objectModel = blam.model(objectBipedTag.model)
     assert(objectModel, "No biped model found")
 
-    -- This one does not need to be substrated by 1 because property name is Lua 1-based
+    -- This one does not need to be substracted by 1 because property name is Lua 1-based
     local maximumRegionIndex = objectModel.regionCount
     if regionIndex > maximumRegionIndex then
-        dprint("Region index " .. regionIndex .. " out of range, leaving object as is")
+        console_debug("Region index " .. regionIndex .. " out of range, maximum is " .. maximumRegionIndex)
         return
     end
 
     local maximumPermutationIndex = objectModel.regionList[regionIndex].permutationCount - 1
     if permutationIndex > maximumPermutationIndex then
-        dprint("Permutation index " .. permutationIndex .. " for region " .. regionIndex ..
-                   " out of range, setting to 0")
+        console_debug("Permutation index " .. permutationIndex .. " for region " .. regionIndex ..
+                          " out of range, setting to 0")
         permutationIndex = 0
     end
     object["regionPermutation" .. regionIndex] = permutationIndex
@@ -427,9 +428,18 @@ function core.getScreenAspectRatio()
     local aspectHeight = screenHeight / divisor
 
     -- Format the aspect ratio as a string
-    --local aspectRatioString = string.format("%d:%d", aspectWidth, aspectHeight)
+    -- local aspectRatioString = string.format("%d:%d", aspectWidth, aspectHeight)
 
     return aspectWidth, aspectHeight
+end
+
+---Get current player profile
+---@return {name: string, colorIndex: number}
+function core.getPlayerProfile()
+    local profile = {}
+    profile.name = blam.readUnicodeString(profileNameAddress, true)
+    profile.colorIndex = read_byte(profileColorAddress) + 1
+    return profile
 end
 
 return core
