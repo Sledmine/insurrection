@@ -7,6 +7,8 @@ local interface = require "insurrection.interface"
 
 ---@class uiComponentListClass : uiComponent
 local list = setmetatable({
+    ---@type string
+    type = "list",
     ---@type number
     firstWidgetIndex = nil,
     ---@type number

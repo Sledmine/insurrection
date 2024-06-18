@@ -26,15 +26,15 @@ local gameStarted = false
 ---@type uiWidgetDefinition?
 local editableWidget
 ---@type tag?
-local editableWidgetTag
+local editableWidgetTagEntry
 ---@type tag
 local lastOpenWidgetTag
 ---@type tag
 local lastClosedWidgetTag
 ---@type tag
 local lastListFocusedWidgetTag
----@type tag
-local lastFocusedWidgetTag
+---@type tag?
+local lastFocusedWidgetTagEntry
 -- Multithread lanes
 Lanes = {}
 -- Stores values that are masked in the UI
@@ -157,7 +157,7 @@ function OnPlayerLeave()
 end
 
 function OnKeypress(modifiers, char, keycode)
-    if editableWidget and editableWidgetTag then
+    if editableWidget and editableWidgetTagEntry then
         -- Get pressed key from the keyboard
         local pressedKey
         if char then
@@ -167,16 +167,16 @@ function OnKeypress(modifiers, char, keycode)
         end
         -- If we pressed a key, update our editable widget
         if pressedKey then
-            local inputString = core.getStringFromWidget(editableWidgetTag.id)
+            local inputString = core.getStringFromWidget(editableWidgetTagEntry.id)
             local text = core.mapKeyToText(pressedKey, inputString)
             if text then
                 -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
                 if editableWidget.name:find "password" then
-                    core.setStringToWidget(text, editableWidgetTag.id, "*")
+                    core.setStringToWidget(text, editableWidgetTagEntry.id, "*")
                 else
-                    core.setStringToWidget(text, editableWidgetTag.id)
+                    core.setStringToWidget(text, editableWidgetTagEntry.id)
                 end
-                local component = components.widgets[editableWidgetTag.id]
+                local component = components.widgets[editableWidgetTagEntry.id]
                 if component and component.events.onInputText then
                     component.events.onInputText(text)
                 end
@@ -203,14 +203,14 @@ end
 
 function OnMouseButtonPress(widgetInstanceIndex, button)
     local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
-    if editableWidget and editableWidgetTag then
-        if widgetTagId == editableWidgetTag.id then
+    if editableWidget and editableWidgetTagEntry then
+        if widgetTagId == editableWidgetTagEntry.id then
             if button == "right" then
                 if isBalltzeAvailable then
-                    local inputString = core.getStringFromWidget(editableWidgetTag.id)
+                    local inputString = core.getStringFromWidget(editableWidgetTagEntry.id)
                     local text = inputString .. core.getClipboard()
-                    core.setStringToWidget(text, editableWidgetTag.id)
-                    local component = components.widgets[editableWidgetTag.id]
+                    core.setStringToWidget(text, editableWidgetTagEntry.id)
+                    local component = components.widgets[editableWidgetTagEntry.id]
                     if component and component.events.onInputText then
                         component.events.onInputText(text)
                     end
@@ -232,12 +232,15 @@ local function onWidgetFocus(widgetTagId)
     local tag = blam.getTag(widgetTagId)
     -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
     -- if focusedWidget and ends(focusedWidget.name, "_input") then
-    if focusedWidget and focusedWidget.name:endswith "_input" then
-        editableWidget = focusedWidget
-        editableWidgetTag = tag
-    else
-        editableWidget = nil
-        editableWidgetTag = nil
+    if focusedWidget then
+        lastFocusedWidgetTagEntry = tag
+        if focusedWidget.name:endswith "_input" then
+            editableWidget = focusedWidget
+            editableWidgetTagEntry = tag
+        else
+            editableWidget = nil
+            editableWidgetTagEntry = nil
+        end
     end
 end
 
@@ -296,6 +299,22 @@ function OnMouseFocus(widgetInstanceId)
     return true
 end
 
+function OnMouseScroll(widgetTagId)
+    local widget = core.getWidgetValues(widgetTagId)
+    if not widget then
+        return
+    end
+    local parentWidgetTagId = harmony.menu.get_widget_values(widget.parent_widget).tag_id
+    if not parentWidgetTagId then
+        return
+    end
+    local component = components.widgets[parentWidgetTagId] --[[@as uiComponentList]]
+    if component and component.type == "list" and component.onScroll then
+        local mouse = core.getMouseState()
+        component:scroll(mouse.scroll)
+    end
+end
+
 function OnFrame()
     if IsUIPhotoSessionRunning then
         local customizationObjectData = core.getCustomizationObjectData()
@@ -319,16 +338,23 @@ function OnFrame()
 
     -- Process widget animations queue only if we have a widget open
     local widgetTag = core.getCurrentUIWidgetTag()
-    --[[
     if widgetTag then
+        --[[
         for _, component in pairs(components.widgets) do
             for _, animation in pairs(component.animations) do
                 if not animation.finished then
                     animation.play()
                 end
             end
+        end]]
+
+        if lastFocusedWidgetTagEntry then
+            local mouse = core.getMouseState()
+            if mouse.scroll ~= 0 then
+                OnMouseScroll(lastFocusedWidgetTagEntry.id)
+            end
         end
-    end]]
+    end
 end
 
 function OnWidgetOpen(widgetInstanceIndex)
@@ -417,7 +443,7 @@ function OnMapLoad()
     lastMap = ""
     -- Reset script state
     editableWidget = nil
-    editableWidgetTag = nil
+    editableWidgetTagEntry = nil
     Lanes = {}
     VirtualInputValue = {}
     WidgetAnimations = {}
