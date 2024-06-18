@@ -121,20 +121,6 @@ function components.onClose(self, callback)
     self.events.onClose = callback
 end
 
---[[
-    -- Fake menu scrolling
-    if lastOpenWidgetTag and
-        (lastOpenWidgetTag.id == interface.widgets.lobbyWidgetTag.id or lastOpenWidgetTag.id ==
-            interface.widgets.customizationWidgetTag.id) then
-        local scroll = tonumber(read_char(0x64C73C + 8))
-        if scroll > 0 then
-            store:dispatch(actions.scroll(false))
-        elseif scroll < 0 then
-            store:dispatch(actions.scroll(true))
-        end
-    end
-]]
-
 ---Animate component background
 ---@param self uiComponent
 ---@param isLooped? boolean
