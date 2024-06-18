@@ -131,7 +131,9 @@ function constants.get()
             right_shoulder = findTag("customization_right_shoulder_icons", tagClasses.bitmap),
             regions = findTag("customization_icons", tagClasses.bitmap),
             helmet = findTag("customization_helmet_icons", tagClasses.bitmap),
-            chest = findTag("customization_chest_icons", tagClasses.bitmap)
+            chest = findTag("customization_chest_icons", tagClasses.bitmap),
+            gear = findTag("customization_gear_icons", tagClasses.bitmap),
+            legs = findTag("customization_legs_icons", tagClasses.bitmap)
         }
     }
     local fontName = "geogrotesque-regular-"
