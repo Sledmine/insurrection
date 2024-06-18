@@ -16,7 +16,7 @@ local fmod = math.fmod
 local rad = math.rad
 local deg = math.deg
 
-local blam = {_VERSION = "1.12.2"}
+local blam = {_VERSION = "1.13.0"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -332,6 +332,13 @@ local joystickInputs = {
     startButton = 9,
     leftStick = 10,
     rightStick = 11,
+    rightStick2 = 12,
+    -- TODO Add joys axis
+    leftStickUp = 30,
+    leftStickDown = 32,
+    rightStickUp = 34,
+    rightStickDown = 36,
+    triggers = 38,
     -- Multiple values on the same offset, check dPadValues table
     dPad = 96,
     -- Non zero values
@@ -343,8 +350,6 @@ local joystickInputs = {
     dPadDownRight = 103,
     dPadUpLeft = 107,
     dPadDownLeft = 105
-    -- TODO Add joys axis
-    -- rightJoystick = 30,
 }
 
 -- Values for the possible dPad values from the joystick inputs
@@ -991,6 +996,7 @@ function blam.writeUnicodeString(address, newString, rawWrite)
     if newString == false then
         return
     end
+    local newString = tostring(newString)
     -- TODO Refactor this to support writing ASCII and Unicode strings
     for i = 1, #newString do
         write_string(stringAddress + (i - 1) * 0x2, newString:sub(i, i))
@@ -1451,6 +1457,8 @@ local unitStructure = extendStructure(objectStructure, {
     isControllable = {type = "bit", offset = 0x204, bitLevel = 5},
     isPlayerNotAllowedToEntry = {type = "bit", offset = 0x204, bitLevel = 16},
     parentSeatIndex = {type = "word", offset = 0x2F0},
+    weaponAnimationTypeIndex = {type = "byte", offset = 0x2A1},
+    weaponSlot = {type = "byte", offset = 0x2F2},
     firstWeaponObjectId = {type = "dword", offset = 0x2F8},
     secondWeaponObjectId = {type = "dword", offset = 0x2FC},
     thirdWeaponObjectId = {type = "dword", offset = 0x300},
@@ -1463,6 +1471,8 @@ local unitStructure = extendStructure(objectStructure, {
 ---@field isControllable boolean Unit controllable state
 ---@field isPlayerNotAllowedToEntry boolean Unit player not allowed to entry
 ---@field parentSeatIndex number Unit parent seat index
+---@field weaponAnimationTypeIndex number Unit weapon animation type index
+---@field weaponSlot number Current unit weapon slot
 ---@field firstWeaponObjectId number First weapon object id
 ---@field secondWeaponObjectId number Second weapon object id
 ---@field thirdWeaponObjectId number Third weapon object id
@@ -1488,7 +1498,6 @@ local bipedStructure = extendStructure(unitStructure, {
     grenadeHold = {type = "bit", offset = 0x208, bitLevel = 13},
     crouch = {type = "byte", offset = 0x2A0},
     shooting = {type = "float", offset = 0x284},
-    weaponSlot = {type = "byte", offset = 0x2A1},
     zoomLevel = {type = "byte", offset = 0x320},
     ---@deprecated
     invisibleScale = {type = "float", offset = 0x37C},
@@ -2560,7 +2569,7 @@ function blam.getJoystickInput(joystickOffset)
     joystickOffset = joystickOffset or 0
     -- Nothing is pressed by default
     ---@type boolean | number
-    local inputValue = false
+    local inputValue = 0
     -- Look for every input from every joystick available
     for controllerId = 0, 3 do
         local inputAddress = addressList.joystickInput + controllerId * 0xA0
@@ -2572,6 +2581,8 @@ function blam.getJoystickInput(joystickOffset)
             local tempValue = read_word(inputAddress + 96)
             if (tempValue == joystickOffset - 100) then
                 inputValue = true
+            else
+                inputValue = false
             end
         else
             inputValue = inputValue + read_byte(inputAddress + joystickOffset)
