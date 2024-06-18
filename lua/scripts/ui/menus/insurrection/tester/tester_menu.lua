@@ -11,6 +11,7 @@ local complexButton = require "lua.scripts.ui.componentsV2.complexButton"
 local slider = require "lua.scripts.ui.componentsV2.slider"
 local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
 local preview = require "lua.scripts.ui.componentsV2.preview"
+local color = require "lua.scripts.ui.componentsV3.color"
 local pos = constants.position
 
 widget.init [[insurrection/ui/menus/tester/]]
@@ -56,7 +57,9 @@ return container("tester_menu", {
                       {variant = "small", icon = "insurrection/ui/bitmaps/search_icon.bitmap"}),
                 40,
                 400
-            }
+            },
+            {color {name = "test_color_1", color = "red", text = "COLOR BUTTON"}, 40, 440}
+
         })
     }
 })
