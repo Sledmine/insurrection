@@ -22,3 +22,5 @@ six-shooter.ini
 images/design/descriptions/insurrection_maps_description
 insurrection_host
 micro
+assets.json
+env.sh
