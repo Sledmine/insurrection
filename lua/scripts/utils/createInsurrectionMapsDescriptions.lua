@@ -1,7 +1,35 @@
 local fs = require "fs"
 local tag = require "lua.scripts.modules.tag"
+local luna = require "lua.lua_modules.luna"
+local base64 = require "lua.lua_modules.base64"
+local json = require "lua.lua_modules.json"
+local inspect = require "lua.lua_modules.inspect"
+local argparse = require "lua.lua_modules.argparse"
 
-local images = {
+---@class CreateInsurrectionMapsDescriptionsArguments
+---@field debug boolean
+---@field presence boolean
+---@field delete boolean
+
+local parser = argparse("createInsurrectionMapsDescriptions",
+                        "Create Insurrection maps descriptions")
+parser:flag("-d --debug", "Print debug information")
+parser:flag("--presence", "Upload rich presence images")
+parser:flag("--delete", "Delete previous rich presence images")
+
+---@type CreateInsurrectionMapsDescriptionsArguments
+local args = parser:parse()
+
+local function printd(...)
+    if args.debug then
+        print(...)
+    end
+end
+
+local DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+local DISCORD_CLIENT_ID = os.getenv("DISCORD_CLIENT_ID")
+
+local maps = {
     -- Stock maps
     "beavercreek",
     "sidewinder",
@@ -28,33 +56,36 @@ local images = {
     "augurer",
     "bigass",
     "blamite_mines",
-    "blood_covenantv3",
+    -- "blood_covenantv3", -- "blood_covenant",
     "cold_shoulder",
     "delta_ruined",
-    "disconnect_beta2",
-    "fissurefall",
     "forge_island",
     "frigid_keep",
     "gothra-mp",
-    "hk-bowser",
+    "hk-moo",
+    "hk-fort",
+    "hk-donut",
     "hk-koopa",
     "hk-peach",
     "hk-wario",
     "hk-yoshi",
+    "hk-bowser",
+    "hk-banshee",
+    "hk-sherbert",
     "h3 foundry",
     "immure",
-    "intensity-plus",
     "metrobyte",
     "nitra",
     "ruins_of_alph",
     "sali_creek",
-    "sympathy",
     "warren",
     -- Keymind maps
     "treason",
     "bleed_it_out",
     "last_voyage",
     "impasse",
+    "aqueduct",
+    "penance",
     -- Coop Evolved maps
     "a30_coop_evolved",
     "a50_coop_evolved",
@@ -69,9 +100,88 @@ local existingImages = {}
 
 local descriptionsPath = [[data/insurrection/ui/bitmaps/descriptions]]
 
-for _, image in ipairs(images) do
-    local image = image:lower()
+local function getCurrentRichPresenceImages()
+    if fs.is("assets.json") then
+        return json.decode(luna.file.read("assets.json"))
+    end
+    print("Getting rich presence images...")
+    printd("DISCORD_TOKEN", DISCORD_TOKEN)
+    printd("DISCORD_CLIENT_ID", DISCORD_CLIENT_ID)
+    local response = io.popen("curl -H \"Authorization: " .. DISCORD_TOKEN ..
+                                  "\" -H \"Content-Type: application/json\" https://discord.com/api/v9/oauth2/applications/" ..
+                                  DISCORD_CLIENT_ID .. "/assets"):read("*a")
+    local ok, assets = pcall(json.decode, response)
+    if not ok then
+        error("Failed to get rich presence images")
+    end
+    luna.file.write("assets.json", json.encode(assets))
+    return assets
+end
+
+---@type {id: string, name: string, type: number}[]
+local assets = getCurrentRichPresenceImages()
+printd(inspect(assets))
+
+local function deleteRichPresenceImage(image)
+    printd("Deleting rich presence " .. image .. "...")
+    local asset = table.find(assets, function(asset)
+        return asset.name == image
+    end)
+    if not asset then
+        print("Asset not found")
+        return
+    end
+    local id = asset.id
+    local response = io.popen("curl -X DELETE -H \" Authorization: " .. DISCORD_TOKEN ..
+                                  "\" -H \"Content-Type: application/json\" https://discord.com/api/v9/oauth2/applications/" ..
+                                  DISCORD_CLIENT_ID .. "/assets/" .. id):read("*a")
+    if response == "" then
+        print("Deleted rich presence image", image)
+    else
+        print("Failed to delete rich presence image, assuming it was already deleted")
+    end
+    assets = table.filter(assets, function(asset)
+        return asset.name ~= image
+    end)
+    luna.file.write("assets.json", json.encode(assets))
+end
+
+local function uploadRichPresenceImage(richPresencePath)
+    local image = richPresencePath:match("([^/]+)%.jpg$")
+    printd("Uploading rich presence image " .. image .. "...")
+    -- local asset = table.find(assets, function(asset)
+    --    return asset.name == image
+    -- end)
+    -- if asset then
+    --    print("Rich presence image already exists")
+    --    return
+    -- end    
+    local base64Image = base64.encode(luna.binary.read(richPresencePath))
+    -- print("base64Image", base64Image)
+    local data = {name = image, type = 1, image = "data:image/jpeg;base64," .. base64Image}
+    luna.file.write("data.json", json.encode(data))
+    local response = io.popen("curl -X POST -H \"Authorization: " .. DISCORD_TOKEN ..
+                                  "\" -H \"Content-Type: application/json\" -d @data.json https://discord.com/api/v9/oauth2/applications/" ..
+                                  DISCORD_CLIENT_ID .. "/assets"):read("*a")
+    local ok, data = pcall(json.decode, response)
+    os.remove("data.json")
+    if not ok then
+        error("Failed to upload rich presence image")
+    end
+    print(response)
+    print("Uploaded rich presence image " .. image .. " with id " .. data.id)
+    assets[#assets + 1] = {id = data.id, name = image, type = 1}
+    luna.file.write("assets.json", json.encode(assets))
+end
+
+for _, mapName in ipairs(maps) do
+    local image = mapName:lower():replace(" ", "_")
     local imageFolderPath = descriptionsPath .. [[/insurrection_maps_description_source/]] .. image
+    if not fs.is(imageFolderPath) then
+        print("\27[31m" .. "Skipping " .. image .. " because source folder does not exist" ..
+                  "\27[0m")
+        goto continue
+    end
     local imageDataFolderPath = descriptionsPath .. [[/insurrection_maps_description/]] .. image
 
     local bitmapFolderPath = [[data/insurrection/ui/bitmaps/insurrection_maps/]] .. image
@@ -79,23 +189,38 @@ for _, image in ipairs(images) do
     local richPresencePath = descriptionsPath .. [[/insurrection_rich_presence/]] .. image .. ".jpg"
 
     if fs.is(imageDataFolderPath) then
-        print("Skipping " .. image .. " because it already exists")
+        printd("Skipping " .. image .. " because it already exists")
         existingImages[#existingImages + 1] = image
         goto continue
     end
 
-    -- Create Rich Presence image
-    for name, d in fs.dir(imageFolderPath) do
-        if not name then
-            print("error: ", d)
+    if args.presence then
+        -- Create Rich Presence image
+        for name, d in fs.dir(imageFolderPath) do
+            if not name then
+                print("error: ", d)
+                break
+            end
+            local type = d:attr "type"
+            if type == "file" then
+                local convertedPath = "\"" .. d:path() .. "\" \"" .. richPresencePath .. "\""
+                print("Creating rich presence image for " .. image)
+                os.execute("convert -resize 1820x1024 -crop 1024x1024+455-0 " .. convertedPath)
+                local imageDoesNotExist = not table.find(assets, function(asset)
+                    return asset.name == image
+                end)
+                if imageDoesNotExist then
+                    uploadRichPresenceImage(richPresencePath)
+                    break
+                end
+                if args.delete then
+                    deleteRichPresenceImage(image)
+                    uploadRichPresenceImage(richPresencePath)
+                    break
+                end
+            end
             break
         end
-        local type = d:attr "type"
-        if type == "file" then
-            local convertedPath = "\"" .. d:path() .. "\" \"" .. richPresencePath .. "\""
-            os.execute("convert -resize 1820x1024 -crop 1024x1024+455-0 " .. convertedPath)
-        end
-        break
     end
 
     -- Create insurrection preview
@@ -109,10 +234,12 @@ for _, image in ipairs(images) do
         local type = d:attr "type"
         if type == "file" then
             -- Use image magick convert to resize image to 534x300 and save it to the new directory
+            printd("Creating insurrection preview for " .. image)
             os.execute(
                 [[convert "]] .. d:path() .. [[" -resize 534x300 "]] .. imageDataFolderPath .. [[/]] ..
                     name .. [["]])
         end
+        break
     end
     -- Merge images with each other and save it to the new directory
     os.execute([[cd "]] .. imageDataFolderPath ..
