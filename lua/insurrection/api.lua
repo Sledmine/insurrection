@@ -126,8 +126,8 @@ end
 
 ---Prevent players from getting stuck in the joining screen if the server connection fails
 local function preventStuckLobby()
-    -- Check after 5 seconds if we are still in the UI map
-    utils.delay(5000, function()
+    -- Check after 30 seconds if we are still in the UI map
+    utils.delay(30000, function()
         if map == "ui" then
             -- If we were trying to join a lobby and the widget is closed, delete the lobby
             if api.session.lobbyKey then
