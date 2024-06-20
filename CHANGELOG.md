@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.0] - 2024-06-20
+### Added
+- New menu for Balltze mod configuration
+- FOV slider in Chimera mod configuration menu, vertical and horizontal FOV are used based on the game aspect ratio
+- Biped customization now takes color from current player profile
+- Mouse scroll support for custom list menus
+- New customization previews for upcoming "The Flood" project release
+
+### Fixed
+- Lobby menu options not moving horizontally
+- Wrong assignation of properties in Chimera mod menu
+- Biped customization not being applied instantly after changing it
+
+### Changed
+- Custom maps preview image generation, preview images from the lobby should now be displayed in Rich Presence too
+
 ## [2.6.4] - 2024-03-25
 ### Fixed
 - Missing files for Insurrection services
