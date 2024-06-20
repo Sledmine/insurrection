@@ -3,7 +3,7 @@ local balltze = Balltze
 local logger
 
 local customBipedPaths = {
-    bleed_it_out = {[[keymind\halo_infinite\characters\unsc\odst\mirage_core\mirage_mp]]},
+    bleed_it_out = {[[keymind\the_flood\characters\unsc\gridharvolur\gridharvolur_mk_ii_[b]_mp]]},
     b30_coop_evolved = {
         [[[shm]\halo_1\characters\mjolnir_gen_1\mjolnir_gen_1_mp]],
         [[[shm]\halo_1\characters\marine\marine_mp]],
