@@ -463,7 +463,7 @@ end
 --- Execute before the game loads a map file, used to load custom external tags
 ---@param currentMapName string
 function OnMapFileLoad(currentMapName)
-    if isBalltzeAvailable and currentMapName ~= "ui" then
+    if (isBalltzeAvailable and currentMapName ~= "ui" and api.session.lobbyKey) or DebugMode then
         balltze.import_tag_data("ui", constants.path.nameplateCollection, "tag_collection")
         balltze.import_tag_data("ui", constants.path.pauseMenu, "ui_widget_definition")
         balltze.import_tag_data("ui", constants.path.dialog, "ui_widget_definition")
