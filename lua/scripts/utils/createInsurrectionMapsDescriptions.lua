@@ -5,6 +5,8 @@ local base64 = require "lua.lua_modules.base64"
 local json = require "lua.lua_modules.json"
 local inspect = require "lua.lua_modules.inspect"
 local argparse = require "lua.lua_modules.argparse"
+local curl = require "lua.scripts.modules.curl-cli"
+curl.json = json
 
 ---@class CreateInsurrectionMapsDescriptionsArguments
 ---@field debug boolean
@@ -26,8 +28,8 @@ local function printd(...)
     end
 end
 
-local DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
-local DISCORD_CLIENT_ID = os.getenv("DISCORD_CLIENT_ID")
+local DISCORD_TOKEN = os.getenv("DISCORD_TOKEN") or ""
+local DISCORD_CLIENT_ID = os.getenv("DISCORD_CLIENT_ID") or ""
 
 local maps = {
     -- Stock maps
@@ -102,19 +104,24 @@ local descriptionsPath = [[data/insurrection/ui/bitmaps/descriptions]]
 
 local function getCurrentRichPresenceImages()
     if fs.is("assets.json") then
+        print("Using CACHED rich presence images...")
         return json.decode(luna.file.read("assets.json"))
     end
     print("Getting rich presence images...")
+
     printd("DISCORD_TOKEN", DISCORD_TOKEN)
     printd("DISCORD_CLIENT_ID", DISCORD_CLIENT_ID)
-    local response = io.popen("curl -H \"Authorization: " .. DISCORD_TOKEN ..
-                                  "\" -H \"Content-Type: application/json\" https://discord.com/api/v9/oauth2/applications/" ..
-                                  DISCORD_CLIENT_ID .. "/assets"):read("*a")
-    local ok, assets = pcall(json.decode, response)
-    if not ok then
-        error("Failed to get rich presence images")
+
+    local request = curl.get {
+        url = "https://discord.com/api/v9/oauth2/applications/" .. DISCORD_CLIENT_ID .. "/assets",
+        headers = {Authorization = DISCORD_TOKEN}
+    }
+    if not request.ok then
+        error("Failed to get rich presence images: " .. request.text)
     end
-    luna.file.write("assets.json", json.encode(assets))
+    local assets = request.json()
+    assert(assets, "Failed to parse rich presence images")
+    luna.file.write("assets.json", request.text)
     return assets
 end
 
@@ -132,13 +139,20 @@ local function deleteRichPresenceImage(image)
         return
     end
     local id = asset.id
-    local response = io.popen("curl -X DELETE -H \" Authorization: " .. DISCORD_TOKEN ..
-                                  "\" -H \"Content-Type: application/json\" https://discord.com/api/v9/oauth2/applications/" ..
-                                  DISCORD_CLIENT_ID .. "/assets/" .. id):read("*a")
-    if response == "" then
+    -- local response = io.popen("curl -X DELETE -H \" Authorization: " .. DISCORD_TOKEN ..
+    --                              "\" -H \"Content-Type: application/json\" https://discord.com/api/v9/oauth2/applications/" ..
+    --                              DISCORD_CLIENT_ID .. "/assets/" .. id):read("*a")
+    local request = curl.delete {
+        url = "https://discord.com/api/v9/oauth2/applications/" .. DISCORD_CLIENT_ID .. "/assets/" ..
+            id,
+        headers = {Authorization = DISCORD_TOKEN}
+    }
+    if request.statusCode == 204 then
         print("Deleted rich presence image", image)
+    elseif request.statusCode == 404 then
+        print("Rich presence image not found")
     else
-        print("Failed to delete rich presence image, assuming it was already deleted")
+        error("Failed to delete rich presence image: " .. request.text)
     end
     assets = table.filter(assets, function(asset)
         return asset.name ~= image
@@ -148,7 +162,7 @@ end
 
 local function uploadRichPresenceImage(richPresencePath)
     local image = richPresencePath:match("([^/]+)%.jpg$")
-    printd("Uploading rich presence image " .. image .. "...")
+    print("Uploading rich presence image " .. image .. "...")
     -- local asset = table.find(assets, function(asset)
     --    return asset.name == image
     -- end)
@@ -160,17 +174,23 @@ local function uploadRichPresenceImage(richPresencePath)
     -- print("base64Image", base64Image)
     local data = {name = image, type = 1, image = "data:image/jpeg;base64," .. base64Image}
     luna.file.write("data.json", json.encode(data))
-    local response = io.popen("curl -X POST -H \"Authorization: " .. DISCORD_TOKEN ..
-                                  "\" -H \"Content-Type: application/json\" -d @data.json https://discord.com/api/v9/oauth2/applications/" ..
-                                  DISCORD_CLIENT_ID .. "/assets"):read("*a")
-    local ok, data = pcall(json.decode, response)
+    --local response = io.popen("curl -X POST -H \"Authorization: " .. DISCORD_TOKEN ..
+    --                              "\" -H \"Content-Type: application/json\" -d @data.json https://discord.com/api/v9/oauth2/applications/" ..
+    --                              DISCORD_CLIENT_ID .. "/assets"):read("*a")
+    --local ok, data = pcall(json.decode, response)
+    local request = curl.post {
+        url = "https://discord.com/api/v9/oauth2/applications/" .. DISCORD_CLIENT_ID .. "/assets",
+        headers = {Authorization = DISCORD_TOKEN, ["Content-Type"] = "application/json"},
+        --data = luna.file.read("data.json")
+        data = "@data.json"
+    }
     os.remove("data.json")
-    if not ok then
-        error("Failed to upload rich presence image")
+    if not request.ok then
+        error("Failed to upload rich presence image: " .. request.text)
     end
-    print(response)
-    print("Uploaded rich presence image " .. image .. " with id " .. data.id)
-    assets[#assets + 1] = {id = data.id, name = image, type = 1}
+    local asset = request.json()
+    print("Uploaded rich presence image " .. image .. " with id " .. asset.id)
+    assets[#assets + 1] = {id = asset.id, name = image, type = 1}
     luna.file.write("assets.json", json.encode(assets))
 end
 
