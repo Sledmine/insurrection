@@ -61,10 +61,12 @@ function list.onScroll(self, callback)
 end
 
 ---@param self uiComponentList
-function list.scroll(self, direction)
+function list.scroll(self, direction, isFromMouse)
     local itemIndex = self.currentItemIndex + direction
     if itemIndex < 1 then
-        interface.sound("error")
+        if not isFromMouse then
+            interface.sound("error")
+        end
         itemIndex = 1
     elseif itemIndex > #self.items then
         itemIndex = #self.items
@@ -79,7 +81,9 @@ function list.scroll(self, direction)
         maximumDisplayableIndex = 1
     end
     if itemIndex > maximumDisplayableIndex then
-        interface.sound("error")
+        if not isFromMouse then
+            interface.sound("error")
+        end
         itemIndex = maximumDisplayableIndex
     end
 

@@ -311,7 +311,7 @@ function OnMouseScroll(widgetTagId)
     local component = components.widgets[parentWidgetTagId] --[[@as uiComponentList]]
     if component and component.type == "list" and component.onScroll then
         local mouse = core.getMouseState()
-        component:scroll(mouse.scroll)
+        component:scroll(mouse.scroll, true)
     end
 end
 
