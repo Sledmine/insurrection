@@ -1,5 +1,6 @@
 local widget = require "lua.scripts.widget"
 local constants = require "lua.scripts.ui.components.constants"
+local bar = require "lua.scripts.ui.componentsV3.bar"
 local pos = constants.position
 local label = require "lua.scripts.ui.componentsV3.label"
 local strmem = widget.strmem
@@ -13,6 +14,7 @@ local slider = require "lua.scripts.ui.componentsV3.slider"
 widget.init [[insurrection/ui/menus/customization_biped/]]
 
 local yPosList = 305
+local barSize = 200
 local layout = widget.align("horizontal", constants.components.complexButton.normal.width, 59,
                             yPosList, 2)
 
@@ -33,6 +35,16 @@ return container {
             label {name = "geometry_name", text = strmem(32, "GEOMETRY_NAME"), variant = "title"},
             53,
             yPosList - 26
+        },
+        {
+            bar {
+                name = "customization_geometry_scroll",
+                orientation = "horizontal",
+                type = "scroll",
+                size = barSize
+            },
+            (constants.screen.width / 2) - (barSize / 2),
+            425
         },
         {
             options {
