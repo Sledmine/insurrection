@@ -11,8 +11,9 @@ return {
         palette = {
             primary = "#3d6cc1",
             secondary = "#6d90cd",
-            phighlight = "#97b2e0",
-            shighlight = "#2996ff"
+            primaryHighlight = "#97b2e0",
+            secondaryHighlight = "#2996ff",
+            contrast = "#273D50"
         }
     },
     opacity = {primary = 12.5, secondary = 34.5},
@@ -43,7 +44,9 @@ return {
         currentProfile = {
             path = [[insurrection/ui/shared/current_profile/buttons/nameplate_current_profile.ui_widget_definition]]
         },
-        version = {path = [[insurrection/ui/shared/version/insurrection_version_footer.ui_widget_definition]]},
+        version = {
+            path = [[insurrection/ui/shared/version/insurrection_version_footer.ui_widget_definition]]
+        },
         button = {
             normal = {
                 width = 184,
