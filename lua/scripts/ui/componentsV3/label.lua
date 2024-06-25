@@ -21,6 +21,7 @@ local ustr = require "lua.scripts.modules.ustr"
 return function(props)
     local name = props.name
     local text = props.text
+    local size = props.size or 24
 
     local widgetPath = widget.path .. name .. "_label.ui_widget_definition"
     local stringsPath = widget.path .. "strings/" .. name .. "_label.unicode_string_list"
@@ -39,14 +40,12 @@ return function(props)
     end
     local bounds
     if props.width or props.height then
-        bounds = widget.bounds(0, 0, props.height or size or 20, props.width or 0)
+        bounds = widget.bounds(0, 0, size or 20, props.width or 0)
     end
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        -- bounds = widget.bounds(0, 0, 20, 184),
-        --bounds = widget.bounds(0, 0, props.size or 20, constants.screen.width),
-        bounds = bounds or widget.bounds(0, 0, props.size or 20, constants.screen.width),
+        bounds = bounds or widget.bounds(0, 0, size or 20, constants.screen.width),
         flags = {pass_unhandled_events_to_focused_child = true},
         text_font = textFont,
         text_color = textColor,
