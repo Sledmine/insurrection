@@ -306,4 +306,21 @@ function widget.layout(props)
     end
 end
 
+---Create a bitmap tag from a color
+---@param color string
+---@param name? string
+---@return string
+function widget.color(color, name)
+    local colorDecimal = tonumber(color:sub(2), 16) or 0 
+    local bitmapPath = "insurrection/ui/bitmaps/color_" .. (name or colorDecimal)
+    local imagePath = "data/insurrection/ui/bitmaps/color_" .. (name or colorDecimal) .. ".png"
+
+    if not fs.is("tags/" .. bitmapPath .. ".bitmap") then
+        -- Create bitmap from color using image magick, assume color is in hex
+        os.execute("convert -size 8x8 xc:" .. color .. " " .. imagePath)
+        os.execute("invader-bitmap -F 32-bit -T interface_bitmaps " .. bitmapPath)
+    end
+    return bitmapPath .. ".bitmap"
+end
+
 return widget
