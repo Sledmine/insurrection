@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.7.1] - 2024-06-
 ### Fixed
 - Labels with height greater that 1 will now be properly displayed in menus
+- Color profile not being reflected in custom biped selection after changing it in the profile menu
+
+### Added
+- Scroll bar for custom list menus
 
 ### Changed
 - Scroll trough mouse sound error will not play when reaching edges of a list
