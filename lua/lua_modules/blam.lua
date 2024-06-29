@@ -16,7 +16,7 @@ local fmod = math.fmod
 local rad = math.rad
 local deg = math.deg
 
-local blam = {_VERSION = "1.13.0"}
+local blam = {_VERSION = "1.14.0"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -1764,10 +1764,30 @@ local bitmapStructure = {
 ---@field type number Type of widget
 ---@field controllerIndex number Index of the player controller
 ---@field name string Name of the widget
+---@field top number Top bound of the widget
+---@field left number Left bound of the widget
+---@field bottom number Bottom bound of the widget
+---@field right number Right bound of the widget
 ---@field boundsY number Top bound of the widget
 ---@field boundsX number Left bound of the widget
 ---@field height number Bottom bound of the widget
 ---@field width number Right bound of the widget
+---@field passUnhandleEventsToFocusedChild boolean Pass unhandled events to focused child
+---@field pauseGameTime boolean Pause game time
+---@field flashBackgroundBitmap boolean Flash background bitmap
+---@field dpadUpDownTabsThruChildren boolean Dpad up down tabs thru children
+---@field dpadLeftRightTabsThruChildren boolean Dpad left right tabs thru children
+---@field dpadUpDownTabsThruListItems boolean Dpad up down tabs thru list items
+---@field dpadLeftRightTabsThruListItems boolean Dpad left right tabs thru list items
+---@field dontFocusSpecificChildWidget boolean Don't focus specific child widget
+---@field passUnhandledEventsToAllChildren boolean Pass unhandled events to all children
+---@field renderRegardlessOfControllerIndex boolean Render regardless of controller index
+---@field passHandledEventsToAllChildren boolean Pass handled events to all children
+---@field returnToMainMenuIfNoHistory boolean Return to main menu if no history
+---@field alwaysUseTagControllerIndex boolean Always use tag controller index
+---@field alwaysUseNiftyRenderFx boolean Always use nifty render fx
+---@field dontPushHistory boolean Don't push history
+---@field forceHandleMouse boolean Force handle mouse
 ---@field backgroundBitmap number Tag ID of the background bitmap
 ---@field eventHandlers uiWidgetDefinitionEventHandler[] tag ID list of the child widgets
 ---@field unicodeStringListTag number Tag ID of the unicodeStringList from this widget
@@ -1783,10 +1803,30 @@ local uiWidgetDefinitionStructure = {
     type = {type = "word", offset = 0x0},
     controllerIndex = {type = "word", offset = 0x2},
     name = {type = "string", offset = 0x4},
+    top = {type = "short", offset = 0x24},
+    left = {type = "short", offset = 0x26},
+    bottom = {type = "short", offset = 0x28},
+    right = {type = "short", offset = 0x2A},
     boundsY = {type = "short", offset = 0x24},
     boundsX = {type = "short", offset = 0x26},
     height = {type = "short", offset = 0x28},
     width = {type = "short", offset = 0x2A},
+    passUnhandleEventsToFocusedChild = {type = "bit", offset = 0x2C, bitLevel = 0},
+    pauseGameTime = {type = "bit", offset = 0x2C, bitLevel = 1},
+    flashBackgroundBitmap = {type = "bit", offset = 0x2C, bitLevel = 2},
+    dpadUpDownTabsThruChildren = {type = "bit", offset = 0x2C, bitLevel = 3},
+    dpadLeftRightTabsThruChildren = {type = "bit", offset = 0x2C, bitLevel = 4},
+    dpadUpDownTabsThruListItems = {type = "bit", offset = 0x2C, bitLevel = 5},
+    dpadLeftRightTabsThruListItems = {type = "bit", offset = 0x2C, bitLevel = 6},
+    dontFocusSpecificChildWidget = {type = "bit", offset = 0x2C, bitLevel = 7},
+    passUnhandledEventsToAllChildren = {type = "bit", offset = 0x2C, bitLevel = 8},
+    renderRegardlessOfControllerIndex = {type = "bit", offset = 0x2C, bitLevel = 9},
+    passHandledEventsToAllChildren = {type = "bit", offset = 0x2C, bitLevel = 10},
+    returnToMainMenuIfNoHistory = {type = "bit", offset = 0x2C, bitLevel = 11},
+    alwaysUseTagControllerIndex = {type = "bit", offset = 0x2C, bitLevel = 12},
+    alwaysUseNiftyRenderFx = {type = "bit", offset = 0x2C, bitLevel = 13},
+    dontPushHistory = {type = "bit", offset = 0x2C, bitLevel = 14},
+    forceHandleMouse = {type = "bit", offset = 0x2C, bitLevel = 15},
     backgroundBitmap = {type = "word", offset = 0x44},
     eventHandlers = {
         type = "table",
