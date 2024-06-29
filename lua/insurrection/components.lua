@@ -171,6 +171,27 @@ function components.findChildWidgetTag(self, name)
 end
 
 ---@param self uiComponent
+---@param name string
+function components.findChildWidgetDefinition(self, name)
+    local childWidgetTags = self:getChildWidgetTags()
+    for _, childTag in pairs(childWidgetTags) do
+        if childTag.path:find(name, 1, true) then
+            return uiWidgetDefinition(childTag.id)
+        end
+        local widgetDefinition = uiWidgetDefinition(childTag.id)
+        if widgetDefinition then
+            for _, childWidget in pairs(widgetDefinition.childWidgets) do
+                local tag = getTag(childWidget.widgetTag) --[[@as tag]]
+                if not isNull(childWidget.widgetTag) then
+                    if tag.path:find(name, 1, true) then
+                        return uiWidgetDefinition(childWidget.widgetTag)
+                    end
+                end
+            end
+        end
+    end
+end
+---@param self uiComponent
 function components.getType(self)
     return self.type
 end
@@ -246,8 +267,19 @@ function components.setAnimation(self, duration, property, originalOffset, offse
     }
 end
 
+---@class uiWidgetValues
+---@field top_bound? number
+---@field left_bound? number
+---@field opacity? number
+---@field bitmap_index? number
+---@field previous_widget? number
+---@field next_widget? number
+---@field parent_widget? number
+---@field child_widget? number
+---@field focused_widget? number
+
 ---@param self uiComponent
----@return table?
+---@return uiWidgetValues?
 function components.getWidgetValues(self)
     if core.getWidgetHandle(self.tagId) then
         return core.getWidgetValues(self.tagId)
@@ -255,7 +287,7 @@ function components.getWidgetValues(self)
 end
 
 ---@param self uiComponent
----@param values table
+---@param values uiWidgetValues
 function components.setWidgetValues(self, values)
     core.setWidgetValues(self.tagId, values)
 end

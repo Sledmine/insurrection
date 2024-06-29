@@ -20,9 +20,12 @@ return function(props)
     ---@type invaderWidget
     local value = {
         widget_type = "container",
-        bounds = widget.bounds(0, 0, 3, size / 2),
+        bounds = widget.bounds(0, 0, 3, size),
         background_bitmap = [[insurrection/ui/bitmaps/solid_cobalt.bitmap]],
     }
+    if orientation == "vertical" then
+        value.bounds = widget.bounds(0, 0, size, 3)
+    end
     widget.createV2(widgetValuePath, value)
 
     local widgetPath = widget.path .. name .. "_bar.ui_widget_definition"
@@ -34,10 +37,14 @@ return function(props)
         child_widgets = {
             {
                 widget_tag = widgetValuePath,
-                vertical_offset = -1
+                vertical_offset = orientation == "horizontal" and -1 or 0,
+                horizontal_offset = orientation == "vertical" and -1 or 0,
             }
         }
     }
+    if orientation == "vertical" then
+        bar.bounds = widget.bounds(0, 0, size, type == "scroll" and 1 or 3)
+    end
     widget.createV2(widgetPath, bar)
     return widgetPath
 end

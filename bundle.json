@@ -38,6 +38,7 @@
         "insurrection.components.input",
         "insurrection.components.list",
         "insurrection.components.spinner",
+        "insurrection.components.bar",
         "insurrection.components.dynamic.dialog",
         "insurrection.components.dynamic.customizationColorMenu",
         "insurrection.components.dynamic.loginMenu",

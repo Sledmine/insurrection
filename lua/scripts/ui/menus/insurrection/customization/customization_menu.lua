@@ -1,20 +1,16 @@
 local widget = require "lua.scripts.widget"
 local label = require "lua.scripts.ui.componentsV3.label"
+local bar   = require "lua.scripts.ui.componentsV3.bar"
 local strmem = widget.strmem
 local container = require "lua.scripts.ui.componentsV3.container"
 local options = require "lua.scripts.ui.componentsV3.options"
 local button = require "lua.scripts.ui.componentsV2.button"
-local header = require "lua.scripts.ui.componentsV2.header"
-local input = require "lua.scripts.ui.componentsV2.input"
+local header = require "lua.scripts.ui.componentsV3.header"
 local constants = require "lua.scripts.ui.components.constants"
-local image = require "lua.scripts.ui.componentsV2.image"
-local footer = require "lua.scripts.ui.componentsV2.footer"
 local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
 local complexButton = require "lua.scripts.ui.componentsV2.complexButton"
-local box = require "lua.scripts.ui.componentsV2.box"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local slider = require "lua.scripts.ui.componentsV3.slider"
-local checkbox = require "lua.scripts.ui.componentsV3.checkbox"
 local pos = constants.position
 
 widget.init [[insurrection/ui/menus/customization/]]
@@ -92,10 +88,22 @@ return container {
     },
     childs = {
         {
-            header("customization", "INSURRECTION CUSTOMIZATION",
-                   "CUSTOMIZE DIFFERENT ASPECTS FROM YOUR INSURRECTION ACCOUNT"),
+            header {
+                name = "header",
+                title = "INSURRECTION CUSTOMIZATION",
+                subtitle = "CUSTOMIZE DIFFERENT ASPECTS FROM YOUR INSURRECTION ACCOUNT"
+            },
             pos.header.x,
             pos.header.y
+        },{
+            bar {
+                name = "customization_scroll",
+                orientation = "vertical",
+                type = "scroll",
+                size = 200
+            },
+            240,
+            199
         },
         {
             options {

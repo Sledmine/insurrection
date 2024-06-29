@@ -1,4 +1,5 @@
 local blam = require "blam"
+local bar  = require "insurrection.components.bar"
 local tagClasses = blam.tagClasses
 local findTag = blam.findTag
 local color = require "color"
@@ -29,14 +30,17 @@ return function()
     local nameplatePreview = components.new(findTag("nameplate_preview",
                                                     tagClasses.uiWidgetDefinition).id)
     nameplatePreview:animate()
-
+    
+    local scrollBar = bar.new(customization:findChildWidgetTag("customization_scroll").id, "scroll")
     -- Get nameplate list widget
     local nameplatesList = list.new(customization:findChildWidgetTag("nameplates_options").id, 1, 9)
+    nameplatesList:setScrollBar(scrollBar)
 
     -- Get select bipeds widget
     local selectBipedsWrapper = components.new(findTag("select_bipeds",
                                                        tagClasses.uiWidgetDefinition).id)
     local selectProjectsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project").id)
+    selectProjectsList:setScrollBar(scrollBar)
     local bipedsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project_biped").id)
 
     local customizationTypesList = components.new(customization:findChildWidgetTag("types").id)
@@ -106,7 +110,6 @@ return function()
         local customizationBiped = customizationObjectData.biped
         assert(customizationBiped, "No customization biped found")
 
-        console_debug(profile)
         local colorFromGame = constants.colors[profile.colorIndex]
         console_debug(colorFromGame)
         local r, g, b = color.hexToDec(colorFromGame)
@@ -128,6 +131,7 @@ return function()
 
     local function handleLoadNameplates()
         execute_script("set_ui_background")
+        nameplatesList:refresh()
         currentBipedLabel:setText("")
         selectBipedsWrapper:replace(nameplatesList.tagId)
     end
@@ -149,6 +153,7 @@ return function()
         end
 
         nameplatesList:replace(selectBipedsWrapper.tagId)
+        --scrollBar:setWidgetValues {left_bound = selectProjectsList:getWidgetValues().left_bound + 184 + 5}
         local state = getState()
 
         local projects = table.keys(state.available.customization)
@@ -234,7 +239,7 @@ return function()
 
     customization:onOpen(function(previousWidgetTag)
         discord.setState("Playing Insurrection", "In the customization menu")
-        prtofile = core.getPlayerProfile()
+        profile = core.getPlayerProfile()
         if previousWidgetTag then
             if previousWidgetTag.id == constants.widgets.biped.id then
                 handleLoadBipeds()

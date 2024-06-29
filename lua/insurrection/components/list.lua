@@ -22,7 +22,9 @@ local list = setmetatable({
     ---@type uiWidgetDefinitionChild[]
     backupChildWidgets = {},
     ---@type boolean
-    isScrollable = true
+    isScrollable = true,
+    ---@type uiComponentBar
+    scrollBar = nil
 }, {__index = components})
 
 ---@class uiComponentListItem
@@ -94,6 +96,12 @@ function list.scroll(self, direction, isFromMouse)
     self:refresh()
 end
 
+local floor = math.floor
+local function round(x, p)
+    p = p or 1
+    return floor(x / p + .5) * p
+end
+
 ---@param self uiComponentList
 function list.refresh(self)
     local items = self.items
@@ -104,6 +112,41 @@ function list.refresh(self)
     if self.isScrollable then
         firstWidgetIndex = firstWidgetIndex + 1
         lastWidgetIndex = lastWidgetIndex - 1
+
+        if self.scrollBar then
+            local scroll = self.scrollBar
+            local scrollBackground = scroll.widgetDefinition
+            local scrollBar = scroll:findChildWidgetDefinition("bar_value")
+            local elementsCount = #items
+            local visibleElementsCount = lastWidgetIndex - firstWidgetIndex + 1
+            local isHorizontal = self.widgetDefinition.dpadLeftRightTabsThruChildren
+            local size = scrollBackground.height
+            if isHorizontal then
+                size = scrollBackground.width
+            end
+            barSizePerElement = size / elementsCount
+            local isScrollBarVisible = elementsCount > visibleElementsCount
+            if isScrollBarVisible then
+                local scrollPosition = round((itemIndex - 1) * barSizePerElement)
+                if elementsCount > 0 then
+                    if isHorizontal then
+                        scrollBar.width = round(barSizePerElement * visibleElementsCount)
+                        scroll:setBarValues{left_bound = scrollPosition}
+                    else
+                        scrollBar.height = round(barSizePerElement * visibleElementsCount)
+                        scroll:setBarValues{top_bound = scrollPosition}
+                    end
+                end
+            else
+                if isHorizontal then
+                    scrollBar.width = scrollBackground.width
+                    scroll:setBarValues{left_bound = 0}
+                else
+                    scrollBar.height = scrollBackground.height
+                    scroll:setBarValues{top_bound = 0}
+                end
+            end
+        end
     end
     for widgetIndex = firstWidgetIndex, lastWidgetIndex do
         local item = items[itemIndex]
@@ -209,6 +252,17 @@ end
 function list.setCurrentItemIndex(self, itemIndex)
     self.currentItemIndex = itemIndex
     self:refresh()
+end
+
+---@param self uiComponentList
+---@param scrollBar uiComponentBar
+function list.setScrollBar(self, scrollBar)
+    self.scrollBar = scrollBar
+end
+
+---@param self uiComponentList
+function list.isHorizontal(self)
+    return self.widgetDefinition.dpadLeftRightTabsThruChildren
 end
 
 return list

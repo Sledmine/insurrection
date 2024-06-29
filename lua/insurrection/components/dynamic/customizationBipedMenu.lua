@@ -6,6 +6,7 @@ local utils = require "insurrection.utils"
 local blam = require "blam"
 local core = require "insurrection.core"
 local color = require "color"
+local bar = require "insurrection.components.bar"
 local t = utils.snakeCaseToUpperTitleCase
 
 local staticRegions = {
@@ -134,6 +135,8 @@ return function(props)
     local customization = components.new(constants.widgets.biped.id)
     local geometryName = components.new(customization:findChildWidgetTag("geometry_name").id)
     local options = list.new(customization:findChildWidgetTag("geometry_list").id, 1, 8)
+    local scrollOptionsBar = bar.new(customization:findChildWidgetTag("geometry_scroll").id, "scroll")
+    options:setScrollBar(scrollOptionsBar)
     local back = button.new(options:findChildWidgetTag("back").id)
 
     local function loadRegions()
@@ -190,6 +193,7 @@ return function(props)
         geometryName:setText(t(region))
         if region == "visor" then
             local visors = {}
+            -- TODO Add visor permutations dynamically
             -- for visorIndex = 0, 24 do
             --    table.insert(visors, {
             --        value = visorIndex,
