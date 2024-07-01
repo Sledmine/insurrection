@@ -285,12 +285,12 @@ function widget.strmem(size, default)
 end
 
 ---Align multiple widgets to a specific position
----@param props {alignment: '"vertical"' | '"horizontal"', size: number, horizontal: number, vertical: number, margin: number}
+---@param props {alignment: "vertical" | "horizontal", size: number, x: number, y: number, margin: number}
 function widget.layout(props)
     local alignment = props.alignment
     local size = props.size
-    local horizontal = props.horizontal
-    local vertical = props.vertical
+    local horizontal = props.x
+    local vertical = props.y
     local margin = props.margin
     local alignmentHash = table.concat({alignment, size, horizontal, vertical, margin}, "")
     _ALIGNMENTS[alignmentHash] = 0
