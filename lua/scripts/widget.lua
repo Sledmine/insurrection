@@ -51,8 +51,8 @@ _ALIGNMENTS = {}
 ---@class invaderWidgetChildWidget
 ---@field widget_tag? string
 ---@field name? string
----@field vertical_offset? elementSize
----@field horizontal_offset? elementSize
+---@field vertical_offset? number
+---@field horizontal_offset? number
 
 ---@class invaderWidgetFlags
 ---@field pass_unhandled_events_to_focused_child? boolean
@@ -70,7 +70,7 @@ _ALIGNMENTS = {}
 ---@field widget_tag string
 ---@field name? string
 ---@field flags? invaderWidgetConditionalWidgetFlags
----@field custom_controller_index? elementSize
+---@field custom_controller_index? number
 
 ---@class invaderWidgetGameDataInput
 ---@field function string
@@ -79,7 +79,7 @@ _ALIGNMENTS = {}
 ---@field widget_type? '"container"' | '"text_box"' | '"spinner_list"' | '"column_list"'
 ---@field bounds? string
 ---@field flags? invaderWidgetFlags
----@field milliseconds_to_auto_close_fade_time? elementSize
+---@field milliseconds_to_auto_close_fade_time? number
 ---@field background_bitmap? string
 ---@field game_data_inputs? invaderWidgetGameDataInput[]
 ---@field search_and_replace_functions? invaderWidgetSearchAndReplaceFunctions[]
@@ -89,9 +89,9 @@ _ALIGNMENTS = {}
 ---@field text_color? string
 ---@field justification? '"left_justify"' | '"center_justify"' | '"right_justify"'
 ---@field flags_1? invaderWidgetStringFlags
----@field string_list_index? elementSize
----@field horiz_offset? elementSize
----@field vert_offset? elementSize
+---@field string_list_index? number
+---@field horiz_offset? number
+---@field vert_offset? number
 ---@field flags_2? invaderWidgetListFlags
 ---@field list_header_bitmap? string
 ---@field list_footer_bitmap? string
@@ -112,9 +112,9 @@ end
 ---Get a value from a widget given key
 ---@param widgetPath string
 ---@param key string
----@param index? elementSize
+---@param index? number
 ---@param subkey? string
----@return string | elementSize | nil
+---@return string | number | nil
 function widget.get(widgetPath, key, index, subkey)
     return tag.get(widgetPath, key, index, subkey)
 end
@@ -122,7 +122,7 @@ end
 ---Count entries from a widget given key
 ---@param widgetPath any
 ---@param key any
----@return elementSize
+---@return number
 function widget.count(widgetPath, key)
     return tag.count(widgetPath, key)
 end
@@ -130,8 +130,8 @@ end
 ---Insert a quantity of structs to specific key
 ---@param widgetPath string
 ---@param key string
----@param count elementSize
----@param position? elementSize | '"end"'
+---@param count number
+---@param position? number | '"end"'
 function widget.insert(widgetPath, key, count, position)
     return tag.insert(widgetPath, key, count, position)
 end
@@ -162,11 +162,11 @@ function widget.update(keys, newKeys)
 end
 
 ---Map values used as offsets for widget placement
----@param initial elementSize Initial offset position
----@param size elementSize Size of the widget mapped to the offset
----@param spacing elementSize Space between offset mapping
----@param index elementSize Index of the widget to be mapped
----@return elementSize
+---@param initial number Initial offset position
+---@param size number Size of the widget mapped to the offset
+---@param spacing number Space between offset mapping
+---@param index number Index of the widget to be mapped
+---@return number
 function widget.offset(initial, size, spacing, index)
     -- return initial + ((initial * 2) + offset * (index - 1))
     return initial + ((size + spacing) * (index - 1))
@@ -190,10 +190,9 @@ end
 
 ---Align multiple widgets to a specific position
 ---@param alignment '"vertical"' | '"horizontal"'
----@param size elemetSiz
-numberelemetSiz
----@param horizontaelemeltSizmer
----@param verticaelemeltSizmer
+---@param size number
+---@param horizontal number
+---@param vertical number
 ---@param margin number
 function widget.align(alignment, size, horizontal, vertical, margin)
     local alignmentHash = table.concat({alignment, size, horizontal, vertical, margin}, "")
@@ -242,10 +241,10 @@ function widget.createV2(widgetPath, keys)
     return tag.create(widgetPath, keys)
 end
 
----Return boelemeutSiz ormatted string
----@param y elementSize
----@param x numbeelemertSiz
----@param heighteleme tSizbr
+---Return bounds formatted string
+---@param y number
+---@param x number
+---@param height number
 ---@param width number
 ---@return string
 function widget.bounds(y, x, height, width)
@@ -254,9 +253,9 @@ end
 
 local floor = math.floor
 
----Return scale elemeftSizated bounds
----@param width nelemeutSizr
----@param heighteleme tSizbr
+---Return scale formatted bounds
+---@param width number
+---@param height number
 ---@param scale number
 ---@return string
 function widget.scale(width, height, scale)
@@ -274,7 +273,7 @@ function widget.scale(width, height, scale)
     return top .. ", " .. left .. ", " .. height .. ", " .. width
 end
 
----Generate a selemettSizgof spaces to reserve memory for a string
+---Generate a string of spaces to reserve memory for a string
 ---@param size number
 ---@param default? string
 ---@return string
@@ -285,7 +284,7 @@ function widget.strmem(size, default)
     return str
 end
 
----Align multiple widgets to a specific positionelemetSizelemetSizelemetSizelemetSiz
+---Align multiple widgets to a specific position
 ---@param props {alignment: '"vertical"' | '"horizontal"', size: number, horizontal: number, vertical: number, margin: number}
 function widget.layout(props)
     local alignment = props.alignment
