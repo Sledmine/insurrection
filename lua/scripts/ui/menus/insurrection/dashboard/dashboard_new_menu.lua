@@ -32,6 +32,40 @@ return container {
             pos.header.y
         },
         {
+            footer {
+                name = "dashboard_new",
+                title = "DASHBOARD",
+                text = "Welcome to the dashboard!\r\nHere you can choose from different game modes from Insurrection services."
+            },
+            borrowLayout()
+        },
+        {
+            rankDashboard {
+                name = "rank_overlay_dashbard",
+                variant = "overlay",
+            },
+            775,
+            358
+        },
+        {
+            rankDashboard {
+                name = "rank_icon_dashbard",
+                variant = "icon",
+            },
+            779,
+            364
+        },
+        {
+            bar {
+                name = "rank_progress",
+                orientation = "horizontal",
+                type = "progress",
+                size = 128
+            },
+            641,
+            409
+        },
+        {
             options {
                 name = "dashboard_new_buttons",
                 alignment = "horizontal",
@@ -82,22 +116,6 @@ return container {
                         20,
                         416
                     },
-                    {
-                        footer {
-                            name = "dashboard_new",
-                            title = "DASHBOARD",
-                            text = "Welcome to the dashboard!\r\nHere you can choose from different game modes from Insurrection services."
-                        },
-                        borrowLayout()
-                    },
-                    {
-                        rankDashboard {
-                            name = "rank_dashbard",
-                            bitmap = [[insurrection/ui/bitmaps/rank_overlay.bitmap]]
-                        },
-                        776,
-                        358
-                    }
                 }
             },
         },
