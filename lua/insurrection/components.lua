@@ -80,7 +80,6 @@ function component.callbacks()
         --local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue, engine.tag.classes.uiWidgetDefinition)
         local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue)
         if focusedWidgetTag then
-            logger:debug("Focused widget: {}", focusedWidgetTag.path)
             lastFocusedWidgetTagEntry = focusedWidgetTag
             if focusedWidgetTag.data.flags1.editable or focusedWidgetTag.data.flags1.password then
                 editableWidgetTagData = focusedWidgetTag.data
