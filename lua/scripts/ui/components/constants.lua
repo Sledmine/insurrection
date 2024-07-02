@@ -91,6 +91,11 @@ return {
                 width = 149,
                 height = 36,
                 bitmap = [[insurrection/ui/bitmaps/horizontal_complex_button.bitmap]]
+            },
+            horizontal_c_text = {
+                width = 149,
+                height = 36,
+                bitmap = [[insurrection/ui/bitmaps/horizontal_complex_button.bitmap]]
             }
         },
         input = {
