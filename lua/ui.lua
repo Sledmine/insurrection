@@ -3,7 +3,7 @@ require "insecticide"
 local luna = require "luna"
 local blam = require "blam"
 local isNull = blam.isNull
-local harmony = require "mods.harmony"
+local _, harmony = pcall(require, "mods.harmony")
 local optic = harmony.optic
 local isBalltzeAvailable, balltze = pcall(require, "mods.balltze")
 
@@ -483,13 +483,15 @@ set_callback("command", "OnCommand")
 set_callback("map load", "OnMapLoad")
 set_callback("unload", "OnUnload")
 set_callback("precamera", "OnPreCamera")
-harmony.set_callback("widget accept", "OnMenuAccept")
-harmony.set_callback("widget list tab", "OnMenuListTab")
-harmony.set_callback("widget mouse focus", "OnMouseFocus")
-harmony.set_callback("widget mouse button press", "OnMouseButtonPress")
-harmony.set_callback("widget close", "OnWidgetClose")
-harmony.set_callback("widget open", "OnWidgetOpen")
-harmony.set_callback("key press", "OnKeypress")
+if harmony then
+    harmony.set_callback("widget accept", "OnMenuAccept")
+    harmony.set_callback("widget list tab", "OnMenuListTab")
+    harmony.set_callback("widget mouse focus", "OnMouseFocus")
+    harmony.set_callback("widget mouse button press", "OnMouseButtonPress")
+    harmony.set_callback("widget close", "OnWidgetClose")
+    harmony.set_callback("widget open", "OnWidgetOpen")
+    harmony.set_callback("key press", "OnKeypress")
+end
 if isBalltzeAvailable then
     balltze.set_callback("map file load", "OnMapFileLoad")
 end

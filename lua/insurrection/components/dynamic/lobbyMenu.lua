@@ -103,7 +103,7 @@ return function()
         end)
 
         local handleDefinition = function(lobbyDef, newDefinition)
-            dprint("Changing definition to " .. newDefinition)
+            logger:debug("Changing definition to " .. newDefinition)
             search:setText("")
             local component = elementsList
             if newDefinition == "map" then
@@ -121,7 +121,7 @@ return function()
                         local backgroundBitmapIndex =
                             (table.indexof(gametypeIcons, iconToUse) or 1) - 1
                         if backgroundBitmapIndex then
-                            icon:setWidgetValues({background_bitmap_index = backgroundBitmapIndex})
+                            icon:setWidgetValues({bitmapIndex = backgroundBitmapIndex})
                         end
                     end
                 end
@@ -194,7 +194,7 @@ return function()
                     end)
                     local backgroundBitmapIndex = (table.indexof(gametypeIcons, iconToUse) or 1) - 1
                     if backgroundBitmapIndex then
-                        icon:setWidgetValues({background_bitmap_index = backgroundBitmapIndex})
+                        icon:setWidgetValues({bitmapIndex = backgroundBitmapIndex})
                     end
                 end
             end

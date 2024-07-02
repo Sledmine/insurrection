@@ -3,13 +3,13 @@ local constants = require "insurrection.constants"
 local button = require "insurrection.components.button"
 local input = require "insurrection.components.input"
 local interface = require "insurrection.interface"
-local menus     = require "insurrection.menus"
+local menus = require "insurrection.menus"
 
 return function()
     local dashboard = components.new(constants.widgets.dashboard.id)
     local createLobbyButton = button.new(dashboard:findChildWidgetTag("create_lobby_button").id)
     createLobbyButton:onClick(function()
-        dprint("Create lobby button clicked")
+        logger:debug("Create lobby button clicked")
         api.lobby()
     end)
     local joinLobbyButton = button.new(dashboard:findChildWidgetTag("join_lobby_button").id)

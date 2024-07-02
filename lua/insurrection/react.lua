@@ -3,7 +3,7 @@ local react = {}
 local mounted = {}
 
 function react.mount(component)
-    dprint("Mounting component " .. component)
+    logger:debug("Mounting component " .. component)
     if not mounted[component] then
         mounted[component] = require("insurrection.components.dynamic." .. component)()
     end

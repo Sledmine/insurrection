@@ -25,7 +25,9 @@ local defaultState = {
 ---@param action reduxAction
 ---@return interfaceState
 local function interfaceReducer(state, action)
-    dprint(action.type, "info")
+    if logger then
+        logger:debug(action.type)
+    end
     if action.type == redux.actionTypes.INIT then
         return table.copy(defaultState)
     elseif action.type == actions.types.SET_IS_LOADING then
@@ -33,7 +35,6 @@ local function interfaceReducer(state, action)
         return state
     elseif action.type == actions.types.SET_AVAILABLE_RESOURCES then
         state.available = action.payload
-        dprint(state)
         return state
     elseif action.type == actions.types.SET_LOBBY then
         state.lobby = action.payload.lobby

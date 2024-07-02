@@ -165,7 +165,7 @@ return function(props)
                     icon.widgetDefinition.backgroundBitmap =
                         constants.bitmaps.customization.regions.id
                     -- Set bitmap index
-                    icon:setWidgetValues({background_bitmap_index = getBitmapIndexForRegion(region)})
+                    icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion(region)})
                 end
             }
         end)
@@ -179,7 +179,7 @@ return function(props)
                     icon.widgetDefinition.backgroundBitmap =
                         constants.bitmaps.customization.regions.id
                     icon:setWidgetValues({
-                        background_bitmap_index = getBitmapIndexForRegion("visor")
+                        bitmapIndex = getBitmapIndexForRegion("visor")
                     })
                 end
             })
@@ -210,7 +210,7 @@ return function(props)
                         icon.widgetDefinition.backgroundBitmap =
                             constants.bitmaps.customization.regions.id
                         icon:setWidgetValues({
-                            background_bitmap_index = getBitmapIndexForRegion("visor")
+                            bitmapIndex = getBitmapIndexForRegion("visor")
                         })
                     end
                 })
@@ -251,7 +251,7 @@ return function(props)
                         icon.widgetDefinition.backgroundBitmap = permutationsBitmapTag.id
                         index = permutationIndex
                     end
-                    icon:setWidgetValues({background_bitmap_index = index})
+                    icon:setWidgetValues({bitmapIndex = index})
                 end
             })
         end

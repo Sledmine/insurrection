@@ -32,13 +32,13 @@ end
 function checkbox.getValue(self)
     local widgetValues = core.getWidgetValues(self.checkboxTagId)
     assert(widgetValues, "Checkbox " .. self.tag.path .. " does not exist in DOM tree")
-    return widgetValues.background_bitmap_index == 1
+    return widgetValues.bitmapIndex == 1
 end
 
 ---@param self uiComponentCheckbox
 function checkbox.setValue(self, value)
     local value = value and 1 or 0
-    core.setWidgetValues(self.checkboxTagId, {background_bitmap_index = value})
+    core.setWidgetValues(self.checkboxTagId, {bitmapIndex = value})
 end
 
 ---@param self uiComponentCheckbox

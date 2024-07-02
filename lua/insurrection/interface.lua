@@ -1,6 +1,8 @@
-local harmony = require "mods.harmony"
-local openWidget = harmony.menu.open_widget
-local playSound = harmony.menu.play_sound
+local balltze = Balltze
+local engine = Engine
+-- TODO BALLTZE MIGRATE
+local openWidget = engine.userInterface.openWidget
+local playSound = engine.userInterface.playSound
 local components = require "insurrection.components"
 local menus = require "insurrection.menus"
 local button = require "insurrection.components.button"
@@ -20,38 +22,42 @@ shared = interface.shared
 
 function interface.load()
     components.free()
-    constants.get()
-    if script_type ~= "global" then
-        interface.dialog("WARNING", "This script must be loaded as a global script.",
-                         "Please move it to the global scripts folder and restart the game.")
-    end
+    --constants.get()
+    --TODO BALLTZE MIGRATE
+    --if script_type ~= "global" then
+    --    interface.dialog("WARNING", "This script must be loaded as a global script.",
+    --                     "Please move it to the global scripts folder and restart the game.")
+    --end
     IsUICompatible = true
     if IsUICompatible then
 
-        dprint("Overriding Chimera font...")
+        logger:debug("Overriding Chimera font...")
+        --TODO BALLTZE MIGRATE
         chimera.fontOverride()
 
         -- Start widgets background animation
-        dprint("Starting widgets background animation...")
-        if BitmapsAnimationTimerId then
-            stop_timer(BitmapsAnimationTimerId)
-        end
-        function On30FPSRate()
-            for tagId, component in pairs(components.widgets) do
-                if component.isBackgroundAnimated then
-                    interface.animateUIWidgetBackground(tagId)
-                end
-            end
-        end
-        BitmapsAnimationTimerId = set_timer(33, "On30FPSRate")
+        logger:debug("Starting widgets background animation...")
+        -- TODO BALLTZE MIGRATE
+        --if BitmapsAnimationTimerId then
+        --    stop_timer(BitmapsAnimationTimerId)
+        --end
+        --function On30FPSRate()
+        --    for tagId, component in pairs(components.widgets) do
+        --        if component.isBackgroundAnimated then
+        --            interface.animateUIWidgetBackground(tagId)
+        --        end
+        --    end
+        --end
+        --BitmapsAnimationTimerId = set_timer(33, "On30FPSRate")
 
         -- Load Insurrection features
-        dprint("Loading Insurrection patches...")
+        logger:debug("Loading Insurrection patches...")
         core.loadInsurrectionPatches()
 
         -- Components initialization
-        dprint("Initializing components...")
+        logger:debug("Initializing components...")
         interface.loadProfileNameplate()
+        -- TODO BALLTZE MIGRATE
         core.cleanAllEditableWidgets()
 
         -- interface.animate()
@@ -61,7 +67,8 @@ function interface.load()
             require "insurrection.components.dynamic.settingsMenu"()
             require "insurrection.components.dynamic.loginMenu"()
             require "insurrection.components.dynamic.dashboardMenu"()
-            require "insurrection.components.dynamic.customizationMenu"()
+            --TODO BALLTZE MIGRATE
+            --require "insurrection.components.dynamic.customizationMenu"()
             require "insurrection.components.dynamic.lobbyMenu"()
             -- TODO Find a better way to toggle biped preview generation
             require "insurrection.components.dynamic.customizationBipedMenu" {
@@ -71,7 +78,7 @@ function interface.load()
 
             local errorModalLegacy = components.new(constants.widgets.legacyModalError.id)
             errorModalLegacy:onOpen(function()
-                dprint("Checking if lobby is active...")
+                logger:debug("Checking if lobby is active...")
                 if api.session.lobbyKey and map == "ui" then
                     api.lobby(api.session.lobbyKey)
                 end
@@ -82,10 +89,11 @@ function interface.load()
                 interface.blur(false)
             end)
 
-            local tester = components.new(constants.widgets.tester.id)
-            local testerAnimTest = components.new(tester:findChildWidgetTag("anim_test").id)
-            testerAnimTest:animate()
-            testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
+            -- TODO BALLTZE MIGRATE
+            --local tester = components.new(constants.widgets.tester.id)
+            --local testerAnimTest = components.new(tester:findChildWidgetTag("anim_test").id)
+            --testerAnimTest:animate()
+            --testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
         end
 
         if constants.widgets.chimera then
@@ -172,7 +180,7 @@ function interface.load()
         end
 
         -- Set up some chimera configs
-        if map == "ui" then
+        if map == "ui" and false then
             local preferences = chimera.getPreferences() or {}
             -- TODO Check forced server name preference
             local notServerIpBlocking = not preferences.chimera_block_server_ip or
@@ -194,7 +202,7 @@ end
 
 function interface.loadProfileNameplate(nameplateId)
     if not constants.tagCollections.nameplates then
-        dprint("Error, no nameplates collection found", "error")
+        logger:debug("Error, no nameplates collection found")
         return
     end
     local nameplate = components.new(constants.widgets.nameplate.id)
@@ -211,13 +219,13 @@ function interface.loadProfileNameplate(nameplateId)
         nameplate:animate()
         if nameplateId then
             if not nameplateBitmapTags[nameplateId] then
-                dprint("Invalid nameplate id: " .. nameplateId, "warning")
+                logger:debug("Invalid nameplate id: " .. nameplateId)
                 return
             end
             nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[nameplateId].id
             return
         end
-        dprint("Loading nameplate from settings...")
+        logger:debug("Loading nameplate from settings...")
         local settings = core.loadSettings()
         if settings and settings.nameplate and nameplateBitmapTags[settings.nameplate] then
             nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id
@@ -237,11 +245,11 @@ function interface.animateUIWidgetBackground(widgetTagId, willRepeat)
             local widgetBitmap = blam.bitmap(uiWidgetTag(widgetTagId).backgroundBitmap)
             if widgetBitmap then
                 if widgetBitmap.bitmapsCount > 1 then
-                    newValues = {background_bitmap_index = 0}
-                    if widgetValues.background_bitmap_index < widgetBitmap.bitmapsCount then
-                        newValues.background_bitmap_index = widgetValues.background_bitmap_index + 1
+                    newValues = {bitmapIndex = 0}
+                    if widgetValues.bitmapIndex < widgetBitmap.bitmapsCount then
+                        newValues.bitmapIndex = widgetValues.bitmapIndex + 1
                     else
-                        newValues.background_bitmap_index = 0
+                        newValues.bitmapIndex = 0
                     end
                     interface.setWidgetValues(widgetTagId, newValues)
                 end
@@ -257,9 +265,10 @@ end
 function interface.dialog(titleText, subtitleText, bodyText)
     if constants.sounds then
         if titleText == "WARNING" or titleText == "ERROR" then
-            playSound(constants.sounds.error.path)
+            logger:debug(constants.sounds.error.path)
+            playSound(constants.sounds.error.id)
         else
-            playSound(constants.sounds.success.path)
+            playSound(constants.sounds.success.id)
         end
     end
     local dialog = shared.dialog
@@ -274,8 +283,10 @@ function interface.dialog(titleText, subtitleText, bodyText)
     body:setText(bodyText)
 
     if titleText == "ERROR" then
+        --TODO BALLTZE MIGRATE
         openWidget(constants.widgets.dialog.id, false)
     else
+        --TODO BALLTZE MIGRATE
         openWidget(constants.widgets.dialog.id, true)
     end
 end
@@ -303,17 +314,24 @@ function interface.sound(sound)
     end
 end
 
-function interface.getWidgetValues(widgetTagId)
-    local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
-    if sucess and widgetInstanceId then
-        return harmony.menu.get_widget_values(widgetInstanceId)
+---Get specific current widget values
+---@param widgetTagHandle EngineTagHandle
+function interface.getWidgetValues(widgetTagHandle)
+    --local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
+    local sucess, widget = pcall(engine.userInterface.findWidget, widgetTagHandle)
+    if sucess and widget then
+        --return harmony.menu.get_widget_values(widgetInstanceId)
+        return widget
     end
 end
 
-function interface.setWidgetValues(widgetTagId, values)
-    local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
-    if sucess and widgetInstanceId then
-        harmony.menu.set_widget_values(widgetInstanceId, values);
+function interface.setWidgetValues(widgetTagHandle, values)
+    local sucess, widget = pcall(engine.userInterface.findWidget, widgetTagHandle)
+    if sucess and widget then
+        --harmony.menu.set_widget_values(widgetInstanceId, values)
+        for key, value in pairs(values) do
+            widget[key] = value
+        end
     end
 end
 
@@ -379,11 +397,11 @@ end
 function interface.close(closeAllWidgets)
     if closeAllWidgets then
         while core.getCurrentUIWidgetTag() do
-            harmony.menu.close_widget()
+            engine.userInterface.closeWidget()
         end
         return
     end
-    harmony.menu.close_widget()
+    engine.userInterface.closeWidget()
     return
 end
 
@@ -431,5 +449,22 @@ function interface.onTick()
     --    end
     -- end
 end
+
+function interface.changeAspectRatio()
+    if core.getCurrentUIWidgetTag() then
+        -- Change UI aspect ratio
+        logger:debug("Setting UI aspect ratio to 16:9")
+        balltze.features.setUIAspectRatio(16, 9)
+        -- Enable menu blur
+        execute_script("menu_blur_on")
+
+        -- Set network timeout to 5 seconds (keeps connection alive at loading huge maps)
+        -- NOTE! This is meant to help server side loading time, not client side
+        execute_script("network_connect_timeout 15000")
+    else
+        balltze.features.setUIAspectRatio(4, 3)
+    end
+end
+
 
 return interface

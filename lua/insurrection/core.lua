@@ -3,8 +3,8 @@ local blam = require "blam"
 local tagClasses = blam.tagClasses
 local json = require "json"
 local base64 = require "base64"
-local harmony = require "mods.harmony"
-local isBalltzeAvailable, balltze = pcall(require, "mods.balltze")
+local balltze = Balltze
+local engine = Engine
 
 local mercury = require "insurrection.mercury"
 local utils = require "insurrection.utils"
@@ -12,7 +12,6 @@ local utils = require "insurrection.utils"
 local currentWidgetIdAddress = 0x6B401C
 local keyboardInputAddress = 0x64C550
 local clientPortAddress = 0x6337F8
-local clientPort = read_word(clientPortAddress)
 local friendlyClientPort = 2305
 local profileNameAddress = 0x6ADE22
 local profileColorAddress = 0x6ADF3A
@@ -51,10 +50,6 @@ end
 function core.loadInsurrectionPatches()
     package.loaded["insurrection.version"] = nil
     local scriptVersion = "insurrection-" .. require "insurrection.version"
-    -- Force usage a more friendly client port
-    -- if clientPort ~= friendlyClientPort then
-    --    write_dword(clientPortAddress, friendlyClientPort)
-    -- end
 
     -- Setting up version string
     local scriptVersionTag = blam.findTag("insurrection_version_footer",
@@ -72,12 +67,12 @@ function core.loadInsurrectionPatches()
 end
 
 function core.saveCredentials(username, password)
-    write_file("credentials.json",
-               json.encode({username = username, password = base64.encode(password)}))
+    Balltze.filesystem.writeFile("credentials.json", json.encode(
+                                     {username = username, password = base64.encode(password)}))
 end
 
 function core.loadCredentials()
-    local credentialsFile = read_file("credentials.json")
+    local credentialsFile = Balltze.filesystem.readFile("credentials.json")
     if credentialsFile then
         local success, credentials = pcall(json.decode, credentialsFile)
         if success and credentials then
@@ -87,7 +82,7 @@ function core.loadCredentials()
 end
 
 function core.loadSettings()
-    local settingsFile = read_file("settings.json")
+    local settingsFile = Balltze.filesystem.readFile("settings.json")
     if settingsFile then
         local success, settings = pcall(json.decode, settingsFile)
         if success and settings then
@@ -97,7 +92,7 @@ function core.loadSettings()
 end
 
 function core.saveSettings(settings)
-    write_file("settings.json", json.encode(settings))
+    Balltze.filesystem.writeFile("settings.json", json.encode(settings))
 end
 
 function core.getRenderedUIWidgetTagId()
@@ -114,10 +109,18 @@ end
 --- Get the tag widget of the current ui open in the game
 ---@return tag | nil
 function core.getCurrentUIWidgetTag()
-    local widgetTagId = core.getRenderedUIWidgetTagId()
-    if widgetTagId then
-        local widgetTag = blam.getTag(widgetTagId)
-        return widgetTag
+    -- local widgetTagId = core.getRenderedUIWidgetTagId()
+    local widget = engine.userInterface.getRootWidget()
+    if widget then
+        local tag = engine.tag.getTag(widget.definitionTagHandle.value)
+        assert(tag, "No tag found for widget")
+        -- TODO BALLTZE MIGRATE
+        return {
+            id = tag.handle.value,
+            tagPath = tag.path,
+            tagClass = tag.primaryClass,
+            index = tag.handle.index
+        }
     end
     return nil
 end
@@ -218,44 +221,46 @@ end
 
 function core.getWidgetValues(widgetTagId)
     if core.getCurrentUIWidgetTag() then
-        local sucess, widgetHandle = pcall(harmony.menu.find_widgets, widgetTagId)
-        if sucess and widgetHandle then
-            return harmony.menu.get_widget_values(widgetHandle)
-        end
+        return engine.userInterface.findWidget(widgetTagId)
     end
 end
 
 function core.setWidgetValues(widgetTagId, values)
     local function setValuesDOMSafe()
         -- Verify there is a widget loaded in the DOM
-        local widgetHandle = core.getWidgetHandle(widgetTagId)
-        if widgetHandle then
-            harmony.menu.set_widget_values(widgetHandle, values)
+        local widget = engine.userInterface.findWidget(widgetTagId)
+        if widget then
+            for key, value in pairs(values) do
+                widget[key] = value
+            end
             return true
         end
     end
     if not setValuesDOMSafe() then
         -- If there is no widget loaded in the DOM, wait 33ms and try again
         -- (this is a workaround for the DOM not being loaded yet)
-        utils.delay(33, function()
-            setValuesDOMSafe()
-        end)
+        -- TODO BALLTZE MIGRATE
+        -- utils.delay(33, function()
+        --    setValuesDOMSafe()
+        -- end)
     end
 end
 
+-- TODO We do not need this, checkout replacements
 function core.getWidgetHandle(widgetTagId)
     if core.getCurrentUIWidgetTag() then
-        local sucess, widgetHandle = pcall(harmony.menu.find_widgets, widgetTagId)
+        local sucess, widgetHandle = pcall(engine.userInterface.findWidgets, widgetTagId)
         if sucess and widgetHandle then
             return widgetHandle
         end
     end
 end
 
-function core.replaceWidgetInDom(widgetTagId, newWidgetTagId)
-    local widgetHandle = core.getWidgetHandle(widgetTagId)
-    if widgetHandle then
-        harmony.menu.replace_widget(widgetHandle, newWidgetTagId)
+function core.replaceWidgetInDom(widgetTagHandleValue, newWidgetTagHandleValue)
+    logger:debug("Replacing widget " .. widgetTagHandleValue .. " with " .. newWidgetTagHandleValue)
+    local replaced, widget = pcall(engine.userInterface.findWidget, widgetTagHandleValue)
+    if replaced and widget then
+        engine.userInterface.replaceWidget(widget, newWidgetTagHandleValue)
     end
 end
 
@@ -285,12 +290,14 @@ function core.loading(isLoading, text, blockInput)
             return
         end
         if blockInput then
-            harmony.menu.block_input(true)
+            -- TODO BALLTZE MIGRATE
+            -- harmony.menu.block_input(true)
         end
         LoadingText = text or "Loading..."
-        dprint(LoadingText)
+        logger:debug(LoadingText)
     else
-        harmony.menu.block_input(false)
+        -- TODO BALLTZE MIGRATE
+        -- harmony.menu.block_input(false)
         LoadingText = nil
     end
 end
@@ -333,8 +340,8 @@ end
 
 function core.getMouseState()
     return {
-        right = read_long(mouseInputAddress),
-        up = read_long(mouseInputAddress + 4),
+        right = read_int(mouseInputAddress),
+        up = read_int(mouseInputAddress + 4),
         scroll = read_char(mouseInputAddress + 8),
         leftClick = read_byte(mouseInputAddress + 12),
         scrollClick = read_byte(mouseInputAddress + 13),
@@ -384,7 +391,8 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
     -- This one does not need to be substracted by 1 because property name is Lua 1-based
     local maximumRegionIndex = objectModel.regionCount
     if regionIndex > maximumRegionIndex then
-        console_debug("Region index " .. regionIndex .. " out of range, maximum is " .. maximumRegionIndex)
+        console_debug("Region index " .. regionIndex .. " out of range, maximum is " ..
+                          maximumRegionIndex)
         return
     end
 
@@ -399,13 +407,13 @@ end
 
 function core.copyToClipboard(text)
     if isBalltzeAvailable then
-        return balltze.set_clipboard(text)
+        return balltze.misc.setClipboard(text)
     end
 end
 
 function core.getClipboard()
     if isBalltzeAvailable then
-        return balltze.get_clipboard()
+        return balltze.misc.getClipboard()
     end
 end
 
@@ -413,7 +421,7 @@ end
 ---@return number aspectWidth, number aspectHeight
 function core.getScreenAspectRatio()
     local screenWidth, screenHeight = core.getScreenResolution()
-    console_out("Screen resolution: " .. screenWidth .. "x" .. screenHeight)
+    logger:debug("Screen resolution: " .. screenWidth .. "x" .. screenHeight)
     -- Calculate the greatest common divisor (GCD) using Euclidean algorithm
     local function gcd(a, b)
         while b ~= 0 do

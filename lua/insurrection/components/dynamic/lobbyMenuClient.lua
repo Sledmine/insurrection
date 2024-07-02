@@ -57,7 +57,7 @@ local function lobbyMenuClient()
         end)
         local backgroundBitmapIndex = (table.indexof(gametypeIcons, iconToUse) or 1) - 1
         if backgroundBitmapIndex then
-            gametypeIcon:setWidgetValues({background_bitmap_index = backgroundBitmapIndex})
+            gametypeIcon:setWidgetValues({bitmapIndex = backgroundBitmapIndex})
         end
 
         description:setText(s(state.lobby.gametype:upper()) .. " on " .. s(state.lobby.map))

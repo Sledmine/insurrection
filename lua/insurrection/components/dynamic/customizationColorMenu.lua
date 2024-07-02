@@ -71,7 +71,7 @@ return function()
                 local colorValue = constants.color[colorName]
                 if colorValue then
                     local colorIndex = table.flip(constants.colors)[colorValue] - 1
-                    setWidgetValues(colorIcon.tag.id, {background_bitmap_index = colorIndex})
+                    setWidgetValues(colorIcon.tag.id, {bitmapIndex = colorIndex})
                     colorButton:onClick(function()
                         local r, g, b = color.hexToDec(colorValue)
                         menuBiped.colorCLowerRed = r

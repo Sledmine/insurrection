@@ -29,29 +29,29 @@ discord.attempted = false
 discord.ready = false
 
 function discordRPC.ready(userId, username, discriminator, avatar)
-    dprint(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
+    logger:debug(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
     core.loading(false)
     discord.ready = true
 end
 
 function discordRPC.disconnected(errorCode, message)
-    dprint(string.format("Discord: disconnected (%d: %s)", errorCode, message))
+    logger:debugdprint(string.format("Discord: disconnected (%d: %s)", errorCode, message))
     discord.ready = false
 end
 
 function discordRPC.joinGame(joinSecret)
-    dprint("Discord: join game (" .. joinSecret .. ")")
+    logger:debugdprint("Discord: join game (" .. joinSecret .. ")")
     api.lobby(joinSecret)
 end
 
 function discordRPC.joinRequest(userId, username, discriminator, avatar)
-    dprint(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator,
+    logger:debugdprint(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator,
                          avatar))
     discordRPC.respond(userId, "yes")
 end
 
 function discord.initialize()
-    discordRPC.initialize(base64.decode(read_file("micro")), true)
+    discordRPC.initialize(base64.decode(Balltze.filesystem.readFile("micro")), true)
 end
 
 function discord.startPresence()
@@ -67,7 +67,7 @@ function discord.startPresence()
 
     -- Routines to handle Discord presence
     function DiscordUpdate()
-        --dprint("DiscordUpdate")
+        --logger:debug("DiscordUpdate")
         discordRPC.runCallbacks()
         if discord.ready then
             if DiscordCheckTimerId then
@@ -96,7 +96,7 @@ end
 ---@param details? string
 ---@param image? string
 function discord.setState(state, details, image)
-    dprint("discord.setState: " .. state .. ", " .. details)
+    logger:debug("discord.setState: " .. state .. ", " .. details)
     if not discord.ready then
         return
     end
@@ -116,7 +116,7 @@ end
 ---@param isLobbyOpen? boolean
 function discord.setParty(partyId, partySize, partyMax, map, isLobbyOpen)
     -- Party ID sometines is nil, so we need to check for it
-    dprint(
+    logger:debug(
         "discord.setParty: " .. partyId .. ", " .. partySize .. ", " .. partyMax .. ", " .. map ..
             ", " .. tostring(isLobbyOpen))
     if partyId then
@@ -138,7 +138,7 @@ function discord.setParty(partyId, partySize, partyMax, map, isLobbyOpen)
 end
 
 function discord.clearParty()
-    dprint("discord.clearParty")
+    logger:debug("discord.clearParty")
 
     discord.presence.partyId = nil
     discord.presence.joinSecret = nil
@@ -148,7 +148,7 @@ end
 
 --- Clear the presence info
 function discord.clearPresence()
-    dprint("discord.clearPresence")
+    logger:debug("discord.clearPresence")
 
     discord.presence.state = nil
     discord.presence.details = nil

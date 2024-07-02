@@ -10,7 +10,6 @@ local glue = require "glue"
 local exists = glue.canopen
 local actions = require "insurrection.redux.actions"
 local core = require "insurrection.core"
-local harmony = require "mods.harmony"
 local menus = require "insurrection.menus"
 local shared = interface.shared
 local constants = require "insurrection.constants"
@@ -76,10 +75,10 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 ---@field isPublic boolean
 
 function async(func, callback, ...)
-    if (#Lanes == 0) then
+    if #Lanes == 0 then
         Lanes[#Lanes + 1] = {thread = lanes.gen(asyncLibs, func)(...), callback = callback}
     else
-        dprint("Warning! An async function is trying to add another thread!", "warning")
+        logger:debug("Warning! An async function is trying to add another thread!")
     end
 end
 
@@ -89,7 +88,7 @@ local function connect(desiredMap, host, port, password)
         console_out("Can't connect to a server while in-game.")
         return
     end
-    -- dprint("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
+    -- logger:debug("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
     if exists("maps\\" .. desiredMap .. ".map") or
         exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
         -- Force game profile name to be the same as the player's name
@@ -107,20 +106,20 @@ local function unknownError(logs)
             logs = tostring(inspect(logs)) .. "\n" .. tostring(inspect(logs.json()))
         else
             logs = tostring(inspect(logs))
-            dprint("Unknown error: " .. logs, "error")
+            logger:error("Unknown error: " .. logs, "error")
         end
     end
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please check logs and try again later.")
     if logs then
-        local log = read_file("insurrection.log") or ""
+        local log = Balltze.filesystem.readFile("insurrection.log") or ""
         -- Check if log is over 100,000 kilobytes and reset it
         if #log > 100000 then
             log = ""
         end
         log = log .. "\n" .. debug.traceback()
         log = log .. "\n" .. logs
-        write_file("insurrection.log", log)
+        Balltze.filesystem.writeFile("insurrection.log", log)
     end
 end
 
@@ -144,7 +143,7 @@ end
 ---@param host? string
 function api.loadUrl(host)
     api.version = "v1"
-    api.host = read_file("insurrection_host") or host or "http://localhost:4343/"
+    api.host = Balltze.filesystem.readFile("insurrection_host") or host or "http://localhost:4343/"
     if DebugMode then
         api.host = "http://localhost:4343/"
     end
@@ -207,7 +206,7 @@ end
 ---@param response httpResponse<lobbyResponse | insurrectionLobby | requestResult>
 ---@return boolean
 local function onLobbyResponse(response)
-    dprint("onLobbyResponse", "info")
+    logger:info("onLobbyResponse")
     loading(false)
     if response then
         if response.code == requests.codes.ok then
@@ -238,7 +237,8 @@ local function onLobbyResponse(response)
                         return true
                     end
                 end
-                api.startLobbyRefresh()
+                -- TODO BALLTZE MIGRATE
+                --api.startLobbyRefresh()
                 local state = getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
@@ -347,7 +347,7 @@ end
 function api.refreshLobby()
     loading(true, "Refreshing lobby...", false)
     if api.session.lobbyKey then
-        dprint("Refreshing lobby data...", "info")
+        logger:info("Refreshing lobby data...", "info")
         async(requests.get, function(result)
 
             onLobbyRefreshResponse(result[1])
@@ -355,14 +355,16 @@ function api.refreshLobby()
     end
 end
 function api.stopRefreshLobby()
-    if api.session.lobbyKey then
-        pcall(stop_timer, api.variables.refreshTimerId)
-    end
+    --TODO BALLTZE MIGRATE
+    --if api.session.lobbyKey then
+    --    pcall(stop_timer, api.variables.refreshTimerId)
+    --end
 end
 function api.deleteLobby()
     if api.session.lobbyKey then
-        dprint("DELETING lobby", "warning")
-        pcall(stop_timer, api.variables.refreshTimerId)
+        logger:warning("DELETING lobby")
+        --TODO BALLTZE MIGRATE
+        --pcall(stop_timer, api.variables.refreshTimerId)
         store:dispatch(actions.setLobby(nil, nil))
         api.variables.refreshTimerId = nil
         api.session.lobbyKey = nil
@@ -511,7 +513,5 @@ function api.getLobbies()
         onGetLobbiesResponse(result[1])
     end, api.url .. "/lobbies")
 end
-
-api.loadUrl()
 
 return api

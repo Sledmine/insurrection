@@ -1,5 +1,5 @@
-local harmony = require "mods.harmony"
-local openWidget = harmony.menu.open_widget
+local engine = Engine
+local openWidget = engine.userInterface.openWidget
 local constants = require "insurrection.constants"
 local core = require "insurrection.core"
 
