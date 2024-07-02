@@ -106,7 +106,7 @@ return container {
                         complexButton {
                             name = "host_game",
                             text = "HOST GAME",
-                            variant = "horizontal"
+                            variant = "horizontal_c_text"
                         },
                         20,
                         66
