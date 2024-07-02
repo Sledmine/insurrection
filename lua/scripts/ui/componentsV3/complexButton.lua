@@ -13,7 +13,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@field branch? boolean
 ---@field func? string
 ---@field close? boolean
----@field variant? '"normal"' | '"vertical"' | '"horizontal"'
+---@field variant? "normal" | "vertical" | "horizontal" | "horizontal_c_text"
 ---@field icon? string
 ---@field legacy? boolean
 
@@ -70,6 +70,9 @@ return function(props)
         vert_offset = height - 34,
         child_widgets = {}
     }
+    if variant == "horizontal_c_text" then
+        wid.vert_offset = 11
+    end
     if props.legacy then
         local textPath = widget.path .. "buttons/" .. name .. "_button_text.ui_widget_definition"
         widget.createV2(textPath, {
@@ -134,6 +137,7 @@ return function(props)
         })
         wid.child_widgets[#wid.child_widgets + 1] = {labelPath}
     end
+
     widget.createV2(widgetPath, wid)
     return widgetPath
 end
