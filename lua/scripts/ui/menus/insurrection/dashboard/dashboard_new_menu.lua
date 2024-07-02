@@ -66,6 +66,46 @@ return container {
             409
         },
         {
+            rankDashboard {
+                name = "rank_name_info",
+                variant = "text_rank_name",
+                --title = "$rankName",
+                text = strmem (256, "$rankName")
+            },
+            641,
+            365
+        },
+        {
+            rankDashboard {
+                name = "rank_spec_info",
+                variant = "text_spec_info",
+                --title = "$rankName",
+                text = strmem (256, "\r\n$divisionRank, $tierRank")
+            },
+            641,
+            365
+        },
+        {
+            rankDashboard {
+                name = "rank_level_info",
+                variant = "text_level_info",
+                --title = "$rankName",
+                text = strmem (256, "\r\n\r\n$number TO NEXT LEVEL")
+            },
+            641,
+            365
+        },
+        {
+            rankDashboard {
+                name = "rank_credits_info",
+                variant = "text_credits_info",
+                --title = "$rankName",
+                text = strmem (256, "\r\n\r\n\r\n\r\n$creditsNumber")
+            },
+            641,
+            365
+        },
+        {
             options {
                 name = "dashboard_new_buttons",
                 alignment = "horizontal",
