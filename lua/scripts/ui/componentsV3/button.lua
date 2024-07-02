@@ -13,11 +13,11 @@ local floor = math.floor
 ---@field branch? boolean
 ---@field func? string | string[]
 ---@field select? boolean
----@field justification? '"left_justify"' | '"center_justify"' | '"right_justify"'
+---@field justification? "left_justify" | "center_justify" | "right_justify"
 ---@field legacy? boolean
 ---@field close? boolean
----@field arrow? '"up"' | '"down"'
----@field variant? '"normal"' | '"large"'
+---@field arrow? "up" | "down"
+---@field variant? "small" | "normal" | "large"
 ---@field childs? invaderWidgetChildWidget[]
 
 ---Generic button component, recycled in multiple components
