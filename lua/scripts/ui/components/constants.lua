@@ -33,7 +33,7 @@ return {
         return "0, 0, " .. height .. ", " .. width
     end,
     position = {
-        header = {x = 40, y = 20},
+        header = {x = 20, y = 16},
         options = {x = 40, y = 60},
         back = {x = 630, y = 415},
         action = {x = 444, y = 415},
@@ -48,6 +48,11 @@ return {
             path = [[insurrection/ui/shared/version/insurrection_version_footer.ui_widget_definition]]
         },
         button = {
+            small = {
+                width = 149,
+                height = 24,
+                bitmap = [[insurrection/ui/bitmaps/small_button.bitmap]]
+            },
             normal = {
                 width = 184,
                 height = 24,
