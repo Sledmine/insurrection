@@ -50,6 +50,11 @@ return {
             path = [[insurrection/ui/shared/version/insurrection_version_footer.ui_widget_definition]]
         },
         button = {
+            small = {
+                width = 149,
+                height = 24,
+                bitmap = [[insurrection/ui/bitmaps/small_button.bitmap]]
+            },
             normal = {
                 width = 184,
                 height = 24,
