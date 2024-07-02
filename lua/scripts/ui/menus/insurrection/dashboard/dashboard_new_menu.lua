@@ -7,7 +7,7 @@ local buttonDashboard = require "lua.scripts.ui.componentsV3.buttonDashboard"
 local footer          = require "lua.scripts.ui.componentsV3.footer"
 local rankDashboard   = require "lua.scripts.ui.componentsV3.rankDashboard"
 local pos = constants.position
-local label = require "lua.scripts.ui.componentsV3.label"
+local rankLabel = require "lua.scripts.ui.componentsV3.rankLabel"
 local strmem = widget.strmem
 local container = require "lua.scripts.ui.componentsV3.container"
 local options = require "lua.scripts.ui.componentsV3.options"
@@ -56,6 +56,14 @@ return container {
             364
         },
         {
+            rankDashboard {
+                name = "credit_icon_dashbard",
+                variant = "credit_icon",
+            },
+            754,
+            415
+        },
+        {
             bar {
                 name = "rank_progress",
                 orientation = "horizontal",
@@ -66,46 +74,66 @@ return container {
             409
         },
         {
-            rankDashboard {
-                name = "rank_name_info",
-                variant = "text_rank_name",
-                --title = "$rankName",
-                text = strmem (256, "$rankName")
+            rankLabel {
+                name = "rank_name",
+                text = "$rankName",
+                variant = "name",
+                justify = "right",
+                width = 128,
+                height = 10
             },
             641,
-            365
+            360
         },
         {
-            rankDashboard {
-                name = "rank_spec_info",
-                variant = "text_spec_info",
-                --title = "$rankName",
-                text = strmem (256, "\r\n$divisionRank, $tierRank")
+            rankLabel {
+                name = "tier_name",
+                text = "$division, $grade",
+                variant = "tier",
+                justify = "right",
+                width = 128,
+                height = 10
             },
             641,
-            365
+            373
         },
         {
-            rankDashboard {
-                name = "rank_level_info",
-                variant = "text_level_info",
-                --title = "$rankName",
-                text = strmem (256, "\r\n\r\n$number TO NEXT LEVEL")
+            rankLabel {
+                name = "exp_number",
+                text = "$expNumber",
+                variant = "exp",
+                justify = "right",
+                width = 128,
+                height = 10
+            },
+            575,
+            386
+        },
+        {
+            rankLabel {
+                name = "exp_info",
+                text = "TO NEXT LEVEL",
+                variant = "exp",
+                justify = "right",
+                width = 128,
+                height = 10
             },
             641,
-            365
+            386
         },
         {
-            rankDashboard {
-                name = "rank_credits_info",
-                variant = "text_credits_info",
-                --title = "$rankName",
-                text = strmem (256, "\r\n\r\n\r\n\r\n$creditsNumber")
+            rankLabel {
+                name = "credits_number",
+                text = "$crNumber",
+                variant = "credits",
+                justify = "right",
+                width = 128,
+                height = 10
             },
-            641,
-            365
+            621,
+            410
         },
-        {
+        { ---Center Buttons
             options {
                 name = "dashboard_new_buttons",
                 alignment = "horizontal",
