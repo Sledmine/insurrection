@@ -68,7 +68,7 @@ function interface.load()
             require "insurrection.components.dynamic.loginMenu"()
             require "insurrection.components.dynamic.dashboardMenu"()
             --TODO BALLTZE MIGRATE
-            --require "insurrection.components.dynamic.customizationMenu"()
+            require "insurrection.components.dynamic.customizationMenu"()
             require "insurrection.components.dynamic.lobbyMenu"()
             -- TODO Find a better way to toggle biped preview generation
             require "insurrection.components.dynamic.customizationBipedMenu" {
@@ -234,24 +234,28 @@ function interface.loadProfileNameplate(nameplateId)
 end
 
 ---Animates UI elements by animating background bitmap
----@param widgetTagId number
-function interface.animateUIWidgetBackground(widgetTagId, willRepeat)
+---@param widgetTagHandleValue number
+function interface.animateUIWidgetBackground(widgetTagHandleValue, willRepeat)
     local willRepeat = willRepeat or true
     local newValues
     local isUIRendering = core.getRenderedUIWidgetTagId()
     if isUIRendering then
-        local widgetValues = interface.getWidgetValues(widgetTagId)
-        if widgetValues then
-            local widgetBitmap = blam.bitmap(uiWidgetTag(widgetTagId).backgroundBitmap)
+        local widget = engine.userInterface.findWidget(widgetTagHandleValue)
+        if widget then
+            local widgetBitmap = blam.bitmap(uiWidgetTag(widgetTagHandleValue).backgroundBitmap)
             if widgetBitmap then
                 if widgetBitmap.bitmapsCount > 1 then
-                    newValues = {bitmapIndex = 0}
-                    if widgetValues.bitmapIndex < widgetBitmap.bitmapsCount then
-                        newValues.bitmapIndex = widgetValues.bitmapIndex + 1
+                    --newValues = {bitmapIndex = 0}
+                    widget.bitmapIndex = 0
+                    if widget.bitmapIndex < widgetBitmap.bitmapsCount then
+                        --newValues.bitmapIndex = widget.bitmapIndex + 1
+                        widget.bitmapIndex = widget.bitmapIndex + 1
                     else
-                        newValues.bitmapIndex = 0
+                        --newValues.bitmapIndex = 0
+                        widget.bitmapIndex = 0
                     end
-                    interface.setWidgetValues(widgetTagId, newValues)
+                    --interface.setWidgetValues(widgetTagHandleValue, newValues)
+                    widget.bitmapIndex = newValues.bitmapIndex
                 end
             end
         end
@@ -259,7 +263,7 @@ function interface.animateUIWidgetBackground(widgetTagId, willRepeat)
 end
 
 ---Show a dialog message on the screen
----@param titleText '"WARNING"' | '"INFORMATION"' | '"ERROR"' | string
+---@param titleText "WARNING" | "INFORMATION" | "ERROR" | string
 ---@param subtitleText string
 ---@param bodyText string
 function interface.dialog(titleText, subtitleText, bodyText)
@@ -292,7 +296,7 @@ function interface.dialog(titleText, subtitleText, bodyText)
 end
 
 ---Play a special interface sound
----@param sound '"error"' | '"success"' | '"back"' | '"join"' | '"leave"'
+---@param sound "error" | "success" | "back" | "join" | "leave"
 function interface.sound(sound)
     if not (constants.sounds.error and constants.sounds.success and constants.sounds.back and
         constants.sounds.join and constants.sounds.leave) then
@@ -311,66 +315,6 @@ function interface.sound(sound)
         playSound(constants.sounds.leave.id)
     else
         dprint("Invalid sound: " .. sound, "error")
-    end
-end
-
----Get specific current widget values
----@param widgetTagHandle EngineTagHandle
-function interface.getWidgetValues(widgetTagHandle)
-    --local sucess, widgetInstanceId = pcall(harmony.menu.find_widgets, widgetTagId)
-    local sucess, widget = pcall(engine.userInterface.findWidget, widgetTagHandle)
-    if sucess and widget then
-        --return harmony.menu.get_widget_values(widgetInstanceId)
-        return widget
-    end
-end
-
-function interface.setWidgetValues(widgetTagHandle, values)
-    local sucess, widget = pcall(engine.userInterface.findWidget, widgetTagHandle)
-    if sucess and widget then
-        --harmony.menu.set_widget_values(widgetInstanceId, values)
-        for key, value in pairs(values) do
-            widget[key] = value
-        end
-    end
-end
-
-function interface.animate()
-    local introMenuWidgetTag = blam.findTag([[ui\shell\main_menu]],
-                                            blam.tagClasses.uiWidgetDefinition)
-    local introMenuWidget = blam.uiWidgetDefinition(introMenuWidgetTag.id)
-    local mainMenuWidgetTag = blam.findTag([[menus\main\main_menu]],
-                                           blam.tagClasses.uiWidgetDefinition)
-    local mainMenuWidget = blam.uiWidgetDefinition(mainMenuWidgetTag.id)
-    local mainMenuList = blam.uiWidgetDefinition(mainMenuWidget.childWidgets[2].widgetTag)
-
-    local containerId = mainMenuWidgetTag.id
-    local widgetToAnimateId = mainMenuWidget.childWidgets[1].widgetTag
-    local initial = introMenuWidget.childWidgets[1].verticalOffset
-    local final = mainMenuWidget.childWidgets[1].verticalOffset
-
-    interface.animation(introMenuWidget.childWidgets[1].widgetTag, introMenuWidgetTag.id, 0.2,
-                        "vertical", final, initial, "ease out", "show")
-    -- Animate the main menu widget
-    interface.animation(widgetToAnimateId, containerId, 0.2, "vertical", initial, final, "ease out")
-    for _, childWidget in pairs(mainMenuList.childWidgets) do
-        -- Animate the main menu list widget
-        interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "horizontal",
-                            childWidget.horizontalOffset - 50, childWidget.horizontalOffset,
-                            "ease in", "show")
-        interface.animation(childWidget.widgetTag, containerId, _ * 0.08, "opacity", 0, 1)
-    end
-    local dialogContainer = blam.uiWidgetDefinition(dialogWidgetTag.id)
-    interface.animation(dialogWidgetTag.id, dialogWidgetTag.id, 0.2, "opacity", 0, 1)
-end
-
---- Reset widgets animation data
-function interface.animationsReset(widgetTagId)
-    for _, animation in pairs(WidgetAnimations) do
-        if animation.widgetContainerTagId == widgetTagId then
-            animation.timestamp = nil
-            animation.finished = false
-        end
     end
 end
 

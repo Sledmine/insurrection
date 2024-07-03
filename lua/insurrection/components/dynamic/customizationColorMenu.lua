@@ -7,7 +7,6 @@ local blam = require "blam"
 local core = require "insurrection.core"
 local getWidgetValues = core.getWidgetValues
 local setWidgetValues = core.setWidgetValues
-local glue = require "glue"
 local menus = require "insurrection.menus"
 local delay = require "insurrection.utils".delay
 

@@ -131,19 +131,19 @@ function list.refresh(self)
                 if elementsCount > 0 then
                     if isHorizontal then
                         scrollBar.width = round(barSizePerElement * visibleElementsCount)
-                        scroll:setBarValues{left_bound = scrollPosition}
+                        scroll:setBarValues{position = {x = scrollPosition}}
                     else
                         scrollBar.height = round(barSizePerElement * visibleElementsCount)
-                        scroll:setBarValues{top_bound = scrollPosition}
+                        scroll:setBarValues{position = {y = scrollPosition}}
                     end
                 end
             else
                 if isHorizontal then
                     scrollBar.width = scrollBackground.width
-                    scroll:setBarValues{left_bound = 0}
+                    scroll:setBarValues{position = {x = 0}}
                 else
                     scrollBar.height = scrollBackground.height
-                    scroll:setBarValues{top_bound = 0}
+                    scroll:setBarValues{position = {y = 0}}
                 end
             end
         end

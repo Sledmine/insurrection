@@ -379,7 +379,6 @@ function OnWidgetOpen(widgetInstanceIndex)
                 if optionsWidget and optionsWidget.childWidgets[1] then
                     onWidgetFocus(optionsWidget.childWidgets[1].widgetTag)
                 end
-                interface.animationsReset(widgetTag.id)
             end
             if DebugMode then
                 ScreenCornerText = widgetTag.path

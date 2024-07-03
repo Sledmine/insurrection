@@ -3,2490 +3,338 @@
 
 ---@meta _
 
----@class MetaEngineTagDataMaterialEffectsMaterialEffectMaterial 
----@field effect MetaEngineTagDependency 
----@field sound MetaEngineTagDependency 
+---@class EngineTagDataHUDInterfaceDestinationTypeEnum : Enum 
 
----@class MetaEngineTagDataMaterialEffectsMaterialEffect 
----@field materials table<MetaEngineTagDataMaterialEffectsMaterialEffectMaterial> 
+---@class EngineTagDataHUDInterfaceDestinationTypeTint_0_1 : EngineTagDataHUDInterfaceDestinationTypeEnum 
+---@class EngineTagDataHUDInterfaceDestinationTypeHorizontalOffset : EngineTagDataHUDInterfaceDestinationTypeEnum 
+---@class EngineTagDataHUDInterfaceDestinationTypeVerticalOffset : EngineTagDataHUDInterfaceDestinationTypeEnum 
+---@class EngineTagDataHUDInterfaceDestinationTypeFade_0_1 : EngineTagDataHUDInterfaceDestinationTypeEnum 
 
----@class MetaEngineTagDataMaterialEffects 
----@field effects table<MetaEngineTagDataMaterialEffectsMaterialEffect> 
+---@alias EngineTagDataHUDInterfaceDestinationType 
+---| EngineTagDataHUDInterfaceDestinationTypeTint_0_1
+---| EngineTagDataHUDInterfaceDestinationTypeHorizontalOffset
+---| EngineTagDataHUDInterfaceDestinationTypeVerticalOffset
+---| EngineTagDataHUDInterfaceDestinationTypeFade_0_1
 
----@class MetaEngineTagDataModelRegionPermutationFlags 
----@field cannotBeChosenRandomly boolean 
+---@class EngineTagDataHUDInterfaceDestinationTypeTable 
+---@field typeTint_0_1 EngineTagDataHUDInterfaceDestinationTypeTint_0_1
+---@field typeHorizontalOffset EngineTagDataHUDInterfaceDestinationTypeHorizontalOffset
+---@field typeVerticalOffset EngineTagDataHUDInterfaceDestinationTypeVerticalOffset
+---@field typeFade_0_1 EngineTagDataHUDInterfaceDestinationTypeFade_0_1
+Engine.tag.hUDInterfaceDestinationType = {} 
 
----@class MetaEngineTagDataModelGeometryPartFlags 
----@field strippedInternal boolean 
----@field zoner boolean 
+---@class EngineTagDataHUDInterfaceDestinationEnum : Enum 
 
----@class MetaEngineTagDataModelFlags 
----@field blendSharedNormals boolean 
----@field partsHaveLocalNodes boolean 
----@field ignoreSkinning boolean 
+---@class EngineTagDataHUDInterfaceDestinationGeometryOffset : EngineTagDataHUDInterfaceDestinationEnum 
+---@class EngineTagDataHUDInterfaceDestinationPrimaryMap : EngineTagDataHUDInterfaceDestinationEnum 
+---@class EngineTagDataHUDInterfaceDestinationSecondaryMap : EngineTagDataHUDInterfaceDestinationEnum 
+---@class EngineTagDataHUDInterfaceDestinationTertiaryMap : EngineTagDataHUDInterfaceDestinationEnum 
 
----@class MetaEngineTagDataModelMarkerInstance 
----@field regionIndex integer 
----@field permutationIndex integer 
----@field nodeIndex integer 
----@field translation MetaEnginePoint3D 
----@field rotation MetaEngineQuaternion 
+---@alias EngineTagDataHUDInterfaceDestination 
+---| EngineTagDataHUDInterfaceDestinationGeometryOffset
+---| EngineTagDataHUDInterfaceDestinationPrimaryMap
+---| EngineTagDataHUDInterfaceDestinationSecondaryMap
+---| EngineTagDataHUDInterfaceDestinationTertiaryMap
 
----@class MetaEngineTagDataModelMarker 
----@field name MetaEngineTagString 
----@field magicIdentifier integer 
----@field instances table<MetaEngineTagDataModelMarkerInstance> 
+---@class EngineTagDataHUDInterfaceDestinationTable 
+---@field ionGeometryOffset EngineTagDataHUDInterfaceDestinationGeometryOffset
+---@field ionPrimaryMap EngineTagDataHUDInterfaceDestinationPrimaryMap
+---@field ionSecondaryMap EngineTagDataHUDInterfaceDestinationSecondaryMap
+---@field ionTertiaryMap EngineTagDataHUDInterfaceDestinationTertiaryMap
+Engine.tag.hUDInterfaceDestination = {} 
 
----@class MetaEngineTagDataModelNode 
----@field name MetaEngineTagString 
----@field nextSiblingNodeIndex MetaEngineIndex 
----@field firstChildNodeIndex MetaEngineIndex 
----@field parentNodeIndex MetaEngineIndex 
----@field defaultTranslation MetaEnginePoint3D 
----@field defaultRotation MetaEngineQuaternion 
----@field nodeDistanceFromParent number 
----@field scale number 
----@field rotation MetaEngineMatrix 
----@field translation MetaEnginePoint3D 
+---@class EngineTagDataHUDInterfaceSourceEnum : Enum 
 
----@class MetaEngineTagDataModelRegionPermutationMarker 
----@field name MetaEngineTagString 
----@field nodeIndex MetaEngineIndex 
----@field rotation MetaEngineQuaternion 
----@field translation MetaEnginePoint3D 
+---@class EngineTagDataHUDInterfaceSourcePlayerPitch : EngineTagDataHUDInterfaceSourceEnum 
+---@class EngineTagDataHUDInterfaceSourcePlayerPitchTangent : EngineTagDataHUDInterfaceSourceEnum 
+---@class EngineTagDataHUDInterfaceSourcePlayerYaw : EngineTagDataHUDInterfaceSourceEnum 
+---@class EngineTagDataHUDInterfaceSourceWeaponAmmoTotal : EngineTagDataHUDInterfaceSourceEnum 
+---@class EngineTagDataHUDInterfaceSourceWeaponAmmoLoaded : EngineTagDataHUDInterfaceSourceEnum 
+---@class EngineTagDataHUDInterfaceSourceWeaponHeat : EngineTagDataHUDInterfaceSourceEnum 
+---@class EngineTagDataHUDInterfaceSourceExplicitUsesLowBound : EngineTagDataHUDInterfaceSourceEnum 
+---@class EngineTagDataHUDInterfaceSourceWeaponZoomLevel : EngineTagDataHUDInterfaceSourceEnum 
 
----@class MetaEngineTagDataModelRegionPermutation 
----@field name MetaEngineTagString 
----@field flags MetaEngineTagDataModelRegionPermutationFlags 
----@field permutationNumber integer 
----@field superLow MetaEngineIndex 
----@field low MetaEngineIndex 
----@field medium MetaEngineIndex 
----@field high MetaEngineIndex 
----@field superHigh MetaEngineIndex 
----@field markers table<MetaEngineTagDataModelRegionPermutationMarker> 
+---@alias EngineTagDataHUDInterfaceSource 
+---| EngineTagDataHUDInterfaceSourcePlayerPitch
+---| EngineTagDataHUDInterfaceSourcePlayerPitchTangent
+---| EngineTagDataHUDInterfaceSourcePlayerYaw
+---| EngineTagDataHUDInterfaceSourceWeaponAmmoTotal
+---| EngineTagDataHUDInterfaceSourceWeaponAmmoLoaded
+---| EngineTagDataHUDInterfaceSourceWeaponHeat
+---| EngineTagDataHUDInterfaceSourceExplicitUsesLowBound
+---| EngineTagDataHUDInterfaceSourceWeaponZoomLevel
 
----@class MetaEngineTagDataModelRegion 
----@field name MetaEngineTagString 
----@field permutations table<MetaEngineTagDataModelRegionPermutation> 
+---@class EngineTagDataHUDInterfaceSourceTable 
+---@field rcePlayerPitch EngineTagDataHUDInterfaceSourcePlayerPitch
+---@field rcePlayerPitchTangent EngineTagDataHUDInterfaceSourcePlayerPitchTangent
+---@field rcePlayerYaw EngineTagDataHUDInterfaceSourcePlayerYaw
+---@field rceWeaponAmmoTotal EngineTagDataHUDInterfaceSourceWeaponAmmoTotal
+---@field rceWeaponAmmoLoaded EngineTagDataHUDInterfaceSourceWeaponAmmoLoaded
+---@field rceWeaponHeat EngineTagDataHUDInterfaceSourceWeaponHeat
+---@field rceExplicitUsesLowBound EngineTagDataHUDInterfaceSourceExplicitUsesLowBound
+---@field rceWeaponZoomLevel EngineTagDataHUDInterfaceSourceWeaponZoomLevel
+Engine.tag.hUDInterfaceSource = {} 
 
----@class MetaEngineTagDataModelVertexUncompressed 
----@field position MetaEnginePoint3D 
----@field normal MetaEngineVector3D 
----@field binormal MetaEngineVector3D 
----@field tangent MetaEngineVector3D 
----@field textureCoords MetaEnginePoint2D 
----@field node0Index MetaEngineIndex 
----@field node1Index MetaEngineIndex 
----@field node0Weight number 
----@field node1Weight number 
+---@class EngineTagDataHUDInterfaceMultitextureOverlayAnchorEnum : Enum 
 
----@class MetaEngineTagDataModelVertexCompressed 
----@field position MetaEnginePoint3D 
----@field normal integer 
----@field binormal integer 
----@field tangent integer 
----@field textureCoordinateU integer 
----@field textureCoordinateV integer 
----@field node0Index integer 
----@field node1Index integer 
----@field node0Weight integer 
+---@class EngineTagDataHUDInterfaceMultitextureOverlayAnchorTexture : EngineTagDataHUDInterfaceMultitextureOverlayAnchorEnum 
+---@class EngineTagDataHUDInterfaceMultitextureOverlayAnchorScreen : EngineTagDataHUDInterfaceMultitextureOverlayAnchorEnum 
 
----@class MetaEngineTagDataModelTriangle 
----@field vertex0Index MetaEngineIndex 
----@field vertex1Index MetaEngineIndex 
----@field vertex2Index MetaEngineIndex 
+---@alias EngineTagDataHUDInterfaceMultitextureOverlayAnchor 
+---| EngineTagDataHUDInterfaceMultitextureOverlayAnchorTexture
+---| EngineTagDataHUDInterfaceMultitextureOverlayAnchorScreen
 
----@class MetaEngineTagDataModelGeometryPart 
----@field flags MetaEngineTagDataModelGeometryPartFlags 
----@field shaderIndex MetaEngineIndex 
----@field prevFilthyPartIndex integer 
----@field nextFilthyPartIndex integer 
----@field centroidPrimaryNode MetaEngineIndex 
----@field centroidSecondaryNode MetaEngineIndex 
----@field centroidPrimaryWeight MetaEngineFraction 
----@field centroidSecondaryWeight MetaEngineFraction 
----@field centroid MetaEnginePoint3D 
----@field uncompressedVertices table<MetaEngineTagDataModelVertexUncompressed> 
----@field compressedVertices table<MetaEngineTagDataModelVertexCompressed> 
----@field triangles table<MetaEngineTagDataModelTriangle> 
----@field doNotCrashTheGame integer 
----@field triangleCount integer 
----@field triangleOffset integer 
----@field triangleOffset_2 integer 
----@field vertexType EngineTagDataVertexType 
----@field vertexCount integer 
----@field vertexPointer integer 
----@field vertexOffset integer 
+---@class EngineTagDataHUDInterfaceMultitextureOverlayAnchorTable 
+---@field nchorTexture EngineTagDataHUDInterfaceMultitextureOverlayAnchorTexture
+---@field nchorScreen EngineTagDataHUDInterfaceMultitextureOverlayAnchorScreen
+Engine.tag.hUDInterfaceMultitextureOverlayAnchor = {} 
 
----@class MetaEngineTagDataModelGeometry 
----@field flags MetaEngineTagDataIsUnusedFlag 
----@field parts table<MetaEngineTagDataModelGeometryPart> 
+---@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum : Enum 
 
----@class MetaEngineTagDataModelShaderReference 
----@field shader MetaEngineTagDependency 
----@field permutation MetaEngineIndex 
+---@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionAdd : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
+---@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionSubtract : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
+---@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
+---@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply2x : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
+---@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionDot : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
 
----@class MetaEngineTagDataModel 
----@field flags MetaEngineTagDataModelFlags 
----@field nodeListChecksum integer 
----@field superHighDetailCutoff number 
----@field highDetailCutoff number 
----@field mediumDetailCutoff number 
----@field lowDetailCutoff number 
----@field superLowDetailCutoff number 
----@field superLowDetailNodeCount integer 
----@field lowDetailNodeCount integer 
----@field mediumDetailNodeCount integer 
----@field highDetailNodeCount integer 
----@field superHighDetailNodeCount integer 
----@field baseMapUScale number 
----@field baseMapVScale number 
----@field markers table<MetaEngineTagDataModelMarker> 
----@field nodes table<MetaEngineTagDataModelNode> 
----@field regions table<MetaEngineTagDataModelRegion> 
----@field geometries table<MetaEngineTagDataModelGeometry> 
----@field shaders table<MetaEngineTagDataModelShaderReference> 
+---@alias EngineTagDataHUDInterfaceZeroToOneBlendFunction 
+---| EngineTagDataHUDInterfaceZeroToOneBlendFunctionAdd
+---| EngineTagDataHUDInterfaceZeroToOneBlendFunctionSubtract
+---| EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply
+---| EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply2x
+---| EngineTagDataHUDInterfaceZeroToOneBlendFunctionDot
 
----@class MetaEngineTagDataScenery: MetaEngineTagDataBasicObject  
+---@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionTable 
+---@field unctionAdd EngineTagDataHUDInterfaceZeroToOneBlendFunctionAdd
+---@field unctionSubtract EngineTagDataHUDInterfaceZeroToOneBlendFunctionSubtract
+---@field unctionMultiply EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply
+---@field unctionMultiply2x EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply2x
+---@field unctionDot EngineTagDataHUDInterfaceZeroToOneBlendFunctionDot
+Engine.tag.hUDInterfaceZeroToOneBlendFunction = {} 
 
----@alias EngineTagDataWeatherParticleSystemRenderDirectionSource 
----| 'weather_particle_system_render_direction_source_from_velocity'
----| 'weather_particle_system_render_direction_source_from_acceleration'
+---@class EngineTagDataHUDInterfaceWrapModeEnum : Enum 
 
----@class MetaEngineTagDataWeatherParticleSystemParticleTypeFlags 
----@field interpolateColorsInHsv boolean 
----@field alongLongHuePath boolean 
----@field randomRotation boolean 
+---@class EngineTagDataHUDInterfaceWrapModeClamp : EngineTagDataHUDInterfaceWrapModeEnum 
+---@class EngineTagDataHUDInterfaceWrapModeWrap : EngineTagDataHUDInterfaceWrapModeEnum 
 
----@class MetaEngineTagDataWeatherParticleSystemParticleType 
----@field name MetaEngineTagString 
----@field flags MetaEngineTagDataWeatherParticleSystemParticleTypeFlags 
----@field fadeInStartDistance number 
----@field fadeInEndDistance number 
----@field fadeOutStartDistance number 
----@field fadeOutEndDistance number 
----@field fadeInStartHeight number 
----@field fadeInEndHeight number 
----@field fadeOutStartHeight number 
----@field fadeOutEndHeight number 
----@field particleCount number 
----@field physics MetaEngineTagDependency 
----@field accelerationMagnitude number 
----@field accelerationTurningRate MetaEngineFraction 
----@field accelerationChangeRate number 
----@field particleRadius number 
----@field animationRate number 
----@field rotationRate MetaEngineAngle 
----@field colorLowerBound MetaEngineColorARGB 
----@field colorUpperBound MetaEngineColorARGB 
----@field spriteSize number 
----@field spriteBitmap MetaEngineTagDependency 
----@field renderMode EngineTagDataParticleOrientation 
----@field renderDirectionSource EngineTagDataWeatherParticleSystemRenderDirectionSource 
----@field notBroken integer 
----@field shaderFlags MetaEngineTagDataParticleShaderFlags 
+---@alias EngineTagDataHUDInterfaceWrapMode 
+---| EngineTagDataHUDInterfaceWrapModeClamp
+---| EngineTagDataHUDInterfaceWrapModeWrap
+
+---@class EngineTagDataHUDInterfaceWrapModeTable 
+---@field modeClamp EngineTagDataHUDInterfaceWrapModeClamp
+---@field modeWrap EngineTagDataHUDInterfaceWrapModeWrap
+Engine.tag.hUDInterfaceWrapMode = {} 
+
+---@class EngineTagDataHUDInterfaceAnchorEnum : Enum 
+
+---@class EngineTagDataHUDInterfaceAnchorTopLeft : EngineTagDataHUDInterfaceAnchorEnum 
+---@class EngineTagDataHUDInterfaceAnchorTopRight : EngineTagDataHUDInterfaceAnchorEnum 
+---@class EngineTagDataHUDInterfaceAnchorBottomLeft : EngineTagDataHUDInterfaceAnchorEnum 
+---@class EngineTagDataHUDInterfaceAnchorBottomRight : EngineTagDataHUDInterfaceAnchorEnum 
+---@class EngineTagDataHUDInterfaceAnchorCenter : EngineTagDataHUDInterfaceAnchorEnum 
+
+---@alias EngineTagDataHUDInterfaceAnchor 
+---| EngineTagDataHUDInterfaceAnchorTopLeft
+---| EngineTagDataHUDInterfaceAnchorTopRight
+---| EngineTagDataHUDInterfaceAnchorBottomLeft
+---| EngineTagDataHUDInterfaceAnchorBottomRight
+---| EngineTagDataHUDInterfaceAnchorCenter
+
+---@class EngineTagDataHUDInterfaceAnchorTable 
+---@field horTopLeft EngineTagDataHUDInterfaceAnchorTopLeft
+---@field horTopRight EngineTagDataHUDInterfaceAnchorTopRight
+---@field horBottomLeft EngineTagDataHUDInterfaceAnchorBottomLeft
+---@field horBottomRight EngineTagDataHUDInterfaceAnchorBottomRight
+---@field horCenter EngineTagDataHUDInterfaceAnchorCenter
+Engine.tag.hUDInterfaceAnchor = {} 
+
+---@class EngineTagDataHUDInterfaceChildAnchorEnum : Enum 
+
+---@class EngineTagDataHUDInterfaceChildAnchorFromParent : EngineTagDataHUDInterfaceChildAnchorEnum 
+---@class EngineTagDataHUDInterfaceChildAnchorTopLeft : EngineTagDataHUDInterfaceChildAnchorEnum 
+---@class EngineTagDataHUDInterfaceChildAnchorTopRight : EngineTagDataHUDInterfaceChildAnchorEnum 
+---@class EngineTagDataHUDInterfaceChildAnchorBottomLeft : EngineTagDataHUDInterfaceChildAnchorEnum 
+---@class EngineTagDataHUDInterfaceChildAnchorBottomRight : EngineTagDataHUDInterfaceChildAnchorEnum 
+---@class EngineTagDataHUDInterfaceChildAnchorCenter : EngineTagDataHUDInterfaceChildAnchorEnum 
+
+---@alias EngineTagDataHUDInterfaceChildAnchor 
+---| EngineTagDataHUDInterfaceChildAnchorFromParent
+---| EngineTagDataHUDInterfaceChildAnchorTopLeft
+---| EngineTagDataHUDInterfaceChildAnchorTopRight
+---| EngineTagDataHUDInterfaceChildAnchorBottomLeft
+---| EngineTagDataHUDInterfaceChildAnchorBottomRight
+---| EngineTagDataHUDInterfaceChildAnchorCenter
+
+---@class EngineTagDataHUDInterfaceChildAnchorTable 
+---@field chorFromParent EngineTagDataHUDInterfaceChildAnchorFromParent
+---@field chorTopLeft EngineTagDataHUDInterfaceChildAnchorTopLeft
+---@field chorTopRight EngineTagDataHUDInterfaceChildAnchorTopRight
+---@field chorBottomLeft EngineTagDataHUDInterfaceChildAnchorBottomLeft
+---@field chorBottomRight EngineTagDataHUDInterfaceChildAnchorBottomRight
+---@field chorCenter EngineTagDataHUDInterfaceChildAnchorCenter
+Engine.tag.hUDInterfaceChildAnchor = {} 
+
+---@class MetaEngineTagDataHUDInterfaceMeterFlags 
+---@field useMinMaxForStateChanges boolean 
+---@field interpolateBetweenMinMaxFlashColorsAsStateChanges boolean 
+---@field interpolateColorAlongHsvSpace boolean 
+---@field moreColorsForHsvInterpolation boolean 
+---@field invertInterpolation boolean 
+---@field useXboxShading boolean 
+
+---@class MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field dontScaleOffset boolean 
+---@field dontScaleSize boolean 
+---@field useHighResScale boolean 
+
+---@class MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field reverseDefaultFlashingColors boolean 
+
+---@class MetaEngineTagDataHUDInterfaceNumberFlags 
+---@field showLeadingZeros boolean 
+---@field onlyShowWhenZoomed boolean 
+---@field drawATrailingM boolean 
+
+---@class MetaEngineTagDataHUDInterfaceOverlayFlashFlags 
+---@field flashesWhenActive boolean 
+
+---@class MetaEngineTagDataHUDInterfaceMessagingFlags 
+---@field useTextFromStringListInstead boolean 
+---@field overrideDefaultColor boolean 
+---@field widthOffsetIsAbsoluteIconWidth boolean 
+
+---@class MetaEngineTagDataHUDInterfaceMultitextureOverlayEffector 
+---@field destinationType EngineTagDataHUDInterfaceDestinationType 
+---@field destination EngineTagDataHUDInterfaceDestination 
+---@field source EngineTagDataHUDInterfaceSource 
+---@field inBounds number 
+---@field outBounds number 
+---@field tintColorLowerBound MetaEngineColorRGB 
+---@field tintColorUpperBound MetaEngineColorRGB 
+---@field periodicFunction EngineTagDataWaveFunction 
+---@field functionPeriod number 
+---@field functionPhase number 
+
+---@class MetaEngineTagDataHUDInterfaceMultitextureOverlay 
+---@field type integer 
 ---@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
----@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
----@field mapFlags MetaEngineTagDataIsUnfilteredFlag 
----@field bitmap MetaEngineTagDependency 
----@field anchor EngineTagDataParticleAnchor 
----@field flags_1 MetaEngineTagDataIsUnfilteredFlag 
----@field uAnimationSource EngineTagDataFunctionOut 
----@field uAnimationFunction EngineTagDataWaveFunction 
----@field uAnimationPeriod number 
----@field uAnimationPhase number 
----@field uAnimationScale number 
----@field vAnimationSource EngineTagDataFunctionOut 
----@field vAnimationFunction EngineTagDataWaveFunction 
----@field vAnimationPeriod number 
----@field vAnimationPhase number 
----@field vAnimationScale number 
----@field rotationAnimationSource EngineTagDataFunctionOut 
----@field rotationAnimationFunction EngineTagDataWaveFunction 
----@field rotationAnimationPeriod number 
----@field rotationAnimationPhase number 
----@field rotationAnimationScale MetaEngineAngle 
----@field rotationAnimationCenter MetaEnginePoint2D 
----@field zspriteRadiusScale number 
+---@field primaryAnchor EngineTagDataHUDInterfaceMultitextureOverlayAnchor 
+---@field secondaryAnchor EngineTagDataHUDInterfaceMultitextureOverlayAnchor 
+---@field tertiaryAnchor EngineTagDataHUDInterfaceMultitextureOverlayAnchor 
+---@field zeroToOneBlendFunction EngineTagDataHUDInterfaceZeroToOneBlendFunction 
+---@field oneToTwoBlendFunction EngineTagDataHUDInterfaceZeroToOneBlendFunction 
+---@field primaryScale MetaEnginePoint2D 
+---@field secondaryScale MetaEnginePoint2D 
+---@field tertiaryScale MetaEnginePoint2D 
+---@field primaryOffset MetaEnginePoint2D 
+---@field secondaryOffset MetaEnginePoint2D 
+---@field tertiaryOffset MetaEnginePoint2D 
+---@field primary MetaEngineTagDependency 
+---@field secondary MetaEngineTagDependency 
+---@field tertiary MetaEngineTagDependency 
+---@field primaryWrapMode EngineTagDataHUDInterfaceWrapMode 
+---@field secondaryWrapMode EngineTagDataHUDInterfaceWrapMode 
+---@field tertiaryWrapMode EngineTagDataHUDInterfaceWrapMode 
+---@field effectors TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlayEffector> 
 
----@class MetaEngineTagDataWeatherParticleSystem 
----@field flags MetaEngineTagDataIsUnusedFlag 
----@field particleTypes table<MetaEngineTagDataWeatherParticleSystemParticleType> 
+---@class EngineTagDataFlagTrailingEdgeShapeEnum : Enum 
 
----@alias EngineTagDataBipedFunctionIn 
----| 'biped_function_in_none'
----| 'biped_function_in_flying_velocity'
+---@class EngineTagDataFlagTrailingEdgeShapeFlat : EngineTagDataFlagTrailingEdgeShapeEnum 
+---@class EngineTagDataFlagTrailingEdgeShapeConcaveTriangular : EngineTagDataFlagTrailingEdgeShapeEnum 
+---@class EngineTagDataFlagTrailingEdgeShapeConvexTriangular : EngineTagDataFlagTrailingEdgeShapeEnum 
+---@class EngineTagDataFlagTrailingEdgeShapeTrapezoidShortTop : EngineTagDataFlagTrailingEdgeShapeEnum 
+---@class EngineTagDataFlagTrailingEdgeShapeTrapezoidShortBottom : EngineTagDataFlagTrailingEdgeShapeEnum 
 
----@class MetaEngineTagDataBipedFlags 
----@field turnsWithoutAnimating boolean 
----@field usesPlayerPhysics boolean 
----@field flying boolean 
----@field physicsPillCenteredAtOrigin boolean 
----@field spherical boolean 
----@field passesThroughOtherBipeds boolean 
----@field canClimbAnySurface boolean 
----@field immuneToFallingDamage boolean 
----@field rotateWhileAirborne boolean 
----@field usesLimpBodyPhysics boolean 
----@field hasNoDyingAirborne boolean 
----@field randomSpeedIncrease boolean 
----@field unitUsesOldNtscPlayerPhysics boolean 
+---@alias EngineTagDataFlagTrailingEdgeShape 
+---| EngineTagDataFlagTrailingEdgeShapeFlat
+---| EngineTagDataFlagTrailingEdgeShapeConcaveTriangular
+---| EngineTagDataFlagTrailingEdgeShapeConvexTriangular
+---| EngineTagDataFlagTrailingEdgeShapeTrapezoidShortTop
+---| EngineTagDataFlagTrailingEdgeShapeTrapezoidShortBottom
 
----@class MetaEngineTagDataBipedContactPoint 
+---@class EngineTagDataFlagTrailingEdgeShapeTable 
+---@field peFlat EngineTagDataFlagTrailingEdgeShapeFlat
+---@field peConcaveTriangular EngineTagDataFlagTrailingEdgeShapeConcaveTriangular
+---@field peConvexTriangular EngineTagDataFlagTrailingEdgeShapeConvexTriangular
+---@field peTrapezoidShortTop EngineTagDataFlagTrailingEdgeShapeTrapezoidShortTop
+---@field peTrapezoidShortBottom EngineTagDataFlagTrailingEdgeShapeTrapezoidShortBottom
+Engine.tag.flagTrailingEdgeShape = {} 
+
+---@class EngineTagDataFlagAttachedEdgeShapeEnum : Enum 
+
+---@class EngineTagDataFlagAttachedEdgeShapeFlat : EngineTagDataFlagAttachedEdgeShapeEnum 
+---@class EngineTagDataFlagAttachedEdgeShapeConcaveTriangular : EngineTagDataFlagAttachedEdgeShapeEnum 
+
+---@alias EngineTagDataFlagAttachedEdgeShape 
+---| EngineTagDataFlagAttachedEdgeShapeFlat
+---| EngineTagDataFlagAttachedEdgeShapeConcaveTriangular
+
+---@class EngineTagDataFlagAttachedEdgeShapeTable 
+---@field peFlat EngineTagDataFlagAttachedEdgeShapeFlat
+---@field peConcaveTriangular EngineTagDataFlagAttachedEdgeShapeConcaveTriangular
+Engine.tag.flagAttachedEdgeShape = {} 
+
+---@class MetaEngineTagDataFlagAttachmentPoint 
+---@field heightToNextAttachment integer 
 ---@field markerName MetaEngineTagString 
 
----@class MetaEngineTagDataBiped: MetaEngineTagDataUnit  
----@field movingTurningSpeed MetaEngineAngle 
----@field bipedFlags MetaEngineTagDataBipedFlags 
----@field stationaryTurningThreshold MetaEngineAngle 
----@field bipedAIn EngineTagDataBipedFunctionIn 
----@field bipedBIn EngineTagDataBipedFunctionIn 
----@field bipedCIn EngineTagDataBipedFunctionIn 
----@field bipedDIn EngineTagDataBipedFunctionIn 
----@field dontUse MetaEngineTagDependency 
----@field bankAngle MetaEngineAngle 
----@field bankApplyTime number 
----@field bankDecayTime number 
----@field pitchRatio number 
----@field maxVelocity number 
----@field maxSidestepVelocity number 
----@field acceleration number 
----@field deceleration number 
----@field angularVelocityMaximum MetaEngineAngle 
----@field angularAccelerationMaximum MetaEngineAngle 
----@field crouchVelocityModifier number 
----@field maximumSlopeAngle MetaEngineAngle 
----@field downhillFalloffAngle MetaEngineAngle 
----@field downhillCutoffAngle MetaEngineAngle 
----@field downhillVelocityScale number 
----@field uphillFalloffAngle MetaEngineAngle 
----@field uphillCutoffAngle MetaEngineAngle 
----@field uphillVelocityScale number 
----@field footsteps MetaEngineTagDependency 
----@field jumpVelocity number 
----@field maximumSoftLandingTime number 
----@field maximumHardLandingTime number 
----@field minimumSoftLandingVelocity number 
----@field minimumHardLandingVelocity number 
----@field maximumHardLandingVelocity number 
----@field deathHardLandingVelocity number 
----@field standingCameraHeight number 
----@field crouchingCameraHeight number 
----@field crouchTransitionTime number 
----@field standingCollisionHeight number 
----@field crouchingCollisionHeight number 
----@field collisionRadius number 
----@field autoaimWidth number 
----@field cosineStationaryTurningThreshold number 
----@field crouchCameraVelocity number 
----@field cosineMaximumSlopeAngle number 
----@field negativeSineDownhillFalloffAngle number 
----@field negativeSineDownhillCutoffAngle number 
----@field sineUphillFalloffAngle number 
----@field sineUphillCutoffAngle number 
----@field pelvisModelNodeIndex MetaEngineIndex 
----@field headModelNodeIndex MetaEngineIndex 
----@field contactPoint table<MetaEngineTagDataBipedContactPoint> 
-
----@alias EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguage 
----| 'h_u_d_globals_anniversary_remap_target_language_english'
----| 'h_u_d_globals_anniversary_remap_target_language_french'
----| 'h_u_d_globals_anniversary_remap_target_language_spanish'
----| 'h_u_d_globals_anniversary_remap_target_language_italian'
----| 'h_u_d_globals_anniversary_remap_target_language_german'
----| 'h_u_d_globals_anniversary_remap_target_language_traditional_chinese'
----| 'h_u_d_globals_anniversary_remap_target_language_japanese'
----| 'h_u_d_globals_anniversary_remap_target_language_korean'
----| 'h_u_d_globals_anniversary_remap_target_language_portuguese'
----| 'h_u_d_globals_anniversary_remap_target_language_latam_spanish'
----| 'h_u_d_globals_anniversary_remap_target_language_polish'
----| 'h_u_d_globals_anniversary_remap_target_language_russian'
----| 'h_u_d_globals_anniversary_remap_target_language_simplified_chinese'
-
----@class MetaEngineTagDataHUDGlobalsWaypointArrowFlags 
----@field dontRotateWhenPointingOffscreen boolean 
-
----@class MetaEngineTagDataHUDGlobalsAnniversaryRemapTargetFlags 
----@field legacyMode boolean 
-
----@class MetaEngineTagDataHUDGlobalsButtonIcon 
----@field sequenceIndex MetaEngineIndex 
----@field widthOffset integer 
----@field offsetFromReferenceCorner MetaEnginePoint2DInt 
----@field overrideIconColor MetaEngineColorARGBInt 
----@field frameRate integer 
----@field flags MetaEngineTagDataHUDInterfaceMessagingFlags 
----@field textIndex MetaEngineIndex 
-
----@class MetaEngineTagDataHUDGlobalsAnniversaryRemapTarget 
----@field targetBitmap MetaEngineTagDependency 
----@field language EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguage 
----@field flags MetaEngineTagDataHUDGlobalsAnniversaryRemapTargetFlags 
-
----@class MetaEngineTagDataHUDGlobalsAnniversaryRemap 
----@field sourceBitmap MetaEngineTagDependency 
----@field targets table<MetaEngineTagDataHUDGlobalsAnniversaryRemapTarget> 
-
----@class MetaEngineTagDataHUDGlobalsWaypointArrow 
----@field name MetaEngineTagString 
----@field color MetaEngineColorARGBInt 
----@field opacity number 
----@field translucency number 
----@field onScreenSequenceIndex MetaEngineIndex 
----@field offScreenSequenceIndex MetaEngineIndex 
----@field occludedSequenceIndex MetaEngineIndex 
----@field flags MetaEngineTagDataHUDGlobalsWaypointArrowFlags 
-
----@class MetaEngineTagDataHudGlobals 
----@field anchor EngineTagDataHUDInterfaceAnchor 
----@field anchorOffset MetaEnginePoint2DInt 
----@field widthScale number 
----@field heightScale number 
----@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field singlePlayerFont MetaEngineTagDependency 
----@field multiPlayerFont MetaEngineTagDependency 
----@field upTime number 
----@field fadeTime number 
----@field iconColor MetaEngineColorARGB 
----@field textColor MetaEngineColorARGB 
----@field textSpacing number 
----@field itemMessageText MetaEngineTagDependency 
----@field iconBitmap MetaEngineTagDependency 
----@field alternateIconText MetaEngineTagDependency 
----@field buttonIcons table<MetaEngineTagDataHUDGlobalsButtonIcon> 
----@field hudHelpDefaultColor MetaEngineColorARGBInt 
----@field hudHelpFlashingColor MetaEngineColorARGBInt 
----@field hudHelpFlashPeriod number 
----@field hudHelpFlashDelay number 
----@field hudHelpNumberOfFlashes integer 
----@field hudHelpFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field hudHelpFlashLength number 
----@field hudHelpDisabledColor MetaEngineColorARGBInt 
----@field hudMessages MetaEngineTagDependency 
----@field objectiveDefaultColor MetaEngineColorARGBInt 
----@field objectiveFlashingColor MetaEngineColorARGBInt 
----@field objectiveFlashPeriod number 
----@field objectiveFlashDelay number 
----@field objectiveNumberOfFlashes integer 
----@field objectiveFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field objectiveFlashLength number 
----@field objectiveDisabledColor MetaEngineColorARGBInt 
----@field objectiveUptimeTicks integer 
----@field objectiveFadeTicks integer 
----@field topOffset number 
----@field bottomOffset number 
----@field leftOffset number 
----@field rightOffset number 
----@field arrowBitmap MetaEngineTagDependency 
----@field waypointArrows table<MetaEngineTagDataHUDGlobalsWaypointArrow> 
----@field hudScaleInMultiplayer number 
----@field defaultWeaponHud MetaEngineTagDependency 
----@field motionSensorRange number 
----@field motionSensorVelocitySensitivity number 
----@field motionSensorScale number 
----@field defaultChapterTitleBounds MetaEngineRectangle2D 
----@field hudDamageTopOffset integer 
----@field hudDamageBottomOffset integer 
----@field hudDamageLeftOffset integer 
----@field hudDamageRightOffset integer 
----@field hudDamageIndicatorBitmap MetaEngineTagDependency 
----@field hudDamageSequenceIndex MetaEngineIndex 
----@field hudDamageMultiplayerSequenceIndex MetaEngineIndex 
----@field hudDamageColor MetaEngineColorARGBInt 
----@field notMuchTimeLeftDefaultColor MetaEngineColorARGBInt 
----@field notMuchTimeLeftFlashingColor MetaEngineColorARGBInt 
----@field notMuchTimeLeftFlashPeriod number 
----@field notMuchTimeLeftFlashDelay number 
----@field notMuchTimeLeftNumberOfFlashes integer 
----@field notMuchTimeLeftFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field notMuchTimeLeftFlashLength number 
----@field notMuchTimeLeftDisabledColor MetaEngineColorARGBInt 
----@field timeOutFlashDefaultColor MetaEngineColorARGBInt 
----@field timeOutFlashFlashingColor MetaEngineColorARGBInt 
----@field timeOutFlashFlashPeriod number 
----@field timeOutFlashFlashDelay number 
----@field timeOutFlashNumberOfFlashes integer 
----@field timeOutFlashFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field timeOutFlashFlashLength number 
----@field timeOutFlashDisabledColor MetaEngineColorARGBInt 
----@field carnageReportBitmap MetaEngineTagDependency 
----@field loadingBeginText MetaEngineIndex 
----@field loadingEndText MetaEngineIndex 
----@field checkpointBeginText MetaEngineIndex 
----@field checkpointEndText MetaEngineIndex 
----@field checkpointSound MetaEngineTagDependency 
----@field anniversaryHudRemaps table<MetaEngineTagDataHUDGlobalsAnniversaryRemap> 
-
----@alias EngineTagDataParticleSystemParticleCreationPhysics 
----| 'particle_system_particle_creation_physics_default'
----| 'particle_system_particle_creation_physics_explosion'
----| 'particle_system_particle_creation_physics_jet'
-
----@alias EngineTagDataParticleSystemParticleUpdatePhysics 
----| 'particle_system_particle_update_physics_default'
-
----@alias EngineTagDataParticleSystemComplexSpriteRenderModes 
----| 'particle_system_complex_sprite_render_modes_simple'
----| 'particle_system_complex_sprite_render_modes_rotational'
-
----@alias EngineTagDataParticleSystemSystemUpdatePhysics 
----| 'particle_system_system_update_physics_default'
----| 'particle_system_system_update_physics_explosion'
-
----@class MetaEngineTagDataParticleSystemTypeFlags 
----@field typeStatesLoop boolean 
----@field forwardBackward boolean 
----@field particleStatesLoop boolean 
----@field forwardBackward_1 boolean 
----@field particlesDieInWater boolean 
----@field particlesDieInAir boolean 
----@field particlesDieOnGround boolean 
----@field rotationalSpritesAnimateSideways boolean 
----@field disabled boolean 
----@field tintByEffectColor boolean 
----@field initialCountScalesWithEffect boolean 
----@field minimumCountScalesWithEffect boolean 
----@field creationRateScalesWithEffect boolean 
----@field scaleScalesWithEffect boolean 
----@field animationRateScalesWithEffect boolean 
----@field rotationRateScalesWithEffect boolean 
----@field doNotDrawInFirstPerson boolean 
----@field doNotDrawInThirdPerson boolean 
-
----@class MetaEngineTagDataParticleSystemPhysicsConstant 
----@field k number 
-
----@class MetaEngineTagDataParticleSystemTypeStates 
----@field name MetaEngineTagString 
----@field durationBounds number 
----@field transitionTimeBounds number 
----@field scaleMultiplier number 
----@field animationRateMultiplier number 
----@field rotationRateMultiplier number 
----@field colorMultiplier MetaEngineColorARGB 
----@field radiusMultiplier number 
----@field minimumParticleCount number 
----@field particleCreationRate number 
----@field particleCreationPhysics EngineTagDataParticleSystemParticleCreationPhysics 
----@field particleUpdatePhysics EngineTagDataParticleSystemParticleUpdatePhysics 
----@field physicsConstants table<MetaEngineTagDataParticleSystemPhysicsConstant> 
-
----@class MetaEngineTagDataParticleSystemTypeParticleState 
----@field name MetaEngineTagString 
----@field durationBounds number 
----@field transitionTimeBounds number 
----@field bitmaps MetaEngineTagDependency 
----@field sequenceIndex MetaEngineIndex 
----@field scale number 
----@field animationRate number 
----@field rotationRate MetaEngineAngle 
----@field color_1 MetaEngineColorARGB 
----@field color_2 MetaEngineColorARGB 
----@field radiusMultiplier number 
----@field pointPhysics MetaEngineTagDependency 
----@field unknownInt integer 
----@field shaderFlags MetaEngineTagDataParticleShaderFlags 
----@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
----@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
----@field mapFlags MetaEngineTagDataIsUnfilteredFlag 
----@field secondaryMapBitmap MetaEngineTagDependency 
----@field anchor EngineTagDataParticleAnchor 
----@field flags MetaEngineTagDataIsUnfilteredFlag 
----@field uAnimationSource EngineTagDataFunctionOut 
----@field uAnimationFunction EngineTagDataWaveFunction 
----@field uAnimationPeriod number 
----@field uAnimationPhase number 
----@field uAnimationScale number 
----@field vAnimationSource EngineTagDataFunctionOut 
----@field vAnimationFunction EngineTagDataWaveFunction 
----@field vAnimationPeriod number 
----@field vAnimationPhase number 
----@field vAnimationScale number 
----@field rotationAnimationSource EngineTagDataFunctionOut 
----@field rotationAnimationFunction EngineTagDataWaveFunction 
----@field rotationAnimationPeriod number 
----@field rotationAnimationPhase number 
----@field rotationAnimationScale number 
----@field rotationAnimationCenter MetaEnginePoint2D 
----@field zspriteRadiusScale number 
----@field physicsConstants table<MetaEngineTagDataParticleSystemPhysicsConstant> 
-
----@class MetaEngineTagDataParticleSystemType 
----@field name MetaEngineTagString 
----@field flags MetaEngineTagDataParticleSystemTypeFlags 
----@field initialParticleCount integer 
----@field complexSpriteRenderModes EngineTagDataParticleSystemComplexSpriteRenderModes 
----@field radius number 
----@field particleCreationPhysics EngineTagDataParticleSystemParticleCreationPhysics 
----@field physicsFlags MetaEngineTagDataIsUnusedFlag 
----@field physicsConstants table<MetaEngineTagDataParticleSystemPhysicsConstant> 
----@field states table<MetaEngineTagDataParticleSystemTypeStates> 
----@field particleStates table<MetaEngineTagDataParticleSystemTypeParticleState> 
-
----@class MetaEngineTagDataParticleSystem 
----@field pointPhysics MetaEngineTagDependency 
----@field systemUpdatePhysics EngineTagDataParticleSystemSystemUpdatePhysics 
----@field physicsFlags MetaEngineTagDataIsUnusedFlag 
----@field physicsConstants table<MetaEngineTagDataParticleSystemPhysicsConstant> 
----@field particleTypes table<MetaEngineTagDataParticleSystemType> 
-
----@class MetaEngineTagDataHudNumber 
----@field digitsBitmap MetaEngineTagDependency 
----@field bitmapDigitWidth integer 
----@field screenDigitWidth integer 
----@field xOffset integer 
----@field yOffset integer 
----@field decimalPointWidth integer 
----@field colonWidth integer 
-
----@alias EngineTagDataAnimationFunction 
----| 'animation_function_a_out'
----| 'animation_function_b_out'
----| 'animation_function_c_out'
----| 'animation_function_d_out'
-
----@alias EngineTagDataAnimationFunctionControls 
----| 'animation_function_controls_frame'
----| 'animation_function_controls_scale'
-
----@alias EngineTagDataAnimationType 
----| 'animation_type_base'
----| 'animation_type_overlay'
----| 'animation_type_replacement'
-
----@alias EngineTagDataAnimationFrameInfoType 
----| 'animation_frame_info_type_none'
----| 'animation_frame_info_type_dx_dy'
----| 'animation_frame_info_type_dx_dy_dyaw'
----| 'animation_frame_info_type_dx_dy_dz_dyaw'
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphNodeFlags 
----@field ballSocket boolean 
----@field hinge boolean 
----@field noMovement boolean 
-
----@class MetaEngineTagDataModelAnimationsAnimationFlags 
----@field compressedData boolean 
----@field worldRelative boolean 
----@field _25hzPal boolean 
-
----@class MetaEngineTagDataModelAnimationsFlags 
----@field compressAllAnimations boolean 
----@field forceIdleCompression boolean 
-
----@class MetaEngineTagDataModelAnimationsRotation 
----@field rotation integer 
-
----@class MetaEngineTagDataModelAnimationsTransform 
----@field transform MetaEnginePoint3D 
-
----@class MetaEngineTagDataModelAnimationscale 
----@field scale MetaEngineFraction 
-
----@class MetaEngineTagDataModelAnimationsFrameInfoDxDy 
----@field dx number 
----@field dy number 
-
----@class MetaEngineTagDataModelAnimationsFrameInfoDxDyDyaw 
----@field dx number 
----@field dy number 
----@field dyaw number 
-
----@class MetaEngineTagDataModelAnimationsFrameInfoDxDyDzDyaw 
----@field dx number 
----@field dy number 
----@field dz number 
----@field dyaw number 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphObjectOverlay 
----@field animation MetaEngineIndex 
----@field function EngineTagDataAnimationFunction 
----@field functionControls EngineTagDataAnimationFunctionControls 
-
----@class MetaEngineTagDataModelAnimationsUnitSeatAnimation 
----@field animation MetaEngineIndex 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphUnitSeatikPoint 
----@field marker MetaEngineTagString 
----@field attachToMarker MetaEngineTagString 
-
----@class MetaEngineTagDataModelAnimationsAnimationWeaponClassAnimation 
----@field animation MetaEngineIndex 
-
----@class MetaEngineTagDataModelAnimationsAnimationWeaponTypeAnimation 
----@field animation MetaEngineIndex 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphWeaponType 
----@field label MetaEngineTagString 
----@field animations table<MetaEngineTagDataModelAnimationsAnimationWeaponTypeAnimation> 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphWeapon 
----@field name MetaEngineTagString 
----@field gripMarker MetaEngineTagString 
----@field handMarker MetaEngineTagString 
----@field rightYawPerFrame MetaEngineAngle 
----@field leftYawPerFrame MetaEngineAngle 
----@field rightFrameCount integer 
----@field leftFrameCount integer 
----@field downPitchPerFrame MetaEngineAngle 
----@field upPitchPerFrame MetaEngineAngle 
----@field downPitchFrameCount integer 
----@field upPitchFrameCount integer 
----@field animations table<MetaEngineTagDataModelAnimationsAnimationWeaponClassAnimation> 
----@field ikPoint table<MetaEngineTagDataModelAnimationsAnimationGraphUnitSeatikPoint> 
----@field weaponTypes table<MetaEngineTagDataModelAnimationsAnimationGraphWeaponType> 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphUnitSeat 
----@field label MetaEngineTagString 
----@field rightYawPerFrame MetaEngineAngle 
----@field leftYawPerFrame MetaEngineAngle 
----@field rightFrameCount integer 
----@field leftFrameCount integer 
----@field downPitchPerFrame MetaEngineAngle 
----@field upPitchPerFrame MetaEngineAngle 
----@field downPitchFrameCount integer 
----@field upPitchFrameCount integer 
----@field animations table<MetaEngineTagDataModelAnimationsAnimationWeaponClassAnimation> 
----@field ikPoints table<MetaEngineTagDataModelAnimationsAnimationGraphUnitSeatikPoint> 
----@field weapons table<MetaEngineTagDataModelAnimationsAnimationGraphWeapon> 
-
----@class MetaEngineTagDataModelAnimationsWeaponAnimation 
----@field animation MetaEngineIndex 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphWeaponAnimations 
----@field animations table<MetaEngineTagDataModelAnimationsWeaponAnimation> 
-
----@class MetaEngineTagDataModelAnimationsVehicleAnimation 
----@field animation MetaEngineIndex 
-
----@class MetaEngineTagDataModelAnimationSuspensionAnimation 
----@field massPointIndex MetaEngineIndex 
----@field animation MetaEngineIndex 
----@field fullExtensionGroundDepth number 
----@field fullCompressionGroundDepth number 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphVehicleAnimations 
----@field rightYawPerFrame MetaEngineAngle 
----@field leftYawPerFrame MetaEngineAngle 
----@field rightFrameCount integer 
----@field leftFrameCount integer 
----@field downPitchPerFrame MetaEngineAngle 
----@field upPitchPerFrame MetaEngineAngle 
----@field downPitchFrameCount integer 
----@field upPitchFrameCount integer 
----@field animations table<MetaEngineTagDataModelAnimationsVehicleAnimation> 
----@field suspensionAnimations table<MetaEngineTagDataModelAnimationSuspensionAnimation> 
-
----@class MetaEngineTagDataModelAnimationsDeviceAnimation 
----@field animation MetaEngineIndex 
-
----@class MetaEngineTagDataModelAnimationsDeviceAnimations 
----@field animations table<MetaEngineTagDataModelAnimationsDeviceAnimation> 
-
----@class MetaEngineTagDataModelAnimationsUnitDamageAnimations 
----@field animation MetaEngineIndex 
-
----@class MetaEngineTagDataModelAnimationsFirstPersonWeapon 
----@field animation MetaEngineIndex 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphFirstPersonWeaponAnimations 
----@field animations table<MetaEngineTagDataModelAnimationsFirstPersonWeapon> 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphSoundReference 
----@field sound MetaEngineTagDependency 
-
----@class MetaEngineTagDataModelAnimationsAnimationGraphNode 
----@field name MetaEngineTagString 
----@field nextSiblingNodeIndex MetaEngineIndex 
----@field firstChildNodeIndex MetaEngineIndex 
----@field parentNodeIndex MetaEngineIndex 
----@field nodeJointFlags MetaEngineTagDataModelAnimationsAnimationGraphNodeFlags 
----@field baseVector MetaEngineVector3D 
----@field vectorRange number 
-
----@class MetaEngineTagDataModelAnimationsAnimation 
----@field name MetaEngineTagString 
----@field type EngineTagDataAnimationType 
----@field frameCount integer 
----@field frameSize integer 
----@field frameInfoType EngineTagDataAnimationFrameInfoType 
----@field nodeListChecksum integer 
----@field nodeCount integer 
----@field loopFrameIndex MetaEngineIndex 
----@field weight MetaEngineFraction 
----@field keyFrameIndex MetaEngineIndex 
----@field secondKeyFrameIndex MetaEngineIndex 
----@field nextAnimation MetaEngineIndex 
----@field flags MetaEngineTagDataModelAnimationsAnimationFlags 
----@field sound MetaEngineIndex 
----@field soundFrameIndex MetaEngineIndex 
----@field leftFootFrameIndex integer 
----@field rightFootFrameIndex integer 
----@field mainAnimationIndex integer 
----@field relativeWeight number 
----@field frameInfo MetaEngineTagDataOffset 
----@field nodeTransformFlagData integer 
----@field nodeRotationFlagData integer 
----@field nodeScaleFlagData integer 
----@field offsetToCompressedData integer 
----@field defaultData MetaEngineTagDataOffset 
----@field frameData MetaEngineTagDataOffset 
-
----@class MetaEngineTagDataModelAnimations 
----@field objects table<MetaEngineTagDataModelAnimationsAnimationGraphObjectOverlay> 
----@field units table<MetaEngineTagDataModelAnimationsAnimationGraphUnitSeat> 
----@field weapons table<MetaEngineTagDataModelAnimationsAnimationGraphWeaponAnimations> 
----@field vehicles table<MetaEngineTagDataModelAnimationsAnimationGraphVehicleAnimations> 
----@field devices table<MetaEngineTagDataModelAnimationsDeviceAnimations> 
----@field unitDamage table<MetaEngineTagDataModelAnimationsUnitDamageAnimations> 
----@field firstPersonWeapons table<MetaEngineTagDataModelAnimationsAnimationGraphFirstPersonWeaponAnimations> 
----@field soundReferences table<MetaEngineTagDataModelAnimationsAnimationGraphSoundReference> 
----@field limpBodyNodeRadius number 
----@field flags MetaEngineTagDataModelAnimationsFlags 
----@field nodes table<MetaEngineTagDataModelAnimationsAnimationGraphNode> 
----@field animations table<MetaEngineTagDataModelAnimationsAnimation> 
-
----@class MetaEngineTagDataPlaceholder: MetaEngineTagDataBasicObject  
-
----@alias EngineTagDataFramebufferBlendFunction 
----| 'framebuffer_blend_function_alpha_blend'
----| 'framebuffer_blend_function_multiply'
----| 'framebuffer_blend_function_double_multiply'
----| 'framebuffer_blend_function_add'
----| 'framebuffer_blend_function_subtract'
----| 'framebuffer_blend_function_component_min'
----| 'framebuffer_blend_function_component_max'
----| 'framebuffer_blend_function_alpha_multiply_add'
-
----@alias EngineTagDataFramebufferFadeMode 
----| 'framebuffer_fade_mode_none'
----| 'framebuffer_fade_mode_fade_when_perpendicular'
----| 'framebuffer_fade_mode_fade_when_parallel'
-
----@alias EngineTagDataFunctionOut 
----| 'function_out_none'
----| 'function_out_a_out'
----| 'function_out_b_out'
----| 'function_out_c_out'
----| 'function_out_d_out'
-
----@alias EngineTagDataWaveFunction 
----| 'wave_function_one'
----| 'wave_function_zero'
----| 'wave_function_cosine'
----| 'wave_function_cosine_variable_period'
----| 'wave_function_diagonal_wave'
----| 'wave_function_diagonal_wave_variable_period'
----| 'wave_function_slide'
----| 'wave_function_slide_variable_period'
----| 'wave_function_noise'
----| 'wave_function_jitter'
----| 'wave_function_wander'
----| 'wave_function_spark'
-
----@alias EngineTagDataMaterialType 
----| 'material_type_dirt'
----| 'material_type_sand'
----| 'material_type_stone'
----| 'material_type_snow'
----| 'material_type_wood'
----| 'material_type_metal_hollow'
----| 'material_type_metal_thin'
----| 'material_type_metal_thick'
----| 'material_type_rubber'
----| 'material_type_glass'
----| 'material_type_force_field'
----| 'material_type_grunt'
----| 'material_type_hunter_armor'
----| 'material_type_hunter_skin'
----| 'material_type_elite'
----| 'material_type_jackal'
----| 'material_type_jackal_energy_shield'
----| 'material_type_engineer_skin'
----| 'material_type_engineer_force_field'
----| 'material_type_flood_combat_form'
----| 'material_type_flood_carrier_form'
----| 'material_type_cyborg_armor'
----| 'material_type_cyborg_energy_shield'
----| 'material_type_human_armor'
----| 'material_type_human_skin'
----| 'material_type_sentinel'
----| 'material_type_monitor'
----| 'material_type_plastic'
----| 'material_type_water'
----| 'material_type_leaves'
----| 'material_type_elite_energy_shield'
----| 'material_type_ice'
----| 'material_type_hunter_shield'
-
----@alias EngineTagDataFunctionType 
----| 'function_type_linear'
----| 'function_type_early'
----| 'function_type_very_early'
----| 'function_type_late'
----| 'function_type_very_late'
----| 'function_type_cosine'
-
----@alias EngineTagDataFunctionBoundsMode 
----| 'function_bounds_mode_clip'
----| 'function_bounds_mode_clip_and_normalize'
----| 'function_bounds_mode_scale_to_fit'
-
----@alias EngineTagDataFunctionScaleBy 
----| 'function_scale_by_none'
----| 'function_scale_by_a_in'
----| 'function_scale_by_b_in'
----| 'function_scale_by_c_in'
----| 'function_scale_by_d_in'
----| 'function_scale_by_a_out'
----| 'function_scale_by_b_out'
----| 'function_scale_by_c_out'
----| 'function_scale_by_d_out'
-
----@alias EngineTagDataFunctionNameNullable 
----| 'function_name_nullable_none'
----| 'function_name_nullable_a'
----| 'function_name_nullable_b'
----| 'function_name_nullable_c'
----| 'function_name_nullable_d'
-
----@alias EngineTagDataGrenadeType 
----| 'grenade_type_human_fragmentation'
----| 'grenade_type_covenant_plasma'
----| 'grenade_type_grenade_type_2'
----| 'grenade_type_grenade_type_3'
-
----@alias EngineTagDataVertexType 
----| 'vertex_type_structure_bsp_uncompressed_rendered_vertices'
----| 'vertex_type_structure_bsp_compressed_rendered_vertices'
----| 'vertex_type_structure_bsp_uncompressed_lightmap_vertices'
----| 'vertex_type_structure_bsp_compressed_lightmap_vertices'
----| 'vertex_type_model_uncompressed'
----| 'vertex_type_model_compressed'
-
----@alias EngineTagDataUnitFunctionIn 
----| 'unit_function_in_none'
----| 'unit_function_in_driver_seat_power'
----| 'unit_function_in_gunner_seat_power'
----| 'unit_function_in_aiming_change'
----| 'unit_function_in_mouth_aperture'
----| 'unit_function_in_integrated_light_power'
----| 'unit_function_in_can_blink'
----| 'unit_function_in_shield_sapping'
-
----@alias EngineTagDataUnitDefaultTeam 
----| 'unit_default_team_none'
----| 'unit_default_team_player'
----| 'unit_default_team_human'
----| 'unit_default_team_covenant'
----| 'unit_default_team_flood'
----| 'unit_default_team_sentinel'
----| 'unit_default_team_unused6'
----| 'unit_default_team_unused7'
----| 'unit_default_team_unused8'
----| 'unit_default_team_unused9'
-
----@alias EngineTagDataUnitMotionSensorBlipSize 
----| 'unit_motion_sensor_blip_size_medium'
----| 'unit_motion_sensor_blip_size_small'
----| 'unit_motion_sensor_blip_size_large'
-
----@alias EngineTagDataMetagameType 
----| 'metagame_type_brute'
----| 'metagame_type_grunt'
----| 'metagame_type_jackal'
----| 'metagame_type_skirmisher'
----| 'metagame_type_marine'
----| 'metagame_type_spartan'
----| 'metagame_type_bugger'
----| 'metagame_type_hunter'
----| 'metagame_type_flood_infection'
----| 'metagame_type_flood_carrier'
----| 'metagame_type_flood_combat'
----| 'metagame_type_flood_pure'
----| 'metagame_type_sentinel'
----| 'metagame_type_elite'
----| 'metagame_type_engineer'
----| 'metagame_type_mule'
----| 'metagame_type_turret'
----| 'metagame_type_mongoose'
----| 'metagame_type_warthog'
----| 'metagame_type_scorpion'
----| 'metagame_type_hornet'
----| 'metagame_type_pelican'
----| 'metagame_type_revenant'
----| 'metagame_type_seraph'
----| 'metagame_type_shade'
----| 'metagame_type_watchtower'
----| 'metagame_type_ghost'
----| 'metagame_type_chopper'
----| 'metagame_type_mauler'
----| 'metagame_type_wraith'
----| 'metagame_type_banshee'
----| 'metagame_type_phantom'
----| 'metagame_type_scarab'
----| 'metagame_type_guntower'
----| 'metagame_type_tuning_fork'
----| 'metagame_type_broadsword'
----| 'metagame_type_mammoth'
----| 'metagame_type_lich'
----| 'metagame_type_mantis'
----| 'metagame_type_wasp'
----| 'metagame_type_phaeton'
----| 'metagame_type_bishop'
----| 'metagame_type_knight'
----| 'metagame_type_pawn'
-
----@alias EngineTagDataMetagameClass 
----| 'metagame_class_infantry'
----| 'metagame_class_leader'
----| 'metagame_class_hero'
----| 'metagame_class_specialist'
----| 'metagame_class_light_vehicle'
----| 'metagame_class_heavy_vehicle'
----| 'metagame_class_giant_vehicle'
----| 'metagame_class_standard_vehicle'
-
----@class MetaEngineTagDataUnitFlags 
----@field circularAiming boolean 
----@field destroyedAfterDying boolean 
----@field halfSpeedInterpolation boolean 
----@field firesFromCamera boolean 
----@field entranceInsideBoundingSphere boolean 
----@field unused boolean 
----@field causesPassengerDialogue boolean 
----@field resistsPings boolean 
----@field meleeAttackIsFatal boolean 
----@field dontRefaceDuringPings boolean 
----@field hasNoAiming boolean 
----@field simpleCreature boolean 
----@field impactMeleeAttachesToUnit boolean 
----@field impactMeleeDiesOnShields boolean 
----@field cannotOpenDoorsAutomatically boolean 
----@field meleeAttackersCannotAttach boolean 
----@field notInstantlyKilledByMelee boolean 
----@field shieldSapping boolean 
----@field runsAroundFlaming boolean 
----@field inconsequential boolean 
----@field specialCinematicUnit boolean 
----@field ignoredByAutoaiming boolean 
----@field shieldsFryInfectionForms boolean 
----@field integratedLightCntrlsWeapon boolean 
----@field integratedLightLastsForever boolean 
-
----@class MetaEngineTagDataUnitSeatFlags 
----@field invisible boolean 
----@field locked boolean 
----@field driver boolean 
----@field gunner boolean 
----@field thirdPersonCamera boolean 
----@field allowsWeapons boolean 
----@field thirdPersonOnEnter boolean 
----@field firstPersonCameraSlavedToGun boolean 
----@field allowVehicleCommunicationAnimations boolean 
----@field notValidWithoutDriver boolean 
----@field allowAiNoncombatants boolean 
-
----@class MetaEngineTagDataUnitPoweredSeat 
----@field driverPowerupTime number 
----@field driverPowerdownTime number 
-
----@class MetaEngineTagDataUnitCameraTrack 
----@field track MetaEngineTagDependency 
-
----@class MetaEngineTagDataUnitUnitHudInterface 
----@field hud MetaEngineTagDependency 
-
----@class MetaEngineTagDataUnitSeat 
----@field flags MetaEngineTagDataUnitSeatFlags 
----@field label MetaEngineTagString 
----@field markerName MetaEngineTagString 
----@field accelerationScale MetaEngineVector3D 
----@field yawRate number 
----@field pitchRate number 
----@field cameraMarkerName MetaEngineTagString 
----@field cameraSubmergedMarkerName MetaEngineTagString 
----@field pitchAutoLevel MetaEngineAngle 
----@field pitchRange MetaEngineAngle 
----@field cameraTracks table<MetaEngineTagDataUnitCameraTrack> 
----@field unitHudInterface table<MetaEngineTagDataUnitUnitHudInterface> 
----@field hudTextMessageIndex MetaEngineIndex 
----@field yawMinimum MetaEngineAngle 
----@field yawMaximum MetaEngineAngle 
----@field builtInGunner MetaEngineTagDependency 
-
----@class MetaEngineTagDataUnitWeapon 
----@field weapon MetaEngineTagDependency 
-
----@class MetaEngineTagDataUnitDialogueVariant 
----@field variantNumber integer 
----@field dialogue MetaEngineTagDependency 
-
----@class MetaEngineTagDataUnit: MetaEngineTagDataObject  
----@field unitFlags MetaEngineTagDataUnitFlags 
----@field defaultTeam EngineTagDataUnitDefaultTeam 
----@field constantSoundVolume EngineTagDataObjectNoise 
----@field riderDamageFraction number 
----@field integratedLightToggle MetaEngineTagDependency 
----@field unitAIn EngineTagDataUnitFunctionIn 
----@field unitBIn EngineTagDataUnitFunctionIn 
----@field unitCIn EngineTagDataUnitFunctionIn 
----@field unitDIn EngineTagDataUnitFunctionIn 
----@field cameraFieldOfView MetaEngineAngle 
----@field cameraStiffness number 
----@field cameraMarkerName MetaEngineTagString 
----@field cameraSubmergedMarkerName MetaEngineTagString 
----@field pitchAutoLevel MetaEngineAngle 
----@field pitchRange MetaEngineAngle 
----@field cameraTracks table<MetaEngineTagDataUnitCameraTrack> 
----@field seatAccelerationScale MetaEnginePoint3D 
----@field softPingThreshold number 
----@field softPingInterruptTime number 
----@field hardPingThreshold number 
----@field hardPingInterruptTime number 
----@field hardDeathThreshold number 
----@field feignDeathThreshold number 
----@field feignDeathTime number 
----@field distanceOfEvadeAnim number 
----@field distanceOfDiveAnim number 
----@field stunnedMovementThreshold number 
----@field feignDeathChance number 
----@field feignRepeatChance number 
----@field spawnedActor MetaEngineTagDependency 
----@field spawnedActorCount integer 
----@field spawnedVelocity number 
----@field aimingVelocityMaximum MetaEngineAngle 
----@field aimingAccelerationMaximum MetaEngineAngle 
----@field casualAimingModifier MetaEngineFraction 
----@field lookingVelocityMaximum MetaEngineAngle 
----@field lookingAccelerationMaximum MetaEngineAngle 
----@field aiVehicleRadius number 
----@field aiDangerRadius number 
----@field meleeDamage MetaEngineTagDependency 
----@field motionSensorBlipSize EngineTagDataUnitMotionSensorBlipSize 
----@field metagameType EngineTagDataMetagameType 
----@field metagameClass EngineTagDataMetagameClass 
----@field newHudInterfaces table<MetaEngineTagDataUnitUnitHudInterface> 
----@field dialogueVariants table<MetaEngineTagDataUnitDialogueVariant> 
----@field grenadeVelocity number 
----@field grenadeType EngineTagDataGrenadeType 
----@field grenadeCount integer 
----@field softPingInterruptTicks integer 
----@field hardPingInterruptTicks integer 
----@field poweredSeats table<MetaEngineTagDataUnitPoweredSeat> 
----@field weapons table<MetaEngineTagDataUnitWeapon> 
----@field seats table<MetaEngineTagDataUnitSeat> 
-
----@class MetaEngineTagDataSoundEnvironment 
----@field unknown integer 
----@field priority integer 
----@field roomIntensity MetaEngineFraction 
----@field roomIntensityHf MetaEngineFraction 
----@field roomRolloff number 
----@field decayTime number 
----@field decayHfRatio number 
----@field reflectionsIntensity MetaEngineFraction 
----@field reflectionsDelay number 
----@field reverbIntensity MetaEngineFraction 
----@field reverbDelay number 
----@field diffusion number 
----@field density number 
----@field hfReference number 
-
----@alias EngineTagDataUnitHUDInterfacePanelType 
----| 'unit_h_u_d_interface_panel_type_integrated_light'
-
----@class MetaEngineTagDataUnitHUDInterfaceAuxiliaryOverlayFlags 
----@field useTeamColor boolean 
-
----@class MetaEngineTagDataUnitHUDInterfaceHUDSoundLatchedTo 
----@field shieldRecharging boolean 
----@field shieldDamaged boolean 
----@field shieldLow boolean 
----@field shieldEmpty boolean 
----@field healthLow boolean 
----@field healthEmpty boolean 
----@field healthMinorDamage boolean 
----@field healthMajorDamage boolean 
-
----@class MetaEngineTagDataUnitHUDInterfaceAuxiliaryPanelMeterMoreFlags 
----@field showOnlyWhenActive boolean 
----@field flashOnceIfActivatedWhileDisabled boolean 
-
----@class MetaEngineTagDataUnitHUDInterfaceAuxiliaryOverlay 
----@field anchorOffset MetaEnginePoint2DInt 
----@field widthScale number 
----@field heightScale number 
----@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field interfaceBitmap MetaEngineTagDependency 
----@field defaultColor MetaEngineColorARGBInt 
----@field flashingColor MetaEngineColorARGBInt 
----@field flashPeriod number 
----@field flashDelay number 
----@field numberOfFlashes integer 
----@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field flashLength number 
----@field disabledColor MetaEngineColorARGBInt 
----@field sequenceIndex MetaEngineIndex 
----@field multitexOverlay table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
----@field type EngineTagDataUnitHUDInterfacePanelType 
----@field flags MetaEngineTagDataUnitHUDInterfaceAuxiliaryOverlayFlags 
-
----@class MetaEngineTagDataUnitHUDInterfaceHUDSound 
----@field sound MetaEngineTagDependency 
----@field latchedTo MetaEngineTagDataUnitHUDInterfaceHUDSoundLatchedTo 
----@field scale number 
-
----@class MetaEngineTagDataUnitHUDInterfaceAuxiliaryPanel 
----@field type EngineTagDataUnitHUDInterfacePanelType 
----@field backgroundAnchorOffset MetaEnginePoint2DInt 
----@field backgroundWidthScale number 
----@field backgroundHeightScale number 
----@field backgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field backgroundInterfaceBitmap MetaEngineTagDependency 
----@field backgroundDefaultColor MetaEngineColorARGBInt 
----@field backgroundFlashingColor MetaEngineColorARGBInt 
----@field backgroundFlashPeriod number 
----@field backgroundFlashDelay number 
----@field backgroundNumberOfFlashes integer 
----@field backgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field backgroundFlashLength number 
----@field backgroundDisabledColor MetaEngineColorARGBInt 
----@field backgroundSequenceIndex MetaEngineIndex 
----@field backgroundMultitexOverlay table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
----@field meterAnchorOffset MetaEnginePoint2DInt 
----@field meterWidthScale number 
----@field meterHeightScale number 
----@field meterScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field meterMeterBitmap MetaEngineTagDependency 
----@field meterColorAtMeterMinimum MetaEngineColorARGBInt 
----@field meterColorAtMeterMaximum MetaEngineColorARGBInt 
----@field meterFlashColor MetaEngineColorARGBInt 
----@field meterEmptyColor MetaEngineColorARGBInt 
----@field meterFlags MetaEngineTagDataHUDInterfaceMeterFlags 
----@field meterMinimumMeterValue integer 
----@field meterSequenceIndex MetaEngineIndex 
----@field meterAlphaMultiplier integer 
----@field meterAlphaBias integer 
----@field meterValueScale integer 
----@field meterOpacity number 
----@field meterTranslucency number 
----@field meterDisabledColor MetaEngineColorARGBInt 
----@field meterMinAlpha number 
----@field meterMinimumFractionCutoff number 
----@field meterMoreFlags MetaEngineTagDataUnitHUDInterfaceAuxiliaryPanelMeterMoreFlags 
-
----@class MetaEngineTagDataUnitHudInterface 
----@field anchor EngineTagDataHUDInterfaceAnchor 
----@field hudBackgroundAnchorOffset MetaEnginePoint2DInt 
----@field hudBackgroundWidthScale number 
----@field hudBackgroundHeightScale number 
----@field hudBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field hudBackgroundInterfaceBitmap MetaEngineTagDependency 
----@field hudBackgroundDefaultColor MetaEngineColorARGBInt 
----@field hudBackgroundFlashingColor MetaEngineColorARGBInt 
----@field hudBackgroundFlashPeriod number 
----@field hudBackgroundFlashDelay number 
----@field hudBackgroundNumberOfFlashes integer 
----@field hudBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field hudBackgroundFlashLength number 
----@field hudBackgroundDisabledColor MetaEngineColorARGBInt 
----@field hudBackgroundSequenceIndex MetaEngineIndex 
----@field hudBackgroundMultitexOverlay table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
----@field shieldPanelBackgroundAnchorOffset MetaEnginePoint2DInt 
----@field shieldPanelBackgroundWidthScale number 
----@field shieldPanelBackgroundHeightScale number 
----@field shieldPanelBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field shieldPanelBackgroundInterfaceBitmap MetaEngineTagDependency 
----@field shieldPanelBackgroundDefaultColor MetaEngineColorARGBInt 
----@field shieldPanelBackgroundFlashingColor MetaEngineColorARGBInt 
----@field shieldPanelBackgroundFlashPeriod number 
----@field shieldPanelBackgroundFlashDelay number 
----@field shieldPanelBackgroundNumberOfFlashes integer 
----@field shieldPanelBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field shieldPanelBackgroundFlashLength number 
----@field shieldPanelBackgroundDisabledColor MetaEngineColorARGBInt 
----@field shieldPanelBackgroundSequenceIndex MetaEngineIndex 
----@field shieldPanelBackgroundMultitexOverlay table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
----@field shieldPanelMeterAnchorOffset MetaEnginePoint2DInt 
----@field shieldPanelMeterWidthScale number 
----@field shieldPanelMeterHeightScale number 
----@field shieldPanelMeterScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field shieldPanelMeterMeterBitmap MetaEngineTagDependency 
----@field shieldPanelMeterColorAtMeterMinimum MetaEngineColorARGBInt 
----@field shieldPanelMeterColorAtMeterMaximum MetaEngineColorARGBInt 
----@field shieldPanelMeterFlashColor MetaEngineColorARGBInt 
----@field shieldPanelMeterEmptyColor MetaEngineColorARGBInt 
----@field shieldPanelMeterFlags MetaEngineTagDataHUDInterfaceMeterFlags 
----@field shieldPanelMeterMinimumMeterValue integer 
----@field shieldPanelMeterSequenceIndex MetaEngineIndex 
----@field shieldPanelMeterAlphaMultiplier integer 
----@field shieldPanelMeterAlphaBias integer 
----@field shieldPanelMeterValueScale integer 
----@field shieldPanelMeterOpacity number 
----@field shieldPanelMeterTranslucency number 
----@field shieldPanelMeterDisabledColor MetaEngineColorARGBInt 
----@field shieldPanelMeterMinAlpha number 
----@field shieldPanelMeterOverchargeMinimumColor MetaEngineColorARGBInt 
----@field shieldPanelMeterOverchargeMaximumColor MetaEngineColorARGBInt 
----@field shieldPanelMeterOverchargeFlashColor MetaEngineColorARGBInt 
----@field shieldPanelMeterOverchargeEmptyColor MetaEngineColorARGBInt 
----@field healthPanelBackgroundAnchorOffset MetaEnginePoint2DInt 
----@field healthPanelBackgroundWidthScale number 
----@field healthPanelBackgroundHeightScale number 
----@field healthPanelBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field healthPanelBackgroundInterfaceBitmap MetaEngineTagDependency 
----@field healthPanelBackgroundDefaultColor MetaEngineColorARGBInt 
----@field healthPanelBackgroundFlashingColor MetaEngineColorARGBInt 
----@field healthPanelBackgroundFlashPeriod number 
----@field healthPanelBackgroundFlashDelay number 
----@field healthPanelBackgroundNumberOfFlashes integer 
----@field healthPanelBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field healthPanelBackgroundFlashLength number 
----@field healthPanelBackgroundDisabledColor MetaEngineColorARGBInt 
----@field healthPanelBackgroundSequenceIndex MetaEngineIndex 
----@field healthPanelBackgroundMultitexOverlay table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
----@field healthPanelMeterAnchorOffset MetaEnginePoint2DInt 
----@field healthPanelMeterWidthScale number 
----@field healthPanelMeterHeightScale number 
----@field healthPanelMeterScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field healthPanelMeterMeterBitmap MetaEngineTagDependency 
----@field healthPanelMeterColorAtMeterMinimum MetaEngineColorARGBInt 
----@field healthPanelMeterColorAtMeterMaximum MetaEngineColorARGBInt 
----@field healthPanelMeterFlashColor MetaEngineColorARGBInt 
----@field healthPanelMeterEmptyColor MetaEngineColorARGBInt 
----@field healthPanelMeterFlags MetaEngineTagDataHUDInterfaceMeterFlags 
----@field healthPanelMeterMinimumMeterValue integer 
----@field healthPanelMeterSequenceIndex MetaEngineIndex 
----@field healthPanelMeterAlphaMultiplier integer 
----@field healthPanelMeterAlphaBias integer 
----@field healthPanelMeterValueScale integer 
----@field healthPanelMeterOpacity number 
----@field healthPanelMeterTranslucency number 
----@field healthPanelMeterDisabledColor MetaEngineColorARGBInt 
----@field healthPanelMeterMinAlpha number 
----@field healthPanelMeterMediumHealthLeftColor MetaEngineColorARGBInt 
----@field healthPanelMeterMaxColorHealthFractionCutoff number 
----@field healthPanelMeterMinColorHealthFractionCutoff number 
----@field motionSensorBackgroundAnchorOffset MetaEnginePoint2DInt 
----@field motionSensorBackgroundWidthScale number 
----@field motionSensorBackgroundHeightScale number 
----@field motionSensorBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field motionSensorBackgroundInterfaceBitmap MetaEngineTagDependency 
----@field motionSensorBackgroundDefaultColor MetaEngineColorARGBInt 
----@field motionSensorBackgroundFlashingColor MetaEngineColorARGBInt 
----@field motionSensorBackgroundFlashPeriod number 
----@field motionSensorBackgroundFlashDelay number 
----@field motionSensorBackgroundNumberOfFlashes integer 
----@field motionSensorBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field motionSensorBackgroundFlashLength number 
----@field motionSensorBackgroundDisabledColor MetaEngineColorARGBInt 
----@field motionSensorBackgroundSequenceIndex MetaEngineIndex 
----@field motionSensorBackgroundMultitexOverlays table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
----@field motionSensorForegroundAnchorOffset MetaEnginePoint2DInt 
----@field motionSensorForegroundWidthScale number 
----@field motionSensorForegroundHeightScale number 
----@field motionSensorForegroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field motionSensorForegroundInterfaceBitmap MetaEngineTagDependency 
----@field motionSensorForegroundDefaultColor MetaEngineColorARGBInt 
----@field motionSensorForegroundFlashingColor MetaEngineColorARGBInt 
----@field motionSensorForegroundFlashPeriod number 
----@field motionSensorForegroundFlashDelay number 
----@field motionSensorForegroundNumberOfFlashes integer 
----@field motionSensorForegroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field motionSensorForegroundFlashLength number 
----@field motionSensorForegroundDisabledColor MetaEngineColorARGBInt 
----@field motionSensorForegroundSequenceIndex MetaEngineIndex 
----@field motionSensorForegroundMultitexOverlays table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
----@field motionSensorCenterAnchorOffset MetaEnginePoint2DInt 
----@field motionSensorCenterWidthScale number 
----@field motionSensorCenterHeightScale number 
----@field motionSensorCenterScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field auxiliaryOverlayAnchor EngineTagDataHUDInterfaceAnchor 
----@field overlays table<MetaEngineTagDataUnitHUDInterfaceAuxiliaryOverlay> 
----@field sounds table<MetaEngineTagDataUnitHUDInterfaceHUDSound> 
----@field meters table<MetaEngineTagDataUnitHUDInterfaceAuxiliaryPanel> 
-
----@alias EngineTagDataDeviceType 
----| 'device_type_toggle_switch'
----| 'device_type_on_button'
----| 'device_type_off_button'
----| 'device_type_call_button'
-
----@alias EngineTagDataDeviceTriggersWhen 
----| 'device_triggers_when_touched_by_player'
----| 'device_triggers_when_destroyed'
-
----@class MetaEngineTagDataDeviceControl: MetaEngineTagDataDevice  
----@field type EngineTagDataDeviceType 
----@field triggersWhen EngineTagDataDeviceTriggersWhen 
----@field callValue number 
----@field on MetaEngineTagDependency 
----@field off MetaEngineTagDependency 
----@field deny MetaEngineTagDependency 
-
----@alias EngineTagDataActorVariantMovementType 
----| 'actor_variant_movement_type_always_run'
----| 'actor_variant_movement_type_always_crouch'
----| 'actor_variant_movement_type_switch_types'
-
----@alias EngineTagDataActorVariantSpecialFireMode 
----| 'actor_variant_special_fire_mode_none'
----| 'actor_variant_special_fire_mode_overcharge'
----| 'actor_variant_special_fire_mode_secondary_trigger'
-
----@alias EngineTagDataActorVariantSpecialFireSituation 
----| 'actor_variant_special_fire_situation_never'
----| 'actor_variant_special_fire_situation_enemy_visible'
----| 'actor_variant_special_fire_situation_enemy_out_of_sight'
----| 'actor_variant_special_fire_situation_strafing'
-
----@alias EngineTagDataActorVariantTrajectoryType 
----| 'actor_variant_trajectory_type_toss'
----| 'actor_variant_trajectory_type_lob'
----| 'actor_variant_trajectory_type_bounce'
-
----@alias EngineTagDataActorVariantGrenadeStimulus 
----| 'actor_variant_grenade_stimulus_never'
----| 'actor_variant_grenade_stimulus_visible_target'
----| 'actor_variant_grenade_stimulus_seek_cover'
-
----@class MetaEngineTagDataActorVariantFlags 
----@field canShootWhileFlying boolean 
----@field interpolateColorInHsv boolean 
----@field hasUnlimitedGrenades boolean 
----@field movementSwitchingTryToStayWithFriends boolean 
----@field activeCamouflage boolean 
----@field superActiveCamouflage boolean 
----@field cannotUseRangedWeapons boolean 
----@field preferPassengerSeat boolean 
-
----@class MetaEngineTagDataActorVariantChangeColors 
----@field colorLowerBound MetaEngineColorRGB 
----@field colorUpperBound MetaEngineColorRGB 
-
----@class MetaEngineTagDataActorVariant 
----@field flags MetaEngineTagDataActorVariantFlags 
----@field actorDefinition MetaEngineTagDependency 
----@field unit MetaEngineTagDependency 
----@field majorVariant MetaEngineTagDependency 
----@field metagameType EngineTagDataMetagameType 
----@field metagameClass EngineTagDataMetagameClass 
----@field movementType EngineTagDataActorVariantMovementType 
----@field initialCrouchChance number 
----@field crouchTime number 
----@field runTime number 
----@field weapon MetaEngineTagDependency 
----@field maximumFiringDistance number 
----@field rateOfFire number 
----@field projectileError MetaEngineAngle 
----@field firstBurstDelayTime number 
----@field newTargetFiringPatternTime number 
----@field surpriseDelayTime number 
----@field surpriseFireWildlyTime number 
----@field deathFireWildlyChance number 
----@field deathFireWildlyTime number 
----@field desiredCombatRange number 
----@field customStandGunOffset MetaEngineVector3D 
----@field customCrouchGunOffset MetaEngineVector3D 
----@field targetTracking number 
----@field targetLeading number 
----@field weaponDamageModifier number 
----@field damagePerSecond number 
----@field burstOriginRadius number 
----@field burstOriginAngle MetaEngineAngle 
----@field burstReturnLength number 
----@field burstReturnAngle MetaEngineAngle 
----@field burstDuration number 
----@field burstSeparation number 
----@field burstAngularVelocity MetaEngineAngle 
----@field specialDamageModifier number 
----@field specialProjectileError MetaEngineAngle 
----@field newTargetBurstDuration number 
----@field newTargetBurstSeparation number 
----@field newTargetRateOfFire number 
----@field newTargetProjectileError number 
----@field movingBurstDuration number 
----@field movingBurstSeparation number 
----@field movingRateOfFire number 
----@field movingProjectileError number 
----@field berserkBurstDuration number 
----@field berserkBurstSeparation number 
----@field berserkRateOfFire number 
----@field berserkProjectileError number 
----@field superBallisticRange number 
----@field bombardmentRange number 
----@field modifiedVisionRange number 
----@field specialFireMode EngineTagDataActorVariantSpecialFireMode 
----@field specialFireSituation EngineTagDataActorVariantSpecialFireSituation 
----@field specialFireChance number 
----@field specialFireDelay number 
----@field meleeRange number 
----@field meleeAbortRange number 
----@field berserkFiringRanges number 
----@field berserkMeleeRange number 
----@field berserkMeleeAbortRange number 
----@field grenadeType EngineTagDataGrenadeType 
----@field trajectoryType EngineTagDataActorVariantTrajectoryType 
----@field grenadeStimulus EngineTagDataActorVariantGrenadeStimulus 
----@field minimumEnemyCount integer 
----@field enemyRadius number 
----@field grenadeVelocity number 
----@field grenadeRanges number 
----@field collateralDamageRadius number 
----@field grenadeChance MetaEngineFraction 
----@field grenadeCheckTime number 
----@field encounterGrenadeTimeout number 
----@field equipment MetaEngineTagDependency 
----@field grenadeCount integer 
----@field dontDropGrenadesChance number 
----@field dropWeaponLoaded number 
----@field dropWeaponAmmo integer 
----@field bodyVitality number 
----@field shieldVitality number 
----@field shieldSappingRadius number 
----@field forcedShaderPermutation MetaEngineIndex 
----@field changeColors table<MetaEngineTagDataActorVariantChangeColors> 
-
----@alias EngineTagDataBitmapDataType 
----| 'bitmap_data_type_2d_texture'
----| 'bitmap_data_type_3d_texture'
----| 'bitmap_data_type_cube_map'
----| 'bitmap_data_type_white'
-
----@alias EngineTagDataBitmapDataFormat 
----| 'bitmap_data_format_a8'
----| 'bitmap_data_format_y8'
----| 'bitmap_data_format_ay8'
----| 'bitmap_data_format_a8y8'
----| 'bitmap_data_format_unused1'
----| 'bitmap_data_format_unused2'
----| 'bitmap_data_format_r5g6b5'
----| 'bitmap_data_format_unused3'
----| 'bitmap_data_format_a1r5g5b5'
----| 'bitmap_data_format_a4r4g4b4'
----| 'bitmap_data_format_x8r8g8b8'
----| 'bitmap_data_format_a8r8g8b8'
----| 'bitmap_data_format_unused4'
----| 'bitmap_data_format_unused5'
----| 'bitmap_data_format_dxt1'
----| 'bitmap_data_format_dxt3'
----| 'bitmap_data_format_dxt5'
----| 'bitmap_data_format_p8_bump'
-
----@alias EngineTagDataBitmapType 
----| 'bitmap_type_2d_textures'
----| 'bitmap_type_3d_textures'
----| 'bitmap_type_cube_maps'
----| 'bitmap_type_sprites'
----| 'bitmap_type_interface_bitmaps'
-
----@alias EngineTagDataBitmapFormat 
----| 'bitmap_format_dxt1'
----| 'bitmap_format_dxt3'
----| 'bitmap_format_dxt5'
----| 'bitmap_format_16_bit'
----| 'bitmap_format_32_bit'
----| 'bitmap_format_monochrome'
-
----@alias EngineTagDataBitmapUsage 
----| 'bitmap_usage_alpha_blend'
----| 'bitmap_usage_default'
----| 'bitmap_usage_height_map'
----| 'bitmap_usage_detail_map'
----| 'bitmap_usage_light_map'
----| 'bitmap_usage_vector_map'
-
----@alias EngineTagDataBitmapSpriteBudgetSize 
----| 'bitmap_sprite_budget_size_32x32'
----| 'bitmap_sprite_budget_size_64x64'
----| 'bitmap_sprite_budget_size_128x128'
----| 'bitmap_sprite_budget_size_256x256'
----| 'bitmap_sprite_budget_size_512x512'
----| 'bitmap_sprite_budget_size_1024x1024'
-
----@alias EngineTagDataBitmapSpriteUsage 
----| 'bitmap_sprite_usage_blend_add_subtract_max'
----| 'bitmap_sprite_usage_multiply_min'
----| 'bitmap_sprite_usage_double_multiply'
-
----@class MetaEngineTagDataBitmapDataFlags 
----@field powerOfTwoDimensions boolean 
----@field compressed boolean 
----@field palettized boolean 
----@field swizzled boolean 
----@field linear boolean 
----@field v16u16 boolean 
----@field unused boolean 
----@field makeItActuallyWork boolean 
----@field external boolean 
----@field environment boolean 
-
----@class MetaEngineTagDataBitmapFlags 
----@field enableDiffusionDithering boolean 
----@field disableHeightMapCompression boolean 
----@field uniformSpriteSequences boolean 
----@field filthySpriteBugFix boolean 
----@field halfHudScale boolean 
-
----@class MetaEngineTagDataBitmapGroupSprite 
----@field bitmapIndex MetaEngineIndex 
----@field left number 
----@field right number 
----@field top number 
----@field bottom number 
----@field registrationPoint MetaEnginePoint2D 
-
----@class MetaEngineTagDataBitmapGroupSequence 
----@field name MetaEngineTagString 
----@field firstBitmapIndex MetaEngineIndex 
----@field bitmapCount integer 
----@field sprites table<MetaEngineTagDataBitmapGroupSprite> 
-
----@class MetaEngineTagDataBitmapData 
----@field bitmapClass EngineTagClass 
+---@class MetaEngineTagDataFlag 
+---@field flags MetaEngineTagDataIsUnusedFlag 
+---@field trailingEdgeShape EngineTagDataFlagTrailingEdgeShape 
+---@field trailingEdgeShapeOffset integer 
+---@field attachedEdgeShape EngineTagDataFlagAttachedEdgeShape 
 ---@field width integer 
 ---@field height integer 
----@field depth integer 
----@field type EngineTagDataBitmapDataType 
----@field format EngineTagDataBitmapDataFormat 
----@field flags MetaEngineTagDataBitmapDataFlags 
----@field registrationPoint MetaEnginePoint2DInt 
----@field mipmapCount integer 
----@field pixelDataOffset integer 
----@field pixelDataSize integer 
----@field bitmapTagHandle EngineTagHandle 
----@field textureCacheId integer 
----@field texture integer 
----@field pixelsBuffer integer 
+---@field cellWidth number 
+---@field cellHeight number 
+---@field redFlagShader MetaEngineTagDependency 
+---@field physics MetaEngineTagDependency 
+---@field windNoise number 
+---@field blueFlagShader MetaEngineTagDependency 
+---@field attachmentPoints TagBlock<MetaEngineTagDataFlagAttachmentPoint> 
 
----@class MetaEngineTagDataBitmap 
----@field type EngineTagDataBitmapType 
----@field encodingFormat EngineTagDataBitmapFormat 
----@field usage EngineTagDataBitmapUsage 
----@field flags MetaEngineTagDataBitmapFlags 
----@field detailFadeFactor MetaEngineFraction 
----@field sharpenAmount MetaEngineFraction 
----@field bumpHeight MetaEngineFraction 
----@field spriteBudgetSize EngineTagDataBitmapSpriteBudgetSize 
----@field spriteBudgetCount integer 
----@field colorPlateWidth integer 
----@field colorPlateHeight integer 
----@field compressedColorPlateData MetaEngineTagDataOffset 
----@field processedPixelData MetaEngineTagDataOffset 
----@field blurFilterSize number 
----@field alphaBias number 
----@field mipmapCount integer 
----@field spriteUsage EngineTagDataBitmapSpriteUsage 
----@field spriteSpacing integer 
----@field bitmapGroupSequence table<MetaEngineTagDataBitmapGroupSequence> 
----@field bitmapData table<MetaEngineTagDataBitmapData> 
-
----@class MetaEngineTagDataLightVolumeFlags 
----@field interpolateColorInHsv boolean 
----@field moreColors boolean 
-
----@class MetaEngineTagDataLightVolumeFrame 
----@field offsetFromMarker number 
----@field offsetExponent number 
----@field length number 
----@field radiusHither number 
----@field radiusYon number 
----@field radiusExponent number 
----@field tintColorHither MetaEngineColorARGB 
----@field tintColorYon MetaEngineColorARGB 
----@field tintColorExponent number 
----@field brightnessExponent number 
-
----@class MetaEngineTagDataLightVolume 
----@field attachmentMarker MetaEngineTagString 
----@field flags MetaEngineTagDataLightVolumeFlags 
----@field nearFadeDistance number 
----@field farFadeDistance number 
----@field perpendicularBrightnessScale MetaEngineFraction 
----@field parallelBrightnessScale MetaEngineFraction 
----@field brightnessScaleSource EngineTagDataFunctionOut 
----@field map MetaEngineTagDependency 
----@field sequenceIndex MetaEngineIndex 
----@field count integer 
----@field frameAnimationSource EngineTagDataFunctionOut 
----@field frames table<MetaEngineTagDataLightVolumeFrame> 
-
----@alias EngineTagDataWeaponSecondaryTriggerMode 
----| 'weapon_secondary_trigger_mode_normal'
----| 'weapon_secondary_trigger_mode_slaved_to_primary'
----| 'weapon_secondary_trigger_mode_inhibits_primary'
----| 'weapon_secondary_trigger_mode_loads_alterate_ammunition'
----| 'weapon_secondary_trigger_mode_loads_multiple_primary_ammunition'
-
----@alias EngineTagDataWeaponFunctionIn 
----| 'weapon_function_in_none'
----| 'weapon_function_in_heat'
----| 'weapon_function_in_primary_ammunition'
----| 'weapon_function_in_secondary_ammunition'
----| 'weapon_function_in_primary_rate_of_fire'
----| 'weapon_function_in_secondary_rate_of_fire'
----| 'weapon_function_in_ready'
----| 'weapon_function_in_primary_ejection_port'
----| 'weapon_function_in_secondary_ejection_port'
----| 'weapon_function_in_overheated'
----| 'weapon_function_in_primary_charged'
----| 'weapon_function_in_secondary_charged'
----| 'weapon_function_in_illumination'
----| 'weapon_function_in_age'
----| 'weapon_function_in_integrated_light'
----| 'weapon_function_in_primary_firing'
----| 'weapon_function_in_secondary_firing'
----| 'weapon_function_in_primary_firing_on'
----| 'weapon_function_in_secondary_firing_on'
-
----@alias EngineTagDataWeaponMovementPenalized 
----| 'weapon_movement_penalized_always'
----| 'weapon_movement_penalized_when_zoomed'
----| 'weapon_movement_penalized_when_zoomed_or_reloading'
-
----@alias EngineTagDataWeaponType 
----| 'weapon_type_undefined'
----| 'weapon_type_shotgun'
----| 'weapon_type_needler'
----| 'weapon_type_plasma_pistol'
----| 'weapon_type_plasma_rifle'
----| 'weapon_type_rocket_launcher'
-
----@alias EngineTagDataWeaponPredictionType 
----| 'weapon_prediction_type_none'
----| 'weapon_prediction_type_continuous'
----| 'weapon_prediction_type_instant'
-
----@alias EngineTagDataWeaponOverchargedAction 
----| 'weapon_overcharged_action_none'
----| 'weapon_overcharged_action_explode'
----| 'weapon_overcharged_action_discharge'
-
----@alias EngineTagDataWeaponDistributionFunction 
----| 'weapon_distribution_function_point'
----| 'weapon_distribution_function_horizontal_fan'
-
----@class MetaEngineTagDataWeaponMagazineFlags 
----@field wastesRoundsWhenReloaded boolean 
----@field everyRoundMustBeChambered boolean 
-
----@class MetaEngineTagDataWeaponTriggerFlags 
----@field tracksFiredProjectile boolean 
----@field randomFiringEffects boolean 
----@field canFireWithPartialAmmo boolean 
----@field doesNotRepeatAutomatically boolean 
----@field locksInOnOffState boolean 
----@field projectilesUseWeaponOrigin boolean 
----@field sticksWhenDropped boolean 
----@field ejectsDuringChamber boolean 
----@field dischargingSpews boolean 
----@field analogRateOfFire boolean 
----@field useErrorWhenUnzoomed boolean 
----@field projectileVectorCannotBeAdjusted boolean 
----@field projectilesHaveIdenticalError boolean 
----@field projectileIsClientSideOnly boolean 
----@field useOriginalUnitAdjustProjectileRay boolean 
-
----@class MetaEngineTagDataWeaponFlags 
----@field verticalHeatDisplay boolean 
----@field mutuallyExclusiveTriggers boolean 
----@field attacksAutomaticallyOnBump boolean 
----@field mustBeReadied boolean 
----@field doesntCountTowardMaximum boolean 
----@field aimAssistsOnlyWhenZoomed boolean 
----@field preventsGrenadeThrowing boolean 
----@field mustBePickedUp boolean 
----@field holdsTriggersWhenDropped boolean 
----@field preventsMeleeAttack boolean 
----@field detonatesWhenDropped boolean 
----@field cannotFireAtMaximumAge boolean 
----@field secondaryTriggerOverridesGrenades boolean 
----@field obsoleteDoesNotDepowerActiveCamoInMultilplayer boolean 
----@field enablesIntegratedNightVision boolean 
----@field aisUseWeaponMeleeDamage boolean 
-
----@class MetaEngineTagDataWeaponMagazineObject 
----@field rounds integer 
----@field equipment MetaEngineTagDependency 
-
----@class MetaEngineTagDataWeaponMagazine 
----@field flags MetaEngineTagDataWeaponMagazineFlags 
----@field roundsRecharged integer 
----@field roundsTotalInitial integer 
----@field roundsReservedMaximum integer 
----@field roundsLoadedMaximum integer 
----@field reloadTime number 
----@field roundsReloaded integer 
----@field chamberTime number 
----@field reloadingEffect MetaEngineTagDependency 
----@field chamberingEffect MetaEngineTagDependency 
----@field magazineObjects table<MetaEngineTagDataWeaponMagazineObject> 
-
----@class MetaEngineTagDataWeaponTriggerFiringEffect 
----@field shotCountLowerBound integer 
----@field shotCountUpperBound integer 
----@field firingEffect MetaEngineTagDependency 
----@field misfireEffect MetaEngineTagDependency 
----@field emptyEffect MetaEngineTagDependency 
----@field firingDamage MetaEngineTagDependency 
----@field misfireDamage MetaEngineTagDependency 
----@field emptyDamage MetaEngineTagDependency 
-
----@class MetaEngineTagDataWeaponTrigger 
----@field flags MetaEngineTagDataWeaponTriggerFlags 
----@field maximumRateOfFire number 
----@field accelerationTime number 
----@field decelerationTime number 
----@field blurredRateOfFire MetaEngineFraction 
----@field magazine MetaEngineIndex 
----@field roundsPerShot integer 
----@field minimumRoundsLoaded integer 
----@field projectilesBetweenContrails integer 
----@field predictionType EngineTagDataWeaponPredictionType 
----@field firingNoise EngineTagDataObjectNoise 
----@field error number 
----@field errorAccelerationTime number 
----@field errorDecelerationTime number 
----@field chargingTime number 
----@field chargedTime number 
----@field overchargedAction EngineTagDataWeaponOverchargedAction 
----@field chargedIllumination number 
----@field spewTime number 
----@field chargingEffect MetaEngineTagDependency 
----@field distributionFunction EngineTagDataWeaponDistributionFunction 
----@field projectilesPerShot integer 
----@field distributionAngle MetaEngineAngle 
----@field minimumError MetaEngineAngle 
----@field errorAngle MetaEngineAngle 
----@field firstPersonOffset MetaEnginePoint3D 
----@field projectile MetaEngineTagDependency 
----@field ejectionPortRecoveryTime number 
----@field illuminationRecoveryTime number 
----@field heatGeneratedPerRound MetaEngineFraction 
----@field ageGeneratedPerRound MetaEngineFraction 
----@field overloadTime number 
----@field illuminationRecoveryRate number 
----@field ejectionPortRecoveryRate number 
----@field firingAccelerationRate number 
----@field firingDecelerationRate number 
----@field errorAccelerationRate number 
----@field errorDecelerationRate number 
----@field firingEffects table<MetaEngineTagDataWeaponTriggerFiringEffect> 
-
----@class MetaEngineTagDataWeapon: MetaEngineTagDataItem  
----@field weaponFlags MetaEngineTagDataWeaponFlags 
----@field label MetaEngineTagString 
----@field secondaryTriggerMode EngineTagDataWeaponSecondaryTriggerMode 
----@field maximumAlternateShotsLoaded integer 
----@field weaponAIn EngineTagDataWeaponFunctionIn 
----@field weaponBIn EngineTagDataWeaponFunctionIn 
----@field weaponCIn EngineTagDataWeaponFunctionIn 
----@field weaponDIn EngineTagDataWeaponFunctionIn 
----@field readyTime number 
----@field readyEffect MetaEngineTagDependency 
----@field heatRecoveryThreshold MetaEngineFraction 
----@field overheatedThreshold MetaEngineFraction 
----@field heatDetonationThreshold MetaEngineFraction 
----@field heatDetonationFraction MetaEngineFraction 
----@field heatLossRate MetaEngineFraction 
----@field heatIllumination MetaEngineFraction 
----@field overheated MetaEngineTagDependency 
----@field overheatDetonation MetaEngineTagDependency 
----@field playerMeleeDamage MetaEngineTagDependency 
----@field playerMeleeResponse MetaEngineTagDependency 
----@field actorFiringParameters MetaEngineTagDependency 
----@field nearReticleRange number 
----@field farReticleRange number 
----@field intersectionReticleRange number 
----@field zoomLevels integer 
----@field zoomMagnificationRange number 
----@field autoaimAngle MetaEngineAngle 
----@field autoaimRange number 
----@field magnetismAngle MetaEngineAngle 
----@field magnetismRange number 
----@field deviationAngle MetaEngineAngle 
----@field movementPenalized EngineTagDataWeaponMovementPenalized 
----@field forwardMovementPenalty MetaEngineFraction 
----@field sidewaysMovementPenalty MetaEngineFraction 
----@field minimumTargetRange number 
----@field lookingTimeModifier number 
----@field lightPowerOnTime number 
----@field lightPowerOffTime number 
----@field lightPowerOnEffect MetaEngineTagDependency 
----@field lightPowerOffEffect MetaEngineTagDependency 
----@field ageHeatRecoveryPenalty number 
----@field ageRateOfFirePenalty number 
----@field ageMisfireStart MetaEngineFraction 
----@field ageMisfireChance MetaEngineFraction 
----@field firstPersonModel MetaEngineTagDependency 
----@field firstPersonAnimations MetaEngineTagDependency 
----@field hudInterface MetaEngineTagDependency 
----@field pickupSound MetaEngineTagDependency 
----@field zoomInSound MetaEngineTagDependency 
----@field zoomOutSound MetaEngineTagDependency 
----@field activeCamoDing number 
----@field activeCamoRegrowthRate number 
----@field weaponType EngineTagDataWeaponType 
----@field morePredictedResources table<MetaEngineTagDataPredictedResource> 
----@field magazines table<MetaEngineTagDataWeaponMagazine> 
----@field triggers table<MetaEngineTagDataWeaponTrigger> 
+---@class MetaEngineTagDataPlaceholder: MetaEngineTagDataBasicObject  
 
 ---@class MetaEngineTagDataStringListString 
 ---@field string MetaEngineTagDataOffset 
 
 ---@class MetaEngineTagDataStringList 
----@field strings table<MetaEngineTagDataStringListString> 
+---@field strings TagBlock<MetaEngineTagDataStringListString> 
 
----@class MetaEngineTagDataGarbage: MetaEngineTagDataItem  
+---@class EngineTagDataShaderEnvironmentTypeEnum : Enum 
 
----@alias EngineTagDataUIGameDataInputReferenceFunction 
----| 'u_i_game_data_input_reference_function_null'
----| 'u_i_game_data_input_reference_function_player_settings_menu_update_desc'
----| 'u_i_game_data_input_reference_function_unused'
----| 'u_i_game_data_input_reference_function_playlist_settings_menu_update_desc'
----| 'u_i_game_data_input_reference_function_gametype_select_menu_update_desc'
----| 'u_i_game_data_input_reference_function_multiplayer_type_menu_update_desc'
----| 'u_i_game_data_input_reference_function_solo_level_select_update'
----| 'u_i_game_data_input_reference_function_difficulty_menu_update_desc'
----| 'u_i_game_data_input_reference_function_build_number_textbox_only'
----| 'u_i_game_data_input_reference_function_server_list_update'
----| 'u_i_game_data_input_reference_function_network_pregame_status_update'
----| 'u_i_game_data_input_reference_function_splitscreen_pregame_status_update'
----| 'u_i_game_data_input_reference_function_net_splitscreen_prejoin_players'
----| 'u_i_game_data_input_reference_function_mp_profile_list_update'
----| 'u_i_game_data_input_reference_function_3wide_player_profile_list_update'
----| 'u_i_game_data_input_reference_function_plyr_prof_edit_select_menu_upd8'
----| 'u_i_game_data_input_reference_function_player_profile_small_menu_update'
----| 'u_i_game_data_input_reference_function_game_settings_lists_text_update'
----| 'u_i_game_data_input_reference_function_solo_game_objective_text'
----| 'u_i_game_data_input_reference_function_color_picker_update'
----| 'u_i_game_data_input_reference_function_game_settings_lists_pic_update'
----| 'u_i_game_data_input_reference_function_main_menu_fake_animate'
----| 'u_i_game_data_input_reference_function_mp_level_select_update'
----| 'u_i_game_data_input_reference_function_get_active_plyr_profile_name'
----| 'u_i_game_data_input_reference_function_get_edit_plyr_profile_name'
----| 'u_i_game_data_input_reference_function_get_edit_game_settings_name'
----| 'u_i_game_data_input_reference_function_get_active_plyr_profile_color'
----| 'u_i_game_data_input_reference_function_mp_set_textbox_map_name'
----| 'u_i_game_data_input_reference_function_mp_set_textbox_game_ruleset'
----| 'u_i_game_data_input_reference_function_mp_set_textbox_teams_noteams'
----| 'u_i_game_data_input_reference_function_mp_set_textbox_score_limit'
----| 'u_i_game_data_input_reference_function_mp_set_textbox_score_limit_type'
----| 'u_i_game_data_input_reference_function_mp_set_bitmap_for_map'
----| 'u_i_game_data_input_reference_function_mp_set_bitmap_for_ruleset'
----| 'u_i_game_data_input_reference_function_mp_set_textbox'
----| 'u_i_game_data_input_reference_function_mp_edit_profile_set_rule_text'
----| 'u_i_game_data_input_reference_function_system_link_status_check'
----| 'u_i_game_data_input_reference_function_mp_game_directions'
----| 'u_i_game_data_input_reference_function_teams_no_teams_bitmap_update'
----| 'u_i_game_data_input_reference_function_warn_if_diff_will_nuke_saved_game'
----| 'u_i_game_data_input_reference_function_dim_if_no_net_cable'
----| 'u_i_game_data_input_reference_function_pause_game_set_textbox_inverted'
----| 'u_i_game_data_input_reference_function_dim_unless_two_controllers'
----| 'u_i_game_data_input_reference_function_controls_update_menu'
----| 'u_i_game_data_input_reference_function_video_menu_update'
----| 'u_i_game_data_input_reference_function_gamespy_screen_update'
----| 'u_i_game_data_input_reference_function_common_button_bar_update'
----| 'u_i_game_data_input_reference_function_gamepad_update_menu'
----| 'u_i_game_data_input_reference_function_server_settings_update'
----| 'u_i_game_data_input_reference_function_audio_menu_update'
----| 'u_i_game_data_input_reference_function_mp_prof_vehicles_update'
----| 'u_i_game_data_input_reference_function_solo_map_list_update'
----| 'u_i_game_data_input_reference_function_mp_map_list_update'
----| 'u_i_game_data_input_reference_function_gt_select_list_update'
----| 'u_i_game_data_input_reference_function_gt_edit_list_update'
----| 'u_i_game_data_input_reference_function_load_game_list_update'
----| 'u_i_game_data_input_reference_function_checking_for_updates'
----| 'u_i_game_data_input_reference_function_direct_ip_connect_update'
----| 'u_i_game_data_input_reference_function_network_settings_update'
-
----@alias EngineTagDataUIEventType 
----| 'u_i_event_type_a_button'
----| 'u_i_event_type_b_button'
----| 'u_i_event_type_x_button'
----| 'u_i_event_type_y_button'
----| 'u_i_event_type_black_button'
----| 'u_i_event_type_white_button'
----| 'u_i_event_type_left_trigger'
----| 'u_i_event_type_right_trigger'
----| 'u_i_event_type_dpad_up'
----| 'u_i_event_type_dpad_down'
----| 'u_i_event_type_dpad_left'
----| 'u_i_event_type_dpad_right'
----| 'u_i_event_type_start_button'
----| 'u_i_event_type_back_button'
----| 'u_i_event_type_left_thumb'
----| 'u_i_event_type_right_thumb'
----| 'u_i_event_type_left_analog_stick_up'
----| 'u_i_event_type_left_analog_stick_down'
----| 'u_i_event_type_left_analog_stick_left'
----| 'u_i_event_type_left_analog_stick_right'
----| 'u_i_event_type_left_analog_stick_up_1'
----| 'u_i_event_type_right_analog_stick_down'
----| 'u_i_event_type_right_analog_stick_left'
----| 'u_i_event_type_right_analog_stick_right'
----| 'u_i_event_type_created'
----| 'u_i_event_type_deleted'
----| 'u_i_event_type_get_focus'
----| 'u_i_event_type_lose_focus'
----| 'u_i_event_type_left_mouse'
----| 'u_i_event_type_middle_mouse'
----| 'u_i_event_type_right_mouse'
----| 'u_i_event_type_double_click'
----| 'u_i_event_type_custom_activation'
----| 'u_i_event_type_post_render'
-
----@alias EngineTagDataUIEventHandlerReferenceFunction 
----| 'u_i_event_handler_reference_function_null'
----| 'u_i_event_handler_reference_function_list_goto_next_item'
----| 'u_i_event_handler_reference_function_list_goto_previous_item'
----| 'u_i_event_handler_reference_function_unused'
----| 'u_i_event_handler_reference_function_unused1'
----| 'u_i_event_handler_reference_function_initialize_sp_level_list_solo'
----| 'u_i_event_handler_reference_function_initialize_sp_level_list_coop'
----| 'u_i_event_handler_reference_function_dispose_sp_level_list'
----| 'u_i_event_handler_reference_function_solo_level_set_map'
----| 'u_i_event_handler_reference_function_set_difficulty'
----| 'u_i_event_handler_reference_function_start_new_game'
----| 'u_i_event_handler_reference_function_pause_game_restart_at_checkpoint'
----| 'u_i_event_handler_reference_function_pause_game_restart_level'
----| 'u_i_event_handler_reference_function_pause_game_return_to_main_menu'
----| 'u_i_event_handler_reference_function_clear_multiplayer_player_joins'
----| 'u_i_event_handler_reference_function_join_controller_to_mp_game'
----| 'u_i_event_handler_reference_function_initialize_net_game_server_list'
----| 'u_i_event_handler_reference_function_start_network_game_server'
----| 'u_i_event_handler_reference_function_dispose_net_game_server_list'
----| 'u_i_event_handler_reference_function_shutdown_network_game'
----| 'u_i_event_handler_reference_function_net_game_join_from_server_list'
----| 'u_i_event_handler_reference_function_split_screen_game_initialize'
----| 'u_i_event_handler_reference_function_coop_game_initialize'
----| 'u_i_event_handler_reference_function_main_menu_intialize'
----| 'u_i_event_handler_reference_function_mp_type_menu_initialize'
----| 'u_i_event_handler_reference_function_pick_play_stage_for_quick_start'
----| 'u_i_event_handler_reference_function_mp_level_list_initialize'
----| 'u_i_event_handler_reference_function_mp_level_list_dispose'
----| 'u_i_event_handler_reference_function_mp_level_select'
----| 'u_i_event_handler_reference_function_mp_profiles_list_initialize'
----| 'u_i_event_handler_reference_function_mp_profiles_list_dispose'
----| 'u_i_event_handler_reference_function_mp_profile_set_for_game'
----| 'u_i_event_handler_reference_function_swap_player_team'
----| 'u_i_event_handler_reference_function_net_game_join_player'
----| 'u_i_event_handler_reference_function_player_profile_list_initialize'
----| 'u_i_event_handler_reference_function_player_profile_list_dispose'
----| 'u_i_event_handler_reference_function_3wide_plyr_prof_set_for_game'
----| 'u_i_event_handler_reference_function_1wide_plyr_prof_set_for_game'
----| 'u_i_event_handler_reference_function_mp_profile_begin_editing'
----| 'u_i_event_handler_reference_function_mp_profile_end_editing'
----| 'u_i_event_handler_reference_function_mp_profile_set_game_engine'
----| 'u_i_event_handler_reference_function_mp_profile_change_name'
----| 'u_i_event_handler_reference_function_mp_profile_set_ctf_rules'
----| 'u_i_event_handler_reference_function_mp_profile_set_koth_rules'
----| 'u_i_event_handler_reference_function_mp_profile_set_slayer_rules'
----| 'u_i_event_handler_reference_function_mp_profile_set_oddball_rules'
----| 'u_i_event_handler_reference_function_mp_profile_set_racing_rules'
----| 'u_i_event_handler_reference_function_mp_profile_set_player_options'
----| 'u_i_event_handler_reference_function_mp_profile_set_item_options'
----| 'u_i_event_handler_reference_function_mp_profile_set_indicator_opts'
----| 'u_i_event_handler_reference_function_mp_profile_init_game_engine'
----| 'u_i_event_handler_reference_function_mp_profile_init_name'
----| 'u_i_event_handler_reference_function_mp_profile_init_ctf_rules'
----| 'u_i_event_handler_reference_function_mp_profile_init_koth_rules'
----| 'u_i_event_handler_reference_function_mp_profile_init_slayer_rules'
----| 'u_i_event_handler_reference_function_mp_profile_init_oddball_rules'
----| 'u_i_event_handler_reference_function_mp_profile_init_racing_rules'
----| 'u_i_event_handler_reference_function_mp_profile_init_player_opts'
----| 'u_i_event_handler_reference_function_mp_profile_init_item_options'
----| 'u_i_event_handler_reference_function_mp_profile_init_indicator_opts'
----| 'u_i_event_handler_reference_function_mp_profile_save_changes'
----| 'u_i_event_handler_reference_function_color_picker_menu_initialize'
----| 'u_i_event_handler_reference_function_color_picker_menu_dispose'
----| 'u_i_event_handler_reference_function_color_picker_select_color'
----| 'u_i_event_handler_reference_function_player_profile_begin_editing'
----| 'u_i_event_handler_reference_function_player_profile_end_editing'
----| 'u_i_event_handler_reference_function_player_profile_change_name'
----| 'u_i_event_handler_reference_function_player_profile_save_changes'
----| 'u_i_event_handler_reference_function_plyr_prf_init_cntl_settings'
----| 'u_i_event_handler_reference_function_plyr_prf_init_adv_cntl_set'
----| 'u_i_event_handler_reference_function_plyr_prf_save_cntl_settings'
----| 'u_i_event_handler_reference_function_plyr_prf_save_adv_cntl_set'
----| 'u_i_event_handler_reference_function_mp_game_player_quit'
----| 'u_i_event_handler_reference_function_main_menu_switch_to_solo_game'
----| 'u_i_event_handler_reference_function_request_del_player_profile'
----| 'u_i_event_handler_reference_function_request_del_playlist_profile'
----| 'u_i_event_handler_reference_function_final_del_player_profile'
----| 'u_i_event_handler_reference_function_final_del_playlist_profile'
----| 'u_i_event_handler_reference_function_cancel_profile_delete'
----| 'u_i_event_handler_reference_function_create_edit_playlist_profile'
----| 'u_i_event_handler_reference_function_create_edit_player_profile'
----| 'u_i_event_handler_reference_function_net_game_speed_start'
----| 'u_i_event_handler_reference_function_net_game_delay_start'
----| 'u_i_event_handler_reference_function_net_server_accept_conx'
----| 'u_i_event_handler_reference_function_net_server_defer_start'
----| 'u_i_event_handler_reference_function_net_server_allow_start'
----| 'u_i_event_handler_reference_function_disable_if_no_xdemos'
----| 'u_i_event_handler_reference_function_run_xdemos'
----| 'u_i_event_handler_reference_function_sp_reset_controller_choices'
----| 'u_i_event_handler_reference_function_sp_set_p1_controller_choice'
----| 'u_i_event_handler_reference_function_sp_set_p2_controller_choice'
----| 'u_i_event_handler_reference_function_error_if_no_network_connection'
----| 'u_i_event_handler_reference_function_start_server_if_none_advertised'
----| 'u_i_event_handler_reference_function_net_game_unjoin_player'
----| 'u_i_event_handler_reference_function_close_if_not_editing_profile'
----| 'u_i_event_handler_reference_function_exit_to_xbox_dashboard'
----| 'u_i_event_handler_reference_function_new_campaign_chosen'
----| 'u_i_event_handler_reference_function_new_campaign_decision'
----| 'u_i_event_handler_reference_function_pop_history_stack_once'
----| 'u_i_event_handler_reference_function_difficulty_menu_init'
----| 'u_i_event_handler_reference_function_begin_music_fade_out'
----| 'u_i_event_handler_reference_function_new_game_if_no_plyr_profiles'
----| 'u_i_event_handler_reference_function_exit_gracefully_to_xbox_dashboard'
----| 'u_i_event_handler_reference_function_pause_game_invert_pitch'
----| 'u_i_event_handler_reference_function_start_new_coop_game'
----| 'u_i_event_handler_reference_function_pause_game_invert_spinner_get'
----| 'u_i_event_handler_reference_function_pause_game_invert_spinner_set'
----| 'u_i_event_handler_reference_function_main_menu_quit_game'
----| 'u_i_event_handler_reference_function_mouse_emit_accept_event'
----| 'u_i_event_handler_reference_function_mouse_emit_back_event'
----| 'u_i_event_handler_reference_function_mouse_emit_dpad_left_event'
----| 'u_i_event_handler_reference_function_mouse_emit_dpad_right_event'
----| 'u_i_event_handler_reference_function_mouse_spinner_3wide_click'
----| 'u_i_event_handler_reference_function_controls_screen_init'
----| 'u_i_event_handler_reference_function_video_screen_init'
----| 'u_i_event_handler_reference_function_controls_begin_binding'
----| 'u_i_event_handler_reference_function_gamespy_screen_init'
----| 'u_i_event_handler_reference_function_gamespy_screen_dispose'
----| 'u_i_event_handler_reference_function_gamespy_select_header'
----| 'u_i_event_handler_reference_function_gamespy_select_item'
----| 'u_i_event_handler_reference_function_gamespy_select_button'
----| 'u_i_event_handler_reference_function_plr_prof_init_mouse_set'
----| 'u_i_event_handler_reference_function_plr_prof_change_mouse_set'
----| 'u_i_event_handler_reference_function_plr_prof_init_audio_set'
----| 'u_i_event_handler_reference_function_plr_prof_change_audio_set'
----| 'u_i_event_handler_reference_function_plr_prof_change_video_set'
----| 'u_i_event_handler_reference_function_controls_screen_dispose'
----| 'u_i_event_handler_reference_function_controls_screen_change_set'
----| 'u_i_event_handler_reference_function_mouse_emit_x_event'
----| 'u_i_event_handler_reference_function_gamepad_screen_init'
----| 'u_i_event_handler_reference_function_gamepad_screen_dispose'
----| 'u_i_event_handler_reference_function_gamepad_screen_change_gamepads'
----| 'u_i_event_handler_reference_function_gamepad_screen_select_item'
----| 'u_i_event_handler_reference_function_mouse_screen_defaults'
----| 'u_i_event_handler_reference_function_audio_screen_defaults'
----| 'u_i_event_handler_reference_function_video_screen_defaults'
----| 'u_i_event_handler_reference_function_controls_screen_defaults'
----| 'u_i_event_handler_reference_function_profile_set_edit_begin'
----| 'u_i_event_handler_reference_function_profile_manager_delete'
----| 'u_i_event_handler_reference_function_profile_manager_select'
----| 'u_i_event_handler_reference_function_gamespy_dismiss_error'
----| 'u_i_event_handler_reference_function_server_settings_init'
----| 'u_i_event_handler_reference_function_ss_edit_server_name'
----| 'u_i_event_handler_reference_function_ss_edit_server_password'
----| 'u_i_event_handler_reference_function_ss_start_game'
----| 'u_i_event_handler_reference_function_video_test_dialog_init'
----| 'u_i_event_handler_reference_function_video_test_dialog_dispose'
----| 'u_i_event_handler_reference_function_video_test_dialog_accept'
----| 'u_i_event_handler_reference_function_gamespy_dismiss_filters'
----| 'u_i_event_handler_reference_function_gamespy_update_filter_settings'
----| 'u_i_event_handler_reference_function_gamespy_back_handler'
----| 'u_i_event_handler_reference_function_mouse_spinner_1wide_click'
----| 'u_i_event_handler_reference_function_controls_back_handler'
----| 'u_i_event_handler_reference_function_controls_advanced_launch'
----| 'u_i_event_handler_reference_function_controls_advanced_ok'
----| 'u_i_event_handler_reference_function_mp_pause_menu_open'
----| 'u_i_event_handler_reference_function_mp_game_options_open'
----| 'u_i_event_handler_reference_function_mp_choose_team'
----| 'u_i_event_handler_reference_function_mp_prof_init_vehicle_options'
----| 'u_i_event_handler_reference_function_mp_prof_save_vehicle_options'
----| 'u_i_event_handler_reference_function_single_prev_cl_item_activated'
----| 'u_i_event_handler_reference_function_mp_prof_init_teamplay_options'
----| 'u_i_event_handler_reference_function_mp_prof_save_teamplay_options'
----| 'u_i_event_handler_reference_function_mp_game_options_choose'
----| 'u_i_event_handler_reference_function_emit_custom_activation_event'
----| 'u_i_event_handler_reference_function_plr_prof_cancel_audio_set'
----| 'u_i_event_handler_reference_function_plr_prof_init_network_options'
----| 'u_i_event_handler_reference_function_plr_prof_save_network_options'
----| 'u_i_event_handler_reference_function_credits_post_render'
----| 'u_i_event_handler_reference_function_difficulty_item_select'
----| 'u_i_event_handler_reference_function_credits_initialize'
----| 'u_i_event_handler_reference_function_credits_dispose'
----| 'u_i_event_handler_reference_function_gamespy_get_patch'
----| 'u_i_event_handler_reference_function_video_screen_dispose'
----| 'u_i_event_handler_reference_function_campaign_menu_init'
----| 'u_i_event_handler_reference_function_campaign_menu_continue'
----| 'u_i_event_handler_reference_function_load_game_menu_init'
----| 'u_i_event_handler_reference_function_load_game_menu_dispose'
----| 'u_i_event_handler_reference_function_load_game_menu_activated'
----| 'u_i_event_handler_reference_function_solo_menu_save_checkpoint'
----| 'u_i_event_handler_reference_function_mp_type_set_mode'
----| 'u_i_event_handler_reference_function_checking_for_updates_ok'
----| 'u_i_event_handler_reference_function_checking_for_updates_dismiss'
----| 'u_i_event_handler_reference_function_direct_ip_connect_init'
----| 'u_i_event_handler_reference_function_direct_ip_connect_go'
----| 'u_i_event_handler_reference_function_direct_ip_edit_field'
----| 'u_i_event_handler_reference_function_network_settings_edit_a_port'
----| 'u_i_event_handler_reference_function_network_settings_defaults'
----| 'u_i_event_handler_reference_function_load_game_menu_delete_request'
----| 'u_i_event_handler_reference_function_load_game_menu_delete_finish'
-
----@alias EngineTagDataUIReplaceFunction 
----| 'u_i_replace_function_null'
----| 'u_i_replace_function_widget_s_controller'
----| 'u_i_replace_function_build_number'
----| 'u_i_replace_function_pid'
-
----@alias EngineTagDataUIWidgetType 
----| 'u_i_widget_type_container'
----| 'u_i_widget_type_text_box'
----| 'u_i_widget_type_spinner_list'
----| 'u_i_widget_type_column_list'
----| 'u_i_widget_type_game_model_not_implemented'
----| 'u_i_widget_type_movie_not_implemented'
----| 'u_i_widget_type_custom_not_implemented'
-
----@alias EngineTagDataUIControllerIndex 
----| 'u_i_controller_index_player_1'
----| 'u_i_controller_index_player_2'
----| 'u_i_controller_index_player_3'
----| 'u_i_controller_index_player_4'
----| 'u_i_controller_index_any_player'
-
----@alias EngineTagDataUIJustification 
----| 'u_i_justification_left_justify'
----| 'u_i_justification_right_justify'
----| 'u_i_justification_center_justify'
-
----@class MetaEngineTagDataEventHandlerReferencesFlags 
----@field closeCurrentWidget boolean 
----@field closeOtherWidget boolean 
----@field closeAllWidgets boolean 
----@field openWidget boolean 
----@field reloadSelf boolean 
----@field reloadOtherWidget boolean 
----@field giveFocusToWidget boolean 
----@field runFunction boolean 
----@field replaceSelfWWidget boolean 
----@field goBackToPreviousWidget boolean 
----@field runScenarioScript boolean 
----@field tryToBranchOnFailure boolean 
-
----@class MetaEngineTagDataConditionalWidgetReferenceFlags 
----@field loadIfEventHandlerFunctionFails boolean 
-
----@class MetaEngineTagDataChildWidgetReferenceFlags 
----@field useCustomControllerIndex boolean 
-
----@class MetaEngineTagDataUIWidgetDefinitionFlags 
----@field passUnhandledEventsToFocusedChild boolean 
----@field pauseGameTime boolean 
----@field flashBackgroundBitmap boolean 
----@field dpadUpDownTabsThruChildren boolean 
----@field dpadLeftRightTabsThruChildren boolean 
----@field dpadUpDownTabsThruListItems boolean 
----@field dpadLeftRightTabsThruListItems boolean 
----@field dontFocusASpecificChildWidget boolean 
----@field passUnhandledEventsToAllChildren boolean 
----@field renderRegardlessOfControllerIndex boolean 
----@field passHandledEventsToAllChildren boolean 
----@field returnToMainMenuIfNoHistory boolean 
----@field alwaysUseTagControllerIndex boolean 
----@field alwaysUseNiftyRenderFx boolean 
----@field dontPushHistory boolean 
----@field forceHandleMouse boolean 
-
----@class MetaEngineTagDataUIWidgetDefinitionFlags1 
----@field editable boolean 
----@field password boolean 
----@field flashing boolean 
----@field dontDoThatWeirdFocusTest boolean 
-
----@class MetaEngineTagDataUIWidgetDefinitionFlags2 
----@field listItemsGeneratedInCode boolean 
----@field listItemsFromStringListTag boolean 
----@field listItemsOnlyOneTooltip boolean 
----@field listSinglePreviewNoScroll boolean 
-
----@class MetaEngineTagDataGameDataInputReference 
----@field function EngineTagDataUIGameDataInputReferenceFunction 
-
----@class MetaEngineTagDataEventHandlerReference 
----@field flags MetaEngineTagDataEventHandlerReferencesFlags 
----@field eventType EngineTagDataUIEventType 
----@field function EngineTagDataUIEventHandlerReferenceFunction 
----@field widgetTag MetaEngineTagDependency 
----@field soundEffect MetaEngineTagDependency 
----@field script MetaEngineTagString 
-
----@class MetaEngineTagDataSearchAndReplaceReference 
----@field searchString MetaEngineTagString 
----@field replaceFunction EngineTagDataUIReplaceFunction 
-
----@class MetaEngineTagDataConditionalWidgetReference 
----@field widgetTag MetaEngineTagDependency 
----@field name MetaEngineTagString 
----@field flags MetaEngineTagDataConditionalWidgetReferenceFlags 
----@field customControllerIndex MetaEngineIndex 
-
----@class MetaEngineTagDataChildWidgetReference 
----@field widgetTag MetaEngineTagDependency 
----@field name MetaEngineTagString 
----@field flags MetaEngineTagDataChildWidgetReferenceFlags 
----@field customControllerIndex MetaEngineIndex 
----@field verticalOffset integer 
----@field horizontalOffset integer 
-
----@class MetaEngineTagDataUiWidgetDefinition 
----@field widgetType EngineTagDataUIWidgetType 
----@field controllerIndex EngineTagDataUIControllerIndex 
----@field name MetaEngineTagString 
----@field bounds MetaEngineRectangle2D 
----@field flags MetaEngineTagDataUIWidgetDefinitionFlags 
----@field millisecondsToAutoClose integer 
----@field millisecondsAutoCloseFadeTime integer 
----@field backgroundBitmap MetaEngineTagDependency 
----@field gameDataInputs table<MetaEngineTagDataGameDataInputReference> 
----@field eventHandlers table<MetaEngineTagDataEventHandlerReference> 
----@field searchAndReplaceFunctions table<MetaEngineTagDataSearchAndReplaceReference> 
----@field textLabelUnicodeStringsList MetaEngineTagDependency 
----@field textFont MetaEngineTagDependency 
----@field textColor MetaEngineColorARGB 
----@field justification EngineTagDataUIJustification 
----@field flags_1 MetaEngineTagDataUIWidgetDefinitionFlags1 
----@field stringListIndex MetaEngineIndex 
----@field horizOffset integer 
----@field vertOffset integer 
----@field flags_2 MetaEngineTagDataUIWidgetDefinitionFlags2 
----@field listHeaderBitmap MetaEngineTagDependency 
----@field listFooterBitmap MetaEngineTagDependency 
----@field headerBounds MetaEngineRectangle2D 
----@field footerBounds MetaEngineRectangle2D 
----@field extendedDescriptionWidget MetaEngineTagDependency 
----@field conditionalWidgets table<MetaEngineTagDataConditionalWidgetReference> 
----@field childWidgets MetaEngineTagDataChildWidgetReference[]
-
----@alias EngineTagDataGlowBoundaryEffect 
----| 'glow_boundary_effect_bounce'
----| 'glow_boundary_effect_wrap'
-
----@alias EngineTagDataGlowNormalParticleDistribution 
----| 'glow_normal_particle_distribution_distributed_randomly'
----| 'glow_normal_particle_distribution_distributed_uniformly'
-
----@alias EngineTagDataGlowTrailingParticleDistribution 
----| 'glow_trailing_particle_distribution_emit_vertically'
----| 'glow_trailing_particle_distribution_emit_normal_up'
----| 'glow_trailing_particle_distribution_emit_randomly'
-
----@class MetaEngineTagDataGlowFlags 
----@field modifyParticleColorInRange boolean 
----@field particlesMoveBackwards boolean 
----@field particesMoveInBothDirections boolean 
----@field trailingParticlesFadeOverTime boolean 
----@field trailingParticlesShrinkOverTime boolean 
----@field trailingParticlesSlowOverTime boolean 
-
----@class MetaEngineTagDataGlow 
----@field attachmentMarker MetaEngineTagString 
----@field numberOfParticles integer 
----@field boundaryEffect EngineTagDataGlowBoundaryEffect 
----@field normalParticleDistribution EngineTagDataGlowNormalParticleDistribution 
----@field trailingParticleDistribution EngineTagDataGlowTrailingParticleDistribution 
----@field glowFlags MetaEngineTagDataGlowFlags 
----@field attachment_0 EngineTagDataFunctionOut 
----@field particleRotationalVelocity number 
----@field particleRotVelMulLow number 
----@field particleRotVelMulHigh number 
----@field attachment_1 EngineTagDataFunctionOut 
----@field effectRotationalVelocity number 
----@field effectRotVelMulLow number 
----@field effectRotVelMulHigh number 
----@field attachment_2 EngineTagDataFunctionOut 
----@field effectTranslationalVelocity number 
----@field effectTransVelMulLow number 
----@field effectTransVelMulHigh number 
----@field attachment_3 EngineTagDataFunctionOut 
----@field minDistanceParticleToObject number 
----@field maxDistanceParticleToObject number 
----@field distanceToObjectMulLow number 
----@field distanceToObjectMulHigh number 
----@field attachment_4 EngineTagDataFunctionOut 
----@field particleSizeBounds number 
----@field sizeAttachmentMultiplier number 
----@field attachment_5 EngineTagDataFunctionOut 
----@field colorBound_0 MetaEngineColorARGB 
----@field colorBound_1 MetaEngineColorARGB 
----@field scaleColor_0 MetaEngineColorARGB 
----@field scaleColor_1 MetaEngineColorARGB 
----@field colorRateOfChange number 
----@field fadingPercentageOfGlow number 
----@field particleGenerationFreq number 
----@field lifetimeOfTrailingParticles number 
----@field velocityOfTrailingParticles number 
----@field trailingParticleMinimumT number 
----@field trailingParticleMaximumT number 
----@field texture MetaEngineTagDependency 
-
----@class MetaEngineTagDataFogFlags 
----@field isWater boolean 
----@field atmosphereDominant boolean 
----@field fogScreenOnly boolean 
-
----@class MetaEngineTagDataFogScreenFlags 
----@field noEnvironmentMultipass boolean 
----@field noModelMultipass boolean 
----@field noTextureBasedFalloff boolean 
-
----@class MetaEngineTagDataFog 
----@field flags MetaEngineTagDataFogFlags 
----@field maximumDensity MetaEngineFraction 
----@field opaqueDistance number 
----@field opaqueDepth number 
----@field distanceToWaterPlane number 
----@field color MetaEngineColorRGB 
----@field flags_1 MetaEngineTagDataFogScreenFlags 
----@field layerCount integer 
----@field distanceGradient number 
----@field densityGradient MetaEngineFraction 
----@field startDistanceFromFogPlane number 
----@field screenLayersColor MetaEngineColorARGBInt 
----@field rotationMultiplier MetaEngineFraction 
----@field strafingMultiplier MetaEngineFraction 
----@field zoomMultiplier MetaEngineFraction 
----@field mapScale number 
----@field map MetaEngineTagDependency 
----@field animationPeriod number 
----@field windVelocity number 
----@field windPeriod number 
----@field windAccelerationWeight MetaEngineFraction 
----@field windPerpendicularWeight MetaEngineFraction 
----@field backgroundSound MetaEngineTagDependency 
----@field soundEnvironment MetaEngineTagDependency 
-
----@class MetaEngineTagDataItemFlags 
----@field alwaysMaintainsZUp boolean 
----@field destroyedByExplosions boolean 
----@field unaffectedByGravity boolean 
-
----@class MetaEngineTagDataItem: MetaEngineTagDataObject  
----@field itemFlags MetaEngineTagDataItemFlags 
----@field pickupTextIndex MetaEngineIndex 
----@field sortOrder integer 
----@field scale number 
----@field hudMessageValueScale integer 
----@field itemAIn EngineTagDataObjectFunctionIn 
----@field itemBIn EngineTagDataObjectFunctionIn 
----@field itemCIn EngineTagDataObjectFunctionIn 
----@field itemDIn EngineTagDataObjectFunctionIn 
----@field materialEffects MetaEngineTagDependency 
----@field collisionSound MetaEngineTagDependency 
----@field detonationDelay number 
----@field detonatingEffect MetaEngineTagDependency 
----@field detonationEffect MetaEngineTagDependency 
-
----@class MetaEngineTagDataShaderTransparentPlasma: MetaEngineTagDataShader  
----@field intensitySource EngineTagDataFunctionOut 
----@field intensityExponent number 
----@field offsetSource EngineTagDataFunctionOut 
----@field offsetAmount number 
----@field offsetExponent number 
----@field perpendicularBrightness MetaEngineFraction 
----@field perpendicularTintColor MetaEngineColorRGB 
----@field parallelBrightness MetaEngineFraction 
----@field parallelTintColor MetaEngineColorRGB 
----@field tintColorSource EngineTagDataFunctionNameNullable 
----@field primaryAnimationPeriod number 
----@field primaryAnimationDirection MetaEngineVector3D 
----@field primaryNoiseMapScale number 
----@field primaryNoiseMap MetaEngineTagDependency 
----@field secondaryAnimationPeriod number 
----@field secondaryAnimationDirection MetaEngineVector3D 
----@field secondaryNoiseMapScale number 
----@field secondaryNoiseMap MetaEngineTagDependency 
-
----@class MetaEngineTagDataLightningMarkerFlag 
----@field notConnectedToNextMarker boolean 
-
----@class MetaEngineTagDataLightningMarker 
----@field attachmentMarker MetaEngineTagString 
----@field flags MetaEngineTagDataLightningMarkerFlag 
----@field octavesToNextMarker integer 
----@field randomPositionBounds MetaEngineVector3D 
----@field randomJitter number 
----@field thickness number 
----@field tint MetaEngineColorARGB 
-
----@class MetaEngineTagDataLightningShader 
----@field makeItWork integer 
----@field shaderFlags MetaEngineTagDataParticleShaderFlags 
----@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
----@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
----@field mapFlags MetaEngineTagDataIsUnfilteredFlag 
----@field someMoreStuffThatShouldBeSetForSomeReason integer 
-
----@class MetaEngineTagDataLightning 
----@field count integer 
----@field nearFadeDistance number 
----@field farFadeDistance number 
----@field jitterScaleSource EngineTagDataFunctionOut 
----@field thicknessScaleSource EngineTagDataFunctionOut 
----@field tintModulationSource EngineTagDataFunctionNameNullable 
----@field brightnessScaleSource EngineTagDataFunctionOut 
----@field bitmap MetaEngineTagDependency 
----@field markers table<MetaEngineTagDataLightningMarker> 
----@field shader table<MetaEngineTagDataLightningShader> 
-
----@alias EngineTagDataDecalType 
----| 'decal_type_scratch'
----| 'decal_type_splatter'
----| 'decal_type_burn'
----| 'decal_type_painted_sign'
-
----@alias EngineTagDataDecalLayer 
----| 'decal_layer_primary'
----| 'decal_layer_secondary'
----| 'decal_layer_light'
----| 'decal_layer_alpha_tested'
----| 'decal_layer_water'
-
----@class MetaEngineTagDataDecalFlags 
----@field geometryInheritedByNextDecalInChain boolean 
----@field interpolateColorInHsv boolean 
----@field moreColors boolean 
----@field noRandomRotation boolean 
----@field waterEffect boolean 
----@field sapienSnapToAxis boolean 
----@field sapienIncrementalCounter boolean 
----@field animationLoop boolean 
----@field preserveAspect boolean 
----@field disabledInAnniversaryByBloodSetting boolean 
-
----@class MetaEngineTagDataDecal 
----@field flags MetaEngineTagDataDecalFlags 
----@field type EngineTagDataDecalType 
----@field layer EngineTagDataDecalLayer 
----@field nextDecalInChain MetaEngineTagDependency 
----@field radius number 
----@field intensity MetaEngineFraction 
----@field colorLowerBounds MetaEngineColorRGB 
----@field colorUpperBounds MetaEngineColorRGB 
----@field animationLoopFrame integer 
----@field animationSpeed integer 
----@field lifetime number 
----@field decayTime number 
----@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
----@field map MetaEngineTagDependency 
----@field maximumSpriteExtent number 
+---@class EngineTagDataShaderEnvironmentTypeNormal : EngineTagDataShaderEnvironmentTypeEnum 
+---@class EngineTagDataShaderEnvironmentTypeBlended : EngineTagDataShaderEnvironmentTypeEnum 
+---@class EngineTagDataShaderEnvironmentTypeBlendedBaseSpecular : EngineTagDataShaderEnvironmentTypeEnum 
 
 ---@alias EngineTagDataShaderEnvironmentType 
----| 'shader_environment_type_normal'
----| 'shader_environment_type_blended'
----| 'shader_environment_type_blended_base_specular'
+---| EngineTagDataShaderEnvironmentTypeNormal
+---| EngineTagDataShaderEnvironmentTypeBlended
+---| EngineTagDataShaderEnvironmentTypeBlendedBaseSpecular
+
+---@class EngineTagDataShaderEnvironmentTypeTable 
+---@field eNormal EngineTagDataShaderEnvironmentTypeNormal
+---@field eBlended EngineTagDataShaderEnvironmentTypeBlended
+---@field eBlendedBaseSpecular EngineTagDataShaderEnvironmentTypeBlendedBaseSpecular
+Engine.tag.shaderEnvironmentType = {} 
+
+---@class EngineTagDataShaderEnvironmentReflectionTypeEnum : Enum 
+
+---@class EngineTagDataShaderEnvironmentReflectionTypeBumpedCubeMap : EngineTagDataShaderEnvironmentReflectionTypeEnum 
+---@class EngineTagDataShaderEnvironmentReflectionTypeFlatCubeMap : EngineTagDataShaderEnvironmentReflectionTypeEnum 
+---@class EngineTagDataShaderEnvironmentReflectionTypeBumpedRadiosity : EngineTagDataShaderEnvironmentReflectionTypeEnum 
 
 ---@alias EngineTagDataShaderEnvironmentReflectionType 
----| 'shader_environment_reflection_type_bumped_cube_map'
----| 'shader_environment_reflection_type_flat_cube_map'
----| 'shader_environment_reflection_type_bumped_radiosity'
+---| EngineTagDataShaderEnvironmentReflectionTypeBumpedCubeMap
+---| EngineTagDataShaderEnvironmentReflectionTypeFlatCubeMap
+---| EngineTagDataShaderEnvironmentReflectionTypeBumpedRadiosity
+
+---@class EngineTagDataShaderEnvironmentReflectionTypeTable 
+---@field peBumpedCubeMap EngineTagDataShaderEnvironmentReflectionTypeBumpedCubeMap
+---@field peFlatCubeMap EngineTagDataShaderEnvironmentReflectionTypeFlatCubeMap
+---@field peBumpedRadiosity EngineTagDataShaderEnvironmentReflectionTypeBumpedRadiosity
+Engine.tag.shaderEnvironmentReflectionType = {} 
 
 ---@class MetaEngineTagDataShaderEnvironmentFlags 
 ---@field alphaTested boolean 
@@ -2559,42 +407,1473 @@
 ---@field parallelBrightness MetaEngineFraction 
 ---@field reflectionCubeMap MetaEngineTagDependency 
 
----@class MetaEngineTagDataDeviceLightFixture: MetaEngineTagDataDevice  
+---@class MetaEngineTagDataGrenadeHUDInterfaceOverlayType 
+---@field showOnFlashing boolean 
+---@field showOnEmpty boolean 
+---@field showOnDefault boolean 
+---@field showAlways boolean 
+
+---@class MetaEngineTagDataGrenadeHUDInterfaceSoundLatchedTo 
+---@field lowGrenadeCount boolean 
+---@field noGrenadesLeft boolean 
+---@field throwOnNoGrenades boolean 
+
+---@class MetaEngineTagDataGrenadeHUDInterfaceOverlay 
+---@field anchorOffset MetaEnginePoint2DInt 
+---@field widthScale number 
+---@field heightScale number 
+---@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field defaultColor MetaEngineColorARGBInt 
+---@field flashingColor MetaEngineColorARGBInt 
+---@field flashPeriod number 
+---@field flashDelay number 
+---@field numberOfFlashes integer 
+---@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field flashLength number 
+---@field disabledColor MetaEngineColorARGBInt 
+---@field frameRate number 
+---@field sequenceIndex MetaEngineIndex 
+---@field type MetaEngineTagDataGrenadeHUDInterfaceOverlayType 
+---@field flags MetaEngineTagDataHUDInterfaceOverlayFlashFlags 
+
+---@class MetaEngineTagDataGrenadeHUDInterfaceSound 
+---@field sound MetaEngineTagDependency 
+---@field latchedTo MetaEngineTagDataGrenadeHUDInterfaceSoundLatchedTo 
+---@field scale number 
+
+---@class MetaEngineTagDataGrenadeHudInterface 
+---@field anchor EngineTagDataHUDInterfaceAnchor 
+---@field backgroundAnchorOffset MetaEnginePoint2DInt 
+---@field backgroundWidthScale number 
+---@field backgroundHeightScale number 
+---@field backgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field backgroundInterfaceBitmap MetaEngineTagDependency 
+---@field backgroundDefaultColor MetaEngineColorARGBInt 
+---@field backgroundFlashingColor MetaEngineColorARGBInt 
+---@field backgroundFlashPeriod number 
+---@field backgroundFlashDelay number 
+---@field backgroundNumberOfFlashes integer 
+---@field backgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field backgroundFlashLength number 
+---@field backgroundDisabledColor MetaEngineColorARGBInt 
+---@field backgroundSequenceIndex MetaEngineIndex 
+---@field backgroundMultitextureOverlays TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+---@field totalGrenadesBackgroundAnchorOffset MetaEnginePoint2DInt 
+---@field totalGrenadesBackgroundWidthScale number 
+---@field totalGrenadesBackgroundHeightScale number 
+---@field totalGrenadesBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field totalGrenadesBackgroundInterfaceBitmap MetaEngineTagDependency 
+---@field totalGrenadesBackgroundDefaultColor MetaEngineColorARGBInt 
+---@field totalGrenadesBackgroundFlashingColor MetaEngineColorARGBInt 
+---@field totalGrenadesBackgroundFlashPeriod number 
+---@field totalGrenadesBackgroundFlashDelay number 
+---@field totalGrenadesBackgroundNumberOfFlashes integer 
+---@field totalGrenadesBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field totalGrenadesBackgroundFlashLength number 
+---@field totalGrenadesBackgroundDisabledColor MetaEngineColorARGBInt 
+---@field totalGrenadesBackgroundSequenceIndex MetaEngineIndex 
+---@field totalGrenadesBackgroundMultitextureOverlays TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+---@field totalGrenadesNumbersAnchorOffset MetaEnginePoint2DInt 
+---@field totalGrenadesNumbersWidthScale number 
+---@field totalGrenadesNumbersHeightScale number 
+---@field totalGrenadesNumbersScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field totalGrenadesNumbersDefaultColor MetaEngineColorARGBInt 
+---@field totalGrenadesNumbersFlashingColor MetaEngineColorARGBInt 
+---@field totalGrenadesNumbersFlashPeriod number 
+---@field totalGrenadesNumbersFlashDelay number 
+---@field totalGrenadesNumbersNumberOfFlashes integer 
+---@field totalGrenadesNumbersFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field totalGrenadesNumbersFlashLength number 
+---@field totalGrenadesNumbersDisabledColor MetaEngineColorARGBInt 
+---@field totalGrenadesNumbersMaximumNumberOfDigits integer 
+---@field totalGrenadesNumbersFlags MetaEngineTagDataHUDInterfaceNumberFlags 
+---@field totalGrenadesNumbersNumberOfFractionalDigits integer 
+---@field flashCutoff integer 
+---@field totalGrenadesOverlayBitmap MetaEngineTagDependency 
+---@field totalGrenadesOverlays TagBlock<MetaEngineTagDataGrenadeHUDInterfaceOverlay> 
+---@field totalGrenadesWarningSounds TagBlock<MetaEngineTagDataGrenadeHUDInterfaceSound> 
+---@field messagingInformationSequenceIndex MetaEngineIndex 
+---@field messagingInformationWidthOffset integer 
+---@field messagingInformationOffsetFromReferenceCorner MetaEnginePoint2DInt 
+---@field messagingInformationOverrideIconColor MetaEngineColorARGBInt 
+---@field messagingInformationFrameRate integer 
+---@field messagingInformationFlags MetaEngineTagDataHUDInterfaceMessagingFlags 
+---@field messagingInformationTextIndex MetaEngineIndex 
+
+---@class EngineTagDataDecalTypeEnum : Enum 
+
+---@class EngineTagDataDecalTypeScratch : EngineTagDataDecalTypeEnum 
+---@class EngineTagDataDecalTypeSplatter : EngineTagDataDecalTypeEnum 
+---@class EngineTagDataDecalTypeBurn : EngineTagDataDecalTypeEnum 
+---@class EngineTagDataDecalTypePaintedSign : EngineTagDataDecalTypeEnum 
+
+---@alias EngineTagDataDecalType 
+---| EngineTagDataDecalTypeScratch
+---| EngineTagDataDecalTypeSplatter
+---| EngineTagDataDecalTypeBurn
+---| EngineTagDataDecalTypePaintedSign
+
+---@class EngineTagDataDecalTypeTable 
+---@field scratch EngineTagDataDecalTypeScratch
+---@field splatter EngineTagDataDecalTypeSplatter
+---@field burn EngineTagDataDecalTypeBurn
+---@field paintedSign EngineTagDataDecalTypePaintedSign
+Engine.tag.decalType = {} 
+
+---@class EngineTagDataDecalLayerEnum : Enum 
+
+---@class EngineTagDataDecalLayerPrimary : EngineTagDataDecalLayerEnum 
+---@class EngineTagDataDecalLayerSecondary : EngineTagDataDecalLayerEnum 
+---@class EngineTagDataDecalLayerLight : EngineTagDataDecalLayerEnum 
+---@class EngineTagDataDecalLayerAlphaTested : EngineTagDataDecalLayerEnum 
+---@class EngineTagDataDecalLayerWater : EngineTagDataDecalLayerEnum 
+
+---@alias EngineTagDataDecalLayer 
+---| EngineTagDataDecalLayerPrimary
+---| EngineTagDataDecalLayerSecondary
+---| EngineTagDataDecalLayerLight
+---| EngineTagDataDecalLayerAlphaTested
+---| EngineTagDataDecalLayerWater
+
+---@class EngineTagDataDecalLayerTable 
+---@field primary EngineTagDataDecalLayerPrimary
+---@field secondary EngineTagDataDecalLayerSecondary
+---@field light EngineTagDataDecalLayerLight
+---@field alphaTested EngineTagDataDecalLayerAlphaTested
+---@field water EngineTagDataDecalLayerWater
+Engine.tag.decalLayer = {} 
+
+---@class MetaEngineTagDataDecalFlags 
+---@field geometryInheritedByNextDecalInChain boolean 
+---@field interpolateColorInHsv boolean 
+---@field moreColors boolean 
+---@field noRandomRotation boolean 
+---@field waterEffect boolean 
+---@field sapienSnapToAxis boolean 
+---@field sapienIncrementalCounter boolean 
+---@field animationLoop boolean 
+---@field preserveAspect boolean 
+---@field disabledInAnniversaryByBloodSetting boolean 
+
+---@class MetaEngineTagDataDecal 
+---@field flags MetaEngineTagDataDecalFlags 
+---@field type EngineTagDataDecalType 
+---@field layer EngineTagDataDecalLayer 
+---@field nextDecalInChain MetaEngineTagDependency 
+---@field radius number 
+---@field intensity MetaEngineFraction 
+---@field colorLowerBounds MetaEngineColorRGB 
+---@field colorUpperBounds MetaEngineColorRGB 
+---@field animationLoopFrame integer 
+---@field animationSpeed integer 
+---@field lifetime number 
+---@field decayTime number 
+---@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
+---@field map MetaEngineTagDependency 
+---@field maximumSpriteExtent number 
+
+---@class EngineTagDataWeatherParticleSystemRenderDirectionSourceEnum : Enum 
+
+---@class EngineTagDataWeatherParticleSystemRenderDirectionSourceFromVelocity : EngineTagDataWeatherParticleSystemRenderDirectionSourceEnum 
+---@class EngineTagDataWeatherParticleSystemRenderDirectionSourceFromAcceleration : EngineTagDataWeatherParticleSystemRenderDirectionSourceEnum 
+
+---@alias EngineTagDataWeatherParticleSystemRenderDirectionSource 
+---| EngineTagDataWeatherParticleSystemRenderDirectionSourceFromVelocity
+---| EngineTagDataWeatherParticleSystemRenderDirectionSourceFromAcceleration
+
+---@class EngineTagDataWeatherParticleSystemRenderDirectionSourceTable 
+---@field urceFromVelocity EngineTagDataWeatherParticleSystemRenderDirectionSourceFromVelocity
+---@field urceFromAcceleration EngineTagDataWeatherParticleSystemRenderDirectionSourceFromAcceleration
+Engine.tag.weatherParticleSystemRenderDirectionSource = {} 
+
+---@class MetaEngineTagDataWeatherParticleSystemParticleTypeFlags 
+---@field interpolateColorsInHsv boolean 
+---@field alongLongHuePath boolean 
+---@field randomRotation boolean 
+
+---@class MetaEngineTagDataWeatherParticleSystemParticleType 
+---@field name MetaEngineTagString 
+---@field flags MetaEngineTagDataWeatherParticleSystemParticleTypeFlags 
+---@field fadeInStartDistance number 
+---@field fadeInEndDistance number 
+---@field fadeOutStartDistance number 
+---@field fadeOutEndDistance number 
+---@field fadeInStartHeight number 
+---@field fadeInEndHeight number 
+---@field fadeOutStartHeight number 
+---@field fadeOutEndHeight number 
+---@field particleCount number 
+---@field physics MetaEngineTagDependency 
+---@field accelerationMagnitude number 
+---@field accelerationTurningRate MetaEngineFraction 
+---@field accelerationChangeRate number 
+---@field particleRadius number 
+---@field animationRate number 
+---@field rotationRate MetaEngineAngle 
+---@field colorLowerBound MetaEngineColorARGB 
+---@field colorUpperBound MetaEngineColorARGB 
+---@field spriteSize number 
+---@field spriteBitmap MetaEngineTagDependency 
+---@field renderMode EngineTagDataParticleOrientation 
+---@field renderDirectionSource EngineTagDataWeatherParticleSystemRenderDirectionSource 
+---@field notBroken integer 
+---@field shaderFlags MetaEngineTagDataParticleShaderFlags 
+---@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
+---@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
+---@field mapFlags MetaEngineTagDataIsUnfilteredFlag 
+---@field bitmap MetaEngineTagDependency 
+---@field anchor EngineTagDataParticleAnchor 
+---@field flags_1 MetaEngineTagDataIsUnfilteredFlag 
+---@field uAnimationSource EngineTagDataFunctionOut 
+---@field uAnimationFunction EngineTagDataWaveFunction 
+---@field uAnimationPeriod number 
+---@field uAnimationPhase number 
+---@field uAnimationScale number 
+---@field vAnimationSource EngineTagDataFunctionOut 
+---@field vAnimationFunction EngineTagDataWaveFunction 
+---@field vAnimationPeriod number 
+---@field vAnimationPhase number 
+---@field vAnimationScale number 
+---@field rotationAnimationSource EngineTagDataFunctionOut 
+---@field rotationAnimationFunction EngineTagDataWaveFunction 
+---@field rotationAnimationPeriod number 
+---@field rotationAnimationPhase number 
+---@field rotationAnimationScale MetaEngineAngle 
+---@field rotationAnimationCenter MetaEnginePoint2D 
+---@field zspriteRadiusScale number 
+
+---@class MetaEngineTagDataWeatherParticleSystem 
+---@field flags MetaEngineTagDataIsUnusedFlag 
+---@field particleTypes TagBlock<MetaEngineTagDataWeatherParticleSystemParticleType> 
+
+---@class MetaEngineTagDataModelRegionPermutationFlags 
+---@field cannotBeChosenRandomly boolean 
+
+---@class MetaEngineTagDataModelGeometryPartFlags 
+---@field strippedInternal boolean 
+---@field zoner boolean 
+
+---@class MetaEngineTagDataModelFlags 
+---@field blendSharedNormals boolean 
+---@field partsHaveLocalNodes boolean 
+---@field ignoreSkinning boolean 
+
+---@class MetaEngineTagDataModelMarkerInstance 
+---@field regionIndex integer 
+---@field permutationIndex integer 
+---@field nodeIndex integer 
+---@field translation MetaEnginePoint3D 
+---@field rotation MetaEngineQuaternion 
+
+---@class MetaEngineTagDataModelMarker 
+---@field name MetaEngineTagString 
+---@field magicIdentifier integer 
+---@field instances TagBlock<MetaEngineTagDataModelMarkerInstance> 
+
+---@class MetaEngineTagDataModelNode 
+---@field name MetaEngineTagString 
+---@field nextSiblingNodeIndex MetaEngineIndex 
+---@field firstChildNodeIndex MetaEngineIndex 
+---@field parentNodeIndex MetaEngineIndex 
+---@field defaultTranslation MetaEnginePoint3D 
+---@field defaultRotation MetaEngineQuaternion 
+---@field nodeDistanceFromParent number 
+---@field scale number 
+---@field rotation MetaEngineMatrix 
+---@field translation MetaEnginePoint3D 
+
+---@class MetaEngineTagDataModelRegionPermutationMarker 
+---@field name MetaEngineTagString 
+---@field nodeIndex MetaEngineIndex 
+---@field rotation MetaEngineQuaternion 
+---@field translation MetaEnginePoint3D 
+
+---@class MetaEngineTagDataModelRegionPermutation 
+---@field name MetaEngineTagString 
+---@field flags MetaEngineTagDataModelRegionPermutationFlags 
+---@field permutationNumber integer 
+---@field superLow MetaEngineIndex 
+---@field low MetaEngineIndex 
+---@field medium MetaEngineIndex 
+---@field high MetaEngineIndex 
+---@field superHigh MetaEngineIndex 
+---@field markers TagBlock<MetaEngineTagDataModelRegionPermutationMarker> 
+
+---@class MetaEngineTagDataModelRegion 
+---@field name MetaEngineTagString 
+---@field permutations TagBlock<MetaEngineTagDataModelRegionPermutation> 
+
+---@class MetaEngineTagDataModelVertexUncompressed 
+---@field position MetaEnginePoint3D 
+---@field normal MetaEngineVector3D 
+---@field binormal MetaEngineVector3D 
+---@field tangent MetaEngineVector3D 
+---@field textureCoords MetaEnginePoint2D 
+---@field node0Index MetaEngineIndex 
+---@field node1Index MetaEngineIndex 
+---@field node0Weight number 
+---@field node1Weight number 
+
+---@class MetaEngineTagDataModelVertexCompressed 
+---@field position MetaEnginePoint3D 
+---@field normal integer 
+---@field binormal integer 
+---@field tangent integer 
+---@field textureCoordinateU integer 
+---@field textureCoordinateV integer 
+---@field node0Index integer 
+---@field node1Index integer 
+---@field node0Weight integer 
+
+---@class MetaEngineTagDataModelTriangle 
+---@field vertex0Index MetaEngineIndex 
+---@field vertex1Index MetaEngineIndex 
+---@field vertex2Index MetaEngineIndex 
+
+---@class MetaEngineTagDataModelGeometryPart 
+---@field flags MetaEngineTagDataModelGeometryPartFlags 
+---@field shaderIndex MetaEngineIndex 
+---@field prevFilthyPartIndex integer 
+---@field nextFilthyPartIndex integer 
+---@field centroidPrimaryNode MetaEngineIndex 
+---@field centroidSecondaryNode MetaEngineIndex 
+---@field centroidPrimaryWeight MetaEngineFraction 
+---@field centroidSecondaryWeight MetaEngineFraction 
+---@field centroid MetaEnginePoint3D 
+---@field uncompressedVertices TagBlock<MetaEngineTagDataModelVertexUncompressed> 
+---@field compressedVertices TagBlock<MetaEngineTagDataModelVertexCompressed> 
+---@field triangles TagBlock<MetaEngineTagDataModelTriangle> 
+---@field doNotCrashTheGame integer 
+---@field triangleCount integer 
+---@field triangleOffset integer 
+---@field triangleOffset_2 integer 
+---@field vertexType EngineTagDataVertexType 
+---@field vertexCount integer 
+---@field vertexPointer integer 
+---@field vertexOffset integer 
+
+---@class MetaEngineTagDataModelGeometry 
+---@field flags MetaEngineTagDataIsUnusedFlag 
+---@field parts TagBlock<MetaEngineTagDataModelGeometryPart> 
+
+---@class MetaEngineTagDataModelShaderReference 
+---@field shader MetaEngineTagDependency 
+---@field permutation MetaEngineIndex 
+
+---@class MetaEngineTagDataModel 
+---@field flags MetaEngineTagDataModelFlags 
+---@field nodeListChecksum integer 
+---@field superHighDetailCutoff number 
+---@field highDetailCutoff number 
+---@field mediumDetailCutoff number 
+---@field lowDetailCutoff number 
+---@field superLowDetailCutoff number 
+---@field superLowDetailNodeCount integer 
+---@field lowDetailNodeCount integer 
+---@field mediumDetailNodeCount integer 
+---@field highDetailNodeCount integer 
+---@field superHighDetailNodeCount integer 
+---@field baseMapUScale number 
+---@field baseMapVScale number 
+---@field markers TagBlock<MetaEngineTagDataModelMarker> 
+---@field nodes TagBlock<MetaEngineTagDataModelNode> 
+---@field regions TagBlock<MetaEngineTagDataModelRegion> 
+---@field geometries TagBlock<MetaEngineTagDataModelGeometry> 
+---@field shaders TagBlock<MetaEngineTagDataModelShaderReference> 
+
+---@class MetaEngineTagDataHudNumber 
+---@field digitsBitmap MetaEngineTagDependency 
+---@field bitmapDigitWidth integer 
+---@field screenDigitWidth integer 
+---@field xOffset integer 
+---@field yOffset integer 
+---@field decimalPointWidth integer 
+---@field colonWidth integer 
+
+---@class MetaEngineTagDataUnicodeStringListString 
+---@field string MetaEngineTagDataOffset 
+
+---@class MetaEngineTagDataUnicodeStringList 
+---@field strings TagBlock<MetaEngineTagDataUnicodeStringListString> 
+
+---@class EngineTagDataAnimationFunctionEnum : Enum 
+
+---@class EngineTagDataAnimationFunctionAOut : EngineTagDataAnimationFunctionEnum 
+---@class EngineTagDataAnimationFunctionBOut : EngineTagDataAnimationFunctionEnum 
+---@class EngineTagDataAnimationFunctionCOut : EngineTagDataAnimationFunctionEnum 
+---@class EngineTagDataAnimationFunctionDOut : EngineTagDataAnimationFunctionEnum 
+
+---@alias EngineTagDataAnimationFunction 
+---| EngineTagDataAnimationFunctionAOut
+---| EngineTagDataAnimationFunctionBOut
+---| EngineTagDataAnimationFunctionCOut
+---| EngineTagDataAnimationFunctionDOut
+
+---@class EngineTagDataAnimationFunctionTable 
+---@field aOut EngineTagDataAnimationFunctionAOut
+---@field bOut EngineTagDataAnimationFunctionBOut
+---@field cOut EngineTagDataAnimationFunctionCOut
+---@field dOut EngineTagDataAnimationFunctionDOut
+Engine.tag.animationFunction = {} 
+
+---@class EngineTagDataAnimationFunctionControlsEnum : Enum 
+
+---@class EngineTagDataAnimationFunctionControlsFrame : EngineTagDataAnimationFunctionControlsEnum 
+---@class EngineTagDataAnimationFunctionControlsScale : EngineTagDataAnimationFunctionControlsEnum 
+
+---@alias EngineTagDataAnimationFunctionControls 
+---| EngineTagDataAnimationFunctionControlsFrame
+---| EngineTagDataAnimationFunctionControlsScale
+
+---@class EngineTagDataAnimationFunctionControlsTable 
+---@field sFrame EngineTagDataAnimationFunctionControlsFrame
+---@field sScale EngineTagDataAnimationFunctionControlsScale
+Engine.tag.animationFunctionControls = {} 
+
+---@class EngineTagDataAnimationTypeEnum : Enum 
+
+---@class EngineTagDataAnimationTypeBase : EngineTagDataAnimationTypeEnum 
+---@class EngineTagDataAnimationTypeOverlay : EngineTagDataAnimationTypeEnum 
+---@class EngineTagDataAnimationTypeReplacement : EngineTagDataAnimationTypeEnum 
+
+---@alias EngineTagDataAnimationType 
+---| EngineTagDataAnimationTypeBase
+---| EngineTagDataAnimationTypeOverlay
+---| EngineTagDataAnimationTypeReplacement
+
+---@class EngineTagDataAnimationTypeTable 
+---@field base EngineTagDataAnimationTypeBase
+---@field overlay EngineTagDataAnimationTypeOverlay
+---@field replacement EngineTagDataAnimationTypeReplacement
+Engine.tag.animationType = {} 
+
+---@class EngineTagDataAnimationFrameInfoTypeEnum : Enum 
+
+---@class EngineTagDataAnimationFrameInfoTypeNone : EngineTagDataAnimationFrameInfoTypeEnum 
+---@class EngineTagDataAnimationFrameInfoTypeDxDy : EngineTagDataAnimationFrameInfoTypeEnum 
+---@class EngineTagDataAnimationFrameInfoTypeDxDyDyaw : EngineTagDataAnimationFrameInfoTypeEnum 
+---@class EngineTagDataAnimationFrameInfoTypeDxDyDzDyaw : EngineTagDataAnimationFrameInfoTypeEnum 
+
+---@alias EngineTagDataAnimationFrameInfoType 
+---| EngineTagDataAnimationFrameInfoTypeNone
+---| EngineTagDataAnimationFrameInfoTypeDxDy
+---| EngineTagDataAnimationFrameInfoTypeDxDyDyaw
+---| EngineTagDataAnimationFrameInfoTypeDxDyDzDyaw
+
+---@class EngineTagDataAnimationFrameInfoTypeTable 
+---@field peNone EngineTagDataAnimationFrameInfoTypeNone
+---@field peDxDy EngineTagDataAnimationFrameInfoTypeDxDy
+---@field peDxDyDyaw EngineTagDataAnimationFrameInfoTypeDxDyDyaw
+---@field peDxDyDzDyaw EngineTagDataAnimationFrameInfoTypeDxDyDzDyaw
+Engine.tag.animationFrameInfoType = {} 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphNodeFlags 
+---@field ballSocket boolean 
+---@field hinge boolean 
+---@field noMovement boolean 
+
+---@class MetaEngineTagDataModelAnimationsAnimationFlags 
+---@field compressedData boolean 
+---@field worldRelative boolean 
+---@field _25hzPal boolean 
+
+---@class MetaEngineTagDataModelAnimationsFlags 
+---@field compressAllAnimations boolean 
+---@field forceIdleCompression boolean 
+
+---@class MetaEngineTagDataModelAnimationsRotation 
+---@field rotation integer 
+
+---@class MetaEngineTagDataModelAnimationsTransform 
+---@field transform MetaEnginePoint3D 
+
+---@class MetaEngineTagDataModelAnimationscale 
+---@field scale MetaEngineFraction 
+
+---@class MetaEngineTagDataModelAnimationsFrameInfoDxDy 
+---@field dx number 
+---@field dy number 
+
+---@class MetaEngineTagDataModelAnimationsFrameInfoDxDyDyaw 
+---@field dx number 
+---@field dy number 
+---@field dyaw number 
+
+---@class MetaEngineTagDataModelAnimationsFrameInfoDxDyDzDyaw 
+---@field dx number 
+---@field dy number 
+---@field dz number 
+---@field dyaw number 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphObjectOverlay 
+---@field animation MetaEngineIndex 
+---@field function EngineTagDataAnimationFunction 
+---@field functionControls EngineTagDataAnimationFunctionControls 
+
+---@class MetaEngineTagDataModelAnimationsUnitSeatAnimation 
+---@field animation MetaEngineIndex 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphUnitSeatikPoint 
+---@field marker MetaEngineTagString 
+---@field attachToMarker MetaEngineTagString 
+
+---@class MetaEngineTagDataModelAnimationsAnimationWeaponClassAnimation 
+---@field animation MetaEngineIndex 
+
+---@class MetaEngineTagDataModelAnimationsAnimationWeaponTypeAnimation 
+---@field animation MetaEngineIndex 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphWeaponType 
+---@field label MetaEngineTagString 
+---@field animations TagBlock<MetaEngineTagDataModelAnimationsAnimationWeaponTypeAnimation> 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphWeapon 
+---@field name MetaEngineTagString 
+---@field gripMarker MetaEngineTagString 
+---@field handMarker MetaEngineTagString 
+---@field rightYawPerFrame MetaEngineAngle 
+---@field leftYawPerFrame MetaEngineAngle 
+---@field rightFrameCount integer 
+---@field leftFrameCount integer 
+---@field downPitchPerFrame MetaEngineAngle 
+---@field upPitchPerFrame MetaEngineAngle 
+---@field downPitchFrameCount integer 
+---@field upPitchFrameCount integer 
+---@field animations TagBlock<MetaEngineTagDataModelAnimationsAnimationWeaponClassAnimation> 
+---@field ikPoint TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphUnitSeatikPoint> 
+---@field weaponTypes TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphWeaponType> 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphUnitSeat 
+---@field label MetaEngineTagString 
+---@field rightYawPerFrame MetaEngineAngle 
+---@field leftYawPerFrame MetaEngineAngle 
+---@field rightFrameCount integer 
+---@field leftFrameCount integer 
+---@field downPitchPerFrame MetaEngineAngle 
+---@field upPitchPerFrame MetaEngineAngle 
+---@field downPitchFrameCount integer 
+---@field upPitchFrameCount integer 
+---@field animations TagBlock<MetaEngineTagDataModelAnimationsAnimationWeaponClassAnimation> 
+---@field ikPoints TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphUnitSeatikPoint> 
+---@field weapons TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphWeapon> 
+
+---@class MetaEngineTagDataModelAnimationsWeaponAnimation 
+---@field animation MetaEngineIndex 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphWeaponAnimations 
+---@field animations TagBlock<MetaEngineTagDataModelAnimationsWeaponAnimation> 
+
+---@class MetaEngineTagDataModelAnimationsVehicleAnimation 
+---@field animation MetaEngineIndex 
+
+---@class MetaEngineTagDataModelAnimationSuspensionAnimation 
+---@field massPointIndex MetaEngineIndex 
+---@field animation MetaEngineIndex 
+---@field fullExtensionGroundDepth number 
+---@field fullCompressionGroundDepth number 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphVehicleAnimations 
+---@field rightYawPerFrame MetaEngineAngle 
+---@field leftYawPerFrame MetaEngineAngle 
+---@field rightFrameCount integer 
+---@field leftFrameCount integer 
+---@field downPitchPerFrame MetaEngineAngle 
+---@field upPitchPerFrame MetaEngineAngle 
+---@field downPitchFrameCount integer 
+---@field upPitchFrameCount integer 
+---@field animations TagBlock<MetaEngineTagDataModelAnimationsVehicleAnimation> 
+---@field suspensionAnimations TagBlock<MetaEngineTagDataModelAnimationSuspensionAnimation> 
+
+---@class MetaEngineTagDataModelAnimationsDeviceAnimation 
+---@field animation MetaEngineIndex 
+
+---@class MetaEngineTagDataModelAnimationsDeviceAnimations 
+---@field animations TagBlock<MetaEngineTagDataModelAnimationsDeviceAnimation> 
+
+---@class MetaEngineTagDataModelAnimationsUnitDamageAnimations 
+---@field animation MetaEngineIndex 
+
+---@class MetaEngineTagDataModelAnimationsFirstPersonWeapon 
+---@field animation MetaEngineIndex 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphFirstPersonWeaponAnimations 
+---@field animations TagBlock<MetaEngineTagDataModelAnimationsFirstPersonWeapon> 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphSoundReference 
+---@field sound MetaEngineTagDependency 
+
+---@class MetaEngineTagDataModelAnimationsAnimationGraphNode 
+---@field name MetaEngineTagString 
+---@field nextSiblingNodeIndex MetaEngineIndex 
+---@field firstChildNodeIndex MetaEngineIndex 
+---@field parentNodeIndex MetaEngineIndex 
+---@field nodeJointFlags MetaEngineTagDataModelAnimationsAnimationGraphNodeFlags 
+---@field baseVector MetaEngineVector3D 
+---@field vectorRange number 
+
+---@class MetaEngineTagDataModelAnimationsAnimation 
+---@field name MetaEngineTagString 
+---@field type EngineTagDataAnimationType 
+---@field frameCount integer 
+---@field frameSize integer 
+---@field frameInfoType EngineTagDataAnimationFrameInfoType 
+---@field nodeListChecksum integer 
+---@field nodeCount integer 
+---@field loopFrameIndex MetaEngineIndex 
+---@field weight MetaEngineFraction 
+---@field keyFrameIndex MetaEngineIndex 
+---@field secondKeyFrameIndex MetaEngineIndex 
+---@field nextAnimation MetaEngineIndex 
+---@field flags MetaEngineTagDataModelAnimationsAnimationFlags 
+---@field sound MetaEngineIndex 
+---@field soundFrameIndex MetaEngineIndex 
+---@field leftFootFrameIndex integer 
+---@field rightFootFrameIndex integer 
+---@field mainAnimationIndex integer 
+---@field relativeWeight number 
+---@field frameInfo MetaEngineTagDataOffset 
+---@field nodeTransformFlagData integer 
+---@field nodeRotationFlagData integer 
+---@field nodeScaleFlagData integer 
+---@field offsetToCompressedData integer 
+---@field defaultData MetaEngineTagDataOffset 
+---@field frameData MetaEngineTagDataOffset 
+
+---@class MetaEngineTagDataModelAnimations 
+---@field objects TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphObjectOverlay> 
+---@field units TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphUnitSeat> 
+---@field weapons TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphWeaponAnimations> 
+---@field vehicles TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphVehicleAnimations> 
+---@field devices TagBlock<MetaEngineTagDataModelAnimationsDeviceAnimations> 
+---@field unitDamage TagBlock<MetaEngineTagDataModelAnimationsUnitDamageAnimations> 
+---@field firstPersonWeapons TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphFirstPersonWeaponAnimations> 
+---@field soundReferences TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphSoundReference> 
+---@field limpBodyNodeRadius number 
+---@field flags MetaEngineTagDataModelAnimationsFlags 
+---@field nodes TagBlock<MetaEngineTagDataModelAnimationsAnimationGraphNode> 
+---@field animations TagBlock<MetaEngineTagDataModelAnimationsAnimation> 
+
+---@class MetaEngineTagDataPreferencesNetworkGame 
+---@field name MetaEngineTagString 
+---@field primaryColor MetaEngineColorRGB 
+---@field secondaryColor MetaEngineColorRGB 
+---@field pattern MetaEngineTagDependency 
+---@field patternBitmapIndex MetaEngineIndex 
+---@field decal MetaEngineTagDependency 
+---@field decalBitmapIndex MetaEngineIndex 
+
+---@class MetaEngineTagDataDialogue 
+---@field idleNoncombat MetaEngineTagDependency 
+---@field idleCombat MetaEngineTagDependency 
+---@field idleFlee MetaEngineTagDependency 
+---@field painBodyMinor MetaEngineTagDependency 
+---@field painBodyMajor MetaEngineTagDependency 
+---@field painShield MetaEngineTagDependency 
+---@field painFalling MetaEngineTagDependency 
+---@field screamFear MetaEngineTagDependency 
+---@field screamPain MetaEngineTagDependency 
+---@field maimedLimb MetaEngineTagDependency 
+---@field maimedHead MetaEngineTagDependency 
+---@field deathQuiet MetaEngineTagDependency 
+---@field deathViolent MetaEngineTagDependency 
+---@field deathFalling MetaEngineTagDependency 
+---@field deathAgonizing MetaEngineTagDependency 
+---@field deathInstant MetaEngineTagDependency 
+---@field deathFlying MetaEngineTagDependency 
+---@field damagedFriend MetaEngineTagDependency 
+---@field damagedFriendPlayer MetaEngineTagDependency 
+---@field damagedEnemy MetaEngineTagDependency 
+---@field damagedEnemyCm MetaEngineTagDependency 
+---@field hurtFriend MetaEngineTagDependency 
+---@field hurtFriendRe MetaEngineTagDependency 
+---@field hurtFriendPlayer MetaEngineTagDependency 
+---@field hurtEnemy MetaEngineTagDependency 
+---@field hurtEnemyRe MetaEngineTagDependency 
+---@field hurtEnemyCm MetaEngineTagDependency 
+---@field hurtEnemyBullet MetaEngineTagDependency 
+---@field hurtEnemyNeedler MetaEngineTagDependency 
+---@field hurtEnemyPlasma MetaEngineTagDependency 
+---@field hurtEnemySniper MetaEngineTagDependency 
+---@field hurtEnemyGrenade MetaEngineTagDependency 
+---@field hurtEnemyExplosion MetaEngineTagDependency 
+---@field hurtEnemyMelee MetaEngineTagDependency 
+---@field hurtEnemyFlame MetaEngineTagDependency 
+---@field hurtEnemyShotgun MetaEngineTagDependency 
+---@field hurtEnemyVehicle MetaEngineTagDependency 
+---@field hurtEnemyMountedweapon MetaEngineTagDependency 
+---@field killedFriend MetaEngineTagDependency 
+---@field killedFriendCm MetaEngineTagDependency 
+---@field killedFriendPlayer MetaEngineTagDependency 
+---@field killedFriendPlayerCm MetaEngineTagDependency 
+---@field killedEnemy MetaEngineTagDependency 
+---@field killedEnemyCm MetaEngineTagDependency 
+---@field killedEnemyPlayer MetaEngineTagDependency 
+---@field killedEnemyPlayerCm MetaEngineTagDependency 
+---@field killedEnemyCovenant MetaEngineTagDependency 
+---@field killedEnemyCovenantCm MetaEngineTagDependency 
+---@field killedEnemyFloodcombat MetaEngineTagDependency 
+---@field killedEnemyFloodcombatCm MetaEngineTagDependency 
+---@field killedEnemyFloodcarrier MetaEngineTagDependency 
+---@field killedEnemyFloodcarrierCm MetaEngineTagDependency 
+---@field killedEnemySentinel MetaEngineTagDependency 
+---@field killedEnemySentinelCm MetaEngineTagDependency 
+---@field killedEnemyBullet MetaEngineTagDependency 
+---@field killedEnemyNeedler MetaEngineTagDependency 
+---@field killedEnemyPlasma MetaEngineTagDependency 
+---@field killedEnemySniper MetaEngineTagDependency 
+---@field killedEnemyGrenade MetaEngineTagDependency 
+---@field killedEnemyExplosion MetaEngineTagDependency 
+---@field killedEnemyMelee MetaEngineTagDependency 
+---@field killedEnemyFlame MetaEngineTagDependency 
+---@field killedEnemyShotgun MetaEngineTagDependency 
+---@field killedEnemyVehicle MetaEngineTagDependency 
+---@field killedEnemyMountedweapon MetaEngineTagDependency 
+---@field killingSpree MetaEngineTagDependency 
+---@field playerKillCm MetaEngineTagDependency 
+---@field playerKillBulletCm MetaEngineTagDependency 
+---@field playerKillNeedlerCm MetaEngineTagDependency 
+---@field playerKillPlasmaCm MetaEngineTagDependency 
+---@field playerKillSniperCm MetaEngineTagDependency 
+---@field anyoneKillGrenadeCm MetaEngineTagDependency 
+---@field playerKillExplosionCm MetaEngineTagDependency 
+---@field playerKillMeleeCm MetaEngineTagDependency 
+---@field playerKillFlameCm MetaEngineTagDependency 
+---@field playerKillShotgunCm MetaEngineTagDependency 
+---@field playerKillVehicleCm MetaEngineTagDependency 
+---@field playerKillMountedweaponCm MetaEngineTagDependency 
+---@field playerKilllingSpreeCm MetaEngineTagDependency 
+---@field friendDied MetaEngineTagDependency 
+---@field friendPlayerDied MetaEngineTagDependency 
+---@field friendKilledByFriend MetaEngineTagDependency 
+---@field friendKilledByFriendlyPlayer MetaEngineTagDependency 
+---@field friendKilledByEnemy MetaEngineTagDependency 
+---@field friendKilledByEnemyPlayer MetaEngineTagDependency 
+---@field friendKilledByCovenant MetaEngineTagDependency 
+---@field friendKilledByFlood MetaEngineTagDependency 
+---@field friendKilledBySentinel MetaEngineTagDependency 
+---@field friendBetrayed MetaEngineTagDependency 
+---@field newCombatAlone MetaEngineTagDependency 
+---@field newEnemyRecentCombat MetaEngineTagDependency 
+---@field oldEnemySighted MetaEngineTagDependency 
+---@field unexpectedEnemy MetaEngineTagDependency 
+---@field deadFriendFound MetaEngineTagDependency 
+---@field allianceBroken MetaEngineTagDependency 
+---@field allianceReformed MetaEngineTagDependency 
+---@field grenadeThrowing MetaEngineTagDependency 
+---@field grenadeSighted MetaEngineTagDependency 
+---@field grenadeStartle MetaEngineTagDependency 
+---@field grenadeDangerEnemy MetaEngineTagDependency 
+---@field grenadeDangerSelf MetaEngineTagDependency 
+---@field grenadeDangerFriend MetaEngineTagDependency 
+---@field newCombatGroupRe MetaEngineTagDependency 
+---@field newCombatNearbyRe MetaEngineTagDependency 
+---@field alertFriend MetaEngineTagDependency 
+---@field alertFriendRe MetaEngineTagDependency 
+---@field alertLostContact MetaEngineTagDependency 
+---@field alertLostContactRe MetaEngineTagDependency 
+---@field blocked MetaEngineTagDependency 
+---@field blockedRe MetaEngineTagDependency 
+---@field searchStart MetaEngineTagDependency 
+---@field searchQuery MetaEngineTagDependency 
+---@field searchQueryRe MetaEngineTagDependency 
+---@field searchReport MetaEngineTagDependency 
+---@field searchAbandon MetaEngineTagDependency 
+---@field searchGroupAbandon MetaEngineTagDependency 
+---@field groupUncover MetaEngineTagDependency 
+---@field groupUncoverRe MetaEngineTagDependency 
+---@field advance MetaEngineTagDependency 
+---@field advanceRe MetaEngineTagDependency 
+---@field retreat MetaEngineTagDependency 
+---@field retreatRe MetaEngineTagDependency 
+---@field cover MetaEngineTagDependency 
+---@field sightedFriendPlayer MetaEngineTagDependency 
+---@field shooting MetaEngineTagDependency 
+---@field shootingVehicle MetaEngineTagDependency 
+---@field shootingBerserk MetaEngineTagDependency 
+---@field shootingGroup MetaEngineTagDependency 
+---@field shootingTraitor MetaEngineTagDependency 
+---@field taunt MetaEngineTagDependency 
+---@field tauntRe MetaEngineTagDependency 
+---@field flee MetaEngineTagDependency 
+---@field fleeRe MetaEngineTagDependency 
+---@field fleeLeaderDied MetaEngineTagDependency 
+---@field attemptedFlee MetaEngineTagDependency 
+---@field attemptedFleeRe MetaEngineTagDependency 
+---@field lostContact MetaEngineTagDependency 
+---@field hidingFinished MetaEngineTagDependency 
+---@field vehicleEntry MetaEngineTagDependency 
+---@field vehicleExit MetaEngineTagDependency 
+---@field vehicleWoohoo MetaEngineTagDependency 
+---@field vehicleScared MetaEngineTagDependency 
+---@field vehicleCollision MetaEngineTagDependency 
+---@field partiallySighted MetaEngineTagDependency 
+---@field nothingThere MetaEngineTagDependency 
+---@field pleading MetaEngineTagDependency 
+---@field surprise MetaEngineTagDependency 
+---@field berserk MetaEngineTagDependency 
+---@field meleeAttack MetaEngineTagDependency 
+---@field dive MetaEngineTagDependency 
+---@field uncoverExclamation MetaEngineTagDependency 
+---@field leapAttack MetaEngineTagDependency 
+---@field resurrection MetaEngineTagDependency 
+---@field celebration MetaEngineTagDependency 
+---@field checkBodyEnemy MetaEngineTagDependency 
+---@field checkBodyFriend MetaEngineTagDependency 
+---@field shootingDeadEnemy MetaEngineTagDependency 
+---@field shootingDeadEnemyPlayer MetaEngineTagDependency 
+---@field alone MetaEngineTagDependency 
+---@field unscathed MetaEngineTagDependency 
+---@field seriouslyWounded MetaEngineTagDependency 
+---@field seriouslyWoundedRe MetaEngineTagDependency 
+---@field massacre MetaEngineTagDependency 
+---@field massacreRe MetaEngineTagDependency 
+---@field rout MetaEngineTagDependency 
+---@field routRe MetaEngineTagDependency 
+
+---@class MetaEngineTagDataWind 
+---@field velocity number 
+---@field variationArea MetaEngineEuler2D 
+---@field localVariationWeight number 
+---@field localVariationRate number 
+---@field damping number 
+
+---@class MetaEngineTagDataShaderTransparentPlasma: MetaEngineTagDataShader  
+---@field intensitySource EngineTagDataFunctionOut 
+---@field intensityExponent number 
+---@field offsetSource EngineTagDataFunctionOut 
+---@field offsetAmount number 
+---@field offsetExponent number 
+---@field perpendicularBrightness MetaEngineFraction 
+---@field perpendicularTintColor MetaEngineColorRGB 
+---@field parallelBrightness MetaEngineFraction 
+---@field parallelTintColor MetaEngineColorRGB 
+---@field tintColorSource EngineTagDataFunctionNameNullable 
+---@field primaryAnimationPeriod number 
+---@field primaryAnimationDirection MetaEngineVector3D 
+---@field primaryNoiseMapScale number 
+---@field primaryNoiseMap MetaEngineTagDependency 
+---@field secondaryAnimationPeriod number 
+---@field secondaryAnimationDirection MetaEngineVector3D 
+---@field secondaryNoiseMapScale number 
+---@field secondaryNoiseMap MetaEngineTagDependency 
+
+---@class EngineTagDataPhysicsFrictionTypeEnum : Enum 
+
+---@class EngineTagDataPhysicsFrictionTypePoint : EngineTagDataPhysicsFrictionTypeEnum 
+---@class EngineTagDataPhysicsFrictionTypeForward : EngineTagDataPhysicsFrictionTypeEnum 
+---@class EngineTagDataPhysicsFrictionTypeLeft : EngineTagDataPhysicsFrictionTypeEnum 
+---@class EngineTagDataPhysicsFrictionTypeUp : EngineTagDataPhysicsFrictionTypeEnum 
+
+---@alias EngineTagDataPhysicsFrictionType 
+---| EngineTagDataPhysicsFrictionTypePoint
+---| EngineTagDataPhysicsFrictionTypeForward
+---| EngineTagDataPhysicsFrictionTypeLeft
+---| EngineTagDataPhysicsFrictionTypeUp
+
+---@class EngineTagDataPhysicsFrictionTypeTable 
+---@field ePoint EngineTagDataPhysicsFrictionTypePoint
+---@field eForward EngineTagDataPhysicsFrictionTypeForward
+---@field eLeft EngineTagDataPhysicsFrictionTypeLeft
+---@field eUp EngineTagDataPhysicsFrictionTypeUp
+Engine.tag.physicsFrictionType = {} 
+
+---@class MetaEngineTagDataPhysicsPoweredMassPointFlags 
+---@field groundFriction boolean 
+---@field waterFriction boolean 
+---@field airFriction boolean 
+---@field waterLift boolean 
+---@field airLift boolean 
+---@field thrust boolean 
+---@field antigrav boolean 
+
+---@class MetaEngineTagDataPhysicsMassPointFlags 
+---@field metallic boolean 
+
+---@class MetaEngineTagDataPhysicsInertialMatrix 
+---@field matrix MetaEngineMatrix 
+
+---@class MetaEngineTagDataPhysicsPoweredMassPoint 
+---@field name MetaEngineTagString 
+---@field flags MetaEngineTagDataPhysicsPoweredMassPointFlags 
+---@field antigravStrength number 
+---@field antigravOffset number 
+---@field antigravHeight number 
+---@field antigravDampFraction number 
+---@field antigravNormalK1 number 
+---@field antigravNormalK0 number 
+
+---@class MetaEngineTagDataPhysicsMassPoint 
+---@field name MetaEngineTagString 
+---@field poweredMassPoint integer 
+---@field modelNode integer 
+---@field flags MetaEngineTagDataPhysicsMassPointFlags 
+---@field relativeMass number 
+---@field mass number 
+---@field relativeDensity number 
+---@field density number 
+---@field position MetaEnginePoint3D 
+---@field forward MetaEngineVector3D 
+---@field up MetaEngineVector3D 
+---@field frictionType EngineTagDataPhysicsFrictionType 
+---@field frictionParallelScale number 
+---@field frictionPerpendicularScale number 
+---@field radius number 
+
+---@class MetaEngineTagDataPhysics 
+---@field radius number 
+---@field momentScale MetaEngineFraction 
+---@field mass number 
+---@field centerOfMass MetaEnginePoint3D 
+---@field density number 
+---@field gravityScale number 
+---@field groundFriction number 
+---@field groundDepth number 
+---@field groundDampFraction MetaEngineFraction 
+---@field groundNormalK1 number 
+---@field groundNormalK0 number 
+---@field waterFriction number 
+---@field waterDepth number 
+---@field waterDensity number 
+---@field airFriction MetaEngineFraction 
+---@field xxMoment number 
+---@field yyMoment number 
+---@field zzMoment number 
+---@field inertialMatrixAndInverse TagBlock<MetaEngineTagDataPhysicsInertialMatrix> 
+---@field poweredMassPoints TagBlock<MetaEngineTagDataPhysicsPoweredMassPoint> 
+---@field massPoints TagBlock<MetaEngineTagDataPhysicsMassPoint> 
+
+---@class MetaEngineTagDataColorTableColor 
+---@field name MetaEngineTagString 
+---@field color MetaEngineColorARGB 
+
+---@class MetaEngineTagDataColorTable 
+---@field colors TagBlock<MetaEngineTagDataColorTableColor> 
+
+---@class EngineTagDataUnitHUDInterfacePanelTypeEnum : Enum 
+
+---@class EngineTagDataUnitHUDInterfacePanelTypeIntegratedLight : EngineTagDataUnitHUDInterfacePanelTypeEnum 
+
+---@alias EngineTagDataUnitHUDInterfacePanelType 
+---| EngineTagDataUnitHUDInterfacePanelTypeIntegratedLight
+
+---@class EngineTagDataUnitHUDInterfacePanelTypeTable 
+---@field typeIntegratedLight EngineTagDataUnitHUDInterfacePanelTypeIntegratedLight
+Engine.tag.unitHUDInterfacePanelType = {} 
+
+---@class MetaEngineTagDataUnitHUDInterfaceAuxiliaryOverlayFlags 
+---@field useTeamColor boolean 
+
+---@class MetaEngineTagDataUnitHUDInterfaceHUDSoundLatchedTo 
+---@field shieldRecharging boolean 
+---@field shieldDamaged boolean 
+---@field shieldLow boolean 
+---@field shieldEmpty boolean 
+---@field healthLow boolean 
+---@field healthEmpty boolean 
+---@field healthMinorDamage boolean 
+---@field healthMajorDamage boolean 
+
+---@class MetaEngineTagDataUnitHUDInterfaceAuxiliaryPanelMeterMoreFlags 
+---@field showOnlyWhenActive boolean 
+---@field flashOnceIfActivatedWhileDisabled boolean 
+
+---@class MetaEngineTagDataUnitHUDInterfaceAuxiliaryOverlay 
+---@field anchorOffset MetaEnginePoint2DInt 
+---@field widthScale number 
+---@field heightScale number 
+---@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field interfaceBitmap MetaEngineTagDependency 
+---@field defaultColor MetaEngineColorARGBInt 
+---@field flashingColor MetaEngineColorARGBInt 
+---@field flashPeriod number 
+---@field flashDelay number 
+---@field numberOfFlashes integer 
+---@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field flashLength number 
+---@field disabledColor MetaEngineColorARGBInt 
+---@field sequenceIndex MetaEngineIndex 
+---@field multitexOverlay TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+---@field type EngineTagDataUnitHUDInterfacePanelType 
+---@field flags MetaEngineTagDataUnitHUDInterfaceAuxiliaryOverlayFlags 
+
+---@class MetaEngineTagDataUnitHUDInterfaceHUDSound 
+---@field sound MetaEngineTagDependency 
+---@field latchedTo MetaEngineTagDataUnitHUDInterfaceHUDSoundLatchedTo 
+---@field scale number 
+
+---@class MetaEngineTagDataUnitHUDInterfaceAuxiliaryPanel 
+---@field type EngineTagDataUnitHUDInterfacePanelType 
+---@field backgroundAnchorOffset MetaEnginePoint2DInt 
+---@field backgroundWidthScale number 
+---@field backgroundHeightScale number 
+---@field backgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field backgroundInterfaceBitmap MetaEngineTagDependency 
+---@field backgroundDefaultColor MetaEngineColorARGBInt 
+---@field backgroundFlashingColor MetaEngineColorARGBInt 
+---@field backgroundFlashPeriod number 
+---@field backgroundFlashDelay number 
+---@field backgroundNumberOfFlashes integer 
+---@field backgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field backgroundFlashLength number 
+---@field backgroundDisabledColor MetaEngineColorARGBInt 
+---@field backgroundSequenceIndex MetaEngineIndex 
+---@field backgroundMultitexOverlay TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+---@field meterAnchorOffset MetaEnginePoint2DInt 
+---@field meterWidthScale number 
+---@field meterHeightScale number 
+---@field meterScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field meterMeterBitmap MetaEngineTagDependency 
+---@field meterColorAtMeterMinimum MetaEngineColorARGBInt 
+---@field meterColorAtMeterMaximum MetaEngineColorARGBInt 
+---@field meterFlashColor MetaEngineColorARGBInt 
+---@field meterEmptyColor MetaEngineColorARGBInt 
+---@field meterFlags MetaEngineTagDataHUDInterfaceMeterFlags 
+---@field meterMinimumMeterValue integer 
+---@field meterSequenceIndex MetaEngineIndex 
+---@field meterAlphaMultiplier integer 
+---@field meterAlphaBias integer 
+---@field meterValueScale integer 
+---@field meterOpacity number 
+---@field meterTranslucency number 
+---@field meterDisabledColor MetaEngineColorARGBInt 
+---@field meterMinAlpha number 
+---@field meterMinimumFractionCutoff number 
+---@field meterMoreFlags MetaEngineTagDataUnitHUDInterfaceAuxiliaryPanelMeterMoreFlags 
+
+---@class MetaEngineTagDataUnitHudInterface 
+---@field anchor EngineTagDataHUDInterfaceAnchor 
+---@field hudBackgroundAnchorOffset MetaEnginePoint2DInt 
+---@field hudBackgroundWidthScale number 
+---@field hudBackgroundHeightScale number 
+---@field hudBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field hudBackgroundInterfaceBitmap MetaEngineTagDependency 
+---@field hudBackgroundDefaultColor MetaEngineColorARGBInt 
+---@field hudBackgroundFlashingColor MetaEngineColorARGBInt 
+---@field hudBackgroundFlashPeriod number 
+---@field hudBackgroundFlashDelay number 
+---@field hudBackgroundNumberOfFlashes integer 
+---@field hudBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field hudBackgroundFlashLength number 
+---@field hudBackgroundDisabledColor MetaEngineColorARGBInt 
+---@field hudBackgroundSequenceIndex MetaEngineIndex 
+---@field hudBackgroundMultitexOverlay TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+---@field shieldPanelBackgroundAnchorOffset MetaEnginePoint2DInt 
+---@field shieldPanelBackgroundWidthScale number 
+---@field shieldPanelBackgroundHeightScale number 
+---@field shieldPanelBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field shieldPanelBackgroundInterfaceBitmap MetaEngineTagDependency 
+---@field shieldPanelBackgroundDefaultColor MetaEngineColorARGBInt 
+---@field shieldPanelBackgroundFlashingColor MetaEngineColorARGBInt 
+---@field shieldPanelBackgroundFlashPeriod number 
+---@field shieldPanelBackgroundFlashDelay number 
+---@field shieldPanelBackgroundNumberOfFlashes integer 
+---@field shieldPanelBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field shieldPanelBackgroundFlashLength number 
+---@field shieldPanelBackgroundDisabledColor MetaEngineColorARGBInt 
+---@field shieldPanelBackgroundSequenceIndex MetaEngineIndex 
+---@field shieldPanelBackgroundMultitexOverlay TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+---@field shieldPanelMeterAnchorOffset MetaEnginePoint2DInt 
+---@field shieldPanelMeterWidthScale number 
+---@field shieldPanelMeterHeightScale number 
+---@field shieldPanelMeterScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field shieldPanelMeterMeterBitmap MetaEngineTagDependency 
+---@field shieldPanelMeterColorAtMeterMinimum MetaEngineColorARGBInt 
+---@field shieldPanelMeterColorAtMeterMaximum MetaEngineColorARGBInt 
+---@field shieldPanelMeterFlashColor MetaEngineColorARGBInt 
+---@field shieldPanelMeterEmptyColor MetaEngineColorARGBInt 
+---@field shieldPanelMeterFlags MetaEngineTagDataHUDInterfaceMeterFlags 
+---@field shieldPanelMeterMinimumMeterValue integer 
+---@field shieldPanelMeterSequenceIndex MetaEngineIndex 
+---@field shieldPanelMeterAlphaMultiplier integer 
+---@field shieldPanelMeterAlphaBias integer 
+---@field shieldPanelMeterValueScale integer 
+---@field shieldPanelMeterOpacity number 
+---@field shieldPanelMeterTranslucency number 
+---@field shieldPanelMeterDisabledColor MetaEngineColorARGBInt 
+---@field shieldPanelMeterMinAlpha number 
+---@field shieldPanelMeterOverchargeMinimumColor MetaEngineColorARGBInt 
+---@field shieldPanelMeterOverchargeMaximumColor MetaEngineColorARGBInt 
+---@field shieldPanelMeterOverchargeFlashColor MetaEngineColorARGBInt 
+---@field shieldPanelMeterOverchargeEmptyColor MetaEngineColorARGBInt 
+---@field healthPanelBackgroundAnchorOffset MetaEnginePoint2DInt 
+---@field healthPanelBackgroundWidthScale number 
+---@field healthPanelBackgroundHeightScale number 
+---@field healthPanelBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field healthPanelBackgroundInterfaceBitmap MetaEngineTagDependency 
+---@field healthPanelBackgroundDefaultColor MetaEngineColorARGBInt 
+---@field healthPanelBackgroundFlashingColor MetaEngineColorARGBInt 
+---@field healthPanelBackgroundFlashPeriod number 
+---@field healthPanelBackgroundFlashDelay number 
+---@field healthPanelBackgroundNumberOfFlashes integer 
+---@field healthPanelBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field healthPanelBackgroundFlashLength number 
+---@field healthPanelBackgroundDisabledColor MetaEngineColorARGBInt 
+---@field healthPanelBackgroundSequenceIndex MetaEngineIndex 
+---@field healthPanelBackgroundMultitexOverlay TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+---@field healthPanelMeterAnchorOffset MetaEnginePoint2DInt 
+---@field healthPanelMeterWidthScale number 
+---@field healthPanelMeterHeightScale number 
+---@field healthPanelMeterScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field healthPanelMeterMeterBitmap MetaEngineTagDependency 
+---@field healthPanelMeterColorAtMeterMinimum MetaEngineColorARGBInt 
+---@field healthPanelMeterColorAtMeterMaximum MetaEngineColorARGBInt 
+---@field healthPanelMeterFlashColor MetaEngineColorARGBInt 
+---@field healthPanelMeterEmptyColor MetaEngineColorARGBInt 
+---@field healthPanelMeterFlags MetaEngineTagDataHUDInterfaceMeterFlags 
+---@field healthPanelMeterMinimumMeterValue integer 
+---@field healthPanelMeterSequenceIndex MetaEngineIndex 
+---@field healthPanelMeterAlphaMultiplier integer 
+---@field healthPanelMeterAlphaBias integer 
+---@field healthPanelMeterValueScale integer 
+---@field healthPanelMeterOpacity number 
+---@field healthPanelMeterTranslucency number 
+---@field healthPanelMeterDisabledColor MetaEngineColorARGBInt 
+---@field healthPanelMeterMinAlpha number 
+---@field healthPanelMeterMediumHealthLeftColor MetaEngineColorARGBInt 
+---@field healthPanelMeterMaxColorHealthFractionCutoff number 
+---@field healthPanelMeterMinColorHealthFractionCutoff number 
+---@field motionSensorBackgroundAnchorOffset MetaEnginePoint2DInt 
+---@field motionSensorBackgroundWidthScale number 
+---@field motionSensorBackgroundHeightScale number 
+---@field motionSensorBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field motionSensorBackgroundInterfaceBitmap MetaEngineTagDependency 
+---@field motionSensorBackgroundDefaultColor MetaEngineColorARGBInt 
+---@field motionSensorBackgroundFlashingColor MetaEngineColorARGBInt 
+---@field motionSensorBackgroundFlashPeriod number 
+---@field motionSensorBackgroundFlashDelay number 
+---@field motionSensorBackgroundNumberOfFlashes integer 
+---@field motionSensorBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field motionSensorBackgroundFlashLength number 
+---@field motionSensorBackgroundDisabledColor MetaEngineColorARGBInt 
+---@field motionSensorBackgroundSequenceIndex MetaEngineIndex 
+---@field motionSensorBackgroundMultitexOverlays TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+---@field motionSensorForegroundAnchorOffset MetaEnginePoint2DInt 
+---@field motionSensorForegroundWidthScale number 
+---@field motionSensorForegroundHeightScale number 
+---@field motionSensorForegroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field motionSensorForegroundInterfaceBitmap MetaEngineTagDependency 
+---@field motionSensorForegroundDefaultColor MetaEngineColorARGBInt 
+---@field motionSensorForegroundFlashingColor MetaEngineColorARGBInt 
+---@field motionSensorForegroundFlashPeriod number 
+---@field motionSensorForegroundFlashDelay number 
+---@field motionSensorForegroundNumberOfFlashes integer 
+---@field motionSensorForegroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field motionSensorForegroundFlashLength number 
+---@field motionSensorForegroundDisabledColor MetaEngineColorARGBInt 
+---@field motionSensorForegroundSequenceIndex MetaEngineIndex 
+---@field motionSensorForegroundMultitexOverlays TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+---@field motionSensorCenterAnchorOffset MetaEnginePoint2DInt 
+---@field motionSensorCenterWidthScale number 
+---@field motionSensorCenterHeightScale number 
+---@field motionSensorCenterScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field auxiliaryOverlayAnchor EngineTagDataHUDInterfaceAnchor 
+---@field overlays TagBlock<MetaEngineTagDataUnitHUDInterfaceAuxiliaryOverlay> 
+---@field sounds TagBlock<MetaEngineTagDataUnitHUDInterfaceHUDSound> 
+---@field meters TagBlock<MetaEngineTagDataUnitHUDInterfaceAuxiliaryPanel> 
+
+---@class EngineTagDataGlowBoundaryEffectEnum : Enum 
+
+---@class EngineTagDataGlowBoundaryEffectBounce : EngineTagDataGlowBoundaryEffectEnum 
+---@class EngineTagDataGlowBoundaryEffectWrap : EngineTagDataGlowBoundaryEffectEnum 
+
+---@alias EngineTagDataGlowBoundaryEffect 
+---| EngineTagDataGlowBoundaryEffectBounce
+---| EngineTagDataGlowBoundaryEffectWrap
+
+---@class EngineTagDataGlowBoundaryEffectTable 
+---@field tBounce EngineTagDataGlowBoundaryEffectBounce
+---@field tWrap EngineTagDataGlowBoundaryEffectWrap
+Engine.tag.glowBoundaryEffect = {} 
+
+---@class EngineTagDataGlowNormalParticleDistributionEnum : Enum 
+
+---@class EngineTagDataGlowNormalParticleDistributionDistributedRandomly : EngineTagDataGlowNormalParticleDistributionEnum 
+---@class EngineTagDataGlowNormalParticleDistributionDistributedUniformly : EngineTagDataGlowNormalParticleDistributionEnum 
+
+---@alias EngineTagDataGlowNormalParticleDistribution 
+---| EngineTagDataGlowNormalParticleDistributionDistributedRandomly
+---| EngineTagDataGlowNormalParticleDistributionDistributedUniformly
+
+---@class EngineTagDataGlowNormalParticleDistributionTable 
+---@field onDistributedRandomly EngineTagDataGlowNormalParticleDistributionDistributedRandomly
+---@field onDistributedUniformly EngineTagDataGlowNormalParticleDistributionDistributedUniformly
+Engine.tag.glowNormalParticleDistribution = {} 
+
+---@class EngineTagDataGlowTrailingParticleDistributionEnum : Enum 
+
+---@class EngineTagDataGlowTrailingParticleDistributionEmitVertically : EngineTagDataGlowTrailingParticleDistributionEnum 
+---@class EngineTagDataGlowTrailingParticleDistributionEmitNormalUp : EngineTagDataGlowTrailingParticleDistributionEnum 
+---@class EngineTagDataGlowTrailingParticleDistributionEmitRandomly : EngineTagDataGlowTrailingParticleDistributionEnum 
+
+---@alias EngineTagDataGlowTrailingParticleDistribution 
+---| EngineTagDataGlowTrailingParticleDistributionEmitVertically
+---| EngineTagDataGlowTrailingParticleDistributionEmitNormalUp
+---| EngineTagDataGlowTrailingParticleDistributionEmitRandomly
+
+---@class EngineTagDataGlowTrailingParticleDistributionTable 
+---@field onEmitVertically EngineTagDataGlowTrailingParticleDistributionEmitVertically
+---@field onEmitNormalUp EngineTagDataGlowTrailingParticleDistributionEmitNormalUp
+---@field onEmitRandomly EngineTagDataGlowTrailingParticleDistributionEmitRandomly
+Engine.tag.glowTrailingParticleDistribution = {} 
+
+---@class MetaEngineTagDataGlowFlags 
+---@field modifyParticleColorInRange boolean 
+---@field particlesMoveBackwards boolean 
+---@field particesMoveInBothDirections boolean 
+---@field trailingParticlesFadeOverTime boolean 
+---@field trailingParticlesShrinkOverTime boolean 
+---@field trailingParticlesSlowOverTime boolean 
+
+---@class MetaEngineTagDataGlow 
+---@field attachmentMarker MetaEngineTagString 
+---@field numberOfParticles integer 
+---@field boundaryEffect EngineTagDataGlowBoundaryEffect 
+---@field normalParticleDistribution EngineTagDataGlowNormalParticleDistribution 
+---@field trailingParticleDistribution EngineTagDataGlowTrailingParticleDistribution 
+---@field glowFlags MetaEngineTagDataGlowFlags 
+---@field attachment_0 EngineTagDataFunctionOut 
+---@field particleRotationalVelocity number 
+---@field particleRotVelMulLow number 
+---@field particleRotVelMulHigh number 
+---@field attachment_1 EngineTagDataFunctionOut 
+---@field effectRotationalVelocity number 
+---@field effectRotVelMulLow number 
+---@field effectRotVelMulHigh number 
+---@field attachment_2 EngineTagDataFunctionOut 
+---@field effectTranslationalVelocity number 
+---@field effectTransVelMulLow number 
+---@field effectTransVelMulHigh number 
+---@field attachment_3 EngineTagDataFunctionOut 
+---@field minDistanceParticleToObject number 
+---@field maxDistanceParticleToObject number 
+---@field distanceToObjectMulLow number 
+---@field distanceToObjectMulHigh number 
+---@field attachment_4 EngineTagDataFunctionOut 
+---@field particleSizeBounds number 
+---@field sizeAttachmentMultiplier number 
+---@field attachment_5 EngineTagDataFunctionOut 
+---@field colorBound_0 MetaEngineColorARGB 
+---@field colorBound_1 MetaEngineColorARGB 
+---@field scaleColor_0 MetaEngineColorARGB 
+---@field scaleColor_1 MetaEngineColorARGB 
+---@field colorRateOfChange number 
+---@field fadingPercentageOfGlow number 
+---@field particleGenerationFreq number 
+---@field lifetimeOfTrailingParticles number 
+---@field velocityOfTrailingParticles number 
+---@field trailingParticleMinimumT number 
+---@field trailingParticleMaximumT number 
+---@field texture MetaEngineTagDependency 
+
+---@class MetaEngineTagDataHUDMessageTextElement 
+---@field type integer 
+---@field data integer 
+
+---@class MetaEngineTagDataHUDMessageTextMessage 
+---@field name MetaEngineTagString 
+---@field startIndexIntoTextBlob MetaEngineIndex 
+---@field startIndexOfMessageBlock MetaEngineIndex 
+---@field panelCount integer 
+
+---@class MetaEngineTagDataHudMessageText 
+---@field textData MetaEngineTagDataOffset 
+---@field messageElements TagBlock<MetaEngineTagDataHUDMessageTextElement> 
+---@field messages TagBlock<MetaEngineTagDataHUDMessageTextMessage> 
+
+---@class MetaEngineTagDataSoundEnvironment 
+---@field unknown integer 
+---@field priority integer 
+---@field roomIntensity MetaEngineFraction 
+---@field roomIntensityHf MetaEngineFraction 
+---@field roomRolloff number 
+---@field decayTime number 
+---@field decayHfRatio number 
+---@field reflectionsIntensity MetaEngineFraction 
+---@field reflectionsDelay number 
+---@field reverbIntensity MetaEngineFraction 
+---@field reverbDelay number 
+---@field diffusion number 
+---@field density number 
+---@field hfReference number 
+
+---@class MetaEngineTagDataShaderTransparentWaterFlags 
+---@field baseMapAlphaModulatesReflection boolean 
+---@field baseMapColorModulatesBackground boolean 
+---@field atmosphericFog boolean 
+---@field drawBeforeFog boolean 
+
+---@class MetaEngineTagDataShaderTransparentWaterRipple 
+---@field contributionFactor MetaEngineFraction 
+---@field animationAngle MetaEngineAngle 
+---@field animationVelocity number 
+---@field mapOffset MetaEngineVector2D 
+---@field mapRepeats integer 
+---@field mapIndex MetaEngineIndex 
+
+---@class MetaEngineTagDataShaderTransparentWater: MetaEngineTagDataShader  
+---@field waterFlags MetaEngineTagDataShaderTransparentWaterFlags 
+---@field baseMap MetaEngineTagDependency 
+---@field viewPerpendicularBrightness MetaEngineFraction 
+---@field viewPerpendicularTintColor MetaEngineColorRGB 
+---@field viewParallelBrightness MetaEngineFraction 
+---@field viewParallelTintColor MetaEngineColorRGB 
+---@field reflectionMap MetaEngineTagDependency 
+---@field rippleAnimationAngle MetaEngineAngle 
+---@field rippleAnimationVelocity number 
+---@field rippleScale number 
+---@field rippleMaps MetaEngineTagDependency 
+---@field rippleMipmapLevels integer 
+---@field rippleMipmapFadeFactor MetaEngineFraction 
+---@field rippleMipmapDetailBias number 
+---@field ripples TagBlock<MetaEngineTagDataShaderTransparentWaterRipple> 
+
+---@class EngineTagDataEquipmentPowerupTypeEnum : Enum 
+
+---@class EngineTagDataEquipmentPowerupTypeNone : EngineTagDataEquipmentPowerupTypeEnum 
+---@class EngineTagDataEquipmentPowerupTypeDoubleSpeed : EngineTagDataEquipmentPowerupTypeEnum 
+---@class EngineTagDataEquipmentPowerupTypeOverShield : EngineTagDataEquipmentPowerupTypeEnum 
+---@class EngineTagDataEquipmentPowerupTypeActiveCamouflage : EngineTagDataEquipmentPowerupTypeEnum 
+---@class EngineTagDataEquipmentPowerupTypeFullSpectrumVision : EngineTagDataEquipmentPowerupTypeEnum 
+---@class EngineTagDataEquipmentPowerupTypeHealth : EngineTagDataEquipmentPowerupTypeEnum 
+---@class EngineTagDataEquipmentPowerupTypeGrenade : EngineTagDataEquipmentPowerupTypeEnum 
+
+---@alias EngineTagDataEquipmentPowerupType 
+---| EngineTagDataEquipmentPowerupTypeNone
+---| EngineTagDataEquipmentPowerupTypeDoubleSpeed
+---| EngineTagDataEquipmentPowerupTypeOverShield
+---| EngineTagDataEquipmentPowerupTypeActiveCamouflage
+---| EngineTagDataEquipmentPowerupTypeFullSpectrumVision
+---| EngineTagDataEquipmentPowerupTypeHealth
+---| EngineTagDataEquipmentPowerupTypeGrenade
+
+---@class EngineTagDataEquipmentPowerupTypeTable 
+---@field eNone EngineTagDataEquipmentPowerupTypeNone
+---@field eDoubleSpeed EngineTagDataEquipmentPowerupTypeDoubleSpeed
+---@field eOverShield EngineTagDataEquipmentPowerupTypeOverShield
+---@field eActiveCamouflage EngineTagDataEquipmentPowerupTypeActiveCamouflage
+---@field eFullSpectrumVision EngineTagDataEquipmentPowerupTypeFullSpectrumVision
+---@field eHealth EngineTagDataEquipmentPowerupTypeHealth
+---@field eGrenade EngineTagDataEquipmentPowerupTypeGrenade
+Engine.tag.equipmentPowerupType = {} 
+
+---@class MetaEngineTagDataEquipment: MetaEngineTagDataItem  
+---@field powerupType EngineTagDataEquipmentPowerupType 
+---@field grenadeType EngineTagDataGrenadeType 
+---@field powerupTime number 
+---@field pickupSound MetaEngineTagDependency 
+
+---@class EngineTagDataDamageEffectScreenFlashTypeEnum : Enum 
+
+---@class EngineTagDataDamageEffectScreenFlashTypeNone : EngineTagDataDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDataDamageEffectScreenFlashTypeLighten : EngineTagDataDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDataDamageEffectScreenFlashTypeDarken : EngineTagDataDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDataDamageEffectScreenFlashTypeMax : EngineTagDataDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDataDamageEffectScreenFlashTypeMin : EngineTagDataDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDataDamageEffectScreenFlashTypeInvert : EngineTagDataDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDataDamageEffectScreenFlashTypeTint : EngineTagDataDamageEffectScreenFlashTypeEnum 
 
 ---@alias EngineTagDataDamageEffectScreenFlashType 
----| 'damage_effect_screen_flash_type_none'
----| 'damage_effect_screen_flash_type_lighten'
----| 'damage_effect_screen_flash_type_darken'
----| 'damage_effect_screen_flash_type_max'
----| 'damage_effect_screen_flash_type_min'
----| 'damage_effect_screen_flash_type_invert'
----| 'damage_effect_screen_flash_type_tint'
+---| EngineTagDataDamageEffectScreenFlashTypeNone
+---| EngineTagDataDamageEffectScreenFlashTypeLighten
+---| EngineTagDataDamageEffectScreenFlashTypeDarken
+---| EngineTagDataDamageEffectScreenFlashTypeMax
+---| EngineTagDataDamageEffectScreenFlashTypeMin
+---| EngineTagDataDamageEffectScreenFlashTypeInvert
+---| EngineTagDataDamageEffectScreenFlashTypeTint
+
+---@class EngineTagDataDamageEffectScreenFlashTypeTable 
+---@field ypeNone EngineTagDataDamageEffectScreenFlashTypeNone
+---@field ypeLighten EngineTagDataDamageEffectScreenFlashTypeLighten
+---@field ypeDarken EngineTagDataDamageEffectScreenFlashTypeDarken
+---@field ypeMax EngineTagDataDamageEffectScreenFlashTypeMax
+---@field ypeMin EngineTagDataDamageEffectScreenFlashTypeMin
+---@field ypeInvert EngineTagDataDamageEffectScreenFlashTypeInvert
+---@field ypeTint EngineTagDataDamageEffectScreenFlashTypeTint
+Engine.tag.damageEffectScreenFlashType = {} 
+
+---@class EngineTagDataDamageEffectScreenFlashPriorityEnum : Enum 
+
+---@class EngineTagDataDamageEffectScreenFlashPriorityLow : EngineTagDataDamageEffectScreenFlashPriorityEnum 
+---@class EngineTagDataDamageEffectScreenFlashPriorityMedium : EngineTagDataDamageEffectScreenFlashPriorityEnum 
+---@class EngineTagDataDamageEffectScreenFlashPriorityHigh : EngineTagDataDamageEffectScreenFlashPriorityEnum 
 
 ---@alias EngineTagDataDamageEffectScreenFlashPriority 
----| 'damage_effect_screen_flash_priority_low'
----| 'damage_effect_screen_flash_priority_medium'
----| 'damage_effect_screen_flash_priority_high'
+---| EngineTagDataDamageEffectScreenFlashPriorityLow
+---| EngineTagDataDamageEffectScreenFlashPriorityMedium
+---| EngineTagDataDamageEffectScreenFlashPriorityHigh
+
+---@class EngineTagDataDamageEffectScreenFlashPriorityTable 
+---@field ityLow EngineTagDataDamageEffectScreenFlashPriorityLow
+---@field ityMedium EngineTagDataDamageEffectScreenFlashPriorityMedium
+---@field ityHigh EngineTagDataDamageEffectScreenFlashPriorityHigh
+Engine.tag.damageEffectScreenFlashPriority = {} 
+
+---@class EngineTagDataDamageEffectSideEffectEnum : Enum 
+
+---@class EngineTagDataDamageEffectSideEffectNone : EngineTagDataDamageEffectSideEffectEnum 
+---@class EngineTagDataDamageEffectSideEffectHarmless : EngineTagDataDamageEffectSideEffectEnum 
+---@class EngineTagDataDamageEffectSideEffectLethalToTheUnsuspecting : EngineTagDataDamageEffectSideEffectEnum 
+---@class EngineTagDataDamageEffectSideEffectEmp : EngineTagDataDamageEffectSideEffectEnum 
 
 ---@alias EngineTagDataDamageEffectSideEffect 
----| 'damage_effect_side_effect_none'
----| 'damage_effect_side_effect_harmless'
----| 'damage_effect_side_effect_lethal_to_the_unsuspecting'
----| 'damage_effect_side_effect_emp'
+---| EngineTagDataDamageEffectSideEffectNone
+---| EngineTagDataDamageEffectSideEffectHarmless
+---| EngineTagDataDamageEffectSideEffectLethalToTheUnsuspecting
+---| EngineTagDataDamageEffectSideEffectEmp
+
+---@class EngineTagDataDamageEffectSideEffectTable 
+---@field ctNone EngineTagDataDamageEffectSideEffectNone
+---@field ctHarmless EngineTagDataDamageEffectSideEffectHarmless
+---@field ctLethalToTheUnsuspecting EngineTagDataDamageEffectSideEffectLethalToTheUnsuspecting
+---@field ctEmp EngineTagDataDamageEffectSideEffectEmp
+Engine.tag.damageEffectSideEffect = {} 
+
+---@class EngineTagDataDamageEffectCategoryEnum : Enum 
+
+---@class EngineTagDataDamageEffectCategoryNone : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryFalling : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryBullet : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryGrenade : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryHighExplosive : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategorySniper : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryMelee : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryFlame : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryMountedWeapon : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryVehicle : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryPlasma : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryNeedle : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDataDamageEffectCategoryShotgun : EngineTagDataDamageEffectCategoryEnum 
 
 ---@alias EngineTagDataDamageEffectCategory 
----| 'damage_effect_category_none'
----| 'damage_effect_category_falling'
----| 'damage_effect_category_bullet'
----| 'damage_effect_category_grenade'
----| 'damage_effect_category_high_explosive'
----| 'damage_effect_category_sniper'
----| 'damage_effect_category_melee'
----| 'damage_effect_category_flame'
----| 'damage_effect_category_mounted_weapon'
----| 'damage_effect_category_vehicle'
----| 'damage_effect_category_plasma'
----| 'damage_effect_category_needle'
----| 'damage_effect_category_shotgun'
+---| EngineTagDataDamageEffectCategoryNone
+---| EngineTagDataDamageEffectCategoryFalling
+---| EngineTagDataDamageEffectCategoryBullet
+---| EngineTagDataDamageEffectCategoryGrenade
+---| EngineTagDataDamageEffectCategoryHighExplosive
+---| EngineTagDataDamageEffectCategorySniper
+---| EngineTagDataDamageEffectCategoryMelee
+---| EngineTagDataDamageEffectCategoryFlame
+---| EngineTagDataDamageEffectCategoryMountedWeapon
+---| EngineTagDataDamageEffectCategoryVehicle
+---| EngineTagDataDamageEffectCategoryPlasma
+---| EngineTagDataDamageEffectCategoryNeedle
+---| EngineTagDataDamageEffectCategoryShotgun
+
+---@class EngineTagDataDamageEffectCategoryTable 
+---@field yNone EngineTagDataDamageEffectCategoryNone
+---@field yFalling EngineTagDataDamageEffectCategoryFalling
+---@field yBullet EngineTagDataDamageEffectCategoryBullet
+---@field yGrenade EngineTagDataDamageEffectCategoryGrenade
+---@field yHighExplosive EngineTagDataDamageEffectCategoryHighExplosive
+---@field ySniper EngineTagDataDamageEffectCategorySniper
+---@field yMelee EngineTagDataDamageEffectCategoryMelee
+---@field yFlame EngineTagDataDamageEffectCategoryFlame
+---@field yMountedWeapon EngineTagDataDamageEffectCategoryMountedWeapon
+---@field yVehicle EngineTagDataDamageEffectCategoryVehicle
+---@field yPlasma EngineTagDataDamageEffectCategoryPlasma
+---@field yNeedle EngineTagDataDamageEffectCategoryNeedle
+---@field yShotgun EngineTagDataDamageEffectCategoryShotgun
+Engine.tag.damageEffectCategory = {} 
 
 ---@class MetaEngineTagDataDamageEffectDamageFlags 
 ---@field doesNotHurtOwner boolean 
@@ -2701,301 +1980,404 @@
 ---@field ice number 
 ---@field hunterShield number 
 
----@alias EngineTagDataMeterInterpolateColors 
----| 'meter_interpolate_colors_linearly'
----| 'meter_interpolate_colors_faster_near_empty'
----| 'meter_interpolate_colors_faster_near_full'
----| 'meter_interpolate_colors_through_random_noise'
+---@class EngineTagDataLensFlareRadiusScaledByEnum : Enum 
 
----@alias EngineTagDataMeterAnchorColors 
----| 'meter_anchor_colors_at_both_ends'
----| 'meter_anchor_colors_at_empty'
----| 'meter_anchor_colors_at_full'
+---@class EngineTagDataLensFlareRadiusScaledByNone : EngineTagDataLensFlareRadiusScaledByEnum 
+---@class EngineTagDataLensFlareRadiusScaledByRotation : EngineTagDataLensFlareRadiusScaledByEnum 
+---@class EngineTagDataLensFlareRadiusScaledByRotationAndStrafing : EngineTagDataLensFlareRadiusScaledByEnum 
+---@class EngineTagDataLensFlareRadiusScaledByDistanceFromCenter : EngineTagDataLensFlareRadiusScaledByEnum 
 
----@class MetaEngineTagDataMeter 
----@field flags MetaEngineTagDataIsUnusedFlag 
----@field stencilBitmaps MetaEngineTagDependency 
----@field sourceBitmap MetaEngineTagDependency 
----@field stencilSequenceIndex integer 
----@field sourceSequenceIndex integer 
----@field interpolateColors EngineTagDataMeterInterpolateColors 
----@field anchorColors EngineTagDataMeterAnchorColors 
----@field emptyColor MetaEngineColorARGB 
----@field fullColor MetaEngineColorARGB 
----@field unmaskDistance number 
----@field maskDistance number 
----@field encodedStencil MetaEngineTagDataOffset 
+---@alias EngineTagDataLensFlareRadiusScaledBy 
+---| EngineTagDataLensFlareRadiusScaledByNone
+---| EngineTagDataLensFlareRadiusScaledByRotation
+---| EngineTagDataLensFlareRadiusScaledByRotationAndStrafing
+---| EngineTagDataLensFlareRadiusScaledByDistanceFromCenter
 
----@class MetaEngineTagDataPointPhysicsFlags 
----@field flamethrowerParticleCollision boolean 
----@field collidesWithStructures boolean 
----@field collidesWithWaterSurface boolean 
----@field usesSimpleWind boolean 
----@field usesDampedWind boolean 
----@field noGravity boolean 
+---@class EngineTagDataLensFlareRadiusScaledByTable 
+---@field byNone EngineTagDataLensFlareRadiusScaledByNone
+---@field byRotation EngineTagDataLensFlareRadiusScaledByRotation
+---@field byRotationAndStrafing EngineTagDataLensFlareRadiusScaledByRotationAndStrafing
+---@field byDistanceFromCenter EngineTagDataLensFlareRadiusScaledByDistanceFromCenter
+Engine.tag.lensFlareRadiusScaledBy = {} 
 
----@class MetaEngineTagDataPointPhysics 
----@field flags MetaEngineTagDataPointPhysicsFlags 
----@field unknownConstant number 
----@field waterGravityScale number 
----@field airGravityScale number 
----@field density number 
----@field airFriction number 
----@field waterFriction number 
----@field surfaceFriction number 
----@field elasticity number 
+---@class EngineTagDataLensFlareOcclusionOffsetDirectionEnum : Enum 
 
----@class MetaEngineTagDataContinuousDamageEffect 
----@field radius number 
----@field cutoffScale number 
----@field lowFrequencyVibrateFrequency number 
----@field highFrequencyVibrateFrequency number 
----@field cameraShakingRandomTranslation number 
----@field cameraShakingRandomRotation MetaEngineAngle 
----@field cameraShakingWobbleFunction EngineTagDataWaveFunction 
----@field cameraShakingWobblePeriod number 
----@field cameraShakingWobbleWeight number 
----@field damageSideEffect EngineTagDataDamageEffectSideEffect 
----@field damageCategory EngineTagDataDamageEffectCategory 
----@field damageFlags MetaEngineTagDataDamageEffectDamageFlags 
----@field damageLowerBound number 
----@field damageUpperBound number 
----@field damageVehiclePassthroughPenalty number 
----@field damageStun number 
----@field damageMaximumStun number 
----@field damageStunTime number 
----@field damageInstantaneousAcceleration MetaEngineVector3D 
----@field dirt number 
----@field sand number 
----@field stone number 
----@field snow number 
----@field wood number 
----@field metalHollow number 
----@field metalThin number 
----@field metalThick number 
----@field rubber number 
----@field glass number 
----@field forceField number 
----@field grunt number 
----@field hunterArmor number 
----@field hunterSkin number 
----@field elite number 
----@field jackal number 
----@field jackalEnergyShield number 
----@field engineerSkin number 
----@field engineerForceField number 
----@field floodCombatForm number 
----@field floodCarrierForm number 
----@field cyborgArmor number 
----@field cyborgEnergyShield number 
----@field humanArmor number 
----@field humanSkin number 
----@field sentinel number 
----@field monitor number 
----@field plastic number 
----@field water number 
----@field leaves number 
----@field eliteEnergyShield number 
----@field ice number 
----@field hunterShield number 
+---@class EngineTagDataLensFlareOcclusionOffsetDirectionTowardViewer : EngineTagDataLensFlareOcclusionOffsetDirectionEnum 
+---@class EngineTagDataLensFlareOcclusionOffsetDirectionMarkerForward : EngineTagDataLensFlareOcclusionOffsetDirectionEnum 
+---@class EngineTagDataLensFlareOcclusionOffsetDirectionNone : EngineTagDataLensFlareOcclusionOffsetDirectionEnum 
 
----@alias EngineTagDataFlagTrailingEdgeShape 
----| 'flag_trailing_edge_shape_flat'
----| 'flag_trailing_edge_shape_concave_triangular'
----| 'flag_trailing_edge_shape_convex_triangular'
----| 'flag_trailing_edge_shape_trapezoid_short_top'
----| 'flag_trailing_edge_shape_trapezoid_short_bottom'
+---@alias EngineTagDataLensFlareOcclusionOffsetDirection 
+---| EngineTagDataLensFlareOcclusionOffsetDirectionTowardViewer
+---| EngineTagDataLensFlareOcclusionOffsetDirectionMarkerForward
+---| EngineTagDataLensFlareOcclusionOffsetDirectionNone
 
----@alias EngineTagDataFlagAttachedEdgeShape 
----| 'flag_attached_edge_shape_flat'
----| 'flag_attached_edge_shape_concave_triangular'
+---@class EngineTagDataLensFlareOcclusionOffsetDirectionTable 
+---@field ionTowardViewer EngineTagDataLensFlareOcclusionOffsetDirectionTowardViewer
+---@field ionMarkerForward EngineTagDataLensFlareOcclusionOffsetDirectionMarkerForward
+---@field ionNone EngineTagDataLensFlareOcclusionOffsetDirectionNone
+Engine.tag.lensFlareOcclusionOffsetDirection = {} 
 
----@class MetaEngineTagDataFlagAttachmentPoint 
----@field heightToNextAttachment integer 
----@field markerName MetaEngineTagString 
+---@class EngineTagDataLensFlareRotationFunctionEnum : Enum 
 
----@class MetaEngineTagDataFlag 
----@field flags MetaEngineTagDataIsUnusedFlag 
----@field trailingEdgeShape EngineTagDataFlagTrailingEdgeShape 
----@field trailingEdgeShapeOffset integer 
----@field attachedEdgeShape EngineTagDataFlagAttachedEdgeShape 
----@field width integer 
----@field height integer 
----@field cellWidth number 
----@field cellHeight number 
----@field redFlagShader MetaEngineTagDependency 
----@field physics MetaEngineTagDependency 
----@field windNoise number 
----@field blueFlagShader MetaEngineTagDependency 
----@field attachmentPoints table<MetaEngineTagDataFlagAttachmentPoint> 
+---@class EngineTagDataLensFlareRotationFunctionNone : EngineTagDataLensFlareRotationFunctionEnum 
+---@class EngineTagDataLensFlareRotationFunctionRotationA : EngineTagDataLensFlareRotationFunctionEnum 
+---@class EngineTagDataLensFlareRotationFunctionRotationB : EngineTagDataLensFlareRotationFunctionEnum 
+---@class EngineTagDataLensFlareRotationFunctionRotationTranslation : EngineTagDataLensFlareRotationFunctionEnum 
+---@class EngineTagDataLensFlareRotationFunctionTranslation : EngineTagDataLensFlareRotationFunctionEnum 
 
----@alias EngineTagDataShaderModelDetailMask 
----| 'shader_model_detail_mask_none'
----| 'shader_model_detail_mask_reflection_mask_inverse'
----| 'shader_model_detail_mask_reflection_mask'
----| 'shader_model_detail_mask_self_illumination_mask_inverse'
----| 'shader_model_detail_mask_self_illumination_mask'
----| 'shader_model_detail_mask_change_color_mask_inverse'
----| 'shader_model_detail_mask_change_color_mask'
----| 'shader_model_detail_mask_auxiliary_mask_inverse'
----| 'shader_model_detail_mask_auxiliary_mask'
+---@alias EngineTagDataLensFlareRotationFunction 
+---| EngineTagDataLensFlareRotationFunctionNone
+---| EngineTagDataLensFlareRotationFunctionRotationA
+---| EngineTagDataLensFlareRotationFunctionRotationB
+---| EngineTagDataLensFlareRotationFunctionRotationTranslation
+---| EngineTagDataLensFlareRotationFunctionTranslation
 
----@class MetaEngineTagDataShaderModelFlags 
----@field detailAfterReflection boolean 
----@field twoSided boolean 
----@field notAlphaTested boolean 
----@field alphaBlendedDecal boolean 
----@field trueAtmosphericFog boolean 
----@field disableTwoSidedCulling boolean 
----@field useXboxMultipurposeChannelOrder boolean 
+---@class EngineTagDataLensFlareRotationFunctionTable 
+---@field onNone EngineTagDataLensFlareRotationFunctionNone
+---@field onRotationA EngineTagDataLensFlareRotationFunctionRotationA
+---@field onRotationB EngineTagDataLensFlareRotationFunctionRotationB
+---@field onRotationTranslation EngineTagDataLensFlareRotationFunctionRotationTranslation
+---@field onTranslation EngineTagDataLensFlareRotationFunctionTranslation
+Engine.tag.lensFlareRotationFunction = {} 
 
----@class MetaEngineTagDataShaderModelMoreFlags 
----@field noRandomPhase boolean 
+---@class MetaEngineTagDataLensFlareReflectionFlags 
+---@field alignRotationWithScreenCenter boolean 
+---@field radiusNotScaledByDistance boolean 
+---@field radiusScaledByOcclusionFactor boolean 
+---@field occludedBySolidObjects boolean 
 
----@class MetaEngineTagDataShaderModel: MetaEngineTagDataShader  
----@field shaderModelFlags MetaEngineTagDataShaderModelFlags 
----@field translucency MetaEngineFraction 
----@field changeColorSource EngineTagDataFunctionNameNullable 
----@field shaderModelMoreFlags MetaEngineTagDataShaderModelMoreFlags 
----@field colorSource EngineTagDataFunctionNameNullable 
----@field animationFunction EngineTagDataWaveFunction 
----@field animationPeriod number 
----@field animationColorLowerBound MetaEngineColorRGB 
----@field animationColorUpperBound MetaEngineColorRGB 
----@field mapUScale number 
----@field mapVScale number 
----@field baseMap MetaEngineTagDependency 
----@field multipurposeMap MetaEngineTagDependency 
----@field detailFunction EngineTagDataShaderDetailFunction 
----@field detailMask EngineTagDataShaderModelDetailMask 
----@field detailMapScale number 
----@field detailMap MetaEngineTagDependency 
----@field detailMapVScale number 
----@field uAnimationSource EngineTagDataFunctionOut 
----@field uAnimationFunction EngineTagDataWaveFunction 
----@field uAnimationPeriod number 
----@field uAnimationPhase number 
----@field uAnimationScale number 
----@field vAnimationSource EngineTagDataFunctionOut 
----@field vAnimationFunction EngineTagDataWaveFunction 
----@field vAnimationPeriod number 
----@field vAnimationPhase number 
----@field vAnimationScale number 
----@field rotationAnimationSource EngineTagDataFunctionOut 
----@field rotationAnimationFunction EngineTagDataWaveFunction 
----@field rotationAnimationPeriod number 
----@field rotationAnimationPhase number 
----@field rotationAnimationScale number 
----@field rotationAnimationCenter MetaEnginePoint2D 
----@field reflectionFalloffDistance number 
----@field reflectionCutoffDistance number 
----@field perpendicularBrightness MetaEngineFraction 
----@field perpendicularTintColor MetaEngineColorRGB 
----@field parallelBrightness MetaEngineFraction 
----@field parallelTintColor MetaEngineColorRGB 
----@field reflectionCubeMap MetaEngineTagDependency 
----@field unknown number 
-
----@class MetaEngineTagDataIsUnusedFlag 
----@field unused boolean 
-
----@class MetaEngineTagDataIsUnfilteredFlag 
----@field unfiltered boolean 
-
----@class MetaEngineTagDataColorInterpolationFlags 
----@field blendInHsv boolean 
+---@class MetaEngineTagDataLensFlareReflectionMoreFlags 
+---@field interpolateColorsInHsv boolean 
 ---@field moreColors boolean 
 
----@class MetaEngineTagDataFontCharacterIndex 
----@field characterIndex MetaEngineIndex 
+---@class MetaEngineTagDataLensFlareFlags 
+---@field sun boolean 
+---@field noOcclusionTest boolean 
+---@field onlyRenderInFirstPerson boolean 
+---@field onlyRenderInThirdPerson boolean 
+---@field fadeInMoreQuickly boolean 
+---@field fadeOutMoreQuickly boolean 
+---@field scaleByMarker boolean 
 
----@class MetaEngineTagDataFontCharacterTables 
----@field characterTable table<MetaEngineTagDataFontCharacterIndex> 
-
----@class MetaEngineTagDataFontCharacter 
----@field character integer 
----@field characterWidth integer 
----@field bitmapWidth integer 
----@field bitmapHeight integer 
----@field bitmapOriginX integer 
----@field bitmapOriginY integer 
----@field hardwareCharacterIndex integer 
----@field pixelsOffset integer 
-
----@class MetaEngineTagDataFont 
----@field flags integer 
----@field ascendingHeight integer 
----@field descendingHeight integer 
----@field leadingHeight integer 
----@field leadingWidth integer 
----@field characterTables table<MetaEngineTagDataFontCharacterTables> 
----@field bold MetaEngineTagDependency 
----@field italic MetaEngineTagDependency 
----@field condense MetaEngineTagDependency 
----@field underline MetaEngineTagDependency 
----@field characters table<MetaEngineTagDataFontCharacter> 
----@field pixels MetaEngineTagDataOffset 
-
----@class MetaEngineTagDataLightFlags 
----@field dynamic boolean 
----@field noSpecular boolean 
----@field dontLightOwnObject boolean 
----@field supersizeInFirstPerson boolean 
----@field firstPersonFlashlight boolean 
----@field dontFadeActiveCamouflage boolean 
-
----@class MetaEngineTagDataLight 
----@field flags MetaEngineTagDataLightFlags 
+---@class MetaEngineTagDataLensFlareReflection 
+---@field flags MetaEngineTagDataLensFlareReflectionFlags 
+---@field bitmapIndex MetaEngineIndex 
+---@field position number 
+---@field rotationOffset number 
 ---@field radius number 
----@field radiusModifer number 
----@field falloffAngle MetaEngineAngle 
----@field cutoffAngle MetaEngineAngle 
----@field lensFlareOnlyRadius number 
----@field cosFalloffAngle number 
----@field cosCutoffAngle number 
----@field unknownTwo number 
----@field sinCutoffAngle number 
----@field interpolationFlags MetaEngineTagDataColorInterpolationFlags 
+---@field radiusScaledBy EngineTagDataLensFlareRadiusScaledBy 
+---@field brightness MetaEngineFraction 
+---@field brightnessScaledBy EngineTagDataLensFlareRadiusScaledBy 
+---@field tintColor MetaEngineColorARGB 
 ---@field colorLowerBound MetaEngineColorARGB 
 ---@field colorUpperBound MetaEngineColorARGB 
----@field primaryCubeMap MetaEngineTagDependency 
----@field textureAnimationFunction EngineTagDataWaveFunction 
----@field textureAnimationPeriod number 
----@field secondaryCubeMap MetaEngineTagDependency 
----@field yawFunction EngineTagDataWaveFunction 
----@field yawPeriod number 
----@field rollFunction EngineTagDataWaveFunction 
----@field rollPeriod number 
----@field pitchFunction EngineTagDataWaveFunction 
----@field pitchPeriod number 
----@field lensFlare MetaEngineTagDependency 
----@field intensity number 
+---@field moreFlags MetaEngineTagDataLensFlareReflectionMoreFlags 
+---@field animationFunction EngineTagDataWaveFunction 
+---@field animationPeriod number 
+---@field animationPhase number 
+
+---@class MetaEngineTagDataLensFlare 
+---@field falloffAngle MetaEngineAngle 
+---@field cutoffAngle MetaEngineAngle 
+---@field cosFalloffAngle number 
+---@field cosCutoffAngle number 
+---@field occlusionRadius number 
+---@field occlusionOffsetDirection EngineTagDataLensFlareOcclusionOffsetDirection 
+---@field nearFadeDistance number 
+---@field farFadeDistance number 
+---@field bitmap MetaEngineTagDependency 
+---@field flags MetaEngineTagDataLensFlareFlags 
+---@field rotationFunction EngineTagDataLensFlareRotationFunction 
+---@field rotationFunctionScale MetaEngineAngle 
+---@field horizontalScale number 
+---@field verticalScale number 
+---@field reflections TagBlock<MetaEngineTagDataLensFlareReflection> 
+
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum : Enum 
+
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnglish : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageFrench : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageSpanish : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageItalian : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageGerman : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageTraditionalChinese : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageJapanese : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageKorean : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguagePortuguese : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageLatamSpanish : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguagePolish : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageRussian : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageSimplifiedChinese : EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnum 
+
+---@alias EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguage 
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnglish
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageFrench
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageSpanish
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageItalian
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageGerman
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageTraditionalChinese
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageJapanese
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageKorean
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguagePortuguese
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageLatamSpanish
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguagePolish
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageRussian
+---| EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageSimplifiedChinese
+
+---@class EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageTable 
+---@field nguageEnglish EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageEnglish
+---@field nguageFrench EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageFrench
+---@field nguageSpanish EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageSpanish
+---@field nguageItalian EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageItalian
+---@field nguageGerman EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageGerman
+---@field nguageTraditionalChinese EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageTraditionalChinese
+---@field nguageJapanese EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageJapanese
+---@field nguageKorean EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageKorean
+---@field nguagePortuguese EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguagePortuguese
+---@field nguageLatamSpanish EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageLatamSpanish
+---@field nguagePolish EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguagePolish
+---@field nguageRussian EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageRussian
+---@field nguageSimplifiedChinese EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguageSimplifiedChinese
+Engine.tag.hUDGlobalsAnniversaryRemapTargetLanguage = {} 
+
+---@class MetaEngineTagDataHUDGlobalsWaypointArrowFlags 
+---@field dontRotateWhenPointingOffscreen boolean 
+
+---@class MetaEngineTagDataHUDGlobalsAnniversaryRemapTargetFlags 
+---@field legacyMode boolean 
+
+---@class MetaEngineTagDataHUDGlobalsButtonIcon 
+---@field sequenceIndex MetaEngineIndex 
+---@field widthOffset integer 
+---@field offsetFromReferenceCorner MetaEnginePoint2DInt 
+---@field overrideIconColor MetaEngineColorARGBInt 
+---@field frameRate integer 
+---@field flags MetaEngineTagDataHUDInterfaceMessagingFlags 
+---@field textIndex MetaEngineIndex 
+
+---@class MetaEngineTagDataHUDGlobalsAnniversaryRemapTarget 
+---@field targetBitmap MetaEngineTagDependency 
+---@field language EngineTagDataHUDGlobalsAnniversaryRemapTargetLanguage 
+---@field flags MetaEngineTagDataHUDGlobalsAnniversaryRemapTargetFlags 
+
+---@class MetaEngineTagDataHUDGlobalsAnniversaryRemap 
+---@field sourceBitmap MetaEngineTagDependency 
+---@field targets TagBlock<MetaEngineTagDataHUDGlobalsAnniversaryRemapTarget> 
+
+---@class MetaEngineTagDataHUDGlobalsWaypointArrow 
+---@field name MetaEngineTagString 
+---@field color MetaEngineColorARGBInt 
+---@field opacity number 
+---@field translucency number 
+---@field onScreenSequenceIndex MetaEngineIndex 
+---@field offScreenSequenceIndex MetaEngineIndex 
+---@field occludedSequenceIndex MetaEngineIndex 
+---@field flags MetaEngineTagDataHUDGlobalsWaypointArrowFlags 
+
+---@class MetaEngineTagDataHudGlobals 
+---@field anchor EngineTagDataHUDInterfaceAnchor 
+---@field anchorOffset MetaEnginePoint2DInt 
+---@field widthScale number 
+---@field heightScale number 
+---@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field singlePlayerFont MetaEngineTagDependency 
+---@field multiPlayerFont MetaEngineTagDependency 
+---@field upTime number 
+---@field fadeTime number 
+---@field iconColor MetaEngineColorARGB 
+---@field textColor MetaEngineColorARGB 
+---@field textSpacing number 
+---@field itemMessageText MetaEngineTagDependency 
+---@field iconBitmap MetaEngineTagDependency 
+---@field alternateIconText MetaEngineTagDependency 
+---@field buttonIcons TagBlock<MetaEngineTagDataHUDGlobalsButtonIcon> 
+---@field hudHelpDefaultColor MetaEngineColorARGBInt 
+---@field hudHelpFlashingColor MetaEngineColorARGBInt 
+---@field hudHelpFlashPeriod number 
+---@field hudHelpFlashDelay number 
+---@field hudHelpNumberOfFlashes integer 
+---@field hudHelpFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field hudHelpFlashLength number 
+---@field hudHelpDisabledColor MetaEngineColorARGBInt 
+---@field hudMessages MetaEngineTagDependency 
+---@field objectiveDefaultColor MetaEngineColorARGBInt 
+---@field objectiveFlashingColor MetaEngineColorARGBInt 
+---@field objectiveFlashPeriod number 
+---@field objectiveFlashDelay number 
+---@field objectiveNumberOfFlashes integer 
+---@field objectiveFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field objectiveFlashLength number 
+---@field objectiveDisabledColor MetaEngineColorARGBInt 
+---@field objectiveUptimeTicks integer 
+---@field objectiveFadeTicks integer 
+---@field topOffset number 
+---@field bottomOffset number 
+---@field leftOffset number 
+---@field rightOffset number 
+---@field arrowBitmap MetaEngineTagDependency 
+---@field waypointArrows TagBlock<MetaEngineTagDataHUDGlobalsWaypointArrow> 
+---@field hudScaleInMultiplayer number 
+---@field defaultWeaponHud MetaEngineTagDependency 
+---@field motionSensorRange number 
+---@field motionSensorVelocitySensitivity number 
+---@field motionSensorScale number 
+---@field defaultChapterTitleBounds MetaEngineRectangle2D 
+---@field hudDamageTopOffset integer 
+---@field hudDamageBottomOffset integer 
+---@field hudDamageLeftOffset integer 
+---@field hudDamageRightOffset integer 
+---@field hudDamageIndicatorBitmap MetaEngineTagDependency 
+---@field hudDamageSequenceIndex MetaEngineIndex 
+---@field hudDamageMultiplayerSequenceIndex MetaEngineIndex 
+---@field hudDamageColor MetaEngineColorARGBInt 
+---@field notMuchTimeLeftDefaultColor MetaEngineColorARGBInt 
+---@field notMuchTimeLeftFlashingColor MetaEngineColorARGBInt 
+---@field notMuchTimeLeftFlashPeriod number 
+---@field notMuchTimeLeftFlashDelay number 
+---@field notMuchTimeLeftNumberOfFlashes integer 
+---@field notMuchTimeLeftFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field notMuchTimeLeftFlashLength number 
+---@field notMuchTimeLeftDisabledColor MetaEngineColorARGBInt 
+---@field timeOutFlashDefaultColor MetaEngineColorARGBInt 
+---@field timeOutFlashFlashingColor MetaEngineColorARGBInt 
+---@field timeOutFlashFlashPeriod number 
+---@field timeOutFlashFlashDelay number 
+---@field timeOutFlashNumberOfFlashes integer 
+---@field timeOutFlashFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field timeOutFlashFlashLength number 
+---@field timeOutFlashDisabledColor MetaEngineColorARGBInt 
+---@field carnageReportBitmap MetaEngineTagDependency 
+---@field loadingBeginText MetaEngineIndex 
+---@field loadingEndText MetaEngineIndex 
+---@field checkpointBeginText MetaEngineIndex 
+---@field checkpointEndText MetaEngineIndex 
+---@field checkpointSound MetaEngineTagDependency 
+---@field anniversaryHudRemaps TagBlock<MetaEngineTagDataHUDGlobalsAnniversaryRemap> 
+
+---@class MetaEngineTagDataFogFlags 
+---@field isWater boolean 
+---@field atmosphereDominant boolean 
+---@field fogScreenOnly boolean 
+
+---@class MetaEngineTagDataFogScreenFlags 
+---@field noEnvironmentMultipass boolean 
+---@field noModelMultipass boolean 
+---@field noTextureBasedFalloff boolean 
+
+---@class MetaEngineTagDataFog 
+---@field flags MetaEngineTagDataFogFlags 
+---@field maximumDensity MetaEngineFraction 
+---@field opaqueDistance number 
+---@field opaqueDepth number 
+---@field distanceToWaterPlane number 
 ---@field color MetaEngineColorRGB 
----@field duration number 
----@field falloffFunction EngineTagDataFunctionType 
-
----@class MetaEngineTagDataShaderTransparentChicagoMapFlags 
----@field unfiltered boolean 
----@field alphaReplicate boolean 
----@field uClamped boolean 
----@field vClamped boolean 
-
----@class MetaEngineTagDataShaderTransparentChicagoExtraFlags 
----@field dontFadeActiveCamouflage boolean 
----@field numericCountdownTimer boolean 
----@field customEditionBlending boolean 
-
----@class MetaEngineTagDataShaderTransparentChicagoMap 
----@field flags MetaEngineTagDataShaderTransparentChicagoMapFlags 
----@field colorFunction EngineTagDataShaderColorFunctionType 
----@field alphaFunction EngineTagDataShaderColorFunctionType 
----@field mapUScale number 
----@field mapVScale number 
----@field mapUOffset number 
----@field mapVOffset number 
----@field mapRotation number 
----@field mipmapBias MetaEngineFraction 
+---@field flags_1 MetaEngineTagDataFogScreenFlags 
+---@field layerCount integer 
+---@field distanceGradient number 
+---@field densityGradient MetaEngineFraction 
+---@field startDistanceFromFogPlane number 
+---@field screenLayersColor MetaEngineColorARGBInt 
+---@field rotationMultiplier MetaEngineFraction 
+---@field strafingMultiplier MetaEngineFraction 
+---@field zoomMultiplier MetaEngineFraction 
+---@field mapScale number 
 ---@field map MetaEngineTagDependency 
+---@field animationPeriod number 
+---@field windVelocity number 
+---@field windPeriod number 
+---@field windAccelerationWeight MetaEngineFraction 
+---@field windPerpendicularWeight MetaEngineFraction 
+---@field backgroundSound MetaEngineTagDependency 
+---@field soundEnvironment MetaEngineTagDependency 
+
+---@class EngineTagDataContrailRenderTypeEnum : Enum 
+
+---@class EngineTagDataContrailRenderTypeVerticalOrientation : EngineTagDataContrailRenderTypeEnum 
+---@class EngineTagDataContrailRenderTypeHorizontalOrientation : EngineTagDataContrailRenderTypeEnum 
+---@class EngineTagDataContrailRenderTypeMediaMapped : EngineTagDataContrailRenderTypeEnum 
+---@class EngineTagDataContrailRenderTypeGroundMapped : EngineTagDataContrailRenderTypeEnum 
+---@class EngineTagDataContrailRenderTypeViewerFacing : EngineTagDataContrailRenderTypeEnum 
+---@class EngineTagDataContrailRenderTypeDoubleMarkerLinked : EngineTagDataContrailRenderTypeEnum 
+
+---@alias EngineTagDataContrailRenderType 
+---| EngineTagDataContrailRenderTypeVerticalOrientation
+---| EngineTagDataContrailRenderTypeHorizontalOrientation
+---| EngineTagDataContrailRenderTypeMediaMapped
+---| EngineTagDataContrailRenderTypeGroundMapped
+---| EngineTagDataContrailRenderTypeViewerFacing
+---| EngineTagDataContrailRenderTypeDoubleMarkerLinked
+
+---@class EngineTagDataContrailRenderTypeTable 
+---@field eVerticalOrientation EngineTagDataContrailRenderTypeVerticalOrientation
+---@field eHorizontalOrientation EngineTagDataContrailRenderTypeHorizontalOrientation
+---@field eMediaMapped EngineTagDataContrailRenderTypeMediaMapped
+---@field eGroundMapped EngineTagDataContrailRenderTypeGroundMapped
+---@field eViewerFacing EngineTagDataContrailRenderTypeViewerFacing
+---@field eDoubleMarkerLinked EngineTagDataContrailRenderTypeDoubleMarkerLinked
+Engine.tag.contrailRenderType = {} 
+
+---@class MetaEngineTagDataContrailPointStateScaleFlags 
+---@field duration boolean 
+---@field durationDelta boolean 
+---@field transitionDuration boolean 
+---@field transitionDurationDelta boolean 
+---@field width boolean 
+---@field color boolean 
+
+---@class MetaEngineTagDataContrailFlags 
+---@field firstPointUnfaded boolean 
+---@field lastPointUnfaded boolean 
+---@field pointsStartPinnedToMedia boolean 
+---@field pointsStartPinnedToGround boolean 
+---@field pointsAlwaysPinnedToMedia boolean 
+---@field pointsAlwaysPinnedToGround boolean 
+---@field edgeEffectFadesSlowly boolean 
+
+---@class MetaEngineTagDataContrailScaleFlags 
+---@field pointGenerationRate boolean 
+---@field pointVelocity boolean 
+---@field pointVelocityDelta boolean 
+---@field pointVelocityConeAngle boolean 
+---@field inheritedVelocityFraction boolean 
+---@field sequenceAnimationRate boolean 
+---@field textureScaleU boolean 
+---@field textureScaleV boolean 
+---@field textureAnimationU boolean 
+---@field textureAnimationV boolean 
+
+---@class MetaEngineTagDataContrailPointState 
+---@field duration number 
+---@field transitionDuration number 
+---@field physics MetaEngineTagDependency 
+---@field width number 
+---@field colorLowerBound MetaEngineColorARGB 
+---@field colorUpperBound MetaEngineColorARGB 
+---@field scaleFlags MetaEngineTagDataContrailPointStateScaleFlags 
+
+---@class MetaEngineTagDataContrail 
+---@field flags MetaEngineTagDataContrailFlags 
+---@field scaleFlags MetaEngineTagDataContrailScaleFlags 
+---@field pointGenerationRate number 
+---@field pointVelocity number 
+---@field pointVelocityConeAngle MetaEngineAngle 
+---@field inheritedVelocityFraction MetaEngineFraction 
+---@field renderType EngineTagDataContrailRenderType 
+---@field textureRepeatsU number 
+---@field textureRepeatsV number 
+---@field textureAnimationU number 
+---@field textureAnimationV number 
+---@field animationRate number 
+---@field bitmap MetaEngineTagDependency 
+---@field firstSequenceIndex MetaEngineIndex 
+---@field sequenceCount integer 
+---@field unknownInt integer 
+---@field shaderFlags MetaEngineTagDataParticleShaderFlags 
+---@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
+---@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
+---@field mapFlags MetaEngineTagDataIsUnfilteredFlag 
+---@field secondaryBitmap MetaEngineTagDependency 
+---@field anchor EngineTagDataParticleAnchor 
+---@field secondaryMapFlags MetaEngineTagDataIsUnfilteredFlag 
 ---@field uAnimationSource EngineTagDataFunctionOut 
 ---@field uAnimationFunction EngineTagDataWaveFunction 
 ---@field uAnimationPeriod number 
@@ -3010,370 +2392,10 @@
 ---@field rotationAnimationFunction EngineTagDataWaveFunction 
 ---@field rotationAnimationPeriod number 
 ---@field rotationAnimationPhase number 
----@field rotationAnimationScale number 
+---@field rotationAnimationScale MetaEngineAngle 
 ---@field rotationAnimationCenter MetaEnginePoint2D 
-
----@class MetaEngineTagDataShaderTransparentChicago: MetaEngineTagDataShader  
----@field numericCounterLimit integer 
----@field shaderTransparentChicagoFlags MetaEngineTagDataShaderTransparentGenericFlags 
----@field firstMapType EngineTagDataShaderFirstMapType 
----@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
----@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
----@field framebufferFadeSource EngineTagDataFunctionOut 
----@field lensFlareSpacing number 
----@field lensFlare MetaEngineTagDependency 
----@field extraLayers table<MetaEngineTagDataShaderTransparentExtraLayer> 
----@field maps table<MetaEngineTagDataShaderTransparentChicagoMap> 
----@field extraFlags MetaEngineTagDataShaderTransparentChicagoExtraFlags 
-
----@alias EngineTagDataMultiplayerInformationSound 
----| 'multiplayer_information_sound_play_ball'
----| 'multiplayer_information_sound_game_over'
----| 'multiplayer_information_sound_one_minute_to_win'
----| 'multiplayer_information_sound_30_seconds_to_win'
----| 'multiplayer_information_sound_red_team_minute_to_win'
----| 'multiplayer_information_sound_red_team_30_to_win'
----| 'multiplayer_information_sound_blue_team_minute_to_win'
----| 'multiplayer_information_sound_blue_team_30_to_win'
----| 'multiplayer_information_sound_blue_team_has_the_flag'
----| 'multiplayer_information_sound_blue_team_flag_returned'
----| 'multiplayer_information_sound_blue_team_score'
----| 'multiplayer_information_sound_red_team_has_the_flag'
----| 'multiplayer_information_sound_red_team_flag_returned'
----| 'multiplayer_information_sound_red_team_score'
----| 'multiplayer_information_sound_double_kill'
----| 'multiplayer_information_sound_triple_kill'
----| 'multiplayer_information_sound_killtacular'
----| 'multiplayer_information_sound_running_riot'
----| 'multiplayer_information_sound_killing_spree'
----| 'multiplayer_information_sound_oddball'
----| 'multiplayer_information_sound_race'
----| 'multiplayer_information_sound_slayer'
----| 'multiplayer_information_sound_capture_the_flag'
----| 'multiplayer_information_sound_warthog'
----| 'multiplayer_information_sound_ghost'
----| 'multiplayer_information_sound_scorpion'
----| 'multiplayer_information_sound_countdown_timer'
----| 'multiplayer_information_sound_teleporter_activate'
----| 'multiplayer_information_sound_flag_failure'
----| 'multiplayer_information_sound_countdown_for_respawn'
----| 'multiplayer_information_sound_hill_move'
----| 'multiplayer_information_sound_player_respawn'
----| 'multiplayer_information_sound_team_king_of_the_hill'
----| 'multiplayer_information_sound_team_oddball'
----| 'multiplayer_information_sound_team_race'
----| 'multiplayer_information_sound_team_slayer'
----| 'multiplayer_information_sound_king_of_the_hill'
----| 'multiplayer_information_sound_blue_team_ctf'
----| 'multiplayer_information_sound_red_team_ctf'
----| 'multiplayer_information_sound_hill_contested'
----| 'multiplayer_information_sound_hill_controlled'
----| 'multiplayer_information_sound_hill_occupied'
----| 'multiplayer_information_sound_countdown_timer_end'
----| 'multiplayer_information_sound_ting'
-
----@class MetaEngineTagDataGlobalsRasterizerDataFlags 
----@field tintEdgeDensity boolean 
-
----@class MetaEngineTagDataGlobalsBreakableSurfaceParticleEffectFlags 
----@field interpolateColorInHsv boolean 
----@field moreColors boolean 
-
----@class MetaEngineTagDataGlobalsSound 
----@field sound MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsCamera 
----@field defaultUnitCameraTrack MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsLookFunction 
----@field scale number 
-
----@class MetaEngineTagDataGlobalsPlayerControl 
----@field magnetismFriction number 
----@field magnetismAdhesion number 
----@field inconsequentialTargetScale number 
----@field lookAccelerationTime number 
----@field lookAccelerationScale number 
----@field lookPegThreshold number 
----@field lookDefaultPitchRate number 
----@field lookDefaultYawRate number 
----@field lookAutolevellingScale number 
----@field minimumWeaponSwapTicks integer 
----@field minimumAutolevellingTicks integer 
----@field minimumAngleForVehicleFlipping MetaEngineAngle 
----@field lookFunction table<MetaEngineTagDataGlobalsLookFunction> 
-
----@class MetaEngineTagDataGlobalsDifficulty 
----@field easyEnemyDamage number 
----@field normalEnemyDamage number 
----@field hardEnemyDamage number 
----@field impossEnemyDamage number 
----@field easyEnemyVitality number 
----@field normalEnemyVitality number 
----@field hardEnemyVitality number 
----@field impossEnemyVitality number 
----@field easyEnemyShield number 
----@field normalEnemyShield number 
----@field hardEnemyShield number 
----@field impossEnemyShield number 
----@field easyEnemyRecharge number 
----@field normalEnemyRecharge number 
----@field hardEnemyRecharge number 
----@field impossEnemyRecharge number 
----@field easyFriendDamage number 
----@field normalFriendDamage number 
----@field hardFriendDamage number 
----@field impossFriendDamage number 
----@field easyFriendVitality number 
----@field normalFriendVitality number 
----@field hardFriendVitality number 
----@field impossFriendVitality number 
----@field easyFriendShield number 
----@field normalFriendShield number 
----@field hardFriendShield number 
----@field impossFriendShield number 
----@field easyFriendRecharge number 
----@field normalFriendRecharge number 
----@field hardFriendRecharge number 
----@field impossFriendRecharge number 
----@field easyInfectionForms number 
----@field normalInfectionForms number 
----@field hardInfectionForms number 
----@field impossInfectionForms number 
----@field easyRateOfFire number 
----@field normalRateOfFire number 
----@field hardRateOfFire number 
----@field impossRateOfFire number 
----@field easyProjectileError number 
----@field normalProjectileError number 
----@field hardProjectileError number 
----@field impossProjectileError number 
----@field easyBurstError number 
----@field normalBurstError number 
----@field hardBurstError number 
----@field impossBurstError number 
----@field easyNewTargetDelay number 
----@field normalNewTargetDelay number 
----@field hardNewTargetDelay number 
----@field impossNewTargetDelay number 
----@field easyBurstSeparation number 
----@field normalBurstSeparation number 
----@field hardBurstSeparation number 
----@field impossBurstSeparation number 
----@field easyTargetTracking number 
----@field normalTargetTracking number 
----@field hardTargetTracking number 
----@field impossTargetTracking number 
----@field easyTargetLeading number 
----@field normalTargetLeading number 
----@field hardTargetLeading number 
----@field impossTargetLeading number 
----@field easyOverchargeChance number 
----@field normalOverchargeChance number 
----@field hardOverchargeChance number 
----@field impossOverchargeChance number 
----@field easySpecialFireDelay number 
----@field normalSpecialFireDelay number 
----@field hardSpecialFireDelay number 
----@field impossSpecialFireDelay number 
----@field easyGuidanceVsPlayer number 
----@field normalGuidanceVsPlayer number 
----@field hardGuidanceVsPlayer number 
----@field impossGuidanceVsPlayer number 
----@field easyMeleeDelayBase number 
----@field normalMeleeDelayBase number 
----@field hardMeleeDelayBase number 
----@field impossMeleeDelayBase number 
----@field easyMeleeDelayScale number 
----@field normalMeleeDelayScale number 
----@field hardMeleeDelayScale number 
----@field impossMeleeDelayScale number 
----@field easyGrenadeChanceScale number 
----@field normalGrenadeChanceScale number 
----@field hardGrenadeChanceScale number 
----@field impossGrenadeChanceScale number 
----@field easyGrenadeTimerScale number 
----@field normalGrenadeTimerScale number 
----@field hardGrenadeTimerScale number 
----@field impossGrenadeTimerScale number 
----@field easyMajorUpgrade number 
----@field normalMajorUpgrade number 
----@field hardMajorUpgrade number 
----@field impossMajorUpgrade number 
----@field easyMajorUpgrade_1 number 
----@field normalMajorUpgrade_1 number 
----@field hardMajorUpgrade_1 number 
----@field impossMajorUpgrade_1 number 
----@field easyMajorUpgrade_2 number 
----@field normalMajorUpgrade_2 number 
----@field hardMajorUpgrade_2 number 
----@field impossMajorUpgrade_2 number 
-
----@class MetaEngineTagDataGlobalsGrenade 
----@field maximumCount integer 
----@field mpSpawnDefault integer 
----@field throwingEffect MetaEngineTagDependency 
----@field hudInterface MetaEngineTagDependency 
----@field equipment MetaEngineTagDependency 
----@field projectile MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsRasterizerData 
----@field distanceAttenuation MetaEngineTagDependency 
----@field vectorNormalization MetaEngineTagDependency 
----@field atmosphericFogDensity MetaEngineTagDependency 
----@field planarFogDensity MetaEngineTagDependency 
----@field linearCornerFade MetaEngineTagDependency 
----@field activeCamouflageDistortion MetaEngineTagDependency 
----@field glow MetaEngineTagDependency 
----@field default_2d MetaEngineTagDependency 
----@field default_3d MetaEngineTagDependency 
----@field defaultCubeMap MetaEngineTagDependency 
----@field test_0 MetaEngineTagDependency 
----@field test_1 MetaEngineTagDependency 
----@field test_2 MetaEngineTagDependency 
----@field test_3 MetaEngineTagDependency 
----@field videoScanlineMap MetaEngineTagDependency 
----@field videoNoiseMap MetaEngineTagDependency 
----@field flags MetaEngineTagDataGlobalsRasterizerDataFlags 
----@field refractionAmount number 
----@field distanceFalloff number 
----@field tintColor MetaEngineColorRGB 
----@field hyperStealthRefraction number 
----@field hyperStealthDistanceFalloff number 
----@field hyperStealthTintColor MetaEngineColorRGB 
----@field distanceAttenuation_2d MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsInterfaceBitmaps 
----@field fontSystem MetaEngineTagDependency 
----@field fontTerminal MetaEngineTagDependency 
----@field screenColorTable MetaEngineTagDependency 
----@field hudColorTable MetaEngineTagDependency 
----@field editorColorTable MetaEngineTagDependency 
----@field dialogColorTable MetaEngineTagDependency 
----@field hudGlobals MetaEngineTagDependency 
----@field motionSensorSweepBitmap MetaEngineTagDependency 
----@field motionSensorSweepBitmapMask MetaEngineTagDependency 
----@field multiplayerHudBitmap MetaEngineTagDependency 
----@field localization MetaEngineTagDependency 
----@field hudDigitsDefinition MetaEngineTagDependency 
----@field motionSensorBlipBitmap MetaEngineTagDependency 
----@field interfaceGooMap1 MetaEngineTagDependency 
----@field interfaceGooMap2 MetaEngineTagDependency 
----@field interfaceGooMap3 MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsWeapon 
----@field weapon MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsCheatPowerup 
----@field powerup MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsVehicle 
----@field vehicle MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsMultiplayerInformation 
----@field flag MetaEngineTagDependency 
----@field unit MetaEngineTagDependency 
----@field vehicles table<MetaEngineTagDataGlobalsVehicle> 
----@field hillShader MetaEngineTagDependency 
----@field flagShader MetaEngineTagDependency 
----@field ball MetaEngineTagDependency 
----@field sounds table<MetaEngineTagDataGlobalsSound> 
-
----@class MetaEngineTagDataGlobalsPlayerInformation 
----@field unit MetaEngineTagDependency 
----@field walkingSpeed number 
----@field doubleSpeedMultiplier number 
----@field runForward number 
----@field runBackward number 
----@field runSideways number 
----@field runAcceleration number 
----@field sneakForward number 
----@field sneakBackward number 
----@field sneakSideways number 
----@field sneakAcceleration number 
----@field airborneAcceleration number 
----@field speedMultiplier number 
----@field grenadeOrigin MetaEnginePoint3D 
----@field stunMovementPenalty number 
----@field stunTurningPenalty number 
----@field stunJumpingPenalty number 
----@field minimumStunTime number 
----@field maximumStunTime number 
----@field firstPersonIdleTime number 
----@field firstPersonSkipFraction number 
----@field coopRespawnEffect MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsFirstPersonInterface 
----@field firstPersonHands MetaEngineTagDependency 
----@field baseBitmap MetaEngineTagDependency 
----@field shieldMeter MetaEngineTagDependency 
----@field shieldMeterOrigin MetaEnginePoint2DInt 
----@field bodyMeter MetaEngineTagDependency 
----@field bodyMeterOrigin MetaEnginePoint2DInt 
----@field nightVisionOnEffect MetaEngineTagDependency 
----@field nightVisionOffEffect MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsFallingDamage 
----@field harmfulFallingDistance number 
----@field fallingDamage MetaEngineTagDependency 
----@field maximumFallingDistance number 
----@field distanceDamage MetaEngineTagDependency 
----@field vehicleEnvironmentCollisionDamage MetaEngineTagDependency 
----@field vehicleKilledUnitDamage MetaEngineTagDependency 
----@field vehicleCollisionDamage MetaEngineTagDependency 
----@field flamingDeathDamage MetaEngineTagDependency 
----@field maximumFallingVelocity number 
----@field harmfulFallingVelocity number 
-
----@class MetaEngineTagDataGlobalsBreakableSurfaceParticleEffect 
----@field particleType MetaEngineTagDependency 
----@field flags MetaEngineTagDataGlobalsBreakableSurfaceParticleEffectFlags 
----@field density number 
----@field velocityScale number 
----@field angularVelocity number 
----@field radius number 
----@field tintLowerBound MetaEngineColorARGB 
----@field tintUpperBound MetaEngineColorARGB 
-
----@class MetaEngineTagDataGlobalsMaterial 
----@field groundFrictionScale number 
----@field groundFrictionNormalK1Scale number 
----@field groundFrictionNormalK0Scale number 
----@field groundDepthScale number 
----@field groundDampFractionScale number 
----@field maximumVitality number 
----@field effect MetaEngineTagDependency 
----@field sound MetaEngineTagDependency 
----@field particleEffects table<MetaEngineTagDataGlobalsBreakableSurfaceParticleEffect> 
----@field meleeHitSound MetaEngineTagDependency 
-
----@class MetaEngineTagDataGlobalsPlaylistMember 
----@field mapName MetaEngineTagString 
----@field gameVariant MetaEngineTagString 
----@field minimumExperience integer 
----@field maximumExperience integer 
----@field minimumPlayerCount integer 
----@field maximumPlayerCount integer 
----@field rating integer 
-
----@class MetaEngineTagDataGlobals 
----@field sounds table<MetaEngineTagDataGlobalsSound> 
----@field camera table<MetaEngineTagDataGlobalsCamera> 
----@field playerControl table<MetaEngineTagDataGlobalsPlayerControl> 
----@field difficulty table<MetaEngineTagDataGlobalsDifficulty> 
----@field grenades table<MetaEngineTagDataGlobalsGrenade> 
----@field rasterizerData table<MetaEngineTagDataGlobalsRasterizerData> 
----@field interfaceBitmaps table<MetaEngineTagDataGlobalsInterfaceBitmaps> 
----@field weaponList table<MetaEngineTagDataGlobalsWeapon> 
----@field cheatPowerups table<MetaEngineTagDataGlobalsCheatPowerup> 
----@field multiplayerInformation table<MetaEngineTagDataGlobalsMultiplayerInformation> 
----@field playerInformation table<MetaEngineTagDataGlobalsPlayerInformation> 
----@field firstPersonInterface table<MetaEngineTagDataGlobalsFirstPersonInterface> 
----@field fallingDamage table<MetaEngineTagDataGlobalsFallingDamage> 
----@field materials table<MetaEngineTagDataGlobalsMaterial> 
----@field playlistMembers table<MetaEngineTagDataGlobalsPlaylistMember> 
-
----@class MetaEngineTagDataSoundScenery: MetaEngineTagDataBasicObject  
+---@field zspriteRadiusScale number 
+---@field pointStates TagBlock<MetaEngineTagDataContrailPointState> 
 
 ---@class MetaEngineTagDataGBXModelGeometryPart: MetaEngineTagDataModelGeometryPart  
 ---@field localNodeCount integer 
@@ -3381,7 +2403,7 @@
 
 ---@class MetaEngineTagDataGBXModelGeometry 
 ---@field flags MetaEngineTagDataIsUnusedFlag 
----@field parts table<MetaEngineTagDataGBXModelGeometryPart> 
+---@field parts TagBlock<MetaEngineTagDataGBXModelGeometryPart> 
 
 ---@class MetaEngineTagDataGbxmodel 
 ---@field flags MetaEngineTagDataModelFlags 
@@ -3398,59 +2420,740 @@
 ---@field superHighDetailNodeCount integer 
 ---@field baseMapUScale number 
 ---@field baseMapVScale number 
----@field markers table<MetaEngineTagDataModelMarker> 
----@field nodes table<MetaEngineTagDataModelNode> 
----@field regions table<MetaEngineTagDataModelRegion> 
----@field geometries table<MetaEngineTagDataGBXModelGeometry> 
----@field shaders table<MetaEngineTagDataModelShaderReference> 
+---@field markers TagBlock<MetaEngineTagDataModelMarker> 
+---@field nodes TagBlock<MetaEngineTagDataModelNode> 
+---@field regions TagBlock<MetaEngineTagDataModelRegion> 
+---@field geometries TagBlock<MetaEngineTagDataGBXModelGeometry> 
+---@field shaders TagBlock<MetaEngineTagDataModelShaderReference> 
+
+---@class MetaEngineTagDataLightningMarkerFlag 
+---@field notConnectedToNextMarker boolean 
+
+---@class MetaEngineTagDataLightningMarker 
+---@field attachmentMarker MetaEngineTagString 
+---@field flags MetaEngineTagDataLightningMarkerFlag 
+---@field octavesToNextMarker integer 
+---@field randomPositionBounds MetaEngineVector3D 
+---@field randomJitter number 
+---@field thickness number 
+---@field tint MetaEngineColorARGB 
+
+---@class MetaEngineTagDataLightningShader 
+---@field makeItWork integer 
+---@field shaderFlags MetaEngineTagDataParticleShaderFlags 
+---@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
+---@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
+---@field mapFlags MetaEngineTagDataIsUnfilteredFlag 
+---@field someMoreStuffThatShouldBeSetForSomeReason integer 
+
+---@class MetaEngineTagDataLightning 
+---@field count integer 
+---@field nearFadeDistance number 
+---@field farFadeDistance number 
+---@field jitterScaleSource EngineTagDataFunctionOut 
+---@field thicknessScaleSource EngineTagDataFunctionOut 
+---@field tintModulationSource EngineTagDataFunctionNameNullable 
+---@field brightnessScaleSource EngineTagDataFunctionOut 
+---@field bitmap MetaEngineTagDependency 
+---@field markers TagBlock<MetaEngineTagDataLightningMarker> 
+---@field shader TagBlock<MetaEngineTagDataLightningShader> 
+
+---@class MetaEngineTagDataMultiplayerScenarioDescriptionScenarioDescription 
+---@field descriptiveBitmap MetaEngineTagDependency 
+---@field displayedMapName MetaEngineTagDependency 
+---@field scenarioTagDirectoryPath MetaEngineTagString 
+
+---@class MetaEngineTagDataMultiplayerScenarioDescription 
+---@field multiplayerScenarios TagBlock<MetaEngineTagDataMultiplayerScenarioDescriptionScenarioDescription> 
+
+---@class MetaEngineTagDataDeviceLightFixture: MetaEngineTagDataDevice  
+
+---@class EngineTagDataShaderDetailLevelEnum : Enum 
+
+---@class EngineTagDataShaderDetailLevelHigh : EngineTagDataShaderDetailLevelEnum 
+---@class EngineTagDataShaderDetailLevelMedium : EngineTagDataShaderDetailLevelEnum 
+---@class EngineTagDataShaderDetailLevelLow : EngineTagDataShaderDetailLevelEnum 
+---@class EngineTagDataShaderDetailLevelTurd : EngineTagDataShaderDetailLevelEnum 
+
+---@alias EngineTagDataShaderDetailLevel 
+---| EngineTagDataShaderDetailLevelHigh
+---| EngineTagDataShaderDetailLevelMedium
+---| EngineTagDataShaderDetailLevelLow
+---| EngineTagDataShaderDetailLevelTurd
+
+---@class EngineTagDataShaderDetailLevelTable 
+---@field lHigh EngineTagDataShaderDetailLevelHigh
+---@field lMedium EngineTagDataShaderDetailLevelMedium
+---@field lLow EngineTagDataShaderDetailLevelLow
+---@field lTurd EngineTagDataShaderDetailLevelTurd
+Engine.tag.shaderDetailLevel = {} 
+
+---@class EngineTagDataShaderColorFunctionTypeEnum : Enum 
+
+---@class EngineTagDataShaderColorFunctionTypeCurrent : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeNextMap : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeMultiply : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeDoubleMultiply : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeAdd : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeAddSignedCurrent : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeAddSignedNextMap : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeSubtractCurrent : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeSubtractNextMap : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeBlendCurrentAlpha : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeBlendCurrentAlphaInverse : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeBlendNextMapAlpha : EngineTagDataShaderColorFunctionTypeEnum 
+---@class EngineTagDataShaderColorFunctionTypeBlendNextMapAlphaInverse : EngineTagDataShaderColorFunctionTypeEnum 
+
+---@alias EngineTagDataShaderColorFunctionType 
+---| EngineTagDataShaderColorFunctionTypeCurrent
+---| EngineTagDataShaderColorFunctionTypeNextMap
+---| EngineTagDataShaderColorFunctionTypeMultiply
+---| EngineTagDataShaderColorFunctionTypeDoubleMultiply
+---| EngineTagDataShaderColorFunctionTypeAdd
+---| EngineTagDataShaderColorFunctionTypeAddSignedCurrent
+---| EngineTagDataShaderColorFunctionTypeAddSignedNextMap
+---| EngineTagDataShaderColorFunctionTypeSubtractCurrent
+---| EngineTagDataShaderColorFunctionTypeSubtractNextMap
+---| EngineTagDataShaderColorFunctionTypeBlendCurrentAlpha
+---| EngineTagDataShaderColorFunctionTypeBlendCurrentAlphaInverse
+---| EngineTagDataShaderColorFunctionTypeBlendNextMapAlpha
+---| EngineTagDataShaderColorFunctionTypeBlendNextMapAlphaInverse
+
+---@class EngineTagDataShaderColorFunctionTypeTable 
+---@field peCurrent EngineTagDataShaderColorFunctionTypeCurrent
+---@field peNextMap EngineTagDataShaderColorFunctionTypeNextMap
+---@field peMultiply EngineTagDataShaderColorFunctionTypeMultiply
+---@field peDoubleMultiply EngineTagDataShaderColorFunctionTypeDoubleMultiply
+---@field peAdd EngineTagDataShaderColorFunctionTypeAdd
+---@field peAddSignedCurrent EngineTagDataShaderColorFunctionTypeAddSignedCurrent
+---@field peAddSignedNextMap EngineTagDataShaderColorFunctionTypeAddSignedNextMap
+---@field peSubtractCurrent EngineTagDataShaderColorFunctionTypeSubtractCurrent
+---@field peSubtractNextMap EngineTagDataShaderColorFunctionTypeSubtractNextMap
+---@field peBlendCurrentAlpha EngineTagDataShaderColorFunctionTypeBlendCurrentAlpha
+---@field peBlendCurrentAlphaInverse EngineTagDataShaderColorFunctionTypeBlendCurrentAlphaInverse
+---@field peBlendNextMapAlpha EngineTagDataShaderColorFunctionTypeBlendNextMapAlpha
+---@field peBlendNextMapAlphaInverse EngineTagDataShaderColorFunctionTypeBlendNextMapAlphaInverse
+Engine.tag.shaderColorFunctionType = {} 
+
+---@class EngineTagDataShaderFirstMapTypeEnum : Enum 
+
+---@class EngineTagDataShaderFirstMapType_2dMap : EngineTagDataShaderFirstMapTypeEnum 
+---@class EngineTagDataShaderFirstMapTypeFirstMapIsReflectionCubeMap : EngineTagDataShaderFirstMapTypeEnum 
+---@class EngineTagDataShaderFirstMapTypeFirstMapIsObjectCenteredCubeMap : EngineTagDataShaderFirstMapTypeEnum 
+---@class EngineTagDataShaderFirstMapTypeFirstMapIsViewerCenteredCubeMap : EngineTagDataShaderFirstMapTypeEnum 
+
+---@alias EngineTagDataShaderFirstMapType 
+---| EngineTagDataShaderFirstMapType_2dMap
+---| EngineTagDataShaderFirstMapTypeFirstMapIsReflectionCubeMap
+---| EngineTagDataShaderFirstMapTypeFirstMapIsObjectCenteredCubeMap
+---| EngineTagDataShaderFirstMapTypeFirstMapIsViewerCenteredCubeMap
+
+---@class EngineTagDataShaderFirstMapTypeTable 
+---@field pe_2dMap EngineTagDataShaderFirstMapType_2dMap
+---@field peFirstMapIsReflectionCubeMap EngineTagDataShaderFirstMapTypeFirstMapIsReflectionCubeMap
+---@field peFirstMapIsObjectCenteredCubeMap EngineTagDataShaderFirstMapTypeFirstMapIsObjectCenteredCubeMap
+---@field peFirstMapIsViewerCenteredCubeMap EngineTagDataShaderFirstMapTypeFirstMapIsViewerCenteredCubeMap
+Engine.tag.shaderFirstMapType = {} 
+
+---@class EngineTagDataShaderTypeEnum : Enum 
+
+---@class EngineTagDataShaderTypeUnused : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeUnused1 : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeUnused2 : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeShaderEnvironment : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeShaderModel : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeShaderTransparentGeneric : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeShaderTransparentChicago : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeShaderTransparentChicagoExtended : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeShaderTransparentWater : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeShaderTransparentGlass : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeShaderTransparentMeter : EngineTagDataShaderTypeEnum 
+---@class EngineTagDataShaderTypeShaderTransparentPlasma : EngineTagDataShaderTypeEnum 
+
+---@alias EngineTagDataShaderType 
+---| EngineTagDataShaderTypeUnused
+---| EngineTagDataShaderTypeUnused1
+---| EngineTagDataShaderTypeUnused2
+---| EngineTagDataShaderTypeShaderEnvironment
+---| EngineTagDataShaderTypeShaderModel
+---| EngineTagDataShaderTypeShaderTransparentGeneric
+---| EngineTagDataShaderTypeShaderTransparentChicago
+---| EngineTagDataShaderTypeShaderTransparentChicagoExtended
+---| EngineTagDataShaderTypeShaderTransparentWater
+---| EngineTagDataShaderTypeShaderTransparentGlass
+---| EngineTagDataShaderTypeShaderTransparentMeter
+---| EngineTagDataShaderTypeShaderTransparentPlasma
+
+---@class EngineTagDataShaderTypeTable 
+---@field unused EngineTagDataShaderTypeUnused
+---@field unused1 EngineTagDataShaderTypeUnused1
+---@field unused2 EngineTagDataShaderTypeUnused2
+---@field shaderEnvironment EngineTagDataShaderTypeShaderEnvironment
+---@field shaderModel EngineTagDataShaderTypeShaderModel
+---@field shaderTransparentGeneric EngineTagDataShaderTypeShaderTransparentGeneric
+---@field shaderTransparentChicago EngineTagDataShaderTypeShaderTransparentChicago
+---@field shaderTransparentChicagoExtended EngineTagDataShaderTypeShaderTransparentChicagoExtended
+---@field shaderTransparentWater EngineTagDataShaderTypeShaderTransparentWater
+---@field shaderTransparentGlass EngineTagDataShaderTypeShaderTransparentGlass
+---@field shaderTransparentMeter EngineTagDataShaderTypeShaderTransparentMeter
+---@field shaderTransparentPlasma EngineTagDataShaderTypeShaderTransparentPlasma
+Engine.tag.shaderType = {} 
+
+---@class EngineTagDataShaderDetailFunctionEnum : Enum 
+
+---@class EngineTagDataShaderDetailFunctionDoubleBiasedMultiply : EngineTagDataShaderDetailFunctionEnum 
+---@class EngineTagDataShaderDetailFunctionMultiply : EngineTagDataShaderDetailFunctionEnum 
+---@class EngineTagDataShaderDetailFunctionDoubleBiasedAdd : EngineTagDataShaderDetailFunctionEnum 
+
+---@alias EngineTagDataShaderDetailFunction 
+---| EngineTagDataShaderDetailFunctionDoubleBiasedMultiply
+---| EngineTagDataShaderDetailFunctionMultiply
+---| EngineTagDataShaderDetailFunctionDoubleBiasedAdd
+
+---@class EngineTagDataShaderDetailFunctionTable 
+---@field nDoubleBiasedMultiply EngineTagDataShaderDetailFunctionDoubleBiasedMultiply
+---@field nMultiply EngineTagDataShaderDetailFunctionMultiply
+---@field nDoubleBiasedAdd EngineTagDataShaderDetailFunctionDoubleBiasedAdd
+Engine.tag.shaderDetailFunction = {} 
+
+---@class MetaEngineTagDataShaderFlags 
+---@field simpleParameterization boolean 
+---@field ignoreNormals boolean 
+---@field transparentLit boolean 
+
+---@class MetaEngineTagDataShaderPhysicsFlags 
+---@field unused boolean 
+
+---@class MetaEngineTagDataShaderTransparentExtraLayer 
+---@field shader MetaEngineTagDependency 
+
+---@class MetaEngineTagDataShader 
+---@field shaderFlags MetaEngineTagDataShaderFlags 
+---@field detailLevel EngineTagDataShaderDetailLevel 
+---@field power number 
+---@field colorOfEmittedLight MetaEngineColorRGB 
+---@field tintColor MetaEngineColorRGB 
+---@field physicsFlags MetaEngineTagDataShaderPhysicsFlags 
+---@field materialType EngineTagDataMaterialType 
+---@field shaderType integer 
+
+---@class EngineTagDataFramebufferBlendFunctionEnum : Enum 
+
+---@class EngineTagDataFramebufferBlendFunctionAlphaBlend : EngineTagDataFramebufferBlendFunctionEnum 
+---@class EngineTagDataFramebufferBlendFunctionMultiply : EngineTagDataFramebufferBlendFunctionEnum 
+---@class EngineTagDataFramebufferBlendFunctionDoubleMultiply : EngineTagDataFramebufferBlendFunctionEnum 
+---@class EngineTagDataFramebufferBlendFunctionAdd : EngineTagDataFramebufferBlendFunctionEnum 
+---@class EngineTagDataFramebufferBlendFunctionSubtract : EngineTagDataFramebufferBlendFunctionEnum 
+---@class EngineTagDataFramebufferBlendFunctionComponentMin : EngineTagDataFramebufferBlendFunctionEnum 
+---@class EngineTagDataFramebufferBlendFunctionComponentMax : EngineTagDataFramebufferBlendFunctionEnum 
+---@class EngineTagDataFramebufferBlendFunctionAlphaMultiplyAdd : EngineTagDataFramebufferBlendFunctionEnum 
+
+---@alias EngineTagDataFramebufferBlendFunction 
+---| EngineTagDataFramebufferBlendFunctionAlphaBlend
+---| EngineTagDataFramebufferBlendFunctionMultiply
+---| EngineTagDataFramebufferBlendFunctionDoubleMultiply
+---| EngineTagDataFramebufferBlendFunctionAdd
+---| EngineTagDataFramebufferBlendFunctionSubtract
+---| EngineTagDataFramebufferBlendFunctionComponentMin
+---| EngineTagDataFramebufferBlendFunctionComponentMax
+---| EngineTagDataFramebufferBlendFunctionAlphaMultiplyAdd
+
+---@class EngineTagDataFramebufferBlendFunctionTable 
+---@field nAlphaBlend EngineTagDataFramebufferBlendFunctionAlphaBlend
+---@field nMultiply EngineTagDataFramebufferBlendFunctionMultiply
+---@field nDoubleMultiply EngineTagDataFramebufferBlendFunctionDoubleMultiply
+---@field nAdd EngineTagDataFramebufferBlendFunctionAdd
+---@field nSubtract EngineTagDataFramebufferBlendFunctionSubtract
+---@field nComponentMin EngineTagDataFramebufferBlendFunctionComponentMin
+---@field nComponentMax EngineTagDataFramebufferBlendFunctionComponentMax
+---@field nAlphaMultiplyAdd EngineTagDataFramebufferBlendFunctionAlphaMultiplyAdd
+Engine.tag.framebufferBlendFunction = {} 
+
+---@class EngineTagDataFramebufferFadeModeEnum : Enum 
+
+---@class EngineTagDataFramebufferFadeModeNone : EngineTagDataFramebufferFadeModeEnum 
+---@class EngineTagDataFramebufferFadeModeFadeWhenPerpendicular : EngineTagDataFramebufferFadeModeEnum 
+---@class EngineTagDataFramebufferFadeModeFadeWhenParallel : EngineTagDataFramebufferFadeModeEnum 
+
+---@alias EngineTagDataFramebufferFadeMode 
+---| EngineTagDataFramebufferFadeModeNone
+---| EngineTagDataFramebufferFadeModeFadeWhenPerpendicular
+---| EngineTagDataFramebufferFadeModeFadeWhenParallel
+
+---@class EngineTagDataFramebufferFadeModeTable 
+---@field eNone EngineTagDataFramebufferFadeModeNone
+---@field eFadeWhenPerpendicular EngineTagDataFramebufferFadeModeFadeWhenPerpendicular
+---@field eFadeWhenParallel EngineTagDataFramebufferFadeModeFadeWhenParallel
+Engine.tag.framebufferFadeMode = {} 
+
+---@class EngineTagDataFunctionOutEnum : Enum 
+
+---@class EngineTagDataFunctionOutNone : EngineTagDataFunctionOutEnum 
+---@class EngineTagDataFunctionOutAOut : EngineTagDataFunctionOutEnum 
+---@class EngineTagDataFunctionOutBOut : EngineTagDataFunctionOutEnum 
+---@class EngineTagDataFunctionOutCOut : EngineTagDataFunctionOutEnum 
+---@class EngineTagDataFunctionOutDOut : EngineTagDataFunctionOutEnum 
+
+---@alias EngineTagDataFunctionOut 
+---| EngineTagDataFunctionOutNone
+---| EngineTagDataFunctionOutAOut
+---| EngineTagDataFunctionOutBOut
+---| EngineTagDataFunctionOutCOut
+---| EngineTagDataFunctionOutDOut
+
+---@class EngineTagDataFunctionOutTable 
+---@field none EngineTagDataFunctionOutNone
+---@field aOut EngineTagDataFunctionOutAOut
+---@field bOut EngineTagDataFunctionOutBOut
+---@field cOut EngineTagDataFunctionOutCOut
+---@field dOut EngineTagDataFunctionOutDOut
+Engine.tag.functionOut = {} 
+
+---@class EngineTagDataWaveFunctionEnum : Enum 
+
+---@class EngineTagDataWaveFunctionOne : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionZero : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionCosine : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionCosineVariablePeriod : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionDiagonalWave : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionDiagonalWaveVariablePeriod : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionSlide : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionSlideVariablePeriod : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionNoise : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionJitter : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionWander : EngineTagDataWaveFunctionEnum 
+---@class EngineTagDataWaveFunctionSpark : EngineTagDataWaveFunctionEnum 
+
+---@alias EngineTagDataWaveFunction 
+---| EngineTagDataWaveFunctionOne
+---| EngineTagDataWaveFunctionZero
+---| EngineTagDataWaveFunctionCosine
+---| EngineTagDataWaveFunctionCosineVariablePeriod
+---| EngineTagDataWaveFunctionDiagonalWave
+---| EngineTagDataWaveFunctionDiagonalWaveVariablePeriod
+---| EngineTagDataWaveFunctionSlide
+---| EngineTagDataWaveFunctionSlideVariablePeriod
+---| EngineTagDataWaveFunctionNoise
+---| EngineTagDataWaveFunctionJitter
+---| EngineTagDataWaveFunctionWander
+---| EngineTagDataWaveFunctionSpark
+
+---@class EngineTagDataWaveFunctionTable 
+---@field one EngineTagDataWaveFunctionOne
+---@field zero EngineTagDataWaveFunctionZero
+---@field cosine EngineTagDataWaveFunctionCosine
+---@field cosineVariablePeriod EngineTagDataWaveFunctionCosineVariablePeriod
+---@field diagonalWave EngineTagDataWaveFunctionDiagonalWave
+---@field diagonalWaveVariablePeriod EngineTagDataWaveFunctionDiagonalWaveVariablePeriod
+---@field slide EngineTagDataWaveFunctionSlide
+---@field slideVariablePeriod EngineTagDataWaveFunctionSlideVariablePeriod
+---@field noise EngineTagDataWaveFunctionNoise
+---@field jitter EngineTagDataWaveFunctionJitter
+---@field wander EngineTagDataWaveFunctionWander
+---@field spark EngineTagDataWaveFunctionSpark
+Engine.tag.waveFunction = {} 
+
+---@class EngineTagDataMaterialTypeEnum : Enum 
+
+---@class EngineTagDataMaterialTypeDirt : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeSand : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeStone : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeSnow : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeWood : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeMetalHollow : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeMetalThin : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeMetalThick : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeRubber : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeGlass : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeForceField : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeGrunt : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeHunterArmor : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeHunterSkin : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeElite : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeJackal : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeJackalEnergyShield : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeEngineerSkin : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeEngineerForceField : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeFloodCombatForm : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeFloodCarrierForm : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeCyborgArmor : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeCyborgEnergyShield : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeHumanArmor : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeHumanSkin : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeSentinel : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeMonitor : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypePlastic : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeWater : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeLeaves : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeEliteEnergyShield : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeIce : EngineTagDataMaterialTypeEnum 
+---@class EngineTagDataMaterialTypeHunterShield : EngineTagDataMaterialTypeEnum 
+
+---@alias EngineTagDataMaterialType 
+---| EngineTagDataMaterialTypeDirt
+---| EngineTagDataMaterialTypeSand
+---| EngineTagDataMaterialTypeStone
+---| EngineTagDataMaterialTypeSnow
+---| EngineTagDataMaterialTypeWood
+---| EngineTagDataMaterialTypeMetalHollow
+---| EngineTagDataMaterialTypeMetalThin
+---| EngineTagDataMaterialTypeMetalThick
+---| EngineTagDataMaterialTypeRubber
+---| EngineTagDataMaterialTypeGlass
+---| EngineTagDataMaterialTypeForceField
+---| EngineTagDataMaterialTypeGrunt
+---| EngineTagDataMaterialTypeHunterArmor
+---| EngineTagDataMaterialTypeHunterSkin
+---| EngineTagDataMaterialTypeElite
+---| EngineTagDataMaterialTypeJackal
+---| EngineTagDataMaterialTypeJackalEnergyShield
+---| EngineTagDataMaterialTypeEngineerSkin
+---| EngineTagDataMaterialTypeEngineerForceField
+---| EngineTagDataMaterialTypeFloodCombatForm
+---| EngineTagDataMaterialTypeFloodCarrierForm
+---| EngineTagDataMaterialTypeCyborgArmor
+---| EngineTagDataMaterialTypeCyborgEnergyShield
+---| EngineTagDataMaterialTypeHumanArmor
+---| EngineTagDataMaterialTypeHumanSkin
+---| EngineTagDataMaterialTypeSentinel
+---| EngineTagDataMaterialTypeMonitor
+---| EngineTagDataMaterialTypePlastic
+---| EngineTagDataMaterialTypeWater
+---| EngineTagDataMaterialTypeLeaves
+---| EngineTagDataMaterialTypeEliteEnergyShield
+---| EngineTagDataMaterialTypeIce
+---| EngineTagDataMaterialTypeHunterShield
+
+---@class EngineTagDataMaterialTypeTable 
+---@field dirt EngineTagDataMaterialTypeDirt
+---@field sand EngineTagDataMaterialTypeSand
+---@field stone EngineTagDataMaterialTypeStone
+---@field snow EngineTagDataMaterialTypeSnow
+---@field wood EngineTagDataMaterialTypeWood
+---@field metalHollow EngineTagDataMaterialTypeMetalHollow
+---@field metalThin EngineTagDataMaterialTypeMetalThin
+---@field metalThick EngineTagDataMaterialTypeMetalThick
+---@field rubber EngineTagDataMaterialTypeRubber
+---@field glass EngineTagDataMaterialTypeGlass
+---@field forceField EngineTagDataMaterialTypeForceField
+---@field grunt EngineTagDataMaterialTypeGrunt
+---@field hunterArmor EngineTagDataMaterialTypeHunterArmor
+---@field hunterSkin EngineTagDataMaterialTypeHunterSkin
+---@field elite EngineTagDataMaterialTypeElite
+---@field jackal EngineTagDataMaterialTypeJackal
+---@field jackalEnergyShield EngineTagDataMaterialTypeJackalEnergyShield
+---@field engineerSkin EngineTagDataMaterialTypeEngineerSkin
+---@field engineerForceField EngineTagDataMaterialTypeEngineerForceField
+---@field floodCombatForm EngineTagDataMaterialTypeFloodCombatForm
+---@field floodCarrierForm EngineTagDataMaterialTypeFloodCarrierForm
+---@field cyborgArmor EngineTagDataMaterialTypeCyborgArmor
+---@field cyborgEnergyShield EngineTagDataMaterialTypeCyborgEnergyShield
+---@field humanArmor EngineTagDataMaterialTypeHumanArmor
+---@field humanSkin EngineTagDataMaterialTypeHumanSkin
+---@field sentinel EngineTagDataMaterialTypeSentinel
+---@field monitor EngineTagDataMaterialTypeMonitor
+---@field plastic EngineTagDataMaterialTypePlastic
+---@field water EngineTagDataMaterialTypeWater
+---@field leaves EngineTagDataMaterialTypeLeaves
+---@field eliteEnergyShield EngineTagDataMaterialTypeEliteEnergyShield
+---@field ice EngineTagDataMaterialTypeIce
+---@field hunterShield EngineTagDataMaterialTypeHunterShield
+Engine.tag.materialType = {} 
+
+---@class EngineTagDataFunctionTypeEnum : Enum 
+
+---@class EngineTagDataFunctionTypeLinear : EngineTagDataFunctionTypeEnum 
+---@class EngineTagDataFunctionTypeEarly : EngineTagDataFunctionTypeEnum 
+---@class EngineTagDataFunctionTypeVeryEarly : EngineTagDataFunctionTypeEnum 
+---@class EngineTagDataFunctionTypeLate : EngineTagDataFunctionTypeEnum 
+---@class EngineTagDataFunctionTypeVeryLate : EngineTagDataFunctionTypeEnum 
+---@class EngineTagDataFunctionTypeCosine : EngineTagDataFunctionTypeEnum 
+
+---@alias EngineTagDataFunctionType 
+---| EngineTagDataFunctionTypeLinear
+---| EngineTagDataFunctionTypeEarly
+---| EngineTagDataFunctionTypeVeryEarly
+---| EngineTagDataFunctionTypeLate
+---| EngineTagDataFunctionTypeVeryLate
+---| EngineTagDataFunctionTypeCosine
+
+---@class EngineTagDataFunctionTypeTable 
+---@field linear EngineTagDataFunctionTypeLinear
+---@field early EngineTagDataFunctionTypeEarly
+---@field veryEarly EngineTagDataFunctionTypeVeryEarly
+---@field late EngineTagDataFunctionTypeLate
+---@field veryLate EngineTagDataFunctionTypeVeryLate
+---@field cosine EngineTagDataFunctionTypeCosine
+Engine.tag.functionType = {} 
+
+---@class EngineTagDataFunctionBoundsModeEnum : Enum 
+
+---@class EngineTagDataFunctionBoundsModeClip : EngineTagDataFunctionBoundsModeEnum 
+---@class EngineTagDataFunctionBoundsModeClipAndNormalize : EngineTagDataFunctionBoundsModeEnum 
+---@class EngineTagDataFunctionBoundsModeScaleToFit : EngineTagDataFunctionBoundsModeEnum 
+
+---@alias EngineTagDataFunctionBoundsMode 
+---| EngineTagDataFunctionBoundsModeClip
+---| EngineTagDataFunctionBoundsModeClipAndNormalize
+---| EngineTagDataFunctionBoundsModeScaleToFit
+
+---@class EngineTagDataFunctionBoundsModeTable 
+---@field eClip EngineTagDataFunctionBoundsModeClip
+---@field eClipAndNormalize EngineTagDataFunctionBoundsModeClipAndNormalize
+---@field eScaleToFit EngineTagDataFunctionBoundsModeScaleToFit
+Engine.tag.functionBoundsMode = {} 
+
+---@class EngineTagDataFunctionScaleByEnum : Enum 
+
+---@class EngineTagDataFunctionScaleByNone : EngineTagDataFunctionScaleByEnum 
+---@class EngineTagDataFunctionScaleByAIn : EngineTagDataFunctionScaleByEnum 
+---@class EngineTagDataFunctionScaleByBIn : EngineTagDataFunctionScaleByEnum 
+---@class EngineTagDataFunctionScaleByCIn : EngineTagDataFunctionScaleByEnum 
+---@class EngineTagDataFunctionScaleByDIn : EngineTagDataFunctionScaleByEnum 
+---@class EngineTagDataFunctionScaleByAOut : EngineTagDataFunctionScaleByEnum 
+---@class EngineTagDataFunctionScaleByBOut : EngineTagDataFunctionScaleByEnum 
+---@class EngineTagDataFunctionScaleByCOut : EngineTagDataFunctionScaleByEnum 
+---@class EngineTagDataFunctionScaleByDOut : EngineTagDataFunctionScaleByEnum 
+
+---@alias EngineTagDataFunctionScaleBy 
+---| EngineTagDataFunctionScaleByNone
+---| EngineTagDataFunctionScaleByAIn
+---| EngineTagDataFunctionScaleByBIn
+---| EngineTagDataFunctionScaleByCIn
+---| EngineTagDataFunctionScaleByDIn
+---| EngineTagDataFunctionScaleByAOut
+---| EngineTagDataFunctionScaleByBOut
+---| EngineTagDataFunctionScaleByCOut
+---| EngineTagDataFunctionScaleByDOut
+
+---@class EngineTagDataFunctionScaleByTable 
+---@field yNone EngineTagDataFunctionScaleByNone
+---@field yAIn EngineTagDataFunctionScaleByAIn
+---@field yBIn EngineTagDataFunctionScaleByBIn
+---@field yCIn EngineTagDataFunctionScaleByCIn
+---@field yDIn EngineTagDataFunctionScaleByDIn
+---@field yAOut EngineTagDataFunctionScaleByAOut
+---@field yBOut EngineTagDataFunctionScaleByBOut
+---@field yCOut EngineTagDataFunctionScaleByCOut
+---@field yDOut EngineTagDataFunctionScaleByDOut
+Engine.tag.functionScaleBy = {} 
+
+---@class EngineTagDataFunctionNameNullableEnum : Enum 
+
+---@class EngineTagDataFunctionNameNullableNone : EngineTagDataFunctionNameNullableEnum 
+---@class EngineTagDataFunctionNameNullableA : EngineTagDataFunctionNameNullableEnum 
+---@class EngineTagDataFunctionNameNullableB : EngineTagDataFunctionNameNullableEnum 
+---@class EngineTagDataFunctionNameNullableC : EngineTagDataFunctionNameNullableEnum 
+---@class EngineTagDataFunctionNameNullableD : EngineTagDataFunctionNameNullableEnum 
+
+---@alias EngineTagDataFunctionNameNullable 
+---| EngineTagDataFunctionNameNullableNone
+---| EngineTagDataFunctionNameNullableA
+---| EngineTagDataFunctionNameNullableB
+---| EngineTagDataFunctionNameNullableC
+---| EngineTagDataFunctionNameNullableD
+
+---@class EngineTagDataFunctionNameNullableTable 
+---@field eNone EngineTagDataFunctionNameNullableNone
+---@field eA EngineTagDataFunctionNameNullableA
+---@field eB EngineTagDataFunctionNameNullableB
+---@field eC EngineTagDataFunctionNameNullableC
+---@field eD EngineTagDataFunctionNameNullableD
+Engine.tag.functionNameNullable = {} 
+
+---@class EngineTagDataGrenadeTypeEnum : Enum 
+
+---@class EngineTagDataGrenadeTypeHumanFragmentation : EngineTagDataGrenadeTypeEnum 
+---@class EngineTagDataGrenadeTypeCovenantPlasma : EngineTagDataGrenadeTypeEnum 
+---@class EngineTagDataGrenadeTypeGrenadeType_2 : EngineTagDataGrenadeTypeEnum 
+---@class EngineTagDataGrenadeTypeGrenadeType_3 : EngineTagDataGrenadeTypeEnum 
+
+---@alias EngineTagDataGrenadeType 
+---| EngineTagDataGrenadeTypeHumanFragmentation
+---| EngineTagDataGrenadeTypeCovenantPlasma
+---| EngineTagDataGrenadeTypeGrenadeType_2
+---| EngineTagDataGrenadeTypeGrenadeType_3
+
+---@class EngineTagDataGrenadeTypeTable 
+---@field humanFragmentation EngineTagDataGrenadeTypeHumanFragmentation
+---@field covenantPlasma EngineTagDataGrenadeTypeCovenantPlasma
+---@field grenadeType_2 EngineTagDataGrenadeTypeGrenadeType_2
+---@field grenadeType_3 EngineTagDataGrenadeTypeGrenadeType_3
+Engine.tag.grenadeType = {} 
+
+---@class EngineTagDataVertexTypeEnum : Enum 
+
+---@class EngineTagDataVertexTypeStructureBspUncompressedRenderedVertices : EngineTagDataVertexTypeEnum 
+---@class EngineTagDataVertexTypeStructureBspCompressedRenderedVertices : EngineTagDataVertexTypeEnum 
+---@class EngineTagDataVertexTypeStructureBspUncompressedLightmapVertices : EngineTagDataVertexTypeEnum 
+---@class EngineTagDataVertexTypeStructureBspCompressedLightmapVertices : EngineTagDataVertexTypeEnum 
+---@class EngineTagDataVertexTypeModelUncompressed : EngineTagDataVertexTypeEnum 
+---@class EngineTagDataVertexTypeModelCompressed : EngineTagDataVertexTypeEnum 
+
+---@alias EngineTagDataVertexType 
+---| EngineTagDataVertexTypeStructureBspUncompressedRenderedVertices
+---| EngineTagDataVertexTypeStructureBspCompressedRenderedVertices
+---| EngineTagDataVertexTypeStructureBspUncompressedLightmapVertices
+---| EngineTagDataVertexTypeStructureBspCompressedLightmapVertices
+---| EngineTagDataVertexTypeModelUncompressed
+---| EngineTagDataVertexTypeModelCompressed
+
+---@class EngineTagDataVertexTypeTable 
+---@field structureBspUncompressedRenderedVertices EngineTagDataVertexTypeStructureBspUncompressedRenderedVertices
+---@field structureBspCompressedRenderedVertices EngineTagDataVertexTypeStructureBspCompressedRenderedVertices
+---@field structureBspUncompressedLightmapVertices EngineTagDataVertexTypeStructureBspUncompressedLightmapVertices
+---@field structureBspCompressedLightmapVertices EngineTagDataVertexTypeStructureBspCompressedLightmapVertices
+---@field modelUncompressed EngineTagDataVertexTypeModelUncompressed
+---@field modelCompressed EngineTagDataVertexTypeModelCompressed
+Engine.tag.vertexType = {} 
+
+---@class EngineTagDataVehicleTypeEnum : Enum 
+
+---@class EngineTagDataVehicleTypeHumanTank : EngineTagDataVehicleTypeEnum 
+---@class EngineTagDataVehicleTypeHumanJeep : EngineTagDataVehicleTypeEnum 
+---@class EngineTagDataVehicleTypeHumanBoat : EngineTagDataVehicleTypeEnum 
+---@class EngineTagDataVehicleTypeHumanPlane : EngineTagDataVehicleTypeEnum 
+---@class EngineTagDataVehicleTypeAlienScout : EngineTagDataVehicleTypeEnum 
+---@class EngineTagDataVehicleTypeAlienFighter : EngineTagDataVehicleTypeEnum 
+---@class EngineTagDataVehicleTypeTurret : EngineTagDataVehicleTypeEnum 
 
 ---@alias EngineTagDataVehicleType 
----| 'vehicle_type_human_tank'
----| 'vehicle_type_human_jeep'
----| 'vehicle_type_human_boat'
----| 'vehicle_type_human_plane'
----| 'vehicle_type_alien_scout'
----| 'vehicle_type_alien_fighter'
----| 'vehicle_type_turret'
+---| EngineTagDataVehicleTypeHumanTank
+---| EngineTagDataVehicleTypeHumanJeep
+---| EngineTagDataVehicleTypeHumanBoat
+---| EngineTagDataVehicleTypeHumanPlane
+---| EngineTagDataVehicleTypeAlienScout
+---| EngineTagDataVehicleTypeAlienFighter
+---| EngineTagDataVehicleTypeTurret
+
+---@class EngineTagDataVehicleTypeTable 
+---@field humanTank EngineTagDataVehicleTypeHumanTank
+---@field humanJeep EngineTagDataVehicleTypeHumanJeep
+---@field humanBoat EngineTagDataVehicleTypeHumanBoat
+---@field humanPlane EngineTagDataVehicleTypeHumanPlane
+---@field alienScout EngineTagDataVehicleTypeAlienScout
+---@field alienFighter EngineTagDataVehicleTypeAlienFighter
+---@field turret EngineTagDataVehicleTypeTurret
+Engine.tag.vehicleType = {} 
+
+---@class EngineTagDataVehicleFunctionInEnum : Enum 
+
+---@class EngineTagDataVehicleFunctionInNone : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInSpeedAbsolute : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInSpeedForward : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInSpeedBackward : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInSlideAbsolute : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInSlideLeft : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInSlideRight : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInSpeedSlideMaximum : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInTurnAbsolute : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInTurnLeft : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInTurnRight : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInCrouch : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInJump : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInWalk : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInVelocityAir : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInVelocityWater : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInVelocityGround : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInVelocityForward : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInVelocityLeft : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInVelocityUp : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInLeftTreadPosition : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInRightTreadPosition : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInLeftTreadVelocity : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInRightTreadVelocity : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInFrontLeftTirePosition : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInFrontRightTirePosition : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInBackLeftTirePosition : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInBackRightTirePosition : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInFrontLeftTireVelocity : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInFrontRightTireVelocity : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInBackLeftTireVelocity : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInBackRightTireVelocity : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInWingtipContrail : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInHover : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInThrust : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInEngineHack : EngineTagDataVehicleFunctionInEnum 
+---@class EngineTagDataVehicleFunctionInWingtipContrailNew : EngineTagDataVehicleFunctionInEnum 
 
 ---@alias EngineTagDataVehicleFunctionIn 
----| 'vehicle_function_in_none'
----| 'vehicle_function_in_speed_absolute'
----| 'vehicle_function_in_speed_forward'
----| 'vehicle_function_in_speed_backward'
----| 'vehicle_function_in_slide_absolute'
----| 'vehicle_function_in_slide_left'
----| 'vehicle_function_in_slide_right'
----| 'vehicle_function_in_speed_slide_maximum'
----| 'vehicle_function_in_turn_absolute'
----| 'vehicle_function_in_turn_left'
----| 'vehicle_function_in_turn_right'
----| 'vehicle_function_in_crouch'
----| 'vehicle_function_in_jump'
----| 'vehicle_function_in_walk'
----| 'vehicle_function_in_velocity_air'
----| 'vehicle_function_in_velocity_water'
----| 'vehicle_function_in_velocity_ground'
----| 'vehicle_function_in_velocity_forward'
----| 'vehicle_function_in_velocity_left'
----| 'vehicle_function_in_velocity_up'
----| 'vehicle_function_in_left_tread_position'
----| 'vehicle_function_in_right_tread_position'
----| 'vehicle_function_in_left_tread_velocity'
----| 'vehicle_function_in_right_tread_velocity'
----| 'vehicle_function_in_front_left_tire_position'
----| 'vehicle_function_in_front_right_tire_position'
----| 'vehicle_function_in_back_left_tire_position'
----| 'vehicle_function_in_back_right_tire_position'
----| 'vehicle_function_in_front_left_tire_velocity'
----| 'vehicle_function_in_front_right_tire_velocity'
----| 'vehicle_function_in_back_left_tire_velocity'
----| 'vehicle_function_in_back_right_tire_velocity'
----| 'vehicle_function_in_wingtip_contrail'
----| 'vehicle_function_in_hover'
----| 'vehicle_function_in_thrust'
----| 'vehicle_function_in_engine_hack'
----| 'vehicle_function_in_wingtip_contrail_new'
+---| EngineTagDataVehicleFunctionInNone
+---| EngineTagDataVehicleFunctionInSpeedAbsolute
+---| EngineTagDataVehicleFunctionInSpeedForward
+---| EngineTagDataVehicleFunctionInSpeedBackward
+---| EngineTagDataVehicleFunctionInSlideAbsolute
+---| EngineTagDataVehicleFunctionInSlideLeft
+---| EngineTagDataVehicleFunctionInSlideRight
+---| EngineTagDataVehicleFunctionInSpeedSlideMaximum
+---| EngineTagDataVehicleFunctionInTurnAbsolute
+---| EngineTagDataVehicleFunctionInTurnLeft
+---| EngineTagDataVehicleFunctionInTurnRight
+---| EngineTagDataVehicleFunctionInCrouch
+---| EngineTagDataVehicleFunctionInJump
+---| EngineTagDataVehicleFunctionInWalk
+---| EngineTagDataVehicleFunctionInVelocityAir
+---| EngineTagDataVehicleFunctionInVelocityWater
+---| EngineTagDataVehicleFunctionInVelocityGround
+---| EngineTagDataVehicleFunctionInVelocityForward
+---| EngineTagDataVehicleFunctionInVelocityLeft
+---| EngineTagDataVehicleFunctionInVelocityUp
+---| EngineTagDataVehicleFunctionInLeftTreadPosition
+---| EngineTagDataVehicleFunctionInRightTreadPosition
+---| EngineTagDataVehicleFunctionInLeftTreadVelocity
+---| EngineTagDataVehicleFunctionInRightTreadVelocity
+---| EngineTagDataVehicleFunctionInFrontLeftTirePosition
+---| EngineTagDataVehicleFunctionInFrontRightTirePosition
+---| EngineTagDataVehicleFunctionInBackLeftTirePosition
+---| EngineTagDataVehicleFunctionInBackRightTirePosition
+---| EngineTagDataVehicleFunctionInFrontLeftTireVelocity
+---| EngineTagDataVehicleFunctionInFrontRightTireVelocity
+---| EngineTagDataVehicleFunctionInBackLeftTireVelocity
+---| EngineTagDataVehicleFunctionInBackRightTireVelocity
+---| EngineTagDataVehicleFunctionInWingtipContrail
+---| EngineTagDataVehicleFunctionInHover
+---| EngineTagDataVehicleFunctionInThrust
+---| EngineTagDataVehicleFunctionInEngineHack
+---| EngineTagDataVehicleFunctionInWingtipContrailNew
+
+---@class EngineTagDataVehicleFunctionInTable 
+---@field nNone EngineTagDataVehicleFunctionInNone
+---@field nSpeedAbsolute EngineTagDataVehicleFunctionInSpeedAbsolute
+---@field nSpeedForward EngineTagDataVehicleFunctionInSpeedForward
+---@field nSpeedBackward EngineTagDataVehicleFunctionInSpeedBackward
+---@field nSlideAbsolute EngineTagDataVehicleFunctionInSlideAbsolute
+---@field nSlideLeft EngineTagDataVehicleFunctionInSlideLeft
+---@field nSlideRight EngineTagDataVehicleFunctionInSlideRight
+---@field nSpeedSlideMaximum EngineTagDataVehicleFunctionInSpeedSlideMaximum
+---@field nTurnAbsolute EngineTagDataVehicleFunctionInTurnAbsolute
+---@field nTurnLeft EngineTagDataVehicleFunctionInTurnLeft
+---@field nTurnRight EngineTagDataVehicleFunctionInTurnRight
+---@field nCrouch EngineTagDataVehicleFunctionInCrouch
+---@field nJump EngineTagDataVehicleFunctionInJump
+---@field nWalk EngineTagDataVehicleFunctionInWalk
+---@field nVelocityAir EngineTagDataVehicleFunctionInVelocityAir
+---@field nVelocityWater EngineTagDataVehicleFunctionInVelocityWater
+---@field nVelocityGround EngineTagDataVehicleFunctionInVelocityGround
+---@field nVelocityForward EngineTagDataVehicleFunctionInVelocityForward
+---@field nVelocityLeft EngineTagDataVehicleFunctionInVelocityLeft
+---@field nVelocityUp EngineTagDataVehicleFunctionInVelocityUp
+---@field nLeftTreadPosition EngineTagDataVehicleFunctionInLeftTreadPosition
+---@field nRightTreadPosition EngineTagDataVehicleFunctionInRightTreadPosition
+---@field nLeftTreadVelocity EngineTagDataVehicleFunctionInLeftTreadVelocity
+---@field nRightTreadVelocity EngineTagDataVehicleFunctionInRightTreadVelocity
+---@field nFrontLeftTirePosition EngineTagDataVehicleFunctionInFrontLeftTirePosition
+---@field nFrontRightTirePosition EngineTagDataVehicleFunctionInFrontRightTirePosition
+---@field nBackLeftTirePosition EngineTagDataVehicleFunctionInBackLeftTirePosition
+---@field nBackRightTirePosition EngineTagDataVehicleFunctionInBackRightTirePosition
+---@field nFrontLeftTireVelocity EngineTagDataVehicleFunctionInFrontLeftTireVelocity
+---@field nFrontRightTireVelocity EngineTagDataVehicleFunctionInFrontRightTireVelocity
+---@field nBackLeftTireVelocity EngineTagDataVehicleFunctionInBackLeftTireVelocity
+---@field nBackRightTireVelocity EngineTagDataVehicleFunctionInBackRightTireVelocity
+---@field nWingtipContrail EngineTagDataVehicleFunctionInWingtipContrail
+---@field nHover EngineTagDataVehicleFunctionInHover
+---@field nThrust EngineTagDataVehicleFunctionInThrust
+---@field nEngineHack EngineTagDataVehicleFunctionInEngineHack
+---@field nWingtipContrailNew EngineTagDataVehicleFunctionInWingtipContrailNew
+Engine.tag.vehicleFunctionIn = {} 
 
 ---@class MetaEngineTagDataVehicleFlags 
 ---@field speedWakesPhysics boolean 
@@ -3515,274 +3218,748 @@
 ---@field materialEffects MetaEngineTagDependency 
 ---@field effect MetaEngineTagDependency 
 
----@class MetaEngineTagDataSkyLightFlags 
----@field affectsExteriors boolean 
----@field affectsInteriors boolean 
+---@class EngineTagDataActorVariantMovementTypeEnum : Enum 
 
----@class MetaEngineTagDataSkyFunction 
----@field functionName MetaEngineTagString 
+---@class EngineTagDataActorVariantMovementTypeAlwaysRun : EngineTagDataActorVariantMovementTypeEnum 
+---@class EngineTagDataActorVariantMovementTypeAlwaysCrouch : EngineTagDataActorVariantMovementTypeEnum 
+---@class EngineTagDataActorVariantMovementTypeSwitchTypes : EngineTagDataActorVariantMovementTypeEnum 
 
----@class MetaEngineTagDataSkyAnimation 
----@field animationIndex integer 
----@field period number 
+---@alias EngineTagDataActorVariantMovementType 
+---| EngineTagDataActorVariantMovementTypeAlwaysRun
+---| EngineTagDataActorVariantMovementTypeAlwaysCrouch
+---| EngineTagDataActorVariantMovementTypeSwitchTypes
 
----@class MetaEngineTagDataSkyLight 
----@field lensFlare MetaEngineTagDependency 
----@field lensFlareMarkerName MetaEngineTagString 
----@field flags MetaEngineTagDataSkyLightFlags 
----@field color MetaEngineColorRGB 
----@field power number 
----@field testDistance number 
----@field direction MetaEngineEuler2D 
----@field diameter number 
+---@class EngineTagDataActorVariantMovementTypeTable 
+---@field peAlwaysRun EngineTagDataActorVariantMovementTypeAlwaysRun
+---@field peAlwaysCrouch EngineTagDataActorVariantMovementTypeAlwaysCrouch
+---@field peSwitchTypes EngineTagDataActorVariantMovementTypeSwitchTypes
+Engine.tag.actorVariantMovementType = {} 
 
----@class MetaEngineTagDataSky 
----@field model MetaEngineTagDependency 
----@field animationGraph MetaEngineTagDependency 
----@field indoorAmbientRadiosityColor MetaEngineColorRGB 
----@field indoorAmbientRadiosityPower number 
----@field outdoorAmbientRadiosityColor MetaEngineColorRGB 
----@field outdoorAmbientRadiosityPower number 
----@field outdoorFogColor MetaEngineColorRGB 
----@field outdoorFogMaximumDensity MetaEngineFraction 
----@field outdoorFogStartDistance number 
----@field outdoorFogOpaqueDistance number 
----@field indoorFogColor MetaEngineColorRGB 
----@field indoorFogMaximumDensity MetaEngineFraction 
----@field indoorFogStartDistance number 
----@field indoorFogOpaqueDistance number 
----@field indoorFogScreen MetaEngineTagDependency 
----@field shaderFunctions table<MetaEngineTagDataSkyFunction> 
----@field animations table<MetaEngineTagDataSkyAnimation> 
----@field lights table<MetaEngineTagDataSkyLight> 
+---@class EngineTagDataActorVariantSpecialFireModeEnum : Enum 
 
----@class MetaEngineTagDataShaderTransparentWaterFlags 
----@field baseMapAlphaModulatesReflection boolean 
----@field baseMapColorModulatesBackground boolean 
----@field atmosphericFog boolean 
----@field drawBeforeFog boolean 
+---@class EngineTagDataActorVariantSpecialFireModeNone : EngineTagDataActorVariantSpecialFireModeEnum 
+---@class EngineTagDataActorVariantSpecialFireModeOvercharge : EngineTagDataActorVariantSpecialFireModeEnum 
+---@class EngineTagDataActorVariantSpecialFireModeSecondaryTrigger : EngineTagDataActorVariantSpecialFireModeEnum 
 
----@class MetaEngineTagDataShaderTransparentWaterRipple 
----@field contributionFactor MetaEngineFraction 
----@field animationAngle MetaEngineAngle 
----@field animationVelocity number 
----@field mapOffset MetaEngineVector2D 
----@field mapRepeats integer 
----@field mapIndex MetaEngineIndex 
+---@alias EngineTagDataActorVariantSpecialFireMode 
+---| EngineTagDataActorVariantSpecialFireModeNone
+---| EngineTagDataActorVariantSpecialFireModeOvercharge
+---| EngineTagDataActorVariantSpecialFireModeSecondaryTrigger
 
----@class MetaEngineTagDataShaderTransparentWater: MetaEngineTagDataShader  
----@field waterFlags MetaEngineTagDataShaderTransparentWaterFlags 
----@field baseMap MetaEngineTagDependency 
----@field viewPerpendicularBrightness MetaEngineFraction 
----@field viewPerpendicularTintColor MetaEngineColorRGB 
----@field viewParallelBrightness MetaEngineFraction 
----@field viewParallelTintColor MetaEngineColorRGB 
----@field reflectionMap MetaEngineTagDependency 
----@field rippleAnimationAngle MetaEngineAngle 
----@field rippleAnimationVelocity number 
----@field rippleScale number 
----@field rippleMaps MetaEngineTagDependency 
----@field rippleMipmapLevels integer 
----@field rippleMipmapFadeFactor MetaEngineFraction 
----@field rippleMipmapDetailBias number 
----@field ripples table<MetaEngineTagDataShaderTransparentWaterRipple> 
+---@class EngineTagDataActorVariantSpecialFireModeTable 
+---@field odeNone EngineTagDataActorVariantSpecialFireModeNone
+---@field odeOvercharge EngineTagDataActorVariantSpecialFireModeOvercharge
+---@field odeSecondaryTrigger EngineTagDataActorVariantSpecialFireModeSecondaryTrigger
+Engine.tag.actorVariantSpecialFireMode = {} 
 
----@alias EngineTagDataDetailObjectCollectionType 
----| 'detail_object_collection_type_screen_facing'
----| 'detail_object_collection_type_viewer_facing'
+---@class EngineTagDataActorVariantSpecialFireSituationEnum : Enum 
 
----@class MetaEngineTagDataDetailObjectCollectionTypeFlags 
----@field unusedA boolean 
----@field unusedB boolean 
+---@class EngineTagDataActorVariantSpecialFireSituationNever : EngineTagDataActorVariantSpecialFireSituationEnum 
+---@class EngineTagDataActorVariantSpecialFireSituationEnemyVisible : EngineTagDataActorVariantSpecialFireSituationEnum 
+---@class EngineTagDataActorVariantSpecialFireSituationEnemyOutOfSight : EngineTagDataActorVariantSpecialFireSituationEnum 
+---@class EngineTagDataActorVariantSpecialFireSituationStrafing : EngineTagDataActorVariantSpecialFireSituationEnum 
+
+---@alias EngineTagDataActorVariantSpecialFireSituation 
+---| EngineTagDataActorVariantSpecialFireSituationNever
+---| EngineTagDataActorVariantSpecialFireSituationEnemyVisible
+---| EngineTagDataActorVariantSpecialFireSituationEnemyOutOfSight
+---| EngineTagDataActorVariantSpecialFireSituationStrafing
+
+---@class EngineTagDataActorVariantSpecialFireSituationTable 
+---@field ionNever EngineTagDataActorVariantSpecialFireSituationNever
+---@field ionEnemyVisible EngineTagDataActorVariantSpecialFireSituationEnemyVisible
+---@field ionEnemyOutOfSight EngineTagDataActorVariantSpecialFireSituationEnemyOutOfSight
+---@field ionStrafing EngineTagDataActorVariantSpecialFireSituationStrafing
+Engine.tag.actorVariantSpecialFireSituation = {} 
+
+---@class EngineTagDataActorVariantTrajectoryTypeEnum : Enum 
+
+---@class EngineTagDataActorVariantTrajectoryTypeToss : EngineTagDataActorVariantTrajectoryTypeEnum 
+---@class EngineTagDataActorVariantTrajectoryTypeLob : EngineTagDataActorVariantTrajectoryTypeEnum 
+---@class EngineTagDataActorVariantTrajectoryTypeBounce : EngineTagDataActorVariantTrajectoryTypeEnum 
+
+---@alias EngineTagDataActorVariantTrajectoryType 
+---| EngineTagDataActorVariantTrajectoryTypeToss
+---| EngineTagDataActorVariantTrajectoryTypeLob
+---| EngineTagDataActorVariantTrajectoryTypeBounce
+
+---@class EngineTagDataActorVariantTrajectoryTypeTable 
+---@field peToss EngineTagDataActorVariantTrajectoryTypeToss
+---@field peLob EngineTagDataActorVariantTrajectoryTypeLob
+---@field peBounce EngineTagDataActorVariantTrajectoryTypeBounce
+Engine.tag.actorVariantTrajectoryType = {} 
+
+---@class EngineTagDataActorVariantGrenadeStimulusEnum : Enum 
+
+---@class EngineTagDataActorVariantGrenadeStimulusNever : EngineTagDataActorVariantGrenadeStimulusEnum 
+---@class EngineTagDataActorVariantGrenadeStimulusVisibleTarget : EngineTagDataActorVariantGrenadeStimulusEnum 
+---@class EngineTagDataActorVariantGrenadeStimulusSeekCover : EngineTagDataActorVariantGrenadeStimulusEnum 
+
+---@alias EngineTagDataActorVariantGrenadeStimulus 
+---| EngineTagDataActorVariantGrenadeStimulusNever
+---| EngineTagDataActorVariantGrenadeStimulusVisibleTarget
+---| EngineTagDataActorVariantGrenadeStimulusSeekCover
+
+---@class EngineTagDataActorVariantGrenadeStimulusTable 
+---@field usNever EngineTagDataActorVariantGrenadeStimulusNever
+---@field usVisibleTarget EngineTagDataActorVariantGrenadeStimulusVisibleTarget
+---@field usSeekCover EngineTagDataActorVariantGrenadeStimulusSeekCover
+Engine.tag.actorVariantGrenadeStimulus = {} 
+
+---@class MetaEngineTagDataActorVariantFlags 
+---@field canShootWhileFlying boolean 
 ---@field interpolateColorInHsv boolean 
----@field moreColors boolean 
+---@field hasUnlimitedGrenades boolean 
+---@field movementSwitchingTryToStayWithFriends boolean 
+---@field activeCamouflage boolean 
+---@field superActiveCamouflage boolean 
+---@field cannotUseRangedWeapons boolean 
+---@field preferPassengerSeat boolean 
 
----@class MetaEngineTagDataDetailObjectCollectionObjectType 
----@field name MetaEngineTagString 
----@field sequenceIndex integer 
----@field flags MetaEngineTagDataDetailObjectCollectionTypeFlags 
----@field firstSpriteIndex integer 
----@field spriteCount integer 
----@field colorOverrideFactor MetaEngineFraction 
----@field nearFadeDistance number 
----@field farFadeDistance number 
----@field size number 
----@field minimumColor MetaEngineColorRGB 
----@field maximumColor MetaEngineColorRGB 
----@field ambientColor MetaEngineColorARGBInt 
+---@class MetaEngineTagDataActorVariantChangeColors 
+---@field colorLowerBound MetaEngineColorRGB 
+---@field colorUpperBound MetaEngineColorRGB 
 
----@class MetaEngineTagDataDetailObjectCollection 
----@field collectionType EngineTagDataDetailObjectCollectionType 
----@field globalZOffset number 
----@field spritePlate MetaEngineTagDependency 
----@field types table<MetaEngineTagDataDetailObjectCollectionObjectType> 
+---@class MetaEngineTagDataActorVariant 
+---@field flags MetaEngineTagDataActorVariantFlags 
+---@field actorDefinition MetaEngineTagDependency 
+---@field unit MetaEngineTagDependency 
+---@field majorVariant MetaEngineTagDependency 
+---@field metagameType EngineTagDataMetagameType 
+---@field metagameClass EngineTagDataMetagameClass 
+---@field movementType EngineTagDataActorVariantMovementType 
+---@field initialCrouchChance number 
+---@field crouchTime number 
+---@field runTime number 
+---@field weapon MetaEngineTagDependency 
+---@field maximumFiringDistance number 
+---@field rateOfFire number 
+---@field projectileError MetaEngineAngle 
+---@field firstBurstDelayTime number 
+---@field newTargetFiringPatternTime number 
+---@field surpriseDelayTime number 
+---@field surpriseFireWildlyTime number 
+---@field deathFireWildlyChance number 
+---@field deathFireWildlyTime number 
+---@field desiredCombatRange number 
+---@field customStandGunOffset MetaEngineVector3D 
+---@field customCrouchGunOffset MetaEngineVector3D 
+---@field targetTracking number 
+---@field targetLeading number 
+---@field weaponDamageModifier number 
+---@field damagePerSecond number 
+---@field burstOriginRadius number 
+---@field burstOriginAngle MetaEngineAngle 
+---@field burstReturnLength number 
+---@field burstReturnAngle MetaEngineAngle 
+---@field burstDuration number 
+---@field burstSeparation number 
+---@field burstAngularVelocity MetaEngineAngle 
+---@field specialDamageModifier number 
+---@field specialProjectileError MetaEngineAngle 
+---@field newTargetBurstDuration number 
+---@field newTargetBurstSeparation number 
+---@field newTargetRateOfFire number 
+---@field newTargetProjectileError number 
+---@field movingBurstDuration number 
+---@field movingBurstSeparation number 
+---@field movingRateOfFire number 
+---@field movingProjectileError number 
+---@field berserkBurstDuration number 
+---@field berserkBurstSeparation number 
+---@field berserkRateOfFire number 
+---@field berserkProjectileError number 
+---@field superBallisticRange number 
+---@field bombardmentRange number 
+---@field modifiedVisionRange number 
+---@field specialFireMode EngineTagDataActorVariantSpecialFireMode 
+---@field specialFireSituation EngineTagDataActorVariantSpecialFireSituation 
+---@field specialFireChance number 
+---@field specialFireDelay number 
+---@field meleeRange number 
+---@field meleeAbortRange number 
+---@field berserkFiringRanges number 
+---@field berserkMeleeRange number 
+---@field berserkMeleeAbortRange number 
+---@field grenadeType EngineTagDataGrenadeType 
+---@field trajectoryType EngineTagDataActorVariantTrajectoryType 
+---@field grenadeStimulus EngineTagDataActorVariantGrenadeStimulus 
+---@field minimumEnemyCount integer 
+---@field enemyRadius number 
+---@field grenadeVelocity number 
+---@field grenadeRanges number 
+---@field collateralDamageRadius number 
+---@field grenadeChance MetaEngineFraction 
+---@field grenadeCheckTime number 
+---@field encounterGrenadeTimeout number 
+---@field equipment MetaEngineTagDependency 
+---@field grenadeCount integer 
+---@field dontDropGrenadesChance number 
+---@field dropWeaponLoaded number 
+---@field dropWeaponAmmo integer 
+---@field bodyVitality number 
+---@field shieldVitality number 
+---@field shieldSappingRadius number 
+---@field forcedShaderPermutation MetaEngineIndex 
+---@field changeColors TagBlock<MetaEngineTagDataActorVariantChangeColors> 
 
----@alias EngineTagDataInputDeviceDefaultsDeviceType 
----| 'input_device_defaults_device_type_mouse_and_keyboard'
----| 'input_device_defaults_device_type_joysticks_gamepads_etc'
----| 'input_device_defaults_device_type_full_profile_definition'
+---@class EngineTagDataDeviceTypeEnum : Enum 
 
----@class MetaEngineTagDataInputDeviceDefaultsFlags 
----@field unused boolean 
+---@class EngineTagDataDeviceTypeToggleSwitch : EngineTagDataDeviceTypeEnum 
+---@class EngineTagDataDeviceTypeOnButton : EngineTagDataDeviceTypeEnum 
+---@class EngineTagDataDeviceTypeOffButton : EngineTagDataDeviceTypeEnum 
+---@class EngineTagDataDeviceTypeCallButton : EngineTagDataDeviceTypeEnum 
 
----@class MetaEngineTagDataInputDeviceDefaults 
----@field deviceType EngineTagDataInputDeviceDefaultsDeviceType 
----@field flags MetaEngineTagDataInputDeviceDefaultsFlags 
----@field deviceId MetaEngineTagDataOffset 
----@field profile MetaEngineTagDataOffset 
+---@alias EngineTagDataDeviceType 
+---| EngineTagDataDeviceTypeToggleSwitch
+---| EngineTagDataDeviceTypeOnButton
+---| EngineTagDataDeviceTypeOffButton
+---| EngineTagDataDeviceTypeCallButton
 
----@alias EngineTagDataShaderDetailLevel 
----| 'shader_detail_level_high'
----| 'shader_detail_level_medium'
----| 'shader_detail_level_low'
----| 'shader_detail_level_turd'
+---@class EngineTagDataDeviceTypeTable 
+---@field toggleSwitch EngineTagDataDeviceTypeToggleSwitch
+---@field onButton EngineTagDataDeviceTypeOnButton
+---@field offButton EngineTagDataDeviceTypeOffButton
+---@field callButton EngineTagDataDeviceTypeCallButton
+Engine.tag.deviceType = {} 
 
----@alias EngineTagDataShaderColorFunctionType 
----| 'shader_color_function_type_current'
----| 'shader_color_function_type_next_map'
----| 'shader_color_function_type_multiply'
----| 'shader_color_function_type_double_multiply'
----| 'shader_color_function_type_add'
----| 'shader_color_function_type_add_signed_current'
----| 'shader_color_function_type_add_signed_next_map'
----| 'shader_color_function_type_subtract_current'
----| 'shader_color_function_type_subtract_next_map'
----| 'shader_color_function_type_blend_current_alpha'
----| 'shader_color_function_type_blend_current_alpha_inverse'
----| 'shader_color_function_type_blend_next_map_alpha'
----| 'shader_color_function_type_blend_next_map_alpha_inverse'
+---@class EngineTagDataDeviceTriggersWhenEnum : Enum 
 
----@alias EngineTagDataShaderFirstMapType 
----| 'shader_first_map_type_2d_map'
----| 'shader_first_map_type_first_map_is_reflection_cube_map'
----| 'shader_first_map_type_first_map_is_object_centered_cube_map'
----| 'shader_first_map_type_first_map_is_viewer_centered_cube_map'
+---@class EngineTagDataDeviceTriggersWhenTouchedByPlayer : EngineTagDataDeviceTriggersWhenEnum 
+---@class EngineTagDataDeviceTriggersWhenDestroyed : EngineTagDataDeviceTriggersWhenEnum 
 
----@alias EngineTagDataShaderType 
----| 'shader_type_unused'
----| 'shader_type_unused1'
----| 'shader_type_unused2'
----| 'shader_type_shader_environment'
----| 'shader_type_shader_model'
----| 'shader_type_shader_transparent_generic'
----| 'shader_type_shader_transparent_chicago'
----| 'shader_type_shader_transparent_chicago_extended'
----| 'shader_type_shader_transparent_water'
----| 'shader_type_shader_transparent_glass'
----| 'shader_type_shader_transparent_meter'
----| 'shader_type_shader_transparent_plasma'
+---@alias EngineTagDataDeviceTriggersWhen 
+---| EngineTagDataDeviceTriggersWhenTouchedByPlayer
+---| EngineTagDataDeviceTriggersWhenDestroyed
 
----@alias EngineTagDataShaderDetailFunction 
----| 'shader_detail_function_double_biased_multiply'
----| 'shader_detail_function_multiply'
----| 'shader_detail_function_double_biased_add'
+---@class EngineTagDataDeviceTriggersWhenTable 
+---@field nTouchedByPlayer EngineTagDataDeviceTriggersWhenTouchedByPlayer
+---@field nDestroyed EngineTagDataDeviceTriggersWhenDestroyed
+Engine.tag.deviceTriggersWhen = {} 
 
----@class MetaEngineTagDataShaderFlags 
----@field simpleParameterization boolean 
----@field ignoreNormals boolean 
----@field transparentLit boolean 
+---@class MetaEngineTagDataDeviceControl: MetaEngineTagDataDevice  
+---@field type EngineTagDataDeviceType 
+---@field triggersWhen EngineTagDataDeviceTriggersWhen 
+---@field callValue number 
+---@field on MetaEngineTagDependency 
+---@field off MetaEngineTagDependency 
+---@field deny MetaEngineTagDependency 
 
----@class MetaEngineTagDataShaderPhysicsFlags 
----@field unused boolean 
+---@class MetaEngineTagDataItemCollectionPermutation 
+---@field weight number 
+---@field item MetaEngineTagDependency 
 
----@class MetaEngineTagDataShaderTransparentExtraLayer 
----@field shader MetaEngineTagDependency 
+---@class MetaEngineTagDataItemCollection 
+---@field permutations TagBlock<MetaEngineTagDataItemCollectionPermutation> 
+---@field defaultSpawnTime integer 
 
----@class MetaEngineTagDataShader 
----@field shaderFlags MetaEngineTagDataShaderFlags 
----@field detailLevel EngineTagDataShaderDetailLevel 
----@field power number 
----@field colorOfEmittedLight MetaEngineColorRGB 
----@field tintColor MetaEngineColorRGB 
----@field physicsFlags MetaEngineTagDataShaderPhysicsFlags 
----@field materialType EngineTagDataMaterialType 
----@field shaderType integer 
+---@class EngineTagDataWeaponSecondaryTriggerModeEnum : Enum 
 
----@class MetaEngineTagDataCameraTrackControlPoint 
----@field position MetaEnginePoint3D 
----@field orientation MetaEngineQuaternion 
+---@class EngineTagDataWeaponSecondaryTriggerModeNormal : EngineTagDataWeaponSecondaryTriggerModeEnum 
+---@class EngineTagDataWeaponSecondaryTriggerModeSlavedToPrimary : EngineTagDataWeaponSecondaryTriggerModeEnum 
+---@class EngineTagDataWeaponSecondaryTriggerModeInhibitsPrimary : EngineTagDataWeaponSecondaryTriggerModeEnum 
+---@class EngineTagDataWeaponSecondaryTriggerModeLoadsAlterateAmmunition : EngineTagDataWeaponSecondaryTriggerModeEnum 
+---@class EngineTagDataWeaponSecondaryTriggerModeLoadsMultiplePrimaryAmmunition : EngineTagDataWeaponSecondaryTriggerModeEnum 
 
----@class MetaEngineTagDataCameraTrack 
----@field flags MetaEngineTagDataIsUnusedFlag 
----@field controlPoints table<MetaEngineTagDataCameraTrackControlPoint> 
+---@alias EngineTagDataWeaponSecondaryTriggerMode 
+---| EngineTagDataWeaponSecondaryTriggerModeNormal
+---| EngineTagDataWeaponSecondaryTriggerModeSlavedToPrimary
+---| EngineTagDataWeaponSecondaryTriggerModeInhibitsPrimary
+---| EngineTagDataWeaponSecondaryTriggerModeLoadsAlterateAmmunition
+---| EngineTagDataWeaponSecondaryTriggerModeLoadsMultiplePrimaryAmmunition
 
----@alias EngineTagDataShaderTransparentGlassReflectionType 
----| 'shader_transparent_glass_reflection_type_bumped_cube_map'
----| 'shader_transparent_glass_reflection_type_flat_cube_map'
----| 'shader_transparent_glass_reflection_type_dynamic_mirror'
+---@class EngineTagDataWeaponSecondaryTriggerModeTable 
+---@field deNormal EngineTagDataWeaponSecondaryTriggerModeNormal
+---@field deSlavedToPrimary EngineTagDataWeaponSecondaryTriggerModeSlavedToPrimary
+---@field deInhibitsPrimary EngineTagDataWeaponSecondaryTriggerModeInhibitsPrimary
+---@field deLoadsAlterateAmmunition EngineTagDataWeaponSecondaryTriggerModeLoadsAlterateAmmunition
+---@field deLoadsMultiplePrimaryAmmunition EngineTagDataWeaponSecondaryTriggerModeLoadsMultiplePrimaryAmmunition
+Engine.tag.weaponSecondaryTriggerMode = {} 
 
----@class MetaEngineTagDataShaderTransparentGlassFlags 
----@field alphaTested boolean 
----@field decal boolean 
----@field twoSided boolean 
----@field bumpMapIsSpecularMask boolean 
+---@class EngineTagDataWeaponFunctionInEnum : Enum 
 
----@class MetaEngineTagDataShaderTransparentGlass: MetaEngineTagDataShader  
----@field shaderTransparentGlassFlags MetaEngineTagDataShaderTransparentGlassFlags 
----@field backgroundTintColor MetaEngineColorRGB 
----@field backgroundTintMapScale number 
----@field backgroundTintMap MetaEngineTagDependency 
----@field reflectionType EngineTagDataShaderTransparentGlassReflectionType 
----@field perpendicularBrightness MetaEngineFraction 
----@field perpendicularTintColor MetaEngineColorRGB 
----@field parallelBrightness MetaEngineFraction 
----@field parallelTintColor MetaEngineColorRGB 
----@field reflectionMap MetaEngineTagDependency 
----@field bumpMapScale number 
----@field bumpMap MetaEngineTagDependency 
----@field diffuseMapScale number 
----@field diffuseMap MetaEngineTagDependency 
----@field diffuseDetailMapScale number 
----@field diffuseDetailMap MetaEngineTagDependency 
----@field specularMapScale number 
----@field specularMap MetaEngineTagDependency 
----@field specularDetailMapScale number 
----@field specularDetailMap MetaEngineTagDependency 
+---@class EngineTagDataWeaponFunctionInNone : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInHeat : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInPrimaryAmmunition : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInSecondaryAmmunition : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInPrimaryRateOfFire : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInSecondaryRateOfFire : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInReady : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInPrimaryEjectionPort : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInSecondaryEjectionPort : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInOverheated : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInPrimaryCharged : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInSecondaryCharged : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInIllumination : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInAge : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInIntegratedLight : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInPrimaryFiring : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInSecondaryFiring : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInPrimaryFiringOn : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagDataWeaponFunctionInSecondaryFiringOn : EngineTagDataWeaponFunctionInEnum 
 
----@class MetaEngineTagDataWind 
----@field velocity number 
----@field variationArea MetaEngineEuler2D 
----@field localVariationWeight number 
----@field localVariationRate number 
----@field damping number 
+---@alias EngineTagDataWeaponFunctionIn 
+---| EngineTagDataWeaponFunctionInNone
+---| EngineTagDataWeaponFunctionInHeat
+---| EngineTagDataWeaponFunctionInPrimaryAmmunition
+---| EngineTagDataWeaponFunctionInSecondaryAmmunition
+---| EngineTagDataWeaponFunctionInPrimaryRateOfFire
+---| EngineTagDataWeaponFunctionInSecondaryRateOfFire
+---| EngineTagDataWeaponFunctionInReady
+---| EngineTagDataWeaponFunctionInPrimaryEjectionPort
+---| EngineTagDataWeaponFunctionInSecondaryEjectionPort
+---| EngineTagDataWeaponFunctionInOverheated
+---| EngineTagDataWeaponFunctionInPrimaryCharged
+---| EngineTagDataWeaponFunctionInSecondaryCharged
+---| EngineTagDataWeaponFunctionInIllumination
+---| EngineTagDataWeaponFunctionInAge
+---| EngineTagDataWeaponFunctionInIntegratedLight
+---| EngineTagDataWeaponFunctionInPrimaryFiring
+---| EngineTagDataWeaponFunctionInSecondaryFiring
+---| EngineTagDataWeaponFunctionInPrimaryFiringOn
+---| EngineTagDataWeaponFunctionInSecondaryFiringOn
+
+---@class EngineTagDataWeaponFunctionInTable 
+---@field nNone EngineTagDataWeaponFunctionInNone
+---@field nHeat EngineTagDataWeaponFunctionInHeat
+---@field nPrimaryAmmunition EngineTagDataWeaponFunctionInPrimaryAmmunition
+---@field nSecondaryAmmunition EngineTagDataWeaponFunctionInSecondaryAmmunition
+---@field nPrimaryRateOfFire EngineTagDataWeaponFunctionInPrimaryRateOfFire
+---@field nSecondaryRateOfFire EngineTagDataWeaponFunctionInSecondaryRateOfFire
+---@field nReady EngineTagDataWeaponFunctionInReady
+---@field nPrimaryEjectionPort EngineTagDataWeaponFunctionInPrimaryEjectionPort
+---@field nSecondaryEjectionPort EngineTagDataWeaponFunctionInSecondaryEjectionPort
+---@field nOverheated EngineTagDataWeaponFunctionInOverheated
+---@field nPrimaryCharged EngineTagDataWeaponFunctionInPrimaryCharged
+---@field nSecondaryCharged EngineTagDataWeaponFunctionInSecondaryCharged
+---@field nIllumination EngineTagDataWeaponFunctionInIllumination
+---@field nAge EngineTagDataWeaponFunctionInAge
+---@field nIntegratedLight EngineTagDataWeaponFunctionInIntegratedLight
+---@field nPrimaryFiring EngineTagDataWeaponFunctionInPrimaryFiring
+---@field nSecondaryFiring EngineTagDataWeaponFunctionInSecondaryFiring
+---@field nPrimaryFiringOn EngineTagDataWeaponFunctionInPrimaryFiringOn
+---@field nSecondaryFiringOn EngineTagDataWeaponFunctionInSecondaryFiringOn
+Engine.tag.weaponFunctionIn = {} 
+
+---@class EngineTagDataWeaponMovementPenalizedEnum : Enum 
+
+---@class EngineTagDataWeaponMovementPenalizedAlways : EngineTagDataWeaponMovementPenalizedEnum 
+---@class EngineTagDataWeaponMovementPenalizedWhenZoomed : EngineTagDataWeaponMovementPenalizedEnum 
+---@class EngineTagDataWeaponMovementPenalizedWhenZoomedOrReloading : EngineTagDataWeaponMovementPenalizedEnum 
+
+---@alias EngineTagDataWeaponMovementPenalized 
+---| EngineTagDataWeaponMovementPenalizedAlways
+---| EngineTagDataWeaponMovementPenalizedWhenZoomed
+---| EngineTagDataWeaponMovementPenalizedWhenZoomedOrReloading
+
+---@class EngineTagDataWeaponMovementPenalizedTable 
+---@field dAlways EngineTagDataWeaponMovementPenalizedAlways
+---@field dWhenZoomed EngineTagDataWeaponMovementPenalizedWhenZoomed
+---@field dWhenZoomedOrReloading EngineTagDataWeaponMovementPenalizedWhenZoomedOrReloading
+Engine.tag.weaponMovementPenalized = {} 
+
+---@class EngineTagDataWeaponTypeEnum : Enum 
+
+---@class EngineTagDataWeaponTypeUndefined : EngineTagDataWeaponTypeEnum 
+---@class EngineTagDataWeaponTypeShotgun : EngineTagDataWeaponTypeEnum 
+---@class EngineTagDataWeaponTypeNeedler : EngineTagDataWeaponTypeEnum 
+---@class EngineTagDataWeaponTypePlasmaPistol : EngineTagDataWeaponTypeEnum 
+---@class EngineTagDataWeaponTypePlasmaRifle : EngineTagDataWeaponTypeEnum 
+---@class EngineTagDataWeaponTypeRocketLauncher : EngineTagDataWeaponTypeEnum 
+
+---@alias EngineTagDataWeaponType 
+---| EngineTagDataWeaponTypeUndefined
+---| EngineTagDataWeaponTypeShotgun
+---| EngineTagDataWeaponTypeNeedler
+---| EngineTagDataWeaponTypePlasmaPistol
+---| EngineTagDataWeaponTypePlasmaRifle
+---| EngineTagDataWeaponTypeRocketLauncher
+
+---@class EngineTagDataWeaponTypeTable 
+---@field undefined EngineTagDataWeaponTypeUndefined
+---@field shotgun EngineTagDataWeaponTypeShotgun
+---@field needler EngineTagDataWeaponTypeNeedler
+---@field plasmaPistol EngineTagDataWeaponTypePlasmaPistol
+---@field plasmaRifle EngineTagDataWeaponTypePlasmaRifle
+---@field rocketLauncher EngineTagDataWeaponTypeRocketLauncher
+Engine.tag.weaponType = {} 
+
+---@class EngineTagDataWeaponPredictionTypeEnum : Enum 
+
+---@class EngineTagDataWeaponPredictionTypeNone : EngineTagDataWeaponPredictionTypeEnum 
+---@class EngineTagDataWeaponPredictionTypeContinuous : EngineTagDataWeaponPredictionTypeEnum 
+---@class EngineTagDataWeaponPredictionTypeInstant : EngineTagDataWeaponPredictionTypeEnum 
+
+---@alias EngineTagDataWeaponPredictionType 
+---| EngineTagDataWeaponPredictionTypeNone
+---| EngineTagDataWeaponPredictionTypeContinuous
+---| EngineTagDataWeaponPredictionTypeInstant
+
+---@class EngineTagDataWeaponPredictionTypeTable 
+---@field eNone EngineTagDataWeaponPredictionTypeNone
+---@field eContinuous EngineTagDataWeaponPredictionTypeContinuous
+---@field eInstant EngineTagDataWeaponPredictionTypeInstant
+Engine.tag.weaponPredictionType = {} 
+
+---@class EngineTagDataWeaponOverchargedActionEnum : Enum 
+
+---@class EngineTagDataWeaponOverchargedActionNone : EngineTagDataWeaponOverchargedActionEnum 
+---@class EngineTagDataWeaponOverchargedActionExplode : EngineTagDataWeaponOverchargedActionEnum 
+---@class EngineTagDataWeaponOverchargedActionDischarge : EngineTagDataWeaponOverchargedActionEnum 
+
+---@alias EngineTagDataWeaponOverchargedAction 
+---| EngineTagDataWeaponOverchargedActionNone
+---| EngineTagDataWeaponOverchargedActionExplode
+---| EngineTagDataWeaponOverchargedActionDischarge
+
+---@class EngineTagDataWeaponOverchargedActionTable 
+---@field nNone EngineTagDataWeaponOverchargedActionNone
+---@field nExplode EngineTagDataWeaponOverchargedActionExplode
+---@field nDischarge EngineTagDataWeaponOverchargedActionDischarge
+Engine.tag.weaponOverchargedAction = {} 
+
+---@class EngineTagDataWeaponDistributionFunctionEnum : Enum 
+
+---@class EngineTagDataWeaponDistributionFunctionPoint : EngineTagDataWeaponDistributionFunctionEnum 
+---@class EngineTagDataWeaponDistributionFunctionHorizontalFan : EngineTagDataWeaponDistributionFunctionEnum 
+
+---@alias EngineTagDataWeaponDistributionFunction 
+---| EngineTagDataWeaponDistributionFunctionPoint
+---| EngineTagDataWeaponDistributionFunctionHorizontalFan
+
+---@class EngineTagDataWeaponDistributionFunctionTable 
+---@field nPoint EngineTagDataWeaponDistributionFunctionPoint
+---@field nHorizontalFan EngineTagDataWeaponDistributionFunctionHorizontalFan
+Engine.tag.weaponDistributionFunction = {} 
+
+---@class MetaEngineTagDataWeaponMagazineFlags 
+---@field wastesRoundsWhenReloaded boolean 
+---@field everyRoundMustBeChambered boolean 
+
+---@class MetaEngineTagDataWeaponTriggerFlags 
+---@field tracksFiredProjectile boolean 
+---@field randomFiringEffects boolean 
+---@field canFireWithPartialAmmo boolean 
+---@field doesNotRepeatAutomatically boolean 
+---@field locksInOnOffState boolean 
+---@field projectilesUseWeaponOrigin boolean 
+---@field sticksWhenDropped boolean 
+---@field ejectsDuringChamber boolean 
+---@field dischargingSpews boolean 
+---@field analogRateOfFire boolean 
+---@field useErrorWhenUnzoomed boolean 
+---@field projectileVectorCannotBeAdjusted boolean 
+---@field projectilesHaveIdenticalError boolean 
+---@field projectileIsClientSideOnly boolean 
+---@field useOriginalUnitAdjustProjectileRay boolean 
+
+---@class MetaEngineTagDataWeaponFlags 
+---@field verticalHeatDisplay boolean 
+---@field mutuallyExclusiveTriggers boolean 
+---@field attacksAutomaticallyOnBump boolean 
+---@field mustBeReadied boolean 
+---@field doesntCountTowardMaximum boolean 
+---@field aimAssistsOnlyWhenZoomed boolean 
+---@field preventsGrenadeThrowing boolean 
+---@field mustBePickedUp boolean 
+---@field holdsTriggersWhenDropped boolean 
+---@field preventsMeleeAttack boolean 
+---@field detonatesWhenDropped boolean 
+---@field cannotFireAtMaximumAge boolean 
+---@field secondaryTriggerOverridesGrenades boolean 
+---@field obsoleteDoesNotDepowerActiveCamoInMultilplayer boolean 
+---@field enablesIntegratedNightVision boolean 
+---@field aisUseWeaponMeleeDamage boolean 
+
+---@class MetaEngineTagDataWeaponMagazineObject 
+---@field rounds integer 
+---@field equipment MetaEngineTagDependency 
+
+---@class MetaEngineTagDataWeaponMagazine 
+---@field flags MetaEngineTagDataWeaponMagazineFlags 
+---@field roundsRecharged integer 
+---@field roundsTotalInitial integer 
+---@field roundsReservedMaximum integer 
+---@field roundsLoadedMaximum integer 
+---@field reloadTime number 
+---@field roundsReloaded integer 
+---@field chamberTime number 
+---@field reloadingEffect MetaEngineTagDependency 
+---@field chamberingEffect MetaEngineTagDependency 
+---@field magazineObjects TagBlock<MetaEngineTagDataWeaponMagazineObject> 
+
+---@class MetaEngineTagDataWeaponTriggerFiringEffect 
+---@field shotCountLowerBound integer 
+---@field shotCountUpperBound integer 
+---@field firingEffect MetaEngineTagDependency 
+---@field misfireEffect MetaEngineTagDependency 
+---@field emptyEffect MetaEngineTagDependency 
+---@field firingDamage MetaEngineTagDependency 
+---@field misfireDamage MetaEngineTagDependency 
+---@field emptyDamage MetaEngineTagDependency 
+
+---@class MetaEngineTagDataWeaponTrigger 
+---@field flags MetaEngineTagDataWeaponTriggerFlags 
+---@field maximumRateOfFire number 
+---@field accelerationTime number 
+---@field decelerationTime number 
+---@field blurredRateOfFire MetaEngineFraction 
+---@field magazine MetaEngineIndex 
+---@field roundsPerShot integer 
+---@field minimumRoundsLoaded integer 
+---@field projectilesBetweenContrails integer 
+---@field predictionType EngineTagDataWeaponPredictionType 
+---@field firingNoise EngineTagDataObjectNoise 
+---@field error number 
+---@field errorAccelerationTime number 
+---@field errorDecelerationTime number 
+---@field chargingTime number 
+---@field chargedTime number 
+---@field overchargedAction EngineTagDataWeaponOverchargedAction 
+---@field chargedIllumination number 
+---@field spewTime number 
+---@field chargingEffect MetaEngineTagDependency 
+---@field distributionFunction EngineTagDataWeaponDistributionFunction 
+---@field projectilesPerShot integer 
+---@field distributionAngle MetaEngineAngle 
+---@field minimumError MetaEngineAngle 
+---@field errorAngle MetaEngineAngle 
+---@field firstPersonOffset MetaEnginePoint3D 
+---@field projectile MetaEngineTagDependency 
+---@field ejectionPortRecoveryTime number 
+---@field illuminationRecoveryTime number 
+---@field heatGeneratedPerRound MetaEngineFraction 
+---@field ageGeneratedPerRound MetaEngineFraction 
+---@field overloadTime number 
+---@field illuminationRecoveryRate number 
+---@field ejectionPortRecoveryRate number 
+---@field firingAccelerationRate number 
+---@field firingDecelerationRate number 
+---@field errorAccelerationRate number 
+---@field errorDecelerationRate number 
+---@field firingEffects TagBlock<MetaEngineTagDataWeaponTriggerFiringEffect> 
+
+---@class MetaEngineTagDataWeapon: MetaEngineTagDataItem  
+---@field weaponFlags MetaEngineTagDataWeaponFlags 
+---@field label MetaEngineTagString 
+---@field secondaryTriggerMode EngineTagDataWeaponSecondaryTriggerMode 
+---@field maximumAlternateShotsLoaded integer 
+---@field weaponAIn EngineTagDataWeaponFunctionIn 
+---@field weaponBIn EngineTagDataWeaponFunctionIn 
+---@field weaponCIn EngineTagDataWeaponFunctionIn 
+---@field weaponDIn EngineTagDataWeaponFunctionIn 
+---@field readyTime number 
+---@field readyEffect MetaEngineTagDependency 
+---@field heatRecoveryThreshold MetaEngineFraction 
+---@field overheatedThreshold MetaEngineFraction 
+---@field heatDetonationThreshold MetaEngineFraction 
+---@field heatDetonationFraction MetaEngineFraction 
+---@field heatLossRate MetaEngineFraction 
+---@field heatIllumination MetaEngineFraction 
+---@field overheated MetaEngineTagDependency 
+---@field overheatDetonation MetaEngineTagDependency 
+---@field playerMeleeDamage MetaEngineTagDependency 
+---@field playerMeleeResponse MetaEngineTagDependency 
+---@field actorFiringParameters MetaEngineTagDependency 
+---@field nearReticleRange number 
+---@field farReticleRange number 
+---@field intersectionReticleRange number 
+---@field zoomLevels integer 
+---@field zoomMagnificationRange number 
+---@field autoaimAngle MetaEngineAngle 
+---@field autoaimRange number 
+---@field magnetismAngle MetaEngineAngle 
+---@field magnetismRange number 
+---@field deviationAngle MetaEngineAngle 
+---@field movementPenalized EngineTagDataWeaponMovementPenalized 
+---@field forwardMovementPenalty MetaEngineFraction 
+---@field sidewaysMovementPenalty MetaEngineFraction 
+---@field minimumTargetRange number 
+---@field lookingTimeModifier number 
+---@field lightPowerOnTime number 
+---@field lightPowerOffTime number 
+---@field lightPowerOnEffect MetaEngineTagDependency 
+---@field lightPowerOffEffect MetaEngineTagDependency 
+---@field ageHeatRecoveryPenalty number 
+---@field ageRateOfFirePenalty number 
+---@field ageMisfireStart MetaEngineFraction 
+---@field ageMisfireChance MetaEngineFraction 
+---@field firstPersonModel MetaEngineTagDependency 
+---@field firstPersonAnimations MetaEngineTagDependency 
+---@field hudInterface MetaEngineTagDependency 
+---@field pickupSound MetaEngineTagDependency 
+---@field zoomInSound MetaEngineTagDependency 
+---@field zoomOutSound MetaEngineTagDependency 
+---@field activeCamoDing number 
+---@field activeCamoRegrowthRate number 
+---@field weaponType EngineTagDataWeaponType 
+---@field morePredictedResources TagBlock<MetaEngineTagDataPredictedResource> 
+---@field magazines TagBlock<MetaEngineTagDataWeaponMagazine> 
+---@field triggers TagBlock<MetaEngineTagDataWeaponTrigger> 
+
+---@class EngineTagDataMachineTypeEnum : Enum 
+
+---@class EngineTagDataMachineTypeDoor : EngineTagDataMachineTypeEnum 
+---@class EngineTagDataMachineTypePlatform : EngineTagDataMachineTypeEnum 
+---@class EngineTagDataMachineTypeGear : EngineTagDataMachineTypeEnum 
+
+---@alias EngineTagDataMachineType 
+---| EngineTagDataMachineTypeDoor
+---| EngineTagDataMachineTypePlatform
+---| EngineTagDataMachineTypeGear
+
+---@class EngineTagDataMachineTypeTable 
+---@field door EngineTagDataMachineTypeDoor
+---@field platform EngineTagDataMachineTypePlatform
+---@field gear EngineTagDataMachineTypeGear
+Engine.tag.machineType = {} 
+
+---@class EngineTagDataMachineCollisionResponseEnum : Enum 
+
+---@class EngineTagDataMachineCollisionResponsePauseUntilCrushed : EngineTagDataMachineCollisionResponseEnum 
+---@class EngineTagDataMachineCollisionResponseReverseDirections : EngineTagDataMachineCollisionResponseEnum 
+
+---@alias EngineTagDataMachineCollisionResponse 
+---| EngineTagDataMachineCollisionResponsePauseUntilCrushed
+---| EngineTagDataMachineCollisionResponseReverseDirections
+
+---@class EngineTagDataMachineCollisionResponseTable 
+---@field ePauseUntilCrushed EngineTagDataMachineCollisionResponsePauseUntilCrushed
+---@field eReverseDirections EngineTagDataMachineCollisionResponseReverseDirections
+Engine.tag.machineCollisionResponse = {} 
+
+---@class MetaEngineTagDataMachineFlags 
+---@field pathfindingObstacle boolean 
+---@field butNotWhenOpen boolean 
+---@field elevator boolean 
+
+---@class MetaEngineTagDataDeviceMachine: MetaEngineTagDataDevice  
+---@field machineType EngineTagDataMachineType 
+---@field machineFlags MetaEngineTagDataMachineFlags 
+---@field doorOpenTime number 
+---@field collisionResponse EngineTagDataMachineCollisionResponse 
+---@field elevatorNode MetaEngineIndex 
+---@field doorOpenTimeTicks integer 
+
+---@class EngineTagDataActorTypeEnum : Enum 
+
+---@class EngineTagDataActorTypeElite : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeJackal : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeGrunt : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeHunter : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeEngineer : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeAssassin : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypePlayer : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeMarine : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeCrew : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeCombatForm : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeInfectionForm : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeCarrierForm : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeMonitor : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeSentinel : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeNone : EngineTagDataActorTypeEnum 
+---@class EngineTagDataActorTypeMountedWeapon : EngineTagDataActorTypeEnum 
 
 ---@alias EngineTagDataActorType 
----| 'actor_type_elite'
----| 'actor_type_jackal'
----| 'actor_type_grunt'
----| 'actor_type_hunter'
----| 'actor_type_engineer'
----| 'actor_type_assassin'
----| 'actor_type_player'
----| 'actor_type_marine'
----| 'actor_type_crew'
----| 'actor_type_combat_form'
----| 'actor_type_infection_form'
----| 'actor_type_carrier_form'
----| 'actor_type_monitor'
----| 'actor_type_sentinel'
----| 'actor_type_none'
----| 'actor_type_mounted_weapon'
+---| EngineTagDataActorTypeElite
+---| EngineTagDataActorTypeJackal
+---| EngineTagDataActorTypeGrunt
+---| EngineTagDataActorTypeHunter
+---| EngineTagDataActorTypeEngineer
+---| EngineTagDataActorTypeAssassin
+---| EngineTagDataActorTypePlayer
+---| EngineTagDataActorTypeMarine
+---| EngineTagDataActorTypeCrew
+---| EngineTagDataActorTypeCombatForm
+---| EngineTagDataActorTypeInfectionForm
+---| EngineTagDataActorTypeCarrierForm
+---| EngineTagDataActorTypeMonitor
+---| EngineTagDataActorTypeSentinel
+---| EngineTagDataActorTypeNone
+---| EngineTagDataActorTypeMountedWeapon
+
+---@class EngineTagDataActorTypeTable 
+---@field elite EngineTagDataActorTypeElite
+---@field jackal EngineTagDataActorTypeJackal
+---@field grunt EngineTagDataActorTypeGrunt
+---@field hunter EngineTagDataActorTypeHunter
+---@field engineer EngineTagDataActorTypeEngineer
+---@field assassin EngineTagDataActorTypeAssassin
+---@field player EngineTagDataActorTypePlayer
+---@field marine EngineTagDataActorTypeMarine
+---@field crew EngineTagDataActorTypeCrew
+---@field combatForm EngineTagDataActorTypeCombatForm
+---@field infectionForm EngineTagDataActorTypeInfectionForm
+---@field carrierForm EngineTagDataActorTypeCarrierForm
+---@field monitor EngineTagDataActorTypeMonitor
+---@field sentinel EngineTagDataActorTypeSentinel
+---@field none EngineTagDataActorTypeNone
+---@field mountedWeapon EngineTagDataActorTypeMountedWeapon
+Engine.tag.actorType = {} 
+
+---@class EngineTagDataActorUnreachableDangerTriggerEnum : Enum 
+
+---@class EngineTagDataActorUnreachableDangerTriggerNever : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagDataActorUnreachableDangerTriggerVisible : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagDataActorUnreachableDangerTriggerShooting : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagDataActorUnreachableDangerTriggerShootingNearUs : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagDataActorUnreachableDangerTriggerDamagingUs : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagDataActorUnreachableDangerTriggerUnused : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagDataActorUnreachableDangerTriggerUnused1 : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagDataActorUnreachableDangerTriggerUnused2 : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagDataActorUnreachableDangerTriggerUnused3 : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagDataActorUnreachableDangerTriggerUnused4 : EngineTagDataActorUnreachableDangerTriggerEnum 
 
 ---@alias EngineTagDataActorUnreachableDangerTrigger 
----| 'actor_unreachable_danger_trigger_never'
----| 'actor_unreachable_danger_trigger_visible'
----| 'actor_unreachable_danger_trigger_shooting'
----| 'actor_unreachable_danger_trigger_shooting_near_us'
----| 'actor_unreachable_danger_trigger_damaging_us'
----| 'actor_unreachable_danger_trigger_unused'
----| 'actor_unreachable_danger_trigger_unused1'
----| 'actor_unreachable_danger_trigger_unused2'
----| 'actor_unreachable_danger_trigger_unused3'
----| 'actor_unreachable_danger_trigger_unused4'
+---| EngineTagDataActorUnreachableDangerTriggerNever
+---| EngineTagDataActorUnreachableDangerTriggerVisible
+---| EngineTagDataActorUnreachableDangerTriggerShooting
+---| EngineTagDataActorUnreachableDangerTriggerShootingNearUs
+---| EngineTagDataActorUnreachableDangerTriggerDamagingUs
+---| EngineTagDataActorUnreachableDangerTriggerUnused
+---| EngineTagDataActorUnreachableDangerTriggerUnused1
+---| EngineTagDataActorUnreachableDangerTriggerUnused2
+---| EngineTagDataActorUnreachableDangerTriggerUnused3
+---| EngineTagDataActorUnreachableDangerTriggerUnused4
+
+---@class EngineTagDataActorUnreachableDangerTriggerTable 
+---@field erNever EngineTagDataActorUnreachableDangerTriggerNever
+---@field erVisible EngineTagDataActorUnreachableDangerTriggerVisible
+---@field erShooting EngineTagDataActorUnreachableDangerTriggerShooting
+---@field erShootingNearUs EngineTagDataActorUnreachableDangerTriggerShootingNearUs
+---@field erDamagingUs EngineTagDataActorUnreachableDangerTriggerDamagingUs
+---@field erUnused EngineTagDataActorUnreachableDangerTriggerUnused
+---@field erUnused1 EngineTagDataActorUnreachableDangerTriggerUnused1
+---@field erUnused2 EngineTagDataActorUnreachableDangerTriggerUnused2
+---@field erUnused3 EngineTagDataActorUnreachableDangerTriggerUnused3
+---@field erUnused4 EngineTagDataActorUnreachableDangerTriggerUnused4
+Engine.tag.actorUnreachableDangerTrigger = {} 
+
+---@class EngineTagDataActorDefensiveCrouchTypeEnum : Enum 
+
+---@class EngineTagDataActorDefensiveCrouchTypeNever : EngineTagDataActorDefensiveCrouchTypeEnum 
+---@class EngineTagDataActorDefensiveCrouchTypeDanger : EngineTagDataActorDefensiveCrouchTypeEnum 
+---@class EngineTagDataActorDefensiveCrouchTypeLowShields : EngineTagDataActorDefensiveCrouchTypeEnum 
+---@class EngineTagDataActorDefensiveCrouchTypeHideBehindShield : EngineTagDataActorDefensiveCrouchTypeEnum 
+---@class EngineTagDataActorDefensiveCrouchTypeAnyTarget : EngineTagDataActorDefensiveCrouchTypeEnum 
+---@class EngineTagDataActorDefensiveCrouchTypeFloodShamble : EngineTagDataActorDefensiveCrouchTypeEnum 
 
 ---@alias EngineTagDataActorDefensiveCrouchType 
----| 'actor_defensive_crouch_type_never'
----| 'actor_defensive_crouch_type_danger'
----| 'actor_defensive_crouch_type_low_shields'
----| 'actor_defensive_crouch_type_hide_behind_shield'
----| 'actor_defensive_crouch_type_any_target'
----| 'actor_defensive_crouch_type_flood_shamble'
+---| EngineTagDataActorDefensiveCrouchTypeNever
+---| EngineTagDataActorDefensiveCrouchTypeDanger
+---| EngineTagDataActorDefensiveCrouchTypeLowShields
+---| EngineTagDataActorDefensiveCrouchTypeHideBehindShield
+---| EngineTagDataActorDefensiveCrouchTypeAnyTarget
+---| EngineTagDataActorDefensiveCrouchTypeFloodShamble
+
+---@class EngineTagDataActorDefensiveCrouchTypeTable 
+---@field peNever EngineTagDataActorDefensiveCrouchTypeNever
+---@field peDanger EngineTagDataActorDefensiveCrouchTypeDanger
+---@field peLowShields EngineTagDataActorDefensiveCrouchTypeLowShields
+---@field peHideBehindShield EngineTagDataActorDefensiveCrouchTypeHideBehindShield
+---@field peAnyTarget EngineTagDataActorDefensiveCrouchTypeAnyTarget
+---@field peFloodShamble EngineTagDataActorDefensiveCrouchTypeFloodShamble
+Engine.tag.actorDefensiveCrouchType = {} 
 
 ---@class MetaEngineTagDataActorFlags 
 ---@field canSeeInDarkness boolean 
@@ -3937,1077 +4114,740 @@
 ---@field combatIdleSpeechTime number 
 ---@field doNotUse_2 MetaEngineTagDependency 
 
----@alias EngineTagDataPhysicsFrictionType 
----| 'physics_friction_type_point'
----| 'physics_friction_type_forward'
----| 'physics_friction_type_left'
----| 'physics_friction_type_up'
+---@class MetaEngineTagDataGarbage: MetaEngineTagDataItem  
 
----@class MetaEngineTagDataPhysicsPoweredMassPointFlags 
----@field groundFriction boolean 
----@field waterFriction boolean 
----@field airFriction boolean 
----@field waterLift boolean 
----@field airLift boolean 
----@field thrust boolean 
----@field antigrav boolean 
+---@class EngineTagDataScenarioTypeEnum : Enum 
 
----@class MetaEngineTagDataPhysicsMassPointFlags 
----@field metallic boolean 
-
----@class MetaEngineTagDataPhysicsInertialMatrix 
----@field matrix MetaEngineMatrix 
-
----@class MetaEngineTagDataPhysicsPoweredMassPoint 
----@field name MetaEngineTagString 
----@field flags MetaEngineTagDataPhysicsPoweredMassPointFlags 
----@field antigravStrength number 
----@field antigravOffset number 
----@field antigravHeight number 
----@field antigravDampFraction number 
----@field antigravNormalK1 number 
----@field antigravNormalK0 number 
-
----@class MetaEngineTagDataPhysicsMassPoint 
----@field name MetaEngineTagString 
----@field poweredMassPoint integer 
----@field modelNode integer 
----@field flags MetaEngineTagDataPhysicsMassPointFlags 
----@field relativeMass number 
----@field mass number 
----@field relativeDensity number 
----@field density number 
----@field position MetaEnginePoint3D 
----@field forward MetaEngineVector3D 
----@field up MetaEngineVector3D 
----@field frictionType EngineTagDataPhysicsFrictionType 
----@field frictionParallelScale number 
----@field frictionPerpendicularScale number 
----@field radius number 
-
----@class MetaEngineTagDataPhysics 
----@field radius number 
----@field momentScale MetaEngineFraction 
----@field mass number 
----@field centerOfMass MetaEnginePoint3D 
----@field density number 
----@field gravityScale number 
----@field groundFriction number 
----@field groundDepth number 
----@field groundDampFraction MetaEngineFraction 
----@field groundNormalK1 number 
----@field groundNormalK0 number 
----@field waterFriction number 
----@field waterDepth number 
----@field waterDensity number 
----@field airFriction MetaEngineFraction 
----@field xxMoment number 
----@field yyMoment number 
----@field zzMoment number 
----@field inertialMatrixAndInverse table<MetaEngineTagDataPhysicsInertialMatrix> 
----@field poweredMassPoints table<MetaEngineTagDataPhysicsPoweredMassPoint> 
----@field massPoints table<MetaEngineTagDataPhysicsMassPoint> 
-
----@class MetaEngineTagDataMultiplayerScenarioDescriptionScenarioDescription 
----@field descriptiveBitmap MetaEngineTagDependency 
----@field displayedMapName MetaEngineTagDependency 
----@field scenarioTagDirectoryPath MetaEngineTagString 
-
----@class MetaEngineTagDataMultiplayerScenarioDescription 
----@field multiplayerScenarios table<MetaEngineTagDataMultiplayerScenarioDescriptionScenarioDescription> 
-
----@alias EngineTagDataVirtualKeyboardKeyboardKey 
----| 'virtual_keyboard_keyboard_key_1'
----| 'virtual_keyboard_keyboard_key_2'
----| 'virtual_keyboard_keyboard_key_3'
----| 'virtual_keyboard_keyboard_key_4'
----| 'virtual_keyboard_keyboard_key_5'
----| 'virtual_keyboard_keyboard_key_6'
----| 'virtual_keyboard_keyboard_key_7'
----| 'virtual_keyboard_keyboard_key_8'
----| 'virtual_keyboard_keyboard_key_9'
----| 'virtual_keyboard_keyboard_key_0'
----| 'virtual_keyboard_keyboard_key_a'
----| 'virtual_keyboard_keyboard_key_b'
----| 'virtual_keyboard_keyboard_key_c'
----| 'virtual_keyboard_keyboard_key_d'
----| 'virtual_keyboard_keyboard_key_e'
----| 'virtual_keyboard_keyboard_key_f'
----| 'virtual_keyboard_keyboard_key_g'
----| 'virtual_keyboard_keyboard_key_h'
----| 'virtual_keyboard_keyboard_key_i'
----| 'virtual_keyboard_keyboard_key_j'
----| 'virtual_keyboard_keyboard_key_k'
----| 'virtual_keyboard_keyboard_key_l'
----| 'virtual_keyboard_keyboard_key_m'
----| 'virtual_keyboard_keyboard_key_n'
----| 'virtual_keyboard_keyboard_key_o'
----| 'virtual_keyboard_keyboard_key_p'
----| 'virtual_keyboard_keyboard_key_q'
----| 'virtual_keyboard_keyboard_key_r'
----| 'virtual_keyboard_keyboard_key_s'
----| 'virtual_keyboard_keyboard_key_t'
----| 'virtual_keyboard_keyboard_key_u'
----| 'virtual_keyboard_keyboard_key_v'
----| 'virtual_keyboard_keyboard_key_w'
----| 'virtual_keyboard_keyboard_key_x'
----| 'virtual_keyboard_keyboard_key_y'
----| 'virtual_keyboard_keyboard_key_z'
----| 'virtual_keyboard_keyboard_key_done'
----| 'virtual_keyboard_keyboard_key_shift'
----| 'virtual_keyboard_keyboard_key_caps_lock'
----| 'virtual_keyboard_keyboard_key_symbols'
----| 'virtual_keyboard_keyboard_key_backspace'
----| 'virtual_keyboard_keyboard_key_left'
----| 'virtual_keyboard_keyboard_key_right'
----| 'virtual_keyboard_keyboard_key_space'
-
----@class MetaEngineTagDataVirtualKeyboardVirtualKey 
----@field keyboardKey EngineTagDataVirtualKeyboardKeyboardKey 
----@field lowercaseCharacter integer 
----@field shiftCharacter integer 
----@field capsCharacter integer 
----@field symbolsCharacter integer 
----@field shiftCapsCharacter integer 
----@field shiftSymbolsCharacter integer 
----@field capsSymbolsCharacter integer 
----@field unselectedBackgroundBitmap MetaEngineTagDependency 
----@field selectedBackgroundBitmap MetaEngineTagDependency 
----@field activeBackgroundBitmap MetaEngineTagDependency 
----@field stickyBackgroundBitmap MetaEngineTagDependency 
-
----@class MetaEngineTagDataVirtualKeyboard 
----@field displayFont MetaEngineTagDependency 
----@field backgroundBitmap MetaEngineTagDependency 
----@field specialKeyLabelsStringList MetaEngineTagDependency 
----@field virtualKeys table<MetaEngineTagDataVirtualKeyboardVirtualKey> 
-
----@class MetaEngineTagDataItemCollectionPermutation 
----@field weight number 
----@field item MetaEngineTagDependency 
-
----@class MetaEngineTagDataItemCollection 
----@field permutations table<MetaEngineTagDataItemCollectionPermutation> 
----@field defaultSpawnTime integer 
-
----@class MetaEngineTagDataSoundLoopingTrackFlags 
----@field fadeInAtStart boolean 
----@field fadeOutAtStop boolean 
----@field fadeInAlternate boolean 
-
----@class MetaEngineTagDataSoundLoopingDetailFlags 
----@field dontPlayWithAlternate boolean 
----@field dontPlayWithoutAlternate boolean 
-
----@class MetaEngineTagDataSoundLoopingFlags 
----@field deafeningToAis boolean 
----@field notALoop boolean 
----@field stopsMusic boolean 
----@field siegeOfMadrigal boolean 
-
----@class MetaEngineTagDataSoundLoopingTrack 
----@field flags MetaEngineTagDataSoundLoopingTrackFlags 
----@field gain MetaEngineFraction 
----@field fadeInDuration number 
----@field fadeOutDuration number 
----@field start MetaEngineTagDependency 
----@field loop MetaEngineTagDependency 
----@field end MetaEngineTagDependency 
----@field alternateLoop MetaEngineTagDependency 
----@field alternateEnd MetaEngineTagDependency 
-
----@class MetaEngineTagDataSoundLoopingDetail 
----@field sound MetaEngineTagDependency 
----@field randomPeriodBounds number 
----@field gain MetaEngineFraction 
----@field flags MetaEngineTagDataSoundLoopingDetailFlags 
----@field yawBounds MetaEngineAngle 
----@field pitchBounds MetaEngineAngle 
----@field distanceBounds number 
-
----@class MetaEngineTagDataSoundLooping 
----@field flags MetaEngineTagDataSoundLoopingFlags 
----@field zeroDetailSoundPeriod number 
----@field zeroDetailUnknownFloats number 
----@field oneDetailSoundPeriod number 
----@field oneDetailUnknownFloats number 
----@field unknownInt integer 
----@field maximumDistance number 
----@field continuousDamageEffect MetaEngineTagDependency 
----@field tracks table<MetaEngineTagDataSoundLoopingTrack> 
----@field detailSounds table<MetaEngineTagDataSoundLoopingDetail> 
-
----@class MetaEngineTagDataUnicodeStringListString 
----@field string MetaEngineTagDataOffset 
-
----@class MetaEngineTagDataUnicodeStringList 
----@field strings table<MetaEngineTagDataUnicodeStringListString> 
-
----@alias EngineTagDataProjectileResponse 
----| 'projectile_response_disappear'
----| 'projectile_response_detonate'
----| 'projectile_response_reflect'
----| 'projectile_response_overpenetrate'
----| 'projectile_response_attach'
-
----@alias EngineTagDataProjectileScaleEffectsBy 
----| 'projectile_scale_effects_by_damage'
----| 'projectile_scale_effects_by_angle'
-
----@alias EngineTagDataProjectileDetonationTimerStarts 
----| 'projectile_detonation_timer_starts_immediately'
----| 'projectile_detonation_timer_starts_after_first_bounce'
----| 'projectile_detonation_timer_starts_when_at_rest'
-
----@alias EngineTagDataProjectileFunctionIn 
----| 'projectile_function_in_none'
----| 'projectile_function_in_range_remaining'
----| 'projectile_function_in_time_remaining'
----| 'projectile_function_in_tracer'
-
----@class MetaEngineTagDataProjectileFlags 
----@field orientedAlongVelocity boolean 
----@field aiMustUseBallisticAiming boolean 
----@field detonationMaxTimeIfAttached boolean 
----@field hasSuperCombiningExplosion boolean 
----@field combineInitialVelocityWithParentVelocity boolean 
----@field randomAttachedDetonationTime boolean 
----@field minimumUnattachedDetonationTime boolean 
-
----@class MetaEngineTagDataProjectileMaterialResponseFlags 
----@field cannotBeOverpenetrated boolean 
-
----@class MetaEngineTagDataProjectileMaterialResponsePotentialFlags 
----@field onlyAgainstUnits boolean 
----@field neverAgainstUnits boolean 
-
----@class MetaEngineTagDataProjectileMaterialResponse 
----@field flags MetaEngineTagDataProjectileMaterialResponseFlags 
----@field defaultResponse EngineTagDataProjectileResponse 
----@field defaultEffect MetaEngineTagDependency 
----@field potentialResponse EngineTagDataProjectileResponse 
----@field potentialFlags MetaEngineTagDataProjectileMaterialResponsePotentialFlags 
----@field potentialSkipFraction MetaEngineFraction 
----@field potentialBetween MetaEngineAngle 
----@field potentialAnd number 
----@field potentialEffect MetaEngineTagDependency 
----@field scaleEffectsBy EngineTagDataProjectileScaleEffectsBy 
----@field angularNoise MetaEngineAngle 
----@field velocityNoise number 
----@field detonationEffect MetaEngineTagDependency 
----@field initialFriction number 
----@field maximumDistance number 
----@field parallelFriction number 
----@field perpendicularFriction number 
-
----@class MetaEngineTagDataProjectile: MetaEngineTagDataObject  
----@field projectileFlags MetaEngineTagDataProjectileFlags 
----@field detonationTimerStarts EngineTagDataProjectileDetonationTimerStarts 
----@field impactNoise EngineTagDataObjectNoise 
----@field projectileAIn EngineTagDataProjectileFunctionIn 
----@field projectileBIn EngineTagDataProjectileFunctionIn 
----@field projectileCIn EngineTagDataProjectileFunctionIn 
----@field projectileDIn EngineTagDataProjectileFunctionIn 
----@field superDetonation MetaEngineTagDependency 
----@field aiPerceptionRadius number 
----@field collisionRadius number 
----@field armingTime number 
----@field dangerRadius number 
----@field effect MetaEngineTagDependency 
----@field timer number 
----@field minimumVelocity number 
----@field maximumRange number 
----@field airGravityScale number 
----@field airDamageRange number 
----@field waterGravityScale number 
----@field waterDamageRange number 
----@field initialVelocity number 
----@field finalVelocity number 
----@field guidedAngularVelocity MetaEngineAngle 
----@field detonationNoise EngineTagDataObjectNoise 
----@field detonationStarted MetaEngineTagDependency 
----@field flybySound MetaEngineTagDependency 
----@field attachedDetonationDamage MetaEngineTagDependency 
----@field impactDamage MetaEngineTagDependency 
----@field projectileMaterialResponse table<MetaEngineTagDataProjectileMaterialResponse> 
-
----@alias EngineTagDataSoundFormat 
----| 'sound_format_16_bit_pcm'
----| 'sound_format_xbox_adpcm'
----| 'sound_format_ima_adpcm'
----| 'sound_format_ogg_vorbis'
-
----@alias EngineTagDataSoundClass 
----| 'sound_class_projectile_impact'
----| 'sound_class_projectile_detonation'
----| 'sound_class_unused'
----| 'sound_class_unused1'
----| 'sound_class_weapon_fire'
----| 'sound_class_weapon_ready'
----| 'sound_class_weapon_reload'
----| 'sound_class_weapon_empty'
----| 'sound_class_weapon_charge'
----| 'sound_class_weapon_overheat'
----| 'sound_class_weapon_idle'
----| 'sound_class_unused2'
----| 'sound_class_unused3'
----| 'sound_class_object_impacts'
----| 'sound_class_particle_impacts'
----| 'sound_class_slow_particle_impacts'
----| 'sound_class_unused4'
----| 'sound_class_unused5'
----| 'sound_class_unit_footsteps'
----| 'sound_class_unit_dialog'
----| 'sound_class_unused6'
----| 'sound_class_unused7'
----| 'sound_class_vehicle_collision'
----| 'sound_class_vehicle_engine'
----| 'sound_class_unused8'
----| 'sound_class_unused9'
----| 'sound_class_device_door'
----| 'sound_class_device_force_field'
----| 'sound_class_device_machinery'
----| 'sound_class_device_nature'
----| 'sound_class_device_computers'
----| 'sound_class_unused10'
----| 'sound_class_music'
----| 'sound_class_ambient_nature'
----| 'sound_class_ambient_machinery'
----| 'sound_class_ambient_computers'
----| 'sound_class_unused11'
----| 'sound_class_unused12'
----| 'sound_class_unused13'
----| 'sound_class_first_person_damage'
----| 'sound_class_unused14'
----| 'sound_class_unused15'
----| 'sound_class_unused16'
----| 'sound_class_unused17'
----| 'sound_class_scripted_dialog_player'
----| 'sound_class_scripted_effect'
----| 'sound_class_scripted_dialog_other'
----| 'sound_class_scripted_dialog_force_unspatialized'
----| 'sound_class_unused18'
----| 'sound_class_unused19'
----| 'sound_class_game_event'
-
----@alias EngineTagDataSoundSampleRate 
----| 'sound_sample_rate_22050__hz'
----| 'sound_sample_rate_44100__hz'
-
----@alias EngineTagDataSoundChannelCount 
----| 'sound_channel_count_mono'
----| 'sound_channel_count_stereo'
-
----@class MetaEngineTagDataSoundFlags 
----@field fitToAdpcmBlocksize boolean 
----@field splitLongSoundIntoPermutations boolean 
----@field thirstyGrunt boolean 
-
----@class MetaEngineTagDataSoundPermutation 
----@field name MetaEngineTagString 
----@field skipFraction MetaEngineFraction 
----@field gain MetaEngineFraction 
----@field format EngineTagDataSoundFormat 
----@field nextPermutationIndex MetaEngineIndex 
----@field unknownTagHandle EngineTagHandle 
----@field samplesPointer integer 
----@field soundTagHandle_0 EngineTagHandle 
----@field bufferSize integer 
----@field soundTagHandle_1 EngineTagHandle 
----@field samples MetaEngineTagDataOffset 
----@field mouthData MetaEngineTagDataOffset 
----@field subtitleData MetaEngineTagDataOffset 
-
----@class MetaEngineTagDataSoundPitchRange 
----@field name MetaEngineTagString 
----@field naturalPitch number 
----@field bendBounds number 
----@field actualPermutationCount integer 
----@field playbackRate number 
----@field unknownFfffffff_0 integer 
----@field unknownFfffffff_1 integer 
----@field permutations table<MetaEngineTagDataSoundPermutation> 
-
----@class MetaEngineTagDataSound 
----@field flags MetaEngineTagDataSoundFlags 
----@field soundClass EngineTagDataSoundClass 
----@field sampleRate EngineTagDataSoundSampleRate 
----@field minimumDistance number 
----@field maximumDistance number 
----@field skipFraction MetaEngineFraction 
----@field randomPitchBounds number 
----@field innerConeAngle MetaEngineAngle 
----@field outerConeAngle MetaEngineAngle 
----@field outerConeGain MetaEngineFraction 
----@field randomGainModifier number 
----@field maximumBendPerSecond number 
----@field zeroSkipFractionModifier number 
----@field zeroGainModifier number 
----@field zeroPitchModifier number 
----@field oneSkipFractionModifier number 
----@field oneGainModifier number 
----@field onePitchModifier number 
----@field channelCount EngineTagDataSoundChannelCount 
----@field format EngineTagDataSoundFormat 
----@field promotionSound MetaEngineTagDependency 
----@field promotionCount integer 
----@field longestPermutationLength integer 
----@field unknownFfffffff_0 integer 
----@field unknownFfffffff_1 integer 
----@field pitchRanges table<MetaEngineTagDataSoundPitchRange> 
-
----@class MetaEngineTagDataShaderTransparentMeterFlags 
----@field decal boolean 
----@field twoSided boolean 
----@field flashColorIsNegative boolean 
----@field tintMode_2 boolean 
----@field unfiltered boolean 
-
----@class MetaEngineTagDataShaderTransparentMeter: MetaEngineTagDataShader  
----@field meterFlags MetaEngineTagDataShaderTransparentMeterFlags 
----@field map MetaEngineTagDependency 
----@field gradientMinColor MetaEngineColorRGB 
----@field gradientMaxColor MetaEngineColorRGB 
----@field backgroundColor MetaEngineColorRGB 
----@field flashColor MetaEngineColorRGB 
----@field meterTintColor MetaEngineColorRGB 
----@field meterTransparency MetaEngineFraction 
----@field backgroundTransparency MetaEngineFraction 
----@field meterBrightnessSource EngineTagDataFunctionOut 
----@field flashBrightnessSource EngineTagDataFunctionOut 
----@field valueSource EngineTagDataFunctionOut 
----@field gradientSource EngineTagDataFunctionOut 
----@field flashExtensionSource EngineTagDataFunctionOut 
-
----@alias EngineTagDataDeviceIn 
----| 'device_in_none'
----| 'device_in_power'
----| 'device_in_change_in_power'
----| 'device_in_position'
----| 'device_in_change_in_position'
----| 'device_in_locked'
----| 'device_in_delay'
-
----@class MetaEngineTagDataDeviceFlags 
----@field positionLoops boolean 
----@field positionNotInterpolated boolean 
-
----@class MetaEngineTagDataDevice: MetaEngineTagDataObject  
----@field deviceFlags MetaEngineTagDataDeviceFlags 
----@field powerTransitionTime number 
----@field powerAccelerationTime number 
----@field positionTransitionTime number 
----@field positionAccelerationTime number 
----@field depoweredPositionTransitionTime number 
----@field depoweredPositionAccelerationTime number 
----@field deviceAIn EngineTagDataDeviceIn 
----@field deviceBIn EngineTagDataDeviceIn 
----@field deviceCIn EngineTagDataDeviceIn 
----@field deviceDIn EngineTagDataDeviceIn 
----@field open MetaEngineTagDependency 
----@field close MetaEngineTagDependency 
----@field opened MetaEngineTagDependency 
----@field closed MetaEngineTagDependency 
----@field depowered MetaEngineTagDependency 
----@field repowered MetaEngineTagDependency 
----@field delayTime number 
----@field delayEffect MetaEngineTagDependency 
----@field automaticActivationRadius number 
----@field inversePowerAccelerationTime number 
----@field inversePowerTransitionTime number 
----@field inverseDepoweredPositionAccelerationTime number 
----@field inverseDepoweredPositionTransitionTime number 
----@field inversePositionAccelerationTime number 
----@field inversePositionTransitionTime number 
----@field delayTimeTicks number 
-
----@alias EngineTagDataShaderTransparentGenericStageInputColor 
----| 'shader_transparent_generic_stage_input_color_zero'
----| 'shader_transparent_generic_stage_input_color_one'
----| 'shader_transparent_generic_stage_input_color_one_half'
----| 'shader_transparent_generic_stage_input_color_negative_one'
----| 'shader_transparent_generic_stage_input_color_negative_one_half'
----| 'shader_transparent_generic_stage_input_color_map_color_0'
----| 'shader_transparent_generic_stage_input_color_map_color_1'
----| 'shader_transparent_generic_stage_input_color_map_color_2'
----| 'shader_transparent_generic_stage_input_color_map_color_3'
----| 'shader_transparent_generic_stage_input_color_vertex_color_0_diffuse_light'
----| 'shader_transparent_generic_stage_input_color_vertex_color_1_fade_perpendicular'
----| 'shader_transparent_generic_stage_input_color_scratch_color_0'
----| 'shader_transparent_generic_stage_input_color_scratch_color_1'
----| 'shader_transparent_generic_stage_input_color_constant_color_0'
----| 'shader_transparent_generic_stage_input_color_constant_color_1'
----| 'shader_transparent_generic_stage_input_color_map_alpha_0'
----| 'shader_transparent_generic_stage_input_color_map_alpha_1'
----| 'shader_transparent_generic_stage_input_color_map_alpha_2'
----| 'shader_transparent_generic_stage_input_color_map_alpha_3'
----| 'shader_transparent_generic_stage_input_color_vertex_alpha_0_fade_none'
----| 'shader_transparent_generic_stage_input_color_vertex_alpha_1_fade_perpendicular'
----| 'shader_transparent_generic_stage_input_color_scratch_alpha_0'
----| 'shader_transparent_generic_stage_input_color_scratch_alpha_1'
----| 'shader_transparent_generic_stage_input_color_constant_alpha_0'
----| 'shader_transparent_generic_stage_input_color_constant_alpha_1'
-
----@alias EngineTagDataShaderTransparentGenericStageInputAlpha 
----| 'shader_transparent_generic_stage_input_alpha_zero'
----| 'shader_transparent_generic_stage_input_alpha_one'
----| 'shader_transparent_generic_stage_input_alpha_one_half'
----| 'shader_transparent_generic_stage_input_alpha_negative_one'
----| 'shader_transparent_generic_stage_input_alpha_negative_one_half'
----| 'shader_transparent_generic_stage_input_alpha_map_alpha_0'
----| 'shader_transparent_generic_stage_input_alpha_map_alpha_1'
----| 'shader_transparent_generic_stage_input_alpha_map_alpha_2'
----| 'shader_transparent_generic_stage_input_alpha_map_alpha_3'
----| 'shader_transparent_generic_stage_input_alpha_vertex_alpha_0_fade_none'
----| 'shader_transparent_generic_stage_input_alpha_vertex_alpha_1_fade_perpendicular'
----| 'shader_transparent_generic_stage_input_alpha_scratch_alpha_0'
----| 'shader_transparent_generic_stage_input_alpha_scratch_alpha_1'
----| 'shader_transparent_generic_stage_input_alpha_constant_alpha_0'
----| 'shader_transparent_generic_stage_input_alpha_constant_alpha_1'
----| 'shader_transparent_generic_stage_input_alpha_map_blue_0'
----| 'shader_transparent_generic_stage_input_alpha_map_blue_1'
----| 'shader_transparent_generic_stage_input_alpha_map_blue_2'
----| 'shader_transparent_generic_stage_input_alpha_map_blue_3'
----| 'shader_transparent_generic_stage_input_alpha_vertex_blue_0_blue_light'
----| 'shader_transparent_generic_stage_input_alpha_vertex_blue_1_fade_parallel'
----| 'shader_transparent_generic_stage_input_alpha_scratch_blue_0'
----| 'shader_transparent_generic_stage_input_alpha_scratch_blue_1'
----| 'shader_transparent_generic_stage_input_alpha_constant_blue_0'
----| 'shader_transparent_generic_stage_input_alpha_constant_blue_1'
-
----@alias EngineTagDataShaderTransparentGenericStageInputMappingColor 
----| 'shader_transparent_generic_stage_input_mapping_color_clamp_x'
----| 'shader_transparent_generic_stage_input_mapping_color_1_clamp_x'
----| 'shader_transparent_generic_stage_input_mapping_color_2'
----| 'shader_transparent_generic_stage_input_mapping_color_1_2'
----| 'shader_transparent_generic_stage_input_mapping_color_clamp_x_1_2'
----| 'shader_transparent_generic_stage_input_mapping_color_1_2_clamp_x'
----| 'shader_transparent_generic_stage_input_mapping_color_x'
----| 'shader_transparent_generic_stage_input_mapping_color_x_1'
-
----@alias EngineTagDataShaderTransparentGenericStageOutputFunction 
----| 'shader_transparent_generic_stage_output_function_multiply'
----| 'shader_transparent_generic_stage_output_function_dot_product'
-
----@alias EngineTagDataShaderTransparentGenericStageOutputMapping 
----| 'shader_transparent_generic_stage_output_mapping_color_identity'
----| 'shader_transparent_generic_stage_output_mapping_color_scale_by_1_2'
----| 'shader_transparent_generic_stage_output_mapping_color_scale_by_2'
----| 'shader_transparent_generic_stage_output_mapping_color_scale_by_4'
----| 'shader_transparent_generic_stage_output_mapping_color_bias_by_1_2'
----| 'shader_transparent_generic_stage_output_mapping_color_expand_normal'
-
----@alias EngineTagDataShaderTransparentGenericStageOutput 
----| 'shader_transparent_generic_stage_output_alpha_discard'
----| 'shader_transparent_generic_stage_output_alpha_scratch_alpha_0_final_alpha'
----| 'shader_transparent_generic_stage_output_alpha_scratch_alpha_1'
----| 'shader_transparent_generic_stage_output_alpha_vertex_alpha_0_fog'
----| 'shader_transparent_generic_stage_output_alpha_vertex_alpha_1'
----| 'shader_transparent_generic_stage_output_alpha_map_alpha_0'
----| 'shader_transparent_generic_stage_output_alpha_map_alpha_1'
----| 'shader_transparent_generic_stage_output_alpha_map_alpha_2'
----| 'shader_transparent_generic_stage_output_alpha_map_alpha_3'
-
----@class MetaEngineTagDataShaderTransparentGenericMapFlag 
----@field unfiltered boolean 
----@field uClamped boolean 
----@field vClamped boolean 
-
----@class MetaEngineTagDataShaderTransparentGenericStageFlags 
----@field colorMux boolean 
----@field alphaMux boolean 
----@field aOutControlsColor0Animation boolean 
-
----@class MetaEngineTagDataShaderTransparentGenericFlags 
----@field alphaTested boolean 
----@field decal boolean 
----@field twoSided boolean 
----@field firstMapIsInScreenspace boolean 
----@field drawBeforeWater boolean 
----@field ignoreEffect boolean 
----@field scaleFirstMapWithDistance boolean 
----@field numeric boolean 
-
----@class MetaEngineTagDataShaderTransparentGenericMap 
----@field flags MetaEngineTagDataShaderTransparentGenericMapFlag 
----@field mapUScale number 
----@field mapVScale number 
----@field mapUOffset number 
----@field mapVOffset number 
----@field mapRotation number 
----@field mapmapBias MetaEngineFraction 
----@field map MetaEngineTagDependency 
----@field uAnimationSource EngineTagDataFunctionOut 
----@field uAnimationFunction EngineTagDataWaveFunction 
----@field uAnimationPeriod number 
----@field uAnimationPhase number 
----@field uAnimationScale number 
----@field vAnimationSource EngineTagDataFunctionOut 
----@field vAnimationFunction EngineTagDataWaveFunction 
----@field vAnimationPeriod number 
----@field vAnimationPhase number 
----@field vAnimationScale number 
----@field rotationAnimationSource EngineTagDataFunctionOut 
----@field rotationAnimationFunction EngineTagDataWaveFunction 
----@field rotationAnimationPeriod number 
----@field rotationAnimationPhase number 
----@field rotationAnimationScale number 
----@field rotationAnimationCenter MetaEnginePoint2D 
-
----@class MetaEngineTagDataShaderTransparentGenericStage 
----@field flags MetaEngineTagDataShaderTransparentGenericStageFlags 
----@field color0Source EngineTagDataFunctionNameNullable 
----@field color0AnimationFunction EngineTagDataWaveFunction 
----@field color0AnimationPeriod number 
----@field color0AnimationLowerBound MetaEngineColorARGB 
----@field color0AnimationUpperBound MetaEngineColorARGB 
----@field color1 MetaEngineColorARGB 
----@field inputA EngineTagDataShaderTransparentGenericStageInputColor 
----@field inputAMapping EngineTagDataShaderTransparentGenericStageInputMappingColor 
----@field inputB EngineTagDataShaderTransparentGenericStageInputColor 
----@field inputBMapping EngineTagDataShaderTransparentGenericStageInputMappingColor 
----@field inputC EngineTagDataShaderTransparentGenericStageInputColor 
----@field inputCMapping EngineTagDataShaderTransparentGenericStageInputMappingColor 
----@field inputD EngineTagDataShaderTransparentGenericStageInputColor 
----@field inputDMapping EngineTagDataShaderTransparentGenericStageInputMappingColor 
----@field outputAb EngineTagDataShaderTransparentGenericStageOutput 
----@field outputAbFunction EngineTagDataShaderTransparentGenericStageOutputFunction 
----@field outputBc EngineTagDataShaderTransparentGenericStageOutput 
----@field outputCdFunction EngineTagDataShaderTransparentGenericStageOutputFunction 
----@field outputAbCdMuxSum EngineTagDataShaderTransparentGenericStageOutput 
----@field outputMappingColor EngineTagDataShaderTransparentGenericStageOutputMapping 
----@field inputAAlpha EngineTagDataShaderTransparentGenericStageInputAlpha 
----@field inputAMappingAlpha EngineTagDataShaderTransparentGenericStageInputMappingColor 
----@field inputBAlpha EngineTagDataShaderTransparentGenericStageInputAlpha 
----@field inputBMappingAlpha EngineTagDataShaderTransparentGenericStageInputMappingColor 
----@field inputCAlpha EngineTagDataShaderTransparentGenericStageInputAlpha 
----@field inputCMappingAlpha EngineTagDataShaderTransparentGenericStageInputMappingColor 
----@field inputDAlpha EngineTagDataShaderTransparentGenericStageInputAlpha 
----@field inputDMappingAlpha EngineTagDataShaderTransparentGenericStageInputMappingColor 
----@field outputAbAlpha EngineTagDataShaderTransparentGenericStageOutput 
----@field outputCdAlpha EngineTagDataShaderTransparentGenericStageOutput 
----@field outputAbCdMuxSumAlpha EngineTagDataShaderTransparentGenericStageOutput 
----@field outputMappingAlpha EngineTagDataShaderTransparentGenericStageOutputMapping 
-
----@class MetaEngineTagDataShaderTransparentGeneric: MetaEngineTagDataShader  
----@field numericCounterLimit integer 
----@field shaderTransparentGenericFlags MetaEngineTagDataShaderTransparentGenericFlags 
----@field firstMapType EngineTagDataShaderFirstMapType 
----@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
----@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
----@field framebufferFadeSource EngineTagDataFunctionOut 
----@field lensFlareSpacing number 
----@field lensFlare MetaEngineTagDependency 
----@field extraLayers table<MetaEngineTagDataShaderTransparentExtraLayer> 
----@field maps table<MetaEngineTagDataShaderTransparentGenericMap> 
----@field stages table<MetaEngineTagDataShaderTransparentGenericStage> 
-
----@class MetaEngineTagDataShaderTransparentChicagoExtended: MetaEngineTagDataShader  
----@field numericCounterLimit integer 
----@field shaderTransparentChicagoExtendedFlags MetaEngineTagDataShaderTransparentGenericFlags 
----@field firstMapType EngineTagDataShaderFirstMapType 
----@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
----@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
----@field framebufferFadeSource EngineTagDataFunctionOut 
----@field lensFlareSpacing number 
----@field lensFlare MetaEngineTagDependency 
----@field extraLayers table<MetaEngineTagDataShaderTransparentExtraLayer> 
----@field maps_4Stage table<MetaEngineTagDataShaderTransparentChicagoMap> 
----@field maps_2Stage table<MetaEngineTagDataShaderTransparentChicagoMap> 
----@field extraFlags MetaEngineTagDataShaderTransparentChicagoExtraFlags 
-
----@alias EngineTagDataLensFlareRadiusScaledBy 
----| 'lens_flare_radius_scaled_by_none'
----| 'lens_flare_radius_scaled_by_rotation'
----| 'lens_flare_radius_scaled_by_rotation_and_strafing'
----| 'lens_flare_radius_scaled_by_distance_from_center'
-
----@alias EngineTagDataLensFlareOcclusionOffsetDirection 
----| 'lens_flare_occlusion_offset_direction_toward_viewer'
----| 'lens_flare_occlusion_offset_direction_marker_forward'
----| 'lens_flare_occlusion_offset_direction_none'
-
----@alias EngineTagDataLensFlareRotationFunction 
----| 'lens_flare_rotation_function_none'
----| 'lens_flare_rotation_function_rotation_a'
----| 'lens_flare_rotation_function_rotation_b'
----| 'lens_flare_rotation_function_rotation_translation'
----| 'lens_flare_rotation_function_translation'
-
----@class MetaEngineTagDataLensFlareReflectionFlags 
----@field alignRotationWithScreenCenter boolean 
----@field radiusNotScaledByDistance boolean 
----@field radiusScaledByOcclusionFactor boolean 
----@field occludedBySolidObjects boolean 
-
----@class MetaEngineTagDataLensFlareReflectionMoreFlags 
----@field interpolateColorsInHsv boolean 
----@field moreColors boolean 
-
----@class MetaEngineTagDataLensFlareFlags 
----@field sun boolean 
----@field noOcclusionTest boolean 
----@field onlyRenderInFirstPerson boolean 
----@field onlyRenderInThirdPerson boolean 
----@field fadeInMoreQuickly boolean 
----@field fadeOutMoreQuickly boolean 
----@field scaleByMarker boolean 
-
----@class MetaEngineTagDataLensFlareReflection 
----@field flags MetaEngineTagDataLensFlareReflectionFlags 
----@field bitmapIndex MetaEngineIndex 
----@field position number 
----@field rotationOffset number 
----@field radius number 
----@field radiusScaledBy EngineTagDataLensFlareRadiusScaledBy 
----@field brightness MetaEngineFraction 
----@field brightnessScaledBy EngineTagDataLensFlareRadiusScaledBy 
----@field tintColor MetaEngineColorARGB 
----@field colorLowerBound MetaEngineColorARGB 
----@field colorUpperBound MetaEngineColorARGB 
----@field moreFlags MetaEngineTagDataLensFlareReflectionMoreFlags 
----@field animationFunction EngineTagDataWaveFunction 
----@field animationPeriod number 
----@field animationPhase number 
-
----@class MetaEngineTagDataLensFlare 
----@field falloffAngle MetaEngineAngle 
----@field cutoffAngle MetaEngineAngle 
----@field cosFalloffAngle number 
----@field cosCutoffAngle number 
----@field occlusionRadius number 
----@field occlusionOffsetDirection EngineTagDataLensFlareOcclusionOffsetDirection 
----@field nearFadeDistance number 
----@field farFadeDistance number 
----@field bitmap MetaEngineTagDependency 
----@field flags MetaEngineTagDataLensFlareFlags 
----@field rotationFunction EngineTagDataLensFlareRotationFunction 
----@field rotationFunctionScale MetaEngineAngle 
----@field horizontalScale number 
----@field verticalScale number 
----@field reflections table<MetaEngineTagDataLensFlareReflection> 
-
----@alias EngineTagDataContrailRenderType 
----| 'contrail_render_type_vertical_orientation'
----| 'contrail_render_type_horizontal_orientation'
----| 'contrail_render_type_media_mapped'
----| 'contrail_render_type_ground_mapped'
----| 'contrail_render_type_viewer_facing'
----| 'contrail_render_type_double_marker_linked'
-
----@class MetaEngineTagDataContrailPointStateScaleFlags 
----@field duration boolean 
----@field durationDelta boolean 
----@field transitionDuration boolean 
----@field transitionDurationDelta boolean 
----@field width boolean 
----@field color boolean 
-
----@class MetaEngineTagDataContrailFlags 
----@field firstPointUnfaded boolean 
----@field lastPointUnfaded boolean 
----@field pointsStartPinnedToMedia boolean 
----@field pointsStartPinnedToGround boolean 
----@field pointsAlwaysPinnedToMedia boolean 
----@field pointsAlwaysPinnedToGround boolean 
----@field edgeEffectFadesSlowly boolean 
-
----@class MetaEngineTagDataContrailScaleFlags 
----@field pointGenerationRate boolean 
----@field pointVelocity boolean 
----@field pointVelocityDelta boolean 
----@field pointVelocityConeAngle boolean 
----@field inheritedVelocityFraction boolean 
----@field sequenceAnimationRate boolean 
----@field textureScaleU boolean 
----@field textureScaleV boolean 
----@field textureAnimationU boolean 
----@field textureAnimationV boolean 
-
----@class MetaEngineTagDataContrailPointState 
----@field duration number 
----@field transitionDuration number 
----@field physics MetaEngineTagDependency 
----@field width number 
----@field colorLowerBound MetaEngineColorARGB 
----@field colorUpperBound MetaEngineColorARGB 
----@field scaleFlags MetaEngineTagDataContrailPointStateScaleFlags 
-
----@class MetaEngineTagDataContrail 
----@field flags MetaEngineTagDataContrailFlags 
----@field scaleFlags MetaEngineTagDataContrailScaleFlags 
----@field pointGenerationRate number 
----@field pointVelocity number 
----@field pointVelocityConeAngle MetaEngineAngle 
----@field inheritedVelocityFraction MetaEngineFraction 
----@field renderType EngineTagDataContrailRenderType 
----@field textureRepeatsU number 
----@field textureRepeatsV number 
----@field textureAnimationU number 
----@field textureAnimationV number 
----@field animationRate number 
----@field bitmap MetaEngineTagDependency 
----@field firstSequenceIndex MetaEngineIndex 
----@field sequenceCount integer 
----@field unknownInt integer 
----@field shaderFlags MetaEngineTagDataParticleShaderFlags 
----@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
----@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
----@field mapFlags MetaEngineTagDataIsUnfilteredFlag 
----@field secondaryBitmap MetaEngineTagDependency 
----@field anchor EngineTagDataParticleAnchor 
----@field secondaryMapFlags MetaEngineTagDataIsUnfilteredFlag 
----@field uAnimationSource EngineTagDataFunctionOut 
----@field uAnimationFunction EngineTagDataWaveFunction 
----@field uAnimationPeriod number 
----@field uAnimationPhase number 
----@field uAnimationScale number 
----@field vAnimationSource EngineTagDataFunctionOut 
----@field vAnimationFunction EngineTagDataWaveFunction 
----@field vAnimationPeriod number 
----@field vAnimationPhase number 
----@field vAnimationScale number 
----@field rotationAnimationSource EngineTagDataFunctionOut 
----@field rotationAnimationFunction EngineTagDataWaveFunction 
----@field rotationAnimationPeriod number 
----@field rotationAnimationPhase number 
----@field rotationAnimationScale MetaEngineAngle 
----@field rotationAnimationCenter MetaEnginePoint2D 
----@field zspriteRadiusScale number 
----@field pointStates table<MetaEngineTagDataContrailPointState> 
+---@class EngineTagDataScenarioTypeSingleplayer : EngineTagDataScenarioTypeEnum 
+---@class EngineTagDataScenarioTypeMultiplayer : EngineTagDataScenarioTypeEnum 
+---@class EngineTagDataScenarioTypeUserInterface : EngineTagDataScenarioTypeEnum 
 
 ---@alias EngineTagDataScenarioType 
----| 'scenario_type_singleplayer'
----| 'scenario_type_multiplayer'
----| 'scenario_type_user_interface'
+---| EngineTagDataScenarioTypeSingleplayer
+---| EngineTagDataScenarioTypeMultiplayer
+---| EngineTagDataScenarioTypeUserInterface
+
+---@class EngineTagDataScenarioTypeTable 
+---@field singleplayer EngineTagDataScenarioTypeSingleplayer
+---@field multiplayer EngineTagDataScenarioTypeMultiplayer
+---@field userInterface EngineTagDataScenarioTypeUserInterface
+Engine.tag.scenarioType = {} 
+
+---@class EngineTagDataScenarioSpawnTypeEnum : Enum 
+
+---@class EngineTagDataScenarioSpawnTypeNone : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeCtf : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeSlayer : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeOddball : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeKingOfTheHill : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeRace : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeTerminator : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeStub : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeIgnored1 : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeIgnored2 : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeIgnored3 : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeIgnored4 : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeAllGames : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeAllExceptCtf : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagDataScenarioSpawnTypeAllExceptRaceAndCtf : EngineTagDataScenarioSpawnTypeEnum 
 
 ---@alias EngineTagDataScenarioSpawnType 
----| 'scenario_spawn_type_none'
----| 'scenario_spawn_type_ctf'
----| 'scenario_spawn_type_slayer'
----| 'scenario_spawn_type_oddball'
----| 'scenario_spawn_type_king_of_the_hill'
----| 'scenario_spawn_type_race'
----| 'scenario_spawn_type_terminator'
----| 'scenario_spawn_type_stub'
----| 'scenario_spawn_type_ignored1'
----| 'scenario_spawn_type_ignored2'
----| 'scenario_spawn_type_ignored3'
----| 'scenario_spawn_type_ignored4'
----| 'scenario_spawn_type_all_games'
----| 'scenario_spawn_type_all_except_ctf'
----| 'scenario_spawn_type_all_except_race_and_ctf'
+---| EngineTagDataScenarioSpawnTypeNone
+---| EngineTagDataScenarioSpawnTypeCtf
+---| EngineTagDataScenarioSpawnTypeSlayer
+---| EngineTagDataScenarioSpawnTypeOddball
+---| EngineTagDataScenarioSpawnTypeKingOfTheHill
+---| EngineTagDataScenarioSpawnTypeRace
+---| EngineTagDataScenarioSpawnTypeTerminator
+---| EngineTagDataScenarioSpawnTypeStub
+---| EngineTagDataScenarioSpawnTypeIgnored1
+---| EngineTagDataScenarioSpawnTypeIgnored2
+---| EngineTagDataScenarioSpawnTypeIgnored3
+---| EngineTagDataScenarioSpawnTypeIgnored4
+---| EngineTagDataScenarioSpawnTypeAllGames
+---| EngineTagDataScenarioSpawnTypeAllExceptCtf
+---| EngineTagDataScenarioSpawnTypeAllExceptRaceAndCtf
+
+---@class EngineTagDataScenarioSpawnTypeTable 
+---@field eNone EngineTagDataScenarioSpawnTypeNone
+---@field eCtf EngineTagDataScenarioSpawnTypeCtf
+---@field eSlayer EngineTagDataScenarioSpawnTypeSlayer
+---@field eOddball EngineTagDataScenarioSpawnTypeOddball
+---@field eKingOfTheHill EngineTagDataScenarioSpawnTypeKingOfTheHill
+---@field eRace EngineTagDataScenarioSpawnTypeRace
+---@field eTerminator EngineTagDataScenarioSpawnTypeTerminator
+---@field eStub EngineTagDataScenarioSpawnTypeStub
+---@field eIgnored1 EngineTagDataScenarioSpawnTypeIgnored1
+---@field eIgnored2 EngineTagDataScenarioSpawnTypeIgnored2
+---@field eIgnored3 EngineTagDataScenarioSpawnTypeIgnored3
+---@field eIgnored4 EngineTagDataScenarioSpawnTypeIgnored4
+---@field eAllGames EngineTagDataScenarioSpawnTypeAllGames
+---@field eAllExceptCtf EngineTagDataScenarioSpawnTypeAllExceptCtf
+---@field eAllExceptRaceAndCtf EngineTagDataScenarioSpawnTypeAllExceptRaceAndCtf
+Engine.tag.scenarioSpawnType = {} 
+
+---@class EngineTagDataScenarioNetgameFlagTypeEnum : Enum 
+
+---@class EngineTagDataScenarioNetgameFlagTypeCtfFlag : EngineTagDataScenarioNetgameFlagTypeEnum 
+---@class EngineTagDataScenarioNetgameFlagTypeCtfVehicle : EngineTagDataScenarioNetgameFlagTypeEnum 
+---@class EngineTagDataScenarioNetgameFlagTypeOddballBallSpawn : EngineTagDataScenarioNetgameFlagTypeEnum 
+---@class EngineTagDataScenarioNetgameFlagTypeRaceTrack : EngineTagDataScenarioNetgameFlagTypeEnum 
+---@class EngineTagDataScenarioNetgameFlagTypeRaceVehicle : EngineTagDataScenarioNetgameFlagTypeEnum 
+---@class EngineTagDataScenarioNetgameFlagTypeVegasBank : EngineTagDataScenarioNetgameFlagTypeEnum 
+---@class EngineTagDataScenarioNetgameFlagTypeTeleportFrom : EngineTagDataScenarioNetgameFlagTypeEnum 
+---@class EngineTagDataScenarioNetgameFlagTypeTeleportTo : EngineTagDataScenarioNetgameFlagTypeEnum 
+---@class EngineTagDataScenarioNetgameFlagTypeHillFlag : EngineTagDataScenarioNetgameFlagTypeEnum 
 
 ---@alias EngineTagDataScenarioNetgameFlagType 
----| 'scenario_netgame_flag_type_ctf_flag'
----| 'scenario_netgame_flag_type_ctf_vehicle'
----| 'scenario_netgame_flag_type_oddball_ball_spawn'
----| 'scenario_netgame_flag_type_race_track'
----| 'scenario_netgame_flag_type_race_vehicle'
----| 'scenario_netgame_flag_type_vegas_bank'
----| 'scenario_netgame_flag_type_teleport_from'
----| 'scenario_netgame_flag_type_teleport_to'
----| 'scenario_netgame_flag_type_hill_flag'
+---| EngineTagDataScenarioNetgameFlagTypeCtfFlag
+---| EngineTagDataScenarioNetgameFlagTypeCtfVehicle
+---| EngineTagDataScenarioNetgameFlagTypeOddballBallSpawn
+---| EngineTagDataScenarioNetgameFlagTypeRaceTrack
+---| EngineTagDataScenarioNetgameFlagTypeRaceVehicle
+---| EngineTagDataScenarioNetgameFlagTypeVegasBank
+---| EngineTagDataScenarioNetgameFlagTypeTeleportFrom
+---| EngineTagDataScenarioNetgameFlagTypeTeleportTo
+---| EngineTagDataScenarioNetgameFlagTypeHillFlag
+
+---@class EngineTagDataScenarioNetgameFlagTypeTable 
+---@field peCtfFlag EngineTagDataScenarioNetgameFlagTypeCtfFlag
+---@field peCtfVehicle EngineTagDataScenarioNetgameFlagTypeCtfVehicle
+---@field peOddballBallSpawn EngineTagDataScenarioNetgameFlagTypeOddballBallSpawn
+---@field peRaceTrack EngineTagDataScenarioNetgameFlagTypeRaceTrack
+---@field peRaceVehicle EngineTagDataScenarioNetgameFlagTypeRaceVehicle
+---@field peVegasBank EngineTagDataScenarioNetgameFlagTypeVegasBank
+---@field peTeleportFrom EngineTagDataScenarioNetgameFlagTypeTeleportFrom
+---@field peTeleportTo EngineTagDataScenarioNetgameFlagTypeTeleportTo
+---@field peHillFlag EngineTagDataScenarioNetgameFlagTypeHillFlag
+Engine.tag.scenarioNetgameFlagType = {} 
+
+---@class EngineTagDataScenarioReturnStateEnum : Enum 
+
+---@class EngineTagDataScenarioReturnStateNone : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateSleeping : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateAlert : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateMovingRepeatSamePosition : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateMovingLoop : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateMovingLoopBackAndForth : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateMovingLoopRandomly : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateMovingRandomly : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateGuarding : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateGuardingAtGuardPosition : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateSearching : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagDataScenarioReturnStateFleeing : EngineTagDataScenarioReturnStateEnum 
 
 ---@alias EngineTagDataScenarioReturnState 
----| 'scenario_return_state_none'
----| 'scenario_return_state_sleeping'
----| 'scenario_return_state_alert'
----| 'scenario_return_state_moving_repeat_same_position'
----| 'scenario_return_state_moving_loop'
----| 'scenario_return_state_moving_loop_back_and_forth'
----| 'scenario_return_state_moving_loop_randomly'
----| 'scenario_return_state_moving_randomly'
----| 'scenario_return_state_guarding'
----| 'scenario_return_state_guarding_at_guard_position'
----| 'scenario_return_state_searching'
----| 'scenario_return_state_fleeing'
+---| EngineTagDataScenarioReturnStateNone
+---| EngineTagDataScenarioReturnStateSleeping
+---| EngineTagDataScenarioReturnStateAlert
+---| EngineTagDataScenarioReturnStateMovingRepeatSamePosition
+---| EngineTagDataScenarioReturnStateMovingLoop
+---| EngineTagDataScenarioReturnStateMovingLoopBackAndForth
+---| EngineTagDataScenarioReturnStateMovingLoopRandomly
+---| EngineTagDataScenarioReturnStateMovingRandomly
+---| EngineTagDataScenarioReturnStateGuarding
+---| EngineTagDataScenarioReturnStateGuardingAtGuardPosition
+---| EngineTagDataScenarioReturnStateSearching
+---| EngineTagDataScenarioReturnStateFleeing
+
+---@class EngineTagDataScenarioReturnStateTable 
+---@field eNone EngineTagDataScenarioReturnStateNone
+---@field eSleeping EngineTagDataScenarioReturnStateSleeping
+---@field eAlert EngineTagDataScenarioReturnStateAlert
+---@field eMovingRepeatSamePosition EngineTagDataScenarioReturnStateMovingRepeatSamePosition
+---@field eMovingLoop EngineTagDataScenarioReturnStateMovingLoop
+---@field eMovingLoopBackAndForth EngineTagDataScenarioReturnStateMovingLoopBackAndForth
+---@field eMovingLoopRandomly EngineTagDataScenarioReturnStateMovingLoopRandomly
+---@field eMovingRandomly EngineTagDataScenarioReturnStateMovingRandomly
+---@field eGuarding EngineTagDataScenarioReturnStateGuarding
+---@field eGuardingAtGuardPosition EngineTagDataScenarioReturnStateGuardingAtGuardPosition
+---@field eSearching EngineTagDataScenarioReturnStateSearching
+---@field eFleeing EngineTagDataScenarioReturnStateFleeing
+Engine.tag.scenarioReturnState = {} 
+
+---@class EngineTagDataScenarioUniqueLeaderTypeEnum : Enum 
+
+---@class EngineTagDataScenarioUniqueLeaderTypeNormal : EngineTagDataScenarioUniqueLeaderTypeEnum 
+---@class EngineTagDataScenarioUniqueLeaderTypeNone : EngineTagDataScenarioUniqueLeaderTypeEnum 
+---@class EngineTagDataScenarioUniqueLeaderTypeRandom : EngineTagDataScenarioUniqueLeaderTypeEnum 
+---@class EngineTagDataScenarioUniqueLeaderTypeSgtJohnson : EngineTagDataScenarioUniqueLeaderTypeEnum 
+---@class EngineTagDataScenarioUniqueLeaderTypeSgtLehto : EngineTagDataScenarioUniqueLeaderTypeEnum 
 
 ---@alias EngineTagDataScenarioUniqueLeaderType 
----| 'scenario_unique_leader_type_normal'
----| 'scenario_unique_leader_type_none'
----| 'scenario_unique_leader_type_random'
----| 'scenario_unique_leader_type_sgt_johnson'
----| 'scenario_unique_leader_type_sgt_lehto'
+---| EngineTagDataScenarioUniqueLeaderTypeNormal
+---| EngineTagDataScenarioUniqueLeaderTypeNone
+---| EngineTagDataScenarioUniqueLeaderTypeRandom
+---| EngineTagDataScenarioUniqueLeaderTypeSgtJohnson
+---| EngineTagDataScenarioUniqueLeaderTypeSgtLehto
+
+---@class EngineTagDataScenarioUniqueLeaderTypeTable 
+---@field peNormal EngineTagDataScenarioUniqueLeaderTypeNormal
+---@field peNone EngineTagDataScenarioUniqueLeaderTypeNone
+---@field peRandom EngineTagDataScenarioUniqueLeaderTypeRandom
+---@field peSgtJohnson EngineTagDataScenarioUniqueLeaderTypeSgtJohnson
+---@field peSgtLehto EngineTagDataScenarioUniqueLeaderTypeSgtLehto
+Engine.tag.scenarioUniqueLeaderType = {} 
+
+---@class EngineTagDataScenarioMajorUpgradeEnum : Enum 
+
+---@class EngineTagDataScenarioMajorUpgradeNormal : EngineTagDataScenarioMajorUpgradeEnum 
+---@class EngineTagDataScenarioMajorUpgradeFew : EngineTagDataScenarioMajorUpgradeEnum 
+---@class EngineTagDataScenarioMajorUpgradeMany : EngineTagDataScenarioMajorUpgradeEnum 
+---@class EngineTagDataScenarioMajorUpgradeNone : EngineTagDataScenarioMajorUpgradeEnum 
+---@class EngineTagDataScenarioMajorUpgradeAll : EngineTagDataScenarioMajorUpgradeEnum 
 
 ---@alias EngineTagDataScenarioMajorUpgrade 
----| 'scenario_major_upgrade_normal'
----| 'scenario_major_upgrade_few'
----| 'scenario_major_upgrade_many'
----| 'scenario_major_upgrade_none'
----| 'scenario_major_upgrade_all'
+---| EngineTagDataScenarioMajorUpgradeNormal
+---| EngineTagDataScenarioMajorUpgradeFew
+---| EngineTagDataScenarioMajorUpgradeMany
+---| EngineTagDataScenarioMajorUpgradeNone
+---| EngineTagDataScenarioMajorUpgradeAll
+
+---@class EngineTagDataScenarioMajorUpgradeTable 
+---@field eNormal EngineTagDataScenarioMajorUpgradeNormal
+---@field eFew EngineTagDataScenarioMajorUpgradeFew
+---@field eMany EngineTagDataScenarioMajorUpgradeMany
+---@field eNone EngineTagDataScenarioMajorUpgradeNone
+---@field eAll EngineTagDataScenarioMajorUpgradeAll
+Engine.tag.scenarioMajorUpgrade = {} 
+
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum : Enum 
+
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenNever : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenAnybodyDead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenAllButOneDead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenAllDead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
 
 ---@alias EngineTagDataScenarioChangeAttackingDefendingStateWhen 
----| 'scenario_change_attacking_defending_state_when_never'
----| 'scenario_change_attacking_defending_state_when_75_strength'
----| 'scenario_change_attacking_defending_state_when_50_strength'
----| 'scenario_change_attacking_defending_state_when_25_strength'
----| 'scenario_change_attacking_defending_state_when_anybody_dead'
----| 'scenario_change_attacking_defending_state_when_25_dead'
----| 'scenario_change_attacking_defending_state_when_50_dead'
----| 'scenario_change_attacking_defending_state_when_75_dead'
----| 'scenario_change_attacking_defending_state_when_all_but_one_dead'
----| 'scenario_change_attacking_defending_state_when_all_dead'
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhenNever
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Strength
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Strength
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Strength
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhenAnybodyDead
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Dead
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Dead
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Dead
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhenAllButOneDead
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhenAllDead
+
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenTable 
+---@field whenNever EngineTagDataScenarioChangeAttackingDefendingStateWhenNever
+---@field when_75Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Strength
+---@field when_50Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Strength
+---@field when_25Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Strength
+---@field whenAnybodyDead EngineTagDataScenarioChangeAttackingDefendingStateWhenAnybodyDead
+---@field when_25Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Dead
+---@field when_50Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Dead
+---@field when_75Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Dead
+---@field whenAllButOneDead EngineTagDataScenarioChangeAttackingDefendingStateWhenAllButOneDead
+---@field whenAllDead EngineTagDataScenarioChangeAttackingDefendingStateWhenAllDead
+Engine.tag.scenarioChangeAttackingDefendingStateWhen = {} 
+
+---@class EngineTagDataScenarioGroupIndexEnum : Enum 
+
+---@class EngineTagDataScenarioGroupIndexA : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexB : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexC : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexD : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexE : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexF : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexG : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexH : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexI : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexJ : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexK : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexL : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexM : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexN : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexO : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexP : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexQ : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexR : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexS : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexT : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexU : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexV : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexW : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexX : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexY : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagDataScenarioGroupIndexZ : EngineTagDataScenarioGroupIndexEnum 
 
 ---@alias EngineTagDataScenarioGroupIndex 
----| 'scenario_group_index_a'
----| 'scenario_group_index_b'
----| 'scenario_group_index_c'
----| 'scenario_group_index_d'
----| 'scenario_group_index_e'
----| 'scenario_group_index_f'
----| 'scenario_group_index_g'
----| 'scenario_group_index_h'
----| 'scenario_group_index_i'
----| 'scenario_group_index_j'
----| 'scenario_group_index_k'
----| 'scenario_group_index_l'
----| 'scenario_group_index_m'
----| 'scenario_group_index_n'
----| 'scenario_group_index_o'
----| 'scenario_group_index_p'
----| 'scenario_group_index_q'
----| 'scenario_group_index_r'
----| 'scenario_group_index_s'
----| 'scenario_group_index_t'
----| 'scenario_group_index_u'
----| 'scenario_group_index_v'
----| 'scenario_group_index_w'
----| 'scenario_group_index_x'
----| 'scenario_group_index_y'
----| 'scenario_group_index_z'
+---| EngineTagDataScenarioGroupIndexA
+---| EngineTagDataScenarioGroupIndexB
+---| EngineTagDataScenarioGroupIndexC
+---| EngineTagDataScenarioGroupIndexD
+---| EngineTagDataScenarioGroupIndexE
+---| EngineTagDataScenarioGroupIndexF
+---| EngineTagDataScenarioGroupIndexG
+---| EngineTagDataScenarioGroupIndexH
+---| EngineTagDataScenarioGroupIndexI
+---| EngineTagDataScenarioGroupIndexJ
+---| EngineTagDataScenarioGroupIndexK
+---| EngineTagDataScenarioGroupIndexL
+---| EngineTagDataScenarioGroupIndexM
+---| EngineTagDataScenarioGroupIndexN
+---| EngineTagDataScenarioGroupIndexO
+---| EngineTagDataScenarioGroupIndexP
+---| EngineTagDataScenarioGroupIndexQ
+---| EngineTagDataScenarioGroupIndexR
+---| EngineTagDataScenarioGroupIndexS
+---| EngineTagDataScenarioGroupIndexT
+---| EngineTagDataScenarioGroupIndexU
+---| EngineTagDataScenarioGroupIndexV
+---| EngineTagDataScenarioGroupIndexW
+---| EngineTagDataScenarioGroupIndexX
+---| EngineTagDataScenarioGroupIndexY
+---| EngineTagDataScenarioGroupIndexZ
+
+---@class EngineTagDataScenarioGroupIndexTable 
+---@field xA EngineTagDataScenarioGroupIndexA
+---@field xB EngineTagDataScenarioGroupIndexB
+---@field xC EngineTagDataScenarioGroupIndexC
+---@field xD EngineTagDataScenarioGroupIndexD
+---@field xE EngineTagDataScenarioGroupIndexE
+---@field xF EngineTagDataScenarioGroupIndexF
+---@field xG EngineTagDataScenarioGroupIndexG
+---@field xH EngineTagDataScenarioGroupIndexH
+---@field xI EngineTagDataScenarioGroupIndexI
+---@field xJ EngineTagDataScenarioGroupIndexJ
+---@field xK EngineTagDataScenarioGroupIndexK
+---@field xL EngineTagDataScenarioGroupIndexL
+---@field xM EngineTagDataScenarioGroupIndexM
+---@field xN EngineTagDataScenarioGroupIndexN
+---@field xO EngineTagDataScenarioGroupIndexO
+---@field xP EngineTagDataScenarioGroupIndexP
+---@field xQ EngineTagDataScenarioGroupIndexQ
+---@field xR EngineTagDataScenarioGroupIndexR
+---@field xS EngineTagDataScenarioGroupIndexS
+---@field xT EngineTagDataScenarioGroupIndexT
+---@field xU EngineTagDataScenarioGroupIndexU
+---@field xV EngineTagDataScenarioGroupIndexV
+---@field xW EngineTagDataScenarioGroupIndexW
+---@field xX EngineTagDataScenarioGroupIndexX
+---@field xY EngineTagDataScenarioGroupIndexY
+---@field xZ EngineTagDataScenarioGroupIndexZ
+Engine.tag.scenarioGroupIndex = {} 
+
+---@class EngineTagDataScenarioTeamIndexEnum : Enum 
+
+---@class EngineTagDataScenarioTeamIndexDefaultByUnit : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagDataScenarioTeamIndexPlayer : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagDataScenarioTeamIndexHuman : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagDataScenarioTeamIndexCovenant : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagDataScenarioTeamIndexFlood : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagDataScenarioTeamIndexSentinel : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagDataScenarioTeamIndexUnused6 : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagDataScenarioTeamIndexUnused7 : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagDataScenarioTeamIndexUnused8 : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagDataScenarioTeamIndexUnused9 : EngineTagDataScenarioTeamIndexEnum 
 
 ---@alias EngineTagDataScenarioTeamIndex 
----| 'scenario_team_index_default_by_unit'
----| 'scenario_team_index_player'
----| 'scenario_team_index_human'
----| 'scenario_team_index_covenant'
----| 'scenario_team_index_flood'
----| 'scenario_team_index_sentinel'
----| 'scenario_team_index_unused6'
----| 'scenario_team_index_unused7'
----| 'scenario_team_index_unused8'
----| 'scenario_team_index_unused9'
+---| EngineTagDataScenarioTeamIndexDefaultByUnit
+---| EngineTagDataScenarioTeamIndexPlayer
+---| EngineTagDataScenarioTeamIndexHuman
+---| EngineTagDataScenarioTeamIndexCovenant
+---| EngineTagDataScenarioTeamIndexFlood
+---| EngineTagDataScenarioTeamIndexSentinel
+---| EngineTagDataScenarioTeamIndexUnused6
+---| EngineTagDataScenarioTeamIndexUnused7
+---| EngineTagDataScenarioTeamIndexUnused8
+---| EngineTagDataScenarioTeamIndexUnused9
+
+---@class EngineTagDataScenarioTeamIndexTable 
+---@field xDefaultByUnit EngineTagDataScenarioTeamIndexDefaultByUnit
+---@field xPlayer EngineTagDataScenarioTeamIndexPlayer
+---@field xHuman EngineTagDataScenarioTeamIndexHuman
+---@field xCovenant EngineTagDataScenarioTeamIndexCovenant
+---@field xFlood EngineTagDataScenarioTeamIndexFlood
+---@field xSentinel EngineTagDataScenarioTeamIndexSentinel
+---@field xUnused6 EngineTagDataScenarioTeamIndexUnused6
+---@field xUnused7 EngineTagDataScenarioTeamIndexUnused7
+---@field xUnused8 EngineTagDataScenarioTeamIndexUnused8
+---@field xUnused9 EngineTagDataScenarioTeamIndexUnused9
+Engine.tag.scenarioTeamIndex = {} 
+
+---@class EngineTagDataScenarioSearchBehaviorEnum : Enum 
+
+---@class EngineTagDataScenarioSearchBehaviorNormal : EngineTagDataScenarioSearchBehaviorEnum 
+---@class EngineTagDataScenarioSearchBehaviorNever : EngineTagDataScenarioSearchBehaviorEnum 
+---@class EngineTagDataScenarioSearchBehaviorTenacious : EngineTagDataScenarioSearchBehaviorEnum 
 
 ---@alias EngineTagDataScenarioSearchBehavior 
----| 'scenario_search_behavior_normal'
----| 'scenario_search_behavior_never'
----| 'scenario_search_behavior_tenacious'
+---| EngineTagDataScenarioSearchBehaviorNormal
+---| EngineTagDataScenarioSearchBehaviorNever
+---| EngineTagDataScenarioSearchBehaviorTenacious
+
+---@class EngineTagDataScenarioSearchBehaviorTable 
+---@field rNormal EngineTagDataScenarioSearchBehaviorNormal
+---@field rNever EngineTagDataScenarioSearchBehaviorNever
+---@field rTenacious EngineTagDataScenarioSearchBehaviorTenacious
+Engine.tag.scenarioSearchBehavior = {} 
+
+---@class EngineTagDataScenarioAtomTypeEnum : Enum 
+
+---@class EngineTagDataScenarioAtomTypePause : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeGoTo : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeGoToAndFace : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeMoveInDirection : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeLook : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeAnimationMode : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeCrouch : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeShoot : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeGrenade : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeVehicle : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeRunningJump : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeTargetedJump : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeScript : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeAnimate : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeRecording : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeAction : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeVocalize : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeTargeting : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeInitiative : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeWait : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeLoop : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeDie : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeMoveImmediate : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeLookRandom : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeLookPlayer : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeLookObject : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeSetRadius : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagDataScenarioAtomTypeTeleport : EngineTagDataScenarioAtomTypeEnum 
 
 ---@alias EngineTagDataScenarioAtomType 
----| 'scenario_atom_type_pause'
----| 'scenario_atom_type_go_to'
----| 'scenario_atom_type_go_to_and_face'
----| 'scenario_atom_type_move_in_direction'
----| 'scenario_atom_type_look'
----| 'scenario_atom_type_animation_mode'
----| 'scenario_atom_type_crouch'
----| 'scenario_atom_type_shoot'
----| 'scenario_atom_type_grenade'
----| 'scenario_atom_type_vehicle'
----| 'scenario_atom_type_running_jump'
----| 'scenario_atom_type_targeted_jump'
----| 'scenario_atom_type_script'
----| 'scenario_atom_type_animate'
----| 'scenario_atom_type_recording'
----| 'scenario_atom_type_action'
----| 'scenario_atom_type_vocalize'
----| 'scenario_atom_type_targeting'
----| 'scenario_atom_type_initiative'
----| 'scenario_atom_type_wait'
----| 'scenario_atom_type_loop'
----| 'scenario_atom_type_die'
----| 'scenario_atom_type_move_immediate'
----| 'scenario_atom_type_look_random'
----| 'scenario_atom_type_look_player'
----| 'scenario_atom_type_look_object'
----| 'scenario_atom_type_set_radius'
----| 'scenario_atom_type_teleport'
+---| EngineTagDataScenarioAtomTypePause
+---| EngineTagDataScenarioAtomTypeGoTo
+---| EngineTagDataScenarioAtomTypeGoToAndFace
+---| EngineTagDataScenarioAtomTypeMoveInDirection
+---| EngineTagDataScenarioAtomTypeLook
+---| EngineTagDataScenarioAtomTypeAnimationMode
+---| EngineTagDataScenarioAtomTypeCrouch
+---| EngineTagDataScenarioAtomTypeShoot
+---| EngineTagDataScenarioAtomTypeGrenade
+---| EngineTagDataScenarioAtomTypeVehicle
+---| EngineTagDataScenarioAtomTypeRunningJump
+---| EngineTagDataScenarioAtomTypeTargetedJump
+---| EngineTagDataScenarioAtomTypeScript
+---| EngineTagDataScenarioAtomTypeAnimate
+---| EngineTagDataScenarioAtomTypeRecording
+---| EngineTagDataScenarioAtomTypeAction
+---| EngineTagDataScenarioAtomTypeVocalize
+---| EngineTagDataScenarioAtomTypeTargeting
+---| EngineTagDataScenarioAtomTypeInitiative
+---| EngineTagDataScenarioAtomTypeWait
+---| EngineTagDataScenarioAtomTypeLoop
+---| EngineTagDataScenarioAtomTypeDie
+---| EngineTagDataScenarioAtomTypeMoveImmediate
+---| EngineTagDataScenarioAtomTypeLookRandom
+---| EngineTagDataScenarioAtomTypeLookPlayer
+---| EngineTagDataScenarioAtomTypeLookObject
+---| EngineTagDataScenarioAtomTypeSetRadius
+---| EngineTagDataScenarioAtomTypeTeleport
+
+---@class EngineTagDataScenarioAtomTypeTable 
+---@field ePause EngineTagDataScenarioAtomTypePause
+---@field eGoTo EngineTagDataScenarioAtomTypeGoTo
+---@field eGoToAndFace EngineTagDataScenarioAtomTypeGoToAndFace
+---@field eMoveInDirection EngineTagDataScenarioAtomTypeMoveInDirection
+---@field eLook EngineTagDataScenarioAtomTypeLook
+---@field eAnimationMode EngineTagDataScenarioAtomTypeAnimationMode
+---@field eCrouch EngineTagDataScenarioAtomTypeCrouch
+---@field eShoot EngineTagDataScenarioAtomTypeShoot
+---@field eGrenade EngineTagDataScenarioAtomTypeGrenade
+---@field eVehicle EngineTagDataScenarioAtomTypeVehicle
+---@field eRunningJump EngineTagDataScenarioAtomTypeRunningJump
+---@field eTargetedJump EngineTagDataScenarioAtomTypeTargetedJump
+---@field eScript EngineTagDataScenarioAtomTypeScript
+---@field eAnimate EngineTagDataScenarioAtomTypeAnimate
+---@field eRecording EngineTagDataScenarioAtomTypeRecording
+---@field eAction EngineTagDataScenarioAtomTypeAction
+---@field eVocalize EngineTagDataScenarioAtomTypeVocalize
+---@field eTargeting EngineTagDataScenarioAtomTypeTargeting
+---@field eInitiative EngineTagDataScenarioAtomTypeInitiative
+---@field eWait EngineTagDataScenarioAtomTypeWait
+---@field eLoop EngineTagDataScenarioAtomTypeLoop
+---@field eDie EngineTagDataScenarioAtomTypeDie
+---@field eMoveImmediate EngineTagDataScenarioAtomTypeMoveImmediate
+---@field eLookRandom EngineTagDataScenarioAtomTypeLookRandom
+---@field eLookPlayer EngineTagDataScenarioAtomTypeLookPlayer
+---@field eLookObject EngineTagDataScenarioAtomTypeLookObject
+---@field eSetRadius EngineTagDataScenarioAtomTypeSetRadius
+---@field eTeleport EngineTagDataScenarioAtomTypeTeleport
+Engine.tag.scenarioAtomType = {} 
+
+---@class EngineTagDataScenarioSelectionTypeEnum : Enum 
+
+---@class EngineTagDataScenarioSelectionTypeFriendlyActor : EngineTagDataScenarioSelectionTypeEnum 
+---@class EngineTagDataScenarioSelectionTypeDisembodied : EngineTagDataScenarioSelectionTypeEnum 
+---@class EngineTagDataScenarioSelectionTypeInPlayerSVehicle : EngineTagDataScenarioSelectionTypeEnum 
+---@class EngineTagDataScenarioSelectionTypeNotInAVehicle : EngineTagDataScenarioSelectionTypeEnum 
+---@class EngineTagDataScenarioSelectionTypePreferSergeant : EngineTagDataScenarioSelectionTypeEnum 
+---@class EngineTagDataScenarioSelectionTypeAnyActor : EngineTagDataScenarioSelectionTypeEnum 
+---@class EngineTagDataScenarioSelectionTypeRadioUnit : EngineTagDataScenarioSelectionTypeEnum 
+---@class EngineTagDataScenarioSelectionTypeRadioSergeant : EngineTagDataScenarioSelectionTypeEnum 
 
 ---@alias EngineTagDataScenarioSelectionType 
----| 'scenario_selection_type_friendly_actor'
----| 'scenario_selection_type_disembodied'
----| 'scenario_selection_type_in_player_s_vehicle'
----| 'scenario_selection_type_not_in_a_vehicle'
----| 'scenario_selection_type_prefer_sergeant'
----| 'scenario_selection_type_any_actor'
----| 'scenario_selection_type_radio_unit'
----| 'scenario_selection_type_radio_sergeant'
+---| EngineTagDataScenarioSelectionTypeFriendlyActor
+---| EngineTagDataScenarioSelectionTypeDisembodied
+---| EngineTagDataScenarioSelectionTypeInPlayerSVehicle
+---| EngineTagDataScenarioSelectionTypeNotInAVehicle
+---| EngineTagDataScenarioSelectionTypePreferSergeant
+---| EngineTagDataScenarioSelectionTypeAnyActor
+---| EngineTagDataScenarioSelectionTypeRadioUnit
+---| EngineTagDataScenarioSelectionTypeRadioSergeant
+
+---@class EngineTagDataScenarioSelectionTypeTable 
+---@field eFriendlyActor EngineTagDataScenarioSelectionTypeFriendlyActor
+---@field eDisembodied EngineTagDataScenarioSelectionTypeDisembodied
+---@field eInPlayerSVehicle EngineTagDataScenarioSelectionTypeInPlayerSVehicle
+---@field eNotInAVehicle EngineTagDataScenarioSelectionTypeNotInAVehicle
+---@field ePreferSergeant EngineTagDataScenarioSelectionTypePreferSergeant
+---@field eAnyActor EngineTagDataScenarioSelectionTypeAnyActor
+---@field eRadioUnit EngineTagDataScenarioSelectionTypeRadioUnit
+---@field eRadioSergeant EngineTagDataScenarioSelectionTypeRadioSergeant
+Engine.tag.scenarioSelectionType = {} 
+
+---@class EngineTagDataScenarioAddresseeEnum : Enum 
+
+---@class EngineTagDataScenarioAddresseeNone : EngineTagDataScenarioAddresseeEnum 
+---@class EngineTagDataScenarioAddresseePlayer : EngineTagDataScenarioAddresseeEnum 
+---@class EngineTagDataScenarioAddresseeParticipant : EngineTagDataScenarioAddresseeEnum 
 
 ---@alias EngineTagDataScenarioAddressee 
----| 'scenario_addressee_none'
----| 'scenario_addressee_player'
----| 'scenario_addressee_participant'
+---| EngineTagDataScenarioAddresseeNone
+---| EngineTagDataScenarioAddresseePlayer
+---| EngineTagDataScenarioAddresseeParticipant
+
+---@class EngineTagDataScenarioAddresseeTable 
+---@field none EngineTagDataScenarioAddresseeNone
+---@field player EngineTagDataScenarioAddresseePlayer
+---@field participant EngineTagDataScenarioAddresseeParticipant
+Engine.tag.scenarioAddressee = {} 
+
+---@class EngineTagDataScenarioScriptTypeEnum : Enum 
+
+---@class EngineTagDataScenarioScriptTypeStartup : EngineTagDataScenarioScriptTypeEnum 
+---@class EngineTagDataScenarioScriptTypeDormant : EngineTagDataScenarioScriptTypeEnum 
+---@class EngineTagDataScenarioScriptTypeContinuous : EngineTagDataScenarioScriptTypeEnum 
+---@class EngineTagDataScenarioScriptTypeStatic : EngineTagDataScenarioScriptTypeEnum 
+---@class EngineTagDataScenarioScriptTypeStub : EngineTagDataScenarioScriptTypeEnum 
 
 ---@alias EngineTagDataScenarioScriptType 
----| 'scenario_script_type_startup'
----| 'scenario_script_type_dormant'
----| 'scenario_script_type_continuous'
----| 'scenario_script_type_static'
----| 'scenario_script_type_stub'
+---| EngineTagDataScenarioScriptTypeStartup
+---| EngineTagDataScenarioScriptTypeDormant
+---| EngineTagDataScenarioScriptTypeContinuous
+---| EngineTagDataScenarioScriptTypeStatic
+---| EngineTagDataScenarioScriptTypeStub
+
+---@class EngineTagDataScenarioScriptTypeTable 
+---@field eStartup EngineTagDataScenarioScriptTypeStartup
+---@field eDormant EngineTagDataScenarioScriptTypeDormant
+---@field eContinuous EngineTagDataScenarioScriptTypeContinuous
+---@field eStatic EngineTagDataScenarioScriptTypeStatic
+---@field eStub EngineTagDataScenarioScriptTypeStub
+Engine.tag.scenarioScriptType = {} 
+
+---@class EngineTagDataScenarioScriptValueTypeEnum : Enum 
+
+---@class EngineTagDataScenarioScriptValueTypeUnparsed : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeSpecialForm : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeFunctionName : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypePassthrough : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeVoid : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeBoolean : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeReal : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeShort : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeLong : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeString : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeScript : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeTriggerVolume : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeCutsceneFlag : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeCutsceneCameraPoint : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeCutsceneTitle : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeCutsceneRecording : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeDeviceGroup : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeAi : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeAiCommandList : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeStartingProfile : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeConversation : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeNavpoint : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeHudMessage : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeObjectList : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeSound : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeEffect : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeDamage : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeLoopingSound : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeAnimationGraph : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeActorVariant : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeDamageEffect : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeObjectDefinition : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeGameDifficulty : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeTeam : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeAiDefaultState : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeActorType : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeHudCorner : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeObject : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeUnit : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeVehicle : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeWeapon : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeDevice : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeScenery : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeObjectName : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeUnitName : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeVehicleName : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeWeaponName : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeDeviceName : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagDataScenarioScriptValueTypeSceneryName : EngineTagDataScenarioScriptValueTypeEnum 
 
 ---@alias EngineTagDataScenarioScriptValueType 
----| 'scenario_script_value_type_unparsed'
----| 'scenario_script_value_type_special_form'
----| 'scenario_script_value_type_function_name'
----| 'scenario_script_value_type_passthrough'
----| 'scenario_script_value_type_void'
----| 'scenario_script_value_type_boolean'
----| 'scenario_script_value_type_real'
----| 'scenario_script_value_type_short'
----| 'scenario_script_value_type_long'
----| 'scenario_script_value_type_string'
----| 'scenario_script_value_type_script'
----| 'scenario_script_value_type_trigger_volume'
----| 'scenario_script_value_type_cutscene_flag'
----| 'scenario_script_value_type_cutscene_camera_point'
----| 'scenario_script_value_type_cutscene_title'
----| 'scenario_script_value_type_cutscene_recording'
----| 'scenario_script_value_type_device_group'
----| 'scenario_script_value_type_ai'
----| 'scenario_script_value_type_ai_command_list'
----| 'scenario_script_value_type_starting_profile'
----| 'scenario_script_value_type_conversation'
----| 'scenario_script_value_type_navpoint'
----| 'scenario_script_value_type_hud_message'
----| 'scenario_script_value_type_object_list'
----| 'scenario_script_value_type_sound'
----| 'scenario_script_value_type_effect'
----| 'scenario_script_value_type_damage'
----| 'scenario_script_value_type_looping_sound'
----| 'scenario_script_value_type_animation_graph'
----| 'scenario_script_value_type_actor_variant'
----| 'scenario_script_value_type_damage_effect'
----| 'scenario_script_value_type_object_definition'
----| 'scenario_script_value_type_game_difficulty'
----| 'scenario_script_value_type_team'
----| 'scenario_script_value_type_ai_default_state'
----| 'scenario_script_value_type_actor_type'
----| 'scenario_script_value_type_hud_corner'
----| 'scenario_script_value_type_object'
----| 'scenario_script_value_type_unit'
----| 'scenario_script_value_type_vehicle'
----| 'scenario_script_value_type_weapon'
----| 'scenario_script_value_type_device'
----| 'scenario_script_value_type_scenery'
----| 'scenario_script_value_type_object_name'
----| 'scenario_script_value_type_unit_name'
----| 'scenario_script_value_type_vehicle_name'
----| 'scenario_script_value_type_weapon_name'
----| 'scenario_script_value_type_device_name'
----| 'scenario_script_value_type_scenery_name'
+---| EngineTagDataScenarioScriptValueTypeUnparsed
+---| EngineTagDataScenarioScriptValueTypeSpecialForm
+---| EngineTagDataScenarioScriptValueTypeFunctionName
+---| EngineTagDataScenarioScriptValueTypePassthrough
+---| EngineTagDataScenarioScriptValueTypeVoid
+---| EngineTagDataScenarioScriptValueTypeBoolean
+---| EngineTagDataScenarioScriptValueTypeReal
+---| EngineTagDataScenarioScriptValueTypeShort
+---| EngineTagDataScenarioScriptValueTypeLong
+---| EngineTagDataScenarioScriptValueTypeString
+---| EngineTagDataScenarioScriptValueTypeScript
+---| EngineTagDataScenarioScriptValueTypeTriggerVolume
+---| EngineTagDataScenarioScriptValueTypeCutsceneFlag
+---| EngineTagDataScenarioScriptValueTypeCutsceneCameraPoint
+---| EngineTagDataScenarioScriptValueTypeCutsceneTitle
+---| EngineTagDataScenarioScriptValueTypeCutsceneRecording
+---| EngineTagDataScenarioScriptValueTypeDeviceGroup
+---| EngineTagDataScenarioScriptValueTypeAi
+---| EngineTagDataScenarioScriptValueTypeAiCommandList
+---| EngineTagDataScenarioScriptValueTypeStartingProfile
+---| EngineTagDataScenarioScriptValueTypeConversation
+---| EngineTagDataScenarioScriptValueTypeNavpoint
+---| EngineTagDataScenarioScriptValueTypeHudMessage
+---| EngineTagDataScenarioScriptValueTypeObjectList
+---| EngineTagDataScenarioScriptValueTypeSound
+---| EngineTagDataScenarioScriptValueTypeEffect
+---| EngineTagDataScenarioScriptValueTypeDamage
+---| EngineTagDataScenarioScriptValueTypeLoopingSound
+---| EngineTagDataScenarioScriptValueTypeAnimationGraph
+---| EngineTagDataScenarioScriptValueTypeActorVariant
+---| EngineTagDataScenarioScriptValueTypeDamageEffect
+---| EngineTagDataScenarioScriptValueTypeObjectDefinition
+---| EngineTagDataScenarioScriptValueTypeGameDifficulty
+---| EngineTagDataScenarioScriptValueTypeTeam
+---| EngineTagDataScenarioScriptValueTypeAiDefaultState
+---| EngineTagDataScenarioScriptValueTypeActorType
+---| EngineTagDataScenarioScriptValueTypeHudCorner
+---| EngineTagDataScenarioScriptValueTypeObject
+---| EngineTagDataScenarioScriptValueTypeUnit
+---| EngineTagDataScenarioScriptValueTypeVehicle
+---| EngineTagDataScenarioScriptValueTypeWeapon
+---| EngineTagDataScenarioScriptValueTypeDevice
+---| EngineTagDataScenarioScriptValueTypeScenery
+---| EngineTagDataScenarioScriptValueTypeObjectName
+---| EngineTagDataScenarioScriptValueTypeUnitName
+---| EngineTagDataScenarioScriptValueTypeVehicleName
+---| EngineTagDataScenarioScriptValueTypeWeaponName
+---| EngineTagDataScenarioScriptValueTypeDeviceName
+---| EngineTagDataScenarioScriptValueTypeSceneryName
+
+---@class EngineTagDataScenarioScriptValueTypeTable 
+---@field peUnparsed EngineTagDataScenarioScriptValueTypeUnparsed
+---@field peSpecialForm EngineTagDataScenarioScriptValueTypeSpecialForm
+---@field peFunctionName EngineTagDataScenarioScriptValueTypeFunctionName
+---@field pePassthrough EngineTagDataScenarioScriptValueTypePassthrough
+---@field peVoid EngineTagDataScenarioScriptValueTypeVoid
+---@field peBoolean EngineTagDataScenarioScriptValueTypeBoolean
+---@field peReal EngineTagDataScenarioScriptValueTypeReal
+---@field peShort EngineTagDataScenarioScriptValueTypeShort
+---@field peLong EngineTagDataScenarioScriptValueTypeLong
+---@field peString EngineTagDataScenarioScriptValueTypeString
+---@field peScript EngineTagDataScenarioScriptValueTypeScript
+---@field peTriggerVolume EngineTagDataScenarioScriptValueTypeTriggerVolume
+---@field peCutsceneFlag EngineTagDataScenarioScriptValueTypeCutsceneFlag
+---@field peCutsceneCameraPoint EngineTagDataScenarioScriptValueTypeCutsceneCameraPoint
+---@field peCutsceneTitle EngineTagDataScenarioScriptValueTypeCutsceneTitle
+---@field peCutsceneRecording EngineTagDataScenarioScriptValueTypeCutsceneRecording
+---@field peDeviceGroup EngineTagDataScenarioScriptValueTypeDeviceGroup
+---@field peAi EngineTagDataScenarioScriptValueTypeAi
+---@field peAiCommandList EngineTagDataScenarioScriptValueTypeAiCommandList
+---@field peStartingProfile EngineTagDataScenarioScriptValueTypeStartingProfile
+---@field peConversation EngineTagDataScenarioScriptValueTypeConversation
+---@field peNavpoint EngineTagDataScenarioScriptValueTypeNavpoint
+---@field peHudMessage EngineTagDataScenarioScriptValueTypeHudMessage
+---@field peObjectList EngineTagDataScenarioScriptValueTypeObjectList
+---@field peSound EngineTagDataScenarioScriptValueTypeSound
+---@field peEffect EngineTagDataScenarioScriptValueTypeEffect
+---@field peDamage EngineTagDataScenarioScriptValueTypeDamage
+---@field peLoopingSound EngineTagDataScenarioScriptValueTypeLoopingSound
+---@field peAnimationGraph EngineTagDataScenarioScriptValueTypeAnimationGraph
+---@field peActorVariant EngineTagDataScenarioScriptValueTypeActorVariant
+---@field peDamageEffect EngineTagDataScenarioScriptValueTypeDamageEffect
+---@field peObjectDefinition EngineTagDataScenarioScriptValueTypeObjectDefinition
+---@field peGameDifficulty EngineTagDataScenarioScriptValueTypeGameDifficulty
+---@field peTeam EngineTagDataScenarioScriptValueTypeTeam
+---@field peAiDefaultState EngineTagDataScenarioScriptValueTypeAiDefaultState
+---@field peActorType EngineTagDataScenarioScriptValueTypeActorType
+---@field peHudCorner EngineTagDataScenarioScriptValueTypeHudCorner
+---@field peObject EngineTagDataScenarioScriptValueTypeObject
+---@field peUnit EngineTagDataScenarioScriptValueTypeUnit
+---@field peVehicle EngineTagDataScenarioScriptValueTypeVehicle
+---@field peWeapon EngineTagDataScenarioScriptValueTypeWeapon
+---@field peDevice EngineTagDataScenarioScriptValueTypeDevice
+---@field peScenery EngineTagDataScenarioScriptValueTypeScenery
+---@field peObjectName EngineTagDataScenarioScriptValueTypeObjectName
+---@field peUnitName EngineTagDataScenarioScriptValueTypeUnitName
+---@field peVehicleName EngineTagDataScenarioScriptValueTypeVehicleName
+---@field peWeaponName EngineTagDataScenarioScriptValueTypeWeaponName
+---@field peDeviceName EngineTagDataScenarioScriptValueTypeDeviceName
+---@field peSceneryName EngineTagDataScenarioScriptValueTypeSceneryName
+Engine.tag.scenarioScriptValueType = {} 
+
+---@class EngineTagDataScenarioTextStyleEnum : Enum 
+
+---@class EngineTagDataScenarioTextStylePlain : EngineTagDataScenarioTextStyleEnum 
+---@class EngineTagDataScenarioTextStyleBold : EngineTagDataScenarioTextStyleEnum 
+---@class EngineTagDataScenarioTextStyleItalic : EngineTagDataScenarioTextStyleEnum 
+---@class EngineTagDataScenarioTextStyleCondense : EngineTagDataScenarioTextStyleEnum 
+---@class EngineTagDataScenarioTextStyleUnderline : EngineTagDataScenarioTextStyleEnum 
 
 ---@alias EngineTagDataScenarioTextStyle 
----| 'scenario_text_style_plain'
----| 'scenario_text_style_bold'
----| 'scenario_text_style_italic'
----| 'scenario_text_style_condense'
----| 'scenario_text_style_underline'
+---| EngineTagDataScenarioTextStylePlain
+---| EngineTagDataScenarioTextStyleBold
+---| EngineTagDataScenarioTextStyleItalic
+---| EngineTagDataScenarioTextStyleCondense
+---| EngineTagDataScenarioTextStyleUnderline
+
+---@class EngineTagDataScenarioTextStyleTable 
+---@field ePlain EngineTagDataScenarioTextStylePlain
+---@field eBold EngineTagDataScenarioTextStyleBold
+---@field eItalic EngineTagDataScenarioTextStyleItalic
+---@field eCondense EngineTagDataScenarioTextStyleCondense
+---@field eUnderline EngineTagDataScenarioTextStyleUnderline
+Engine.tag.scenarioTextStyle = {} 
+
+---@class EngineTagDataScenarioJustificationEnum : Enum 
+
+---@class EngineTagDataScenarioJustificationLeft : EngineTagDataScenarioJustificationEnum 
+---@class EngineTagDataScenarioJustificationRight : EngineTagDataScenarioJustificationEnum 
+---@class EngineTagDataScenarioJustificationCenter : EngineTagDataScenarioJustificationEnum 
 
 ---@alias EngineTagDataScenarioJustification 
----| 'scenario_justification_left'
----| 'scenario_justification_right'
----| 'scenario_justification_center'
+---| EngineTagDataScenarioJustificationLeft
+---| EngineTagDataScenarioJustificationRight
+---| EngineTagDataScenarioJustificationCenter
+
+---@class EngineTagDataScenarioJustificationTable 
+---@field left EngineTagDataScenarioJustificationLeft
+---@field right EngineTagDataScenarioJustificationRight
+---@field center EngineTagDataScenarioJustificationCenter
+Engine.tag.scenarioJustification = {} 
 
 ---@class MetaEngineTagDataScenarioTextFlags 
 ---@field wrapHorizontally boolean 
@@ -5499,8 +5339,8 @@
 ---@field respawnMaxActors integer 
 ---@field respawnTotal integer 
 ---@field respawnDelay number 
----@field movePositions table<MetaEngineTagDataScenarioMovePosition> 
----@field startingLocations table<MetaEngineTagDataScenarioActorStartingLocation> 
+---@field movePositions TagBlock<MetaEngineTagDataScenarioMovePosition> 
+---@field startingLocations TagBlock<MetaEngineTagDataScenarioActorStartingLocation> 
 
 ---@class MetaEngineTagDataScenarioPlatoon 
 ---@field name MetaEngineTagString 
@@ -5525,10 +5365,10 @@
 ---@field manualBspIndex MetaEngineIndex 
 ---@field respawnDelay number 
 ---@field precomputedBspIndex MetaEngineIndex 
----@field squads table<MetaEngineTagDataScenarioSquad> 
----@field platoons table<MetaEngineTagDataScenarioPlatoon> 
----@field firingPositions table<MetaEngineTagDataScenarioFiringPosition> 
----@field playerStartingLocations table<MetaEngineTagDataScenarioPlayerStartingLocation> 
+---@field squads TagBlock<MetaEngineTagDataScenarioSquad> 
+---@field platoons TagBlock<MetaEngineTagDataScenarioPlatoon> 
+---@field firingPositions TagBlock<MetaEngineTagDataScenarioFiringPosition> 
+---@field playerStartingLocations TagBlock<MetaEngineTagDataScenarioPlayerStartingLocation> 
 
 ---@class MetaEngineTagDataScenarioCommand 
 ---@field atomType EngineTagDataScenarioAtomType 
@@ -5552,8 +5392,8 @@
 ---@field flags MetaEngineTagDataScenarioCommandListFlags 
 ---@field manualBspIndex MetaEngineIndex 
 ---@field precomputedBspIndex MetaEngineIndex 
----@field commands table<MetaEngineTagDataScenarioCommand> 
----@field points table<MetaEngineTagDataScenarioCommandPoint> 
+---@field commands TagBlock<MetaEngineTagDataScenarioCommand> 
+---@field points TagBlock<MetaEngineTagDataScenarioCommandPoint> 
 
 ---@class MetaEngineTagDataScenarioAIAnimationReference 
 ---@field animationName MetaEngineTagString 
@@ -5593,8 +5433,8 @@
 ---@field flags MetaEngineTagDataScenarioAIConversationFlags 
 ---@field triggerDistance number 
 ---@field runToPlayerDist number 
----@field participants table<MetaEngineTagDataScenarioAIConversationParticipant> 
----@field lines table<MetaEngineTagDataScenarioAIConversationLine> 
+---@field participants TagBlock<MetaEngineTagDataScenarioAIConversationParticipant> 
+---@field lines TagBlock<MetaEngineTagDataScenarioAIConversationLine> 
 
 ---@class MetaEngineTagDataScenarioScriptParameter 
 ---@field name MetaEngineTagString 
@@ -5605,7 +5445,7 @@
 ---@field scriptType EngineTagDataScenarioScriptType 
 ---@field returnType EngineTagDataScenarioScriptValueType 
 ---@field rootExpressionIndex integer 
----@field parameters table<MetaEngineTagDataScenarioScriptParameter> 
+---@field parameters TagBlock<MetaEngineTagDataScenarioScriptParameter> 
 
 ---@class MetaEngineTagDataScenarioGlobal 
 ---@field name MetaEngineTagString 
@@ -5676,597 +5516,2938 @@
 ---@field dontUse MetaEngineTagDependency 
 ---@field wontUse MetaEngineTagDependency 
 ---@field cantUse MetaEngineTagDependency 
----@field skies table<MetaEngineTagDataScenarioSky> 
+---@field skies TagBlock<MetaEngineTagDataScenarioSky> 
 ---@field type EngineTagDataScenarioType 
 ---@field flags MetaEngineTagDataScenarioFlags 
----@field childScenarios table<MetaEngineTagDataScenarioChildScenario> 
+---@field childScenarios TagBlock<MetaEngineTagDataScenarioChildScenario> 
 ---@field localNorth number 
----@field predictedResources table<MetaEngineTagDataPredictedResource> 
----@field functions table<MetaEngineTagDataScenarioFunction> 
+---@field predictedResources TagBlock<MetaEngineTagDataPredictedResource> 
+---@field functions TagBlock<MetaEngineTagDataScenarioFunction> 
 ---@field editorScenarioData MetaEngineTagDataOffset 
----@field comments table<MetaEngineTagDataScenarioEditorComment> 
----@field scavengerHuntObjects table<MetaEngineTagDataScenarioScavengerHuntObjects> 
----@field objectNames table<MetaEngineTagDataScenarioObjectName> 
----@field scenery table<MetaEngineTagDataScenarioScenery> 
----@field sceneryPalette table<MetaEngineTagDataScenarioSceneryPalette> 
----@field bipeds table<MetaEngineTagDataScenarioBiped> 
----@field bipedPalette table<MetaEngineTagDataScenarioBipedPalette> 
----@field vehicles table<MetaEngineTagDataScenarioVehicle> 
----@field vehiclePalette table<MetaEngineTagDataScenarioVehiclePalette> 
----@field equipment table<MetaEngineTagDataScenarioEquipment> 
----@field equipmentPalette table<MetaEngineTagDataScenarioEquipmentPalette> 
----@field weapons table<MetaEngineTagDataScenarioWeapon> 
----@field weaponPalette table<MetaEngineTagDataScenarioWeaponPalette> 
----@field deviceGroups table<MetaEngineTagDataScenarioDeviceGroup> 
----@field machines table<MetaEngineTagDataScenarioMachine> 
----@field machinePalette table<MetaEngineTagDataScenarioMachinePalette> 
----@field controls table<MetaEngineTagDataScenarioControl> 
----@field controlPalette table<MetaEngineTagDataScenarioControlPalette> 
----@field lightFixtures table<MetaEngineTagDataScenarioLightFixture> 
----@field lightFixturePalette table<MetaEngineTagDataScenarioLightFixturePalette> 
----@field soundScenery table<MetaEngineTagDataScenarioSoundScenery> 
----@field soundSceneryPalette table<MetaEngineTagDataScenarioSoundSceneryPalette> 
----@field playerStartingProfile table<MetaEngineTagDataScenarioPlayerStartingProfile> 
----@field playerStartingLocations table<MetaEngineTagDataScenarioPlayerStartingLocation> 
----@field triggerVolumes table<MetaEngineTagDataScenarioTriggerVolume> 
----@field recordedAnimations table<MetaEngineTagDataScenarioRecordedAnimation> 
----@field netgameFlags table<MetaEngineTagDataScenarioNetgameFlags> 
----@field netgameEquipment table<MetaEngineTagDataScenarioNetgameEquipment> 
----@field startingEquipment table<MetaEngineTagDataScenarioStartingEquipment> 
----@field bspSwitchTriggerVolumes table<MetaEngineTagDataScenarioBSPSwitchTriggerVolume> 
----@field decals table<MetaEngineTagDataScenarioDecal> 
----@field decalPalette table<MetaEngineTagDataScenarioDecalPalette> 
----@field detailObjectCollectionPalette table<MetaEngineTagDataScenarioDetailObjectCollectionPalette> 
----@field actorPalette table<MetaEngineTagDataScenarioActorPalette> 
----@field encounters table<MetaEngineTagDataScenarioEncounter> 
----@field commandLists table<MetaEngineTagDataScenarioCommandList> 
----@field aiAnimationReferences table<MetaEngineTagDataScenarioAIAnimationReference> 
----@field aiScriptReferences table<MetaEngineTagDataScenarioAIScriptReference> 
----@field aiRecordingReferences table<MetaEngineTagDataScenarioAIRecordingReference> 
----@field aiConversations table<MetaEngineTagDataScenarioAIConversation> 
+---@field comments TagBlock<MetaEngineTagDataScenarioEditorComment> 
+---@field scavengerHuntObjects TagBlock<MetaEngineTagDataScenarioScavengerHuntObjects> 
+---@field objectNames TagBlock<MetaEngineTagDataScenarioObjectName> 
+---@field scenery TagBlock<MetaEngineTagDataScenarioScenery> 
+---@field sceneryPalette TagBlock<MetaEngineTagDataScenarioSceneryPalette> 
+---@field bipeds TagBlock<MetaEngineTagDataScenarioBiped> 
+---@field bipedPalette TagBlock<MetaEngineTagDataScenarioBipedPalette> 
+---@field vehicles TagBlock<MetaEngineTagDataScenarioVehicle> 
+---@field vehiclePalette TagBlock<MetaEngineTagDataScenarioVehiclePalette> 
+---@field equipment TagBlock<MetaEngineTagDataScenarioEquipment> 
+---@field equipmentPalette TagBlock<MetaEngineTagDataScenarioEquipmentPalette> 
+---@field weapons TagBlock<MetaEngineTagDataScenarioWeapon> 
+---@field weaponPalette TagBlock<MetaEngineTagDataScenarioWeaponPalette> 
+---@field deviceGroups TagBlock<MetaEngineTagDataScenarioDeviceGroup> 
+---@field machines TagBlock<MetaEngineTagDataScenarioMachine> 
+---@field machinePalette TagBlock<MetaEngineTagDataScenarioMachinePalette> 
+---@field controls TagBlock<MetaEngineTagDataScenarioControl> 
+---@field controlPalette TagBlock<MetaEngineTagDataScenarioControlPalette> 
+---@field lightFixtures TagBlock<MetaEngineTagDataScenarioLightFixture> 
+---@field lightFixturePalette TagBlock<MetaEngineTagDataScenarioLightFixturePalette> 
+---@field soundScenery TagBlock<MetaEngineTagDataScenarioSoundScenery> 
+---@field soundSceneryPalette TagBlock<MetaEngineTagDataScenarioSoundSceneryPalette> 
+---@field playerStartingProfile TagBlock<MetaEngineTagDataScenarioPlayerStartingProfile> 
+---@field playerStartingLocations TagBlock<MetaEngineTagDataScenarioPlayerStartingLocation> 
+---@field triggerVolumes TagBlock<MetaEngineTagDataScenarioTriggerVolume> 
+---@field recordedAnimations TagBlock<MetaEngineTagDataScenarioRecordedAnimation> 
+---@field netgameFlags TagBlock<MetaEngineTagDataScenarioNetgameFlags> 
+---@field netgameEquipment TagBlock<MetaEngineTagDataScenarioNetgameEquipment> 
+---@field startingEquipment TagBlock<MetaEngineTagDataScenarioStartingEquipment> 
+---@field bspSwitchTriggerVolumes TagBlock<MetaEngineTagDataScenarioBSPSwitchTriggerVolume> 
+---@field decals TagBlock<MetaEngineTagDataScenarioDecal> 
+---@field decalPalette TagBlock<MetaEngineTagDataScenarioDecalPalette> 
+---@field detailObjectCollectionPalette TagBlock<MetaEngineTagDataScenarioDetailObjectCollectionPalette> 
+---@field actorPalette TagBlock<MetaEngineTagDataScenarioActorPalette> 
+---@field encounters TagBlock<MetaEngineTagDataScenarioEncounter> 
+---@field commandLists TagBlock<MetaEngineTagDataScenarioCommandList> 
+---@field aiAnimationReferences TagBlock<MetaEngineTagDataScenarioAIAnimationReference> 
+---@field aiScriptReferences TagBlock<MetaEngineTagDataScenarioAIScriptReference> 
+---@field aiRecordingReferences TagBlock<MetaEngineTagDataScenarioAIRecordingReference> 
+---@field aiConversations TagBlock<MetaEngineTagDataScenarioAIConversation> 
 ---@field scriptSyntaxData MetaEngineTagDataOffset 
 ---@field scriptStringData MetaEngineTagDataOffset 
----@field scripts table<MetaEngineTagDataScenarioScript> 
----@field globals table<MetaEngineTagDataScenarioGlobal> 
----@field references table<MetaEngineTagDataScenarioReference> 
----@field sourceFiles table<MetaEngineTagDataScenarioSourceFile> 
----@field cutsceneFlags table<MetaEngineTagDataScenarioCutsceneFlag> 
----@field cutsceneCameraPoints table<MetaEngineTagDataScenarioCutsceneCameraPoint> 
----@field cutsceneTitles table<MetaEngineTagDataScenarioCutsceneTitle> 
+---@field scripts TagBlock<MetaEngineTagDataScenarioScript> 
+---@field globals TagBlock<MetaEngineTagDataScenarioGlobal> 
+---@field references TagBlock<MetaEngineTagDataScenarioReference> 
+---@field sourceFiles TagBlock<MetaEngineTagDataScenarioSourceFile> 
+---@field cutsceneFlags TagBlock<MetaEngineTagDataScenarioCutsceneFlag> 
+---@field cutsceneCameraPoints TagBlock<MetaEngineTagDataScenarioCutsceneCameraPoint> 
+---@field cutsceneTitles TagBlock<MetaEngineTagDataScenarioCutsceneTitle> 
 ---@field customObjectNames MetaEngineTagDependency 
 ---@field ingameHelpText MetaEngineTagDependency 
 ---@field hudMessages MetaEngineTagDependency 
----@field structureBsps table<MetaEngineTagDataScenarioBSP> 
+---@field structureBsps TagBlock<MetaEngineTagDataScenarioBSP> 
 
----@class MetaEngineTagDataPreferencesNetworkGame 
+---@class EngineTagDataShaderTransparentGenericStageInputColorEnum : Enum 
+
+---@class EngineTagDataShaderTransparentGenericStageInputColorZero : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorOne : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorOneHalf : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorNegativeOne : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorNegativeOneHalf : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorMapColor_0 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorMapColor_1 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorMapColor_2 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorMapColor_3 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorVertexColor_0DiffuseLight : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorVertexColor_1FadePerpendicular : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorScratchColor_0 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorScratchColor_1 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorConstantColor_0 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorConstantColor_1 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_0 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_1 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_2 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_3 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorVertexAlpha_0FadeNone : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorVertexAlpha_1FadePerpendicular : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorScratchAlpha_0 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorScratchAlpha_1 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorConstantAlpha_0 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputColorConstantAlpha_1 : EngineTagDataShaderTransparentGenericStageInputColorEnum 
+
+---@alias EngineTagDataShaderTransparentGenericStageInputColor 
+---| EngineTagDataShaderTransparentGenericStageInputColorZero
+---| EngineTagDataShaderTransparentGenericStageInputColorOne
+---| EngineTagDataShaderTransparentGenericStageInputColorOneHalf
+---| EngineTagDataShaderTransparentGenericStageInputColorNegativeOne
+---| EngineTagDataShaderTransparentGenericStageInputColorNegativeOneHalf
+---| EngineTagDataShaderTransparentGenericStageInputColorMapColor_0
+---| EngineTagDataShaderTransparentGenericStageInputColorMapColor_1
+---| EngineTagDataShaderTransparentGenericStageInputColorMapColor_2
+---| EngineTagDataShaderTransparentGenericStageInputColorMapColor_3
+---| EngineTagDataShaderTransparentGenericStageInputColorVertexColor_0DiffuseLight
+---| EngineTagDataShaderTransparentGenericStageInputColorVertexColor_1FadePerpendicular
+---| EngineTagDataShaderTransparentGenericStageInputColorScratchColor_0
+---| EngineTagDataShaderTransparentGenericStageInputColorScratchColor_1
+---| EngineTagDataShaderTransparentGenericStageInputColorConstantColor_0
+---| EngineTagDataShaderTransparentGenericStageInputColorConstantColor_1
+---| EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_0
+---| EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_1
+---| EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_2
+---| EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_3
+---| EngineTagDataShaderTransparentGenericStageInputColorVertexAlpha_0FadeNone
+---| EngineTagDataShaderTransparentGenericStageInputColorVertexAlpha_1FadePerpendicular
+---| EngineTagDataShaderTransparentGenericStageInputColorScratchAlpha_0
+---| EngineTagDataShaderTransparentGenericStageInputColorScratchAlpha_1
+---| EngineTagDataShaderTransparentGenericStageInputColorConstantAlpha_0
+---| EngineTagDataShaderTransparentGenericStageInputColorConstantAlpha_1
+
+---@class EngineTagDataShaderTransparentGenericStageInputColorTable 
+---@field olorZero EngineTagDataShaderTransparentGenericStageInputColorZero
+---@field olorOne EngineTagDataShaderTransparentGenericStageInputColorOne
+---@field olorOneHalf EngineTagDataShaderTransparentGenericStageInputColorOneHalf
+---@field olorNegativeOne EngineTagDataShaderTransparentGenericStageInputColorNegativeOne
+---@field olorNegativeOneHalf EngineTagDataShaderTransparentGenericStageInputColorNegativeOneHalf
+---@field olorMapColor_0 EngineTagDataShaderTransparentGenericStageInputColorMapColor_0
+---@field olorMapColor_1 EngineTagDataShaderTransparentGenericStageInputColorMapColor_1
+---@field olorMapColor_2 EngineTagDataShaderTransparentGenericStageInputColorMapColor_2
+---@field olorMapColor_3 EngineTagDataShaderTransparentGenericStageInputColorMapColor_3
+---@field olorVertexColor_0DiffuseLight EngineTagDataShaderTransparentGenericStageInputColorVertexColor_0DiffuseLight
+---@field olorVertexColor_1FadePerpendicular EngineTagDataShaderTransparentGenericStageInputColorVertexColor_1FadePerpendicular
+---@field olorScratchColor_0 EngineTagDataShaderTransparentGenericStageInputColorScratchColor_0
+---@field olorScratchColor_1 EngineTagDataShaderTransparentGenericStageInputColorScratchColor_1
+---@field olorConstantColor_0 EngineTagDataShaderTransparentGenericStageInputColorConstantColor_0
+---@field olorConstantColor_1 EngineTagDataShaderTransparentGenericStageInputColorConstantColor_1
+---@field olorMapAlpha_0 EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_0
+---@field olorMapAlpha_1 EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_1
+---@field olorMapAlpha_2 EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_2
+---@field olorMapAlpha_3 EngineTagDataShaderTransparentGenericStageInputColorMapAlpha_3
+---@field olorVertexAlpha_0FadeNone EngineTagDataShaderTransparentGenericStageInputColorVertexAlpha_0FadeNone
+---@field olorVertexAlpha_1FadePerpendicular EngineTagDataShaderTransparentGenericStageInputColorVertexAlpha_1FadePerpendicular
+---@field olorScratchAlpha_0 EngineTagDataShaderTransparentGenericStageInputColorScratchAlpha_0
+---@field olorScratchAlpha_1 EngineTagDataShaderTransparentGenericStageInputColorScratchAlpha_1
+---@field olorConstantAlpha_0 EngineTagDataShaderTransparentGenericStageInputColorConstantAlpha_0
+---@field olorConstantAlpha_1 EngineTagDataShaderTransparentGenericStageInputColorConstantAlpha_1
+Engine.tag.shaderTransparentGenericStageInputColor = {} 
+
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaEnum : Enum 
+
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaZero : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaOne : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaOneHalf : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaNegativeOne : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaNegativeOneHalf : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_0 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_1 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_2 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_3 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaVertexAlpha_0FadeNone : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaVertexAlpha_1FadePerpendicular : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaScratchAlpha_0 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaScratchAlpha_1 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaConstantAlpha_0 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaConstantAlpha_1 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_0 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_1 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_2 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_3 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaVertexBlue_0BlueLight : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaVertexBlue_1FadeParallel : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaScratchBlue_0 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaScratchBlue_1 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaConstantBlue_0 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaConstantBlue_1 : EngineTagDataShaderTransparentGenericStageInputAlphaEnum 
+
+---@alias EngineTagDataShaderTransparentGenericStageInputAlpha 
+---| EngineTagDataShaderTransparentGenericStageInputAlphaZero
+---| EngineTagDataShaderTransparentGenericStageInputAlphaOne
+---| EngineTagDataShaderTransparentGenericStageInputAlphaOneHalf
+---| EngineTagDataShaderTransparentGenericStageInputAlphaNegativeOne
+---| EngineTagDataShaderTransparentGenericStageInputAlphaNegativeOneHalf
+---| EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_0
+---| EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_1
+---| EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_2
+---| EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_3
+---| EngineTagDataShaderTransparentGenericStageInputAlphaVertexAlpha_0FadeNone
+---| EngineTagDataShaderTransparentGenericStageInputAlphaVertexAlpha_1FadePerpendicular
+---| EngineTagDataShaderTransparentGenericStageInputAlphaScratchAlpha_0
+---| EngineTagDataShaderTransparentGenericStageInputAlphaScratchAlpha_1
+---| EngineTagDataShaderTransparentGenericStageInputAlphaConstantAlpha_0
+---| EngineTagDataShaderTransparentGenericStageInputAlphaConstantAlpha_1
+---| EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_0
+---| EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_1
+---| EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_2
+---| EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_3
+---| EngineTagDataShaderTransparentGenericStageInputAlphaVertexBlue_0BlueLight
+---| EngineTagDataShaderTransparentGenericStageInputAlphaVertexBlue_1FadeParallel
+---| EngineTagDataShaderTransparentGenericStageInputAlphaScratchBlue_0
+---| EngineTagDataShaderTransparentGenericStageInputAlphaScratchBlue_1
+---| EngineTagDataShaderTransparentGenericStageInputAlphaConstantBlue_0
+---| EngineTagDataShaderTransparentGenericStageInputAlphaConstantBlue_1
+
+---@class EngineTagDataShaderTransparentGenericStageInputAlphaTable 
+---@field lphaZero EngineTagDataShaderTransparentGenericStageInputAlphaZero
+---@field lphaOne EngineTagDataShaderTransparentGenericStageInputAlphaOne
+---@field lphaOneHalf EngineTagDataShaderTransparentGenericStageInputAlphaOneHalf
+---@field lphaNegativeOne EngineTagDataShaderTransparentGenericStageInputAlphaNegativeOne
+---@field lphaNegativeOneHalf EngineTagDataShaderTransparentGenericStageInputAlphaNegativeOneHalf
+---@field lphaMapAlpha_0 EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_0
+---@field lphaMapAlpha_1 EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_1
+---@field lphaMapAlpha_2 EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_2
+---@field lphaMapAlpha_3 EngineTagDataShaderTransparentGenericStageInputAlphaMapAlpha_3
+---@field lphaVertexAlpha_0FadeNone EngineTagDataShaderTransparentGenericStageInputAlphaVertexAlpha_0FadeNone
+---@field lphaVertexAlpha_1FadePerpendicular EngineTagDataShaderTransparentGenericStageInputAlphaVertexAlpha_1FadePerpendicular
+---@field lphaScratchAlpha_0 EngineTagDataShaderTransparentGenericStageInputAlphaScratchAlpha_0
+---@field lphaScratchAlpha_1 EngineTagDataShaderTransparentGenericStageInputAlphaScratchAlpha_1
+---@field lphaConstantAlpha_0 EngineTagDataShaderTransparentGenericStageInputAlphaConstantAlpha_0
+---@field lphaConstantAlpha_1 EngineTagDataShaderTransparentGenericStageInputAlphaConstantAlpha_1
+---@field lphaMapBlue_0 EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_0
+---@field lphaMapBlue_1 EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_1
+---@field lphaMapBlue_2 EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_2
+---@field lphaMapBlue_3 EngineTagDataShaderTransparentGenericStageInputAlphaMapBlue_3
+---@field lphaVertexBlue_0BlueLight EngineTagDataShaderTransparentGenericStageInputAlphaVertexBlue_0BlueLight
+---@field lphaVertexBlue_1FadeParallel EngineTagDataShaderTransparentGenericStageInputAlphaVertexBlue_1FadeParallel
+---@field lphaScratchBlue_0 EngineTagDataShaderTransparentGenericStageInputAlphaScratchBlue_0
+---@field lphaScratchBlue_1 EngineTagDataShaderTransparentGenericStageInputAlphaScratchBlue_1
+---@field lphaConstantBlue_0 EngineTagDataShaderTransparentGenericStageInputAlphaConstantBlue_0
+---@field lphaConstantBlue_1 EngineTagDataShaderTransparentGenericStageInputAlphaConstantBlue_1
+Engine.tag.shaderTransparentGenericStageInputAlpha = {} 
+
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColorEnum : Enum 
+
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColorClampX : EngineTagDataShaderTransparentGenericStageInputMappingColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColor_1ClampX : EngineTagDataShaderTransparentGenericStageInputMappingColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColor_2 : EngineTagDataShaderTransparentGenericStageInputMappingColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColor_1_2 : EngineTagDataShaderTransparentGenericStageInputMappingColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColorClampX_1_2 : EngineTagDataShaderTransparentGenericStageInputMappingColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColor_1_2ClampX : EngineTagDataShaderTransparentGenericStageInputMappingColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColorX : EngineTagDataShaderTransparentGenericStageInputMappingColorEnum 
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColorX_1 : EngineTagDataShaderTransparentGenericStageInputMappingColorEnum 
+
+---@alias EngineTagDataShaderTransparentGenericStageInputMappingColor 
+---| EngineTagDataShaderTransparentGenericStageInputMappingColorClampX
+---| EngineTagDataShaderTransparentGenericStageInputMappingColor_1ClampX
+---| EngineTagDataShaderTransparentGenericStageInputMappingColor_2
+---| EngineTagDataShaderTransparentGenericStageInputMappingColor_1_2
+---| EngineTagDataShaderTransparentGenericStageInputMappingColorClampX_1_2
+---| EngineTagDataShaderTransparentGenericStageInputMappingColor_1_2ClampX
+---| EngineTagDataShaderTransparentGenericStageInputMappingColorX
+---| EngineTagDataShaderTransparentGenericStageInputMappingColorX_1
+
+---@class EngineTagDataShaderTransparentGenericStageInputMappingColorTable 
+---@field colorClampX EngineTagDataShaderTransparentGenericStageInputMappingColorClampX
+---@field color_1ClampX EngineTagDataShaderTransparentGenericStageInputMappingColor_1ClampX
+---@field color_2 EngineTagDataShaderTransparentGenericStageInputMappingColor_2
+---@field color_1_2 EngineTagDataShaderTransparentGenericStageInputMappingColor_1_2
+---@field colorClampX_1_2 EngineTagDataShaderTransparentGenericStageInputMappingColorClampX_1_2
+---@field color_1_2ClampX EngineTagDataShaderTransparentGenericStageInputMappingColor_1_2ClampX
+---@field colorX EngineTagDataShaderTransparentGenericStageInputMappingColorX
+---@field colorX_1 EngineTagDataShaderTransparentGenericStageInputMappingColorX_1
+Engine.tag.shaderTransparentGenericStageInputMappingColor = {} 
+
+---@class EngineTagDataShaderTransparentGenericStageOutputFunctionEnum : Enum 
+
+---@class EngineTagDataShaderTransparentGenericStageOutputFunctionMultiply : EngineTagDataShaderTransparentGenericStageOutputFunctionEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputFunctionDotProduct : EngineTagDataShaderTransparentGenericStageOutputFunctionEnum 
+
+---@alias EngineTagDataShaderTransparentGenericStageOutputFunction 
+---| EngineTagDataShaderTransparentGenericStageOutputFunctionMultiply
+---| EngineTagDataShaderTransparentGenericStageOutputFunctionDotProduct
+
+---@class EngineTagDataShaderTransparentGenericStageOutputFunctionTable 
+---@field tionMultiply EngineTagDataShaderTransparentGenericStageOutputFunctionMultiply
+---@field tionDotProduct EngineTagDataShaderTransparentGenericStageOutputFunctionDotProduct
+Engine.tag.shaderTransparentGenericStageOutputFunction = {} 
+
+---@class EngineTagDataShaderTransparentGenericStageOutputMappingEnum : Enum 
+
+---@class EngineTagDataShaderTransparentGenericStageOutputMappingColorIdentity : EngineTagDataShaderTransparentGenericStageOutputMappingEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputMappingColorScaleBy_1_2 : EngineTagDataShaderTransparentGenericStageOutputMappingEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputMappingColorScaleBy_2 : EngineTagDataShaderTransparentGenericStageOutputMappingEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputMappingColorScaleBy_4 : EngineTagDataShaderTransparentGenericStageOutputMappingEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputMappingColorBiasBy_1_2 : EngineTagDataShaderTransparentGenericStageOutputMappingEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputMappingColorExpandNormal : EngineTagDataShaderTransparentGenericStageOutputMappingEnum 
+
+---@alias EngineTagDataShaderTransparentGenericStageOutputMapping 
+---| EngineTagDataShaderTransparentGenericStageOutputMappingColorIdentity
+---| EngineTagDataShaderTransparentGenericStageOutputMappingColorScaleBy_1_2
+---| EngineTagDataShaderTransparentGenericStageOutputMappingColorScaleBy_2
+---| EngineTagDataShaderTransparentGenericStageOutputMappingColorScaleBy_4
+---| EngineTagDataShaderTransparentGenericStageOutputMappingColorBiasBy_1_2
+---| EngineTagDataShaderTransparentGenericStageOutputMappingColorExpandNormal
+
+---@class EngineTagDataShaderTransparentGenericStageOutputMappingTable 
+---@field pingColorIdentity EngineTagDataShaderTransparentGenericStageOutputMappingColorIdentity
+---@field pingColorScaleBy_1_2 EngineTagDataShaderTransparentGenericStageOutputMappingColorScaleBy_1_2
+---@field pingColorScaleBy_2 EngineTagDataShaderTransparentGenericStageOutputMappingColorScaleBy_2
+---@field pingColorScaleBy_4 EngineTagDataShaderTransparentGenericStageOutputMappingColorScaleBy_4
+---@field pingColorBiasBy_1_2 EngineTagDataShaderTransparentGenericStageOutputMappingColorBiasBy_1_2
+---@field pingColorExpandNormal EngineTagDataShaderTransparentGenericStageOutputMappingColorExpandNormal
+Engine.tag.shaderTransparentGenericStageOutputMapping = {} 
+
+---@class EngineTagDataShaderTransparentGenericStageOutputEnum : Enum 
+
+---@class EngineTagDataShaderTransparentGenericStageOutputAlphaDiscard : EngineTagDataShaderTransparentGenericStageOutputEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputAlphaScratchAlpha_0FinalAlpha : EngineTagDataShaderTransparentGenericStageOutputEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputAlphaScratchAlpha_1 : EngineTagDataShaderTransparentGenericStageOutputEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputAlphaVertexAlpha_0Fog : EngineTagDataShaderTransparentGenericStageOutputEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputAlphaVertexAlpha_1 : EngineTagDataShaderTransparentGenericStageOutputEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_0 : EngineTagDataShaderTransparentGenericStageOutputEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_1 : EngineTagDataShaderTransparentGenericStageOutputEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_2 : EngineTagDataShaderTransparentGenericStageOutputEnum 
+---@class EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_3 : EngineTagDataShaderTransparentGenericStageOutputEnum 
+
+---@alias EngineTagDataShaderTransparentGenericStageOutput 
+---| EngineTagDataShaderTransparentGenericStageOutputAlphaDiscard
+---| EngineTagDataShaderTransparentGenericStageOutputAlphaScratchAlpha_0FinalAlpha
+---| EngineTagDataShaderTransparentGenericStageOutputAlphaScratchAlpha_1
+---| EngineTagDataShaderTransparentGenericStageOutputAlphaVertexAlpha_0Fog
+---| EngineTagDataShaderTransparentGenericStageOutputAlphaVertexAlpha_1
+---| EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_0
+---| EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_1
+---| EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_2
+---| EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_3
+
+---@class EngineTagDataShaderTransparentGenericStageOutputTable 
+---@field putAlphaDiscard EngineTagDataShaderTransparentGenericStageOutputAlphaDiscard
+---@field putAlphaScratchAlpha_0FinalAlpha EngineTagDataShaderTransparentGenericStageOutputAlphaScratchAlpha_0FinalAlpha
+---@field putAlphaScratchAlpha_1 EngineTagDataShaderTransparentGenericStageOutputAlphaScratchAlpha_1
+---@field putAlphaVertexAlpha_0Fog EngineTagDataShaderTransparentGenericStageOutputAlphaVertexAlpha_0Fog
+---@field putAlphaVertexAlpha_1 EngineTagDataShaderTransparentGenericStageOutputAlphaVertexAlpha_1
+---@field putAlphaMapAlpha_0 EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_0
+---@field putAlphaMapAlpha_1 EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_1
+---@field putAlphaMapAlpha_2 EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_2
+---@field putAlphaMapAlpha_3 EngineTagDataShaderTransparentGenericStageOutputAlphaMapAlpha_3
+Engine.tag.shaderTransparentGenericStageOutput = {} 
+
+---@class MetaEngineTagDataShaderTransparentGenericMapFlag 
+---@field unfiltered boolean 
+---@field uClamped boolean 
+---@field vClamped boolean 
+
+---@class MetaEngineTagDataShaderTransparentGenericStageFlags 
+---@field colorMux boolean 
+---@field alphaMux boolean 
+---@field aOutControlsColor0Animation boolean 
+
+---@class MetaEngineTagDataShaderTransparentGenericFlags 
+---@field alphaTested boolean 
+---@field decal boolean 
+---@field twoSided boolean 
+---@field firstMapIsInScreenspace boolean 
+---@field drawBeforeWater boolean 
+---@field ignoreEffect boolean 
+---@field scaleFirstMapWithDistance boolean 
+---@field numeric boolean 
+
+---@class MetaEngineTagDataShaderTransparentGenericMap 
+---@field flags MetaEngineTagDataShaderTransparentGenericMapFlag 
+---@field mapUScale number 
+---@field mapVScale number 
+---@field mapUOffset number 
+---@field mapVOffset number 
+---@field mapRotation number 
+---@field mapmapBias MetaEngineFraction 
+---@field map MetaEngineTagDependency 
+---@field uAnimationSource EngineTagDataFunctionOut 
+---@field uAnimationFunction EngineTagDataWaveFunction 
+---@field uAnimationPeriod number 
+---@field uAnimationPhase number 
+---@field uAnimationScale number 
+---@field vAnimationSource EngineTagDataFunctionOut 
+---@field vAnimationFunction EngineTagDataWaveFunction 
+---@field vAnimationPeriod number 
+---@field vAnimationPhase number 
+---@field vAnimationScale number 
+---@field rotationAnimationSource EngineTagDataFunctionOut 
+---@field rotationAnimationFunction EngineTagDataWaveFunction 
+---@field rotationAnimationPeriod number 
+---@field rotationAnimationPhase number 
+---@field rotationAnimationScale number 
+---@field rotationAnimationCenter MetaEnginePoint2D 
+
+---@class MetaEngineTagDataShaderTransparentGenericStage 
+---@field flags MetaEngineTagDataShaderTransparentGenericStageFlags 
+---@field color0Source EngineTagDataFunctionNameNullable 
+---@field color0AnimationFunction EngineTagDataWaveFunction 
+---@field color0AnimationPeriod number 
+---@field color0AnimationLowerBound MetaEngineColorARGB 
+---@field color0AnimationUpperBound MetaEngineColorARGB 
+---@field color1 MetaEngineColorARGB 
+---@field inputA EngineTagDataShaderTransparentGenericStageInputColor 
+---@field inputAMapping EngineTagDataShaderTransparentGenericStageInputMappingColor 
+---@field inputB EngineTagDataShaderTransparentGenericStageInputColor 
+---@field inputBMapping EngineTagDataShaderTransparentGenericStageInputMappingColor 
+---@field inputC EngineTagDataShaderTransparentGenericStageInputColor 
+---@field inputCMapping EngineTagDataShaderTransparentGenericStageInputMappingColor 
+---@field inputD EngineTagDataShaderTransparentGenericStageInputColor 
+---@field inputDMapping EngineTagDataShaderTransparentGenericStageInputMappingColor 
+---@field outputAb EngineTagDataShaderTransparentGenericStageOutput 
+---@field outputAbFunction EngineTagDataShaderTransparentGenericStageOutputFunction 
+---@field outputBc EngineTagDataShaderTransparentGenericStageOutput 
+---@field outputCdFunction EngineTagDataShaderTransparentGenericStageOutputFunction 
+---@field outputAbCdMuxSum EngineTagDataShaderTransparentGenericStageOutput 
+---@field outputMappingColor EngineTagDataShaderTransparentGenericStageOutputMapping 
+---@field inputAAlpha EngineTagDataShaderTransparentGenericStageInputAlpha 
+---@field inputAMappingAlpha EngineTagDataShaderTransparentGenericStageInputMappingColor 
+---@field inputBAlpha EngineTagDataShaderTransparentGenericStageInputAlpha 
+---@field inputBMappingAlpha EngineTagDataShaderTransparentGenericStageInputMappingColor 
+---@field inputCAlpha EngineTagDataShaderTransparentGenericStageInputAlpha 
+---@field inputCMappingAlpha EngineTagDataShaderTransparentGenericStageInputMappingColor 
+---@field inputDAlpha EngineTagDataShaderTransparentGenericStageInputAlpha 
+---@field inputDMappingAlpha EngineTagDataShaderTransparentGenericStageInputMappingColor 
+---@field outputAbAlpha EngineTagDataShaderTransparentGenericStageOutput 
+---@field outputCdAlpha EngineTagDataShaderTransparentGenericStageOutput 
+---@field outputAbCdMuxSumAlpha EngineTagDataShaderTransparentGenericStageOutput 
+---@field outputMappingAlpha EngineTagDataShaderTransparentGenericStageOutputMapping 
+
+---@class MetaEngineTagDataShaderTransparentGeneric: MetaEngineTagDataShader  
+---@field numericCounterLimit integer 
+---@field shaderTransparentGenericFlags MetaEngineTagDataShaderTransparentGenericFlags 
+---@field firstMapType EngineTagDataShaderFirstMapType 
+---@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
+---@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
+---@field framebufferFadeSource EngineTagDataFunctionOut 
+---@field lensFlareSpacing number 
+---@field lensFlare MetaEngineTagDependency 
+---@field extraLayers TagBlock<MetaEngineTagDataShaderTransparentExtraLayer> 
+---@field maps TagBlock<MetaEngineTagDataShaderTransparentGenericMap> 
+---@field stages TagBlock<MetaEngineTagDataShaderTransparentGenericStage> 
+
+---@class EngineTagDataVirtualKeyboardKeyboardKeyEnum : Enum 
+
+---@class EngineTagDataVirtualKeyboardKeyboardKey_1 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKey_2 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKey_3 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKey_4 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKey_5 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKey_6 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKey_7 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKey_8 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKey_9 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKey_0 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyA : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyB : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyC : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyD : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyE : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyF : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyG : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyH : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyI : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyJ : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyK : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyL : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyM : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyN : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyO : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyP : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyQ : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyR : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyS : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyT : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyU : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyV : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyW : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyX : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyY : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyZ : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyDone : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyShift : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyCapsLock : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeySymbols : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyBackspace : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyLeft : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeyRight : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagDataVirtualKeyboardKeyboardKeySpace : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+
+---@alias EngineTagDataVirtualKeyboardKeyboardKey 
+---| EngineTagDataVirtualKeyboardKeyboardKey_1
+---| EngineTagDataVirtualKeyboardKeyboardKey_2
+---| EngineTagDataVirtualKeyboardKeyboardKey_3
+---| EngineTagDataVirtualKeyboardKeyboardKey_4
+---| EngineTagDataVirtualKeyboardKeyboardKey_5
+---| EngineTagDataVirtualKeyboardKeyboardKey_6
+---| EngineTagDataVirtualKeyboardKeyboardKey_7
+---| EngineTagDataVirtualKeyboardKeyboardKey_8
+---| EngineTagDataVirtualKeyboardKeyboardKey_9
+---| EngineTagDataVirtualKeyboardKeyboardKey_0
+---| EngineTagDataVirtualKeyboardKeyboardKeyA
+---| EngineTagDataVirtualKeyboardKeyboardKeyB
+---| EngineTagDataVirtualKeyboardKeyboardKeyC
+---| EngineTagDataVirtualKeyboardKeyboardKeyD
+---| EngineTagDataVirtualKeyboardKeyboardKeyE
+---| EngineTagDataVirtualKeyboardKeyboardKeyF
+---| EngineTagDataVirtualKeyboardKeyboardKeyG
+---| EngineTagDataVirtualKeyboardKeyboardKeyH
+---| EngineTagDataVirtualKeyboardKeyboardKeyI
+---| EngineTagDataVirtualKeyboardKeyboardKeyJ
+---| EngineTagDataVirtualKeyboardKeyboardKeyK
+---| EngineTagDataVirtualKeyboardKeyboardKeyL
+---| EngineTagDataVirtualKeyboardKeyboardKeyM
+---| EngineTagDataVirtualKeyboardKeyboardKeyN
+---| EngineTagDataVirtualKeyboardKeyboardKeyO
+---| EngineTagDataVirtualKeyboardKeyboardKeyP
+---| EngineTagDataVirtualKeyboardKeyboardKeyQ
+---| EngineTagDataVirtualKeyboardKeyboardKeyR
+---| EngineTagDataVirtualKeyboardKeyboardKeyS
+---| EngineTagDataVirtualKeyboardKeyboardKeyT
+---| EngineTagDataVirtualKeyboardKeyboardKeyU
+---| EngineTagDataVirtualKeyboardKeyboardKeyV
+---| EngineTagDataVirtualKeyboardKeyboardKeyW
+---| EngineTagDataVirtualKeyboardKeyboardKeyX
+---| EngineTagDataVirtualKeyboardKeyboardKeyY
+---| EngineTagDataVirtualKeyboardKeyboardKeyZ
+---| EngineTagDataVirtualKeyboardKeyboardKeyDone
+---| EngineTagDataVirtualKeyboardKeyboardKeyShift
+---| EngineTagDataVirtualKeyboardKeyboardKeyCapsLock
+---| EngineTagDataVirtualKeyboardKeyboardKeySymbols
+---| EngineTagDataVirtualKeyboardKeyboardKeyBackspace
+---| EngineTagDataVirtualKeyboardKeyboardKeyLeft
+---| EngineTagDataVirtualKeyboardKeyboardKeyRight
+---| EngineTagDataVirtualKeyboardKeyboardKeySpace
+
+---@class EngineTagDataVirtualKeyboardKeyboardKeyTable 
+---@field ey_1 EngineTagDataVirtualKeyboardKeyboardKey_1
+---@field ey_2 EngineTagDataVirtualKeyboardKeyboardKey_2
+---@field ey_3 EngineTagDataVirtualKeyboardKeyboardKey_3
+---@field ey_4 EngineTagDataVirtualKeyboardKeyboardKey_4
+---@field ey_5 EngineTagDataVirtualKeyboardKeyboardKey_5
+---@field ey_6 EngineTagDataVirtualKeyboardKeyboardKey_6
+---@field ey_7 EngineTagDataVirtualKeyboardKeyboardKey_7
+---@field ey_8 EngineTagDataVirtualKeyboardKeyboardKey_8
+---@field ey_9 EngineTagDataVirtualKeyboardKeyboardKey_9
+---@field ey_0 EngineTagDataVirtualKeyboardKeyboardKey_0
+---@field eyA EngineTagDataVirtualKeyboardKeyboardKeyA
+---@field eyB EngineTagDataVirtualKeyboardKeyboardKeyB
+---@field eyC EngineTagDataVirtualKeyboardKeyboardKeyC
+---@field eyD EngineTagDataVirtualKeyboardKeyboardKeyD
+---@field eyE EngineTagDataVirtualKeyboardKeyboardKeyE
+---@field eyF EngineTagDataVirtualKeyboardKeyboardKeyF
+---@field eyG EngineTagDataVirtualKeyboardKeyboardKeyG
+---@field eyH EngineTagDataVirtualKeyboardKeyboardKeyH
+---@field eyI EngineTagDataVirtualKeyboardKeyboardKeyI
+---@field eyJ EngineTagDataVirtualKeyboardKeyboardKeyJ
+---@field eyK EngineTagDataVirtualKeyboardKeyboardKeyK
+---@field eyL EngineTagDataVirtualKeyboardKeyboardKeyL
+---@field eyM EngineTagDataVirtualKeyboardKeyboardKeyM
+---@field eyN EngineTagDataVirtualKeyboardKeyboardKeyN
+---@field eyO EngineTagDataVirtualKeyboardKeyboardKeyO
+---@field eyP EngineTagDataVirtualKeyboardKeyboardKeyP
+---@field eyQ EngineTagDataVirtualKeyboardKeyboardKeyQ
+---@field eyR EngineTagDataVirtualKeyboardKeyboardKeyR
+---@field eyS EngineTagDataVirtualKeyboardKeyboardKeyS
+---@field eyT EngineTagDataVirtualKeyboardKeyboardKeyT
+---@field eyU EngineTagDataVirtualKeyboardKeyboardKeyU
+---@field eyV EngineTagDataVirtualKeyboardKeyboardKeyV
+---@field eyW EngineTagDataVirtualKeyboardKeyboardKeyW
+---@field eyX EngineTagDataVirtualKeyboardKeyboardKeyX
+---@field eyY EngineTagDataVirtualKeyboardKeyboardKeyY
+---@field eyZ EngineTagDataVirtualKeyboardKeyboardKeyZ
+---@field eyDone EngineTagDataVirtualKeyboardKeyboardKeyDone
+---@field eyShift EngineTagDataVirtualKeyboardKeyboardKeyShift
+---@field eyCapsLock EngineTagDataVirtualKeyboardKeyboardKeyCapsLock
+---@field eySymbols EngineTagDataVirtualKeyboardKeyboardKeySymbols
+---@field eyBackspace EngineTagDataVirtualKeyboardKeyboardKeyBackspace
+---@field eyLeft EngineTagDataVirtualKeyboardKeyboardKeyLeft
+---@field eyRight EngineTagDataVirtualKeyboardKeyboardKeyRight
+---@field eySpace EngineTagDataVirtualKeyboardKeyboardKeySpace
+Engine.tag.virtualKeyboardKeyboardKey = {} 
+
+---@class MetaEngineTagDataVirtualKeyboardVirtualKey 
+---@field keyboardKey EngineTagDataVirtualKeyboardKeyboardKey 
+---@field lowercaseCharacter integer 
+---@field shiftCharacter integer 
+---@field capsCharacter integer 
+---@field symbolsCharacter integer 
+---@field shiftCapsCharacter integer 
+---@field shiftSymbolsCharacter integer 
+---@field capsSymbolsCharacter integer 
+---@field unselectedBackgroundBitmap MetaEngineTagDependency 
+---@field selectedBackgroundBitmap MetaEngineTagDependency 
+---@field activeBackgroundBitmap MetaEngineTagDependency 
+---@field stickyBackgroundBitmap MetaEngineTagDependency 
+
+---@class MetaEngineTagDataVirtualKeyboard 
+---@field displayFont MetaEngineTagDependency 
+---@field backgroundBitmap MetaEngineTagDependency 
+---@field specialKeyLabelsStringList MetaEngineTagDependency 
+---@field virtualKeys TagBlock<MetaEngineTagDataVirtualKeyboardVirtualKey> 
+
+---@class EngineTagDataUnitFunctionInEnum : Enum 
+
+---@class EngineTagDataUnitFunctionInNone : EngineTagDataUnitFunctionInEnum 
+---@class EngineTagDataUnitFunctionInDriverSeatPower : EngineTagDataUnitFunctionInEnum 
+---@class EngineTagDataUnitFunctionInGunnerSeatPower : EngineTagDataUnitFunctionInEnum 
+---@class EngineTagDataUnitFunctionInAimingChange : EngineTagDataUnitFunctionInEnum 
+---@class EngineTagDataUnitFunctionInMouthAperture : EngineTagDataUnitFunctionInEnum 
+---@class EngineTagDataUnitFunctionInIntegratedLightPower : EngineTagDataUnitFunctionInEnum 
+---@class EngineTagDataUnitFunctionInCanBlink : EngineTagDataUnitFunctionInEnum 
+---@class EngineTagDataUnitFunctionInShieldSapping : EngineTagDataUnitFunctionInEnum 
+
+---@alias EngineTagDataUnitFunctionIn 
+---| EngineTagDataUnitFunctionInNone
+---| EngineTagDataUnitFunctionInDriverSeatPower
+---| EngineTagDataUnitFunctionInGunnerSeatPower
+---| EngineTagDataUnitFunctionInAimingChange
+---| EngineTagDataUnitFunctionInMouthAperture
+---| EngineTagDataUnitFunctionInIntegratedLightPower
+---| EngineTagDataUnitFunctionInCanBlink
+---| EngineTagDataUnitFunctionInShieldSapping
+
+---@class EngineTagDataUnitFunctionInTable 
+---@field nNone EngineTagDataUnitFunctionInNone
+---@field nDriverSeatPower EngineTagDataUnitFunctionInDriverSeatPower
+---@field nGunnerSeatPower EngineTagDataUnitFunctionInGunnerSeatPower
+---@field nAimingChange EngineTagDataUnitFunctionInAimingChange
+---@field nMouthAperture EngineTagDataUnitFunctionInMouthAperture
+---@field nIntegratedLightPower EngineTagDataUnitFunctionInIntegratedLightPower
+---@field nCanBlink EngineTagDataUnitFunctionInCanBlink
+---@field nShieldSapping EngineTagDataUnitFunctionInShieldSapping
+Engine.tag.unitFunctionIn = {} 
+
+---@class EngineTagDataUnitDefaultTeamEnum : Enum 
+
+---@class EngineTagDataUnitDefaultTeamNone : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagDataUnitDefaultTeamPlayer : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagDataUnitDefaultTeamHuman : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagDataUnitDefaultTeamCovenant : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagDataUnitDefaultTeamFlood : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagDataUnitDefaultTeamSentinel : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagDataUnitDefaultTeamUnused6 : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagDataUnitDefaultTeamUnused7 : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagDataUnitDefaultTeamUnused8 : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagDataUnitDefaultTeamUnused9 : EngineTagDataUnitDefaultTeamEnum 
+
+---@alias EngineTagDataUnitDefaultTeam 
+---| EngineTagDataUnitDefaultTeamNone
+---| EngineTagDataUnitDefaultTeamPlayer
+---| EngineTagDataUnitDefaultTeamHuman
+---| EngineTagDataUnitDefaultTeamCovenant
+---| EngineTagDataUnitDefaultTeamFlood
+---| EngineTagDataUnitDefaultTeamSentinel
+---| EngineTagDataUnitDefaultTeamUnused6
+---| EngineTagDataUnitDefaultTeamUnused7
+---| EngineTagDataUnitDefaultTeamUnused8
+---| EngineTagDataUnitDefaultTeamUnused9
+
+---@class EngineTagDataUnitDefaultTeamTable 
+---@field mNone EngineTagDataUnitDefaultTeamNone
+---@field mPlayer EngineTagDataUnitDefaultTeamPlayer
+---@field mHuman EngineTagDataUnitDefaultTeamHuman
+---@field mCovenant EngineTagDataUnitDefaultTeamCovenant
+---@field mFlood EngineTagDataUnitDefaultTeamFlood
+---@field mSentinel EngineTagDataUnitDefaultTeamSentinel
+---@field mUnused6 EngineTagDataUnitDefaultTeamUnused6
+---@field mUnused7 EngineTagDataUnitDefaultTeamUnused7
+---@field mUnused8 EngineTagDataUnitDefaultTeamUnused8
+---@field mUnused9 EngineTagDataUnitDefaultTeamUnused9
+Engine.tag.unitDefaultTeam = {} 
+
+---@class EngineTagDataUnitMotionSensorBlipSizeEnum : Enum 
+
+---@class EngineTagDataUnitMotionSensorBlipSizeMedium : EngineTagDataUnitMotionSensorBlipSizeEnum 
+---@class EngineTagDataUnitMotionSensorBlipSizeSmall : EngineTagDataUnitMotionSensorBlipSizeEnum 
+---@class EngineTagDataUnitMotionSensorBlipSizeLarge : EngineTagDataUnitMotionSensorBlipSizeEnum 
+
+---@alias EngineTagDataUnitMotionSensorBlipSize 
+---| EngineTagDataUnitMotionSensorBlipSizeMedium
+---| EngineTagDataUnitMotionSensorBlipSizeSmall
+---| EngineTagDataUnitMotionSensorBlipSizeLarge
+
+---@class EngineTagDataUnitMotionSensorBlipSizeTable 
+---@field izeMedium EngineTagDataUnitMotionSensorBlipSizeMedium
+---@field izeSmall EngineTagDataUnitMotionSensorBlipSizeSmall
+---@field izeLarge EngineTagDataUnitMotionSensorBlipSizeLarge
+Engine.tag.unitMotionSensorBlipSize = {} 
+
+---@class EngineTagDataMetagameTypeEnum : Enum 
+
+---@class EngineTagDataMetagameTypeBrute : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeGrunt : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeJackal : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeSkirmisher : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeMarine : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeSpartan : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeBugger : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeHunter : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeFloodInfection : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeFloodCarrier : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeFloodCombat : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeFloodPure : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeSentinel : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeElite : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeEngineer : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeMule : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeTurret : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeMongoose : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeWarthog : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeScorpion : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeHornet : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypePelican : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeRevenant : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeSeraph : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeShade : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeWatchtower : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeGhost : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeChopper : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeMauler : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeWraith : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeBanshee : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypePhantom : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeScarab : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeGuntower : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeTuningFork : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeBroadsword : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeMammoth : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeLich : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeMantis : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeWasp : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypePhaeton : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeBishop : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypeKnight : EngineTagDataMetagameTypeEnum 
+---@class EngineTagDataMetagameTypePawn : EngineTagDataMetagameTypeEnum 
+
+---@alias EngineTagDataMetagameType 
+---| EngineTagDataMetagameTypeBrute
+---| EngineTagDataMetagameTypeGrunt
+---| EngineTagDataMetagameTypeJackal
+---| EngineTagDataMetagameTypeSkirmisher
+---| EngineTagDataMetagameTypeMarine
+---| EngineTagDataMetagameTypeSpartan
+---| EngineTagDataMetagameTypeBugger
+---| EngineTagDataMetagameTypeHunter
+---| EngineTagDataMetagameTypeFloodInfection
+---| EngineTagDataMetagameTypeFloodCarrier
+---| EngineTagDataMetagameTypeFloodCombat
+---| EngineTagDataMetagameTypeFloodPure
+---| EngineTagDataMetagameTypeSentinel
+---| EngineTagDataMetagameTypeElite
+---| EngineTagDataMetagameTypeEngineer
+---| EngineTagDataMetagameTypeMule
+---| EngineTagDataMetagameTypeTurret
+---| EngineTagDataMetagameTypeMongoose
+---| EngineTagDataMetagameTypeWarthog
+---| EngineTagDataMetagameTypeScorpion
+---| EngineTagDataMetagameTypeHornet
+---| EngineTagDataMetagameTypePelican
+---| EngineTagDataMetagameTypeRevenant
+---| EngineTagDataMetagameTypeSeraph
+---| EngineTagDataMetagameTypeShade
+---| EngineTagDataMetagameTypeWatchtower
+---| EngineTagDataMetagameTypeGhost
+---| EngineTagDataMetagameTypeChopper
+---| EngineTagDataMetagameTypeMauler
+---| EngineTagDataMetagameTypeWraith
+---| EngineTagDataMetagameTypeBanshee
+---| EngineTagDataMetagameTypePhantom
+---| EngineTagDataMetagameTypeScarab
+---| EngineTagDataMetagameTypeGuntower
+---| EngineTagDataMetagameTypeTuningFork
+---| EngineTagDataMetagameTypeBroadsword
+---| EngineTagDataMetagameTypeMammoth
+---| EngineTagDataMetagameTypeLich
+---| EngineTagDataMetagameTypeMantis
+---| EngineTagDataMetagameTypeWasp
+---| EngineTagDataMetagameTypePhaeton
+---| EngineTagDataMetagameTypeBishop
+---| EngineTagDataMetagameTypeKnight
+---| EngineTagDataMetagameTypePawn
+
+---@class EngineTagDataMetagameTypeTable 
+---@field brute EngineTagDataMetagameTypeBrute
+---@field grunt EngineTagDataMetagameTypeGrunt
+---@field jackal EngineTagDataMetagameTypeJackal
+---@field skirmisher EngineTagDataMetagameTypeSkirmisher
+---@field marine EngineTagDataMetagameTypeMarine
+---@field spartan EngineTagDataMetagameTypeSpartan
+---@field bugger EngineTagDataMetagameTypeBugger
+---@field hunter EngineTagDataMetagameTypeHunter
+---@field floodInfection EngineTagDataMetagameTypeFloodInfection
+---@field floodCarrier EngineTagDataMetagameTypeFloodCarrier
+---@field floodCombat EngineTagDataMetagameTypeFloodCombat
+---@field floodPure EngineTagDataMetagameTypeFloodPure
+---@field sentinel EngineTagDataMetagameTypeSentinel
+---@field elite EngineTagDataMetagameTypeElite
+---@field engineer EngineTagDataMetagameTypeEngineer
+---@field mule EngineTagDataMetagameTypeMule
+---@field turret EngineTagDataMetagameTypeTurret
+---@field mongoose EngineTagDataMetagameTypeMongoose
+---@field warthog EngineTagDataMetagameTypeWarthog
+---@field scorpion EngineTagDataMetagameTypeScorpion
+---@field hornet EngineTagDataMetagameTypeHornet
+---@field pelican EngineTagDataMetagameTypePelican
+---@field revenant EngineTagDataMetagameTypeRevenant
+---@field seraph EngineTagDataMetagameTypeSeraph
+---@field shade EngineTagDataMetagameTypeShade
+---@field watchtower EngineTagDataMetagameTypeWatchtower
+---@field ghost EngineTagDataMetagameTypeGhost
+---@field chopper EngineTagDataMetagameTypeChopper
+---@field mauler EngineTagDataMetagameTypeMauler
+---@field wraith EngineTagDataMetagameTypeWraith
+---@field banshee EngineTagDataMetagameTypeBanshee
+---@field phantom EngineTagDataMetagameTypePhantom
+---@field scarab EngineTagDataMetagameTypeScarab
+---@field guntower EngineTagDataMetagameTypeGuntower
+---@field tuningFork EngineTagDataMetagameTypeTuningFork
+---@field broadsword EngineTagDataMetagameTypeBroadsword
+---@field mammoth EngineTagDataMetagameTypeMammoth
+---@field lich EngineTagDataMetagameTypeLich
+---@field mantis EngineTagDataMetagameTypeMantis
+---@field wasp EngineTagDataMetagameTypeWasp
+---@field phaeton EngineTagDataMetagameTypePhaeton
+---@field bishop EngineTagDataMetagameTypeBishop
+---@field knight EngineTagDataMetagameTypeKnight
+---@field pawn EngineTagDataMetagameTypePawn
+Engine.tag.metagameType = {} 
+
+---@class EngineTagDataMetagameClassEnum : Enum 
+
+---@class EngineTagDataMetagameClassInfantry : EngineTagDataMetagameClassEnum 
+---@class EngineTagDataMetagameClassLeader : EngineTagDataMetagameClassEnum 
+---@class EngineTagDataMetagameClassHero : EngineTagDataMetagameClassEnum 
+---@class EngineTagDataMetagameClassSpecialist : EngineTagDataMetagameClassEnum 
+---@class EngineTagDataMetagameClassLightVehicle : EngineTagDataMetagameClassEnum 
+---@class EngineTagDataMetagameClassHeavyVehicle : EngineTagDataMetagameClassEnum 
+---@class EngineTagDataMetagameClassGiantVehicle : EngineTagDataMetagameClassEnum 
+---@class EngineTagDataMetagameClassStandardVehicle : EngineTagDataMetagameClassEnum 
+
+---@alias EngineTagDataMetagameClass 
+---| EngineTagDataMetagameClassInfantry
+---| EngineTagDataMetagameClassLeader
+---| EngineTagDataMetagameClassHero
+---| EngineTagDataMetagameClassSpecialist
+---| EngineTagDataMetagameClassLightVehicle
+---| EngineTagDataMetagameClassHeavyVehicle
+---| EngineTagDataMetagameClassGiantVehicle
+---| EngineTagDataMetagameClassStandardVehicle
+
+---@class EngineTagDataMetagameClassTable 
+---@field infantry EngineTagDataMetagameClassInfantry
+---@field leader EngineTagDataMetagameClassLeader
+---@field hero EngineTagDataMetagameClassHero
+---@field specialist EngineTagDataMetagameClassSpecialist
+---@field lightVehicle EngineTagDataMetagameClassLightVehicle
+---@field heavyVehicle EngineTagDataMetagameClassHeavyVehicle
+---@field giantVehicle EngineTagDataMetagameClassGiantVehicle
+---@field standardVehicle EngineTagDataMetagameClassStandardVehicle
+Engine.tag.metagameClass = {} 
+
+---@class MetaEngineTagDataUnitFlags 
+---@field circularAiming boolean 
+---@field destroyedAfterDying boolean 
+---@field halfSpeedInterpolation boolean 
+---@field firesFromCamera boolean 
+---@field entranceInsideBoundingSphere boolean 
+---@field unused boolean 
+---@field causesPassengerDialogue boolean 
+---@field resistsPings boolean 
+---@field meleeAttackIsFatal boolean 
+---@field dontRefaceDuringPings boolean 
+---@field hasNoAiming boolean 
+---@field simpleCreature boolean 
+---@field impactMeleeAttachesToUnit boolean 
+---@field impactMeleeDiesOnShields boolean 
+---@field cannotOpenDoorsAutomatically boolean 
+---@field meleeAttackersCannotAttach boolean 
+---@field notInstantlyKilledByMelee boolean 
+---@field shieldSapping boolean 
+---@field runsAroundFlaming boolean 
+---@field inconsequential boolean 
+---@field specialCinematicUnit boolean 
+---@field ignoredByAutoaiming boolean 
+---@field shieldsFryInfectionForms boolean 
+---@field integratedLightCntrlsWeapon boolean 
+---@field integratedLightLastsForever boolean 
+
+---@class MetaEngineTagDataUnitSeatFlags 
+---@field invisible boolean 
+---@field locked boolean 
+---@field driver boolean 
+---@field gunner boolean 
+---@field thirdPersonCamera boolean 
+---@field allowsWeapons boolean 
+---@field thirdPersonOnEnter boolean 
+---@field firstPersonCameraSlavedToGun boolean 
+---@field allowVehicleCommunicationAnimations boolean 
+---@field notValidWithoutDriver boolean 
+---@field allowAiNoncombatants boolean 
+
+---@class MetaEngineTagDataUnitPoweredSeat 
+---@field driverPowerupTime number 
+---@field driverPowerdownTime number 
+
+---@class MetaEngineTagDataUnitCameraTrack 
+---@field track MetaEngineTagDependency 
+
+---@class MetaEngineTagDataUnitUnitHudInterface 
+---@field hud MetaEngineTagDependency 
+
+---@class MetaEngineTagDataUnitSeat 
+---@field flags MetaEngineTagDataUnitSeatFlags 
+---@field label MetaEngineTagString 
+---@field markerName MetaEngineTagString 
+---@field accelerationScale MetaEngineVector3D 
+---@field yawRate number 
+---@field pitchRate number 
+---@field cameraMarkerName MetaEngineTagString 
+---@field cameraSubmergedMarkerName MetaEngineTagString 
+---@field pitchAutoLevel MetaEngineAngle 
+---@field pitchRange MetaEngineAngle 
+---@field cameraTracks TagBlock<MetaEngineTagDataUnitCameraTrack> 
+---@field unitHudInterface TagBlock<MetaEngineTagDataUnitUnitHudInterface> 
+---@field hudTextMessageIndex MetaEngineIndex 
+---@field yawMinimum MetaEngineAngle 
+---@field yawMaximum MetaEngineAngle 
+---@field builtInGunner MetaEngineTagDependency 
+
+---@class MetaEngineTagDataUnitWeapon 
+---@field weapon MetaEngineTagDependency 
+
+---@class MetaEngineTagDataUnitDialogueVariant 
+---@field variantNumber integer 
+---@field dialogue MetaEngineTagDependency 
+
+---@class MetaEngineTagDataUnit: MetaEngineTagDataObject  
+---@field unitFlags MetaEngineTagDataUnitFlags 
+---@field defaultTeam EngineTagDataUnitDefaultTeam 
+---@field constantSoundVolume EngineTagDataObjectNoise 
+---@field riderDamageFraction number 
+---@field integratedLightToggle MetaEngineTagDependency 
+---@field unitAIn EngineTagDataUnitFunctionIn 
+---@field unitBIn EngineTagDataUnitFunctionIn 
+---@field unitCIn EngineTagDataUnitFunctionIn 
+---@field unitDIn EngineTagDataUnitFunctionIn 
+---@field cameraFieldOfView MetaEngineAngle 
+---@field cameraStiffness number 
+---@field cameraMarkerName MetaEngineTagString 
+---@field cameraSubmergedMarkerName MetaEngineTagString 
+---@field pitchAutoLevel MetaEngineAngle 
+---@field pitchRange MetaEngineAngle 
+---@field cameraTracks TagBlock<MetaEngineTagDataUnitCameraTrack> 
+---@field seatAccelerationScale MetaEnginePoint3D 
+---@field softPingThreshold number 
+---@field softPingInterruptTime number 
+---@field hardPingThreshold number 
+---@field hardPingInterruptTime number 
+---@field hardDeathThreshold number 
+---@field feignDeathThreshold number 
+---@field feignDeathTime number 
+---@field distanceOfEvadeAnim number 
+---@field distanceOfDiveAnim number 
+---@field stunnedMovementThreshold number 
+---@field feignDeathChance number 
+---@field feignRepeatChance number 
+---@field spawnedActor MetaEngineTagDependency 
+---@field spawnedActorCount integer 
+---@field spawnedVelocity number 
+---@field aimingVelocityMaximum MetaEngineAngle 
+---@field aimingAccelerationMaximum MetaEngineAngle 
+---@field casualAimingModifier MetaEngineFraction 
+---@field lookingVelocityMaximum MetaEngineAngle 
+---@field lookingAccelerationMaximum MetaEngineAngle 
+---@field aiVehicleRadius number 
+---@field aiDangerRadius number 
+---@field meleeDamage MetaEngineTagDependency 
+---@field motionSensorBlipSize EngineTagDataUnitMotionSensorBlipSize 
+---@field metagameType EngineTagDataMetagameType 
+---@field metagameClass EngineTagDataMetagameClass 
+---@field newHudInterfaces TagBlock<MetaEngineTagDataUnitUnitHudInterface> 
+---@field dialogueVariants TagBlock<MetaEngineTagDataUnitDialogueVariant> 
+---@field grenadeVelocity number 
+---@field grenadeType EngineTagDataGrenadeType 
+---@field grenadeCount integer 
+---@field softPingInterruptTicks integer 
+---@field hardPingInterruptTicks integer 
+---@field poweredSeats TagBlock<MetaEngineTagDataUnitPoweredSeat> 
+---@field weapons TagBlock<MetaEngineTagDataUnitWeapon> 
+---@field seats TagBlock<MetaEngineTagDataUnitSeat> 
+
+---@class EngineTagDataUIGameDataInputReferenceFunctionEnum : Enum 
+
+---@class EngineTagDataUIGameDataInputReferenceFunctionNull : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionPlayerSettingsMenuUpdateDesc : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionUnused : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionPlaylistSettingsMenuUpdateDesc : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGametypeSelectMenuUpdateDesc : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMultiplayerTypeMenuUpdateDesc : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionSoloLevelSelectUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionDifficultyMenuUpdateDesc : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionBuildNumberTextboxOnly : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionServerListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionNetworkPregameStatusUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionSplitscreenPregameStatusUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionNetSplitscreenPrejoinPlayers : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpProfileListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunction_3widePlayerProfileListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionPlyrProfEditSelectMenuUpd8 : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionPlayerProfileSmallMenuUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGameSettingsListsTextUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionSoloGameObjectiveText : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionColorPickerUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGameSettingsListsPicUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMainMenuFakeAnimate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpLevelSelectUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGetActivePlyrProfileName : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGetEditPlyrProfileName : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGetEditGameSettingsName : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGetActivePlyrProfileColor : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxMapName : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxGameRuleset : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxTeamsNoteams : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxScoreLimit : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxScoreLimitType : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpSetBitmapForMap : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpSetBitmapForRuleset : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpSetTextbox : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpEditProfileSetRuleText : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionSystemLinkStatusCheck : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpGameDirections : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionTeamsNoTeamsBitmapUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionWarnIfDiffWillNukeSavedGame : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionDimIfNoNetCable : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionPauseGameSetTextboxInverted : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionDimUnlessTwoControllers : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionControlsUpdateMenu : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionVideoMenuUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGamespyScreenUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionCommonButtonBarUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGamepadUpdateMenu : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionServerSettingsUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionAudioMenuUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpProfVehiclesUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionSoloMapListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionMpMapListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGtSelectListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionGtEditListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionLoadGameListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionCheckingForUpdates : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionDirectIpConnectUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunctionNetworkSettingsUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+
+---@alias EngineTagDataUIGameDataInputReferenceFunction 
+---| EngineTagDataUIGameDataInputReferenceFunctionNull
+---| EngineTagDataUIGameDataInputReferenceFunctionPlayerSettingsMenuUpdateDesc
+---| EngineTagDataUIGameDataInputReferenceFunctionUnused
+---| EngineTagDataUIGameDataInputReferenceFunctionPlaylistSettingsMenuUpdateDesc
+---| EngineTagDataUIGameDataInputReferenceFunctionGametypeSelectMenuUpdateDesc
+---| EngineTagDataUIGameDataInputReferenceFunctionMultiplayerTypeMenuUpdateDesc
+---| EngineTagDataUIGameDataInputReferenceFunctionSoloLevelSelectUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionDifficultyMenuUpdateDesc
+---| EngineTagDataUIGameDataInputReferenceFunctionBuildNumberTextboxOnly
+---| EngineTagDataUIGameDataInputReferenceFunctionServerListUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionNetworkPregameStatusUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionSplitscreenPregameStatusUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionNetSplitscreenPrejoinPlayers
+---| EngineTagDataUIGameDataInputReferenceFunctionMpProfileListUpdate
+---| EngineTagDataUIGameDataInputReferenceFunction_3widePlayerProfileListUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionPlyrProfEditSelectMenuUpd8
+---| EngineTagDataUIGameDataInputReferenceFunctionPlayerProfileSmallMenuUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionGameSettingsListsTextUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionSoloGameObjectiveText
+---| EngineTagDataUIGameDataInputReferenceFunctionColorPickerUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionGameSettingsListsPicUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionMainMenuFakeAnimate
+---| EngineTagDataUIGameDataInputReferenceFunctionMpLevelSelectUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionGetActivePlyrProfileName
+---| EngineTagDataUIGameDataInputReferenceFunctionGetEditPlyrProfileName
+---| EngineTagDataUIGameDataInputReferenceFunctionGetEditGameSettingsName
+---| EngineTagDataUIGameDataInputReferenceFunctionGetActivePlyrProfileColor
+---| EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxMapName
+---| EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxGameRuleset
+---| EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxTeamsNoteams
+---| EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxScoreLimit
+---| EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxScoreLimitType
+---| EngineTagDataUIGameDataInputReferenceFunctionMpSetBitmapForMap
+---| EngineTagDataUIGameDataInputReferenceFunctionMpSetBitmapForRuleset
+---| EngineTagDataUIGameDataInputReferenceFunctionMpSetTextbox
+---| EngineTagDataUIGameDataInputReferenceFunctionMpEditProfileSetRuleText
+---| EngineTagDataUIGameDataInputReferenceFunctionSystemLinkStatusCheck
+---| EngineTagDataUIGameDataInputReferenceFunctionMpGameDirections
+---| EngineTagDataUIGameDataInputReferenceFunctionTeamsNoTeamsBitmapUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionWarnIfDiffWillNukeSavedGame
+---| EngineTagDataUIGameDataInputReferenceFunctionDimIfNoNetCable
+---| EngineTagDataUIGameDataInputReferenceFunctionPauseGameSetTextboxInverted
+---| EngineTagDataUIGameDataInputReferenceFunctionDimUnlessTwoControllers
+---| EngineTagDataUIGameDataInputReferenceFunctionControlsUpdateMenu
+---| EngineTagDataUIGameDataInputReferenceFunctionVideoMenuUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionGamespyScreenUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionCommonButtonBarUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionGamepadUpdateMenu
+---| EngineTagDataUIGameDataInputReferenceFunctionServerSettingsUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionAudioMenuUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionMpProfVehiclesUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionSoloMapListUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionMpMapListUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionGtSelectListUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionGtEditListUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionLoadGameListUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionCheckingForUpdates
+---| EngineTagDataUIGameDataInputReferenceFunctionDirectIpConnectUpdate
+---| EngineTagDataUIGameDataInputReferenceFunctionNetworkSettingsUpdate
+
+---@class EngineTagDataUIGameDataInputReferenceFunctionTable 
+---@field ctionNull EngineTagDataUIGameDataInputReferenceFunctionNull
+---@field ctionPlayerSettingsMenuUpdateDesc EngineTagDataUIGameDataInputReferenceFunctionPlayerSettingsMenuUpdateDesc
+---@field ctionUnused EngineTagDataUIGameDataInputReferenceFunctionUnused
+---@field ctionPlaylistSettingsMenuUpdateDesc EngineTagDataUIGameDataInputReferenceFunctionPlaylistSettingsMenuUpdateDesc
+---@field ctionGametypeSelectMenuUpdateDesc EngineTagDataUIGameDataInputReferenceFunctionGametypeSelectMenuUpdateDesc
+---@field ctionMultiplayerTypeMenuUpdateDesc EngineTagDataUIGameDataInputReferenceFunctionMultiplayerTypeMenuUpdateDesc
+---@field ctionSoloLevelSelectUpdate EngineTagDataUIGameDataInputReferenceFunctionSoloLevelSelectUpdate
+---@field ctionDifficultyMenuUpdateDesc EngineTagDataUIGameDataInputReferenceFunctionDifficultyMenuUpdateDesc
+---@field ctionBuildNumberTextboxOnly EngineTagDataUIGameDataInputReferenceFunctionBuildNumberTextboxOnly
+---@field ctionServerListUpdate EngineTagDataUIGameDataInputReferenceFunctionServerListUpdate
+---@field ctionNetworkPregameStatusUpdate EngineTagDataUIGameDataInputReferenceFunctionNetworkPregameStatusUpdate
+---@field ctionSplitscreenPregameStatusUpdate EngineTagDataUIGameDataInputReferenceFunctionSplitscreenPregameStatusUpdate
+---@field ctionNetSplitscreenPrejoinPlayers EngineTagDataUIGameDataInputReferenceFunctionNetSplitscreenPrejoinPlayers
+---@field ctionMpProfileListUpdate EngineTagDataUIGameDataInputReferenceFunctionMpProfileListUpdate
+---@field ction_3widePlayerProfileListUpdate EngineTagDataUIGameDataInputReferenceFunction_3widePlayerProfileListUpdate
+---@field ctionPlyrProfEditSelectMenuUpd8 EngineTagDataUIGameDataInputReferenceFunctionPlyrProfEditSelectMenuUpd8
+---@field ctionPlayerProfileSmallMenuUpdate EngineTagDataUIGameDataInputReferenceFunctionPlayerProfileSmallMenuUpdate
+---@field ctionGameSettingsListsTextUpdate EngineTagDataUIGameDataInputReferenceFunctionGameSettingsListsTextUpdate
+---@field ctionSoloGameObjectiveText EngineTagDataUIGameDataInputReferenceFunctionSoloGameObjectiveText
+---@field ctionColorPickerUpdate EngineTagDataUIGameDataInputReferenceFunctionColorPickerUpdate
+---@field ctionGameSettingsListsPicUpdate EngineTagDataUIGameDataInputReferenceFunctionGameSettingsListsPicUpdate
+---@field ctionMainMenuFakeAnimate EngineTagDataUIGameDataInputReferenceFunctionMainMenuFakeAnimate
+---@field ctionMpLevelSelectUpdate EngineTagDataUIGameDataInputReferenceFunctionMpLevelSelectUpdate
+---@field ctionGetActivePlyrProfileName EngineTagDataUIGameDataInputReferenceFunctionGetActivePlyrProfileName
+---@field ctionGetEditPlyrProfileName EngineTagDataUIGameDataInputReferenceFunctionGetEditPlyrProfileName
+---@field ctionGetEditGameSettingsName EngineTagDataUIGameDataInputReferenceFunctionGetEditGameSettingsName
+---@field ctionGetActivePlyrProfileColor EngineTagDataUIGameDataInputReferenceFunctionGetActivePlyrProfileColor
+---@field ctionMpSetTextboxMapName EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxMapName
+---@field ctionMpSetTextboxGameRuleset EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxGameRuleset
+---@field ctionMpSetTextboxTeamsNoteams EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxTeamsNoteams
+---@field ctionMpSetTextboxScoreLimit EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxScoreLimit
+---@field ctionMpSetTextboxScoreLimitType EngineTagDataUIGameDataInputReferenceFunctionMpSetTextboxScoreLimitType
+---@field ctionMpSetBitmapForMap EngineTagDataUIGameDataInputReferenceFunctionMpSetBitmapForMap
+---@field ctionMpSetBitmapForRuleset EngineTagDataUIGameDataInputReferenceFunctionMpSetBitmapForRuleset
+---@field ctionMpSetTextbox EngineTagDataUIGameDataInputReferenceFunctionMpSetTextbox
+---@field ctionMpEditProfileSetRuleText EngineTagDataUIGameDataInputReferenceFunctionMpEditProfileSetRuleText
+---@field ctionSystemLinkStatusCheck EngineTagDataUIGameDataInputReferenceFunctionSystemLinkStatusCheck
+---@field ctionMpGameDirections EngineTagDataUIGameDataInputReferenceFunctionMpGameDirections
+---@field ctionTeamsNoTeamsBitmapUpdate EngineTagDataUIGameDataInputReferenceFunctionTeamsNoTeamsBitmapUpdate
+---@field ctionWarnIfDiffWillNukeSavedGame EngineTagDataUIGameDataInputReferenceFunctionWarnIfDiffWillNukeSavedGame
+---@field ctionDimIfNoNetCable EngineTagDataUIGameDataInputReferenceFunctionDimIfNoNetCable
+---@field ctionPauseGameSetTextboxInverted EngineTagDataUIGameDataInputReferenceFunctionPauseGameSetTextboxInverted
+---@field ctionDimUnlessTwoControllers EngineTagDataUIGameDataInputReferenceFunctionDimUnlessTwoControllers
+---@field ctionControlsUpdateMenu EngineTagDataUIGameDataInputReferenceFunctionControlsUpdateMenu
+---@field ctionVideoMenuUpdate EngineTagDataUIGameDataInputReferenceFunctionVideoMenuUpdate
+---@field ctionGamespyScreenUpdate EngineTagDataUIGameDataInputReferenceFunctionGamespyScreenUpdate
+---@field ctionCommonButtonBarUpdate EngineTagDataUIGameDataInputReferenceFunctionCommonButtonBarUpdate
+---@field ctionGamepadUpdateMenu EngineTagDataUIGameDataInputReferenceFunctionGamepadUpdateMenu
+---@field ctionServerSettingsUpdate EngineTagDataUIGameDataInputReferenceFunctionServerSettingsUpdate
+---@field ctionAudioMenuUpdate EngineTagDataUIGameDataInputReferenceFunctionAudioMenuUpdate
+---@field ctionMpProfVehiclesUpdate EngineTagDataUIGameDataInputReferenceFunctionMpProfVehiclesUpdate
+---@field ctionSoloMapListUpdate EngineTagDataUIGameDataInputReferenceFunctionSoloMapListUpdate
+---@field ctionMpMapListUpdate EngineTagDataUIGameDataInputReferenceFunctionMpMapListUpdate
+---@field ctionGtSelectListUpdate EngineTagDataUIGameDataInputReferenceFunctionGtSelectListUpdate
+---@field ctionGtEditListUpdate EngineTagDataUIGameDataInputReferenceFunctionGtEditListUpdate
+---@field ctionLoadGameListUpdate EngineTagDataUIGameDataInputReferenceFunctionLoadGameListUpdate
+---@field ctionCheckingForUpdates EngineTagDataUIGameDataInputReferenceFunctionCheckingForUpdates
+---@field ctionDirectIpConnectUpdate EngineTagDataUIGameDataInputReferenceFunctionDirectIpConnectUpdate
+---@field ctionNetworkSettingsUpdate EngineTagDataUIGameDataInputReferenceFunctionNetworkSettingsUpdate
+Engine.tag.uIGameDataInputReferenceFunction = {} 
+
+---@class EngineTagDataUIEventTypeEnum : Enum 
+
+---@class EngineTagDataUIEventTypeAButton : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeBButton : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeXButton : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeYButton : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeBlackButton : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeWhiteButton : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLeftTrigger : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeRightTrigger : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeDpadUp : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeDpadDown : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeDpadLeft : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeDpadRight : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeStartButton : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeBackButton : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLeftThumb : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeRightThumb : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLeftAnalogStickUp : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLeftAnalogStickDown : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLeftAnalogStickLeft : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLeftAnalogStickRight : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLeftAnalogStickUp_1 : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeRightAnalogStickDown : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeRightAnalogStickLeft : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeRightAnalogStickRight : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeCreated : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeDeleted : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeGetFocus : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLoseFocus : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLeftMouse : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeMiddleMouse : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeRightMouse : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeDoubleClick : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeCustomActivation : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypePostRender : EngineTagDataUIEventTypeEnum 
+
+---@alias EngineTagDataUIEventType 
+---| EngineTagDataUIEventTypeAButton
+---| EngineTagDataUIEventTypeBButton
+---| EngineTagDataUIEventTypeXButton
+---| EngineTagDataUIEventTypeYButton
+---| EngineTagDataUIEventTypeBlackButton
+---| EngineTagDataUIEventTypeWhiteButton
+---| EngineTagDataUIEventTypeLeftTrigger
+---| EngineTagDataUIEventTypeRightTrigger
+---| EngineTagDataUIEventTypeDpadUp
+---| EngineTagDataUIEventTypeDpadDown
+---| EngineTagDataUIEventTypeDpadLeft
+---| EngineTagDataUIEventTypeDpadRight
+---| EngineTagDataUIEventTypeStartButton
+---| EngineTagDataUIEventTypeBackButton
+---| EngineTagDataUIEventTypeLeftThumb
+---| EngineTagDataUIEventTypeRightThumb
+---| EngineTagDataUIEventTypeLeftAnalogStickUp
+---| EngineTagDataUIEventTypeLeftAnalogStickDown
+---| EngineTagDataUIEventTypeLeftAnalogStickLeft
+---| EngineTagDataUIEventTypeLeftAnalogStickRight
+---| EngineTagDataUIEventTypeLeftAnalogStickUp_1
+---| EngineTagDataUIEventTypeRightAnalogStickDown
+---| EngineTagDataUIEventTypeRightAnalogStickLeft
+---| EngineTagDataUIEventTypeRightAnalogStickRight
+---| EngineTagDataUIEventTypeCreated
+---| EngineTagDataUIEventTypeDeleted
+---| EngineTagDataUIEventTypeGetFocus
+---| EngineTagDataUIEventTypeLoseFocus
+---| EngineTagDataUIEventTypeLeftMouse
+---| EngineTagDataUIEventTypeMiddleMouse
+---| EngineTagDataUIEventTypeRightMouse
+---| EngineTagDataUIEventTypeDoubleClick
+---| EngineTagDataUIEventTypeCustomActivation
+---| EngineTagDataUIEventTypePostRender
+
+---@class EngineTagDataUIEventTypeTable 
+---@field peAButton EngineTagDataUIEventTypeAButton
+---@field peBButton EngineTagDataUIEventTypeBButton
+---@field peXButton EngineTagDataUIEventTypeXButton
+---@field peYButton EngineTagDataUIEventTypeYButton
+---@field peBlackButton EngineTagDataUIEventTypeBlackButton
+---@field peWhiteButton EngineTagDataUIEventTypeWhiteButton
+---@field peLeftTrigger EngineTagDataUIEventTypeLeftTrigger
+---@field peRightTrigger EngineTagDataUIEventTypeRightTrigger
+---@field peDpadUp EngineTagDataUIEventTypeDpadUp
+---@field peDpadDown EngineTagDataUIEventTypeDpadDown
+---@field peDpadLeft EngineTagDataUIEventTypeDpadLeft
+---@field peDpadRight EngineTagDataUIEventTypeDpadRight
+---@field peStartButton EngineTagDataUIEventTypeStartButton
+---@field peBackButton EngineTagDataUIEventTypeBackButton
+---@field peLeftThumb EngineTagDataUIEventTypeLeftThumb
+---@field peRightThumb EngineTagDataUIEventTypeRightThumb
+---@field peLeftAnalogStickUp EngineTagDataUIEventTypeLeftAnalogStickUp
+---@field peLeftAnalogStickDown EngineTagDataUIEventTypeLeftAnalogStickDown
+---@field peLeftAnalogStickLeft EngineTagDataUIEventTypeLeftAnalogStickLeft
+---@field peLeftAnalogStickRight EngineTagDataUIEventTypeLeftAnalogStickRight
+---@field peLeftAnalogStickUp_1 EngineTagDataUIEventTypeLeftAnalogStickUp_1
+---@field peRightAnalogStickDown EngineTagDataUIEventTypeRightAnalogStickDown
+---@field peRightAnalogStickLeft EngineTagDataUIEventTypeRightAnalogStickLeft
+---@field peRightAnalogStickRight EngineTagDataUIEventTypeRightAnalogStickRight
+---@field peCreated EngineTagDataUIEventTypeCreated
+---@field peDeleted EngineTagDataUIEventTypeDeleted
+---@field peGetFocus EngineTagDataUIEventTypeGetFocus
+---@field peLoseFocus EngineTagDataUIEventTypeLoseFocus
+---@field peLeftMouse EngineTagDataUIEventTypeLeftMouse
+---@field peMiddleMouse EngineTagDataUIEventTypeMiddleMouse
+---@field peRightMouse EngineTagDataUIEventTypeRightMouse
+---@field peDoubleClick EngineTagDataUIEventTypeDoubleClick
+---@field peCustomActivation EngineTagDataUIEventTypeCustomActivation
+---@field pePostRender EngineTagDataUIEventTypePostRender
+Engine.tag.uIEventType = {} 
+
+---@class EngineTagDataUIEventHandlerReferenceFunctionEnum : Enum 
+
+---@class EngineTagDataUIEventHandlerReferenceFunctionNull : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionListGotoNextItem : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionListGotoPreviousItem : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionUnused : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionUnused1 : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionInitializeSpLevelListSolo : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionInitializeSpLevelListCoop : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionDisposeSpLevelList : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSoloLevelSetMap : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSetDifficulty : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionStartNewGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPauseGameRestartAtCheckpoint : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPauseGameRestartLevel : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPauseGameReturnToMainMenu : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionClearMultiplayerPlayerJoins : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionJoinControllerToMpGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionInitializeNetGameServerList : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionStartNetworkGameServer : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionDisposeNetGameServerList : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionShutdownNetworkGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetGameJoinFromServerList : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSplitScreenGameInitialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCoopGameInitialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMainMenuIntialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpTypeMenuInitialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPickPlayStageForQuickStart : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpLevelListInitialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpLevelListDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpLevelSelect : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfilesListInitialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfilesListDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetForGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSwapPlayerTeam : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetGameJoinPlayer : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListInitialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunction_3widePlyrProfSetForGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunction_1widePlyrProfSetForGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileBeginEditing : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileEndEditing : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetGameEngine : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileChangeName : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetCtfRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetKothRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetSlayerRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetOddballRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetRacingRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetPlayerOptions : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetItemOptions : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetIndicatorOpts : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitGameEngine : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitName : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitCtfRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitKothRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitSlayerRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitOddballRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitRacingRules : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitPlayerOpts : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitItemOptions : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitIndicatorOpts : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSaveChanges : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionColorPickerMenuInitialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionColorPickerMenuDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionColorPickerSelectColor : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileBeginEditing : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileEndEditing : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileChangeName : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileSaveChanges : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfInitCntlSettings : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfInitAdvCntlSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfSaveCntlSettings : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfSaveAdvCntlSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpGamePlayerQuit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMainMenuSwitchToSoloGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionRequestDelPlayerProfile : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionRequestDelPlaylistProfile : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionFinalDelPlayerProfile : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionFinalDelPlaylistProfile : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCancelProfileDelete : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCreateEditPlaylistProfile : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCreateEditPlayerProfile : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetGameSpeedStart : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetGameDelayStart : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetServerAcceptConx : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetServerDeferStart : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetServerAllowStart : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionDisableIfNoXdemos : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionRunXdemos : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSpResetControllerChoices : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSpSetP1ControllerChoice : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSpSetP2ControllerChoice : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionErrorIfNoNetworkConnection : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionStartServerIfNoneAdvertised : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetGameUnjoinPlayer : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCloseIfNotEditingProfile : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionExitToXboxDashboard : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNewCampaignChosen : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNewCampaignDecision : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPopHistoryStackOnce : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionDifficultyMenuInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionBeginMusicFadeOut : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNewGameIfNoPlyrProfiles : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionExitGracefullyToXboxDashboard : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPauseGameInvertPitch : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionStartNewCoopGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPauseGameInvertSpinnerGet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPauseGameInvertSpinnerSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMainMenuQuitGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseEmitAcceptEvent : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseEmitBackEvent : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadLeftEvent : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadRightEvent : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_3wideClick : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionControlsScreenInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionVideoScreenInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionControlsBeginBinding : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyScreenInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyScreenDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespySelectHeader : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespySelectItem : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespySelectButton : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlrProfInitMouseSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlrProfChangeMouseSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlrProfInitAudioSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlrProfChangeAudioSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlrProfChangeVideoSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionControlsScreenDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionControlsScreenChangeSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseEmitXEvent : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenChangeGamepads : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenSelectItem : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseScreenDefaults : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionAudioScreenDefaults : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionVideoScreenDefaults : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionControlsScreenDefaults : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionProfileSetEditBegin : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionProfileManagerDelete : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionProfileManagerSelect : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyDismissError : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionServerSettingsInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSsEditServerName : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSsEditServerPassword : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSsStartGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionVideoTestDialogInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionVideoTestDialogDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionVideoTestDialogAccept : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyDismissFilters : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyUpdateFilterSettings : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyBackHandler : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_1wideClick : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionControlsBackHandler : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedLaunch : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedOk : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpPauseMenuOpen : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpGameOptionsOpen : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpChooseTeam : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfInitVehicleOptions : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfSaveVehicleOptions : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSinglePrevClItemActivated : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfInitTeamplayOptions : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfSaveTeamplayOptions : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpGameOptionsChoose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionEmitCustomActivationEvent : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlrProfCancelAudioSet : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlrProfInitNetworkOptions : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionPlrProfSaveNetworkOptions : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCreditsPostRender : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionDifficultyItemSelect : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCreditsInitialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCreditsDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyGetPatch : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionVideoScreenDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCampaignMenuInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCampaignMenuContinue : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuActivated : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionSoloMenuSaveCheckpoint : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMpTypeSetMode : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCheckingForUpdatesOk : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionCheckingForUpdatesDismiss : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionDirectIpConnectInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionDirectIpConnectGo : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionDirectIpEditField : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetworkSettingsEditAPort : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionNetworkSettingsDefaults : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuDeleteRequest : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuDeleteFinish : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+
+---@alias EngineTagDataUIEventHandlerReferenceFunction 
+---| EngineTagDataUIEventHandlerReferenceFunctionNull
+---| EngineTagDataUIEventHandlerReferenceFunctionListGotoNextItem
+---| EngineTagDataUIEventHandlerReferenceFunctionListGotoPreviousItem
+---| EngineTagDataUIEventHandlerReferenceFunctionUnused
+---| EngineTagDataUIEventHandlerReferenceFunctionUnused1
+---| EngineTagDataUIEventHandlerReferenceFunctionInitializeSpLevelListSolo
+---| EngineTagDataUIEventHandlerReferenceFunctionInitializeSpLevelListCoop
+---| EngineTagDataUIEventHandlerReferenceFunctionDisposeSpLevelList
+---| EngineTagDataUIEventHandlerReferenceFunctionSoloLevelSetMap
+---| EngineTagDataUIEventHandlerReferenceFunctionSetDifficulty
+---| EngineTagDataUIEventHandlerReferenceFunctionStartNewGame
+---| EngineTagDataUIEventHandlerReferenceFunctionPauseGameRestartAtCheckpoint
+---| EngineTagDataUIEventHandlerReferenceFunctionPauseGameRestartLevel
+---| EngineTagDataUIEventHandlerReferenceFunctionPauseGameReturnToMainMenu
+---| EngineTagDataUIEventHandlerReferenceFunctionClearMultiplayerPlayerJoins
+---| EngineTagDataUIEventHandlerReferenceFunctionJoinControllerToMpGame
+---| EngineTagDataUIEventHandlerReferenceFunctionInitializeNetGameServerList
+---| EngineTagDataUIEventHandlerReferenceFunctionStartNetworkGameServer
+---| EngineTagDataUIEventHandlerReferenceFunctionDisposeNetGameServerList
+---| EngineTagDataUIEventHandlerReferenceFunctionShutdownNetworkGame
+---| EngineTagDataUIEventHandlerReferenceFunctionNetGameJoinFromServerList
+---| EngineTagDataUIEventHandlerReferenceFunctionSplitScreenGameInitialize
+---| EngineTagDataUIEventHandlerReferenceFunctionCoopGameInitialize
+---| EngineTagDataUIEventHandlerReferenceFunctionMainMenuIntialize
+---| EngineTagDataUIEventHandlerReferenceFunctionMpTypeMenuInitialize
+---| EngineTagDataUIEventHandlerReferenceFunctionPickPlayStageForQuickStart
+---| EngineTagDataUIEventHandlerReferenceFunctionMpLevelListInitialize
+---| EngineTagDataUIEventHandlerReferenceFunctionMpLevelListDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionMpLevelSelect
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfilesListInitialize
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfilesListDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetForGame
+---| EngineTagDataUIEventHandlerReferenceFunctionSwapPlayerTeam
+---| EngineTagDataUIEventHandlerReferenceFunctionNetGameJoinPlayer
+---| EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListInitialize
+---| EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListDispose
+---| EngineTagDataUIEventHandlerReferenceFunction_3widePlyrProfSetForGame
+---| EngineTagDataUIEventHandlerReferenceFunction_1widePlyrProfSetForGame
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileBeginEditing
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileEndEditing
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetGameEngine
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileChangeName
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetCtfRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetKothRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetSlayerRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetOddballRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetRacingRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetPlayerOptions
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetItemOptions
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetIndicatorOpts
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitGameEngine
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitName
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitCtfRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitKothRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitSlayerRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitOddballRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitRacingRules
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitPlayerOpts
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitItemOptions
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitIndicatorOpts
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSaveChanges
+---| EngineTagDataUIEventHandlerReferenceFunctionColorPickerMenuInitialize
+---| EngineTagDataUIEventHandlerReferenceFunctionColorPickerMenuDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionColorPickerSelectColor
+---| EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileBeginEditing
+---| EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileEndEditing
+---| EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileChangeName
+---| EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileSaveChanges
+---| EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfInitCntlSettings
+---| EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfInitAdvCntlSet
+---| EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfSaveCntlSettings
+---| EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfSaveAdvCntlSet
+---| EngineTagDataUIEventHandlerReferenceFunctionMpGamePlayerQuit
+---| EngineTagDataUIEventHandlerReferenceFunctionMainMenuSwitchToSoloGame
+---| EngineTagDataUIEventHandlerReferenceFunctionRequestDelPlayerProfile
+---| EngineTagDataUIEventHandlerReferenceFunctionRequestDelPlaylistProfile
+---| EngineTagDataUIEventHandlerReferenceFunctionFinalDelPlayerProfile
+---| EngineTagDataUIEventHandlerReferenceFunctionFinalDelPlaylistProfile
+---| EngineTagDataUIEventHandlerReferenceFunctionCancelProfileDelete
+---| EngineTagDataUIEventHandlerReferenceFunctionCreateEditPlaylistProfile
+---| EngineTagDataUIEventHandlerReferenceFunctionCreateEditPlayerProfile
+---| EngineTagDataUIEventHandlerReferenceFunctionNetGameSpeedStart
+---| EngineTagDataUIEventHandlerReferenceFunctionNetGameDelayStart
+---| EngineTagDataUIEventHandlerReferenceFunctionNetServerAcceptConx
+---| EngineTagDataUIEventHandlerReferenceFunctionNetServerDeferStart
+---| EngineTagDataUIEventHandlerReferenceFunctionNetServerAllowStart
+---| EngineTagDataUIEventHandlerReferenceFunctionDisableIfNoXdemos
+---| EngineTagDataUIEventHandlerReferenceFunctionRunXdemos
+---| EngineTagDataUIEventHandlerReferenceFunctionSpResetControllerChoices
+---| EngineTagDataUIEventHandlerReferenceFunctionSpSetP1ControllerChoice
+---| EngineTagDataUIEventHandlerReferenceFunctionSpSetP2ControllerChoice
+---| EngineTagDataUIEventHandlerReferenceFunctionErrorIfNoNetworkConnection
+---| EngineTagDataUIEventHandlerReferenceFunctionStartServerIfNoneAdvertised
+---| EngineTagDataUIEventHandlerReferenceFunctionNetGameUnjoinPlayer
+---| EngineTagDataUIEventHandlerReferenceFunctionCloseIfNotEditingProfile
+---| EngineTagDataUIEventHandlerReferenceFunctionExitToXboxDashboard
+---| EngineTagDataUIEventHandlerReferenceFunctionNewCampaignChosen
+---| EngineTagDataUIEventHandlerReferenceFunctionNewCampaignDecision
+---| EngineTagDataUIEventHandlerReferenceFunctionPopHistoryStackOnce
+---| EngineTagDataUIEventHandlerReferenceFunctionDifficultyMenuInit
+---| EngineTagDataUIEventHandlerReferenceFunctionBeginMusicFadeOut
+---| EngineTagDataUIEventHandlerReferenceFunctionNewGameIfNoPlyrProfiles
+---| EngineTagDataUIEventHandlerReferenceFunctionExitGracefullyToXboxDashboard
+---| EngineTagDataUIEventHandlerReferenceFunctionPauseGameInvertPitch
+---| EngineTagDataUIEventHandlerReferenceFunctionStartNewCoopGame
+---| EngineTagDataUIEventHandlerReferenceFunctionPauseGameInvertSpinnerGet
+---| EngineTagDataUIEventHandlerReferenceFunctionPauseGameInvertSpinnerSet
+---| EngineTagDataUIEventHandlerReferenceFunctionMainMenuQuitGame
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseEmitAcceptEvent
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseEmitBackEvent
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadLeftEvent
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadRightEvent
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_3wideClick
+---| EngineTagDataUIEventHandlerReferenceFunctionControlsScreenInit
+---| EngineTagDataUIEventHandlerReferenceFunctionVideoScreenInit
+---| EngineTagDataUIEventHandlerReferenceFunctionControlsBeginBinding
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespyScreenInit
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespyScreenDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespySelectHeader
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespySelectItem
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespySelectButton
+---| EngineTagDataUIEventHandlerReferenceFunctionPlrProfInitMouseSet
+---| EngineTagDataUIEventHandlerReferenceFunctionPlrProfChangeMouseSet
+---| EngineTagDataUIEventHandlerReferenceFunctionPlrProfInitAudioSet
+---| EngineTagDataUIEventHandlerReferenceFunctionPlrProfChangeAudioSet
+---| EngineTagDataUIEventHandlerReferenceFunctionPlrProfChangeVideoSet
+---| EngineTagDataUIEventHandlerReferenceFunctionControlsScreenDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionControlsScreenChangeSet
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseEmitXEvent
+---| EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenInit
+---| EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenChangeGamepads
+---| EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenSelectItem
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseScreenDefaults
+---| EngineTagDataUIEventHandlerReferenceFunctionAudioScreenDefaults
+---| EngineTagDataUIEventHandlerReferenceFunctionVideoScreenDefaults
+---| EngineTagDataUIEventHandlerReferenceFunctionControlsScreenDefaults
+---| EngineTagDataUIEventHandlerReferenceFunctionProfileSetEditBegin
+---| EngineTagDataUIEventHandlerReferenceFunctionProfileManagerDelete
+---| EngineTagDataUIEventHandlerReferenceFunctionProfileManagerSelect
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespyDismissError
+---| EngineTagDataUIEventHandlerReferenceFunctionServerSettingsInit
+---| EngineTagDataUIEventHandlerReferenceFunctionSsEditServerName
+---| EngineTagDataUIEventHandlerReferenceFunctionSsEditServerPassword
+---| EngineTagDataUIEventHandlerReferenceFunctionSsStartGame
+---| EngineTagDataUIEventHandlerReferenceFunctionVideoTestDialogInit
+---| EngineTagDataUIEventHandlerReferenceFunctionVideoTestDialogDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionVideoTestDialogAccept
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespyDismissFilters
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespyUpdateFilterSettings
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespyBackHandler
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_1wideClick
+---| EngineTagDataUIEventHandlerReferenceFunctionControlsBackHandler
+---| EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedLaunch
+---| EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedOk
+---| EngineTagDataUIEventHandlerReferenceFunctionMpPauseMenuOpen
+---| EngineTagDataUIEventHandlerReferenceFunctionMpGameOptionsOpen
+---| EngineTagDataUIEventHandlerReferenceFunctionMpChooseTeam
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfInitVehicleOptions
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfSaveVehicleOptions
+---| EngineTagDataUIEventHandlerReferenceFunctionSinglePrevClItemActivated
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfInitTeamplayOptions
+---| EngineTagDataUIEventHandlerReferenceFunctionMpProfSaveTeamplayOptions
+---| EngineTagDataUIEventHandlerReferenceFunctionMpGameOptionsChoose
+---| EngineTagDataUIEventHandlerReferenceFunctionEmitCustomActivationEvent
+---| EngineTagDataUIEventHandlerReferenceFunctionPlrProfCancelAudioSet
+---| EngineTagDataUIEventHandlerReferenceFunctionPlrProfInitNetworkOptions
+---| EngineTagDataUIEventHandlerReferenceFunctionPlrProfSaveNetworkOptions
+---| EngineTagDataUIEventHandlerReferenceFunctionCreditsPostRender
+---| EngineTagDataUIEventHandlerReferenceFunctionDifficultyItemSelect
+---| EngineTagDataUIEventHandlerReferenceFunctionCreditsInitialize
+---| EngineTagDataUIEventHandlerReferenceFunctionCreditsDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionGamespyGetPatch
+---| EngineTagDataUIEventHandlerReferenceFunctionVideoScreenDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionCampaignMenuInit
+---| EngineTagDataUIEventHandlerReferenceFunctionCampaignMenuContinue
+---| EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuInit
+---| EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuDispose
+---| EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuActivated
+---| EngineTagDataUIEventHandlerReferenceFunctionSoloMenuSaveCheckpoint
+---| EngineTagDataUIEventHandlerReferenceFunctionMpTypeSetMode
+---| EngineTagDataUIEventHandlerReferenceFunctionCheckingForUpdatesOk
+---| EngineTagDataUIEventHandlerReferenceFunctionCheckingForUpdatesDismiss
+---| EngineTagDataUIEventHandlerReferenceFunctionDirectIpConnectInit
+---| EngineTagDataUIEventHandlerReferenceFunctionDirectIpConnectGo
+---| EngineTagDataUIEventHandlerReferenceFunctionDirectIpEditField
+---| EngineTagDataUIEventHandlerReferenceFunctionNetworkSettingsEditAPort
+---| EngineTagDataUIEventHandlerReferenceFunctionNetworkSettingsDefaults
+---| EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuDeleteRequest
+---| EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuDeleteFinish
+
+---@class EngineTagDataUIEventHandlerReferenceFunctionTable 
+---@field tionNull EngineTagDataUIEventHandlerReferenceFunctionNull
+---@field tionListGotoNextItem EngineTagDataUIEventHandlerReferenceFunctionListGotoNextItem
+---@field tionListGotoPreviousItem EngineTagDataUIEventHandlerReferenceFunctionListGotoPreviousItem
+---@field tionUnused EngineTagDataUIEventHandlerReferenceFunctionUnused
+---@field tionUnused1 EngineTagDataUIEventHandlerReferenceFunctionUnused1
+---@field tionInitializeSpLevelListSolo EngineTagDataUIEventHandlerReferenceFunctionInitializeSpLevelListSolo
+---@field tionInitializeSpLevelListCoop EngineTagDataUIEventHandlerReferenceFunctionInitializeSpLevelListCoop
+---@field tionDisposeSpLevelList EngineTagDataUIEventHandlerReferenceFunctionDisposeSpLevelList
+---@field tionSoloLevelSetMap EngineTagDataUIEventHandlerReferenceFunctionSoloLevelSetMap
+---@field tionSetDifficulty EngineTagDataUIEventHandlerReferenceFunctionSetDifficulty
+---@field tionStartNewGame EngineTagDataUIEventHandlerReferenceFunctionStartNewGame
+---@field tionPauseGameRestartAtCheckpoint EngineTagDataUIEventHandlerReferenceFunctionPauseGameRestartAtCheckpoint
+---@field tionPauseGameRestartLevel EngineTagDataUIEventHandlerReferenceFunctionPauseGameRestartLevel
+---@field tionPauseGameReturnToMainMenu EngineTagDataUIEventHandlerReferenceFunctionPauseGameReturnToMainMenu
+---@field tionClearMultiplayerPlayerJoins EngineTagDataUIEventHandlerReferenceFunctionClearMultiplayerPlayerJoins
+---@field tionJoinControllerToMpGame EngineTagDataUIEventHandlerReferenceFunctionJoinControllerToMpGame
+---@field tionInitializeNetGameServerList EngineTagDataUIEventHandlerReferenceFunctionInitializeNetGameServerList
+---@field tionStartNetworkGameServer EngineTagDataUIEventHandlerReferenceFunctionStartNetworkGameServer
+---@field tionDisposeNetGameServerList EngineTagDataUIEventHandlerReferenceFunctionDisposeNetGameServerList
+---@field tionShutdownNetworkGame EngineTagDataUIEventHandlerReferenceFunctionShutdownNetworkGame
+---@field tionNetGameJoinFromServerList EngineTagDataUIEventHandlerReferenceFunctionNetGameJoinFromServerList
+---@field tionSplitScreenGameInitialize EngineTagDataUIEventHandlerReferenceFunctionSplitScreenGameInitialize
+---@field tionCoopGameInitialize EngineTagDataUIEventHandlerReferenceFunctionCoopGameInitialize
+---@field tionMainMenuIntialize EngineTagDataUIEventHandlerReferenceFunctionMainMenuIntialize
+---@field tionMpTypeMenuInitialize EngineTagDataUIEventHandlerReferenceFunctionMpTypeMenuInitialize
+---@field tionPickPlayStageForQuickStart EngineTagDataUIEventHandlerReferenceFunctionPickPlayStageForQuickStart
+---@field tionMpLevelListInitialize EngineTagDataUIEventHandlerReferenceFunctionMpLevelListInitialize
+---@field tionMpLevelListDispose EngineTagDataUIEventHandlerReferenceFunctionMpLevelListDispose
+---@field tionMpLevelSelect EngineTagDataUIEventHandlerReferenceFunctionMpLevelSelect
+---@field tionMpProfilesListInitialize EngineTagDataUIEventHandlerReferenceFunctionMpProfilesListInitialize
+---@field tionMpProfilesListDispose EngineTagDataUIEventHandlerReferenceFunctionMpProfilesListDispose
+---@field tionMpProfileSetForGame EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetForGame
+---@field tionSwapPlayerTeam EngineTagDataUIEventHandlerReferenceFunctionSwapPlayerTeam
+---@field tionNetGameJoinPlayer EngineTagDataUIEventHandlerReferenceFunctionNetGameJoinPlayer
+---@field tionPlayerProfileListInitialize EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListInitialize
+---@field tionPlayerProfileListDispose EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListDispose
+---@field tion_3widePlyrProfSetForGame EngineTagDataUIEventHandlerReferenceFunction_3widePlyrProfSetForGame
+---@field tion_1widePlyrProfSetForGame EngineTagDataUIEventHandlerReferenceFunction_1widePlyrProfSetForGame
+---@field tionMpProfileBeginEditing EngineTagDataUIEventHandlerReferenceFunctionMpProfileBeginEditing
+---@field tionMpProfileEndEditing EngineTagDataUIEventHandlerReferenceFunctionMpProfileEndEditing
+---@field tionMpProfileSetGameEngine EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetGameEngine
+---@field tionMpProfileChangeName EngineTagDataUIEventHandlerReferenceFunctionMpProfileChangeName
+---@field tionMpProfileSetCtfRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetCtfRules
+---@field tionMpProfileSetKothRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetKothRules
+---@field tionMpProfileSetSlayerRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetSlayerRules
+---@field tionMpProfileSetOddballRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetOddballRules
+---@field tionMpProfileSetRacingRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetRacingRules
+---@field tionMpProfileSetPlayerOptions EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetPlayerOptions
+---@field tionMpProfileSetItemOptions EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetItemOptions
+---@field tionMpProfileSetIndicatorOpts EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetIndicatorOpts
+---@field tionMpProfileInitGameEngine EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitGameEngine
+---@field tionMpProfileInitName EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitName
+---@field tionMpProfileInitCtfRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitCtfRules
+---@field tionMpProfileInitKothRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitKothRules
+---@field tionMpProfileInitSlayerRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitSlayerRules
+---@field tionMpProfileInitOddballRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitOddballRules
+---@field tionMpProfileInitRacingRules EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitRacingRules
+---@field tionMpProfileInitPlayerOpts EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitPlayerOpts
+---@field tionMpProfileInitItemOptions EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitItemOptions
+---@field tionMpProfileInitIndicatorOpts EngineTagDataUIEventHandlerReferenceFunctionMpProfileInitIndicatorOpts
+---@field tionMpProfileSaveChanges EngineTagDataUIEventHandlerReferenceFunctionMpProfileSaveChanges
+---@field tionColorPickerMenuInitialize EngineTagDataUIEventHandlerReferenceFunctionColorPickerMenuInitialize
+---@field tionColorPickerMenuDispose EngineTagDataUIEventHandlerReferenceFunctionColorPickerMenuDispose
+---@field tionColorPickerSelectColor EngineTagDataUIEventHandlerReferenceFunctionColorPickerSelectColor
+---@field tionPlayerProfileBeginEditing EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileBeginEditing
+---@field tionPlayerProfileEndEditing EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileEndEditing
+---@field tionPlayerProfileChangeName EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileChangeName
+---@field tionPlayerProfileSaveChanges EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileSaveChanges
+---@field tionPlyrPrfInitCntlSettings EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfInitCntlSettings
+---@field tionPlyrPrfInitAdvCntlSet EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfInitAdvCntlSet
+---@field tionPlyrPrfSaveCntlSettings EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfSaveCntlSettings
+---@field tionPlyrPrfSaveAdvCntlSet EngineTagDataUIEventHandlerReferenceFunctionPlyrPrfSaveAdvCntlSet
+---@field tionMpGamePlayerQuit EngineTagDataUIEventHandlerReferenceFunctionMpGamePlayerQuit
+---@field tionMainMenuSwitchToSoloGame EngineTagDataUIEventHandlerReferenceFunctionMainMenuSwitchToSoloGame
+---@field tionRequestDelPlayerProfile EngineTagDataUIEventHandlerReferenceFunctionRequestDelPlayerProfile
+---@field tionRequestDelPlaylistProfile EngineTagDataUIEventHandlerReferenceFunctionRequestDelPlaylistProfile
+---@field tionFinalDelPlayerProfile EngineTagDataUIEventHandlerReferenceFunctionFinalDelPlayerProfile
+---@field tionFinalDelPlaylistProfile EngineTagDataUIEventHandlerReferenceFunctionFinalDelPlaylistProfile
+---@field tionCancelProfileDelete EngineTagDataUIEventHandlerReferenceFunctionCancelProfileDelete
+---@field tionCreateEditPlaylistProfile EngineTagDataUIEventHandlerReferenceFunctionCreateEditPlaylistProfile
+---@field tionCreateEditPlayerProfile EngineTagDataUIEventHandlerReferenceFunctionCreateEditPlayerProfile
+---@field tionNetGameSpeedStart EngineTagDataUIEventHandlerReferenceFunctionNetGameSpeedStart
+---@field tionNetGameDelayStart EngineTagDataUIEventHandlerReferenceFunctionNetGameDelayStart
+---@field tionNetServerAcceptConx EngineTagDataUIEventHandlerReferenceFunctionNetServerAcceptConx
+---@field tionNetServerDeferStart EngineTagDataUIEventHandlerReferenceFunctionNetServerDeferStart
+---@field tionNetServerAllowStart EngineTagDataUIEventHandlerReferenceFunctionNetServerAllowStart
+---@field tionDisableIfNoXdemos EngineTagDataUIEventHandlerReferenceFunctionDisableIfNoXdemos
+---@field tionRunXdemos EngineTagDataUIEventHandlerReferenceFunctionRunXdemos
+---@field tionSpResetControllerChoices EngineTagDataUIEventHandlerReferenceFunctionSpResetControllerChoices
+---@field tionSpSetP1ControllerChoice EngineTagDataUIEventHandlerReferenceFunctionSpSetP1ControllerChoice
+---@field tionSpSetP2ControllerChoice EngineTagDataUIEventHandlerReferenceFunctionSpSetP2ControllerChoice
+---@field tionErrorIfNoNetworkConnection EngineTagDataUIEventHandlerReferenceFunctionErrorIfNoNetworkConnection
+---@field tionStartServerIfNoneAdvertised EngineTagDataUIEventHandlerReferenceFunctionStartServerIfNoneAdvertised
+---@field tionNetGameUnjoinPlayer EngineTagDataUIEventHandlerReferenceFunctionNetGameUnjoinPlayer
+---@field tionCloseIfNotEditingProfile EngineTagDataUIEventHandlerReferenceFunctionCloseIfNotEditingProfile
+---@field tionExitToXboxDashboard EngineTagDataUIEventHandlerReferenceFunctionExitToXboxDashboard
+---@field tionNewCampaignChosen EngineTagDataUIEventHandlerReferenceFunctionNewCampaignChosen
+---@field tionNewCampaignDecision EngineTagDataUIEventHandlerReferenceFunctionNewCampaignDecision
+---@field tionPopHistoryStackOnce EngineTagDataUIEventHandlerReferenceFunctionPopHistoryStackOnce
+---@field tionDifficultyMenuInit EngineTagDataUIEventHandlerReferenceFunctionDifficultyMenuInit
+---@field tionBeginMusicFadeOut EngineTagDataUIEventHandlerReferenceFunctionBeginMusicFadeOut
+---@field tionNewGameIfNoPlyrProfiles EngineTagDataUIEventHandlerReferenceFunctionNewGameIfNoPlyrProfiles
+---@field tionExitGracefullyToXboxDashboard EngineTagDataUIEventHandlerReferenceFunctionExitGracefullyToXboxDashboard
+---@field tionPauseGameInvertPitch EngineTagDataUIEventHandlerReferenceFunctionPauseGameInvertPitch
+---@field tionStartNewCoopGame EngineTagDataUIEventHandlerReferenceFunctionStartNewCoopGame
+---@field tionPauseGameInvertSpinnerGet EngineTagDataUIEventHandlerReferenceFunctionPauseGameInvertSpinnerGet
+---@field tionPauseGameInvertSpinnerSet EngineTagDataUIEventHandlerReferenceFunctionPauseGameInvertSpinnerSet
+---@field tionMainMenuQuitGame EngineTagDataUIEventHandlerReferenceFunctionMainMenuQuitGame
+---@field tionMouseEmitAcceptEvent EngineTagDataUIEventHandlerReferenceFunctionMouseEmitAcceptEvent
+---@field tionMouseEmitBackEvent EngineTagDataUIEventHandlerReferenceFunctionMouseEmitBackEvent
+---@field tionMouseEmitDpadLeftEvent EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadLeftEvent
+---@field tionMouseEmitDpadRightEvent EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadRightEvent
+---@field tionMouseSpinner_3wideClick EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_3wideClick
+---@field tionControlsScreenInit EngineTagDataUIEventHandlerReferenceFunctionControlsScreenInit
+---@field tionVideoScreenInit EngineTagDataUIEventHandlerReferenceFunctionVideoScreenInit
+---@field tionControlsBeginBinding EngineTagDataUIEventHandlerReferenceFunctionControlsBeginBinding
+---@field tionGamespyScreenInit EngineTagDataUIEventHandlerReferenceFunctionGamespyScreenInit
+---@field tionGamespyScreenDispose EngineTagDataUIEventHandlerReferenceFunctionGamespyScreenDispose
+---@field tionGamespySelectHeader EngineTagDataUIEventHandlerReferenceFunctionGamespySelectHeader
+---@field tionGamespySelectItem EngineTagDataUIEventHandlerReferenceFunctionGamespySelectItem
+---@field tionGamespySelectButton EngineTagDataUIEventHandlerReferenceFunctionGamespySelectButton
+---@field tionPlrProfInitMouseSet EngineTagDataUIEventHandlerReferenceFunctionPlrProfInitMouseSet
+---@field tionPlrProfChangeMouseSet EngineTagDataUIEventHandlerReferenceFunctionPlrProfChangeMouseSet
+---@field tionPlrProfInitAudioSet EngineTagDataUIEventHandlerReferenceFunctionPlrProfInitAudioSet
+---@field tionPlrProfChangeAudioSet EngineTagDataUIEventHandlerReferenceFunctionPlrProfChangeAudioSet
+---@field tionPlrProfChangeVideoSet EngineTagDataUIEventHandlerReferenceFunctionPlrProfChangeVideoSet
+---@field tionControlsScreenDispose EngineTagDataUIEventHandlerReferenceFunctionControlsScreenDispose
+---@field tionControlsScreenChangeSet EngineTagDataUIEventHandlerReferenceFunctionControlsScreenChangeSet
+---@field tionMouseEmitXEvent EngineTagDataUIEventHandlerReferenceFunctionMouseEmitXEvent
+---@field tionGamepadScreenInit EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenInit
+---@field tionGamepadScreenDispose EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenDispose
+---@field tionGamepadScreenChangeGamepads EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenChangeGamepads
+---@field tionGamepadScreenSelectItem EngineTagDataUIEventHandlerReferenceFunctionGamepadScreenSelectItem
+---@field tionMouseScreenDefaults EngineTagDataUIEventHandlerReferenceFunctionMouseScreenDefaults
+---@field tionAudioScreenDefaults EngineTagDataUIEventHandlerReferenceFunctionAudioScreenDefaults
+---@field tionVideoScreenDefaults EngineTagDataUIEventHandlerReferenceFunctionVideoScreenDefaults
+---@field tionControlsScreenDefaults EngineTagDataUIEventHandlerReferenceFunctionControlsScreenDefaults
+---@field tionProfileSetEditBegin EngineTagDataUIEventHandlerReferenceFunctionProfileSetEditBegin
+---@field tionProfileManagerDelete EngineTagDataUIEventHandlerReferenceFunctionProfileManagerDelete
+---@field tionProfileManagerSelect EngineTagDataUIEventHandlerReferenceFunctionProfileManagerSelect
+---@field tionGamespyDismissError EngineTagDataUIEventHandlerReferenceFunctionGamespyDismissError
+---@field tionServerSettingsInit EngineTagDataUIEventHandlerReferenceFunctionServerSettingsInit
+---@field tionSsEditServerName EngineTagDataUIEventHandlerReferenceFunctionSsEditServerName
+---@field tionSsEditServerPassword EngineTagDataUIEventHandlerReferenceFunctionSsEditServerPassword
+---@field tionSsStartGame EngineTagDataUIEventHandlerReferenceFunctionSsStartGame
+---@field tionVideoTestDialogInit EngineTagDataUIEventHandlerReferenceFunctionVideoTestDialogInit
+---@field tionVideoTestDialogDispose EngineTagDataUIEventHandlerReferenceFunctionVideoTestDialogDispose
+---@field tionVideoTestDialogAccept EngineTagDataUIEventHandlerReferenceFunctionVideoTestDialogAccept
+---@field tionGamespyDismissFilters EngineTagDataUIEventHandlerReferenceFunctionGamespyDismissFilters
+---@field tionGamespyUpdateFilterSettings EngineTagDataUIEventHandlerReferenceFunctionGamespyUpdateFilterSettings
+---@field tionGamespyBackHandler EngineTagDataUIEventHandlerReferenceFunctionGamespyBackHandler
+---@field tionMouseSpinner_1wideClick EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_1wideClick
+---@field tionControlsBackHandler EngineTagDataUIEventHandlerReferenceFunctionControlsBackHandler
+---@field tionControlsAdvancedLaunch EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedLaunch
+---@field tionControlsAdvancedOk EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedOk
+---@field tionMpPauseMenuOpen EngineTagDataUIEventHandlerReferenceFunctionMpPauseMenuOpen
+---@field tionMpGameOptionsOpen EngineTagDataUIEventHandlerReferenceFunctionMpGameOptionsOpen
+---@field tionMpChooseTeam EngineTagDataUIEventHandlerReferenceFunctionMpChooseTeam
+---@field tionMpProfInitVehicleOptions EngineTagDataUIEventHandlerReferenceFunctionMpProfInitVehicleOptions
+---@field tionMpProfSaveVehicleOptions EngineTagDataUIEventHandlerReferenceFunctionMpProfSaveVehicleOptions
+---@field tionSinglePrevClItemActivated EngineTagDataUIEventHandlerReferenceFunctionSinglePrevClItemActivated
+---@field tionMpProfInitTeamplayOptions EngineTagDataUIEventHandlerReferenceFunctionMpProfInitTeamplayOptions
+---@field tionMpProfSaveTeamplayOptions EngineTagDataUIEventHandlerReferenceFunctionMpProfSaveTeamplayOptions
+---@field tionMpGameOptionsChoose EngineTagDataUIEventHandlerReferenceFunctionMpGameOptionsChoose
+---@field tionEmitCustomActivationEvent EngineTagDataUIEventHandlerReferenceFunctionEmitCustomActivationEvent
+---@field tionPlrProfCancelAudioSet EngineTagDataUIEventHandlerReferenceFunctionPlrProfCancelAudioSet
+---@field tionPlrProfInitNetworkOptions EngineTagDataUIEventHandlerReferenceFunctionPlrProfInitNetworkOptions
+---@field tionPlrProfSaveNetworkOptions EngineTagDataUIEventHandlerReferenceFunctionPlrProfSaveNetworkOptions
+---@field tionCreditsPostRender EngineTagDataUIEventHandlerReferenceFunctionCreditsPostRender
+---@field tionDifficultyItemSelect EngineTagDataUIEventHandlerReferenceFunctionDifficultyItemSelect
+---@field tionCreditsInitialize EngineTagDataUIEventHandlerReferenceFunctionCreditsInitialize
+---@field tionCreditsDispose EngineTagDataUIEventHandlerReferenceFunctionCreditsDispose
+---@field tionGamespyGetPatch EngineTagDataUIEventHandlerReferenceFunctionGamespyGetPatch
+---@field tionVideoScreenDispose EngineTagDataUIEventHandlerReferenceFunctionVideoScreenDispose
+---@field tionCampaignMenuInit EngineTagDataUIEventHandlerReferenceFunctionCampaignMenuInit
+---@field tionCampaignMenuContinue EngineTagDataUIEventHandlerReferenceFunctionCampaignMenuContinue
+---@field tionLoadGameMenuInit EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuInit
+---@field tionLoadGameMenuDispose EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuDispose
+---@field tionLoadGameMenuActivated EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuActivated
+---@field tionSoloMenuSaveCheckpoint EngineTagDataUIEventHandlerReferenceFunctionSoloMenuSaveCheckpoint
+---@field tionMpTypeSetMode EngineTagDataUIEventHandlerReferenceFunctionMpTypeSetMode
+---@field tionCheckingForUpdatesOk EngineTagDataUIEventHandlerReferenceFunctionCheckingForUpdatesOk
+---@field tionCheckingForUpdatesDismiss EngineTagDataUIEventHandlerReferenceFunctionCheckingForUpdatesDismiss
+---@field tionDirectIpConnectInit EngineTagDataUIEventHandlerReferenceFunctionDirectIpConnectInit
+---@field tionDirectIpConnectGo EngineTagDataUIEventHandlerReferenceFunctionDirectIpConnectGo
+---@field tionDirectIpEditField EngineTagDataUIEventHandlerReferenceFunctionDirectIpEditField
+---@field tionNetworkSettingsEditAPort EngineTagDataUIEventHandlerReferenceFunctionNetworkSettingsEditAPort
+---@field tionNetworkSettingsDefaults EngineTagDataUIEventHandlerReferenceFunctionNetworkSettingsDefaults
+---@field tionLoadGameMenuDeleteRequest EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuDeleteRequest
+---@field tionLoadGameMenuDeleteFinish EngineTagDataUIEventHandlerReferenceFunctionLoadGameMenuDeleteFinish
+Engine.tag.uIEventHandlerReferenceFunction = {} 
+
+---@class EngineTagDataUIReplaceFunctionEnum : Enum 
+
+---@class EngineTagDataUIReplaceFunctionNull : EngineTagDataUIReplaceFunctionEnum 
+---@class EngineTagDataUIReplaceFunctionWidgetSController : EngineTagDataUIReplaceFunctionEnum 
+---@class EngineTagDataUIReplaceFunctionBuildNumber : EngineTagDataUIReplaceFunctionEnum 
+---@class EngineTagDataUIReplaceFunctionPid : EngineTagDataUIReplaceFunctionEnum 
+
+---@alias EngineTagDataUIReplaceFunction 
+---| EngineTagDataUIReplaceFunctionNull
+---| EngineTagDataUIReplaceFunctionWidgetSController
+---| EngineTagDataUIReplaceFunctionBuildNumber
+---| EngineTagDataUIReplaceFunctionPid
+
+---@class EngineTagDataUIReplaceFunctionTable 
+---@field onNull EngineTagDataUIReplaceFunctionNull
+---@field onWidgetSController EngineTagDataUIReplaceFunctionWidgetSController
+---@field onBuildNumber EngineTagDataUIReplaceFunctionBuildNumber
+---@field onPid EngineTagDataUIReplaceFunctionPid
+Engine.tag.uIReplaceFunction = {} 
+
+---@class EngineTagDataUIWidgetTypeEnum : Enum 
+
+---@class EngineTagDataUIWidgetTypeContainer : EngineTagDataUIWidgetTypeEnum 
+---@class EngineTagDataUIWidgetTypeTextBox : EngineTagDataUIWidgetTypeEnum 
+---@class EngineTagDataUIWidgetTypeSpinnerList : EngineTagDataUIWidgetTypeEnum 
+---@class EngineTagDataUIWidgetTypeColumnList : EngineTagDataUIWidgetTypeEnum 
+---@class EngineTagDataUIWidgetTypeGameModelNotImplemented : EngineTagDataUIWidgetTypeEnum 
+---@class EngineTagDataUIWidgetTypeMovieNotImplemented : EngineTagDataUIWidgetTypeEnum 
+---@class EngineTagDataUIWidgetTypeCustomNotImplemented : EngineTagDataUIWidgetTypeEnum 
+
+---@alias EngineTagDataUIWidgetType 
+---| EngineTagDataUIWidgetTypeContainer
+---| EngineTagDataUIWidgetTypeTextBox
+---| EngineTagDataUIWidgetTypeSpinnerList
+---| EngineTagDataUIWidgetTypeColumnList
+---| EngineTagDataUIWidgetTypeGameModelNotImplemented
+---| EngineTagDataUIWidgetTypeMovieNotImplemented
+---| EngineTagDataUIWidgetTypeCustomNotImplemented
+
+---@class EngineTagDataUIWidgetTypeTable 
+---@field peContainer EngineTagDataUIWidgetTypeContainer
+---@field peTextBox EngineTagDataUIWidgetTypeTextBox
+---@field peSpinnerList EngineTagDataUIWidgetTypeSpinnerList
+---@field peColumnList EngineTagDataUIWidgetTypeColumnList
+---@field peGameModelNotImplemented EngineTagDataUIWidgetTypeGameModelNotImplemented
+---@field peMovieNotImplemented EngineTagDataUIWidgetTypeMovieNotImplemented
+---@field peCustomNotImplemented EngineTagDataUIWidgetTypeCustomNotImplemented
+Engine.tag.uIWidgetType = {} 
+
+---@class EngineTagDataUIControllerIndexEnum : Enum 
+
+---@class EngineTagDataUIControllerIndexPlayer_1 : EngineTagDataUIControllerIndexEnum 
+---@class EngineTagDataUIControllerIndexPlayer_2 : EngineTagDataUIControllerIndexEnum 
+---@class EngineTagDataUIControllerIndexPlayer_3 : EngineTagDataUIControllerIndexEnum 
+---@class EngineTagDataUIControllerIndexPlayer_4 : EngineTagDataUIControllerIndexEnum 
+---@class EngineTagDataUIControllerIndexAnyPlayer : EngineTagDataUIControllerIndexEnum 
+
+---@alias EngineTagDataUIControllerIndex 
+---| EngineTagDataUIControllerIndexPlayer_1
+---| EngineTagDataUIControllerIndexPlayer_2
+---| EngineTagDataUIControllerIndexPlayer_3
+---| EngineTagDataUIControllerIndexPlayer_4
+---| EngineTagDataUIControllerIndexAnyPlayer
+
+---@class EngineTagDataUIControllerIndexTable 
+---@field exPlayer_1 EngineTagDataUIControllerIndexPlayer_1
+---@field exPlayer_2 EngineTagDataUIControllerIndexPlayer_2
+---@field exPlayer_3 EngineTagDataUIControllerIndexPlayer_3
+---@field exPlayer_4 EngineTagDataUIControllerIndexPlayer_4
+---@field exAnyPlayer EngineTagDataUIControllerIndexAnyPlayer
+Engine.tag.uIControllerIndex = {} 
+
+---@class EngineTagDataUIJustificationEnum : Enum 
+
+---@class EngineTagDataUIJustificationLeftJustify : EngineTagDataUIJustificationEnum 
+---@class EngineTagDataUIJustificationRightJustify : EngineTagDataUIJustificationEnum 
+---@class EngineTagDataUIJustificationCenterJustify : EngineTagDataUIJustificationEnum 
+
+---@alias EngineTagDataUIJustification 
+---| EngineTagDataUIJustificationLeftJustify
+---| EngineTagDataUIJustificationRightJustify
+---| EngineTagDataUIJustificationCenterJustify
+
+---@class EngineTagDataUIJustificationTable 
+---@field nLeftJustify EngineTagDataUIJustificationLeftJustify
+---@field nRightJustify EngineTagDataUIJustificationRightJustify
+---@field nCenterJustify EngineTagDataUIJustificationCenterJustify
+Engine.tag.uIJustification = {} 
+
+---@class MetaEngineTagDataEventHandlerReferencesFlags 
+---@field closeCurrentWidget boolean 
+---@field closeOtherWidget boolean 
+---@field closeAllWidgets boolean 
+---@field openWidget boolean 
+---@field reloadSelf boolean 
+---@field reloadOtherWidget boolean 
+---@field giveFocusToWidget boolean 
+---@field runFunction boolean 
+---@field replaceSelfWWidget boolean 
+---@field goBackToPreviousWidget boolean 
+---@field runScenarioScript boolean 
+---@field tryToBranchOnFailure boolean 
+
+---@class MetaEngineTagDataConditionalWidgetReferenceFlags 
+---@field loadIfEventHandlerFunctionFails boolean 
+
+---@class MetaEngineTagDataChildWidgetReferenceFlags 
+---@field useCustomControllerIndex boolean 
+
+---@class MetaEngineTagDataUIWidgetDefinitionFlags 
+---@field passUnhandledEventsToFocusedChild boolean 
+---@field pauseGameTime boolean 
+---@field flashBackgroundBitmap boolean 
+---@field dpadUpDownTabsThruChildren boolean 
+---@field dpadLeftRightTabsThruChildren boolean 
+---@field dpadUpDownTabsThruListItems boolean 
+---@field dpadLeftRightTabsThruListItems boolean 
+---@field dontFocusASpecificChildWidget boolean 
+---@field passUnhandledEventsToAllChildren boolean 
+---@field renderRegardlessOfControllerIndex boolean 
+---@field passHandledEventsToAllChildren boolean 
+---@field returnToMainMenuIfNoHistory boolean 
+---@field alwaysUseTagControllerIndex boolean 
+---@field alwaysUseNiftyRenderFx boolean 
+---@field dontPushHistory boolean 
+---@field forceHandleMouse boolean 
+
+---@class MetaEngineTagDataUIWidgetDefinitionFlags1 
+---@field editable boolean 
+---@field password boolean 
+---@field flashing boolean 
+---@field dontDoThatWeirdFocusTest boolean 
+
+---@class MetaEngineTagDataUIWidgetDefinitionFlags2 
+---@field listItemsGeneratedInCode boolean 
+---@field listItemsFromStringListTag boolean 
+---@field listItemsOnlyOneTooltip boolean 
+---@field listSinglePreviewNoScroll boolean 
+
+---@class MetaEngineTagDataGameDataInputReference 
+---@field function EngineTagDataUIGameDataInputReferenceFunction 
+
+---@class MetaEngineTagDataEventHandlerReference 
+---@field flags MetaEngineTagDataEventHandlerReferencesFlags 
+---@field eventType EngineTagDataUIEventType 
+---@field function EngineTagDataUIEventHandlerReferenceFunction 
+---@field widgetTag MetaEngineTagDependency 
+---@field soundEffect MetaEngineTagDependency 
+---@field script MetaEngineTagString 
+
+---@class MetaEngineTagDataSearchAndReplaceReference 
+---@field searchString MetaEngineTagString 
+---@field replaceFunction EngineTagDataUIReplaceFunction 
+
+---@class MetaEngineTagDataConditionalWidgetReference 
+---@field widgetTag MetaEngineTagDependency 
 ---@field name MetaEngineTagString 
----@field primaryColor MetaEngineColorRGB 
----@field secondaryColor MetaEngineColorRGB 
----@field pattern MetaEngineTagDependency 
----@field patternBitmapIndex MetaEngineIndex 
----@field decal MetaEngineTagDependency 
----@field decalBitmapIndex MetaEngineIndex 
+---@field flags MetaEngineTagDataConditionalWidgetReferenceFlags 
+---@field customControllerIndex MetaEngineIndex 
 
----@class MetaEngineTagDataTagCollectionTag 
+---@class MetaEngineTagDataChildWidgetReference 
+---@field widgetTag MetaEngineTagDependency 
+---@field name MetaEngineTagString 
+---@field flags MetaEngineTagDataChildWidgetReferenceFlags 
+---@field customControllerIndex MetaEngineIndex 
+---@field verticalOffset integer 
+---@field horizontalOffset integer 
+
+---@class MetaEngineTagDataUiWidgetDefinition 
+---@field widgetType EngineTagDataUIWidgetType 
+---@field controllerIndex EngineTagDataUIControllerIndex 
+---@field name MetaEngineTagString 
+---@field bounds MetaEngineRectangle2D 
+---@field flags MetaEngineTagDataUIWidgetDefinitionFlags 
+---@field millisecondsToAutoClose integer 
+---@field millisecondsAutoCloseFadeTime integer 
+---@field backgroundBitmap MetaEngineTagDependency 
+---@field gameDataInputs TagBlock<MetaEngineTagDataGameDataInputReference> 
+---@field eventHandlers TagBlock<MetaEngineTagDataEventHandlerReference> 
+---@field searchAndReplaceFunctions TagBlock<MetaEngineTagDataSearchAndReplaceReference> 
+---@field textLabelUnicodeStringsList MetaEngineTagDependency 
+---@field textFont MetaEngineTagDependency 
+---@field textColor MetaEngineColorARGB 
+---@field justification EngineTagDataUIJustification 
+---@field flags_1 MetaEngineTagDataUIWidgetDefinitionFlags1 
+---@field stringListIndex MetaEngineIndex 
+---@field horizOffset integer 
+---@field vertOffset integer 
+---@field flags_2 MetaEngineTagDataUIWidgetDefinitionFlags2 
+---@field listHeaderBitmap MetaEngineTagDependency 
+---@field listFooterBitmap MetaEngineTagDependency 
+---@field headerBounds MetaEngineRectangle2D 
+---@field footerBounds MetaEngineRectangle2D 
+---@field extendedDescriptionWidget MetaEngineTagDependency 
+---@field conditionalWidgets TagBlock<MetaEngineTagDataConditionalWidgetReference> 
+---@field childWidgets TagBlock<MetaEngineTagDataChildWidgetReference> 
+
+---@class EngineTagDataShaderModelDetailMaskEnum : Enum 
+
+---@class EngineTagDataShaderModelDetailMaskNone : EngineTagDataShaderModelDetailMaskEnum 
+---@class EngineTagDataShaderModelDetailMaskReflectionMaskInverse : EngineTagDataShaderModelDetailMaskEnum 
+---@class EngineTagDataShaderModelDetailMaskReflectionMask : EngineTagDataShaderModelDetailMaskEnum 
+---@class EngineTagDataShaderModelDetailMaskSelfIlluminationMaskInverse : EngineTagDataShaderModelDetailMaskEnum 
+---@class EngineTagDataShaderModelDetailMaskSelfIlluminationMask : EngineTagDataShaderModelDetailMaskEnum 
+---@class EngineTagDataShaderModelDetailMaskChangeColorMaskInverse : EngineTagDataShaderModelDetailMaskEnum 
+---@class EngineTagDataShaderModelDetailMaskChangeColorMask : EngineTagDataShaderModelDetailMaskEnum 
+---@class EngineTagDataShaderModelDetailMaskAuxiliaryMaskInverse : EngineTagDataShaderModelDetailMaskEnum 
+---@class EngineTagDataShaderModelDetailMaskAuxiliaryMask : EngineTagDataShaderModelDetailMaskEnum 
+
+---@alias EngineTagDataShaderModelDetailMask 
+---| EngineTagDataShaderModelDetailMaskNone
+---| EngineTagDataShaderModelDetailMaskReflectionMaskInverse
+---| EngineTagDataShaderModelDetailMaskReflectionMask
+---| EngineTagDataShaderModelDetailMaskSelfIlluminationMaskInverse
+---| EngineTagDataShaderModelDetailMaskSelfIlluminationMask
+---| EngineTagDataShaderModelDetailMaskChangeColorMaskInverse
+---| EngineTagDataShaderModelDetailMaskChangeColorMask
+---| EngineTagDataShaderModelDetailMaskAuxiliaryMaskInverse
+---| EngineTagDataShaderModelDetailMaskAuxiliaryMask
+
+---@class EngineTagDataShaderModelDetailMaskTable 
+---@field skNone EngineTagDataShaderModelDetailMaskNone
+---@field skReflectionMaskInverse EngineTagDataShaderModelDetailMaskReflectionMaskInverse
+---@field skReflectionMask EngineTagDataShaderModelDetailMaskReflectionMask
+---@field skSelfIlluminationMaskInverse EngineTagDataShaderModelDetailMaskSelfIlluminationMaskInverse
+---@field skSelfIlluminationMask EngineTagDataShaderModelDetailMaskSelfIlluminationMask
+---@field skChangeColorMaskInverse EngineTagDataShaderModelDetailMaskChangeColorMaskInverse
+---@field skChangeColorMask EngineTagDataShaderModelDetailMaskChangeColorMask
+---@field skAuxiliaryMaskInverse EngineTagDataShaderModelDetailMaskAuxiliaryMaskInverse
+---@field skAuxiliaryMask EngineTagDataShaderModelDetailMaskAuxiliaryMask
+Engine.tag.shaderModelDetailMask = {} 
+
+---@class MetaEngineTagDataShaderModelFlags 
+---@field detailAfterReflection boolean 
+---@field twoSided boolean 
+---@field notAlphaTested boolean 
+---@field alphaBlendedDecal boolean 
+---@field trueAtmosphericFog boolean 
+---@field disableTwoSidedCulling boolean 
+---@field useXboxMultipurposeChannelOrder boolean 
+
+---@class MetaEngineTagDataShaderModelMoreFlags 
+---@field noRandomPhase boolean 
+
+---@class MetaEngineTagDataShaderModel: MetaEngineTagDataShader  
+---@field shaderModelFlags MetaEngineTagDataShaderModelFlags 
+---@field translucency MetaEngineFraction 
+---@field changeColorSource EngineTagDataFunctionNameNullable 
+---@field shaderModelMoreFlags MetaEngineTagDataShaderModelMoreFlags 
+---@field colorSource EngineTagDataFunctionNameNullable 
+---@field animationFunction EngineTagDataWaveFunction 
+---@field animationPeriod number 
+---@field animationColorLowerBound MetaEngineColorRGB 
+---@field animationColorUpperBound MetaEngineColorRGB 
+---@field mapUScale number 
+---@field mapVScale number 
+---@field baseMap MetaEngineTagDependency 
+---@field multipurposeMap MetaEngineTagDependency 
+---@field detailFunction EngineTagDataShaderDetailFunction 
+---@field detailMask EngineTagDataShaderModelDetailMask 
+---@field detailMapScale number 
+---@field detailMap MetaEngineTagDependency 
+---@field detailMapVScale number 
+---@field uAnimationSource EngineTagDataFunctionOut 
+---@field uAnimationFunction EngineTagDataWaveFunction 
+---@field uAnimationPeriod number 
+---@field uAnimationPhase number 
+---@field uAnimationScale number 
+---@field vAnimationSource EngineTagDataFunctionOut 
+---@field vAnimationFunction EngineTagDataWaveFunction 
+---@field vAnimationPeriod number 
+---@field vAnimationPhase number 
+---@field vAnimationScale number 
+---@field rotationAnimationSource EngineTagDataFunctionOut 
+---@field rotationAnimationFunction EngineTagDataWaveFunction 
+---@field rotationAnimationPeriod number 
+---@field rotationAnimationPhase number 
+---@field rotationAnimationScale number 
+---@field rotationAnimationCenter MetaEnginePoint2D 
+---@field reflectionFalloffDistance number 
+---@field reflectionCutoffDistance number 
+---@field perpendicularBrightness MetaEngineFraction 
+---@field perpendicularTintColor MetaEngineColorRGB 
+---@field parallelBrightness MetaEngineFraction 
+---@field parallelTintColor MetaEngineColorRGB 
+---@field reflectionCubeMap MetaEngineTagDependency 
+---@field unknown number 
+
+---@class EngineTagDataInputDeviceDefaultsDeviceTypeEnum : Enum 
+
+---@class EngineTagDataInputDeviceDefaultsDeviceTypeMouseAndKeyboard : EngineTagDataInputDeviceDefaultsDeviceTypeEnum 
+---@class EngineTagDataInputDeviceDefaultsDeviceTypeJoysticksGamepadsEtc : EngineTagDataInputDeviceDefaultsDeviceTypeEnum 
+---@class EngineTagDataInputDeviceDefaultsDeviceTypeFullProfileDefinition : EngineTagDataInputDeviceDefaultsDeviceTypeEnum 
+
+---@alias EngineTagDataInputDeviceDefaultsDeviceType 
+---| EngineTagDataInputDeviceDefaultsDeviceTypeMouseAndKeyboard
+---| EngineTagDataInputDeviceDefaultsDeviceTypeJoysticksGamepadsEtc
+---| EngineTagDataInputDeviceDefaultsDeviceTypeFullProfileDefinition
+
+---@class EngineTagDataInputDeviceDefaultsDeviceTypeTable 
+---@field ypeMouseAndKeyboard EngineTagDataInputDeviceDefaultsDeviceTypeMouseAndKeyboard
+---@field ypeJoysticksGamepadsEtc EngineTagDataInputDeviceDefaultsDeviceTypeJoysticksGamepadsEtc
+---@field ypeFullProfileDefinition EngineTagDataInputDeviceDefaultsDeviceTypeFullProfileDefinition
+Engine.tag.inputDeviceDefaultsDeviceType = {} 
+
+---@class MetaEngineTagDataInputDeviceDefaultsFlags 
+---@field unused boolean 
+
+---@class MetaEngineTagDataInputDeviceDefaults 
+---@field deviceType EngineTagDataInputDeviceDefaultsDeviceType 
+---@field flags MetaEngineTagDataInputDeviceDefaultsFlags 
+---@field deviceId MetaEngineTagDataOffset 
+---@field profile MetaEngineTagDataOffset 
+
+---@class MetaEngineTagDataCameraTrackControlPoint 
+---@field position MetaEnginePoint3D 
+---@field orientation MetaEngineQuaternion 
+
+---@class MetaEngineTagDataCameraTrack 
+---@field flags MetaEngineTagDataIsUnusedFlag 
+---@field controlPoints TagBlock<MetaEngineTagDataCameraTrackControlPoint> 
+
+---@class EngineTagDataMeterInterpolateColorsEnum : Enum 
+
+---@class EngineTagDataMeterInterpolateColorsLinearly : EngineTagDataMeterInterpolateColorsEnum 
+---@class EngineTagDataMeterInterpolateColorsFasterNearEmpty : EngineTagDataMeterInterpolateColorsEnum 
+---@class EngineTagDataMeterInterpolateColorsFasterNearFull : EngineTagDataMeterInterpolateColorsEnum 
+---@class EngineTagDataMeterInterpolateColorsThroughRandomNoise : EngineTagDataMeterInterpolateColorsEnum 
+
+---@alias EngineTagDataMeterInterpolateColors 
+---| EngineTagDataMeterInterpolateColorsLinearly
+---| EngineTagDataMeterInterpolateColorsFasterNearEmpty
+---| EngineTagDataMeterInterpolateColorsFasterNearFull
+---| EngineTagDataMeterInterpolateColorsThroughRandomNoise
+
+---@class EngineTagDataMeterInterpolateColorsTable 
+---@field sLinearly EngineTagDataMeterInterpolateColorsLinearly
+---@field sFasterNearEmpty EngineTagDataMeterInterpolateColorsFasterNearEmpty
+---@field sFasterNearFull EngineTagDataMeterInterpolateColorsFasterNearFull
+---@field sThroughRandomNoise EngineTagDataMeterInterpolateColorsThroughRandomNoise
+Engine.tag.meterInterpolateColors = {} 
+
+---@class EngineTagDataMeterAnchorColorsEnum : Enum 
+
+---@class EngineTagDataMeterAnchorColorsAtBothEnds : EngineTagDataMeterAnchorColorsEnum 
+---@class EngineTagDataMeterAnchorColorsAtEmpty : EngineTagDataMeterAnchorColorsEnum 
+---@class EngineTagDataMeterAnchorColorsAtFull : EngineTagDataMeterAnchorColorsEnum 
+
+---@alias EngineTagDataMeterAnchorColors 
+---| EngineTagDataMeterAnchorColorsAtBothEnds
+---| EngineTagDataMeterAnchorColorsAtEmpty
+---| EngineTagDataMeterAnchorColorsAtFull
+
+---@class EngineTagDataMeterAnchorColorsTable 
+---@field sAtBothEnds EngineTagDataMeterAnchorColorsAtBothEnds
+---@field sAtEmpty EngineTagDataMeterAnchorColorsAtEmpty
+---@field sAtFull EngineTagDataMeterAnchorColorsAtFull
+Engine.tag.meterAnchorColors = {} 
+
+---@class MetaEngineTagDataMeter 
+---@field flags MetaEngineTagDataIsUnusedFlag 
+---@field stencilBitmaps MetaEngineTagDependency 
+---@field sourceBitmap MetaEngineTagDependency 
+---@field stencilSequenceIndex integer 
+---@field sourceSequenceIndex integer 
+---@field interpolateColors EngineTagDataMeterInterpolateColors 
+---@field anchorColors EngineTagDataMeterAnchorColors 
+---@field emptyColor MetaEngineColorARGB 
+---@field fullColor MetaEngineColorARGB 
+---@field unmaskDistance number 
+---@field maskDistance number 
+---@field encodedStencil MetaEngineTagDataOffset 
+
+---@class MetaEngineTagDataShaderTransparentChicagoExtended: MetaEngineTagDataShader  
+---@field numericCounterLimit integer 
+---@field shaderTransparentChicagoExtendedFlags MetaEngineTagDataShaderTransparentGenericFlags 
+---@field firstMapType EngineTagDataShaderFirstMapType 
+---@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
+---@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
+---@field framebufferFadeSource EngineTagDataFunctionOut 
+---@field lensFlareSpacing number 
+---@field lensFlare MetaEngineTagDependency 
+---@field extraLayers TagBlock<MetaEngineTagDataShaderTransparentExtraLayer> 
+---@field maps_4Stage TagBlock<MetaEngineTagDataShaderTransparentChicagoMap> 
+---@field maps_2Stage TagBlock<MetaEngineTagDataShaderTransparentChicagoMap> 
+---@field extraFlags MetaEngineTagDataShaderTransparentChicagoExtraFlags 
+
+---@class EngineTagDataSoundFormatEnum : Enum 
+
+---@class EngineTagDataSoundFormat_16BitPcm : EngineTagDataSoundFormatEnum 
+---@class EngineTagDataSoundFormatXboxAdpcm : EngineTagDataSoundFormatEnum 
+---@class EngineTagDataSoundFormatImaAdpcm : EngineTagDataSoundFormatEnum 
+---@class EngineTagDataSoundFormatOggVorbis : EngineTagDataSoundFormatEnum 
+
+---@alias EngineTagDataSoundFormat 
+---| EngineTagDataSoundFormat_16BitPcm
+---| EngineTagDataSoundFormatXboxAdpcm
+---| EngineTagDataSoundFormatImaAdpcm
+---| EngineTagDataSoundFormatOggVorbis
+
+---@class EngineTagDataSoundFormatTable 
+---@field _16BitPcm EngineTagDataSoundFormat_16BitPcm
+---@field xboxAdpcm EngineTagDataSoundFormatXboxAdpcm
+---@field imaAdpcm EngineTagDataSoundFormatImaAdpcm
+---@field oggVorbis EngineTagDataSoundFormatOggVorbis
+Engine.tag.soundFormat = {} 
+
+---@class EngineTagDataSoundClassEnum : Enum 
+
+---@class EngineTagDataSoundClassProjectileImpact : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassProjectileDetonation : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused1 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassWeaponFire : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassWeaponReady : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassWeaponReload : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassWeaponEmpty : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassWeaponCharge : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassWeaponOverheat : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassWeaponIdle : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused2 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused3 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassObjectImpacts : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassParticleImpacts : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassSlowParticleImpacts : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused4 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused5 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnitFootsteps : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnitDialog : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused6 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused7 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassVehicleCollision : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassVehicleEngine : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused8 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused9 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassDeviceDoor : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassDeviceForceField : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassDeviceMachinery : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassDeviceNature : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassDeviceComputers : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused10 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassMusic : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassAmbientNature : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassAmbientMachinery : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassAmbientComputers : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused11 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused12 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused13 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassFirstPersonDamage : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused14 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused15 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused16 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused17 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassScriptedDialogPlayer : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassScriptedEffect : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassScriptedDialogOther : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassScriptedDialogForceUnspatialized : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused18 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassUnused19 : EngineTagDataSoundClassEnum 
+---@class EngineTagDataSoundClassGameEvent : EngineTagDataSoundClassEnum 
+
+---@alias EngineTagDataSoundClass 
+---| EngineTagDataSoundClassProjectileImpact
+---| EngineTagDataSoundClassProjectileDetonation
+---| EngineTagDataSoundClassUnused
+---| EngineTagDataSoundClassUnused1
+---| EngineTagDataSoundClassWeaponFire
+---| EngineTagDataSoundClassWeaponReady
+---| EngineTagDataSoundClassWeaponReload
+---| EngineTagDataSoundClassWeaponEmpty
+---| EngineTagDataSoundClassWeaponCharge
+---| EngineTagDataSoundClassWeaponOverheat
+---| EngineTagDataSoundClassWeaponIdle
+---| EngineTagDataSoundClassUnused2
+---| EngineTagDataSoundClassUnused3
+---| EngineTagDataSoundClassObjectImpacts
+---| EngineTagDataSoundClassParticleImpacts
+---| EngineTagDataSoundClassSlowParticleImpacts
+---| EngineTagDataSoundClassUnused4
+---| EngineTagDataSoundClassUnused5
+---| EngineTagDataSoundClassUnitFootsteps
+---| EngineTagDataSoundClassUnitDialog
+---| EngineTagDataSoundClassUnused6
+---| EngineTagDataSoundClassUnused7
+---| EngineTagDataSoundClassVehicleCollision
+---| EngineTagDataSoundClassVehicleEngine
+---| EngineTagDataSoundClassUnused8
+---| EngineTagDataSoundClassUnused9
+---| EngineTagDataSoundClassDeviceDoor
+---| EngineTagDataSoundClassDeviceForceField
+---| EngineTagDataSoundClassDeviceMachinery
+---| EngineTagDataSoundClassDeviceNature
+---| EngineTagDataSoundClassDeviceComputers
+---| EngineTagDataSoundClassUnused10
+---| EngineTagDataSoundClassMusic
+---| EngineTagDataSoundClassAmbientNature
+---| EngineTagDataSoundClassAmbientMachinery
+---| EngineTagDataSoundClassAmbientComputers
+---| EngineTagDataSoundClassUnused11
+---| EngineTagDataSoundClassUnused12
+---| EngineTagDataSoundClassUnused13
+---| EngineTagDataSoundClassFirstPersonDamage
+---| EngineTagDataSoundClassUnused14
+---| EngineTagDataSoundClassUnused15
+---| EngineTagDataSoundClassUnused16
+---| EngineTagDataSoundClassUnused17
+---| EngineTagDataSoundClassScriptedDialogPlayer
+---| EngineTagDataSoundClassScriptedEffect
+---| EngineTagDataSoundClassScriptedDialogOther
+---| EngineTagDataSoundClassScriptedDialogForceUnspatialized
+---| EngineTagDataSoundClassUnused18
+---| EngineTagDataSoundClassUnused19
+---| EngineTagDataSoundClassGameEvent
+
+---@class EngineTagDataSoundClassTable 
+---@field projectileImpact EngineTagDataSoundClassProjectileImpact
+---@field projectileDetonation EngineTagDataSoundClassProjectileDetonation
+---@field unused EngineTagDataSoundClassUnused
+---@field unused1 EngineTagDataSoundClassUnused1
+---@field weaponFire EngineTagDataSoundClassWeaponFire
+---@field weaponReady EngineTagDataSoundClassWeaponReady
+---@field weaponReload EngineTagDataSoundClassWeaponReload
+---@field weaponEmpty EngineTagDataSoundClassWeaponEmpty
+---@field weaponCharge EngineTagDataSoundClassWeaponCharge
+---@field weaponOverheat EngineTagDataSoundClassWeaponOverheat
+---@field weaponIdle EngineTagDataSoundClassWeaponIdle
+---@field unused2 EngineTagDataSoundClassUnused2
+---@field unused3 EngineTagDataSoundClassUnused3
+---@field objectImpacts EngineTagDataSoundClassObjectImpacts
+---@field particleImpacts EngineTagDataSoundClassParticleImpacts
+---@field slowParticleImpacts EngineTagDataSoundClassSlowParticleImpacts
+---@field unused4 EngineTagDataSoundClassUnused4
+---@field unused5 EngineTagDataSoundClassUnused5
+---@field unitFootsteps EngineTagDataSoundClassUnitFootsteps
+---@field unitDialog EngineTagDataSoundClassUnitDialog
+---@field unused6 EngineTagDataSoundClassUnused6
+---@field unused7 EngineTagDataSoundClassUnused7
+---@field vehicleCollision EngineTagDataSoundClassVehicleCollision
+---@field vehicleEngine EngineTagDataSoundClassVehicleEngine
+---@field unused8 EngineTagDataSoundClassUnused8
+---@field unused9 EngineTagDataSoundClassUnused9
+---@field deviceDoor EngineTagDataSoundClassDeviceDoor
+---@field deviceForceField EngineTagDataSoundClassDeviceForceField
+---@field deviceMachinery EngineTagDataSoundClassDeviceMachinery
+---@field deviceNature EngineTagDataSoundClassDeviceNature
+---@field deviceComputers EngineTagDataSoundClassDeviceComputers
+---@field unused10 EngineTagDataSoundClassUnused10
+---@field music EngineTagDataSoundClassMusic
+---@field ambientNature EngineTagDataSoundClassAmbientNature
+---@field ambientMachinery EngineTagDataSoundClassAmbientMachinery
+---@field ambientComputers EngineTagDataSoundClassAmbientComputers
+---@field unused11 EngineTagDataSoundClassUnused11
+---@field unused12 EngineTagDataSoundClassUnused12
+---@field unused13 EngineTagDataSoundClassUnused13
+---@field firstPersonDamage EngineTagDataSoundClassFirstPersonDamage
+---@field unused14 EngineTagDataSoundClassUnused14
+---@field unused15 EngineTagDataSoundClassUnused15
+---@field unused16 EngineTagDataSoundClassUnused16
+---@field unused17 EngineTagDataSoundClassUnused17
+---@field scriptedDialogPlayer EngineTagDataSoundClassScriptedDialogPlayer
+---@field scriptedEffect EngineTagDataSoundClassScriptedEffect
+---@field scriptedDialogOther EngineTagDataSoundClassScriptedDialogOther
+---@field scriptedDialogForceUnspatialized EngineTagDataSoundClassScriptedDialogForceUnspatialized
+---@field unused18 EngineTagDataSoundClassUnused18
+---@field unused19 EngineTagDataSoundClassUnused19
+---@field gameEvent EngineTagDataSoundClassGameEvent
+Engine.tag.soundClass = {} 
+
+---@class EngineTagDataSoundSampleRateEnum : Enum 
+
+---@class EngineTagDataSoundSampleRate_22050_Hz : EngineTagDataSoundSampleRateEnum 
+---@class EngineTagDataSoundSampleRate_44100_Hz : EngineTagDataSoundSampleRateEnum 
+
+---@alias EngineTagDataSoundSampleRate 
+---| EngineTagDataSoundSampleRate_22050_Hz
+---| EngineTagDataSoundSampleRate_44100_Hz
+
+---@class EngineTagDataSoundSampleRateTable 
+---@field e_22050_Hz EngineTagDataSoundSampleRate_22050_Hz
+---@field e_44100_Hz EngineTagDataSoundSampleRate_44100_Hz
+Engine.tag.soundSampleRate = {} 
+
+---@class EngineTagDataSoundChannelCountEnum : Enum 
+
+---@class EngineTagDataSoundChannelCountMono : EngineTagDataSoundChannelCountEnum 
+---@class EngineTagDataSoundChannelCountStereo : EngineTagDataSoundChannelCountEnum 
+
+---@alias EngineTagDataSoundChannelCount 
+---| EngineTagDataSoundChannelCountMono
+---| EngineTagDataSoundChannelCountStereo
+
+---@class EngineTagDataSoundChannelCountTable 
+---@field tMono EngineTagDataSoundChannelCountMono
+---@field tStereo EngineTagDataSoundChannelCountStereo
+Engine.tag.soundChannelCount = {} 
+
+---@class MetaEngineTagDataSoundFlags 
+---@field fitToAdpcmBlocksize boolean 
+---@field splitLongSoundIntoPermutations boolean 
+---@field thirstyGrunt boolean 
+
+---@class MetaEngineTagDataSoundPermutation 
+---@field name MetaEngineTagString 
+---@field skipFraction MetaEngineFraction 
+---@field gain MetaEngineFraction 
+---@field format EngineTagDataSoundFormat 
+---@field nextPermutationIndex MetaEngineIndex 
+---@field unknownTagHandle EngineTagHandle 
+---@field samplesPointer integer 
+---@field soundTagHandle_0 EngineTagHandle 
+---@field bufferSize integer 
+---@field soundTagHandle_1 EngineTagHandle 
+---@field samples MetaEngineTagDataOffset 
+---@field mouthData MetaEngineTagDataOffset 
+---@field subtitleData MetaEngineTagDataOffset 
+
+---@class MetaEngineTagDataSoundPitchRange 
+---@field name MetaEngineTagString 
+---@field naturalPitch number 
+---@field bendBounds number 
+---@field actualPermutationCount integer 
+---@field playbackRate number 
+---@field unknownFfffffff_0 integer 
+---@field unknownFfffffff_1 integer 
+---@field permutations TagBlock<MetaEngineTagDataSoundPermutation> 
+
+---@class MetaEngineTagDataSound 
+---@field flags MetaEngineTagDataSoundFlags 
+---@field soundClass EngineTagDataSoundClass 
+---@field sampleRate EngineTagDataSoundSampleRate 
+---@field minimumDistance number 
+---@field maximumDistance number 
+---@field skipFraction MetaEngineFraction 
+---@field randomPitchBounds number 
+---@field innerConeAngle MetaEngineAngle 
+---@field outerConeAngle MetaEngineAngle 
+---@field outerConeGain MetaEngineFraction 
+---@field randomGainModifier number 
+---@field maximumBendPerSecond number 
+---@field zeroSkipFractionModifier number 
+---@field zeroGainModifier number 
+---@field zeroPitchModifier number 
+---@field oneSkipFractionModifier number 
+---@field oneGainModifier number 
+---@field onePitchModifier number 
+---@field channelCount EngineTagDataSoundChannelCount 
+---@field format EngineTagDataSoundFormat 
+---@field promotionSound MetaEngineTagDependency 
+---@field promotionCount integer 
+---@field longestPermutationLength integer 
+---@field unknownFfffffff_0 integer 
+---@field unknownFfffffff_1 integer 
+---@field pitchRanges TagBlock<MetaEngineTagDataSoundPitchRange> 
+
+---@class MetaEngineTagDataContinuousDamageEffect 
+---@field radius number 
+---@field cutoffScale number 
+---@field lowFrequencyVibrateFrequency number 
+---@field highFrequencyVibrateFrequency number 
+---@field cameraShakingRandomTranslation number 
+---@field cameraShakingRandomRotation MetaEngineAngle 
+---@field cameraShakingWobbleFunction EngineTagDataWaveFunction 
+---@field cameraShakingWobblePeriod number 
+---@field cameraShakingWobbleWeight number 
+---@field damageSideEffect EngineTagDataDamageEffectSideEffect 
+---@field damageCategory EngineTagDataDamageEffectCategory 
+---@field damageFlags MetaEngineTagDataDamageEffectDamageFlags 
+---@field damageLowerBound number 
+---@field damageUpperBound number 
+---@field damageVehiclePassthroughPenalty number 
+---@field damageStun number 
+---@field damageMaximumStun number 
+---@field damageStunTime number 
+---@field damageInstantaneousAcceleration MetaEngineVector3D 
+---@field dirt number 
+---@field sand number 
+---@field stone number 
+---@field snow number 
+---@field wood number 
+---@field metalHollow number 
+---@field metalThin number 
+---@field metalThick number 
+---@field rubber number 
+---@field glass number 
+---@field forceField number 
+---@field grunt number 
+---@field hunterArmor number 
+---@field hunterSkin number 
+---@field elite number 
+---@field jackal number 
+---@field jackalEnergyShield number 
+---@field engineerSkin number 
+---@field engineerForceField number 
+---@field floodCombatForm number 
+---@field floodCarrierForm number 
+---@field cyborgArmor number 
+---@field cyborgEnergyShield number 
+---@field humanArmor number 
+---@field humanSkin number 
+---@field sentinel number 
+---@field monitor number 
+---@field plastic number 
+---@field water number 
+---@field leaves number 
+---@field eliteEnergyShield number 
+---@field ice number 
+---@field hunterShield number 
+
+---@class MetaEngineTagDataSkyLightFlags 
+---@field affectsExteriors boolean 
+---@field affectsInteriors boolean 
+
+---@class MetaEngineTagDataSkyFunction 
+---@field functionName MetaEngineTagString 
+
+---@class MetaEngineTagDataSkyAnimation 
+---@field animationIndex integer 
+---@field period number 
+
+---@class MetaEngineTagDataSkyLight 
+---@field lensFlare MetaEngineTagDependency 
+---@field lensFlareMarkerName MetaEngineTagString 
+---@field flags MetaEngineTagDataSkyLightFlags 
+---@field color MetaEngineColorRGB 
+---@field power number 
+---@field testDistance number 
+---@field direction MetaEngineEuler2D 
+---@field diameter number 
+
+---@class MetaEngineTagDataSky 
+---@field model MetaEngineTagDependency 
+---@field animationGraph MetaEngineTagDependency 
+---@field indoorAmbientRadiosityColor MetaEngineColorRGB 
+---@field indoorAmbientRadiosityPower number 
+---@field outdoorAmbientRadiosityColor MetaEngineColorRGB 
+---@field outdoorAmbientRadiosityPower number 
+---@field outdoorFogColor MetaEngineColorRGB 
+---@field outdoorFogMaximumDensity MetaEngineFraction 
+---@field outdoorFogStartDistance number 
+---@field outdoorFogOpaqueDistance number 
+---@field indoorFogColor MetaEngineColorRGB 
+---@field indoorFogMaximumDensity MetaEngineFraction 
+---@field indoorFogStartDistance number 
+---@field indoorFogOpaqueDistance number 
+---@field indoorFogScreen MetaEngineTagDependency 
+---@field shaderFunctions TagBlock<MetaEngineTagDataSkyFunction> 
+---@field animations TagBlock<MetaEngineTagDataSkyAnimation> 
+---@field lights TagBlock<MetaEngineTagDataSkyLight> 
+
+---@class MetaEngineTagDataShaderTransparentMeterFlags 
+---@field decal boolean 
+---@field twoSided boolean 
+---@field flashColorIsNegative boolean 
+---@field tintMode_2 boolean 
+---@field unfiltered boolean 
+
+---@class MetaEngineTagDataShaderTransparentMeter: MetaEngineTagDataShader  
+---@field meterFlags MetaEngineTagDataShaderTransparentMeterFlags 
+---@field map MetaEngineTagDependency 
+---@field gradientMinColor MetaEngineColorRGB 
+---@field gradientMaxColor MetaEngineColorRGB 
+---@field backgroundColor MetaEngineColorRGB 
+---@field flashColor MetaEngineColorRGB 
+---@field meterTintColor MetaEngineColorRGB 
+---@field meterTransparency MetaEngineFraction 
+---@field backgroundTransparency MetaEngineFraction 
+---@field meterBrightnessSource EngineTagDataFunctionOut 
+---@field flashBrightnessSource EngineTagDataFunctionOut 
+---@field valueSource EngineTagDataFunctionOut 
+---@field gradientSource EngineTagDataFunctionOut 
+---@field flashExtensionSource EngineTagDataFunctionOut 
+
+---@class MetaEngineTagDataSoundScenery: MetaEngineTagDataBasicObject  
+
+---@class MetaEngineTagDataLightFlags 
+---@field dynamic boolean 
+---@field noSpecular boolean 
+---@field dontLightOwnObject boolean 
+---@field supersizeInFirstPerson boolean 
+---@field firstPersonFlashlight boolean 
+---@field dontFadeActiveCamouflage boolean 
+
+---@class MetaEngineTagDataLight 
+---@field flags MetaEngineTagDataLightFlags 
+---@field radius number 
+---@field radiusModifer number 
+---@field falloffAngle MetaEngineAngle 
+---@field cutoffAngle MetaEngineAngle 
+---@field lensFlareOnlyRadius number 
+---@field cosFalloffAngle number 
+---@field cosCutoffAngle number 
+---@field unknownTwo number 
+---@field sinCutoffAngle number 
+---@field interpolationFlags MetaEngineTagDataColorInterpolationFlags 
+---@field colorLowerBound MetaEngineColorARGB 
+---@field colorUpperBound MetaEngineColorARGB 
+---@field primaryCubeMap MetaEngineTagDependency 
+---@field textureAnimationFunction EngineTagDataWaveFunction 
+---@field textureAnimationPeriod number 
+---@field secondaryCubeMap MetaEngineTagDependency 
+---@field yawFunction EngineTagDataWaveFunction 
+---@field yawPeriod number 
+---@field rollFunction EngineTagDataWaveFunction 
+---@field rollPeriod number 
+---@field pitchFunction EngineTagDataWaveFunction 
+---@field pitchPeriod number 
+---@field lensFlare MetaEngineTagDependency 
+---@field intensity number 
+---@field color MetaEngineColorRGB 
+---@field duration number 
+---@field falloffFunction EngineTagDataFunctionType 
+
+---@class MetaEngineTagDataItemFlags 
+---@field alwaysMaintainsZUp boolean 
+---@field destroyedByExplosions boolean 
+---@field unaffectedByGravity boolean 
+
+---@class MetaEngineTagDataItem: MetaEngineTagDataObject  
+---@field itemFlags MetaEngineTagDataItemFlags 
+---@field pickupTextIndex MetaEngineIndex 
+---@field sortOrder integer 
+---@field scale number 
+---@field hudMessageValueScale integer 
+---@field itemAIn EngineTagDataObjectFunctionIn 
+---@field itemBIn EngineTagDataObjectFunctionIn 
+---@field itemCIn EngineTagDataObjectFunctionIn 
+---@field itemDIn EngineTagDataObjectFunctionIn 
+---@field materialEffects MetaEngineTagDependency 
+---@field collisionSound MetaEngineTagDependency 
+---@field detonationDelay number 
+---@field detonatingEffect MetaEngineTagDependency 
+---@field detonationEffect MetaEngineTagDependency 
+
+---@class EngineTagDataPredictedResourceTypeEnum : Enum 
+
+---@class EngineTagDataPredictedResourceTypeBitmap : EngineTagDataPredictedResourceTypeEnum 
+---@class EngineTagDataPredictedResourceTypeSound : EngineTagDataPredictedResourceTypeEnum 
+
+---@alias EngineTagDataPredictedResourceType 
+---| EngineTagDataPredictedResourceTypeBitmap
+---| EngineTagDataPredictedResourceTypeSound
+
+---@class EngineTagDataPredictedResourceTypeTable 
+---@field eBitmap EngineTagDataPredictedResourceTypeBitmap
+---@field eSound EngineTagDataPredictedResourceTypeSound
+Engine.tag.predictedResourceType = {} 
+
+---@class EngineTagDataObjectNoiseEnum : Enum 
+
+---@class EngineTagDataObjectNoiseSilent : EngineTagDataObjectNoiseEnum 
+---@class EngineTagDataObjectNoiseMedium : EngineTagDataObjectNoiseEnum 
+---@class EngineTagDataObjectNoiseLoud : EngineTagDataObjectNoiseEnum 
+---@class EngineTagDataObjectNoiseShout : EngineTagDataObjectNoiseEnum 
+---@class EngineTagDataObjectNoiseQuiet : EngineTagDataObjectNoiseEnum 
+
+---@alias EngineTagDataObjectNoise 
+---| EngineTagDataObjectNoiseSilent
+---| EngineTagDataObjectNoiseMedium
+---| EngineTagDataObjectNoiseLoud
+---| EngineTagDataObjectNoiseShout
+---| EngineTagDataObjectNoiseQuiet
+
+---@class EngineTagDataObjectNoiseTable 
+---@field silent EngineTagDataObjectNoiseSilent
+---@field medium EngineTagDataObjectNoiseMedium
+---@field loud EngineTagDataObjectNoiseLoud
+---@field shout EngineTagDataObjectNoiseShout
+---@field quiet EngineTagDataObjectNoiseQuiet
+Engine.tag.objectNoise = {} 
+
+---@class EngineTagDataObjectFunctionInEnum : Enum 
+
+---@class EngineTagDataObjectFunctionInNone : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInBodyVitality : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInShieldVitality : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRecentBodyDamage : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRecentShieldDamage : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRandomConstant : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInUmbrellaShieldVitality : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInShieldStun : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRecentUmbrellaShieldVitality : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInUmbrellaShieldStun : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion_1 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion_2 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion_3 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion_4 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion_5 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion_6 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion_7 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInAlive : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInCompass : EngineTagDataObjectFunctionInEnum 
+
+---@alias EngineTagDataObjectFunctionIn 
+---| EngineTagDataObjectFunctionInNone
+---| EngineTagDataObjectFunctionInBodyVitality
+---| EngineTagDataObjectFunctionInShieldVitality
+---| EngineTagDataObjectFunctionInRecentBodyDamage
+---| EngineTagDataObjectFunctionInRecentShieldDamage
+---| EngineTagDataObjectFunctionInRandomConstant
+---| EngineTagDataObjectFunctionInUmbrellaShieldVitality
+---| EngineTagDataObjectFunctionInShieldStun
+---| EngineTagDataObjectFunctionInRecentUmbrellaShieldVitality
+---| EngineTagDataObjectFunctionInUmbrellaShieldStun
+---| EngineTagDataObjectFunctionInRegion
+---| EngineTagDataObjectFunctionInRegion_1
+---| EngineTagDataObjectFunctionInRegion_2
+---| EngineTagDataObjectFunctionInRegion_3
+---| EngineTagDataObjectFunctionInRegion_4
+---| EngineTagDataObjectFunctionInRegion_5
+---| EngineTagDataObjectFunctionInRegion_6
+---| EngineTagDataObjectFunctionInRegion_7
+---| EngineTagDataObjectFunctionInAlive
+---| EngineTagDataObjectFunctionInCompass
+
+---@class EngineTagDataObjectFunctionInTable 
+---@field nNone EngineTagDataObjectFunctionInNone
+---@field nBodyVitality EngineTagDataObjectFunctionInBodyVitality
+---@field nShieldVitality EngineTagDataObjectFunctionInShieldVitality
+---@field nRecentBodyDamage EngineTagDataObjectFunctionInRecentBodyDamage
+---@field nRecentShieldDamage EngineTagDataObjectFunctionInRecentShieldDamage
+---@field nRandomConstant EngineTagDataObjectFunctionInRandomConstant
+---@field nUmbrellaShieldVitality EngineTagDataObjectFunctionInUmbrellaShieldVitality
+---@field nShieldStun EngineTagDataObjectFunctionInShieldStun
+---@field nRecentUmbrellaShieldVitality EngineTagDataObjectFunctionInRecentUmbrellaShieldVitality
+---@field nUmbrellaShieldStun EngineTagDataObjectFunctionInUmbrellaShieldStun
+---@field nRegion EngineTagDataObjectFunctionInRegion
+---@field nRegion_1 EngineTagDataObjectFunctionInRegion_1
+---@field nRegion_2 EngineTagDataObjectFunctionInRegion_2
+---@field nRegion_3 EngineTagDataObjectFunctionInRegion_3
+---@field nRegion_4 EngineTagDataObjectFunctionInRegion_4
+---@field nRegion_5 EngineTagDataObjectFunctionInRegion_5
+---@field nRegion_6 EngineTagDataObjectFunctionInRegion_6
+---@field nRegion_7 EngineTagDataObjectFunctionInRegion_7
+---@field nAlive EngineTagDataObjectFunctionInAlive
+---@field nCompass EngineTagDataObjectFunctionInCompass
+Engine.tag.objectFunctionIn = {} 
+
+---@class EngineTagDataObjectTypeEnum : Enum 
+
+---@class EngineTagDataObjectTypeBiped : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeVehicle : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeWeapon : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeEquipment : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeGarbage : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeProjectile : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeScenery : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeDeviceMachine : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeDeviceControl : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeDeviceLightFixture : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypePlaceholder : EngineTagDataObjectTypeEnum 
+---@class EngineTagDataObjectTypeSoundScenery : EngineTagDataObjectTypeEnum 
+
+---@alias EngineTagDataObjectType 
+---| EngineTagDataObjectTypeBiped
+---| EngineTagDataObjectTypeVehicle
+---| EngineTagDataObjectTypeWeapon
+---| EngineTagDataObjectTypeEquipment
+---| EngineTagDataObjectTypeGarbage
+---| EngineTagDataObjectTypeProjectile
+---| EngineTagDataObjectTypeScenery
+---| EngineTagDataObjectTypeDeviceMachine
+---| EngineTagDataObjectTypeDeviceControl
+---| EngineTagDataObjectTypeDeviceLightFixture
+---| EngineTagDataObjectTypePlaceholder
+---| EngineTagDataObjectTypeSoundScenery
+
+---@class EngineTagDataObjectTypeTable 
+---@field biped EngineTagDataObjectTypeBiped
+---@field vehicle EngineTagDataObjectTypeVehicle
+---@field weapon EngineTagDataObjectTypeWeapon
+---@field equipment EngineTagDataObjectTypeEquipment
+---@field garbage EngineTagDataObjectTypeGarbage
+---@field projectile EngineTagDataObjectTypeProjectile
+---@field scenery EngineTagDataObjectTypeScenery
+---@field deviceMachine EngineTagDataObjectTypeDeviceMachine
+---@field deviceControl EngineTagDataObjectTypeDeviceControl
+---@field deviceLightFixture EngineTagDataObjectTypeDeviceLightFixture
+---@field placeholder EngineTagDataObjectTypePlaceholder
+---@field soundScenery EngineTagDataObjectTypeSoundScenery
+Engine.tag.objectType = {} 
+
+---@class MetaEngineTagDataObjectFunctionFlags 
+---@field invert boolean 
+---@field additive boolean 
+---@field alwaysActive boolean 
+
+---@class MetaEngineTagDataObjectFlags 
+---@field doesNotCastShadow boolean 
+---@field transparentSelfOcclusion boolean 
+---@field brighterThanItShouldBe boolean 
+---@field notAPathfindingObstacle boolean 
+---@field extensionOfParent boolean 
+---@field castShadowByDefault boolean 
+---@field doesNotHaveAnniversaryGeometry boolean 
+
+---@class MetaEngineTagDataBaseObjectFlags 
+---@field offInPegasus boolean 
+
+---@class MetaEngineTagDataPredictedResource 
+---@field type EngineTagDataPredictedResourceType 
+---@field resourceIndex MetaEngineIndex 
+---@field tag EngineTagHandle 
+
+---@class MetaEngineTagDataObjectAttachment 
+---@field type MetaEngineTagDependency 
+---@field marker MetaEngineTagString 
+---@field primaryScale EngineTagDataFunctionOut 
+---@field secondaryScale EngineTagDataFunctionOut 
+---@field changeColor EngineTagDataFunctionNameNullable 
+
+---@class MetaEngineTagDataObjectWidget 
 ---@field reference MetaEngineTagDependency 
 
----@class MetaEngineTagDataTagCollection 
----@field tags table<MetaEngineTagDataTagCollectionTag> 
+---@class MetaEngineTagDataObjectFunction 
+---@field flags MetaEngineTagDataObjectFunctionFlags 
+---@field period number 
+---@field scalePeriodBy EngineTagDataFunctionScaleBy 
+---@field function EngineTagDataWaveFunction 
+---@field scaleFunctionBy EngineTagDataFunctionScaleBy 
+---@field wobbleFunction EngineTagDataWaveFunction 
+---@field wobblePeriod number 
+---@field wobbleMagnitude number 
+---@field squareWaveThreshold MetaEngineFraction 
+---@field stepCount integer 
+---@field mapTo EngineTagDataFunctionType 
+---@field sawtoothCount integer 
+---@field add EngineTagDataFunctionScaleBy 
+---@field scaleResultBy EngineTagDataFunctionScaleBy 
+---@field boundsMode EngineTagDataFunctionBoundsMode 
+---@field bounds MetaEngineFraction 
+---@field turnOffWith integer 
+---@field scaleBy number 
+---@field inverseBounds number 
+---@field inverseSawtooth number 
+---@field inverseStep number 
+---@field inversePeriod number 
+---@field usage MetaEngineTagString 
 
----@alias EngineTagDataEffectCreateIn 
----| 'effect_create_in_any_environment'
----| 'effect_create_in_air_only'
----| 'effect_create_in_water_only'
----| 'effect_create_in_space_only'
+---@class MetaEngineTagDataObjectChangeColorsPermutation 
+---@field weight number 
+---@field colorLowerBound MetaEngineColorRGB 
+---@field colorUpperBound MetaEngineColorRGB 
 
----@alias EngineTagDataEffectViolenceMode 
----| 'effect_violence_mode_either_mode'
----| 'effect_violence_mode_violent_mode_only'
----| 'effect_violence_mode_nonviolent_mode_only'
+---@class MetaEngineTagDataObjectChangeColors 
+---@field darkenBy EngineTagDataFunctionScaleBy 
+---@field scaleBy EngineTagDataFunctionScaleBy 
+---@field flags MetaEngineTagDataColorInterpolationFlags 
+---@field colorLowerBound MetaEngineColorRGB 
+---@field colorUpperBound MetaEngineColorRGB 
+---@field permutations TagBlock<MetaEngineTagDataObjectChangeColorsPermutation> 
 
----@alias EngineTagDataEffectCreate 
----| 'effect_create_independent_of_camera_mode'
----| 'effect_create_only_in_first_person'
----| 'effect_create_only_in_third_person'
----| 'effect_create_in_first_person_if_possible'
+---@class MetaEngineTagDataObject 
+---@field objectType EngineTagDataObjectType 
+---@field flags MetaEngineTagDataObjectFlags 
+---@field boundingRadius number 
+---@field boundingOffset MetaEnginePoint3D 
+---@field originOffset MetaEnginePoint3D 
+---@field accelerationScale number 
+---@field scalesChangeColors integer 
+---@field model MetaEngineTagDependency 
+---@field animationGraph MetaEngineTagDependency 
+---@field collisionModel MetaEngineTagDependency 
+---@field physics MetaEngineTagDependency 
+---@field modifierShader MetaEngineTagDependency 
+---@field creationEffect MetaEngineTagDependency 
+---@field renderBoundingRadius number 
+---@field aIn EngineTagDataObjectFunctionIn 
+---@field bIn EngineTagDataObjectFunctionIn 
+---@field cIn EngineTagDataObjectFunctionIn 
+---@field dIn EngineTagDataObjectFunctionIn 
+---@field hudTextMessageIndex integer 
+---@field forcedShaderPermutationIndex integer 
+---@field attachments TagBlock<MetaEngineTagDataObjectAttachment> 
+---@field widgets TagBlock<MetaEngineTagDataObjectWidget> 
+---@field functions TagBlock<MetaEngineTagDataObjectFunction> 
+---@field changeColors TagBlock<MetaEngineTagDataObjectChangeColors> 
+---@field predictedResources TagBlock<MetaEngineTagDataPredictedResource> 
 
----@alias EngineTagDataEffectDistributionFunction 
----| 'effect_distribution_function_start'
----| 'effect_distribution_function_end'
----| 'effect_distribution_function_constant'
----| 'effect_distribution_function_buildup'
----| 'effect_distribution_function_falloff'
----| 'effect_distribution_function_buildup_and_falloff'
-
----@class MetaEngineTagDataEffectPartFlags 
----@field faceDownRegardlessOfLocationDecals boolean 
----@field unused boolean 
----@field makeEffectWork boolean 
-
----@class MetaEngineTagDataEffectPartScalesValues 
----@field velocity boolean 
----@field velocityDelta boolean 
----@field velocityConeAngle boolean 
----@field angularVelocity boolean 
----@field angularVelocityDelta boolean 
----@field typeSpecificScale boolean 
-
----@class MetaEngineTagDataEffectParticleFlags 
----@field stayAttachedToMarker boolean 
----@field randomInitialAngle boolean 
----@field tintFromObjectColor boolean 
----@field interpolateTintAsHsv boolean 
----@field acrossTheLongHuePath boolean 
-
----@class MetaEngineTagDataEffectParticleScalesValues 
----@field velocity boolean 
----@field velocityDelta boolean 
----@field velocityConeAngle boolean 
----@field angularVelocity boolean 
----@field angularVelocityDelta boolean 
----@field count boolean 
----@field countDelta boolean 
----@field distributionRadius boolean 
----@field distributionRadiusDelta boolean 
----@field particleRadius boolean 
----@field particleRadiusDelta boolean 
----@field tint boolean 
-
----@class MetaEngineTagDataEffectFlags 
----@field deletedWhenAttachmentDeactivates boolean 
----@field mustBeDeterministicXbox boolean 
----@field mustBeDeterministicPc boolean 
----@field disabledInAnniversaryByBloodSetting boolean 
-
----@class MetaEngineTagDataEffectLocation 
----@field markerName MetaEngineTagString 
-
----@class MetaEngineTagDataEffectPart 
----@field createIn EngineTagDataEffectCreateIn 
----@field violenceMode EngineTagDataEffectViolenceMode 
----@field location MetaEngineIndex 
----@field flags MetaEngineTagDataEffectPartFlags 
----@field typeClass integer 
----@field type MetaEngineTagDependency 
----@field velocityBounds number 
----@field velocityConeAngle MetaEngineAngle 
----@field angularVelocityBounds MetaEngineAngle 
----@field radiusModifierBounds number 
----@field aScalesValues MetaEngineTagDataEffectPartScalesValues 
----@field bScalesValues MetaEngineTagDataEffectPartScalesValues 
-
----@class MetaEngineTagDataEffectParticle 
----@field createIn EngineTagDataEffectCreateIn 
----@field violenceMode EngineTagDataEffectViolenceMode 
----@field create EngineTagDataEffectCreate 
----@field location MetaEngineIndex 
----@field relativeDirection MetaEngineEuler2D 
----@field relativeOffset MetaEnginePoint3D 
----@field relativeDirectionVector MetaEngineVector3D 
----@field particleType MetaEngineTagDependency 
----@field flags MetaEngineTagDataEffectParticleFlags 
----@field distributionFunction EngineTagDataEffectDistributionFunction 
----@field count integer 
----@field distributionRadius number 
----@field velocity number 
----@field velocityConeAngle MetaEngineAngle 
----@field angularVelocity MetaEngineAngle 
----@field radius number 
----@field tintLowerBound MetaEngineColorARGB 
----@field tintUpperBound MetaEngineColorARGB 
----@field aScalesValues MetaEngineTagDataEffectParticleScalesValues 
----@field bScalesValues MetaEngineTagDataEffectParticleScalesValues 
-
----@class MetaEngineTagDataEffectEvent 
----@field skipFraction MetaEngineFraction 
----@field delayBounds number 
----@field durationBounds number 
----@field parts table<MetaEngineTagDataEffectPart> 
----@field particles table<MetaEngineTagDataEffectParticle> 
-
----@class MetaEngineTagDataEffect 
----@field flags MetaEngineTagDataEffectFlags 
----@field loopStartEvent MetaEngineIndex 
----@field loopStopEvent MetaEngineIndex 
----@field maximumDamageRadius number 
----@field locations table<MetaEngineTagDataEffectLocation> 
----@field events table<MetaEngineTagDataEffectEvent> 
-
----@alias EngineTagDataHUDInterfaceDestinationType 
----| 'h_u_d_interface_destination_type_tint_0_1'
----| 'h_u_d_interface_destination_type_horizontal_offset'
----| 'h_u_d_interface_destination_type_vertical_offset'
----| 'h_u_d_interface_destination_type_fade_0_1'
-
----@alias EngineTagDataHUDInterfaceDestination 
----| 'h_u_d_interface_destination_geometry_offset'
----| 'h_u_d_interface_destination_primary_map'
----| 'h_u_d_interface_destination_secondary_map'
----| 'h_u_d_interface_destination_tertiary_map'
-
----@alias EngineTagDataHUDInterfaceSource 
----| 'h_u_d_interface_source_player_pitch'
----| 'h_u_d_interface_source_player_pitch_tangent'
----| 'h_u_d_interface_source_player_yaw'
----| 'h_u_d_interface_source_weapon_ammo_total'
----| 'h_u_d_interface_source_weapon_ammo_loaded'
----| 'h_u_d_interface_source_weapon_heat'
----| 'h_u_d_interface_source_explicit_uses_low_bound'
----| 'h_u_d_interface_source_weapon_zoom_level'
-
----@alias EngineTagDataHUDInterfaceMultitextureOverlayAnchor 
----| 'h_u_d_interface_multitexture_overlay_anchor_texture'
----| 'h_u_d_interface_multitexture_overlay_anchor_screen'
-
----@alias EngineTagDataHUDInterfaceZeroToOneBlendFunction 
----| 'h_u_d_interface_zero_to_one_blend_function_add'
----| 'h_u_d_interface_zero_to_one_blend_function_subtract'
----| 'h_u_d_interface_zero_to_one_blend_function_multiply'
----| 'h_u_d_interface_zero_to_one_blend_function_multiply2x'
----| 'h_u_d_interface_zero_to_one_blend_function_dot'
-
----@alias EngineTagDataHUDInterfaceWrapMode 
----| 'h_u_d_interface_wrap_mode_clamp'
----| 'h_u_d_interface_wrap_mode_wrap'
-
----@alias EngineTagDataHUDInterfaceAnchor 
----| 'h_u_d_interface_anchor_top_left'
----| 'h_u_d_interface_anchor_top_right'
----| 'h_u_d_interface_anchor_bottom_left'
----| 'h_u_d_interface_anchor_bottom_right'
----| 'h_u_d_interface_anchor_center'
-
----@alias EngineTagDataHUDInterfaceChildAnchor 
----| 'h_u_d_interface_child_anchor_from_parent'
----| 'h_u_d_interface_child_anchor_top_left'
----| 'h_u_d_interface_child_anchor_top_right'
----| 'h_u_d_interface_child_anchor_bottom_left'
----| 'h_u_d_interface_child_anchor_bottom_right'
----| 'h_u_d_interface_child_anchor_center'
-
----@class MetaEngineTagDataHUDInterfaceMeterFlags 
----@field useMinMaxForStateChanges boolean 
----@field interpolateBetweenMinMaxFlashColorsAsStateChanges boolean 
----@field interpolateColorAlongHsvSpace boolean 
----@field moreColorsForHsvInterpolation boolean 
----@field invertInterpolation boolean 
----@field useXboxShading boolean 
-
----@class MetaEngineTagDataHUDInterfaceScalingFlags 
----@field dontScaleOffset boolean 
----@field dontScaleSize boolean 
----@field useHighResScale boolean 
-
----@class MetaEngineTagDataHUDInterfaceFlashFlags 
----@field reverseDefaultFlashingColors boolean 
-
----@class MetaEngineTagDataHUDInterfaceNumberFlags 
----@field showLeadingZeros boolean 
----@field onlyShowWhenZoomed boolean 
----@field drawATrailingM boolean 
-
----@class MetaEngineTagDataHUDInterfaceOverlayFlashFlags 
----@field flashesWhenActive boolean 
-
----@class MetaEngineTagDataHUDInterfaceMessagingFlags 
----@field useTextFromStringListInstead boolean 
----@field overrideDefaultColor boolean 
----@field widthOffsetIsAbsoluteIconWidth boolean 
-
----@class MetaEngineTagDataHUDInterfaceMultitextureOverlayEffector 
----@field destinationType EngineTagDataHUDInterfaceDestinationType 
----@field destination EngineTagDataHUDInterfaceDestination 
----@field source EngineTagDataHUDInterfaceSource 
----@field inBounds number 
----@field outBounds number 
----@field tintColorLowerBound MetaEngineColorRGB 
----@field tintColorUpperBound MetaEngineColorRGB 
----@field periodicFunction EngineTagDataWaveFunction 
----@field functionPeriod number 
----@field functionPhase number 
-
----@class MetaEngineTagDataHUDInterfaceMultitextureOverlay 
----@field type integer 
----@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
----@field primaryAnchor EngineTagDataHUDInterfaceMultitextureOverlayAnchor 
----@field secondaryAnchor EngineTagDataHUDInterfaceMultitextureOverlayAnchor 
----@field tertiaryAnchor EngineTagDataHUDInterfaceMultitextureOverlayAnchor 
----@field zeroToOneBlendFunction EngineTagDataHUDInterfaceZeroToOneBlendFunction 
----@field oneToTwoBlendFunction EngineTagDataHUDInterfaceZeroToOneBlendFunction 
----@field primaryScale MetaEnginePoint2D 
----@field secondaryScale MetaEnginePoint2D 
----@field tertiaryScale MetaEnginePoint2D 
----@field primaryOffset MetaEnginePoint2D 
----@field secondaryOffset MetaEnginePoint2D 
----@field tertiaryOffset MetaEnginePoint2D 
----@field primary MetaEngineTagDependency 
----@field secondary MetaEngineTagDependency 
----@field tertiary MetaEngineTagDependency 
----@field primaryWrapMode EngineTagDataHUDInterfaceWrapMode 
----@field secondaryWrapMode EngineTagDataHUDInterfaceWrapMode 
----@field tertiaryWrapMode EngineTagDataHUDInterfaceWrapMode 
----@field effectors table<MetaEngineTagDataHUDInterfaceMultitextureOverlayEffector> 
-
----@alias EngineTagDataMachineType 
----| 'machine_type_door'
----| 'machine_type_platform'
----| 'machine_type_gear'
-
----@alias EngineTagDataMachineCollisionResponse 
----| 'machine_collision_response_pause_until_crushed'
----| 'machine_collision_response_reverse_directions'
-
----@class MetaEngineTagDataMachineFlags 
----@field pathfindingObstacle boolean 
----@field butNotWhenOpen boolean 
----@field elevator boolean 
-
----@class MetaEngineTagDataDeviceMachine: MetaEngineTagDataDevice  
----@field machineType EngineTagDataMachineType 
----@field machineFlags MetaEngineTagDataMachineFlags 
----@field doorOpenTime number 
----@field collisionResponse EngineTagDataMachineCollisionResponse 
----@field elevatorNode MetaEngineIndex 
----@field doorOpenTimeTicks integer 
-
----@alias EngineTagDataEquipmentPowerupType 
----| 'equipment_powerup_type_none'
----| 'equipment_powerup_type_double_speed'
----| 'equipment_powerup_type_over_shield'
----| 'equipment_powerup_type_active_camouflage'
----| 'equipment_powerup_type_full_spectrum_vision'
----| 'equipment_powerup_type_health'
----| 'equipment_powerup_type_grenade'
-
----@class MetaEngineTagDataEquipment: MetaEngineTagDataItem  
----@field powerupType EngineTagDataEquipmentPowerupType 
----@field grenadeType EngineTagDataGrenadeType 
----@field powerupTime number 
----@field pickupSound MetaEngineTagDependency 
-
----@alias EngineTagDataWeaponHUDInterfaceStateAttachedTo 
----| 'weapon_h_u_d_interface_state_attached_to_total_ammo'
----| 'weapon_h_u_d_interface_state_attached_to_loaded_ammo'
----| 'weapon_h_u_d_interface_state_attached_to_heat'
----| 'weapon_h_u_d_interface_state_attached_to_age'
----| 'weapon_h_u_d_interface_state_attached_to_secondary_weapon_total_ammo'
----| 'weapon_h_u_d_interface_state_attached_to_secondary_weapon_loaded_ammo'
----| 'weapon_h_u_d_interface_state_attached_to_distance_to_target'
----| 'weapon_h_u_d_interface_state_attached_to_elevation_to_target'
-
----@alias EngineTagDataWeaponHUDInterfaceViewType 
----| 'weapon_h_u_d_interface_view_type_any'
----| 'weapon_h_u_d_interface_view_type_fullscreen'
----| 'weapon_h_u_d_interface_view_type_splitscreen'
-
----@alias EngineTagDataWeaponHUDInterfaceCrosshairType 
----| 'weapon_h_u_d_interface_crosshair_type_aim'
----| 'weapon_h_u_d_interface_crosshair_type_zoom_overlay'
----| 'weapon_h_u_d_interface_crosshair_type_charge'
----| 'weapon_h_u_d_interface_crosshair_type_should_reload'
----| 'weapon_h_u_d_interface_crosshair_type_flash_heat'
----| 'weapon_h_u_d_interface_crosshair_type_flash_total_ammo'
----| 'weapon_h_u_d_interface_crosshair_type_flash_battery'
----| 'weapon_h_u_d_interface_crosshair_type_reload_overheat'
----| 'weapon_h_u_d_interface_crosshair_type_flash_when_firing_and_no_ammo'
----| 'weapon_h_u_d_interface_crosshair_type_flash_when_throwing_and_no_grenade'
----| 'weapon_h_u_d_interface_crosshair_type_low_ammo_and_none_left_to_reload'
----| 'weapon_h_u_d_interface_crosshair_type_should_reload_secondary_trigger'
----| 'weapon_h_u_d_interface_crosshair_type_flash_secondary_total_ammo'
----| 'weapon_h_u_d_interface_crosshair_type_flash_secondary_reload'
----| 'weapon_h_u_d_interface_crosshair_type_flash_when_firing_secondary_trigger_with_no_ammo'
----| 'weapon_h_u_d_interface_crosshair_type_low_secondary_ammo_and_none_left_to_reload'
----| 'weapon_h_u_d_interface_crosshair_type_primary_trigger_ready'
----| 'weapon_h_u_d_interface_crosshair_type_secondary_trigger_ready'
----| 'weapon_h_u_d_interface_crosshair_type_flash_when_firing_with_depleted_battery'
-
----@class MetaEngineTagDataWeaponHUDInterfaceCrosshairTypeFlags 
----@field aim boolean 
----@field zoomOverlay boolean 
----@field charge boolean 
----@field shouldReload boolean 
----@field flashHeat boolean 
----@field flashTotalAmmo boolean 
----@field flashBattery boolean 
----@field reloadOverheat boolean 
----@field flashWhenFiringAndNoAmmo boolean 
----@field flashWhenThrowingAndNoGrenade boolean 
----@field lowAmmoAndNoneLeftToReload boolean 
----@field shouldReloadSecondaryTrigger boolean 
----@field flashSecondaryTotalAmmo boolean 
----@field flashSecondaryReload boolean 
----@field flashWhenFiringSecondaryTriggerWithNoAmmo boolean 
----@field lowSecondaryAmmoAndNoneLeftToReload boolean 
----@field primaryTriggerReady boolean 
----@field secondaryTriggerReady boolean 
----@field flashWhenFiringWithDepletedBattery boolean 
-
----@class MetaEngineTagDataWeaponHUDInterfaceNumberWeaponSpecificFlags 
----@field divideNumberByClipSize boolean 
-
----@class MetaEngineTagDataWeaponHUDInterfaceCrosshairOverlayFlags 
----@field flashesWhenActive boolean 
----@field notASprite boolean 
----@field showOnlyWhenZoomed boolean 
----@field showSniperData boolean 
----@field hideAreaOutsideReticle boolean 
----@field oneZoomLevel boolean 
----@field dontShowWhenZoomed boolean 
-
----@class MetaEngineTagDataWeaponHUDInterfaceOverlayType 
----@field showOnFlashing boolean 
----@field showOnEmpty boolean 
----@field showOnReloadOverheating boolean 
----@field showOnDefault boolean 
----@field showAlways boolean 
-
----@class MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionMaskFlags 
----@field onlyWhenZoomed boolean 
-
----@class MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionNightVisionFlags 
----@field onlyWhenZoomed boolean 
----@field connectToFlashlight boolean 
----@field masked boolean 
-
----@class MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionDesaturationFlags 
----@field onlyWhenZoomed boolean 
----@field connectToFlashlight boolean 
----@field additive boolean 
----@field masked boolean 
-
----@class MetaEngineTagDataWeaponHUDInterfaceFlags 
----@field useParentHudFlashingParameters boolean 
-
----@class MetaEngineTagDataWeaponHUDInterfaceStaticElement 
----@field stateAttachedTo EngineTagDataWeaponHUDInterfaceStateAttachedTo 
----@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
----@field anchor EngineTagDataHUDInterfaceChildAnchor 
----@field anchorOffset MetaEnginePoint2DInt 
----@field widthScale number 
----@field heightScale number 
----@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field interfaceBitmap MetaEngineTagDependency 
----@field defaultColor MetaEngineColorARGBInt 
----@field flashingColor MetaEngineColorARGBInt 
----@field flashPeriod number 
----@field flashDelay number 
----@field numberOfFlashes integer 
----@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field flashLength number 
----@field disabledColor MetaEngineColorARGBInt 
----@field sequenceIndex MetaEngineIndex 
----@field multitextureOverlays table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
-
----@class MetaEngineTagDataWeaponHUDInterfaceMeter 
----@field stateAttachedTo EngineTagDataWeaponHUDInterfaceStateAttachedTo 
----@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
----@field anchor EngineTagDataHUDInterfaceChildAnchor 
----@field anchorOffset MetaEnginePoint2DInt 
----@field widthScale number 
----@field heightScale number 
----@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field meterBitmap MetaEngineTagDependency 
----@field colorAtMeterMinimum MetaEngineColorARGBInt 
----@field colorAtMeterMaximum MetaEngineColorARGBInt 
----@field flashColor MetaEngineColorARGBInt 
----@field emptyColor MetaEngineColorARGBInt 
----@field flags MetaEngineTagDataHUDInterfaceMeterFlags 
----@field minimumMeterValue integer 
----@field sequenceIndex MetaEngineIndex 
----@field alphaMultiplier integer 
----@field alphaBias integer 
----@field valueScale integer 
----@field opacity number 
----@field translucency number 
----@field disabledColor MetaEngineColorARGBInt 
----@field minAlpha number 
-
----@class MetaEngineTagDataWeaponHUDInterfaceNumber 
----@field stateAttachedTo EngineTagDataWeaponHUDInterfaceStateAttachedTo 
----@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
----@field anchor EngineTagDataHUDInterfaceChildAnchor 
----@field anchorOffset MetaEnginePoint2DInt 
----@field widthScale number 
----@field heightScale number 
----@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field defaultColor MetaEngineColorARGBInt 
----@field flashingColor MetaEngineColorARGBInt 
----@field flashPeriod number 
----@field flashDelay number 
----@field numberOfFlashes integer 
----@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field flashLength number 
----@field disabledColor MetaEngineColorARGBInt 
----@field maximumNumberOfDigits integer 
----@field flags MetaEngineTagDataHUDInterfaceNumberFlags 
----@field numberOfFractionalDigits integer 
----@field weaponSpecificFlags MetaEngineTagDataWeaponHUDInterfaceNumberWeaponSpecificFlags 
-
----@class MetaEngineTagDataWeaponHUDInterfaceCrosshairOverlay 
----@field anchorOffset MetaEnginePoint2DInt 
----@field widthScale number 
----@field heightScale number 
----@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field defaultColor MetaEngineColorARGBInt 
----@field flashingColor MetaEngineColorARGBInt 
----@field flashPeriod number 
----@field flashDelay number 
----@field numberOfFlashes integer 
----@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field flashLength number 
----@field disabledColor MetaEngineColorARGBInt 
----@field frameRate integer 
----@field sequenceIndex MetaEngineIndex 
----@field flags MetaEngineTagDataWeaponHUDInterfaceCrosshairOverlayFlags 
-
----@class MetaEngineTagDataWeaponHUDInterfaceCrosshair 
----@field crosshairType EngineTagDataWeaponHUDInterfaceCrosshairType 
----@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
----@field crosshairBitmap MetaEngineTagDependency 
----@field crosshairOverlays table<MetaEngineTagDataWeaponHUDInterfaceCrosshairOverlay> 
-
----@class MetaEngineTagDataWeaponHUDInterfaceOverlay 
----@field anchorOffset MetaEnginePoint2DInt 
----@field widthScale number 
----@field heightScale number 
----@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field defaultColor MetaEngineColorARGBInt 
----@field flashingColor MetaEngineColorARGBInt 
----@field flashPeriod number 
----@field flashDelay number 
----@field numberOfFlashes integer 
----@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field flashLength number 
----@field disabledColor MetaEngineColorARGBInt 
----@field frameRate integer 
----@field sequenceIndex MetaEngineIndex 
----@field type MetaEngineTagDataWeaponHUDInterfaceOverlayType 
----@field flags MetaEngineTagDataHUDInterfaceOverlayFlashFlags 
-
----@class MetaEngineTagDataWeaponHUDInterfaceOverlayElement 
----@field stateAttachedTo EngineTagDataWeaponHUDInterfaceStateAttachedTo 
----@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
----@field anchor EngineTagDataHUDInterfaceChildAnchor 
----@field overlayBitmap MetaEngineTagDependency 
----@field overlays table<MetaEngineTagDataWeaponHUDInterfaceOverlay> 
-
----@class MetaEngineTagDataWeaponHUDInterfaceScreenEffect 
----@field maskFlags MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionMaskFlags 
----@field maskFullscreen MetaEngineTagDependency 
----@field maskSplitscreen MetaEngineTagDependency 
----@field convolutionFlags MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionMaskFlags 
----@field convolutionFovInBounds MetaEngineAngle 
----@field convolutionRadiusOutBounds number 
----@field evenMoreFlags MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionNightVisionFlags 
----@field nightVisionScriptSource integer 
----@field nightVisionIntensity MetaEngineFraction 
----@field desaturationFlags MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionDesaturationFlags 
----@field desaturationScriptSource integer 
----@field desaturationIntensity MetaEngineFraction 
----@field effectTint MetaEngineColorRGB 
-
----@class MetaEngineTagDataWeaponHudInterface 
----@field childHud MetaEngineTagDependency 
----@field flags MetaEngineTagDataWeaponHUDInterfaceFlags 
----@field totalAmmoCutoff integer 
----@field loadedAmmoCutoff integer 
----@field heatCutoff integer 
----@field ageCutoff integer 
----@field anchor EngineTagDataHUDInterfaceAnchor 
----@field staticElements table<MetaEngineTagDataWeaponHUDInterfaceStaticElement> 
----@field meterElements table<MetaEngineTagDataWeaponHUDInterfaceMeter> 
----@field numberElements table<MetaEngineTagDataWeaponHUDInterfaceNumber> 
----@field crosshairs table<MetaEngineTagDataWeaponHUDInterfaceCrosshair> 
----@field overlayElements table<MetaEngineTagDataWeaponHUDInterfaceOverlayElement> 
----@field crosshairTypes MetaEngineTagDataWeaponHUDInterfaceCrosshairTypeFlags 
----@field screenEffect table<MetaEngineTagDataWeaponHUDInterfaceScreenEffect> 
----@field sequenceIndex MetaEngineIndex 
----@field widthOffset integer 
----@field offsetFromReferenceCorner MetaEnginePoint2DInt 
----@field overrideIconColor MetaEngineColorARGBInt 
----@field frameRate integer 
----@field moreFlags MetaEngineTagDataHUDInterfaceMessagingFlags 
----@field textIndex MetaEngineIndex 
+---@class MetaEngineTagDataBasicObject: MetaEngineTagDataObject  
+---@field moreFlags MetaEngineTagDataBaseObjectFlags 
 
 ---@class MetaEngineTagDataScenarioStructureBSPMaterialFlags 
 ---@field coplanar boolean 
@@ -6351,7 +8532,7 @@
 
 ---@class MetaEngineTagDataScenarioStructureBSPLightmap 
 ---@field bitmap MetaEngineIndex 
----@field materials table<MetaEngineTagDataScenarioStructureBSPMaterial> 
+---@field materials TagBlock<MetaEngineTagDataScenarioStructureBSPMaterial> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPLensFlare 
 ---@field lens MetaEngineTagDependency 
@@ -6370,7 +8551,7 @@
 ---@field worldBoundsX number 
 ---@field worldBoundsY number 
 ---@field worldBoundsZ number 
----@field surfaceIndices table<MetaEngineTagDataScenarioStructureBSPSubclusterSurfaceIndex> 
+---@field surfaceIndices TagBlock<MetaEngineTagDataScenarioStructureBSPSubclusterSurfaceIndex> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPClusterSurfaceIndex 
 ---@field index integer 
@@ -6381,7 +8562,7 @@
 ---@class MetaEngineTagDataScenarioStructureBSPMirror 
 ---@field plane MetaEnginePlane3D 
 ---@field shader MetaEngineTagDependency 
----@field vertices table<MetaEngineTagDataScenarioStructureBSPMirrorVertex> 
+---@field vertices TagBlock<MetaEngineTagDataScenarioStructureBSPMirrorVertex> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPClusterPortalIndex 
 ---@field portal MetaEngineIndex 
@@ -6395,13 +8576,13 @@
 ---@field transitionStructureBsp MetaEngineIndex 
 ---@field firstDecalIndex MetaEngineIndex 
 ---@field decalCount integer 
----@field predictedResources table<MetaEngineTagDataPredictedResource> 
----@field subclusters table<MetaEngineTagDataScenarioStructureBSPSubcluster> 
+---@field predictedResources TagBlock<MetaEngineTagDataPredictedResource> 
+---@field subclusters TagBlock<MetaEngineTagDataScenarioStructureBSPSubcluster> 
 ---@field firstLensFlareMarkerIndex MetaEngineIndex 
 ---@field lensFlareMarkerCount integer 
----@field surfaceIndices table<MetaEngineTagDataScenarioStructureBSPClusterSurfaceIndex> 
----@field mirrors table<MetaEngineTagDataScenarioStructureBSPMirror> 
----@field portals table<MetaEngineTagDataScenarioStructureBSPClusterPortalIndex> 
+---@field surfaceIndices TagBlock<MetaEngineTagDataScenarioStructureBSPClusterSurfaceIndex> 
+---@field mirrors TagBlock<MetaEngineTagDataScenarioStructureBSPMirror> 
+---@field portals TagBlock<MetaEngineTagDataScenarioStructureBSPClusterPortalIndex> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPClusterPortalVertex 
 ---@field point MetaEnginePoint3D 
@@ -6413,7 +8594,7 @@
 ---@field centroid MetaEnginePoint3D 
 ---@field boundingRadius number 
 ---@field flags MetaEngineTagDataScenarioStructureBSPClusterPortalFlags 
----@field vertices table<MetaEngineTagDataScenarioStructureBSPClusterPortalVertex> 
+---@field vertices TagBlock<MetaEngineTagDataScenarioStructureBSPClusterPortalVertex> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPBreakableSurface 
 ---@field centroid MetaEnginePoint3D 
@@ -6427,7 +8608,7 @@
 ---@field frontRegion MetaEngineIndex 
 ---@field materialType EngineTagDataMaterialType 
 ---@field plane MetaEnginePlane3D 
----@field vertices table<MetaEngineTagDataScenarioStructureBSPFogPlaneVertex> 
+---@field vertices TagBlock<MetaEngineTagDataScenarioStructureBSPFogPlaneVertex> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPFogRegion 
 ---@field fog MetaEngineIndex 
@@ -6453,7 +8634,7 @@
 ---@class MetaEngineTagDataScenarioStructureBSPWeatherPolyhedron 
 ---@field boundingSphereCenter MetaEnginePoint3D 
 ---@field boundingSphereRadius number 
----@field planes table<MetaEngineTagDataScenarioStructureBSPWeatherPolyhedronPlane> 
+---@field planes TagBlock<MetaEngineTagDataScenarioStructureBSPWeatherPolyhedronPlane> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPPathfindingSurface 
 ---@field data integer 
@@ -6501,10 +8682,10 @@
 ---@field zReferenceL number 
 
 ---@class MetaEngineTagDataScenarioStructureBSPDetailObjectData 
----@field cells table<MetaEngineTagDataScenarioStructureBSPGlobalDetailObjectCell> 
----@field instances table<MetaEngineTagDataScenarioStructureBSPGlobalDetailObject> 
----@field counts table<MetaEngineTagDataScenarioStructureBSPGlobalDetailObjectCount> 
----@field zReferenceVectors table<MetaEngineTagDataScenarioStructureBSPGlobalZReferenceVector> 
+---@field cells TagBlock<MetaEngineTagDataScenarioStructureBSPGlobalDetailObjectCell> 
+---@field instances TagBlock<MetaEngineTagDataScenarioStructureBSPGlobalDetailObject> 
+---@field counts TagBlock<MetaEngineTagDataScenarioStructureBSPGlobalDetailObjectCount> 
+---@field zReferenceVectors TagBlock<MetaEngineTagDataScenarioStructureBSPGlobalZReferenceVector> 
 ---@field bullshit integer 
 
 ---@class MetaEngineTagDataScenarioStructureBSPRuntimeDecal 
@@ -6518,14 +8699,14 @@
 
 ---@class MetaEngineTagDataScenarioStructureBSPMapLeafFace 
 ---@field nodeIndex integer 
----@field vertices table<MetaEngineTagDataScenarioStructureBSPMapLeafFaceVertex> 
+---@field vertices TagBlock<MetaEngineTagDataScenarioStructureBSPMapLeafFaceVertex> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPMapLeafPortalIndex 
 ---@field portalIndex integer 
 
 ---@class MetaEngineTagDataScenarioStructureBSPGlobalMapLeaf 
----@field faces table<MetaEngineTagDataScenarioStructureBSPMapLeafFace> 
----@field portalIndices table<MetaEngineTagDataScenarioStructureBSPMapLeafPortalIndex> 
+---@field faces TagBlock<MetaEngineTagDataScenarioStructureBSPMapLeafFace> 
+---@field portalIndices TagBlock<MetaEngineTagDataScenarioStructureBSPMapLeafPortalIndex> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPLeafPortalVertex 
 ---@field point MetaEnginePoint3D 
@@ -6534,7 +8715,7 @@
 ---@field planeIndex integer 
 ---@field backLeafIndex integer 
 ---@field frontLeafIndex integer 
----@field vertices table<MetaEngineTagDataScenarioStructureBSPLeafPortalVertex> 
+---@field vertices TagBlock<MetaEngineTagDataScenarioStructureBSPLeafPortalVertex> 
 
 ---@class MetaEngineTagDataScenarioStructureBsp 
 ---@field lightmapsBitmap MetaEngineTagDependency 
@@ -6548,37 +8729,37 @@
 ---@field defaultReflectionTint MetaEngineColorARGB 
 ---@field defaultShadowVector MetaEngineVector3D 
 ---@field defaultShadowColor MetaEngineColorRGB 
----@field collisionMaterials table<MetaEngineTagDataScenarioStructureBSPCollisionMaterial> 
----@field collisionBsp table<MetaEngineTagDataModelCollisionGeometryBSP> 
----@field nodes table<MetaEngineTagDataScenarioStructureBSPNode> 
+---@field collisionMaterials TagBlock<MetaEngineTagDataScenarioStructureBSPCollisionMaterial> 
+---@field collisionBsp TagBlock<MetaEngineTagDataModelCollisionGeometryBSP> 
+---@field nodes TagBlock<MetaEngineTagDataScenarioStructureBSPNode> 
 ---@field worldBoundsX number 
 ---@field worldBoundsY number 
 ---@field worldBoundsZ number 
----@field leaves table<MetaEngineTagDataScenarioStructureBSPLeaf> 
----@field leafSurfaces table<MetaEngineTagDataScenarioStructureBSPSurfaceReference> 
----@field surfaces table<MetaEngineTagDataScenarioStructureBSPSurface> 
----@field lightmaps table<MetaEngineTagDataScenarioStructureBSPLightmap> 
----@field lensFlares table<MetaEngineTagDataScenarioStructureBSPLensFlare> 
----@field lensFlareMarkers table<MetaEngineTagDataScenarioStructureBSPLensFlareMarker> 
----@field clusters table<MetaEngineTagDataScenarioStructureBSPCluster> 
+---@field leaves TagBlock<MetaEngineTagDataScenarioStructureBSPLeaf> 
+---@field leafSurfaces TagBlock<MetaEngineTagDataScenarioStructureBSPSurfaceReference> 
+---@field surfaces TagBlock<MetaEngineTagDataScenarioStructureBSPSurface> 
+---@field lightmaps TagBlock<MetaEngineTagDataScenarioStructureBSPLightmap> 
+---@field lensFlares TagBlock<MetaEngineTagDataScenarioStructureBSPLensFlare> 
+---@field lensFlareMarkers TagBlock<MetaEngineTagDataScenarioStructureBSPLensFlareMarker> 
+---@field clusters TagBlock<MetaEngineTagDataScenarioStructureBSPCluster> 
 ---@field clusterData MetaEngineTagDataOffset 
----@field clusterPortals table<MetaEngineTagDataScenarioStructureBSPClusterPortal> 
----@field breakableSurfaces table<MetaEngineTagDataScenarioStructureBSPBreakableSurface> 
----@field fogPlanes table<MetaEngineTagDataScenarioStructureBSPFogPlane> 
----@field fogRegions table<MetaEngineTagDataScenarioStructureBSPFogRegion> 
----@field fogPalette table<MetaEngineTagDataScenarioStructureBSPFogPalette> 
----@field weatherPalette table<MetaEngineTagDataScenarioStructureBSPWeatherPalette> 
----@field weatherPolyhedra table<MetaEngineTagDataScenarioStructureBSPWeatherPolyhedron> 
----@field pathfindingSurfaces table<MetaEngineTagDataScenarioStructureBSPPathfindingSurface> 
----@field pathfindingEdges table<MetaEngineTagDataScenarioStructureBSPPathfindingEdge> 
----@field backgroundSoundPalette table<MetaEngineTagDataScenarioStructureBSPBackgroundSoundPalette> 
----@field soundEnvironmentPalette table<MetaEngineTagDataScenarioStructureBSPSoundEnvironmentPalette> 
+---@field clusterPortals TagBlock<MetaEngineTagDataScenarioStructureBSPClusterPortal> 
+---@field breakableSurfaces TagBlock<MetaEngineTagDataScenarioStructureBSPBreakableSurface> 
+---@field fogPlanes TagBlock<MetaEngineTagDataScenarioStructureBSPFogPlane> 
+---@field fogRegions TagBlock<MetaEngineTagDataScenarioStructureBSPFogRegion> 
+---@field fogPalette TagBlock<MetaEngineTagDataScenarioStructureBSPFogPalette> 
+---@field weatherPalette TagBlock<MetaEngineTagDataScenarioStructureBSPWeatherPalette> 
+---@field weatherPolyhedra TagBlock<MetaEngineTagDataScenarioStructureBSPWeatherPolyhedron> 
+---@field pathfindingSurfaces TagBlock<MetaEngineTagDataScenarioStructureBSPPathfindingSurface> 
+---@field pathfindingEdges TagBlock<MetaEngineTagDataScenarioStructureBSPPathfindingEdge> 
+---@field backgroundSoundPalette TagBlock<MetaEngineTagDataScenarioStructureBSPBackgroundSoundPalette> 
+---@field soundEnvironmentPalette TagBlock<MetaEngineTagDataScenarioStructureBSPSoundEnvironmentPalette> 
 ---@field soundPasData MetaEngineTagDataOffset 
----@field markers table<MetaEngineTagDataScenarioStructureBSPMarker> 
----@field detailObjects table<MetaEngineTagDataScenarioStructureBSPDetailObjectData> 
----@field runtimeDecals table<MetaEngineTagDataScenarioStructureBSPRuntimeDecal> 
----@field leafMapLeaves table<MetaEngineTagDataScenarioStructureBSPGlobalMapLeaf> 
----@field leafMapPortals table<MetaEngineTagDataScenarioStructureBSPGlobalLeafPortal> 
+---@field markers TagBlock<MetaEngineTagDataScenarioStructureBSPMarker> 
+---@field detailObjects TagBlock<MetaEngineTagDataScenarioStructureBSPDetailObjectData> 
+---@field runtimeDecals TagBlock<MetaEngineTagDataScenarioStructureBSPRuntimeDecal> 
+---@field leafMapLeaves TagBlock<MetaEngineTagDataScenarioStructureBSPGlobalMapLeaf> 
+---@field leafMapPortals TagBlock<MetaEngineTagDataScenarioStructureBSPGlobalLeafPortal> 
 
 ---@class MetaEngineTagDataScenarioStructureBSPCompiledHeader 
 ---@field pointer integer 
@@ -6594,15 +8775,1874 @@
 ---@field lightmapVertices integer 
 ---@field signature EngineTagClass 
 
+---@class EngineTagDataShaderTransparentGlassReflectionTypeEnum : Enum 
+
+---@class EngineTagDataShaderTransparentGlassReflectionTypeBumpedCubeMap : EngineTagDataShaderTransparentGlassReflectionTypeEnum 
+---@class EngineTagDataShaderTransparentGlassReflectionTypeFlatCubeMap : EngineTagDataShaderTransparentGlassReflectionTypeEnum 
+---@class EngineTagDataShaderTransparentGlassReflectionTypeDynamicMirror : EngineTagDataShaderTransparentGlassReflectionTypeEnum 
+
+---@alias EngineTagDataShaderTransparentGlassReflectionType 
+---| EngineTagDataShaderTransparentGlassReflectionTypeBumpedCubeMap
+---| EngineTagDataShaderTransparentGlassReflectionTypeFlatCubeMap
+---| EngineTagDataShaderTransparentGlassReflectionTypeDynamicMirror
+
+---@class EngineTagDataShaderTransparentGlassReflectionTypeTable 
+---@field ypeBumpedCubeMap EngineTagDataShaderTransparentGlassReflectionTypeBumpedCubeMap
+---@field ypeFlatCubeMap EngineTagDataShaderTransparentGlassReflectionTypeFlatCubeMap
+---@field ypeDynamicMirror EngineTagDataShaderTransparentGlassReflectionTypeDynamicMirror
+Engine.tag.shaderTransparentGlassReflectionType = {} 
+
+---@class MetaEngineTagDataShaderTransparentGlassFlags 
+---@field alphaTested boolean 
+---@field decal boolean 
+---@field twoSided boolean 
+---@field bumpMapIsSpecularMask boolean 
+
+---@class MetaEngineTagDataShaderTransparentGlass: MetaEngineTagDataShader  
+---@field shaderTransparentGlassFlags MetaEngineTagDataShaderTransparentGlassFlags 
+---@field backgroundTintColor MetaEngineColorRGB 
+---@field backgroundTintMapScale number 
+---@field backgroundTintMap MetaEngineTagDependency 
+---@field reflectionType EngineTagDataShaderTransparentGlassReflectionType 
+---@field perpendicularBrightness MetaEngineFraction 
+---@field perpendicularTintColor MetaEngineColorRGB 
+---@field parallelBrightness MetaEngineFraction 
+---@field parallelTintColor MetaEngineColorRGB 
+---@field reflectionMap MetaEngineTagDependency 
+---@field bumpMapScale number 
+---@field bumpMap MetaEngineTagDependency 
+---@field diffuseMapScale number 
+---@field diffuseMap MetaEngineTagDependency 
+---@field diffuseDetailMapScale number 
+---@field diffuseDetailMap MetaEngineTagDependency 
+---@field specularMapScale number 
+---@field specularMap MetaEngineTagDependency 
+---@field specularDetailMapScale number 
+---@field specularDetailMap MetaEngineTagDependency 
+
+---@class EngineTagDataBitmapDataTypeEnum : Enum 
+
+---@class EngineTagDataBitmapDataType_2dTexture : EngineTagDataBitmapDataTypeEnum 
+---@class EngineTagDataBitmapDataType_3dTexture : EngineTagDataBitmapDataTypeEnum 
+---@class EngineTagDataBitmapDataTypeCubeMap : EngineTagDataBitmapDataTypeEnum 
+---@class EngineTagDataBitmapDataTypeWhite : EngineTagDataBitmapDataTypeEnum 
+
+---@alias EngineTagDataBitmapDataType 
+---| EngineTagDataBitmapDataType_2dTexture
+---| EngineTagDataBitmapDataType_3dTexture
+---| EngineTagDataBitmapDataTypeCubeMap
+---| EngineTagDataBitmapDataTypeWhite
+
+---@class EngineTagDataBitmapDataTypeTable 
+---@field e_2dTexture EngineTagDataBitmapDataType_2dTexture
+---@field e_3dTexture EngineTagDataBitmapDataType_3dTexture
+---@field eCubeMap EngineTagDataBitmapDataTypeCubeMap
+---@field eWhite EngineTagDataBitmapDataTypeWhite
+Engine.tag.bitmapDataType = {} 
+
+---@class EngineTagDataBitmapDataFormatEnum : Enum 
+
+---@class EngineTagDataBitmapDataFormatA8 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatY8 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatAy8 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatA8y8 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatUnused1 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatUnused2 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatR5g6b5 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatUnused3 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatA1r5g5b5 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatA4r4g4b4 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatX8r8g8b8 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatA8r8g8b8 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatUnused4 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatUnused5 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatDxt1 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatDxt3 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatDxt5 : EngineTagDataBitmapDataFormatEnum 
+---@class EngineTagDataBitmapDataFormatP8Bump : EngineTagDataBitmapDataFormatEnum 
+
+---@alias EngineTagDataBitmapDataFormat 
+---| EngineTagDataBitmapDataFormatA8
+---| EngineTagDataBitmapDataFormatY8
+---| EngineTagDataBitmapDataFormatAy8
+---| EngineTagDataBitmapDataFormatA8y8
+---| EngineTagDataBitmapDataFormatUnused1
+---| EngineTagDataBitmapDataFormatUnused2
+---| EngineTagDataBitmapDataFormatR5g6b5
+---| EngineTagDataBitmapDataFormatUnused3
+---| EngineTagDataBitmapDataFormatA1r5g5b5
+---| EngineTagDataBitmapDataFormatA4r4g4b4
+---| EngineTagDataBitmapDataFormatX8r8g8b8
+---| EngineTagDataBitmapDataFormatA8r8g8b8
+---| EngineTagDataBitmapDataFormatUnused4
+---| EngineTagDataBitmapDataFormatUnused5
+---| EngineTagDataBitmapDataFormatDxt1
+---| EngineTagDataBitmapDataFormatDxt3
+---| EngineTagDataBitmapDataFormatDxt5
+---| EngineTagDataBitmapDataFormatP8Bump
+
+---@class EngineTagDataBitmapDataFormatTable 
+---@field tA8 EngineTagDataBitmapDataFormatA8
+---@field tY8 EngineTagDataBitmapDataFormatY8
+---@field tAy8 EngineTagDataBitmapDataFormatAy8
+---@field tA8y8 EngineTagDataBitmapDataFormatA8y8
+---@field tUnused1 EngineTagDataBitmapDataFormatUnused1
+---@field tUnused2 EngineTagDataBitmapDataFormatUnused2
+---@field tR5g6b5 EngineTagDataBitmapDataFormatR5g6b5
+---@field tUnused3 EngineTagDataBitmapDataFormatUnused3
+---@field tA1r5g5b5 EngineTagDataBitmapDataFormatA1r5g5b5
+---@field tA4r4g4b4 EngineTagDataBitmapDataFormatA4r4g4b4
+---@field tX8r8g8b8 EngineTagDataBitmapDataFormatX8r8g8b8
+---@field tA8r8g8b8 EngineTagDataBitmapDataFormatA8r8g8b8
+---@field tUnused4 EngineTagDataBitmapDataFormatUnused4
+---@field tUnused5 EngineTagDataBitmapDataFormatUnused5
+---@field tDxt1 EngineTagDataBitmapDataFormatDxt1
+---@field tDxt3 EngineTagDataBitmapDataFormatDxt3
+---@field tDxt5 EngineTagDataBitmapDataFormatDxt5
+---@field tP8Bump EngineTagDataBitmapDataFormatP8Bump
+Engine.tag.bitmapDataFormat = {} 
+
+---@class EngineTagDataBitmapTypeEnum : Enum 
+
+---@class EngineTagDataBitmapType_2dTextures : EngineTagDataBitmapTypeEnum 
+---@class EngineTagDataBitmapType_3dTextures : EngineTagDataBitmapTypeEnum 
+---@class EngineTagDataBitmapTypeCubeMaps : EngineTagDataBitmapTypeEnum 
+---@class EngineTagDataBitmapTypeSprites : EngineTagDataBitmapTypeEnum 
+---@class EngineTagDataBitmapTypeInterfaceBitmaps : EngineTagDataBitmapTypeEnum 
+
+---@alias EngineTagDataBitmapType 
+---| EngineTagDataBitmapType_2dTextures
+---| EngineTagDataBitmapType_3dTextures
+---| EngineTagDataBitmapTypeCubeMaps
+---| EngineTagDataBitmapTypeSprites
+---| EngineTagDataBitmapTypeInterfaceBitmaps
+
+---@class EngineTagDataBitmapTypeTable 
+---@field _2dTextures EngineTagDataBitmapType_2dTextures
+---@field _3dTextures EngineTagDataBitmapType_3dTextures
+---@field cubeMaps EngineTagDataBitmapTypeCubeMaps
+---@field sprites EngineTagDataBitmapTypeSprites
+---@field interfaceBitmaps EngineTagDataBitmapTypeInterfaceBitmaps
+Engine.tag.bitmapType = {} 
+
+---@class EngineTagDataBitmapFormatEnum : Enum 
+
+---@class EngineTagDataBitmapFormatDxt1 : EngineTagDataBitmapFormatEnum 
+---@class EngineTagDataBitmapFormatDxt3 : EngineTagDataBitmapFormatEnum 
+---@class EngineTagDataBitmapFormatDxt5 : EngineTagDataBitmapFormatEnum 
+---@class EngineTagDataBitmapFormat_16Bit : EngineTagDataBitmapFormatEnum 
+---@class EngineTagDataBitmapFormat_32Bit : EngineTagDataBitmapFormatEnum 
+---@class EngineTagDataBitmapFormatMonochrome : EngineTagDataBitmapFormatEnum 
+
+---@alias EngineTagDataBitmapFormat 
+---| EngineTagDataBitmapFormatDxt1
+---| EngineTagDataBitmapFormatDxt3
+---| EngineTagDataBitmapFormatDxt5
+---| EngineTagDataBitmapFormat_16Bit
+---| EngineTagDataBitmapFormat_32Bit
+---| EngineTagDataBitmapFormatMonochrome
+
+---@class EngineTagDataBitmapFormatTable 
+---@field dxt1 EngineTagDataBitmapFormatDxt1
+---@field dxt3 EngineTagDataBitmapFormatDxt3
+---@field dxt5 EngineTagDataBitmapFormatDxt5
+---@field _16Bit EngineTagDataBitmapFormat_16Bit
+---@field _32Bit EngineTagDataBitmapFormat_32Bit
+---@field monochrome EngineTagDataBitmapFormatMonochrome
+Engine.tag.bitmapFormat = {} 
+
+---@class EngineTagDataBitmapUsageEnum : Enum 
+
+---@class EngineTagDataBitmapUsageAlphaBlend : EngineTagDataBitmapUsageEnum 
+---@class EngineTagDataBitmapUsageDefault : EngineTagDataBitmapUsageEnum 
+---@class EngineTagDataBitmapUsageHeightMap : EngineTagDataBitmapUsageEnum 
+---@class EngineTagDataBitmapUsageDetailMap : EngineTagDataBitmapUsageEnum 
+---@class EngineTagDataBitmapUsageLightMap : EngineTagDataBitmapUsageEnum 
+---@class EngineTagDataBitmapUsageVectorMap : EngineTagDataBitmapUsageEnum 
+
+---@alias EngineTagDataBitmapUsage 
+---| EngineTagDataBitmapUsageAlphaBlend
+---| EngineTagDataBitmapUsageDefault
+---| EngineTagDataBitmapUsageHeightMap
+---| EngineTagDataBitmapUsageDetailMap
+---| EngineTagDataBitmapUsageLightMap
+---| EngineTagDataBitmapUsageVectorMap
+
+---@class EngineTagDataBitmapUsageTable 
+---@field alphaBlend EngineTagDataBitmapUsageAlphaBlend
+---@field default EngineTagDataBitmapUsageDefault
+---@field heightMap EngineTagDataBitmapUsageHeightMap
+---@field detailMap EngineTagDataBitmapUsageDetailMap
+---@field lightMap EngineTagDataBitmapUsageLightMap
+---@field vectorMap EngineTagDataBitmapUsageVectorMap
+Engine.tag.bitmapUsage = {} 
+
+---@class EngineTagDataBitmapSpriteBudgetSizeEnum : Enum 
+
+---@class EngineTagDataBitmapSpriteBudgetSize_32x32 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize_64x64 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize_128x128 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize_256x256 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize_512x512 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize_1024x1024 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+
+---@alias EngineTagDataBitmapSpriteBudgetSize 
+---| EngineTagDataBitmapSpriteBudgetSize_32x32
+---| EngineTagDataBitmapSpriteBudgetSize_64x64
+---| EngineTagDataBitmapSpriteBudgetSize_128x128
+---| EngineTagDataBitmapSpriteBudgetSize_256x256
+---| EngineTagDataBitmapSpriteBudgetSize_512x512
+---| EngineTagDataBitmapSpriteBudgetSize_1024x1024
+
+---@class EngineTagDataBitmapSpriteBudgetSizeTable 
+---@field ze_32x32 EngineTagDataBitmapSpriteBudgetSize_32x32
+---@field ze_64x64 EngineTagDataBitmapSpriteBudgetSize_64x64
+---@field ze_128x128 EngineTagDataBitmapSpriteBudgetSize_128x128
+---@field ze_256x256 EngineTagDataBitmapSpriteBudgetSize_256x256
+---@field ze_512x512 EngineTagDataBitmapSpriteBudgetSize_512x512
+---@field ze_1024x1024 EngineTagDataBitmapSpriteBudgetSize_1024x1024
+Engine.tag.bitmapSpriteBudgetSize = {} 
+
+---@class EngineTagDataBitmapSpriteUsageEnum : Enum 
+
+---@class EngineTagDataBitmapSpriteUsageBlendAddSubtractMax : EngineTagDataBitmapSpriteUsageEnum 
+---@class EngineTagDataBitmapSpriteUsageMultiplyMin : EngineTagDataBitmapSpriteUsageEnum 
+---@class EngineTagDataBitmapSpriteUsageDoubleMultiply : EngineTagDataBitmapSpriteUsageEnum 
+
+---@alias EngineTagDataBitmapSpriteUsage 
+---| EngineTagDataBitmapSpriteUsageBlendAddSubtractMax
+---| EngineTagDataBitmapSpriteUsageMultiplyMin
+---| EngineTagDataBitmapSpriteUsageDoubleMultiply
+
+---@class EngineTagDataBitmapSpriteUsageTable 
+---@field eBlendAddSubtractMax EngineTagDataBitmapSpriteUsageBlendAddSubtractMax
+---@field eMultiplyMin EngineTagDataBitmapSpriteUsageMultiplyMin
+---@field eDoubleMultiply EngineTagDataBitmapSpriteUsageDoubleMultiply
+Engine.tag.bitmapSpriteUsage = {} 
+
+---@class MetaEngineTagDataBitmapDataFlags 
+---@field powerOfTwoDimensions boolean 
+---@field compressed boolean 
+---@field palettized boolean 
+---@field swizzled boolean 
+---@field linear boolean 
+---@field v16u16 boolean 
+---@field unused boolean 
+---@field makeItActuallyWork boolean 
+---@field external boolean 
+---@field environment boolean 
+
+---@class MetaEngineTagDataBitmapFlags 
+---@field enableDiffusionDithering boolean 
+---@field disableHeightMapCompression boolean 
+---@field uniformSpriteSequences boolean 
+---@field filthySpriteBugFix boolean 
+---@field halfHudScale boolean 
+
+---@class MetaEngineTagDataBitmapGroupSprite 
+---@field bitmapIndex MetaEngineIndex 
+---@field left number 
+---@field right number 
+---@field top number 
+---@field bottom number 
+---@field registrationPoint MetaEnginePoint2D 
+
+---@class MetaEngineTagDataBitmapGroupSequence 
+---@field name MetaEngineTagString 
+---@field firstBitmapIndex MetaEngineIndex 
+---@field bitmapCount integer 
+---@field sprites TagBlock<MetaEngineTagDataBitmapGroupSprite> 
+
+---@class MetaEngineTagDataBitmapData 
+---@field bitmapClass EngineTagClass 
+---@field width integer 
+---@field height integer 
+---@field depth integer 
+---@field type EngineTagDataBitmapDataType 
+---@field format EngineTagDataBitmapDataFormat 
+---@field flags MetaEngineTagDataBitmapDataFlags 
+---@field registrationPoint MetaEnginePoint2DInt 
+---@field mipmapCount integer 
+---@field pixelDataOffset integer 
+---@field pixelDataSize integer 
+---@field bitmapTagHandle EngineTagHandle 
+---@field textureCacheId integer 
+---@field texture integer 
+---@field pixelsBuffer integer 
+
+---@class MetaEngineTagDataBitmap 
+---@field type EngineTagDataBitmapType 
+---@field encodingFormat EngineTagDataBitmapFormat 
+---@field usage EngineTagDataBitmapUsage 
+---@field flags MetaEngineTagDataBitmapFlags 
+---@field detailFadeFactor MetaEngineFraction 
+---@field sharpenAmount MetaEngineFraction 
+---@field bumpHeight MetaEngineFraction 
+---@field spriteBudgetSize EngineTagDataBitmapSpriteBudgetSize 
+---@field spriteBudgetCount integer 
+---@field colorPlateWidth integer 
+---@field colorPlateHeight integer 
+---@field compressedColorPlateData MetaEngineTagDataOffset 
+---@field processedPixelData MetaEngineTagDataOffset 
+---@field blurFilterSize number 
+---@field alphaBias number 
+---@field mipmapCount integer 
+---@field spriteUsage EngineTagDataBitmapSpriteUsage 
+---@field spriteSpacing integer 
+---@field bitmapGroupSequence TagBlock<MetaEngineTagDataBitmapGroupSequence> 
+---@field bitmapData TagBlock<MetaEngineTagDataBitmapData> 
+
+---@class MetaEngineTagDataModelCollisionGeometryMaterialFlags 
+---@field head boolean 
+
+---@class MetaEngineTagDataModelCollisionGeometryRegionFlags 
+---@field livesUntilObjectDies boolean 
+---@field forcesObjectToDie boolean 
+---@field diesWhenObjectDies boolean 
+---@field diesWhenObjectIsDamaged boolean 
+---@field disappearsWhenShieldIsOff boolean 
+---@field inhibitsMeleeAttack boolean 
+---@field inhibitsWeaponAttack boolean 
+---@field inhibitsWalking boolean 
+---@field forcesDropWeapon boolean 
+---@field causesHeadMaimedScream boolean 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSPLeafFlags 
+---@field containsDoubleSidedSurfaces boolean 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSPSurfaceFlags 
+---@field twoSided boolean 
+---@field invisible boolean 
+---@field climbable boolean 
+---@field breakable boolean 
+
+---@class MetaEngineTagDataModelCollisionGeometryFlags 
+---@field takesShieldDamageForChildren boolean 
+---@field takesBodyDamageForChildren boolean 
+---@field alwaysShieldsFriendlyDamage boolean 
+---@field passesAreaDamageToChildren boolean 
+---@field parentNeverTakesBodyDamageForUs boolean 
+---@field onlyDamagedByExplosives boolean 
+---@field onlyDamagedWhileOccupied boolean 
+
+---@class MetaEngineTagDataModelCollisionGeometryMaterial 
+---@field name MetaEngineTagString 
+---@field flags MetaEngineTagDataModelCollisionGeometryMaterialFlags 
+---@field materialType EngineTagDataMaterialType 
+---@field shieldLeakPercentage MetaEngineFraction 
+---@field shieldDamageMultiplier number 
+---@field bodyDamageMultiplier number 
+
+---@class MetaEngineTagDataModelCollisionGeometryPermutation 
+---@field name MetaEngineTagString 
+
+---@class MetaEngineTagDataModelCollisionGeometryRegion 
+---@field name MetaEngineTagString 
+---@field flags MetaEngineTagDataModelCollisionGeometryRegionFlags 
+---@field damageThreshold number 
+---@field destroyedEffect MetaEngineTagDependency 
+---@field permutations TagBlock<MetaEngineTagDataModelCollisionGeometryPermutation> 
+
+---@class MetaEngineTagDataModelCollisionGeometryModifier 
+
+---@class MetaEngineTagDataModelCollisionGeometrySphere 
+---@field node MetaEngineIndex 
+---@field center MetaEnginePoint3D 
+---@field radius number 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSP3DNode 
+---@field plane integer 
+---@field backChild integer 
+---@field frontChild integer 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSPPlane 
+---@field plane MetaEnginePlane3D 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSPLeaf 
+---@field flags MetaEngineTagDataModelCollisionGeometryBSPLeafFlags 
+---@field bsp2dReferenceCount integer 
+---@field firstBsp2dReference integer 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSP2DReference 
+---@field plane integer 
+---@field bsp2dNode integer 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSP2DNode 
+---@field plane MetaEnginePlane2D 
+---@field leftChild integer 
+---@field rightChild integer 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSPSurface 
+---@field plane integer 
+---@field firstEdge integer 
+---@field flags MetaEngineTagDataModelCollisionGeometryBSPSurfaceFlags 
+---@field breakableSurface integer 
+---@field material MetaEngineIndex 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSPEdge 
+---@field startVertex integer 
+---@field endVertex integer 
+---@field forwardEdge integer 
+---@field reverseEdge integer 
+---@field leftSurface integer 
+---@field rightSurface integer 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSPVertex 
+---@field point MetaEnginePoint3D 
+---@field firstEdge integer 
+
+---@class MetaEngineTagDataModelCollisionGeometryBSP 
+---@field bsp3dNodes TagBlock<MetaEngineTagDataModelCollisionGeometryBSP3DNode> 
+---@field planes TagBlock<MetaEngineTagDataModelCollisionGeometryBSPPlane> 
+---@field leaves TagBlock<MetaEngineTagDataModelCollisionGeometryBSPLeaf> 
+---@field bsp2dReferences TagBlock<MetaEngineTagDataModelCollisionGeometryBSP2DReference> 
+---@field bsp2dNodes TagBlock<MetaEngineTagDataModelCollisionGeometryBSP2DNode> 
+---@field surfaces TagBlock<MetaEngineTagDataModelCollisionGeometryBSPSurface> 
+---@field edges TagBlock<MetaEngineTagDataModelCollisionGeometryBSPEdge> 
+---@field vertices TagBlock<MetaEngineTagDataModelCollisionGeometryBSPVertex> 
+
+---@class MetaEngineTagDataModelCollisionGeometryNode 
+---@field name MetaEngineTagString 
+---@field region MetaEngineIndex 
+---@field parentNode MetaEngineIndex 
+---@field nextSiblingNode MetaEngineIndex 
+---@field firstChildNode MetaEngineIndex 
+---@field nameThing integer 
+---@field bsps TagBlock<MetaEngineTagDataModelCollisionGeometryBSP> 
+
+---@class MetaEngineTagDataModelCollisionGeometry 
+---@field flags MetaEngineTagDataModelCollisionGeometryFlags 
+---@field indirectDamageMaterial MetaEngineIndex 
+---@field maximumBodyVitality number 
+---@field bodySystemShock number 
+---@field friendlyDamageResistance MetaEngineFraction 
+---@field localizedDamageEffect MetaEngineTagDependency 
+---@field areaDamageEffectThreshold number 
+---@field areaDamageEffect MetaEngineTagDependency 
+---@field bodyDamagedThreshold number 
+---@field bodyDamagedEffect MetaEngineTagDependency 
+---@field bodyDepletedEffect MetaEngineTagDependency 
+---@field bodyDestroyedThreshold number 
+---@field bodyDestroyedEffect MetaEngineTagDependency 
+---@field maximumShieldVitality number 
+---@field shieldMaterialType EngineTagDataMaterialType 
+---@field shieldFailureFunction EngineTagDataFunctionType 
+---@field shieldFailureThreshold MetaEngineFraction 
+---@field failingShieldLeakFraction MetaEngineFraction 
+---@field minimumStunDamage number 
+---@field stunTime number 
+---@field rechargeTime number 
+---@field shieldDamagedThreshold number 
+---@field shieldDamagedEffect MetaEngineTagDependency 
+---@field shieldDepletedEffect MetaEngineTagDependency 
+---@field shieldRechargingEffect MetaEngineTagDependency 
+---@field shieldRechargeRate number 
+---@field materials TagBlock<MetaEngineTagDataModelCollisionGeometryMaterial> 
+---@field regions TagBlock<MetaEngineTagDataModelCollisionGeometryRegion> 
+---@field modifiers TagBlock<MetaEngineTagDataModelCollisionGeometryModifier> 
+---@field x number 
+---@field y number 
+---@field z number 
+---@field pathfindingSpheres TagBlock<MetaEngineTagDataModelCollisionGeometrySphere> 
+---@field nodes TagBlock<MetaEngineTagDataModelCollisionGeometryNode> 
+
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToEnum : Enum 
+
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToTotalAmmo : EngineTagDataWeaponHUDInterfaceStateAttachedToEnum 
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToLoadedAmmo : EngineTagDataWeaponHUDInterfaceStateAttachedToEnum 
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToHeat : EngineTagDataWeaponHUDInterfaceStateAttachedToEnum 
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToAge : EngineTagDataWeaponHUDInterfaceStateAttachedToEnum 
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToSecondaryWeaponTotalAmmo : EngineTagDataWeaponHUDInterfaceStateAttachedToEnum 
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToSecondaryWeaponLoadedAmmo : EngineTagDataWeaponHUDInterfaceStateAttachedToEnum 
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToDistanceToTarget : EngineTagDataWeaponHUDInterfaceStateAttachedToEnum 
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToElevationToTarget : EngineTagDataWeaponHUDInterfaceStateAttachedToEnum 
+
+---@alias EngineTagDataWeaponHUDInterfaceStateAttachedTo 
+---| EngineTagDataWeaponHUDInterfaceStateAttachedToTotalAmmo
+---| EngineTagDataWeaponHUDInterfaceStateAttachedToLoadedAmmo
+---| EngineTagDataWeaponHUDInterfaceStateAttachedToHeat
+---| EngineTagDataWeaponHUDInterfaceStateAttachedToAge
+---| EngineTagDataWeaponHUDInterfaceStateAttachedToSecondaryWeaponTotalAmmo
+---| EngineTagDataWeaponHUDInterfaceStateAttachedToSecondaryWeaponLoadedAmmo
+---| EngineTagDataWeaponHUDInterfaceStateAttachedToDistanceToTarget
+---| EngineTagDataWeaponHUDInterfaceStateAttachedToElevationToTarget
+
+---@class EngineTagDataWeaponHUDInterfaceStateAttachedToTable 
+---@field hedToTotalAmmo EngineTagDataWeaponHUDInterfaceStateAttachedToTotalAmmo
+---@field hedToLoadedAmmo EngineTagDataWeaponHUDInterfaceStateAttachedToLoadedAmmo
+---@field hedToHeat EngineTagDataWeaponHUDInterfaceStateAttachedToHeat
+---@field hedToAge EngineTagDataWeaponHUDInterfaceStateAttachedToAge
+---@field hedToSecondaryWeaponTotalAmmo EngineTagDataWeaponHUDInterfaceStateAttachedToSecondaryWeaponTotalAmmo
+---@field hedToSecondaryWeaponLoadedAmmo EngineTagDataWeaponHUDInterfaceStateAttachedToSecondaryWeaponLoadedAmmo
+---@field hedToDistanceToTarget EngineTagDataWeaponHUDInterfaceStateAttachedToDistanceToTarget
+---@field hedToElevationToTarget EngineTagDataWeaponHUDInterfaceStateAttachedToElevationToTarget
+Engine.tag.weaponHUDInterfaceStateAttachedTo = {} 
+
+---@class EngineTagDataWeaponHUDInterfaceViewTypeEnum : Enum 
+
+---@class EngineTagDataWeaponHUDInterfaceViewTypeAny : EngineTagDataWeaponHUDInterfaceViewTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceViewTypeFullscreen : EngineTagDataWeaponHUDInterfaceViewTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceViewTypeSplitscreen : EngineTagDataWeaponHUDInterfaceViewTypeEnum 
+
+---@alias EngineTagDataWeaponHUDInterfaceViewType 
+---| EngineTagDataWeaponHUDInterfaceViewTypeAny
+---| EngineTagDataWeaponHUDInterfaceViewTypeFullscreen
+---| EngineTagDataWeaponHUDInterfaceViewTypeSplitscreen
+
+---@class EngineTagDataWeaponHUDInterfaceViewTypeTable 
+---@field typeAny EngineTagDataWeaponHUDInterfaceViewTypeAny
+---@field typeFullscreen EngineTagDataWeaponHUDInterfaceViewTypeFullscreen
+---@field typeSplitscreen EngineTagDataWeaponHUDInterfaceViewTypeSplitscreen
+Engine.tag.weaponHUDInterfaceViewType = {} 
+
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum : Enum 
+
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeAim : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeZoomOverlay : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeCharge : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeShouldReload : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashHeat : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashTotalAmmo : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashBattery : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeReloadOverheat : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenFiringAndNoAmmo : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenThrowingAndNoGrenade : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeLowAmmoAndNoneLeftToReload : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeShouldReloadSecondaryTrigger : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashSecondaryTotalAmmo : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashSecondaryReload : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenFiringSecondaryTriggerWithNoAmmo : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeLowSecondaryAmmoAndNoneLeftToReload : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypePrimaryTriggerReady : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeSecondaryTriggerReady : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenFiringWithDepletedBattery : EngineTagDataWeaponHUDInterfaceCrosshairTypeEnum 
+
+---@alias EngineTagDataWeaponHUDInterfaceCrosshairType 
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeAim
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeZoomOverlay
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeCharge
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeShouldReload
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashHeat
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashTotalAmmo
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashBattery
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeReloadOverheat
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenFiringAndNoAmmo
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenThrowingAndNoGrenade
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeLowAmmoAndNoneLeftToReload
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeShouldReloadSecondaryTrigger
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashSecondaryTotalAmmo
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashSecondaryReload
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenFiringSecondaryTriggerWithNoAmmo
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeLowSecondaryAmmoAndNoneLeftToReload
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypePrimaryTriggerReady
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeSecondaryTriggerReady
+---| EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenFiringWithDepletedBattery
+
+---@class EngineTagDataWeaponHUDInterfaceCrosshairTypeTable 
+---@field typeAim EngineTagDataWeaponHUDInterfaceCrosshairTypeAim
+---@field typeZoomOverlay EngineTagDataWeaponHUDInterfaceCrosshairTypeZoomOverlay
+---@field typeCharge EngineTagDataWeaponHUDInterfaceCrosshairTypeCharge
+---@field typeShouldReload EngineTagDataWeaponHUDInterfaceCrosshairTypeShouldReload
+---@field typeFlashHeat EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashHeat
+---@field typeFlashTotalAmmo EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashTotalAmmo
+---@field typeFlashBattery EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashBattery
+---@field typeReloadOverheat EngineTagDataWeaponHUDInterfaceCrosshairTypeReloadOverheat
+---@field typeFlashWhenFiringAndNoAmmo EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenFiringAndNoAmmo
+---@field typeFlashWhenThrowingAndNoGrenade EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenThrowingAndNoGrenade
+---@field typeLowAmmoAndNoneLeftToReload EngineTagDataWeaponHUDInterfaceCrosshairTypeLowAmmoAndNoneLeftToReload
+---@field typeShouldReloadSecondaryTrigger EngineTagDataWeaponHUDInterfaceCrosshairTypeShouldReloadSecondaryTrigger
+---@field typeFlashSecondaryTotalAmmo EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashSecondaryTotalAmmo
+---@field typeFlashSecondaryReload EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashSecondaryReload
+---@field typeFlashWhenFiringSecondaryTriggerWithNoAmmo EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenFiringSecondaryTriggerWithNoAmmo
+---@field typeLowSecondaryAmmoAndNoneLeftToReload EngineTagDataWeaponHUDInterfaceCrosshairTypeLowSecondaryAmmoAndNoneLeftToReload
+---@field typePrimaryTriggerReady EngineTagDataWeaponHUDInterfaceCrosshairTypePrimaryTriggerReady
+---@field typeSecondaryTriggerReady EngineTagDataWeaponHUDInterfaceCrosshairTypeSecondaryTriggerReady
+---@field typeFlashWhenFiringWithDepletedBattery EngineTagDataWeaponHUDInterfaceCrosshairTypeFlashWhenFiringWithDepletedBattery
+Engine.tag.weaponHUDInterfaceCrosshairType = {} 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceCrosshairTypeFlags 
+---@field aim boolean 
+---@field zoomOverlay boolean 
+---@field charge boolean 
+---@field shouldReload boolean 
+---@field flashHeat boolean 
+---@field flashTotalAmmo boolean 
+---@field flashBattery boolean 
+---@field reloadOverheat boolean 
+---@field flashWhenFiringAndNoAmmo boolean 
+---@field flashWhenThrowingAndNoGrenade boolean 
+---@field lowAmmoAndNoneLeftToReload boolean 
+---@field shouldReloadSecondaryTrigger boolean 
+---@field flashSecondaryTotalAmmo boolean 
+---@field flashSecondaryReload boolean 
+---@field flashWhenFiringSecondaryTriggerWithNoAmmo boolean 
+---@field lowSecondaryAmmoAndNoneLeftToReload boolean 
+---@field primaryTriggerReady boolean 
+---@field secondaryTriggerReady boolean 
+---@field flashWhenFiringWithDepletedBattery boolean 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceNumberWeaponSpecificFlags 
+---@field divideNumberByClipSize boolean 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceCrosshairOverlayFlags 
+---@field flashesWhenActive boolean 
+---@field notASprite boolean 
+---@field showOnlyWhenZoomed boolean 
+---@field showSniperData boolean 
+---@field hideAreaOutsideReticle boolean 
+---@field oneZoomLevel boolean 
+---@field dontShowWhenZoomed boolean 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceOverlayType 
+---@field showOnFlashing boolean 
+---@field showOnEmpty boolean 
+---@field showOnReloadOverheating boolean 
+---@field showOnDefault boolean 
+---@field showAlways boolean 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionMaskFlags 
+---@field onlyWhenZoomed boolean 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionNightVisionFlags 
+---@field onlyWhenZoomed boolean 
+---@field connectToFlashlight boolean 
+---@field masked boolean 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionDesaturationFlags 
+---@field onlyWhenZoomed boolean 
+---@field connectToFlashlight boolean 
+---@field additive boolean 
+---@field masked boolean 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceFlags 
+---@field useParentHudFlashingParameters boolean 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceStaticElement 
+---@field stateAttachedTo EngineTagDataWeaponHUDInterfaceStateAttachedTo 
+---@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
+---@field anchor EngineTagDataHUDInterfaceChildAnchor 
+---@field anchorOffset MetaEnginePoint2DInt 
+---@field widthScale number 
+---@field heightScale number 
+---@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field interfaceBitmap MetaEngineTagDependency 
+---@field defaultColor MetaEngineColorARGBInt 
+---@field flashingColor MetaEngineColorARGBInt 
+---@field flashPeriod number 
+---@field flashDelay number 
+---@field numberOfFlashes integer 
+---@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field flashLength number 
+---@field disabledColor MetaEngineColorARGBInt 
+---@field sequenceIndex MetaEngineIndex 
+---@field multitextureOverlays TagBlock<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceMeter 
+---@field stateAttachedTo EngineTagDataWeaponHUDInterfaceStateAttachedTo 
+---@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
+---@field anchor EngineTagDataHUDInterfaceChildAnchor 
+---@field anchorOffset MetaEnginePoint2DInt 
+---@field widthScale number 
+---@field heightScale number 
+---@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field meterBitmap MetaEngineTagDependency 
+---@field colorAtMeterMinimum MetaEngineColorARGBInt 
+---@field colorAtMeterMaximum MetaEngineColorARGBInt 
+---@field flashColor MetaEngineColorARGBInt 
+---@field emptyColor MetaEngineColorARGBInt 
+---@field flags MetaEngineTagDataHUDInterfaceMeterFlags 
+---@field minimumMeterValue integer 
+---@field sequenceIndex MetaEngineIndex 
+---@field alphaMultiplier integer 
+---@field alphaBias integer 
+---@field valueScale integer 
+---@field opacity number 
+---@field translucency number 
+---@field disabledColor MetaEngineColorARGBInt 
+---@field minAlpha number 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceNumber 
+---@field stateAttachedTo EngineTagDataWeaponHUDInterfaceStateAttachedTo 
+---@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
+---@field anchor EngineTagDataHUDInterfaceChildAnchor 
+---@field anchorOffset MetaEnginePoint2DInt 
+---@field widthScale number 
+---@field heightScale number 
+---@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field defaultColor MetaEngineColorARGBInt 
+---@field flashingColor MetaEngineColorARGBInt 
+---@field flashPeriod number 
+---@field flashDelay number 
+---@field numberOfFlashes integer 
+---@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field flashLength number 
+---@field disabledColor MetaEngineColorARGBInt 
+---@field maximumNumberOfDigits integer 
+---@field flags MetaEngineTagDataHUDInterfaceNumberFlags 
+---@field numberOfFractionalDigits integer 
+---@field weaponSpecificFlags MetaEngineTagDataWeaponHUDInterfaceNumberWeaponSpecificFlags 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceCrosshairOverlay 
+---@field anchorOffset MetaEnginePoint2DInt 
+---@field widthScale number 
+---@field heightScale number 
+---@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field defaultColor MetaEngineColorARGBInt 
+---@field flashingColor MetaEngineColorARGBInt 
+---@field flashPeriod number 
+---@field flashDelay number 
+---@field numberOfFlashes integer 
+---@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field flashLength number 
+---@field disabledColor MetaEngineColorARGBInt 
+---@field frameRate integer 
+---@field sequenceIndex MetaEngineIndex 
+---@field flags MetaEngineTagDataWeaponHUDInterfaceCrosshairOverlayFlags 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceCrosshair 
+---@field crosshairType EngineTagDataWeaponHUDInterfaceCrosshairType 
+---@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
+---@field crosshairBitmap MetaEngineTagDependency 
+---@field crosshairOverlays TagBlock<MetaEngineTagDataWeaponHUDInterfaceCrosshairOverlay> 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceOverlay 
+---@field anchorOffset MetaEnginePoint2DInt 
+---@field widthScale number 
+---@field heightScale number 
+---@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
+---@field defaultColor MetaEngineColorARGBInt 
+---@field flashingColor MetaEngineColorARGBInt 
+---@field flashPeriod number 
+---@field flashDelay number 
+---@field numberOfFlashes integer 
+---@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
+---@field flashLength number 
+---@field disabledColor MetaEngineColorARGBInt 
+---@field frameRate integer 
+---@field sequenceIndex MetaEngineIndex 
+---@field type MetaEngineTagDataWeaponHUDInterfaceOverlayType 
+---@field flags MetaEngineTagDataHUDInterfaceOverlayFlashFlags 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceOverlayElement 
+---@field stateAttachedTo EngineTagDataWeaponHUDInterfaceStateAttachedTo 
+---@field allowedViewType EngineTagDataWeaponHUDInterfaceViewType 
+---@field anchor EngineTagDataHUDInterfaceChildAnchor 
+---@field overlayBitmap MetaEngineTagDependency 
+---@field overlays TagBlock<MetaEngineTagDataWeaponHUDInterfaceOverlay> 
+
+---@class MetaEngineTagDataWeaponHUDInterfaceScreenEffect 
+---@field maskFlags MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionMaskFlags 
+---@field maskFullscreen MetaEngineTagDependency 
+---@field maskSplitscreen MetaEngineTagDependency 
+---@field convolutionFlags MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionMaskFlags 
+---@field convolutionFovInBounds MetaEngineAngle 
+---@field convolutionRadiusOutBounds number 
+---@field evenMoreFlags MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionNightVisionFlags 
+---@field nightVisionScriptSource integer 
+---@field nightVisionIntensity MetaEngineFraction 
+---@field desaturationFlags MetaEngineTagDataWeaponHUDInterfaceScreenEffectDefinitionDesaturationFlags 
+---@field desaturationScriptSource integer 
+---@field desaturationIntensity MetaEngineFraction 
+---@field effectTint MetaEngineColorRGB 
+
+---@class MetaEngineTagDataWeaponHudInterface 
+---@field childHud MetaEngineTagDependency 
+---@field flags MetaEngineTagDataWeaponHUDInterfaceFlags 
+---@field totalAmmoCutoff integer 
+---@field loadedAmmoCutoff integer 
+---@field heatCutoff integer 
+---@field ageCutoff integer 
+---@field anchor EngineTagDataHUDInterfaceAnchor 
+---@field staticElements TagBlock<MetaEngineTagDataWeaponHUDInterfaceStaticElement> 
+---@field meterElements TagBlock<MetaEngineTagDataWeaponHUDInterfaceMeter> 
+---@field numberElements TagBlock<MetaEngineTagDataWeaponHUDInterfaceNumber> 
+---@field crosshairs TagBlock<MetaEngineTagDataWeaponHUDInterfaceCrosshair> 
+---@field overlayElements TagBlock<MetaEngineTagDataWeaponHUDInterfaceOverlayElement> 
+---@field crosshairTypes MetaEngineTagDataWeaponHUDInterfaceCrosshairTypeFlags 
+---@field screenEffect TagBlock<MetaEngineTagDataWeaponHUDInterfaceScreenEffect> 
+---@field sequenceIndex MetaEngineIndex 
+---@field widthOffset integer 
+---@field offsetFromReferenceCorner MetaEnginePoint2DInt 
+---@field overrideIconColor MetaEngineColorARGBInt 
+---@field frameRate integer 
+---@field moreFlags MetaEngineTagDataHUDInterfaceMessagingFlags 
+---@field textIndex MetaEngineIndex 
+
+---@class MetaEngineTagDataIsUnusedFlag 
+---@field unused boolean 
+
+---@class MetaEngineTagDataIsUnfilteredFlag 
+---@field unfiltered boolean 
+
+---@class MetaEngineTagDataColorInterpolationFlags 
+---@field blendInHsv boolean 
+---@field moreColors boolean 
+
+---@class EngineTagDataMultiplayerInformationSoundEnum : Enum 
+
+---@class EngineTagDataMultiplayerInformationSoundPlayBall : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundGameOver : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundOneMinuteToWin : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSound_30SecondsToWin : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundRedTeamMinuteToWin : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundRedTeam_30ToWin : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundBlueTeamMinuteToWin : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundBlueTeam_30ToWin : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundBlueTeamHasTheFlag : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundBlueTeamFlagReturned : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundBlueTeamScore : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundRedTeamHasTheFlag : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundRedTeamFlagReturned : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundRedTeamScore : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundDoubleKill : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundTripleKill : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundKilltacular : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundRunningRiot : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundKillingSpree : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundOddball : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundRace : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundSlayer : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundCaptureTheFlag : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundWarthog : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundGhost : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundScorpion : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundCountdownTimer : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundTeleporterActivate : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundFlagFailure : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundCountdownForRespawn : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundHillMove : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundPlayerRespawn : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundTeamKingOfTheHill : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundTeamOddball : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundTeamRace : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundTeamSlayer : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundKingOfTheHill : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundBlueTeamCtf : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundRedTeamCtf : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundHillContested : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundHillControlled : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundHillOccupied : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundCountdownTimerEnd : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundTing : EngineTagDataMultiplayerInformationSoundEnum 
+
+---@alias EngineTagDataMultiplayerInformationSound 
+---| EngineTagDataMultiplayerInformationSoundPlayBall
+---| EngineTagDataMultiplayerInformationSoundGameOver
+---| EngineTagDataMultiplayerInformationSoundOneMinuteToWin
+---| EngineTagDataMultiplayerInformationSound_30SecondsToWin
+---| EngineTagDataMultiplayerInformationSoundRedTeamMinuteToWin
+---| EngineTagDataMultiplayerInformationSoundRedTeam_30ToWin
+---| EngineTagDataMultiplayerInformationSoundBlueTeamMinuteToWin
+---| EngineTagDataMultiplayerInformationSoundBlueTeam_30ToWin
+---| EngineTagDataMultiplayerInformationSoundBlueTeamHasTheFlag
+---| EngineTagDataMultiplayerInformationSoundBlueTeamFlagReturned
+---| EngineTagDataMultiplayerInformationSoundBlueTeamScore
+---| EngineTagDataMultiplayerInformationSoundRedTeamHasTheFlag
+---| EngineTagDataMultiplayerInformationSoundRedTeamFlagReturned
+---| EngineTagDataMultiplayerInformationSoundRedTeamScore
+---| EngineTagDataMultiplayerInformationSoundDoubleKill
+---| EngineTagDataMultiplayerInformationSoundTripleKill
+---| EngineTagDataMultiplayerInformationSoundKilltacular
+---| EngineTagDataMultiplayerInformationSoundRunningRiot
+---| EngineTagDataMultiplayerInformationSoundKillingSpree
+---| EngineTagDataMultiplayerInformationSoundOddball
+---| EngineTagDataMultiplayerInformationSoundRace
+---| EngineTagDataMultiplayerInformationSoundSlayer
+---| EngineTagDataMultiplayerInformationSoundCaptureTheFlag
+---| EngineTagDataMultiplayerInformationSoundWarthog
+---| EngineTagDataMultiplayerInformationSoundGhost
+---| EngineTagDataMultiplayerInformationSoundScorpion
+---| EngineTagDataMultiplayerInformationSoundCountdownTimer
+---| EngineTagDataMultiplayerInformationSoundTeleporterActivate
+---| EngineTagDataMultiplayerInformationSoundFlagFailure
+---| EngineTagDataMultiplayerInformationSoundCountdownForRespawn
+---| EngineTagDataMultiplayerInformationSoundHillMove
+---| EngineTagDataMultiplayerInformationSoundPlayerRespawn
+---| EngineTagDataMultiplayerInformationSoundTeamKingOfTheHill
+---| EngineTagDataMultiplayerInformationSoundTeamOddball
+---| EngineTagDataMultiplayerInformationSoundTeamRace
+---| EngineTagDataMultiplayerInformationSoundTeamSlayer
+---| EngineTagDataMultiplayerInformationSoundKingOfTheHill
+---| EngineTagDataMultiplayerInformationSoundBlueTeamCtf
+---| EngineTagDataMultiplayerInformationSoundRedTeamCtf
+---| EngineTagDataMultiplayerInformationSoundHillContested
+---| EngineTagDataMultiplayerInformationSoundHillControlled
+---| EngineTagDataMultiplayerInformationSoundHillOccupied
+---| EngineTagDataMultiplayerInformationSoundCountdownTimerEnd
+---| EngineTagDataMultiplayerInformationSoundTing
+
+---@class EngineTagDataMultiplayerInformationSoundTable 
+---@field dPlayBall EngineTagDataMultiplayerInformationSoundPlayBall
+---@field dGameOver EngineTagDataMultiplayerInformationSoundGameOver
+---@field dOneMinuteToWin EngineTagDataMultiplayerInformationSoundOneMinuteToWin
+---@field d_30SecondsToWin EngineTagDataMultiplayerInformationSound_30SecondsToWin
+---@field dRedTeamMinuteToWin EngineTagDataMultiplayerInformationSoundRedTeamMinuteToWin
+---@field dRedTeam_30ToWin EngineTagDataMultiplayerInformationSoundRedTeam_30ToWin
+---@field dBlueTeamMinuteToWin EngineTagDataMultiplayerInformationSoundBlueTeamMinuteToWin
+---@field dBlueTeam_30ToWin EngineTagDataMultiplayerInformationSoundBlueTeam_30ToWin
+---@field dBlueTeamHasTheFlag EngineTagDataMultiplayerInformationSoundBlueTeamHasTheFlag
+---@field dBlueTeamFlagReturned EngineTagDataMultiplayerInformationSoundBlueTeamFlagReturned
+---@field dBlueTeamScore EngineTagDataMultiplayerInformationSoundBlueTeamScore
+---@field dRedTeamHasTheFlag EngineTagDataMultiplayerInformationSoundRedTeamHasTheFlag
+---@field dRedTeamFlagReturned EngineTagDataMultiplayerInformationSoundRedTeamFlagReturned
+---@field dRedTeamScore EngineTagDataMultiplayerInformationSoundRedTeamScore
+---@field dDoubleKill EngineTagDataMultiplayerInformationSoundDoubleKill
+---@field dTripleKill EngineTagDataMultiplayerInformationSoundTripleKill
+---@field dKilltacular EngineTagDataMultiplayerInformationSoundKilltacular
+---@field dRunningRiot EngineTagDataMultiplayerInformationSoundRunningRiot
+---@field dKillingSpree EngineTagDataMultiplayerInformationSoundKillingSpree
+---@field dOddball EngineTagDataMultiplayerInformationSoundOddball
+---@field dRace EngineTagDataMultiplayerInformationSoundRace
+---@field dSlayer EngineTagDataMultiplayerInformationSoundSlayer
+---@field dCaptureTheFlag EngineTagDataMultiplayerInformationSoundCaptureTheFlag
+---@field dWarthog EngineTagDataMultiplayerInformationSoundWarthog
+---@field dGhost EngineTagDataMultiplayerInformationSoundGhost
+---@field dScorpion EngineTagDataMultiplayerInformationSoundScorpion
+---@field dCountdownTimer EngineTagDataMultiplayerInformationSoundCountdownTimer
+---@field dTeleporterActivate EngineTagDataMultiplayerInformationSoundTeleporterActivate
+---@field dFlagFailure EngineTagDataMultiplayerInformationSoundFlagFailure
+---@field dCountdownForRespawn EngineTagDataMultiplayerInformationSoundCountdownForRespawn
+---@field dHillMove EngineTagDataMultiplayerInformationSoundHillMove
+---@field dPlayerRespawn EngineTagDataMultiplayerInformationSoundPlayerRespawn
+---@field dTeamKingOfTheHill EngineTagDataMultiplayerInformationSoundTeamKingOfTheHill
+---@field dTeamOddball EngineTagDataMultiplayerInformationSoundTeamOddball
+---@field dTeamRace EngineTagDataMultiplayerInformationSoundTeamRace
+---@field dTeamSlayer EngineTagDataMultiplayerInformationSoundTeamSlayer
+---@field dKingOfTheHill EngineTagDataMultiplayerInformationSoundKingOfTheHill
+---@field dBlueTeamCtf EngineTagDataMultiplayerInformationSoundBlueTeamCtf
+---@field dRedTeamCtf EngineTagDataMultiplayerInformationSoundRedTeamCtf
+---@field dHillContested EngineTagDataMultiplayerInformationSoundHillContested
+---@field dHillControlled EngineTagDataMultiplayerInformationSoundHillControlled
+---@field dHillOccupied EngineTagDataMultiplayerInformationSoundHillOccupied
+---@field dCountdownTimerEnd EngineTagDataMultiplayerInformationSoundCountdownTimerEnd
+---@field dTing EngineTagDataMultiplayerInformationSoundTing
+Engine.tag.multiplayerInformationSound = {} 
+
+---@class MetaEngineTagDataGlobalsRasterizerDataFlags 
+---@field tintEdgeDensity boolean 
+
+---@class MetaEngineTagDataGlobalsBreakableSurfaceParticleEffectFlags 
+---@field interpolateColorInHsv boolean 
+---@field moreColors boolean 
+
+---@class MetaEngineTagDataGlobalsSound 
+---@field sound MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsCamera 
+---@field defaultUnitCameraTrack MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsLookFunction 
+---@field scale number 
+
+---@class MetaEngineTagDataGlobalsPlayerControl 
+---@field magnetismFriction number 
+---@field magnetismAdhesion number 
+---@field inconsequentialTargetScale number 
+---@field lookAccelerationTime number 
+---@field lookAccelerationScale number 
+---@field lookPegThreshold number 
+---@field lookDefaultPitchRate number 
+---@field lookDefaultYawRate number 
+---@field lookAutolevellingScale number 
+---@field minimumWeaponSwapTicks integer 
+---@field minimumAutolevellingTicks integer 
+---@field minimumAngleForVehicleFlipping MetaEngineAngle 
+---@field lookFunction TagBlock<MetaEngineTagDataGlobalsLookFunction> 
+
+---@class MetaEngineTagDataGlobalsDifficulty 
+---@field easyEnemyDamage number 
+---@field normalEnemyDamage number 
+---@field hardEnemyDamage number 
+---@field impossEnemyDamage number 
+---@field easyEnemyVitality number 
+---@field normalEnemyVitality number 
+---@field hardEnemyVitality number 
+---@field impossEnemyVitality number 
+---@field easyEnemyShield number 
+---@field normalEnemyShield number 
+---@field hardEnemyShield number 
+---@field impossEnemyShield number 
+---@field easyEnemyRecharge number 
+---@field normalEnemyRecharge number 
+---@field hardEnemyRecharge number 
+---@field impossEnemyRecharge number 
+---@field easyFriendDamage number 
+---@field normalFriendDamage number 
+---@field hardFriendDamage number 
+---@field impossFriendDamage number 
+---@field easyFriendVitality number 
+---@field normalFriendVitality number 
+---@field hardFriendVitality number 
+---@field impossFriendVitality number 
+---@field easyFriendShield number 
+---@field normalFriendShield number 
+---@field hardFriendShield number 
+---@field impossFriendShield number 
+---@field easyFriendRecharge number 
+---@field normalFriendRecharge number 
+---@field hardFriendRecharge number 
+---@field impossFriendRecharge number 
+---@field easyInfectionForms number 
+---@field normalInfectionForms number 
+---@field hardInfectionForms number 
+---@field impossInfectionForms number 
+---@field easyRateOfFire number 
+---@field normalRateOfFire number 
+---@field hardRateOfFire number 
+---@field impossRateOfFire number 
+---@field easyProjectileError number 
+---@field normalProjectileError number 
+---@field hardProjectileError number 
+---@field impossProjectileError number 
+---@field easyBurstError number 
+---@field normalBurstError number 
+---@field hardBurstError number 
+---@field impossBurstError number 
+---@field easyNewTargetDelay number 
+---@field normalNewTargetDelay number 
+---@field hardNewTargetDelay number 
+---@field impossNewTargetDelay number 
+---@field easyBurstSeparation number 
+---@field normalBurstSeparation number 
+---@field hardBurstSeparation number 
+---@field impossBurstSeparation number 
+---@field easyTargetTracking number 
+---@field normalTargetTracking number 
+---@field hardTargetTracking number 
+---@field impossTargetTracking number 
+---@field easyTargetLeading number 
+---@field normalTargetLeading number 
+---@field hardTargetLeading number 
+---@field impossTargetLeading number 
+---@field easyOverchargeChance number 
+---@field normalOverchargeChance number 
+---@field hardOverchargeChance number 
+---@field impossOverchargeChance number 
+---@field easySpecialFireDelay number 
+---@field normalSpecialFireDelay number 
+---@field hardSpecialFireDelay number 
+---@field impossSpecialFireDelay number 
+---@field easyGuidanceVsPlayer number 
+---@field normalGuidanceVsPlayer number 
+---@field hardGuidanceVsPlayer number 
+---@field impossGuidanceVsPlayer number 
+---@field easyMeleeDelayBase number 
+---@field normalMeleeDelayBase number 
+---@field hardMeleeDelayBase number 
+---@field impossMeleeDelayBase number 
+---@field easyMeleeDelayScale number 
+---@field normalMeleeDelayScale number 
+---@field hardMeleeDelayScale number 
+---@field impossMeleeDelayScale number 
+---@field easyGrenadeChanceScale number 
+---@field normalGrenadeChanceScale number 
+---@field hardGrenadeChanceScale number 
+---@field impossGrenadeChanceScale number 
+---@field easyGrenadeTimerScale number 
+---@field normalGrenadeTimerScale number 
+---@field hardGrenadeTimerScale number 
+---@field impossGrenadeTimerScale number 
+---@field easyMajorUpgrade number 
+---@field normalMajorUpgrade number 
+---@field hardMajorUpgrade number 
+---@field impossMajorUpgrade number 
+---@field easyMajorUpgrade_1 number 
+---@field normalMajorUpgrade_1 number 
+---@field hardMajorUpgrade_1 number 
+---@field impossMajorUpgrade_1 number 
+---@field easyMajorUpgrade_2 number 
+---@field normalMajorUpgrade_2 number 
+---@field hardMajorUpgrade_2 number 
+---@field impossMajorUpgrade_2 number 
+
+---@class MetaEngineTagDataGlobalsGrenade 
+---@field maximumCount integer 
+---@field mpSpawnDefault integer 
+---@field throwingEffect MetaEngineTagDependency 
+---@field hudInterface MetaEngineTagDependency 
+---@field equipment MetaEngineTagDependency 
+---@field projectile MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsRasterizerData 
+---@field distanceAttenuation MetaEngineTagDependency 
+---@field vectorNormalization MetaEngineTagDependency 
+---@field atmosphericFogDensity MetaEngineTagDependency 
+---@field planarFogDensity MetaEngineTagDependency 
+---@field linearCornerFade MetaEngineTagDependency 
+---@field activeCamouflageDistortion MetaEngineTagDependency 
+---@field glow MetaEngineTagDependency 
+---@field default_2d MetaEngineTagDependency 
+---@field default_3d MetaEngineTagDependency 
+---@field defaultCubeMap MetaEngineTagDependency 
+---@field test_0 MetaEngineTagDependency 
+---@field test_1 MetaEngineTagDependency 
+---@field test_2 MetaEngineTagDependency 
+---@field test_3 MetaEngineTagDependency 
+---@field videoScanlineMap MetaEngineTagDependency 
+---@field videoNoiseMap MetaEngineTagDependency 
+---@field flags MetaEngineTagDataGlobalsRasterizerDataFlags 
+---@field refractionAmount number 
+---@field distanceFalloff number 
+---@field tintColor MetaEngineColorRGB 
+---@field hyperStealthRefraction number 
+---@field hyperStealthDistanceFalloff number 
+---@field hyperStealthTintColor MetaEngineColorRGB 
+---@field distanceAttenuation_2d MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsInterfaceBitmaps 
+---@field fontSystem MetaEngineTagDependency 
+---@field fontTerminal MetaEngineTagDependency 
+---@field screenColorTable MetaEngineTagDependency 
+---@field hudColorTable MetaEngineTagDependency 
+---@field editorColorTable MetaEngineTagDependency 
+---@field dialogColorTable MetaEngineTagDependency 
+---@field hudGlobals MetaEngineTagDependency 
+---@field motionSensorSweepBitmap MetaEngineTagDependency 
+---@field motionSensorSweepBitmapMask MetaEngineTagDependency 
+---@field multiplayerHudBitmap MetaEngineTagDependency 
+---@field localization MetaEngineTagDependency 
+---@field hudDigitsDefinition MetaEngineTagDependency 
+---@field motionSensorBlipBitmap MetaEngineTagDependency 
+---@field interfaceGooMap1 MetaEngineTagDependency 
+---@field interfaceGooMap2 MetaEngineTagDependency 
+---@field interfaceGooMap3 MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsWeapon 
+---@field weapon MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsCheatPowerup 
+---@field powerup MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsVehicle 
+---@field vehicle MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsMultiplayerInformation 
+---@field flag MetaEngineTagDependency 
+---@field unit MetaEngineTagDependency 
+---@field vehicles TagBlock<MetaEngineTagDataGlobalsVehicle> 
+---@field hillShader MetaEngineTagDependency 
+---@field flagShader MetaEngineTagDependency 
+---@field ball MetaEngineTagDependency 
+---@field sounds TagBlock<MetaEngineTagDataGlobalsSound> 
+
+---@class MetaEngineTagDataGlobalsPlayerInformation 
+---@field unit MetaEngineTagDependency 
+---@field walkingSpeed number 
+---@field doubleSpeedMultiplier number 
+---@field runForward number 
+---@field runBackward number 
+---@field runSideways number 
+---@field runAcceleration number 
+---@field sneakForward number 
+---@field sneakBackward number 
+---@field sneakSideways number 
+---@field sneakAcceleration number 
+---@field airborneAcceleration number 
+---@field speedMultiplier number 
+---@field grenadeOrigin MetaEnginePoint3D 
+---@field stunMovementPenalty number 
+---@field stunTurningPenalty number 
+---@field stunJumpingPenalty number 
+---@field minimumStunTime number 
+---@field maximumStunTime number 
+---@field firstPersonIdleTime number 
+---@field firstPersonSkipFraction number 
+---@field coopRespawnEffect MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsFirstPersonInterface 
+---@field firstPersonHands MetaEngineTagDependency 
+---@field baseBitmap MetaEngineTagDependency 
+---@field shieldMeter MetaEngineTagDependency 
+---@field shieldMeterOrigin MetaEnginePoint2DInt 
+---@field bodyMeter MetaEngineTagDependency 
+---@field bodyMeterOrigin MetaEnginePoint2DInt 
+---@field nightVisionOnEffect MetaEngineTagDependency 
+---@field nightVisionOffEffect MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsFallingDamage 
+---@field harmfulFallingDistance number 
+---@field fallingDamage MetaEngineTagDependency 
+---@field maximumFallingDistance number 
+---@field distanceDamage MetaEngineTagDependency 
+---@field vehicleEnvironmentCollisionDamage MetaEngineTagDependency 
+---@field vehicleKilledUnitDamage MetaEngineTagDependency 
+---@field vehicleCollisionDamage MetaEngineTagDependency 
+---@field flamingDeathDamage MetaEngineTagDependency 
+---@field maximumFallingVelocity number 
+---@field harmfulFallingVelocity number 
+
+---@class MetaEngineTagDataGlobalsBreakableSurfaceParticleEffect 
+---@field particleType MetaEngineTagDependency 
+---@field flags MetaEngineTagDataGlobalsBreakableSurfaceParticleEffectFlags 
+---@field density number 
+---@field velocityScale number 
+---@field angularVelocity number 
+---@field radius number 
+---@field tintLowerBound MetaEngineColorARGB 
+---@field tintUpperBound MetaEngineColorARGB 
+
+---@class MetaEngineTagDataGlobalsMaterial 
+---@field groundFrictionScale number 
+---@field groundFrictionNormalK1Scale number 
+---@field groundFrictionNormalK0Scale number 
+---@field groundDepthScale number 
+---@field groundDampFractionScale number 
+---@field maximumVitality number 
+---@field effect MetaEngineTagDependency 
+---@field sound MetaEngineTagDependency 
+---@field particleEffects TagBlock<MetaEngineTagDataGlobalsBreakableSurfaceParticleEffect> 
+---@field meleeHitSound MetaEngineTagDependency 
+
+---@class MetaEngineTagDataGlobalsPlaylistMember 
+---@field mapName MetaEngineTagString 
+---@field gameVariant MetaEngineTagString 
+---@field minimumExperience integer 
+---@field maximumExperience integer 
+---@field minimumPlayerCount integer 
+---@field maximumPlayerCount integer 
+---@field rating integer 
+
+---@class MetaEngineTagDataGlobals 
+---@field sounds TagBlock<MetaEngineTagDataGlobalsSound> 
+---@field camera TagBlock<MetaEngineTagDataGlobalsCamera> 
+---@field playerControl TagBlock<MetaEngineTagDataGlobalsPlayerControl> 
+---@field difficulty TagBlock<MetaEngineTagDataGlobalsDifficulty> 
+---@field grenades TagBlock<MetaEngineTagDataGlobalsGrenade> 
+---@field rasterizerData TagBlock<MetaEngineTagDataGlobalsRasterizerData> 
+---@field interfaceBitmaps TagBlock<MetaEngineTagDataGlobalsInterfaceBitmaps> 
+---@field weaponList TagBlock<MetaEngineTagDataGlobalsWeapon> 
+---@field cheatPowerups TagBlock<MetaEngineTagDataGlobalsCheatPowerup> 
+---@field multiplayerInformation TagBlock<MetaEngineTagDataGlobalsMultiplayerInformation> 
+---@field playerInformation TagBlock<MetaEngineTagDataGlobalsPlayerInformation> 
+---@field firstPersonInterface TagBlock<MetaEngineTagDataGlobalsFirstPersonInterface> 
+---@field fallingDamage TagBlock<MetaEngineTagDataGlobalsFallingDamage> 
+---@field materials TagBlock<MetaEngineTagDataGlobalsMaterial> 
+---@field playlistMembers TagBlock<MetaEngineTagDataGlobalsPlaylistMember> 
+
+---@class MetaEngineTagDataPointPhysicsFlags 
+---@field flamethrowerParticleCollision boolean 
+---@field collidesWithStructures boolean 
+---@field collidesWithWaterSurface boolean 
+---@field usesSimpleWind boolean 
+---@field usesDampedWind boolean 
+---@field noGravity boolean 
+
+---@class MetaEngineTagDataPointPhysics 
+---@field flags MetaEngineTagDataPointPhysicsFlags 
+---@field unknownConstant number 
+---@field waterGravityScale number 
+---@field airGravityScale number 
+---@field density number 
+---@field airFriction number 
+---@field waterFriction number 
+---@field surfaceFriction number 
+---@field elasticity number 
+
+---@class MetaEngineTagDataMaterialEffectsMaterialEffectMaterial 
+---@field effect MetaEngineTagDependency 
+---@field sound MetaEngineTagDependency 
+
+---@class MetaEngineTagDataMaterialEffectsMaterialEffect 
+---@field materials TagBlock<MetaEngineTagDataMaterialEffectsMaterialEffectMaterial> 
+
+---@class MetaEngineTagDataMaterialEffects 
+---@field effects TagBlock<MetaEngineTagDataMaterialEffectsMaterialEffect> 
+
+---@class MetaEngineTagDataSoundLoopingTrackFlags 
+---@field fadeInAtStart boolean 
+---@field fadeOutAtStop boolean 
+---@field fadeInAlternate boolean 
+
+---@class MetaEngineTagDataSoundLoopingDetailFlags 
+---@field dontPlayWithAlternate boolean 
+---@field dontPlayWithoutAlternate boolean 
+
+---@class MetaEngineTagDataSoundLoopingFlags 
+---@field deafeningToAis boolean 
+---@field notALoop boolean 
+---@field stopsMusic boolean 
+---@field siegeOfMadrigal boolean 
+
+---@class MetaEngineTagDataSoundLoopingTrack 
+---@field flags MetaEngineTagDataSoundLoopingTrackFlags 
+---@field gain MetaEngineFraction 
+---@field fadeInDuration number 
+---@field fadeOutDuration number 
+---@field start MetaEngineTagDependency 
+---@field loop MetaEngineTagDependency 
+---@field end MetaEngineTagDependency 
+---@field alternateLoop MetaEngineTagDependency 
+---@field alternateEnd MetaEngineTagDependency 
+
+---@class MetaEngineTagDataSoundLoopingDetail 
+---@field sound MetaEngineTagDependency 
+---@field randomPeriodBounds number 
+---@field gain MetaEngineFraction 
+---@field flags MetaEngineTagDataSoundLoopingDetailFlags 
+---@field yawBounds MetaEngineAngle 
+---@field pitchBounds MetaEngineAngle 
+---@field distanceBounds number 
+
+---@class MetaEngineTagDataSoundLooping 
+---@field flags MetaEngineTagDataSoundLoopingFlags 
+---@field zeroDetailSoundPeriod number 
+---@field zeroDetailUnknownFloats number 
+---@field oneDetailSoundPeriod number 
+---@field oneDetailUnknownFloats number 
+---@field unknownInt integer 
+---@field maximumDistance number 
+---@field continuousDamageEffect MetaEngineTagDependency 
+---@field tracks TagBlock<MetaEngineTagDataSoundLoopingTrack> 
+---@field detailSounds TagBlock<MetaEngineTagDataSoundLoopingDetail> 
+
+---@class MetaEngineTagDataShaderTransparentChicagoMapFlags 
+---@field unfiltered boolean 
+---@field alphaReplicate boolean 
+---@field uClamped boolean 
+---@field vClamped boolean 
+
+---@class MetaEngineTagDataShaderTransparentChicagoExtraFlags 
+---@field dontFadeActiveCamouflage boolean 
+---@field numericCountdownTimer boolean 
+---@field customEditionBlending boolean 
+
+---@class MetaEngineTagDataShaderTransparentChicagoMap 
+---@field flags MetaEngineTagDataShaderTransparentChicagoMapFlags 
+---@field colorFunction EngineTagDataShaderColorFunctionType 
+---@field alphaFunction EngineTagDataShaderColorFunctionType 
+---@field mapUScale number 
+---@field mapVScale number 
+---@field mapUOffset number 
+---@field mapVOffset number 
+---@field mapRotation number 
+---@field mipmapBias MetaEngineFraction 
+---@field map MetaEngineTagDependency 
+---@field uAnimationSource EngineTagDataFunctionOut 
+---@field uAnimationFunction EngineTagDataWaveFunction 
+---@field uAnimationPeriod number 
+---@field uAnimationPhase number 
+---@field uAnimationScale number 
+---@field vAnimationSource EngineTagDataFunctionOut 
+---@field vAnimationFunction EngineTagDataWaveFunction 
+---@field vAnimationPeriod number 
+---@field vAnimationPhase number 
+---@field vAnimationScale number 
+---@field rotationAnimationSource EngineTagDataFunctionOut 
+---@field rotationAnimationFunction EngineTagDataWaveFunction 
+---@field rotationAnimationPeriod number 
+---@field rotationAnimationPhase number 
+---@field rotationAnimationScale number 
+---@field rotationAnimationCenter MetaEnginePoint2D 
+
+---@class MetaEngineTagDataShaderTransparentChicago: MetaEngineTagDataShader  
+---@field numericCounterLimit integer 
+---@field shaderTransparentChicagoFlags MetaEngineTagDataShaderTransparentGenericFlags 
+---@field firstMapType EngineTagDataShaderFirstMapType 
+---@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
+---@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
+---@field framebufferFadeSource EngineTagDataFunctionOut 
+---@field lensFlareSpacing number 
+---@field lensFlare MetaEngineTagDependency 
+---@field extraLayers TagBlock<MetaEngineTagDataShaderTransparentExtraLayer> 
+---@field maps TagBlock<MetaEngineTagDataShaderTransparentChicagoMap> 
+---@field extraFlags MetaEngineTagDataShaderTransparentChicagoExtraFlags 
+
+---@class EngineTagDataDetailObjectCollectionTypeEnum : Enum 
+
+---@class EngineTagDataDetailObjectCollectionTypeScreenFacing : EngineTagDataDetailObjectCollectionTypeEnum 
+---@class EngineTagDataDetailObjectCollectionTypeViewerFacing : EngineTagDataDetailObjectCollectionTypeEnum 
+
+---@alias EngineTagDataDetailObjectCollectionType 
+---| EngineTagDataDetailObjectCollectionTypeScreenFacing
+---| EngineTagDataDetailObjectCollectionTypeViewerFacing
+
+---@class EngineTagDataDetailObjectCollectionTypeTable 
+---@field peScreenFacing EngineTagDataDetailObjectCollectionTypeScreenFacing
+---@field peViewerFacing EngineTagDataDetailObjectCollectionTypeViewerFacing
+Engine.tag.detailObjectCollectionType = {} 
+
+---@class MetaEngineTagDataDetailObjectCollectionTypeFlags 
+---@field unusedA boolean 
+---@field unusedB boolean 
+---@field interpolateColorInHsv boolean 
+---@field moreColors boolean 
+
+---@class MetaEngineTagDataDetailObjectCollectionObjectType 
+---@field name MetaEngineTagString 
+---@field sequenceIndex integer 
+---@field flags MetaEngineTagDataDetailObjectCollectionTypeFlags 
+---@field firstSpriteIndex integer 
+---@field spriteCount integer 
+---@field colorOverrideFactor MetaEngineFraction 
+---@field nearFadeDistance number 
+---@field farFadeDistance number 
+---@field size number 
+---@field minimumColor MetaEngineColorRGB 
+---@field maximumColor MetaEngineColorRGB 
+---@field ambientColor MetaEngineColorARGBInt 
+
+---@class MetaEngineTagDataDetailObjectCollection 
+---@field collectionType EngineTagDataDetailObjectCollectionType 
+---@field globalZOffset number 
+---@field spritePlate MetaEngineTagDependency 
+---@field types TagBlock<MetaEngineTagDataDetailObjectCollectionObjectType> 
+
+---@class MetaEngineTagDataFontCharacterIndex 
+---@field characterIndex MetaEngineIndex 
+
+---@class MetaEngineTagDataFontCharacterTables 
+---@field characterTable TagBlock<MetaEngineTagDataFontCharacterIndex> 
+
+---@class MetaEngineTagDataFontCharacter 
+---@field character integer 
+---@field characterWidth integer 
+---@field bitmapWidth integer 
+---@field bitmapHeight integer 
+---@field bitmapOriginX integer 
+---@field bitmapOriginY integer 
+---@field hardwareCharacterIndex integer 
+---@field pixelsOffset integer 
+
+---@class MetaEngineTagDataFont 
+---@field flags integer 
+---@field ascendingHeight integer 
+---@field descendingHeight integer 
+---@field leadingHeight integer 
+---@field leadingWidth integer 
+---@field characterTables TagBlock<MetaEngineTagDataFontCharacterTables> 
+---@field bold MetaEngineTagDependency 
+---@field italic MetaEngineTagDependency 
+---@field condense MetaEngineTagDependency 
+---@field underline MetaEngineTagDependency 
+---@field characters TagBlock<MetaEngineTagDataFontCharacter> 
+---@field pixels MetaEngineTagDataOffset 
+
+---@class MetaEngineTagDataTagCollectionTag 
+---@field reference MetaEngineTagDependency 
+
+---@class MetaEngineTagDataTagCollection 
+---@field tags TagBlock<MetaEngineTagDataTagCollectionTag> 
+
+---@class MetaEngineTagDataLightVolumeFlags 
+---@field interpolateColorInHsv boolean 
+---@field moreColors boolean 
+
+---@class MetaEngineTagDataLightVolumeFrame 
+---@field offsetFromMarker number 
+---@field offsetExponent number 
+---@field length number 
+---@field radiusHither number 
+---@field radiusYon number 
+---@field radiusExponent number 
+---@field tintColorHither MetaEngineColorARGB 
+---@field tintColorYon MetaEngineColorARGB 
+---@field tintColorExponent number 
+---@field brightnessExponent number 
+
+---@class MetaEngineTagDataLightVolume 
+---@field attachmentMarker MetaEngineTagString 
+---@field flags MetaEngineTagDataLightVolumeFlags 
+---@field nearFadeDistance number 
+---@field farFadeDistance number 
+---@field perpendicularBrightnessScale MetaEngineFraction 
+---@field parallelBrightnessScale MetaEngineFraction 
+---@field brightnessScaleSource EngineTagDataFunctionOut 
+---@field map MetaEngineTagDependency 
+---@field sequenceIndex MetaEngineIndex 
+---@field count integer 
+---@field frameAnimationSource EngineTagDataFunctionOut 
+---@field frames TagBlock<MetaEngineTagDataLightVolumeFrame> 
+
+---@class MetaEngineTagDataScenery: MetaEngineTagDataBasicObject  
+
+---@class EngineTagDataProjectileResponseEnum : Enum 
+
+---@class EngineTagDataProjectileResponseDisappear : EngineTagDataProjectileResponseEnum 
+---@class EngineTagDataProjectileResponseDetonate : EngineTagDataProjectileResponseEnum 
+---@class EngineTagDataProjectileResponseReflect : EngineTagDataProjectileResponseEnum 
+---@class EngineTagDataProjectileResponseOverpenetrate : EngineTagDataProjectileResponseEnum 
+---@class EngineTagDataProjectileResponseAttach : EngineTagDataProjectileResponseEnum 
+
+---@alias EngineTagDataProjectileResponse 
+---| EngineTagDataProjectileResponseDisappear
+---| EngineTagDataProjectileResponseDetonate
+---| EngineTagDataProjectileResponseReflect
+---| EngineTagDataProjectileResponseOverpenetrate
+---| EngineTagDataProjectileResponseAttach
+
+---@class EngineTagDataProjectileResponseTable 
+---@field disappear EngineTagDataProjectileResponseDisappear
+---@field detonate EngineTagDataProjectileResponseDetonate
+---@field reflect EngineTagDataProjectileResponseReflect
+---@field overpenetrate EngineTagDataProjectileResponseOverpenetrate
+---@field attach EngineTagDataProjectileResponseAttach
+Engine.tag.projectileResponse = {} 
+
+---@class EngineTagDataProjectileScaleEffectsByEnum : Enum 
+
+---@class EngineTagDataProjectileScaleEffectsByDamage : EngineTagDataProjectileScaleEffectsByEnum 
+---@class EngineTagDataProjectileScaleEffectsByAngle : EngineTagDataProjectileScaleEffectsByEnum 
+
+---@alias EngineTagDataProjectileScaleEffectsBy 
+---| EngineTagDataProjectileScaleEffectsByDamage
+---| EngineTagDataProjectileScaleEffectsByAngle
+
+---@class EngineTagDataProjectileScaleEffectsByTable 
+---@field byDamage EngineTagDataProjectileScaleEffectsByDamage
+---@field byAngle EngineTagDataProjectileScaleEffectsByAngle
+Engine.tag.projectileScaleEffectsBy = {} 
+
+---@class EngineTagDataProjectileDetonationTimerStartsEnum : Enum 
+
+---@class EngineTagDataProjectileDetonationTimerStartsImmediately : EngineTagDataProjectileDetonationTimerStartsEnum 
+---@class EngineTagDataProjectileDetonationTimerStartsAfterFirstBounce : EngineTagDataProjectileDetonationTimerStartsEnum 
+---@class EngineTagDataProjectileDetonationTimerStartsWhenAtRest : EngineTagDataProjectileDetonationTimerStartsEnum 
+
+---@alias EngineTagDataProjectileDetonationTimerStarts 
+---| EngineTagDataProjectileDetonationTimerStartsImmediately
+---| EngineTagDataProjectileDetonationTimerStartsAfterFirstBounce
+---| EngineTagDataProjectileDetonationTimerStartsWhenAtRest
+
+---@class EngineTagDataProjectileDetonationTimerStartsTable 
+---@field tsImmediately EngineTagDataProjectileDetonationTimerStartsImmediately
+---@field tsAfterFirstBounce EngineTagDataProjectileDetonationTimerStartsAfterFirstBounce
+---@field tsWhenAtRest EngineTagDataProjectileDetonationTimerStartsWhenAtRest
+Engine.tag.projectileDetonationTimerStarts = {} 
+
+---@class EngineTagDataProjectileFunctionInEnum : Enum 
+
+---@class EngineTagDataProjectileFunctionInNone : EngineTagDataProjectileFunctionInEnum 
+---@class EngineTagDataProjectileFunctionInRangeRemaining : EngineTagDataProjectileFunctionInEnum 
+---@class EngineTagDataProjectileFunctionInTimeRemaining : EngineTagDataProjectileFunctionInEnum 
+---@class EngineTagDataProjectileFunctionInTracer : EngineTagDataProjectileFunctionInEnum 
+
+---@alias EngineTagDataProjectileFunctionIn 
+---| EngineTagDataProjectileFunctionInNone
+---| EngineTagDataProjectileFunctionInRangeRemaining
+---| EngineTagDataProjectileFunctionInTimeRemaining
+---| EngineTagDataProjectileFunctionInTracer
+
+---@class EngineTagDataProjectileFunctionInTable 
+---@field nNone EngineTagDataProjectileFunctionInNone
+---@field nRangeRemaining EngineTagDataProjectileFunctionInRangeRemaining
+---@field nTimeRemaining EngineTagDataProjectileFunctionInTimeRemaining
+---@field nTracer EngineTagDataProjectileFunctionInTracer
+Engine.tag.projectileFunctionIn = {} 
+
+---@class MetaEngineTagDataProjectileFlags 
+---@field orientedAlongVelocity boolean 
+---@field aiMustUseBallisticAiming boolean 
+---@field detonationMaxTimeIfAttached boolean 
+---@field hasSuperCombiningExplosion boolean 
+---@field combineInitialVelocityWithParentVelocity boolean 
+---@field randomAttachedDetonationTime boolean 
+---@field minimumUnattachedDetonationTime boolean 
+
+---@class MetaEngineTagDataProjectileMaterialResponseFlags 
+---@field cannotBeOverpenetrated boolean 
+
+---@class MetaEngineTagDataProjectileMaterialResponsePotentialFlags 
+---@field onlyAgainstUnits boolean 
+---@field neverAgainstUnits boolean 
+
+---@class MetaEngineTagDataProjectileMaterialResponse 
+---@field flags MetaEngineTagDataProjectileMaterialResponseFlags 
+---@field defaultResponse EngineTagDataProjectileResponse 
+---@field defaultEffect MetaEngineTagDependency 
+---@field potentialResponse EngineTagDataProjectileResponse 
+---@field potentialFlags MetaEngineTagDataProjectileMaterialResponsePotentialFlags 
+---@field potentialSkipFraction MetaEngineFraction 
+---@field potentialBetween MetaEngineAngle 
+---@field potentialAnd number 
+---@field potentialEffect MetaEngineTagDependency 
+---@field scaleEffectsBy EngineTagDataProjectileScaleEffectsBy 
+---@field angularNoise MetaEngineAngle 
+---@field velocityNoise number 
+---@field detonationEffect MetaEngineTagDependency 
+---@field initialFriction number 
+---@field maximumDistance number 
+---@field parallelFriction number 
+---@field perpendicularFriction number 
+
+---@class MetaEngineTagDataProjectile: MetaEngineTagDataObject  
+---@field projectileFlags MetaEngineTagDataProjectileFlags 
+---@field detonationTimerStarts EngineTagDataProjectileDetonationTimerStarts 
+---@field impactNoise EngineTagDataObjectNoise 
+---@field projectileAIn EngineTagDataProjectileFunctionIn 
+---@field projectileBIn EngineTagDataProjectileFunctionIn 
+---@field projectileCIn EngineTagDataProjectileFunctionIn 
+---@field projectileDIn EngineTagDataProjectileFunctionIn 
+---@field superDetonation MetaEngineTagDependency 
+---@field aiPerceptionRadius number 
+---@field collisionRadius number 
+---@field armingTime number 
+---@field dangerRadius number 
+---@field effect MetaEngineTagDependency 
+---@field timer number 
+---@field minimumVelocity number 
+---@field maximumRange number 
+---@field airGravityScale number 
+---@field airDamageRange number 
+---@field waterGravityScale number 
+---@field waterDamageRange number 
+---@field initialVelocity number 
+---@field finalVelocity number 
+---@field guidedAngularVelocity MetaEngineAngle 
+---@field detonationNoise EngineTagDataObjectNoise 
+---@field detonationStarted MetaEngineTagDependency 
+---@field flybySound MetaEngineTagDependency 
+---@field attachedDetonationDamage MetaEngineTagDependency 
+---@field impactDamage MetaEngineTagDependency 
+---@field projectileMaterialResponse TagBlock<MetaEngineTagDataProjectileMaterialResponse> 
+
+---@class EngineTagDataParticleSystemParticleCreationPhysicsEnum : Enum 
+
+---@class EngineTagDataParticleSystemParticleCreationPhysicsDefault : EngineTagDataParticleSystemParticleCreationPhysicsEnum 
+---@class EngineTagDataParticleSystemParticleCreationPhysicsExplosion : EngineTagDataParticleSystemParticleCreationPhysicsEnum 
+---@class EngineTagDataParticleSystemParticleCreationPhysicsJet : EngineTagDataParticleSystemParticleCreationPhysicsEnum 
+
+---@alias EngineTagDataParticleSystemParticleCreationPhysics 
+---| EngineTagDataParticleSystemParticleCreationPhysicsDefault
+---| EngineTagDataParticleSystemParticleCreationPhysicsExplosion
+---| EngineTagDataParticleSystemParticleCreationPhysicsJet
+
+---@class EngineTagDataParticleSystemParticleCreationPhysicsTable 
+---@field icsDefault EngineTagDataParticleSystemParticleCreationPhysicsDefault
+---@field icsExplosion EngineTagDataParticleSystemParticleCreationPhysicsExplosion
+---@field icsJet EngineTagDataParticleSystemParticleCreationPhysicsJet
+Engine.tag.particleSystemParticleCreationPhysics = {} 
+
+---@class EngineTagDataParticleSystemParticleUpdatePhysicsEnum : Enum 
+
+---@class EngineTagDataParticleSystemParticleUpdatePhysicsDefault : EngineTagDataParticleSystemParticleUpdatePhysicsEnum 
+
+---@alias EngineTagDataParticleSystemParticleUpdatePhysics 
+---| EngineTagDataParticleSystemParticleUpdatePhysicsDefault
+
+---@class EngineTagDataParticleSystemParticleUpdatePhysicsTable 
+---@field icsDefault EngineTagDataParticleSystemParticleUpdatePhysicsDefault
+Engine.tag.particleSystemParticleUpdatePhysics = {} 
+
+---@class EngineTagDataParticleSystemComplexSpriteRenderModesEnum : Enum 
+
+---@class EngineTagDataParticleSystemComplexSpriteRenderModesSimple : EngineTagDataParticleSystemComplexSpriteRenderModesEnum 
+---@class EngineTagDataParticleSystemComplexSpriteRenderModesRotational : EngineTagDataParticleSystemComplexSpriteRenderModesEnum 
+
+---@alias EngineTagDataParticleSystemComplexSpriteRenderModes 
+---| EngineTagDataParticleSystemComplexSpriteRenderModesSimple
+---| EngineTagDataParticleSystemComplexSpriteRenderModesRotational
+
+---@class EngineTagDataParticleSystemComplexSpriteRenderModesTable 
+---@field odesSimple EngineTagDataParticleSystemComplexSpriteRenderModesSimple
+---@field odesRotational EngineTagDataParticleSystemComplexSpriteRenderModesRotational
+Engine.tag.particleSystemComplexSpriteRenderModes = {} 
+
+---@class EngineTagDataParticleSystemSystemUpdatePhysicsEnum : Enum 
+
+---@class EngineTagDataParticleSystemSystemUpdatePhysicsDefault : EngineTagDataParticleSystemSystemUpdatePhysicsEnum 
+---@class EngineTagDataParticleSystemSystemUpdatePhysicsExplosion : EngineTagDataParticleSystemSystemUpdatePhysicsEnum 
+
+---@alias EngineTagDataParticleSystemSystemUpdatePhysics 
+---| EngineTagDataParticleSystemSystemUpdatePhysicsDefault
+---| EngineTagDataParticleSystemSystemUpdatePhysicsExplosion
+
+---@class EngineTagDataParticleSystemSystemUpdatePhysicsTable 
+---@field icsDefault EngineTagDataParticleSystemSystemUpdatePhysicsDefault
+---@field icsExplosion EngineTagDataParticleSystemSystemUpdatePhysicsExplosion
+Engine.tag.particleSystemSystemUpdatePhysics = {} 
+
+---@class MetaEngineTagDataParticleSystemTypeFlags 
+---@field typeStatesLoop boolean 
+---@field forwardBackward boolean 
+---@field particleStatesLoop boolean 
+---@field forwardBackward_1 boolean 
+---@field particlesDieInWater boolean 
+---@field particlesDieInAir boolean 
+---@field particlesDieOnGround boolean 
+---@field rotationalSpritesAnimateSideways boolean 
+---@field disabled boolean 
+---@field tintByEffectColor boolean 
+---@field initialCountScalesWithEffect boolean 
+---@field minimumCountScalesWithEffect boolean 
+---@field creationRateScalesWithEffect boolean 
+---@field scaleScalesWithEffect boolean 
+---@field animationRateScalesWithEffect boolean 
+---@field rotationRateScalesWithEffect boolean 
+---@field doNotDrawInFirstPerson boolean 
+---@field doNotDrawInThirdPerson boolean 
+
+---@class MetaEngineTagDataParticleSystemPhysicsConstant 
+---@field k number 
+
+---@class MetaEngineTagDataParticleSystemTypeStates 
+---@field name MetaEngineTagString 
+---@field durationBounds number 
+---@field transitionTimeBounds number 
+---@field scaleMultiplier number 
+---@field animationRateMultiplier number 
+---@field rotationRateMultiplier number 
+---@field colorMultiplier MetaEngineColorARGB 
+---@field radiusMultiplier number 
+---@field minimumParticleCount number 
+---@field particleCreationRate number 
+---@field particleCreationPhysics EngineTagDataParticleSystemParticleCreationPhysics 
+---@field particleUpdatePhysics EngineTagDataParticleSystemParticleUpdatePhysics 
+---@field physicsConstants TagBlock<MetaEngineTagDataParticleSystemPhysicsConstant> 
+
+---@class MetaEngineTagDataParticleSystemTypeParticleState 
+---@field name MetaEngineTagString 
+---@field durationBounds number 
+---@field transitionTimeBounds number 
+---@field bitmaps MetaEngineTagDependency 
+---@field sequenceIndex MetaEngineIndex 
+---@field scale number 
+---@field animationRate number 
+---@field rotationRate MetaEngineAngle 
+---@field color_1 MetaEngineColorARGB 
+---@field color_2 MetaEngineColorARGB 
+---@field radiusMultiplier number 
+---@field pointPhysics MetaEngineTagDependency 
+---@field unknownInt integer 
+---@field shaderFlags MetaEngineTagDataParticleShaderFlags 
+---@field framebufferBlendFunction EngineTagDataFramebufferBlendFunction 
+---@field framebufferFadeMode EngineTagDataFramebufferFadeMode 
+---@field mapFlags MetaEngineTagDataIsUnfilteredFlag 
+---@field secondaryMapBitmap MetaEngineTagDependency 
+---@field anchor EngineTagDataParticleAnchor 
+---@field flags MetaEngineTagDataIsUnfilteredFlag 
+---@field uAnimationSource EngineTagDataFunctionOut 
+---@field uAnimationFunction EngineTagDataWaveFunction 
+---@field uAnimationPeriod number 
+---@field uAnimationPhase number 
+---@field uAnimationScale number 
+---@field vAnimationSource EngineTagDataFunctionOut 
+---@field vAnimationFunction EngineTagDataWaveFunction 
+---@field vAnimationPeriod number 
+---@field vAnimationPhase number 
+---@field vAnimationScale number 
+---@field rotationAnimationSource EngineTagDataFunctionOut 
+---@field rotationAnimationFunction EngineTagDataWaveFunction 
+---@field rotationAnimationPeriod number 
+---@field rotationAnimationPhase number 
+---@field rotationAnimationScale number 
+---@field rotationAnimationCenter MetaEnginePoint2D 
+---@field zspriteRadiusScale number 
+---@field physicsConstants TagBlock<MetaEngineTagDataParticleSystemPhysicsConstant> 
+
+---@class MetaEngineTagDataParticleSystemType 
+---@field name MetaEngineTagString 
+---@field flags MetaEngineTagDataParticleSystemTypeFlags 
+---@field initialParticleCount integer 
+---@field complexSpriteRenderModes EngineTagDataParticleSystemComplexSpriteRenderModes 
+---@field radius number 
+---@field particleCreationPhysics EngineTagDataParticleSystemParticleCreationPhysics 
+---@field physicsFlags MetaEngineTagDataIsUnusedFlag 
+---@field physicsConstants TagBlock<MetaEngineTagDataParticleSystemPhysicsConstant> 
+---@field states TagBlock<MetaEngineTagDataParticleSystemTypeStates> 
+---@field particleStates TagBlock<MetaEngineTagDataParticleSystemTypeParticleState> 
+
+---@class MetaEngineTagDataParticleSystem 
+---@field pointPhysics MetaEngineTagDependency 
+---@field systemUpdatePhysics EngineTagDataParticleSystemSystemUpdatePhysics 
+---@field physicsFlags MetaEngineTagDataIsUnusedFlag 
+---@field physicsConstants TagBlock<MetaEngineTagDataParticleSystemPhysicsConstant> 
+---@field particleTypes TagBlock<MetaEngineTagDataParticleSystemType> 
+
+---@class EngineTagDataDeviceInEnum : Enum 
+
+---@class EngineTagDataDeviceInNone : EngineTagDataDeviceInEnum 
+---@class EngineTagDataDeviceInPower : EngineTagDataDeviceInEnum 
+---@class EngineTagDataDeviceInChangeInPower : EngineTagDataDeviceInEnum 
+---@class EngineTagDataDeviceInPosition : EngineTagDataDeviceInEnum 
+---@class EngineTagDataDeviceInChangeInPosition : EngineTagDataDeviceInEnum 
+---@class EngineTagDataDeviceInLocked : EngineTagDataDeviceInEnum 
+---@class EngineTagDataDeviceInDelay : EngineTagDataDeviceInEnum 
+
+---@alias EngineTagDataDeviceIn 
+---| EngineTagDataDeviceInNone
+---| EngineTagDataDeviceInPower
+---| EngineTagDataDeviceInChangeInPower
+---| EngineTagDataDeviceInPosition
+---| EngineTagDataDeviceInChangeInPosition
+---| EngineTagDataDeviceInLocked
+---| EngineTagDataDeviceInDelay
+
+---@class EngineTagDataDeviceInTable 
+---@field none EngineTagDataDeviceInNone
+---@field power EngineTagDataDeviceInPower
+---@field changeInPower EngineTagDataDeviceInChangeInPower
+---@field position EngineTagDataDeviceInPosition
+---@field changeInPosition EngineTagDataDeviceInChangeInPosition
+---@field locked EngineTagDataDeviceInLocked
+---@field delay EngineTagDataDeviceInDelay
+Engine.tag.deviceIn = {} 
+
+---@class MetaEngineTagDataDeviceFlags 
+---@field positionLoops boolean 
+---@field positionNotInterpolated boolean 
+
+---@class MetaEngineTagDataDevice: MetaEngineTagDataObject  
+---@field deviceFlags MetaEngineTagDataDeviceFlags 
+---@field powerTransitionTime number 
+---@field powerAccelerationTime number 
+---@field positionTransitionTime number 
+---@field positionAccelerationTime number 
+---@field depoweredPositionTransitionTime number 
+---@field depoweredPositionAccelerationTime number 
+---@field deviceAIn EngineTagDataDeviceIn 
+---@field deviceBIn EngineTagDataDeviceIn 
+---@field deviceCIn EngineTagDataDeviceIn 
+---@field deviceDIn EngineTagDataDeviceIn 
+---@field open MetaEngineTagDependency 
+---@field close MetaEngineTagDependency 
+---@field opened MetaEngineTagDependency 
+---@field closed MetaEngineTagDependency 
+---@field depowered MetaEngineTagDependency 
+---@field repowered MetaEngineTagDependency 
+---@field delayTime number 
+---@field delayEffect MetaEngineTagDependency 
+---@field automaticActivationRadius number 
+---@field inversePowerAccelerationTime number 
+---@field inversePowerTransitionTime number 
+---@field inverseDepoweredPositionAccelerationTime number 
+---@field inverseDepoweredPositionTransitionTime number 
+---@field inversePositionAccelerationTime number 
+---@field inversePositionTransitionTime number 
+---@field delayTimeTicks number 
+
+---@class EngineTagDataParticleOrientationEnum : Enum 
+
+---@class EngineTagDataParticleOrientationScreenFacing : EngineTagDataParticleOrientationEnum 
+---@class EngineTagDataParticleOrientationParallelToDirection : EngineTagDataParticleOrientationEnum 
+---@class EngineTagDataParticleOrientationPerpendicularToDirection : EngineTagDataParticleOrientationEnum 
+
 ---@alias EngineTagDataParticleOrientation 
----| 'particle_orientation_screen_facing'
----| 'particle_orientation_parallel_to_direction'
----| 'particle_orientation_perpendicular_to_direction'
+---| EngineTagDataParticleOrientationScreenFacing
+---| EngineTagDataParticleOrientationParallelToDirection
+---| EngineTagDataParticleOrientationPerpendicularToDirection
+
+---@class EngineTagDataParticleOrientationTable 
+---@field screenFacing EngineTagDataParticleOrientationScreenFacing
+---@field parallelToDirection EngineTagDataParticleOrientationParallelToDirection
+---@field perpendicularToDirection EngineTagDataParticleOrientationPerpendicularToDirection
+Engine.tag.particleOrientation = {} 
+
+---@class EngineTagDataParticleAnchorEnum : Enum 
+
+---@class EngineTagDataParticleAnchorWithPrimary : EngineTagDataParticleAnchorEnum 
+---@class EngineTagDataParticleAnchorWithScreenSpace : EngineTagDataParticleAnchorEnum 
+---@class EngineTagDataParticleAnchorZsprite : EngineTagDataParticleAnchorEnum 
 
 ---@alias EngineTagDataParticleAnchor 
----| 'particle_anchor_with_primary'
----| 'particle_anchor_with_screen_space'
----| 'particle_anchor_zsprite'
+---| EngineTagDataParticleAnchorWithPrimary
+---| EngineTagDataParticleAnchorWithScreenSpace
+---| EngineTagDataParticleAnchorZsprite
+
+---@class EngineTagDataParticleAnchorTable 
+---@field withPrimary EngineTagDataParticleAnchorWithPrimary
+---@field withScreenSpace EngineTagDataParticleAnchorWithScreenSpace
+---@field zsprite EngineTagDataParticleAnchorZsprite
+Engine.tag.particleAnchor = {} 
 
 ---@class MetaEngineTagDataParticleFlags 
 ---@field canAnimateBackwards boolean 
@@ -6671,435 +10711,90 @@
 ---@field rotationAnimationCenter MetaEnginePoint2D 
 ---@field zspriteRadiusScale number 
 
----@class MetaEngineTagDataColorTableColor 
----@field name MetaEngineTagString 
----@field color MetaEngineColorARGB 
+---@class EngineTagDataBipedFunctionInEnum : Enum 
 
----@class MetaEngineTagDataColorTable 
----@field colors table<MetaEngineTagDataColorTableColor> 
+---@class EngineTagDataBipedFunctionInNone : EngineTagDataBipedFunctionInEnum 
+---@class EngineTagDataBipedFunctionInFlyingVelocity : EngineTagDataBipedFunctionInEnum 
 
----@class MetaEngineTagDataDialogue 
----@field idleNoncombat MetaEngineTagDependency 
----@field idleCombat MetaEngineTagDependency 
----@field idleFlee MetaEngineTagDependency 
----@field painBodyMinor MetaEngineTagDependency 
----@field painBodyMajor MetaEngineTagDependency 
----@field painShield MetaEngineTagDependency 
----@field painFalling MetaEngineTagDependency 
----@field screamFear MetaEngineTagDependency 
----@field screamPain MetaEngineTagDependency 
----@field maimedLimb MetaEngineTagDependency 
----@field maimedHead MetaEngineTagDependency 
----@field deathQuiet MetaEngineTagDependency 
----@field deathViolent MetaEngineTagDependency 
----@field deathFalling MetaEngineTagDependency 
----@field deathAgonizing MetaEngineTagDependency 
----@field deathInstant MetaEngineTagDependency 
----@field deathFlying MetaEngineTagDependency 
----@field damagedFriend MetaEngineTagDependency 
----@field damagedFriendPlayer MetaEngineTagDependency 
----@field damagedEnemy MetaEngineTagDependency 
----@field damagedEnemyCm MetaEngineTagDependency 
----@field hurtFriend MetaEngineTagDependency 
----@field hurtFriendRe MetaEngineTagDependency 
----@field hurtFriendPlayer MetaEngineTagDependency 
----@field hurtEnemy MetaEngineTagDependency 
----@field hurtEnemyRe MetaEngineTagDependency 
----@field hurtEnemyCm MetaEngineTagDependency 
----@field hurtEnemyBullet MetaEngineTagDependency 
----@field hurtEnemyNeedler MetaEngineTagDependency 
----@field hurtEnemyPlasma MetaEngineTagDependency 
----@field hurtEnemySniper MetaEngineTagDependency 
----@field hurtEnemyGrenade MetaEngineTagDependency 
----@field hurtEnemyExplosion MetaEngineTagDependency 
----@field hurtEnemyMelee MetaEngineTagDependency 
----@field hurtEnemyFlame MetaEngineTagDependency 
----@field hurtEnemyShotgun MetaEngineTagDependency 
----@field hurtEnemyVehicle MetaEngineTagDependency 
----@field hurtEnemyMountedweapon MetaEngineTagDependency 
----@field killedFriend MetaEngineTagDependency 
----@field killedFriendCm MetaEngineTagDependency 
----@field killedFriendPlayer MetaEngineTagDependency 
----@field killedFriendPlayerCm MetaEngineTagDependency 
----@field killedEnemy MetaEngineTagDependency 
----@field killedEnemyCm MetaEngineTagDependency 
----@field killedEnemyPlayer MetaEngineTagDependency 
----@field killedEnemyPlayerCm MetaEngineTagDependency 
----@field killedEnemyCovenant MetaEngineTagDependency 
----@field killedEnemyCovenantCm MetaEngineTagDependency 
----@field killedEnemyFloodcombat MetaEngineTagDependency 
----@field killedEnemyFloodcombatCm MetaEngineTagDependency 
----@field killedEnemyFloodcarrier MetaEngineTagDependency 
----@field killedEnemyFloodcarrierCm MetaEngineTagDependency 
----@field killedEnemySentinel MetaEngineTagDependency 
----@field killedEnemySentinelCm MetaEngineTagDependency 
----@field killedEnemyBullet MetaEngineTagDependency 
----@field killedEnemyNeedler MetaEngineTagDependency 
----@field killedEnemyPlasma MetaEngineTagDependency 
----@field killedEnemySniper MetaEngineTagDependency 
----@field killedEnemyGrenade MetaEngineTagDependency 
----@field killedEnemyExplosion MetaEngineTagDependency 
----@field killedEnemyMelee MetaEngineTagDependency 
----@field killedEnemyFlame MetaEngineTagDependency 
----@field killedEnemyShotgun MetaEngineTagDependency 
----@field killedEnemyVehicle MetaEngineTagDependency 
----@field killedEnemyMountedweapon MetaEngineTagDependency 
----@field killingSpree MetaEngineTagDependency 
----@field playerKillCm MetaEngineTagDependency 
----@field playerKillBulletCm MetaEngineTagDependency 
----@field playerKillNeedlerCm MetaEngineTagDependency 
----@field playerKillPlasmaCm MetaEngineTagDependency 
----@field playerKillSniperCm MetaEngineTagDependency 
----@field anyoneKillGrenadeCm MetaEngineTagDependency 
----@field playerKillExplosionCm MetaEngineTagDependency 
----@field playerKillMeleeCm MetaEngineTagDependency 
----@field playerKillFlameCm MetaEngineTagDependency 
----@field playerKillShotgunCm MetaEngineTagDependency 
----@field playerKillVehicleCm MetaEngineTagDependency 
----@field playerKillMountedweaponCm MetaEngineTagDependency 
----@field playerKilllingSpreeCm MetaEngineTagDependency 
----@field friendDied MetaEngineTagDependency 
----@field friendPlayerDied MetaEngineTagDependency 
----@field friendKilledByFriend MetaEngineTagDependency 
----@field friendKilledByFriendlyPlayer MetaEngineTagDependency 
----@field friendKilledByEnemy MetaEngineTagDependency 
----@field friendKilledByEnemyPlayer MetaEngineTagDependency 
----@field friendKilledByCovenant MetaEngineTagDependency 
----@field friendKilledByFlood MetaEngineTagDependency 
----@field friendKilledBySentinel MetaEngineTagDependency 
----@field friendBetrayed MetaEngineTagDependency 
----@field newCombatAlone MetaEngineTagDependency 
----@field newEnemyRecentCombat MetaEngineTagDependency 
----@field oldEnemySighted MetaEngineTagDependency 
----@field unexpectedEnemy MetaEngineTagDependency 
----@field deadFriendFound MetaEngineTagDependency 
----@field allianceBroken MetaEngineTagDependency 
----@field allianceReformed MetaEngineTagDependency 
----@field grenadeThrowing MetaEngineTagDependency 
----@field grenadeSighted MetaEngineTagDependency 
----@field grenadeStartle MetaEngineTagDependency 
----@field grenadeDangerEnemy MetaEngineTagDependency 
----@field grenadeDangerSelf MetaEngineTagDependency 
----@field grenadeDangerFriend MetaEngineTagDependency 
----@field newCombatGroupRe MetaEngineTagDependency 
----@field newCombatNearbyRe MetaEngineTagDependency 
----@field alertFriend MetaEngineTagDependency 
----@field alertFriendRe MetaEngineTagDependency 
----@field alertLostContact MetaEngineTagDependency 
----@field alertLostContactRe MetaEngineTagDependency 
----@field blocked MetaEngineTagDependency 
----@field blockedRe MetaEngineTagDependency 
----@field searchStart MetaEngineTagDependency 
----@field searchQuery MetaEngineTagDependency 
----@field searchQueryRe MetaEngineTagDependency 
----@field searchReport MetaEngineTagDependency 
----@field searchAbandon MetaEngineTagDependency 
----@field searchGroupAbandon MetaEngineTagDependency 
----@field groupUncover MetaEngineTagDependency 
----@field groupUncoverRe MetaEngineTagDependency 
----@field advance MetaEngineTagDependency 
----@field advanceRe MetaEngineTagDependency 
----@field retreat MetaEngineTagDependency 
----@field retreatRe MetaEngineTagDependency 
----@field cover MetaEngineTagDependency 
----@field sightedFriendPlayer MetaEngineTagDependency 
----@field shooting MetaEngineTagDependency 
----@field shootingVehicle MetaEngineTagDependency 
----@field shootingBerserk MetaEngineTagDependency 
----@field shootingGroup MetaEngineTagDependency 
----@field shootingTraitor MetaEngineTagDependency 
----@field taunt MetaEngineTagDependency 
----@field tauntRe MetaEngineTagDependency 
----@field flee MetaEngineTagDependency 
----@field fleeRe MetaEngineTagDependency 
----@field fleeLeaderDied MetaEngineTagDependency 
----@field attemptedFlee MetaEngineTagDependency 
----@field attemptedFleeRe MetaEngineTagDependency 
----@field lostContact MetaEngineTagDependency 
----@field hidingFinished MetaEngineTagDependency 
----@field vehicleEntry MetaEngineTagDependency 
----@field vehicleExit MetaEngineTagDependency 
----@field vehicleWoohoo MetaEngineTagDependency 
----@field vehicleScared MetaEngineTagDependency 
----@field vehicleCollision MetaEngineTagDependency 
----@field partiallySighted MetaEngineTagDependency 
----@field nothingThere MetaEngineTagDependency 
----@field pleading MetaEngineTagDependency 
----@field surprise MetaEngineTagDependency 
----@field berserk MetaEngineTagDependency 
----@field meleeAttack MetaEngineTagDependency 
----@field dive MetaEngineTagDependency 
----@field uncoverExclamation MetaEngineTagDependency 
----@field leapAttack MetaEngineTagDependency 
----@field resurrection MetaEngineTagDependency 
----@field celebration MetaEngineTagDependency 
----@field checkBodyEnemy MetaEngineTagDependency 
----@field checkBodyFriend MetaEngineTagDependency 
----@field shootingDeadEnemy MetaEngineTagDependency 
----@field shootingDeadEnemyPlayer MetaEngineTagDependency 
----@field alone MetaEngineTagDependency 
----@field unscathed MetaEngineTagDependency 
----@field seriouslyWounded MetaEngineTagDependency 
----@field seriouslyWoundedRe MetaEngineTagDependency 
----@field massacre MetaEngineTagDependency 
----@field massacreRe MetaEngineTagDependency 
----@field rout MetaEngineTagDependency 
----@field routRe MetaEngineTagDependency 
+---@alias EngineTagDataBipedFunctionIn 
+---| EngineTagDataBipedFunctionInNone
+---| EngineTagDataBipedFunctionInFlyingVelocity
 
----@class MetaEngineTagDataGrenadeHUDInterfaceOverlayType 
----@field showOnFlashing boolean 
----@field showOnEmpty boolean 
----@field showOnDefault boolean 
----@field showAlways boolean 
+---@class EngineTagDataBipedFunctionInTable 
+---@field nNone EngineTagDataBipedFunctionInNone
+---@field nFlyingVelocity EngineTagDataBipedFunctionInFlyingVelocity
+Engine.tag.bipedFunctionIn = {} 
 
----@class MetaEngineTagDataGrenadeHUDInterfaceSoundLatchedTo 
----@field lowGrenadeCount boolean 
----@field noGrenadesLeft boolean 
----@field throwOnNoGrenades boolean 
+---@class MetaEngineTagDataBipedFlags 
+---@field turnsWithoutAnimating boolean 
+---@field usesPlayerPhysics boolean 
+---@field flying boolean 
+---@field physicsPillCenteredAtOrigin boolean 
+---@field spherical boolean 
+---@field passesThroughOtherBipeds boolean 
+---@field canClimbAnySurface boolean 
+---@field immuneToFallingDamage boolean 
+---@field rotateWhileAirborne boolean 
+---@field usesLimpBodyPhysics boolean 
+---@field hasNoDyingAirborne boolean 
+---@field randomSpeedIncrease boolean 
+---@field unitUsesOldNtscPlayerPhysics boolean 
 
----@class MetaEngineTagDataGrenadeHUDInterfaceOverlay 
----@field anchorOffset MetaEnginePoint2DInt 
----@field widthScale number 
----@field heightScale number 
----@field scalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field defaultColor MetaEngineColorARGBInt 
----@field flashingColor MetaEngineColorARGBInt 
----@field flashPeriod number 
----@field flashDelay number 
----@field numberOfFlashes integer 
----@field flashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field flashLength number 
----@field disabledColor MetaEngineColorARGBInt 
----@field frameRate number 
----@field sequenceIndex MetaEngineIndex 
----@field type MetaEngineTagDataGrenadeHUDInterfaceOverlayType 
----@field flags MetaEngineTagDataHUDInterfaceOverlayFlashFlags 
+---@class MetaEngineTagDataBipedContactPoint 
+---@field markerName MetaEngineTagString 
 
----@class MetaEngineTagDataGrenadeHUDInterfaceSound 
----@field sound MetaEngineTagDependency 
----@field latchedTo MetaEngineTagDataGrenadeHUDInterfaceSoundLatchedTo 
----@field scale number 
-
----@class MetaEngineTagDataGrenadeHudInterface 
----@field anchor EngineTagDataHUDInterfaceAnchor 
----@field backgroundAnchorOffset MetaEnginePoint2DInt 
----@field backgroundWidthScale number 
----@field backgroundHeightScale number 
----@field backgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field backgroundInterfaceBitmap MetaEngineTagDependency 
----@field backgroundDefaultColor MetaEngineColorARGBInt 
----@field backgroundFlashingColor MetaEngineColorARGBInt 
----@field backgroundFlashPeriod number 
----@field backgroundFlashDelay number 
----@field backgroundNumberOfFlashes integer 
----@field backgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field backgroundFlashLength number 
----@field backgroundDisabledColor MetaEngineColorARGBInt 
----@field backgroundSequenceIndex MetaEngineIndex 
----@field backgroundMultitextureOverlays table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
----@field totalGrenadesBackgroundAnchorOffset MetaEnginePoint2DInt 
----@field totalGrenadesBackgroundWidthScale number 
----@field totalGrenadesBackgroundHeightScale number 
----@field totalGrenadesBackgroundScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field totalGrenadesBackgroundInterfaceBitmap MetaEngineTagDependency 
----@field totalGrenadesBackgroundDefaultColor MetaEngineColorARGBInt 
----@field totalGrenadesBackgroundFlashingColor MetaEngineColorARGBInt 
----@field totalGrenadesBackgroundFlashPeriod number 
----@field totalGrenadesBackgroundFlashDelay number 
----@field totalGrenadesBackgroundNumberOfFlashes integer 
----@field totalGrenadesBackgroundFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field totalGrenadesBackgroundFlashLength number 
----@field totalGrenadesBackgroundDisabledColor MetaEngineColorARGBInt 
----@field totalGrenadesBackgroundSequenceIndex MetaEngineIndex 
----@field totalGrenadesBackgroundMultitextureOverlays table<MetaEngineTagDataHUDInterfaceMultitextureOverlay> 
----@field totalGrenadesNumbersAnchorOffset MetaEnginePoint2DInt 
----@field totalGrenadesNumbersWidthScale number 
----@field totalGrenadesNumbersHeightScale number 
----@field totalGrenadesNumbersScalingFlags MetaEngineTagDataHUDInterfaceScalingFlags 
----@field totalGrenadesNumbersDefaultColor MetaEngineColorARGBInt 
----@field totalGrenadesNumbersFlashingColor MetaEngineColorARGBInt 
----@field totalGrenadesNumbersFlashPeriod number 
----@field totalGrenadesNumbersFlashDelay number 
----@field totalGrenadesNumbersNumberOfFlashes integer 
----@field totalGrenadesNumbersFlashFlags MetaEngineTagDataHUDInterfaceFlashFlags 
----@field totalGrenadesNumbersFlashLength number 
----@field totalGrenadesNumbersDisabledColor MetaEngineColorARGBInt 
----@field totalGrenadesNumbersMaximumNumberOfDigits integer 
----@field totalGrenadesNumbersFlags MetaEngineTagDataHUDInterfaceNumberFlags 
----@field totalGrenadesNumbersNumberOfFractionalDigits integer 
----@field flashCutoff integer 
----@field totalGrenadesOverlayBitmap MetaEngineTagDependency 
----@field totalGrenadesOverlays table<MetaEngineTagDataGrenadeHUDInterfaceOverlay> 
----@field totalGrenadesWarningSounds table<MetaEngineTagDataGrenadeHUDInterfaceSound> 
----@field messagingInformationSequenceIndex MetaEngineIndex 
----@field messagingInformationWidthOffset integer 
----@field messagingInformationOffsetFromReferenceCorner MetaEnginePoint2DInt 
----@field messagingInformationOverrideIconColor MetaEngineColorARGBInt 
----@field messagingInformationFrameRate integer 
----@field messagingInformationFlags MetaEngineTagDataHUDInterfaceMessagingFlags 
----@field messagingInformationTextIndex MetaEngineIndex 
-
----@alias EngineTagDataPredictedResourceType 
----| 'predicted_resource_type_bitmap'
----| 'predicted_resource_type_sound'
-
----@alias EngineTagDataObjectNoise 
----| 'object_noise_silent'
----| 'object_noise_medium'
----| 'object_noise_loud'
----| 'object_noise_shout'
----| 'object_noise_quiet'
-
----@alias EngineTagDataObjectFunctionIn 
----| 'object_function_in_none'
----| 'object_function_in_body_vitality'
----| 'object_function_in_shield_vitality'
----| 'object_function_in_recent_body_damage'
----| 'object_function_in_recent_shield_damage'
----| 'object_function_in_random_constant'
----| 'object_function_in_umbrella_shield_vitality'
----| 'object_function_in_shield_stun'
----| 'object_function_in_recent_umbrella_shield_vitality'
----| 'object_function_in_umbrella_shield_stun'
----| 'object_function_in_region'
----| 'object_function_in_region_1'
----| 'object_function_in_region_2'
----| 'object_function_in_region_3'
----| 'object_function_in_region_4'
----| 'object_function_in_region_5'
----| 'object_function_in_region_6'
----| 'object_function_in_region_7'
----| 'object_function_in_alive'
----| 'object_function_in_compass'
-
----@alias EngineTagDataObjectType 
----| 'object_type_biped'
----| 'object_type_vehicle'
----| 'object_type_weapon'
----| 'object_type_equipment'
----| 'object_type_garbage'
----| 'object_type_projectile'
----| 'object_type_scenery'
----| 'object_type_device_machine'
----| 'object_type_device_control'
----| 'object_type_device_light_fixture'
----| 'object_type_placeholder'
----| 'object_type_sound_scenery'
-
----@class MetaEngineTagDataObjectFunctionFlags 
----@field invert boolean 
----@field additive boolean 
----@field alwaysActive boolean 
-
----@class MetaEngineTagDataObjectFlags 
----@field doesNotCastShadow boolean 
----@field transparentSelfOcclusion boolean 
----@field brighterThanItShouldBe boolean 
----@field notAPathfindingObstacle boolean 
----@field extensionOfParent boolean 
----@field castShadowByDefault boolean 
----@field doesNotHaveAnniversaryGeometry boolean 
-
----@class MetaEngineTagDataBaseObjectFlags 
----@field offInPegasus boolean 
-
----@class MetaEngineTagDataPredictedResource 
----@field type EngineTagDataPredictedResourceType 
----@field resourceIndex MetaEngineIndex 
----@field tag EngineTagHandle 
-
----@class MetaEngineTagDataObjectAttachment 
----@field type MetaEngineTagDependency 
----@field marker MetaEngineTagString 
----@field primaryScale EngineTagDataFunctionOut 
----@field secondaryScale EngineTagDataFunctionOut 
----@field changeColor EngineTagDataFunctionNameNullable 
-
----@class MetaEngineTagDataObjectWidget 
----@field reference MetaEngineTagDependency 
-
----@class MetaEngineTagDataObjectFunction 
----@field flags MetaEngineTagDataObjectFunctionFlags 
----@field period number 
----@field scalePeriodBy EngineTagDataFunctionScaleBy 
----@field function EngineTagDataWaveFunction 
----@field scaleFunctionBy EngineTagDataFunctionScaleBy 
----@field wobbleFunction EngineTagDataWaveFunction 
----@field wobblePeriod number 
----@field wobbleMagnitude number 
----@field squareWaveThreshold MetaEngineFraction 
----@field stepCount integer 
----@field mapTo EngineTagDataFunctionType 
----@field sawtoothCount integer 
----@field add EngineTagDataFunctionScaleBy 
----@field scaleResultBy EngineTagDataFunctionScaleBy 
----@field boundsMode EngineTagDataFunctionBoundsMode 
----@field bounds MetaEngineFraction 
----@field turnOffWith integer 
----@field scaleBy number 
----@field inverseBounds number 
----@field inverseSawtooth number 
----@field inverseStep number 
----@field inversePeriod number 
----@field usage MetaEngineTagString 
-
----@class MetaEngineTagDataObjectChangeColorsPermutation 
----@field weight number 
----@field colorLowerBound MetaEngineColorRGB 
----@field colorUpperBound MetaEngineColorRGB 
-
----@class MetaEngineTagDataObjectChangeColors 
----@field darkenBy EngineTagDataFunctionScaleBy 
----@field scaleBy EngineTagDataFunctionScaleBy 
----@field flags MetaEngineTagDataColorInterpolationFlags 
----@field colorLowerBound MetaEngineColorRGB 
----@field colorUpperBound MetaEngineColorRGB 
----@field permutations table<MetaEngineTagDataObjectChangeColorsPermutation> 
-
----@class MetaEngineTagDataObject 
----@field objectType EngineTagDataObjectType 
----@field flags MetaEngineTagDataObjectFlags 
----@field boundingRadius number 
----@field boundingOffset MetaEnginePoint3D 
----@field originOffset MetaEnginePoint3D 
----@field accelerationScale number 
----@field scalesChangeColors integer 
----@field model MetaEngineTagDependency 
----@field animationGraph MetaEngineTagDependency 
----@field collisionModel MetaEngineTagDependency 
----@field physics MetaEngineTagDependency 
----@field modifierShader MetaEngineTagDependency 
----@field creationEffect MetaEngineTagDependency 
----@field renderBoundingRadius number 
----@field aIn EngineTagDataObjectFunctionIn 
----@field bIn EngineTagDataObjectFunctionIn 
----@field cIn EngineTagDataObjectFunctionIn 
----@field dIn EngineTagDataObjectFunctionIn 
----@field hudTextMessageIndex integer 
----@field forcedShaderPermutationIndex integer 
----@field attachments table<MetaEngineTagDataObjectAttachment> 
----@field widgets table<MetaEngineTagDataObjectWidget> 
----@field functions table<MetaEngineTagDataObjectFunction> 
----@field changeColors table<MetaEngineTagDataObjectChangeColors> 
----@field predictedResources table<MetaEngineTagDataPredictedResource> 
-
----@class MetaEngineTagDataBasicObject: MetaEngineTagDataObject  
----@field moreFlags MetaEngineTagDataBaseObjectFlags 
-
----@class MetaEngineTagDataHUDMessageTextElement 
----@field type integer 
----@field data integer 
-
----@class MetaEngineTagDataHUDMessageTextMessage 
----@field name MetaEngineTagString 
----@field startIndexIntoTextBlob MetaEngineIndex 
----@field startIndexOfMessageBlock MetaEngineIndex 
----@field panelCount integer 
-
----@class MetaEngineTagDataHudMessageText 
----@field textData MetaEngineTagDataOffset 
----@field messageElements table<MetaEngineTagDataHUDMessageTextElement> 
----@field messages table<MetaEngineTagDataHUDMessageTextMessage> 
+---@class MetaEngineTagDataBiped: MetaEngineTagDataUnit  
+---@field movingTurningSpeed MetaEngineAngle 
+---@field bipedFlags MetaEngineTagDataBipedFlags 
+---@field stationaryTurningThreshold MetaEngineAngle 
+---@field bipedAIn EngineTagDataBipedFunctionIn 
+---@field bipedBIn EngineTagDataBipedFunctionIn 
+---@field bipedCIn EngineTagDataBipedFunctionIn 
+---@field bipedDIn EngineTagDataBipedFunctionIn 
+---@field dontUse MetaEngineTagDependency 
+---@field bankAngle MetaEngineAngle 
+---@field bankApplyTime number 
+---@field bankDecayTime number 
+---@field pitchRatio number 
+---@field maxVelocity number 
+---@field maxSidestepVelocity number 
+---@field acceleration number 
+---@field deceleration number 
+---@field angularVelocityMaximum MetaEngineAngle 
+---@field angularAccelerationMaximum MetaEngineAngle 
+---@field crouchVelocityModifier number 
+---@field maximumSlopeAngle MetaEngineAngle 
+---@field downhillFalloffAngle MetaEngineAngle 
+---@field downhillCutoffAngle MetaEngineAngle 
+---@field downhillVelocityScale number 
+---@field uphillFalloffAngle MetaEngineAngle 
+---@field uphillCutoffAngle MetaEngineAngle 
+---@field uphillVelocityScale number 
+---@field footsteps MetaEngineTagDependency 
+---@field jumpVelocity number 
+---@field maximumSoftLandingTime number 
+---@field maximumHardLandingTime number 
+---@field minimumSoftLandingVelocity number 
+---@field minimumHardLandingVelocity number 
+---@field maximumHardLandingVelocity number 
+---@field deathHardLandingVelocity number 
+---@field standingCameraHeight number 
+---@field crouchingCameraHeight number 
+---@field crouchTransitionTime number 
+---@field standingCollisionHeight number 
+---@field crouchingCollisionHeight number 
+---@field collisionRadius number 
+---@field autoaimWidth number 
+---@field cosineStationaryTurningThreshold number 
+---@field crouchCameraVelocity number 
+---@field cosineMaximumSlopeAngle number 
+---@field negativeSineDownhillFalloffAngle number 
+---@field negativeSineDownhillCutoffAngle number 
+---@field sineUphillFalloffAngle number 
+---@field sineUphillCutoffAngle number 
+---@field pelvisModelNodeIndex MetaEngineIndex 
+---@field headModelNodeIndex MetaEngineIndex 
+---@field contactPoint TagBlock<MetaEngineTagDataBipedContactPoint> 
 
 ---@class MetaEngineTagDataAntennaVertex 
 ---@field springStrengthCoefficient MetaEngineFraction 
@@ -7118,160 +10813,183 @@
 ---@field falloffPixels number 
 ---@field cutoffPixels number 
 ---@field length number 
----@field vertices table<MetaEngineTagDataAntennaVertex> 
+---@field vertices TagBlock<MetaEngineTagDataAntennaVertex> 
 
----@class MetaEngineTagDataModelCollisionGeometryMaterialFlags 
----@field head boolean 
+---@class EngineTagDataEffectCreateInEnum : Enum 
 
----@class MetaEngineTagDataModelCollisionGeometryRegionFlags 
----@field livesUntilObjectDies boolean 
----@field forcesObjectToDie boolean 
----@field diesWhenObjectDies boolean 
----@field diesWhenObjectIsDamaged boolean 
----@field disappearsWhenShieldIsOff boolean 
----@field inhibitsMeleeAttack boolean 
----@field inhibitsWeaponAttack boolean 
----@field inhibitsWalking boolean 
----@field forcesDropWeapon boolean 
----@field causesHeadMaimedScream boolean 
+---@class EngineTagDataEffectCreateInAnyEnvironment : EngineTagDataEffectCreateInEnum 
+---@class EngineTagDataEffectCreateInAirOnly : EngineTagDataEffectCreateInEnum 
+---@class EngineTagDataEffectCreateInWaterOnly : EngineTagDataEffectCreateInEnum 
+---@class EngineTagDataEffectCreateInSpaceOnly : EngineTagDataEffectCreateInEnum 
 
----@class MetaEngineTagDataModelCollisionGeometryBSPLeafFlags 
----@field containsDoubleSidedSurfaces boolean 
+---@alias EngineTagDataEffectCreateIn 
+---| EngineTagDataEffectCreateInAnyEnvironment
+---| EngineTagDataEffectCreateInAirOnly
+---| EngineTagDataEffectCreateInWaterOnly
+---| EngineTagDataEffectCreateInSpaceOnly
 
----@class MetaEngineTagDataModelCollisionGeometryBSPSurfaceFlags 
----@field twoSided boolean 
----@field invisible boolean 
----@field climbable boolean 
----@field breakable boolean 
+---@class EngineTagDataEffectCreateInTable 
+---@field nAnyEnvironment EngineTagDataEffectCreateInAnyEnvironment
+---@field nAirOnly EngineTagDataEffectCreateInAirOnly
+---@field nWaterOnly EngineTagDataEffectCreateInWaterOnly
+---@field nSpaceOnly EngineTagDataEffectCreateInSpaceOnly
+Engine.tag.effectCreateIn = {} 
 
----@class MetaEngineTagDataModelCollisionGeometryFlags 
----@field takesShieldDamageForChildren boolean 
----@field takesBodyDamageForChildren boolean 
----@field alwaysShieldsFriendlyDamage boolean 
----@field passesAreaDamageToChildren boolean 
----@field parentNeverTakesBodyDamageForUs boolean 
----@field onlyDamagedByExplosives boolean 
----@field onlyDamagedWhileOccupied boolean 
+---@class EngineTagDataEffectViolenceModeEnum : Enum 
 
----@class MetaEngineTagDataModelCollisionGeometryMaterial 
----@field name MetaEngineTagString 
----@field flags MetaEngineTagDataModelCollisionGeometryMaterialFlags 
----@field materialType EngineTagDataMaterialType 
----@field shieldLeakPercentage MetaEngineFraction 
----@field shieldDamageMultiplier number 
----@field bodyDamageMultiplier number 
+---@class EngineTagDataEffectViolenceModeEitherMode : EngineTagDataEffectViolenceModeEnum 
+---@class EngineTagDataEffectViolenceModeViolentModeOnly : EngineTagDataEffectViolenceModeEnum 
+---@class EngineTagDataEffectViolenceModeNonviolentModeOnly : EngineTagDataEffectViolenceModeEnum 
 
----@class MetaEngineTagDataModelCollisionGeometryPermutation 
----@field name MetaEngineTagString 
+---@alias EngineTagDataEffectViolenceMode 
+---| EngineTagDataEffectViolenceModeEitherMode
+---| EngineTagDataEffectViolenceModeViolentModeOnly
+---| EngineTagDataEffectViolenceModeNonviolentModeOnly
 
----@class MetaEngineTagDataModelCollisionGeometryRegion 
----@field name MetaEngineTagString 
----@field flags MetaEngineTagDataModelCollisionGeometryRegionFlags 
----@field damageThreshold number 
----@field destroyedEffect MetaEngineTagDependency 
----@field permutations table<MetaEngineTagDataModelCollisionGeometryPermutation> 
+---@class EngineTagDataEffectViolenceModeTable 
+---@field eEitherMode EngineTagDataEffectViolenceModeEitherMode
+---@field eViolentModeOnly EngineTagDataEffectViolenceModeViolentModeOnly
+---@field eNonviolentModeOnly EngineTagDataEffectViolenceModeNonviolentModeOnly
+Engine.tag.effectViolenceMode = {} 
 
----@class MetaEngineTagDataModelCollisionGeometryModifier 
+---@class EngineTagDataEffectCreateEnum : Enum 
 
----@class MetaEngineTagDataModelCollisionGeometrySphere 
----@field node MetaEngineIndex 
----@field center MetaEnginePoint3D 
+---@class EngineTagDataEffectCreateIndependentOfCameraMode : EngineTagDataEffectCreateEnum 
+---@class EngineTagDataEffectCreateOnlyInFirstPerson : EngineTagDataEffectCreateEnum 
+---@class EngineTagDataEffectCreateOnlyInThirdPerson : EngineTagDataEffectCreateEnum 
+---@class EngineTagDataEffectCreateInFirstPersonIfPossible : EngineTagDataEffectCreateEnum 
+
+---@alias EngineTagDataEffectCreate 
+---| EngineTagDataEffectCreateIndependentOfCameraMode
+---| EngineTagDataEffectCreateOnlyInFirstPerson
+---| EngineTagDataEffectCreateOnlyInThirdPerson
+---| EngineTagDataEffectCreateInFirstPersonIfPossible
+
+---@class EngineTagDataEffectCreateTable 
+---@field independentOfCameraMode EngineTagDataEffectCreateIndependentOfCameraMode
+---@field onlyInFirstPerson EngineTagDataEffectCreateOnlyInFirstPerson
+---@field onlyInThirdPerson EngineTagDataEffectCreateOnlyInThirdPerson
+---@field inFirstPersonIfPossible EngineTagDataEffectCreateInFirstPersonIfPossible
+Engine.tag.effectCreate = {} 
+
+---@class EngineTagDataEffectDistributionFunctionEnum : Enum 
+
+---@class EngineTagDataEffectDistributionFunctionStart : EngineTagDataEffectDistributionFunctionEnum 
+---@class EngineTagDataEffectDistributionFunctionEnd : EngineTagDataEffectDistributionFunctionEnum 
+---@class EngineTagDataEffectDistributionFunctionConstant : EngineTagDataEffectDistributionFunctionEnum 
+---@class EngineTagDataEffectDistributionFunctionBuildup : EngineTagDataEffectDistributionFunctionEnum 
+---@class EngineTagDataEffectDistributionFunctionFalloff : EngineTagDataEffectDistributionFunctionEnum 
+---@class EngineTagDataEffectDistributionFunctionBuildupAndFalloff : EngineTagDataEffectDistributionFunctionEnum 
+
+---@alias EngineTagDataEffectDistributionFunction 
+---| EngineTagDataEffectDistributionFunctionStart
+---| EngineTagDataEffectDistributionFunctionEnd
+---| EngineTagDataEffectDistributionFunctionConstant
+---| EngineTagDataEffectDistributionFunctionBuildup
+---| EngineTagDataEffectDistributionFunctionFalloff
+---| EngineTagDataEffectDistributionFunctionBuildupAndFalloff
+
+---@class EngineTagDataEffectDistributionFunctionTable 
+---@field nStart EngineTagDataEffectDistributionFunctionStart
+---@field nEnd EngineTagDataEffectDistributionFunctionEnd
+---@field nConstant EngineTagDataEffectDistributionFunctionConstant
+---@field nBuildup EngineTagDataEffectDistributionFunctionBuildup
+---@field nFalloff EngineTagDataEffectDistributionFunctionFalloff
+---@field nBuildupAndFalloff EngineTagDataEffectDistributionFunctionBuildupAndFalloff
+Engine.tag.effectDistributionFunction = {} 
+
+---@class MetaEngineTagDataEffectPartFlags 
+---@field faceDownRegardlessOfLocationDecals boolean 
+---@field unused boolean 
+---@field makeEffectWork boolean 
+
+---@class MetaEngineTagDataEffectPartScalesValues 
+---@field velocity boolean 
+---@field velocityDelta boolean 
+---@field velocityConeAngle boolean 
+---@field angularVelocity boolean 
+---@field angularVelocityDelta boolean 
+---@field typeSpecificScale boolean 
+
+---@class MetaEngineTagDataEffectParticleFlags 
+---@field stayAttachedToMarker boolean 
+---@field randomInitialAngle boolean 
+---@field tintFromObjectColor boolean 
+---@field interpolateTintAsHsv boolean 
+---@field acrossTheLongHuePath boolean 
+
+---@class MetaEngineTagDataEffectParticleScalesValues 
+---@field velocity boolean 
+---@field velocityDelta boolean 
+---@field velocityConeAngle boolean 
+---@field angularVelocity boolean 
+---@field angularVelocityDelta boolean 
+---@field count boolean 
+---@field countDelta boolean 
+---@field distributionRadius boolean 
+---@field distributionRadiusDelta boolean 
+---@field particleRadius boolean 
+---@field particleRadiusDelta boolean 
+---@field tint boolean 
+
+---@class MetaEngineTagDataEffectFlags 
+---@field deletedWhenAttachmentDeactivates boolean 
+---@field mustBeDeterministicXbox boolean 
+---@field mustBeDeterministicPc boolean 
+---@field disabledInAnniversaryByBloodSetting boolean 
+
+---@class MetaEngineTagDataEffectLocation 
+---@field markerName MetaEngineTagString 
+
+---@class MetaEngineTagDataEffectPart 
+---@field createIn EngineTagDataEffectCreateIn 
+---@field violenceMode EngineTagDataEffectViolenceMode 
+---@field location MetaEngineIndex 
+---@field flags MetaEngineTagDataEffectPartFlags 
+---@field typeClass integer 
+---@field type MetaEngineTagDependency 
+---@field velocityBounds number 
+---@field velocityConeAngle MetaEngineAngle 
+---@field angularVelocityBounds MetaEngineAngle 
+---@field radiusModifierBounds number 
+---@field aScalesValues MetaEngineTagDataEffectPartScalesValues 
+---@field bScalesValues MetaEngineTagDataEffectPartScalesValues 
+
+---@class MetaEngineTagDataEffectParticle 
+---@field createIn EngineTagDataEffectCreateIn 
+---@field violenceMode EngineTagDataEffectViolenceMode 
+---@field create EngineTagDataEffectCreate 
+---@field location MetaEngineIndex 
+---@field relativeDirection MetaEngineEuler2D 
+---@field relativeOffset MetaEnginePoint3D 
+---@field relativeDirectionVector MetaEngineVector3D 
+---@field particleType MetaEngineTagDependency 
+---@field flags MetaEngineTagDataEffectParticleFlags 
+---@field distributionFunction EngineTagDataEffectDistributionFunction 
+---@field count integer 
+---@field distributionRadius number 
+---@field velocity number 
+---@field velocityConeAngle MetaEngineAngle 
+---@field angularVelocity MetaEngineAngle 
 ---@field radius number 
+---@field tintLowerBound MetaEngineColorARGB 
+---@field tintUpperBound MetaEngineColorARGB 
+---@field aScalesValues MetaEngineTagDataEffectParticleScalesValues 
+---@field bScalesValues MetaEngineTagDataEffectParticleScalesValues 
 
----@class MetaEngineTagDataModelCollisionGeometryBSP3DNode 
----@field plane integer 
----@field backChild integer 
----@field frontChild integer 
+---@class MetaEngineTagDataEffectEvent 
+---@field skipFraction MetaEngineFraction 
+---@field delayBounds number 
+---@field durationBounds number 
+---@field parts TagBlock<MetaEngineTagDataEffectPart> 
+---@field particles TagBlock<MetaEngineTagDataEffectParticle> 
 
----@class MetaEngineTagDataModelCollisionGeometryBSPPlane 
----@field plane MetaEnginePlane3D 
-
----@class MetaEngineTagDataModelCollisionGeometryBSPLeaf 
----@field flags MetaEngineTagDataModelCollisionGeometryBSPLeafFlags 
----@field bsp2dReferenceCount integer 
----@field firstBsp2dReference integer 
-
----@class MetaEngineTagDataModelCollisionGeometryBSP2DReference 
----@field plane integer 
----@field bsp2dNode integer 
-
----@class MetaEngineTagDataModelCollisionGeometryBSP2DNode 
----@field plane MetaEnginePlane2D 
----@field leftChild integer 
----@field rightChild integer 
-
----@class MetaEngineTagDataModelCollisionGeometryBSPSurface 
----@field plane integer 
----@field firstEdge integer 
----@field flags MetaEngineTagDataModelCollisionGeometryBSPSurfaceFlags 
----@field breakableSurface integer 
----@field material MetaEngineIndex 
-
----@class MetaEngineTagDataModelCollisionGeometryBSPEdge 
----@field startVertex integer 
----@field endVertex integer 
----@field forwardEdge integer 
----@field reverseEdge integer 
----@field leftSurface integer 
----@field rightSurface integer 
-
----@class MetaEngineTagDataModelCollisionGeometryBSPVertex 
----@field point MetaEnginePoint3D 
----@field firstEdge integer 
-
----@class MetaEngineTagDataModelCollisionGeometryBSP 
----@field bsp3dNodes table<MetaEngineTagDataModelCollisionGeometryBSP3DNode> 
----@field planes table<MetaEngineTagDataModelCollisionGeometryBSPPlane> 
----@field leaves table<MetaEngineTagDataModelCollisionGeometryBSPLeaf> 
----@field bsp2dReferences table<MetaEngineTagDataModelCollisionGeometryBSP2DReference> 
----@field bsp2dNodes table<MetaEngineTagDataModelCollisionGeometryBSP2DNode> 
----@field surfaces table<MetaEngineTagDataModelCollisionGeometryBSPSurface> 
----@field edges table<MetaEngineTagDataModelCollisionGeometryBSPEdge> 
----@field vertices table<MetaEngineTagDataModelCollisionGeometryBSPVertex> 
-
----@class MetaEngineTagDataModelCollisionGeometryNode 
----@field name MetaEngineTagString 
----@field region MetaEngineIndex 
----@field parentNode MetaEngineIndex 
----@field nextSiblingNode MetaEngineIndex 
----@field firstChildNode MetaEngineIndex 
----@field nameThing integer 
----@field bsps table<MetaEngineTagDataModelCollisionGeometryBSP> 
-
----@class MetaEngineTagDataModelCollisionGeometry 
----@field flags MetaEngineTagDataModelCollisionGeometryFlags 
----@field indirectDamageMaterial MetaEngineIndex 
----@field maximumBodyVitality number 
----@field bodySystemShock number 
----@field friendlyDamageResistance MetaEngineFraction 
----@field localizedDamageEffect MetaEngineTagDependency 
----@field areaDamageEffectThreshold number 
----@field areaDamageEffect MetaEngineTagDependency 
----@field bodyDamagedThreshold number 
----@field bodyDamagedEffect MetaEngineTagDependency 
----@field bodyDepletedEffect MetaEngineTagDependency 
----@field bodyDestroyedThreshold number 
----@field bodyDestroyedEffect MetaEngineTagDependency 
----@field maximumShieldVitality number 
----@field shieldMaterialType EngineTagDataMaterialType 
----@field shieldFailureFunction EngineTagDataFunctionType 
----@field shieldFailureThreshold MetaEngineFraction 
----@field failingShieldLeakFraction MetaEngineFraction 
----@field minimumStunDamage number 
----@field stunTime number 
----@field rechargeTime number 
----@field shieldDamagedThreshold number 
----@field shieldDamagedEffect MetaEngineTagDependency 
----@field shieldDepletedEffect MetaEngineTagDependency 
----@field shieldRechargingEffect MetaEngineTagDependency 
----@field shieldRechargeRate number 
----@field materials table<MetaEngineTagDataModelCollisionGeometryMaterial> 
----@field regions table<MetaEngineTagDataModelCollisionGeometryRegion> 
----@field modifiers table<MetaEngineTagDataModelCollisionGeometryModifier> 
----@field x number 
----@field y number 
----@field z number 
----@field pathfindingSpheres table<MetaEngineTagDataModelCollisionGeometrySphere> 
----@field nodes table<MetaEngineTagDataModelCollisionGeometryNode> 
+---@class MetaEngineTagDataEffect 
+---@field flags MetaEngineTagDataEffectFlags 
+---@field loopStartEvent MetaEngineIndex 
+---@field loopStopEvent MetaEngineIndex 
+---@field maximumDamageRadius number 
+---@field locations TagBlock<MetaEngineTagDataEffectLocation> 
+---@field events TagBlock<MetaEngineTagDataEffectEvent> 
 
 

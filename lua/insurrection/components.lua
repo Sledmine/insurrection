@@ -37,6 +37,9 @@ local component = {
 ---@type table<number, uiComponent>
 component.widgets = {}
 
+-- TODO Make this local and port functions to component
+local VirtualInputValue = {}
+
 function component.callbacks()
     ---@type MetaEngineTagDataUiWidgetDefinition?
     local editableWidgetTagData
@@ -45,48 +48,43 @@ function component.callbacks()
     ---@type MetaEngineTag?
     local lastFocusedWidgetTagEntry
 
-    -- TODO Make this local and port functions to component
-    VirtualInputValue = {}
-
     balltze.event.uiWidgetAccept.subscribe(function(event)
-        if not event.time == "before" then
-            return
-        end
-        local isCanceled = false
-        local widgetTagHandleValue = engine.userInterface.findWidget(event.args.widget
-                                                                         .definitionTagHandle)
-                                         .definitionTagHandle.value
-        local instance = component.widgets[widgetTagHandleValue]
-        if instance then
-            if instance.events.onClick then
-                isCanceled = instance.events.onClick() == false
+        if event.time == "before" then
+            logger:debug("Event time: {}", event.time)
+            logger:debug("Widget accept event")
+            local isCanceled = false
+            local instance = component.widgets[event.args.widget.definitionTagHandle.value]
+            if instance then
+                if instance.events.onClick then
+                    isCanceled = instance.events.onClick() == false
+                end
             end
-        end
-        if isCanceled then
-            event:cancel()
+            if isCanceled then
+                event:cancel()
+            end
         end
     end)
 
     ---@type BalltzeUIWidgetFocusEventCallback
     local function onWidgetFocus(event)
-        if not event.time == "before" then
-            return
-        end
-        local definitionTagHandleValue = event.args.widget.definitionTagHandle.value
-        local component = component.widgets[definitionTagHandleValue]
-        if component and component.events.onFocus then
-            component.events.onFocus()
-        end
-        --local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue, engine.tag.classes.uiWidgetDefinition)
-        local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue)
-        if focusedWidgetTag then
-            lastFocusedWidgetTagEntry = focusedWidgetTag
-            if focusedWidgetTag.data.flags1.editable or focusedWidgetTag.data.flags1.password then
-                editableWidgetTagData = focusedWidgetTag.data
-                editableWidgetTagEntry = focusedWidgetTag
-            else
-                editableWidgetTagData = nil
-                editableWidgetTagEntry = nil
+        if event.time == "before" then
+            logger:debug("Widget focus event")
+            local definitionTagHandleValue = event.args.widget.definitionTagHandle.value
+            local component = component.widgets[definitionTagHandleValue]
+            if component and component.events.onFocus then
+                component.events.onFocus()
+            end
+            -- local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue, engine.tag.classes.uiWidgetDefinition)
+            local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue)
+            if focusedWidgetTag then
+                lastFocusedWidgetTagEntry = focusedWidgetTag
+                if focusedWidgetTag.data.flags1.editable or focusedWidgetTag.data.flags1.password then
+                    editableWidgetTagData = focusedWidgetTag.data
+                    editableWidgetTagEntry = focusedWidgetTag
+                else
+                    editableWidgetTagData = nil
+                    editableWidgetTagEntry = nil
+                end
             end
         end
     end
@@ -94,21 +92,21 @@ function component.callbacks()
 
     -- TODO BALLTZE MIGRATE
     local function onMouseButtonPress(event)
-        if not event.time == "before" then
-            return
-        end
-        local widgetInstanceIndex, button
-        local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
-        if editableWidgetTagData and editableWidgetTagEntry then
-            if widgetTagId == editableWidgetTagEntry.handle then
-                if button == "right" then
-                    if isBalltzeAvailable then
-                        local inputString = core.getStringFromWidget(editableWidgetTagEntry.handle)
-                        local text = inputString .. core.getClipboard()
-                        core.setStringToWidget(text, editableWidgetTagEntry.handle)
-                        local component = components.widgets[editableWidgetTagEntry.handle]
-                        if component and component.events.onInputText then
-                            component.events.onInputText(text)
+        if event.time == "before" then
+            local widgetInstanceIndex, button
+            local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
+            if editableWidgetTagData and editableWidgetTagEntry then
+                if widgetTagId == editableWidgetTagEntry.handle then
+                    if button == "right" then
+                        if isBalltzeAvailable then
+                            local inputString = core.getStringFromWidget(
+                                                    editableWidgetTagEntry.handle)
+                            local text = inputString .. core.getClipboard()
+                            core.setStringToWidget(text, editableWidgetTagEntry.handle)
+                            local component = components.widgets[editableWidgetTagEntry.handle]
+                            if component and component.events.onInputText then
+                                component.events.onInputText(text)
+                            end
                         end
                     end
                 end
@@ -132,54 +130,54 @@ function component.callbacks()
         end
     end
     balltze.event.frame.subscribe(function(event)
-        if not event.time == "before" then
-            return
-        end
-        local widget = engine.userInterface.getRootWidget()
-        if widget then
-            if lastFocusedWidgetTagEntry then
-                local mouse = core.getMouseState()
-                if mouse.scroll ~= 0 then
-                    onMouseScroll(lastFocusedWidgetTagEntry.handle.value)
+        if event.time == "before" then
+
+            local widget = engine.userInterface.getRootWidget()
+            if widget then
+                if lastFocusedWidgetTagEntry then
+                    local mouse = core.getMouseState()
+                    if mouse.scroll ~= 0 then
+                        onMouseScroll(lastFocusedWidgetTagEntry.handle.value)
+                    end
                 end
             end
         end
     end)
 
     balltze.event.uiWidgetCreate.subscribe(function(event)
-        if not event.time == "before" then
-            return
-        end
-        local widgetValues = event.args.widget
-        if widgetValues then
-            local widgetTagHandleValue = widgetValues.definitionTagHandle.value
-            local widgetTag = engine.tag.getTag(widgetTagHandleValue,
-                                                engine.tag.classes.uiWidgetDefinition)
-            local component = component.widgets[widgetTagHandleValue]
-            if component and component.events.onOpen then
-                --component.events.onOpen(previousWidgetTag)
-                component.events.onOpen()
-            end
-            if previousWidgetTag ~= widgetTag then
-                previousWidgetTag = widgetTag
-            end
+        if event.time == "before" then
 
-            if widgetTag then
-                assert(widgetTag, "Invalid widget tag")
-                local widgetTagData = widgetTag.data
-                -- if widgetTagData and widgetTagData.childWidgetsCount > 0 then
-                if widgetTagData and #widgetTagData.childWidgets > 0 then
-                    local optionsWidgetTag = engine.tag.getTag(
-                                                 widgetTagData.childWidgets[#widgetTagData.childWidgets]
-                                                     .widgetTag.handle,
-                                                 engine.tag.classes.uiWidgetDefinition)
-                    assert(optionsWidgetTag, "Invalid options widget tag")
-                    local optionsWidgetTagData = optionsWidgetTag.data
-                    -- Auto focus on the first editable widget
-                    if optionsWidgetTagData and optionsWidgetTagData.childWidgets[1] then
-                        onWidgetFocus(optionsWidget.childWidgets[1].widgetTag)
+            local widgetValues = event.args.widget
+            if widgetValues then
+                local widgetTagHandleValue = widgetValues.definitionTagHandle.value
+                local widgetTag = engine.tag.getTag(widgetTagHandleValue,
+                                                    engine.tag.classes.uiWidgetDefinition)
+                local component = component.widgets[widgetTagHandleValue]
+                if component and component.events.onOpen then
+                    -- component.events.onOpen(previousWidgetTag)
+                    component.events.onOpen()
+                end
+                if previousWidgetTag ~= widgetTag then
+                    previousWidgetTag = widgetTag
+                end
+
+                if widgetTag then
+                    assert(widgetTag, "Invalid widget tag")
+                    local widgetTagData = widgetTag.data
+                    local widgetCount = widgetTagData.childWidgets.count
+                    if widgetTagData and widgetCount > 0 then
+                        local optionWidget = widgetTagData.childWidgets.elements[widgetCount]
+                        -- logger:debug("Option widget: {}", inspect(table.keys(optionWidget.widgetTag)))
+                        local optionsWidgetTag = engine.tag.getTag(
+                                                     optionWidget.widgetTag.tagHandle.value,
+                                                     engine.tag.classes.uiWidgetDefinition)
+                        assert(optionsWidgetTag, "Invalid options widget tag")
+                        local optionsWidgetTagData = optionsWidgetTag.data
+                        -- Auto focus on the first editable widget
+                        if optionsWidgetTagData and optionsWidgetTagData.childWidgets[1] then
+                            onWidgetFocus(optionsWidget.childWidgets[1].widgetTag)
+                        end
                     end
-                    interface.animationsReset(widgetTag.handle.value)
                 end
             end
         end
@@ -187,20 +185,20 @@ function component.callbacks()
 
     balltze.event.uiWidgetBack.subscribe(function(event)
         if not event.time == "before" then
-            return
-        end
-        local widgetTagHandleValue = event.args.widget.definitionTagHandle.value
-        local component = component.widgets[widgetTagHandleValue]
-        if component and component.events.onClose then
-            if component.events.onClose() == false then
-                event:cancel()
+            local widgetTagHandleValue = event.args.widget.definitionTagHandle.value
+            local component = component.widgets[widgetTagHandleValue]
+            if component and component.events.onClose then
+                if component.events.onClose() == false then
+                    event:cancel()
+                end
             end
+            editableWidgetTagData = nil
         end
-        editableWidgetTagData = nil
     end)
 
     balltze.event.uiWidgetListTab.subscribe(function(event)
-        --if not event.time == "before" then
+        -- if not event.time == "before" then
+        -- TODO Restore when Balltze gets the enum stuff done
         if true then
             return
         end
@@ -365,22 +363,11 @@ end
 ---@param self uiComponent
 ---@param callback fun(): boolean?
 function component.onClose(self, callback)
-    self.events.onClose = callback
-end
+    -- self.events.onClose = callback
+    self.events.onClose = function()
 
---[[
-    -- Fake menu scrolling
-    if lastOpenWidgetTag and
-        (lastOpenWidgetTag.id == interface.widgets.lobbyWidgetTag.id or lastOpenWidgetTag.id ==
-            interface.widgets.customizationWidgetTag.id) then
-        local scroll = tonumber(read_char(0x64C73C + 8))
-        if scroll > 0 then
-            store:dispatch(actions.scroll(false))
-        elseif scroll < 0 then
-            store:dispatch(actions.scroll(true))
-        end
     end
-]]
+end
 
 ---Animate component background
 ---@param self uiComponent

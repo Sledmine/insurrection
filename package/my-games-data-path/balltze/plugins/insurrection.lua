@@ -4,6 +4,7 @@ local engine = Engine
 local luna = require "luna"
 local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
+execute_script = engine.hsc.executeScript
 
 ---@type Logger
 logger = nil
@@ -29,8 +30,6 @@ local lastListFocusedWidgetTag
 local lastFocusedWidgetTagEntry
 -- Multithread lanes
 Lanes = {}
--- Stores values that are masked in the UI
-VirtualInputValue = {}
 
 local customBipedPaths = {
     bleed_it_out = {[[keymind\the_flood\characters\unsc\gridharvolur\gridharvolur_mk_ii_[b]_mp]]},
@@ -42,20 +41,6 @@ local customBipedPaths = {
     }
     -- forge_island_dev = {[[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
 }
-
----@type BalltzeMapLoadEventCallback
-local function onMapLoad(event)
-    -- logger:info("map loaded: {}", event.args.mapName) 
-    if event.args.mapName == "levels\\ui\\ui" then
-        for mapName, bipeds in pairs(customBipedPaths) do
-            for _, bipedPath in pairs(bipeds) do
-                local _ = pcall(balltze.features.importTagFromMap, mapName, bipedPath, "biped")
-            end
-        end
-    else
-        balltze.features.clearTagImports()
-    end
-end
 
 function PluginMetadata()
     return {
@@ -97,7 +82,7 @@ local commands = {
         execute = function()
             IsDebugCustomization = true
             interface.blur(false)
-            --interface.close(true)
+            -- interface.close(true)
             execute_script("set_customization_background 1")
             execute_script("object_create customization_biped")
         end
@@ -111,17 +96,41 @@ local commands = {
 }
 
 function PluginInit()
-    balltze.event.mapLoad.subscribe(onMapLoad, "lowest")
+    balltze.event.mapLoad.subscribe(function(event)
+        if event.args:mapName() == "levels\\ui\\ui" then
+            if event.time == "before" then
+                logger:debug("Loading Insurrection UI")
+                for mapName, bipeds in pairs(customBipedPaths) do
+                    for _, bipedPath in pairs(bipeds) do
+                        -- local _ = pcall(balltze.features.importTagFromMap, mapName, bipedPath, "biped")
+                        local ok, message = pcall(balltze.features.importTagFromMap, mapName,
+                                                  bipedPath, "biped")
+                        if not ok then
+                            engine.core.consolePrint("Error importing biped: " .. bipedPath)
+                            engine.core.consolePrint(message or "Unknown error")
+                        end
+                    end
+                end
+            else
+                --TODO BALLTZE MIGRATE
+                --PluginLoad()
+            end
+        else
+            balltze.features.clearTagImports()
+        end
+    end, "lowest")
     balltze.event.tick.subscribe(function(event)
         -- Multithread callback resolve
         for laneIndex, lane in ipairs(Lanes) do
             if lane.thread.status == "done" then
-                --harmony.menu.block_input(false)
+                -- TODO BALLTZE MIGRATE
+                -- harmony.menu.block_input(false)
                 table.remove(Lanes, laneIndex)
                 lane.callback(lane.thread)
                 logger:debug("Async task finished!")
             elseif lane.thread.status == "error" then
-                --harmony.menu.block_input(false)
+                -- TODO BALLTZE MIGRATE
+                -- harmony.menu.block_input(false)
                 logger:error(lane.thread[1])
                 table.remove(Lanes, laneIndex)
             else
@@ -145,12 +154,8 @@ function PluginInit()
     return true
 end
 
-function execute_script(script)
-    logger:debug("Should execute script: {}", script)
-    engine.hsc.executeScript(script)
-end
-
 function PluginLoad()
+    -- Load Chimera compatibility
     for k, v in pairs(balltze.chimera) do
         _G[k] = v
     end

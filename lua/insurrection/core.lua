@@ -231,7 +231,13 @@ function core.setWidgetValues(widgetTagId, values)
         local widget = engine.userInterface.findWidget(widgetTagId)
         if widget then
             for key, value in pairs(values) do
-                widget[key] = value
+                if type(value) == "table" then
+                    for subKey, subValue in pairs(value) do
+                        widget[key][subKey] = subValue
+                    end
+                else
+                    widget[key] = value
+                end
             end
             return true
         end
@@ -257,7 +263,6 @@ function core.getWidgetHandle(widgetTagId)
 end
 
 function core.replaceWidgetInDom(widgetTagHandleValue, newWidgetTagHandleValue)
-    logger:debug("Replacing widget " .. widgetTagHandleValue .. " with " .. newWidgetTagHandleValue)
     local replaced, widget = pcall(engine.userInterface.findWidget, widgetTagHandleValue)
     if replaced and widget then
         engine.userInterface.replaceWidget(widget, newWidgetTagHandleValue)
