@@ -112,29 +112,36 @@ function PluginInit()
                     end
                 end
             else
-                --TODO BALLTZE MIGRATE
-                --PluginLoad()
+                -- TODO BALLTZE MIGRATE
+                -- PluginLoad()
             end
         else
             balltze.features.clearTagImports()
         end
     end, "lowest")
     balltze.event.tick.subscribe(function(event)
-        -- Multithread callback resolve
-        for laneIndex, lane in ipairs(Lanes) do
-            if lane.thread.status == "done" then
-                -- TODO BALLTZE MIGRATE
-                -- harmony.menu.block_input(false)
-                table.remove(Lanes, laneIndex)
-                lane.callback(lane.thread)
-                logger:debug("Async task finished!")
-            elseif lane.thread.status == "error" then
-                -- TODO BALLTZE MIGRATE
-                -- harmony.menu.block_input(false)
-                logger:error(lane.thread[1])
-                table.remove(Lanes, laneIndex)
-            else
-                logger:warning(lane.thread.status)
+        if event.time == "before" then
+            -- TODO BALLTZE MIGRATE
+            -- harmony.menu.block_input(true)
+            -- Multithread callback resolve
+            for laneIndex, lane in ipairs(Lanes) do
+                if lane.thread.status == "done" then
+                    -- TODO BALLTZE MIGRATE
+                    -- harmony.menu.block_input(false)
+                    table.remove(Lanes, laneIndex)
+                    logger:debug("Async task finished!")
+                    lane.callback(lane.thread[1])
+                elseif lane.thread.status == "error" then
+                    -- TODO BALLTZE MIGRATE
+                    -- harmony.menu.block_input(false)
+                    table.remove(Lanes, laneIndex)
+                    local _, errorMessage = pcall(function ()
+                        return lane.thread[1]
+                    end)
+                    logger:debug(errorMessage)
+                else
+                    logger:warning(lane.thread.status)
+                end
             end
         end
     end)

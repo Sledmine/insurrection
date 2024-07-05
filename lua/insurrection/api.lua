@@ -74,11 +74,33 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 ---@field server serverInstance
 ---@field isPublic boolean
 
-function async(func, callback, ...)
-    if #Lanes == 0 then
-        Lanes[#Lanes + 1] = {thread = lanes.gen(asyncLibs, func)(...), callback = callback}
-    else
-        logger:debug("Warning! An async function is trying to add another thread!")
+-- function async(func, callback, ...)
+--    if #Lanes == 0 then
+--        Lanes[#Lanes + 1] = {thread = lanes.gen(asyncLibs, func)(...), callback = callback}
+--    else
+--        logger:debug("Warning! An async function is trying to add another thread!")
+--    end
+-- end
+
+-- @param inputFunction fun(await: fun(callback: fun(...): (T), ...): T)
+
+---@generic T, U
+---@param inputFunction fun(await: fun(callback: fun(...:U): (T), ...:U): T)
+function async(inputFunction)
+    local co = coroutine.create(inputFunction)
+    local await = function(asyncCallback, ...)
+        table.insert(Lanes, {
+            thread = lanes.gen(asyncLibs, asyncCallback)(...),
+            callback = function(ret)
+                coroutine.resume(co, ret)
+            end
+        })
+        return coroutine.yield()
+    end
+    ---@return boolean success Async function has finished successfully
+    return function()
+        local ok = coroutine.resume(co, await)
+        return ok
     end
 end
 
@@ -150,11 +172,20 @@ function api.loadUrl(host)
     api.url = api.host .. api.version
 end
 
----@param response httpResponse<loginResponse>
----@return boolean
-local function onLoginResponse(response)
-    loading(false)
-    if response then
+
+local inspect = require "inspect"
+function api.login(username, password)
+    local login = async(function(await)
+        loading(true, "Logging in...")
+        ---@type httpResponse<loginResponse>?
+        local response = await(requests.postform, api.url .. "/login",
+                               {username = username, password = password})
+        logger:info("onLoginResponse")
+        loading(false)
+        if not response then
+            unknownError("No response")
+            return
+        end
         if response.code == 200 then
             local jsonResponse = response.json()
             api.session.token = jsonResponse.token
@@ -165,21 +196,12 @@ local function onLoginResponse(response)
             interface.loadProfileNameplate()
             api.available()
             menus.dashboard()
-            return true
         elseif response.code == 401 then
             local jsonResponse = response.json()
             interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
-            return false
         end
-    end
-    unknownError(response)
-    return false
-end
-function api.login(username, password)
-    loading(true, "Logging in...")
-    async(requests.postform, function(result)
-        onLoginResponse(result[1])
-    end, api.url .. "/login", {username = username, password = password})
+    end)
+    login()
 end
 
 ---@param response httpResponse<availableParameters>
@@ -238,7 +260,7 @@ local function onLobbyResponse(response)
                     end
                 end
                 -- TODO BALLTZE MIGRATE
-                --api.startLobbyRefresh()
+                -- api.startLobbyRefresh()
                 local state = getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
@@ -276,13 +298,50 @@ function api.lobby(lobbyKey)
     loading(true, "Loading lobby...")
     if lobbyKey then
         api.session.lobbyKey = lobbyKey
-        async(requests.get, function(result)
-            onLobbyResponse(result[1])
-        end, api.url .. "/lobby/" .. lobbyKey)
+        local lobby = async(function(await)
+            ---@type httpResponse<insurrectionLobby>?
+            local response = await(requests.get, api.url .. "/lobby/" .. lobbyKey)
+            if not response then
+                unknownError("No response")
+                return
+            end
+            if response.code == 200 then
+                local lobby = response.json()
+                if lobby then
+                    store:dispatch(actions.setLobby(lobbyKey, lobby))
+                    local state = getState()
+                    local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+                                                   state.lobby.owner
+                    if isPlayerLobbyOwner then
+                        react.render("lobbyMenu")
+                        discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
+                                         isPlayerLobbyOwner)
+                    else
+                        discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
+                        react.render("lobbyMenuClient")
+                    end
+                    -- Lobby alreadydeleteLobby
+                    if lobby.server and not blam.isGameDedicated() then
+                        api.stopRefreshLobby()
+                        connect(lobby.server.map, lobby.server.host, lobby.server.port,
+                                lobby.server.password)
+                        preventStuckLobby()
+                    end
+                end
+            end
+        end)
+        lobby()
     else
-        async(requests.get, function(result)
-            onLobbyResponse(result[1])
-        end, api.url .. "/lobby")
+        local lobby = async(function(await)
+            ---@type httpResponse<lobbyResponse>?
+            local response = await(requests.get, api.url .. "/lobby")
+            if not response then
+                unknownError("No response")
+                return
+            end
+            onLobbyResponse(response)
+        end)
+        lobby()
     end
 end
 
@@ -355,16 +414,16 @@ function api.refreshLobby()
     end
 end
 function api.stopRefreshLobby()
-    --TODO BALLTZE MIGRATE
-    --if api.session.lobbyKey then
+    -- TODO BALLTZE MIGRATE
+    -- if api.session.lobbyKey then
     --    pcall(stop_timer, api.variables.refreshTimerId)
-    --end
+    -- end
 end
 function api.deleteLobby()
     if api.session.lobbyKey then
         logger:warning("DELETING lobby")
-        --TODO BALLTZE MIGRATE
-        --pcall(stop_timer, api.variables.refreshTimerId)
+        -- TODO BALLTZE MIGRATE
+        -- pcall(stop_timer, api.variables.refreshTimerId)
         store:dispatch(actions.setLobby(nil, nil))
         api.variables.refreshTimerId = nil
         api.session.lobbyKey = nil
@@ -416,11 +475,57 @@ local function onBorrowResponse(response)
     return false
 end
 function api.borrow(template, map, gametype)
-    loading(true, "Borrowing game server...", false)
-    async(requests.get, function(result)
-        onBorrowResponse(result[1])
-    end, api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype .. "/" ..
-              api.session.lobbyKey)
+    local borrow = async(function(await)
+        loading(true, "Borrowing game server...", false)
+        ---@type httpResponse<serverBorrowResponse>?
+        local response = await(requests.get,
+                               api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype ..
+                                   "/" .. api.session.lobbyKey)
+        if not respose then
+            unknownError("No response")
+            return
+        end
+        assert(response, "Error borrowing server")
+        if response.code == 200 then
+            -- Prevent lobby from refreshing while we are waiting for the server to start
+            -- This is critical to avoid crashing the game due to multitasking stuff
+            api.stopRefreshLobby()
+            ---@class serverBorrowResponse
+            ---@field password string
+            ---@field message string
+            ---@field port number
+            ---@field host string
+            ---@field map string
+
+            local jsonResponse = response.json()
+            if jsonResponse then
+                dprint(jsonResponse)
+                connect(jsonResponse.map, jsonResponse.host, jsonResponse.port,
+                        jsonResponse.password)
+                preventStuckLobby()
+            end
+            return true
+        elseif response.code == 404 then
+            local jsonResponse = response.json()
+            interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
+            return false
+        else
+            api.stopRefreshLobby()
+            if response.code == 500 then
+                interface.dialog("ATTENTION", "ERROR " .. response.code, "Internal Server Error")
+                return false
+            else
+                local jsonResponse = response.json()
+                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
+                return false
+            end
+        end
+    end)
+    borrow()
+    -- async(requests.get, function(result)
+    --    onBorrowResponse(result[1])
+    -- end, api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype .. "/" ..
+    --          api.session.lobbyKey)
 end
 
 ---@param response httpResponse<any>

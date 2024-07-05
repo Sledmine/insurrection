@@ -152,7 +152,7 @@ function list.refresh(self)
         local item = items[itemIndex]
         local childWidget = widgetDefinition.childWidgets[widgetIndex]
         if item then
-            core.setWidgetValues(childWidget.widgetTag, {opacity = 1})
+            core.setWidgetValues(childWidget.widgetTag, {visible = true})
             if childWidget and not isNull(childWidget.widgetTag) then
                 local listButton = button.new(childWidget.widgetTag)
                 if item.label then
@@ -179,7 +179,7 @@ function list.refresh(self)
                 itemIndex = itemIndex + 1
             end
         else
-            core.setWidgetValues(childWidget.widgetTag, {opacity = 0})
+            core.setWidgetValues(childWidget.widgetTag, {visible = false})
         end
     end
 end
