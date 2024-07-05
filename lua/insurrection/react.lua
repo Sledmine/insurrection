@@ -17,7 +17,7 @@ end
 
 function react.unmountAll()
     for k, v in pairs(mounted) do
-        dprint("Unmounting component " .. k)
+        logger:debug("Unmounting component " .. k)
         mounted[k] = nil
     end
 end

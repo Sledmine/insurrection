@@ -164,7 +164,9 @@ end
 function PluginLoad()
     -- Load Chimera compatibility
     for k, v in pairs(balltze.chimera) do
-        _G[k] = v
+        if not k:includes "timer" and not k:includes "execute_script" then
+            _G[k] = v
+        end
     end
     logger:debug("Loading Insurrection plugin")
     constants.get()

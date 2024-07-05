@@ -1,3 +1,4 @@
+local engine = Engine
 local lanes = require"lanes".configure()
 local json = require "json"
 local getState = require "insurrection.redux.getState"
@@ -107,14 +108,16 @@ end
 local function connect(desiredMap, host, port, password)
     api.stopRefreshLobby()
     if not map == "ui" then
-        console_out("Can't connect to a server while in-game.")
+        engine.core.consolePrint("Can't connect to a server while in-game.")
         return
     end
     -- logger:debug("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
-    if exists("maps\\" .. desiredMap .. ".map") or
-        exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
+    --TODO BALLTZE MIGRATE
+    --if exists("maps\\" .. desiredMap .. ".map") or exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
+    if true then
         -- Force game profile name to be the same as the player's name
-        core.setGameProfileName(api.session.player.name)
+        --TODO BALLTZE MIGRATE
+        --core.setGameProfileName(api.session.player.name)
         core.connectServer(host, port, password)
     else
         interface.dialog("ERROR", "LOCAL MAP NOT FOUND", "Map \"" .. desiredMap ..
@@ -122,7 +125,7 @@ local function connect(desiredMap, host, port, password)
     end
 end
 
-local function unknownError(logs)
+local function showErrorDialog(logs)
     if type(logs) ~= "string" then
         if type(logs) == "table" and logs.json then
             logs = tostring(inspect(logs)) .. "\n" .. tostring(inspect(logs.json()))
@@ -148,17 +151,18 @@ end
 ---Prevent players from getting stuck in the joining screen if the server connection fails
 local function preventStuckLobby()
     -- Check after 30 seconds if we are still in the UI map
-    utils.delay(30000, function()
-        if map == "ui" then
-            -- If we were trying to join a lobby and the widget is closed, delete the lobby
-            if api.session.lobbyKey then
-                console_out(
-                    "It seems like there is a problem joining the server, deleting lobby...",
-                    table.unpack(blam.consoleColors.warning))
-                api.deleteLobby()
-            end
-        end
-    end)
+    --TODO BALLTZE MIGRATE
+    --utils.delay(30000, function()
+    --    if map == "ui" then
+    --        -- If we were trying to join a lobby and the widget is closed, delete the lobby
+    --        if api.session.lobbyKey then
+    --            console_out(
+    --                "It seems like there is a problem joining the server, deleting lobby...",
+    --                table.unpack(blam.consoleColors.warning))
+    --            api.deleteLobby()
+    --        end
+    --    end
+    --end)
 end
 
 ---Load Insurrection URL to be used by the API
@@ -172,8 +176,6 @@ function api.loadUrl(host)
     api.url = api.host .. api.version
 end
 
-
-local inspect = require "inspect"
 function api.login(username, password)
     local login = async(function(await)
         loading(true, "Logging in...")
@@ -183,7 +185,7 @@ function api.login(username, password)
         logger:info("onLoginResponse")
         loading(false)
         if not response then
-            unknownError("No response")
+            showErrorDialog("No response")
             return
         end
         if response.code == 200 then
@@ -204,153 +206,173 @@ function api.login(username, password)
     login()
 end
 
----@param response httpResponse<availableParameters>
----@return boolean
-function onAvailableResponse(response)
-    loading(false)
-    if response then
-        if response.code == 200 then
-            local jsonResponse = response.json()
-            store:dispatch(actions.setAvailableResources(jsonResponse))
-            return true
-        end
-    end
-    unknownError(response)
-    return false
-end
 function api.available()
     loading(true, "Loading available parameters...")
-    async(requests.get, function(result)
-        onAvailableResponse(result[1])
-    end, api.url .. "/available")
-end
-
----@param response httpResponse<lobbyResponse | insurrectionLobby | requestResult>
----@return boolean
-local function onLobbyResponse(response)
-    logger:info("onLobbyResponse")
-    loading(false)
-    if response then
-        if response.code == requests.codes.ok then
-            ---@class lobbyResponse
-            ---@field key string
-            ---@field lobby insurrectionLobby
-
-            local data = response.json()
-            if data then
-                -- We asked for a new lobby room
-                if data.key then
-                    api.session.lobbyKey = data.key
-                    store:dispatch(actions.setLobby(data.key, data.lobby))
-                else
-                    -- We have to joined an existing lobby
-                    local lobby = data --[[@as insurrectionLobby]]
-                    store:dispatch(actions.setLobby(nil, lobby))
-                    -- There is a server already running for this lobby, connect to it
-                    if lobby.server then
-                        local isPlayerLobbyOwner = api.session.player and
-                                                       api.session.player.publicId == lobby.owner
-                        if isPlayerLobbyOwner then
-                            discord.setParty(lobby.server.lobbyKey, #lobby.players, 16, lobby.map,
-                                             isPlayerLobbyOwner)
-                        end
-                        connect(lobby.server.map, lobby.server.host, lobby.server.port,
-                                lobby.server.password)
-                        return true
-                    end
-                end
-                -- TODO BALLTZE MIGRATE
-                -- api.startLobbyRefresh()
-                local state = getState()
-                local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
-                                               state.lobby.owner
-                if isPlayerLobbyOwner then
-                    menus.lobby()
-                    discord.setParty(api.session.lobbyKey, #state.lobby.players, 16,
-                                     state.lobby.map, isPlayerLobbyOwner)
-                    react.render("lobbyMenu")
-                else
-                    menus.lobby(true)
-                    discord.clearParty()
-                    react.render("lobbyMenuClient")
-                end
-            end
-            return true
-        elseif response.code == requests.codes.forbidden then
-            local jsonResponse = response.json()
-            if jsonResponse and jsonResponse.key then
-                api.lobby(jsonResponse.key)
-            end
-            return true
-        else
-            api.session.lobbyKey = nil
-            local jsonResponse = response.json()
-            interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
-            return false
+    local available = async(function(await)
+        ---@type httpResponse<availableParameters>?
+        local response = await(requests.get, api.url .. "/available")
+        if not response then
+            showErrorDialog("No response")
+            return
         end
-    end
-    unknownError(response)
-    return false
+        loading(false)
+        if response then
+            if response.code == 200 then
+                local jsonResponse = response.json()
+                store:dispatch(actions.setAvailableResources(jsonResponse))
+                return
+            end
+        end
+        showErrorDialog(response)
+    end)
+    available()
 end
+
 ---Create or join a lobby
 ---@param lobbyKey? string
 function api.lobby(lobbyKey)
-    loading(true, "Loading lobby...")
-    if lobbyKey then
-        api.session.lobbyKey = lobbyKey
+    if not lobbyKey then
         local lobby = async(function(await)
-            ---@type httpResponse<insurrectionLobby>?
-            local response = await(requests.get, api.url .. "/lobby/" .. lobbyKey)
+            loading(true, "Creating lobby...")
+            ---@type httpResponse<lobbyResponse>?
+            local response = await(requests.get, api.url .. "/lobby")
             if not response then
-                unknownError("No response")
+                showErrorDialog("No response")
                 return
             end
-            if response.code == 200 then
-                local lobby = response.json()
-                if lobby then
-                    store:dispatch(actions.setLobby(lobbyKey, lobby))
+            if response.code == requests.codes.ok then
+                ---@class lobbyResponse
+                ---@field key string
+                ---@field lobby insurrectionLobby
+
+                local data = response.json()
+                if data then
+                    -- We asked for a new lobby room
+                    if data.key then
+                        api.session.lobbyKey = data.key
+                        store:dispatch(actions.setLobby(data.key, data.lobby))
+                    else
+                        -- We have to joined an existing lobby
+                        local lobby = data --[[@as insurrectionLobby]]
+                        store:dispatch(actions.setLobby(nil, lobby))
+                        -- There is a server already running for this lobby, connect to it
+                        if lobby.server then
+                            local isPlayerLobbyOwner = api.session.player and
+                                                           api.session.player.publicId ==
+                                                           lobby.owner
+                            if isPlayerLobbyOwner then
+                                discord.setParty(lobby.server.lobbyKey, #lobby.players, 16,
+                                                 lobby.map, isPlayerLobbyOwner)
+                            end
+                            connect(lobby.server.map, lobby.server.host, lobby.server.port,
+                                    lobby.server.password)
+                            return
+                        end
+                    end
+                    -- TODO BALLTZE MIGRATE
+                    -- api.startLobbyRefresh()
                     local state = getState()
                     local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                    state.lobby.owner
                     if isPlayerLobbyOwner then
+                        menus.lobby()
+                        discord.setParty(api.session.lobbyKey, #state.lobby.players, 16,
+                                         state.lobby.map, isPlayerLobbyOwner)
                         react.render("lobbyMenu")
-                        discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
-                                         isPlayerLobbyOwner)
                     else
-                        discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
+                        menus.lobby(true)
+                        discord.clearParty()
                         react.render("lobbyMenuClient")
                     end
-                    -- Lobby alreadydeleteLobby
-                    if lobby.server and not blam.isGameDedicated() then
-                        api.stopRefreshLobby()
-                        connect(lobby.server.map, lobby.server.host, lobby.server.port,
-                                lobby.server.password)
-                        preventStuckLobby()
-                    end
                 end
-            end
-        end)
-        lobby()
-    else
-        local lobby = async(function(await)
-            ---@type httpResponse<lobbyResponse>?
-            local response = await(requests.get, api.url .. "/lobby")
-            if not response then
-                unknownError("No response")
+                return
+            elseif response.code == requests.codes.forbidden then
+                local jsonResponse = response.json()
+                if jsonResponse and jsonResponse.key then
+                    api.lobby(jsonResponse.key)
+                end
+                return
+            else
+                api.session.lobbyKey = nil
+                local jsonResponse = response.json()
+                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
                 return
             end
-            onLobbyResponse(response)
         end)
         lobby()
+        return
     end
+
+    api.session.lobbyKey = lobbyKey
+    local lobby = async(function(await)
+        ---@type httpResponse<insurrectionLobby>?
+        local response = await(requests.get, api.url .. "/lobby/" .. lobbyKey)
+        if not response then
+            showErrorDialog("No response")
+            return
+        end
+        if response.code == 200 then
+            local lobby = response.json()
+            if lobby then
+                store:dispatch(actions.setLobby(lobbyKey, lobby))
+                local state = getState()
+                local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
+                                               state.lobby.owner
+                if isPlayerLobbyOwner then
+                    react.render("lobbyMenu")
+                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
+                                     isPlayerLobbyOwner)
+                else
+                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
+                    react.render("lobbyMenuClient")
+                end
+                -- Lobby alreadydeleteLobby
+                if lobby.server and not blam.isGameDedicated() then
+                    api.stopRefreshLobby()
+                    connect(lobby.server.map, lobby.server.host, lobby.server.port,
+                            lobby.server.password)
+                    preventStuckLobby()
+                end
+            end
+        end
+    end)
+    lobby()
 end
 
----@param response httpResponse<insurrectionLobby | requestResult>
----@return boolean
-local function onLobbyRefreshResponse(response)
-    dprint("onLobbyRefreshResponse", "info")
-    loading(false)
-    if response then
+function api.startLobbyRefresh()
+    -- Start a timer to pull lobby data every certain time
+    if api.variables.refreshTimerId then
+        api.stopRefreshLobby()
+    end
+    -- Create global function to be called by the timer
+    RefreshLobby = function()
+        if api.session.lobbyKey then
+            api.refreshLobby()
+        end
+    end
+    -- TODO BALLTZE MIGRATE
+    --api.variables.refreshTimerId = set_timer(api.variables.refreshRate, "RefreshLobby")
+end
+
+function api.refreshLobby()
+    loading(true, "Refreshing lobby...", false)
+    if not api.session.lobbyKey then
+        return
+    end
+    logger:info("Refreshing lobby data...", "info")
+    local refresh = async(function(await)
+        ---@type httpResponse<insurrectionLobby | requestResult>?
+        local response = await(requests.get, api.url .. "/lobby/" .. api.session.lobbyKey)
+        if not response then
+            showErrorDialog("No response")
+            return
+        end
+        loading(false)
+        if not response then
+            api.stopRefreshLobby()
+            showErrorDialog("No response")
+            return
+        end
         if response.code == 200 then
             local lobby = response.json()
             if lobby then
@@ -376,42 +398,16 @@ local function onLobbyRefreshResponse(response)
                     preventStuckLobby()
                 end
             end
-            return true
+            return
         else
             api.stopRefreshLobby()
             -- TODO Add a generic error handling function for this
             local jsonResponse = response.json()
             interface.dialog("ERROR", "ERROR " .. response.code, jsonResponse.message)
-            return false
+            return
         end
-    end
-    api.stopRefreshLobby()
-    unknownError(response)
-    return false
-end
-
-function api.startLobbyRefresh()
-    -- Start a timer to pull lobby data every certain time
-    if api.variables.refreshTimerId then
-        api.stopRefreshLobby()
-    end
-    -- Create global function to be called by the timer
-    RefreshLobby = function()
-        if api.session.lobbyKey then
-            api.refreshLobby()
-        end
-    end
-    api.variables.refreshTimerId = set_timer(api.variables.refreshRate, "RefreshLobby")
-end
-function api.refreshLobby()
-    loading(true, "Refreshing lobby...", false)
-    if api.session.lobbyKey then
-        logger:info("Refreshing lobby data...", "info")
-        async(requests.get, function(result)
-
-            onLobbyRefreshResponse(result[1])
-        end, api.url .. "/lobby/" .. api.session.lobbyKey)
-    end
+    end)
+    refresh()
 end
 function api.stopRefreshLobby()
     -- TODO BALLTZE MIGRATE
@@ -430,50 +426,6 @@ function api.deleteLobby()
     end
 end
 
----@param response httpResponse<serverBorrowResponse>
----@return boolean
-local function onBorrowResponse(response)
-    loading(false)
-    if response then
-        if response.code == 200 then
-            -- Prevent lobby from refreshing while we are waiting for the server to start
-            -- This is critical to avoid crashing the game due to multitasking stuff
-            api.stopRefreshLobby()
-            ---@class serverBorrowResponse
-            ---@field password string
-            ---@field message string
-            ---@field port number
-            ---@field host string
-            ---@field map string
-
-            local jsonResponse = response.json()
-            if jsonResponse then
-                dprint(jsonResponse)
-                connect(jsonResponse.map, jsonResponse.host, jsonResponse.port,
-                        jsonResponse.password)
-                preventStuckLobby()
-            end
-            return true
-        elseif response.code == 404 then
-            local jsonResponse = response.json()
-            interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
-            return false
-        else
-            api.stopRefreshLobby()
-            if response.code == 500 then
-                interface.dialog("ATTENTION", "ERROR " .. response.code, "Internal Server Error")
-                return false
-            else
-                local jsonResponse = response.json()
-                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
-                return false
-            end
-        end
-    end
-    api.stopRefreshLobby()
-    unknownError(response)
-    return false
-end
 function api.borrow(template, map, gametype)
     local borrow = async(function(await)
         loading(true, "Borrowing game server...", false)
@@ -481,11 +433,10 @@ function api.borrow(template, map, gametype)
         local response = await(requests.get,
                                api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype ..
                                    "/" .. api.session.lobbyKey)
-        if not respose then
-            unknownError("No response")
+        if not response then
+            showErrorDialog("No response")
             return
         end
-        assert(response, "Error borrowing server")
         if response.code == 200 then
             -- Prevent lobby from refreshing while we are waiting for the server to start
             -- This is critical to avoid crashing the game due to multitasking stuff
@@ -499,124 +450,110 @@ function api.borrow(template, map, gametype)
 
             local jsonResponse = response.json()
             if jsonResponse then
-                dprint(jsonResponse)
                 connect(jsonResponse.map, jsonResponse.host, jsonResponse.port,
                         jsonResponse.password)
                 preventStuckLobby()
             end
-            return true
+            return
         elseif response.code == 404 then
             local jsonResponse = response.json()
             interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
-            return false
+            return
         else
             api.stopRefreshLobby()
             if response.code == 500 then
                 interface.dialog("ATTENTION", "ERROR " .. response.code, "Internal Server Error")
-                return false
+                return
             else
                 local jsonResponse = response.json()
                 interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
-                return false
+                return
             end
         end
     end)
     borrow()
-    -- async(requests.get, function(result)
-    --    onBorrowResponse(result[1])
-    -- end, api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype .. "/" ..
-    --          api.session.lobbyKey)
 end
 
----@param response httpResponse<any>
----@return boolean
-function onPlayerEditNameplateResponse(response)
-    loading(false)
-    if response then
+---Edit player nameplate
+---@param data {nameplate: string, bipeds: table<string, string>}
+function api.playerProfileEdit(data)
+    loading(true, "Editing profile...", false)
+    local edit = async(function(await)
+        ---@type httpResponse<any>?
+        local response = await(requests.patch, api.url .. "/players", data)
+        if not response then
+            showErrorDialog("No response")
+            return
+        end
+        loading(false)
+
         if response.code == 200 then
             interface.dialog("INFORMATION", "CONGRATULATIONS", "Profile customized successfully.")
-            return true
+            interface.loadProfileNameplate(data.nameplate)
+            -- Refresh player data
+            api.session.player.bipeds = table.merge(api.session.player.bipeds, data.bipeds)
+            return
         else
             local jsonResponse = response.json()
             if jsonResponse then
                 interface.dialog("WARNING", "ERROR " .. response.code, jsonResponse.message)
             end
-            return false
+            return
         end
-    end
-    unknownError(response)
-    return false
-end
----Edit player nameplate
----@param data {nameplate: string, bipeds: table<string, string>}
-function api.playerProfileEdit(data)
-    loading(true, "Editing profile...", false)
-    async(requests.patch, function(result)
-        if onPlayerEditNameplateResponse(result[1]) then
-            interface.loadProfileNameplate(data.nameplate)
-            -- Refresh player data
-            api.session.player.bipeds = table.merge(api.session.player.bipeds, data.bipeds)
-        end
-    end, api.url .. "/players", data)
+    end)
+    edit()
 end
 
-local function onLobbyEditResponse(response)
-    loading(false)
-    if response then
+function api.editLobby(lobbyKey, data)
+    loading(true, "Editing lobby...", false)
+    local edit = async(function(await)
+        ---@type httpResponse<any>?
+        local response = await(requests.patch, api.url .. "/lobby/" .. lobbyKey, data)
+        if not response then
+            showErrorDialog("No response")
+            return
+        end
         if response.code == 200 then
-            return true
         else
             local jsonResponse = response.json()
             if jsonResponse then
                 interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
             end
-            return false
         end
-    end
-    unknownError(response)
-    return false
-end
-function api.editLobby(lobbyKey, data)
-    loading(true, "Editing lobby...", false)
-    async(requests.patch, function(result)
-        onLobbyEditResponse(result[1])
-    end, api.url .. "/lobby/" .. lobbyKey, data)
+    end)
+    edit()
 end
 
----@param response httpResponse<insurrectionLobby[]>
----@return boolean
-local function onGetLobbiesResponse(response)
-    loading(false)
-    if response then
+function api.getLobbies()
+    loading(true, "Loading lobbies...", false)
+    local get = async(function(await)
+        ---@type httpResponse<insurrectionLobby[] | requestResult>?
+        local response = await(requests.get, api.url .. "/lobbies")
+        if not response then
+            showErrorDialog("No lobbies server response")
+            return
+        end
         if response.code == 200 then
             local jsonResponse = response.json()
             if jsonResponse then
                 if #jsonResponse == 0 then
                     interface.dialog("ERROR", "NO LOBBIES FOUND",
                                      "There are no lobbies available at the moment.")
-                    return false
+                    return
                 else
                     store:dispatch(actions.setLobbies(jsonResponse))
                     react.render("lobbyBrowserMenu")
                 end
-                return true
+                return
             end
         else
             local jsonResponse = response.json()
             if jsonResponse then
                 interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
             end
-            return false
         end
-    end
-    unknownError(response)
-    return false
-end
-function api.getLobbies()
-    loading(true, "Loading lobbies...", false)
-    async(requests.get, function(result)
-        onGetLobbiesResponse(result[1])
-    end, api.url .. "/lobbies")
+    end)
+    get()
 end
 
 return api

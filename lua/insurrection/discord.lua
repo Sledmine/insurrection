@@ -87,8 +87,9 @@ function discord.startPresence()
         end
         return false
     end
-    DiscordPresenceTimerId = set_timer(120, "DiscordUpdate")
-    DiscordCheckTimerId = set_timer(5000, "DiscordCheck")
+    -- TODO BALLTZE MIGRATE
+    --DiscordPresenceTimerId = set_timer(120, "DiscordUpdate")
+    --DiscordCheckTimerId = set_timer(5000, "DiscordCheck")
 end
 
 ---Set presence state and details

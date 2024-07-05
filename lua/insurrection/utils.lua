@@ -22,11 +22,12 @@ end
 ---@param milliseconds number
 ---@param callback function
 function utils.delay(milliseconds, callback)
-    _G[tostring(callback)] = function()
-        callback()
-        return false
-    end
-    local timerId = set_timer(milliseconds, tostring(callback))
+    --TODO BALLZTE MIGRATE
+    --_G[tostring(callback)] = function()
+    --    callback()
+    --    return false
+    --end
+    --local timerId = set_timer(milliseconds, tostring(callback))
 end
 
 ---Returns an upper sentence case string from a snake case string
