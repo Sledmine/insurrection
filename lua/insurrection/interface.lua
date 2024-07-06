@@ -1,6 +1,5 @@
 local balltze = Balltze
 local engine = Engine
--- TODO BALLTZE MIGRATE
 local openWidget = engine.userInterface.openWidget
 local playSound = engine.userInterface.playSound
 local components = require "insurrection.components"
@@ -37,18 +36,17 @@ function interface.load()
 
         -- Start widgets background animation
         logger:debug("Starting widgets background animation...")
-        -- TODO BALLTZE MIGRATE
-        --if BitmapsAnimationTimerId then
-        --    stop_timer(BitmapsAnimationTimerId)
-        --end
-        --function On30FPSRate()
-        --    for tagId, component in pairs(components.widgets) do
-        --        if component.isBackgroundAnimated then
-        --            interface.animateUIWidgetBackground(tagId)
-        --        end
-        --    end
-        --end
-        --BitmapsAnimationTimerId = set_timer(33, "On30FPSRate")
+        if BitmapsAnimationTimer then
+            BitmapsAnimationTimer.stop()
+        end
+        function On30FPSRate()
+            for tagId, component in pairs(components.widgets) do
+                if component.isBackgroundAnimated then
+                    interface.animateUIWidgetBackground(tagId)
+                end
+            end
+        end
+        BitmapsAnimationTimer = Balltze.misc.setTimer(33, On30FPSRate)
 
         -- Load Insurrection features
         logger:debug("Loading Insurrection patches...")
@@ -237,25 +235,19 @@ end
 ---@param widgetTagHandleValue number
 function interface.animateUIWidgetBackground(widgetTagHandleValue, willRepeat)
     local willRepeat = willRepeat or true
-    local newValues
     local isUIRendering = core.getRenderedUIWidgetTagId()
     if isUIRendering then
         local widget = engine.userInterface.findWidget(widgetTagHandleValue)
         if widget then
-            local widgetBitmap = blam.bitmap(uiWidgetTag(widgetTagHandleValue).backgroundBitmap)
+            local uiWidgetDefinitionTagData = engine.tag.getTag(widgetTagHandleValue, engine.tag.classes.uiWidgetDefinition).data
+            local widgetBitmap = engine.tag.getTag(uiWidgetDefinitionTagData.backgroundBitmap.tagHandle, engine.tag.classes.bitmap).data
             if widgetBitmap then
-                if widgetBitmap.bitmapsCount > 1 then
-                    --newValues = {bitmapIndex = 0}
-                    widget.bitmapIndex = 0
-                    if widget.bitmapIndex < widgetBitmap.bitmapsCount then
-                        --newValues.bitmapIndex = widget.bitmapIndex + 1
+                if widgetBitmap.bitmapData.count > 1 then
+                    if widget.bitmapIndex < widgetBitmap.bitmapData.count then
                         widget.bitmapIndex = widget.bitmapIndex + 1
                     else
-                        --newValues.bitmapIndex = 0
                         widget.bitmapIndex = 0
                     end
-                    --interface.setWidgetValues(widgetTagHandleValue, newValues)
-                    widget.bitmapIndex = newValues.bitmapIndex
                 end
             end
         end
