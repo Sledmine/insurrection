@@ -341,7 +341,7 @@ return function(props)
         end
 
         utils.delay(delay, function()
-            console_debug("Finished generating biped previews")
+            logger:debug("Finished generating biped previews")
             execute_script("object_destroy green_screen")
             IsUIPhotoSessionRunning = false
             core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 1})

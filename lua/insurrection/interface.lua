@@ -22,16 +22,10 @@ shared = interface.shared
 function interface.load()
     components.free()
     --constants.get()
-    --TODO BALLTZE MIGRATE
-    --if script_type ~= "global" then
-    --    interface.dialog("WARNING", "This script must be loaded as a global script.",
-    --                     "Please move it to the global scripts folder and restart the game.")
-    --end
     IsUICompatible = true
     if IsUICompatible then
 
         logger:debug("Overriding Chimera font...")
-        --TODO BALLTZE MIGRATE
         chimera.fontOverride()
 
         -- Start widgets background animation
@@ -55,7 +49,6 @@ function interface.load()
         -- Components initialization
         logger:debug("Initializing components...")
         interface.loadProfileNameplate()
-        -- TODO BALLTZE MIGRATE
         core.cleanAllEditableWidgets()
 
         -- interface.animate()
@@ -65,7 +58,6 @@ function interface.load()
             require "insurrection.components.dynamic.settingsMenu"()
             require "insurrection.components.dynamic.loginMenu"()
             require "insurrection.components.dynamic.dashboardMenu"()
-            --TODO BALLTZE MIGRATE
             require "insurrection.components.dynamic.customizationMenu"()
             require "insurrection.components.dynamic.lobbyMenu"()
             -- TODO Find a better way to toggle biped preview generation
@@ -88,9 +80,9 @@ function interface.load()
             end)
 
             -- TODO BALLTZE MIGRATE
-            --local tester = components.new(constants.widgets.tester.id)
-            --local testerAnimTest = components.new(tester:findChildWidgetTag("anim_test").id)
-            --testerAnimTest:animate()
+            local tester = components.new(constants.widgets.tester.id)
+            local testerAnimTest = components.new(tester:findChildWidgetTag("anim_test").id)
+            testerAnimTest:animate()
             --testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
         end
 
@@ -279,10 +271,8 @@ function interface.dialog(titleText, subtitleText, bodyText)
     body:setText(bodyText)
 
     if titleText == "ERROR" then
-        --TODO BALLTZE MIGRATE
         openWidget(constants.widgets.dialog.id, false)
     else
-        --TODO BALLTZE MIGRATE
         openWidget(constants.widgets.dialog.id, true)
     end
 end

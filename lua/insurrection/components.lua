@@ -68,16 +68,17 @@ function component.callbacks()
     ---@type BalltzeUIWidgetFocusEventCallback
     local function onWidgetFocus(event)
         if event.time == "before" then
-            logger:debug("Widget focus event")
             local definitionTagHandleValue = event.args.widget.definitionTagHandle.value
             local component = component.widgets[definitionTagHandleValue]
             if component and component.events.onFocus then
                 component.events.onFocus()
             end
-            -- local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue, engine.tag.classes.uiWidgetDefinition)
-            local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue)
+            local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue,
+                                                       engine.tag.classes.uiWidgetDefinition)
+            -- local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue)
             if focusedWidgetTag then
                 lastFocusedWidgetTagEntry = focusedWidgetTag
+                ---@diagnostic disable-next-line: undefined-field
                 if focusedWidgetTag.data.flags1.editable or focusedWidgetTag.data.flags1.password then
                     editableWidgetTagData = focusedWidgetTag.data
                     editableWidgetTagEntry = focusedWidgetTag
@@ -184,7 +185,7 @@ function component.callbacks()
     end)
 
     balltze.event.uiWidgetBack.subscribe(function(event)
-        if not event.time == "before" then
+        if event.time == "before" then
             local widgetTagHandleValue = event.args.widget.definitionTagHandle.value
             local component = component.widgets[widgetTagHandleValue]
             if component and component.events.onClose then
@@ -363,10 +364,7 @@ end
 ---@param self uiComponent
 ---@param callback fun(): boolean?
 function component.onClose(self, callback)
-    -- self.events.onClose = callback
-    self.events.onClose = function()
-
-    end
+    self.events.onClose = callback
 end
 
 ---Animate component background

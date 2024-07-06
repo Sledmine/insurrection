@@ -20,7 +20,7 @@ local utils = require "insurrection.utils"
 
 local api = {}
 
-api.variables = {refreshRate = 3000, refreshTimerId = nil}
+api.variables = {refreshRate = 3000, refreshTimer = nil}
 
 ---@class insurrectionSession
 ---@field token? string
@@ -112,12 +112,12 @@ local function connect(desiredMap, host, port, password)
         return
     end
     -- logger:debug("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
-    --TODO BALLTZE MIGRATE
-    --if exists("maps\\" .. desiredMap .. ".map") or exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
+    -- TODO BALLTZE MIGRATE
+    -- if exists("maps\\" .. desiredMap .. ".map") or exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
     if true then
         -- Force game profile name to be the same as the player's name
-        --TODO BALLTZE MIGRATE
-        --core.setGameProfileName(api.session.player.name)
+        -- TODO BALLTZE MIGRATE
+        -- core.setGameProfileName(api.session.player.name)
         core.connectServer(host, port, password)
     else
         interface.dialog("ERROR", "LOCAL MAP NOT FOUND", "Map \"" .. desiredMap ..
@@ -151,8 +151,8 @@ end
 ---Prevent players from getting stuck in the joining screen if the server connection fails
 local function preventStuckLobby()
     -- Check after 30 seconds if we are still in the UI map
-    --TODO BALLTZE MIGRATE
-    --utils.delay(30000, function()
+    -- TODO BALLTZE MIGRATE
+    -- utils.delay(30000, function()
     --    if map == "ui" then
     --        -- If we were trying to join a lobby and the widget is closed, delete the lobby
     --        if api.session.lobbyKey then
@@ -162,7 +162,7 @@ local function preventStuckLobby()
     --            api.deleteLobby()
     --        end
     --    end
-    --end)
+    -- end)
 end
 
 ---Load Insurrection URL to be used by the API
@@ -269,8 +269,7 @@ function api.lobby(lobbyKey)
                             return
                         end
                     end
-                    -- TODO BALLTZE MIGRATE
-                    -- api.startLobbyRefresh()
+                    api.startLobbyRefresh()
                     local state = getState()
                     local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                    state.lobby.owner
@@ -341,7 +340,7 @@ end
 
 function api.startLobbyRefresh()
     -- Start a timer to pull lobby data every certain time
-    if api.variables.refreshTimerId then
+    if api.variables.refreshTimer then
         api.stopRefreshLobby()
     end
     -- Create global function to be called by the timer
@@ -350,8 +349,7 @@ function api.startLobbyRefresh()
             api.refreshLobby()
         end
     end
-    -- TODO BALLTZE MIGRATE
-    --api.variables.refreshTimerId = set_timer(api.variables.refreshRate, "RefreshLobby")
+    api.variables.refreshTimer = Balltze.misc.setTimer(api.variables.refreshRate, RefreshLobby)
 end
 
 function api.refreshLobby()
@@ -410,19 +408,18 @@ function api.refreshLobby()
     refresh()
 end
 function api.stopRefreshLobby()
-    -- TODO BALLTZE MIGRATE
-    -- if api.session.lobbyKey then
-    --    pcall(stop_timer, api.variables.refreshTimerId)
-    -- end
+    if api.session.lobbyKey and api.variables.refreshTimer then
+        api.variables.refreshTimer.stop()
+        api.variables.refreshTimer = nil
+    end
 end
 function api.deleteLobby()
     if api.session.lobbyKey then
         logger:warning("DELETING lobby")
-        -- TODO BALLTZE MIGRATE
-        -- pcall(stop_timer, api.variables.refreshTimerId)
-        store:dispatch(actions.setLobby(nil, nil))
-        api.variables.refreshTimerId = nil
+        api.variables.refreshTimer.stop()
+        api.variables.refreshTimer = nil
         api.session.lobbyKey = nil
+        store:dispatch(actions.setLobby(nil, nil))
     end
 end
 

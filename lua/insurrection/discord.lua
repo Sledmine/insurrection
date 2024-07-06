@@ -8,10 +8,10 @@ local getState = require "insurrection.redux.getState"
 
 local discord = {}
 
----@type number?
-DiscordPresenceTimerId = nil
----@type number?
-DiscordCheckTimerId = nil
+---@type BalltzeTimer?
+DiscordPresenceTimer = nil
+---@type BalltzeTimer?
+DiscordCheckTimer = nil
 
 discord.presence = {
     state = "",
@@ -35,17 +35,17 @@ function discordRPC.ready(userId, username, discriminator, avatar)
 end
 
 function discordRPC.disconnected(errorCode, message)
-    logger:debugdprint(string.format("Discord: disconnected (%d: %s)", errorCode, message))
+    logger:debug(string.format("Discord: disconnected (%d: %s)", errorCode, message))
     discord.ready = false
 end
 
 function discordRPC.joinGame(joinSecret)
-    logger:debugdprint("Discord: join game (" .. joinSecret .. ")")
+    logger:debug("Discord: join game (" .. joinSecret .. ")")
     api.lobby(joinSecret)
 end
 
 function discordRPC.joinRequest(userId, username, discriminator, avatar)
-    logger:debugdprint(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator,
+    logger:debug(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator,
                          avatar))
     discordRPC.respond(userId, "yes")
 end
@@ -61,8 +61,9 @@ function discord.startPresence()
         discord.initialize()
     end
 
-    if DiscordPresenceTimerId then
-        pcall(stop_timer, DiscordPresenceTimerId)
+    if DiscordPresenceTimer then
+        DiscordPresenceTimer.stop()
+        DiscordPresenceTimer = nil
     end
 
     -- Routines to handle Discord presence
@@ -70,8 +71,9 @@ function discord.startPresence()
         --logger:debug("DiscordUpdate")
         discordRPC.runCallbacks()
         if discord.ready then
-            if DiscordCheckTimerId then
-                pcall(stop_timer, DiscordCheckTimerId)
+            if DiscordCheckTimer then
+                DiscordCheckTimer.stop()
+                DiscordCheckTimer = nil
             end
             discordRPC.updatePresence(discord.presence)
         end
@@ -87,9 +89,8 @@ function discord.startPresence()
         end
         return false
     end
-    -- TODO BALLTZE MIGRATE
-    --DiscordPresenceTimerId = set_timer(120, "DiscordUpdate")
-    --DiscordCheckTimerId = set_timer(5000, "DiscordCheck")
+    DiscordPresenceTimer = Balltze.misc.setTimer(120, DiscordUpdate)
+    DiscordCheckTimer = Balltze.misc.setTimer(5000, DiscordCheck)
 end
 
 ---Set presence state and details
@@ -162,8 +163,8 @@ function discord.clearPresence()
 end
 
 function discord.stopPresence()
-    if DiscordPresenceTimerId then
-        pcall(stop_timer, DiscordPresenceTimerId)
+    if DiscordPresenceTimer then
+        pcall(stop_timer, DiscordPresenceTimer)
     end
     discordRPC.clearPresence()
     discordRPC.shutdown()
