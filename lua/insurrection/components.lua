@@ -38,7 +38,7 @@ local component = {
 component.widgets = {}
 
 -- TODO Make this local and port functions to component
-local VirtualInputValue = {}
+VirtualInputValue = {}
 
 function component.callbacks()
     ---@type MetaEngineTagDataUiWidgetDefinition?
@@ -53,7 +53,7 @@ function component.callbacks()
             logger:debug("Event time: {}", event.time)
             logger:debug("Widget accept event")
             local isCanceled = false
-            local instance = component.widgets[event.args.widget.definitionTagHandle.value]
+            local instance = component.widgets[event.context.widget.definitionTagHandle.value]
             if instance then
                 if instance.events.onClick then
                     isCanceled = instance.events.onClick() == false
@@ -68,7 +68,7 @@ function component.callbacks()
     ---@type BalltzeUIWidgetFocusEventCallback
     local function onWidgetFocus(event)
         if event.time == "before" then
-            local definitionTagHandleValue = event.args.widget.definitionTagHandle.value
+            local definitionTagHandleValue = event.context.widget.definitionTagHandle.value
             local component = component.widgets[definitionTagHandleValue]
             if component and component.events.onFocus then
                 component.events.onFocus()
@@ -79,7 +79,8 @@ function component.callbacks()
             if focusedWidgetTag then
                 lastFocusedWidgetTagEntry = focusedWidgetTag
                 ---@diagnostic disable-next-line: undefined-field
-                if focusedWidgetTag.data.flags1.editable or focusedWidgetTag.data.flags1.password then
+                if focusedWidgetTag.data.flags1:editable() or
+                    focusedWidgetTag.data.flags1:password() then
                     editableWidgetTagData = focusedWidgetTag.data
                     editableWidgetTagEntry = focusedWidgetTag
                 else
@@ -148,7 +149,7 @@ function component.callbacks()
     balltze.event.uiWidgetCreate.subscribe(function(event)
         if event.time == "before" then
 
-            local widgetValues = event.args.widget
+            local widgetValues = event.context.widget
             if widgetValues then
                 local widgetTagHandleValue = widgetValues.definitionTagHandle.value
                 local widgetTag = engine.tag.getTag(widgetTagHandleValue,
@@ -186,7 +187,7 @@ function component.callbacks()
 
     balltze.event.uiWidgetBack.subscribe(function(event)
         if event.time == "before" then
-            local widgetTagHandleValue = event.args.widget.definitionTagHandle.value
+            local widgetTagHandleValue = event.context.widget.definitionTagHandle.value
             local component = component.widgets[widgetTagHandleValue]
             if component and component.events.onClose then
                 if component.events.onClose() == false then
@@ -198,83 +199,99 @@ function component.callbacks()
     end)
 
     balltze.event.uiWidgetListTab.subscribe(function(event)
-        -- if not event.time == "before" then
-        -- TODO Restore when Balltze gets the enum stuff done
-        if true then
-            return
-        end
-        local presedKey = event.args.tab
-        logger:debug("Pressed key: {}", presedKey)
+        if event.time == "before" then
+            local pressedKey = event.context.tab
+            logger:debug("Pressed key: {}", pressedKey)
 
-        local listWidgetTagId = event.args.widgetList.definitionTagHandle.value
-        local previousFocusedWidgetId = event.args.widgetList.focusedChild.definitionTagHandle.value
-        local widgetList = blam.uiWidgetDefinition(listWidgetTagId)
-        -- local widget = blam.uiWidgetDefinition(previousFocusedWidgetId)
-        assert(widgetList, "Invalid widget list tag id")
-        -- console_debug("Widget list tag: " .. widgetListTag.path)
-        -- console_debug("Pressed key: " .. pressedKey)
-        if pressedKey == "dpad left" or pressedKey == "dpad right" then
-            local component = components.widgets[listWidgetTagId] --[[@as uiComponentSpinner]]
-            if component and component.type == "spinner" and component.events.onScroll then
-                component:scroll(pressedKey == "dpad left" and -1 or 1)
-                return
-            end
-        end
-        for childIndex, child in pairs(widgetList.childWidgets) do
-            if child.widgetTag == previousFocusedWidgetId then
-                local nextChildIndex
-                if pressedKey == "dpad up" or pressedKey == "dpad left" then
-                    if childIndex - 1 < 1 then
-                        nextChildIndex = widgetList.childWidgetsCount
-                    else
-                        nextChildIndex = childIndex - 1
-                    end
-                elseif pressedKey == "dpad down" or pressedKey == "dpad right" then
-                    if childIndex + 1 > widgetList.childWidgetsCount then
-                        nextChildIndex = 1
-                    else
-                        nextChildIndex = childIndex + 1
-                    end
+            local listWidgetTagId = event.context.widgetList.definitionTagHandle.value
+            local previousFocusedWidgetId = event.context.widgetList.focusedChild
+                                                .definitionTagHandle.value
+            local widgetList = blam.uiWidgetDefinition(listWidgetTagId)
+            assert(widgetList, "Invalid widget list tag id")
+            -- Handle component spinner scrolling
+            -- if pressedKey == "dpad left" or pressedKey == "dpad right" then
+            if pressedKey == Balltze.event.uiWidgetListTabTypes.tabThruChildrenNextHorizontal or
+                pressedKey == Balltze.event.uiWidgetListTabTypes.tabThruChildrenPrev then
+                local component = components.widgets[listWidgetTagId] --[[@as uiComponentSpinner]]
+                if component and component.type == "spinner" and component.events.onScroll then
+                    --component:scroll(pressedKey == "dpad left" and -1 or 1)
+                    component:scroll(pressedKey == Balltze.event.uiWidgetListTabTypes.tabThruChildrenPrev and -1 or 1)
+                    return
                 end
-                local widgetTagId = widgetList.childWidgets[nextChildIndex].widgetTag
-                if widgetTagId and not isNull(widgetTagId) then
-                    onWidgetFocus({
-                        args = {widget = {definitionTagHandle = {value = widgetTagId}}},
-                        time = "before"
-                    })
+            end
+
+            for childIndex, child in pairs(widgetList.childWidgets) do
+                if child.widgetTag == previousFocusedWidgetId then
+                    local nextChildIndex
+                    -- if pressedKey == "dpad up" or pressedKey == "dpad left" then
+                    if pressedKey == Balltze.event.uiWidgetListTabTypes.tabThruChildrenPrev then
+                        if childIndex - 1 < 1 then
+                            nextChildIndex = widgetList.childWidgetsCount
+                        else
+                            nextChildIndex = childIndex - 1
+                        end
+                        -- elseif pressedKey == "dpad down" or pressedKey == "dpad right" then
+                    elseif Balltze.event.uiWidgetListTabTypes.tabThruChildrenNextHorizontal or
+                        Balltze.event.uiWidgetListTabTypes.tabThruChildrenNextVertical then
+                        if childIndex + 1 > widgetList.childWidgetsCount then
+                            nextChildIndex = 1
+                        else
+                            nextChildIndex = childIndex + 1
+                        end
+                    end
+                    local widgetTagId = widgetList.childWidgets[nextChildIndex].widgetTag
+                    if widgetTagId and not isNull(widgetTagId) then
+                        onWidgetFocus({
+                            context = {widget = {definitionTagHandle = {value = widgetTagId}}},
+                            time = "before"
+                        })
+                    end
                 end
             end
         end
     end)
 
-    function OnKeypress(modifiers, char, keycode)
-        if editableWidgetTagData and editableWidgetTagEntry then
-            -- Get pressed key from the keyboard
-            local pressedKey
-            if char then
-                pressedKey = char
-            elseif keycode then
-                pressedKey = core.translateKeycode(keycode)
-            end
-            -- If we pressed a key, update our editable widget
-            if pressedKey then
-                local inputString = core.getStringFromWidget(editableWidgetTagEntry.id)
-                local text = core.mapKeyToText(pressedKey, inputString)
-                if text then
-                    -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
-                    if editableWidgetTagData.name:find "password" then
-                        core.setStringToWidget(text, editableWidgetTagEntry.id, "*")
-                    else
-                        core.setStringToWidget(text, editableWidgetTagEntry.id)
-                    end
-                    local component = components.widgets[editableWidgetTagEntry.id]
-                    if component and component.events.onInputText then
-                        component.events.onInputText(text)
+    balltze.event.keyboardInput.subscribe(function(event)
+        if event.time == "before" and not console_is_open() then
+            local modifiers = event.context.key.modifier
+            local char = event.context.key.character
+            local keycode = event.context.key.keycode
+            if editableWidgetTagData and editableWidgetTagEntry then
+                -- engine.core.consolePrint("Editable widget tag found")
+                -- engine.core.consolePrint("Char: " .. char)
+                -- engine.core.consolePrint("Keycode: " .. keycode)
+                -- Get pressed key from the keyboard
+                local pressedKey
+                if char ~= -1 then
+                    pressedKey = char
+                elseif keycode then
+                    pressedKey = core.translateKeycode(keycode)
+                end
+                -- If we pressed a key, update our editable widget
+                if pressedKey then
+                    -- engine.core.consolePrint("Pressed key: " .. pressedKey)
+                    local inputString =
+                        core.getStringFromWidget(editableWidgetTagEntry.handle.value)
+                    -- engine.core.consolePrint("Input string: " .. inputString)
+                    local text = core.mapKeyToText(pressedKey, inputString)
+                    if text then
+                        engine.core.consolePrint("Text: " .. text)
+                        -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
+                        -- if editableWidgetTagData.name:find "password" then
+                        if editableWidgetTagData.name:find "password" then
+                            core.setStringToWidget(text, editableWidgetTagEntry.handle.value, "*")
+                        else
+                            core.setStringToWidget(text, editableWidgetTagEntry.handle.value)
+                        end
+                        local component = components.widgets[editableWidgetTagEntry.handle.value]
+                        if component and component.events.onInputText then
+                            component.events.onInputText(text)
+                        end
                     end
                 end
             end
         end
-    end
+    end)
 
     -- harmony.set_callback("widget list tab", "OnMenuListTab")
     -- harmony.set_callback("widget mouse focus", "OnMouseFocus")
