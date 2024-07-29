@@ -140,21 +140,24 @@ end
 
 local capsLock
 ---Attempt to map keys to a text string
----@param pressedKey string
+---@param pressedKey string | number | nil
 ---@param text string
 ---@return string | nil text Given text with mapped modifications applied
 function core.mapKeyToText(pressedKey, text)
+    if not pressedKey then
+        return text
+    end
     if pressedKey == "backspace" then
         return text:sub(1, #text - 1)
     elseif pressedKey == "space" then
         return text .. " "
     elseif pressedKey == "capslock" then
         capsLock = not capsLock
-    elseif #pressedKey == 1 and string.byte(pressedKey) > 31 and string.byte(pressedKey) < 127 then
+    elseif pressedKey > 31 and pressedKey < 127 and type(pressedKey) == "number" then
         if capsLock then
-            return text .. pressedKey:upper()
+            return text .. string.char(pressedKey):upper()
         end
-        return text .. pressedKey
+        return text .. string.char(pressedKey)
     end
 end
 
