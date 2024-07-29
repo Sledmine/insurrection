@@ -1,5 +1,5 @@
 local engine = Engine
-local lanes = require"lanes".configure()
+local lanes = require"lanes"
 local json = require "json"
 local getState = require "insurrection.redux.getState"
 local react = require "insurrection.react"
