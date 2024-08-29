@@ -26,7 +26,7 @@ function interface.load()
 
         -- Load Insurrection features
         logger:debug("Loading Insurrection patches...")
-        --core.loadInsurrectionPatches()
+        core.loadInsurrectionPatches()
 
         -- Components initialization
         logger:debug("Initializing components...")
@@ -320,6 +320,8 @@ function interface.close(closeAllWidgets)
     return
 end
 
+-- TODO Move this variable to a better global namespace
+BipedRotation = 0
 function interface.rotateCustomizationBiped()
     local mouse = core.getMouseState()
 
@@ -336,9 +338,6 @@ function interface.rotateCustomizationBiped()
         end
     end
 end
-
--- TODO Move this variable to a better global namespace
-BipedRotation = 0
 
 ---Handle interface on tick events
 function interface.onTick()
