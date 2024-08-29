@@ -1,10 +1,10 @@
 local fs = require "fs"
 local tag = require "lua.scripts.modules.tag"
-local luna = require "lua.lua_modules.luna"
-local base64 = require "lua.lua_modules.base64"
-local json = require "lua.lua_modules.json"
-local inspect = require "lua.lua_modules.inspect"
-local argparse = require "lua.lua_modules.argparse"
+local luna = require "lua.modules.luna"
+local base64 = require "lua.modules.base64"
+local json = require "lua.modules.json"
+local inspect = require "lua.modules.inspect"
+local argparse = require "lua.modules.argparse"
 local curl = require "lua.scripts.modules.curl-cli"
 curl.json = json
 

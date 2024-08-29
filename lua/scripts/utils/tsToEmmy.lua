@@ -1,4 +1,4 @@
-local luna = require "lua.lua_modules.luna"
+local luna = require "lua.modules.luna"
 local ts = luna.file.read "json-to-ts.ts"
 assert(ts, "Failed to read json-to-ts.ts")
 -- local emmy = ts:gsub("interface", "---@class"):gsub(" {", ""):gsub("}\n", ""):gsub("}", ""):gsub(

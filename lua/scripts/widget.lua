@@ -2,9 +2,9 @@
 --- Sledmine
 package.path = package.path .. ";lua/scripts/modules/?.lua"
 local fs = require "lua.scripts.modules.fs"
-local glue = require "lua.lua_modules.glue"
+local glue = require "lua.modules.glue"
 local tag = require "lua.scripts.modules.tag"
-local luna = require "lua.lua_modules.luna"
+local luna = require "lua.modules.luna"
 
 local widget = {path = nil}
 

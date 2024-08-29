@@ -1,6 +1,6 @@
 -- Tag creator/editor module
 -- This module is a wrapper for invader-edit to create and edit tags
-local glue = require "lua.lua_modules.glue"
+local glue = require "lua.modules.glue"
 local tag = {}
 
 local editCmd = [[invader-edit "%s"]]
