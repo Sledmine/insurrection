@@ -6,7 +6,9 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@field name string
 ---@field title string
 ---@field text string
+---@field justify? "left" | "center" | "right"
 
+---@param props footerProps
 ---@return string
 return function(props)
     local name = props.name
@@ -26,7 +28,8 @@ return function(props)
         text_label_unicode_strings_list = stringsTagPath,
         text_font = constants.fonts.text,
         text_color = constants.color.subtitle,
-        string_list_index = 0
+        string_list_index = 0,
+        justification = (props.justify or "left") .. "_justify",
     })
 
     -- Generate subtitle
@@ -36,7 +39,8 @@ return function(props)
         text_label_unicode_strings_list = stringsTagPath,
         text_font = constants.fonts.subtitle,
         text_color = constants.color.text,
-        string_list_index = 1
+        string_list_index = 1,
+        justification = (props.justify or "left") .. "_justify",
     })
     widget.create(widgetPath, {
         bounds = "0, 0, 40, 450",
