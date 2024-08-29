@@ -22,8 +22,8 @@ return function(props)
     local widgetPath = widget.path .. "buttons/" .. name .. "_dashboard_button.ui_widget_definition"
     
     local size = {
-        width = 542,
-        height = 184,
+        width = 583,
+        height = 196,
         scale = 0.5
     }
 
@@ -46,8 +46,8 @@ return function(props)
         text_font = constants.fonts.title,
         text_color = constants.color.text,
         justification = justification,
-        horiz_offset = 271 + 10,
-        vert_offset = 92 + 10,
+        horiz_offset = 292 + 27,
+        vert_offset = 98 + 10,
     }
     if variant == "coop" then
         wid.background_bitmap = [[insurrection/ui/bitmaps/dashboard_coop_button.bitmap]]
