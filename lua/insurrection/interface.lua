@@ -203,7 +203,7 @@ function interface.loadProfileNameplate(nameplateId)
         local settings = core.loadSettings()
         if settings and settings.nameplate and nameplateBitmapTags[settings.nameplate] then
             -- TODO BALLTZE MIGRATE, CRASHES
-            --nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id
+            nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id
         end
     end
 end

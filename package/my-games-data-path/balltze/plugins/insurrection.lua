@@ -110,6 +110,8 @@ local function initialize()
     constants.get()
     interface.load()
     interface.changeAspectRatio()
+    logger:debug("Overriding Chimera font...")
+    chimera.fontOverride()
 end
 
 function PluginInit()
@@ -149,9 +151,6 @@ function PluginInit()
             return true
         end)
     end
-
-    logger:debug("Overriding Chimera font...")
-    chimera.fontOverride()
 
     return true
 end

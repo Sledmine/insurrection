@@ -105,7 +105,6 @@ return function()
             return
         end
         config = balltze.getConfiguration() or {}
-        logger:debug(config)
 
         local gamepadProfiles = table.map(balltze.getGamepadProfiles(), function(profile)
             local title = utils.snakeCaseToTitleCase(profile)
