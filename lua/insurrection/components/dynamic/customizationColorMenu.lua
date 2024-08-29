@@ -23,10 +23,10 @@ return function()
     local customizationColorSaveButton = button.new(saveId)
     openSettingsMenu = function()
         menus.open(constants.widgets.settings.id)
-        return false
     end
     customizationColorSaveButton:onClick(function()
-        set_timer(30, "openSettingsMenu")
+        -- FIXME BALLTZE MIGRATE
+        --delay(30, openSettingsMenu)
     end)
     local colorButtons = customizationColorListOptions:getChildWidgetTags()
     updateColorMenu = function()

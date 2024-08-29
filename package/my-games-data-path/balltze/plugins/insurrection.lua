@@ -15,6 +15,7 @@ constants = require "insurrection.constants"
 api = require "insurrection.api"
 discord = require "insurrection.discord"
 store = require "insurrection.redux.store"
+local isNewMap = false
 
 ---@type uiWidgetDefinition?
 local editableWidget
@@ -40,6 +41,13 @@ local customBipedPaths = {
         [[[shm]\halo_1\characters\grunt\grunt_mp]]
     }
     -- forge_island_dev = {[[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
+}
+
+local customUiWidgetPaths = {
+    {constants.path.nameplateCollection, "tag_collection"},
+    {constants.path.pauseMenu, "ui_widget_definition"},
+    {constants.path.dialog, "ui_widget_definition"},
+    {constants.path.customSounds, "tag_collection"}
 }
 
 function PluginMetadata()
@@ -95,32 +103,97 @@ local commands = {
     }
 }
 
+local function initialize()
+    logger:debug("Initializing Insurrection")
+    api.loadUrl()
+    components.free()
+    constants.get()
+    interface.load()
+    interface.changeAspectRatio()
+end
+
 function PluginInit()
+    logger = balltze.logger.createLogger("insurrection")
+
     balltze.event.mapLoad.subscribe(function(event)
-        if event.args:mapName() == "levels\\ui\\ui" then
-            if event.time == "before" then
+        if event.time == "before" then
+            isNewMap = true
+            if event.context:mapName() == "ui" then
                 logger:debug("Loading Insurrection UI")
                 for mapName, bipeds in pairs(customBipedPaths) do
                     for _, bipedPath in pairs(bipeds) do
-                        -- local _ = pcall(balltze.features.importTagFromMap, mapName, bipedPath, "biped")
-                        local ok, message = pcall(balltze.features.importTagFromMap, mapName,
-                                                  bipedPath, "biped")
-                        if not ok then
-                            engine.core.consolePrint("Error importing biped: " .. bipedPath)
-                            engine.core.consolePrint(message or "Unknown error")
-                        end
+                        balltze.features.importTagFromMap(mapName, bipedPath, "biped")
                     end
                 end
+            --elseif api.session.lobbyKey then
             else
                 -- TODO BALLTZE MIGRATE
-                -- PluginLoad()
+                for _, tagPath in pairs(customUiWidgetPaths) do
+                    balltze.features.importTagFromMap("ui", tagPath[1], tagPath[2])
+                end
             end
         else
             balltze.features.clearTagImports()
         end
     end, "lowest")
+
+    for command, data in pairs(commands) do
+        balltze.command.registerCommand(command, command, data.description, data.help, false,
+                                        data.minArgs or 0, data.maxArgs or 0, false, true,
+                                        function(...)
+            local success, result = pcall(data.execute, ...)
+            if not success then
+                logger:error("Error executing command '{}': {}", command, result)
+                return false
+            end
+            return true
+        end)
+    end
+
+    logger:debug("Overriding Chimera font...")
+    chimera.fontOverride()
+
+    return true
+end
+
+function PluginLoad()
+    -- Load Chimera compatibility
+    for k, v in pairs(balltze.chimera) do
+        if not k:includes "timer" and not k:includes "execute_script" then
+            _G[k] = v
+        end
+    end
+
+    -- Replace Chimera functions with Balltze functions
+    write_bit = function(address, bit, value)
+        local byte = read_byte(address)
+        if value then
+            byte = byte | (1 << bit)
+        else
+            byte = byte & ~(1 << bit)
+        end
+        write_byte(address, byte)
+    end
+    write_byte = balltze.memory.writeInt8
+    write_word = balltze.memory.writeInt16
+    write_dword = balltze.memory.writeInt32
+    write_int = balltze.memory.writeInt32
+    write_float = balltze.memory.writeFloat
+    write_string = function (address, value)
+        for i = 1, #value do
+            write_byte(address + i - 1, string.byte(value, i))
+        end
+    end
+
+    initialize()
+ 
     balltze.event.tick.subscribe(function(event)
+        if isNewMap then
+            initialize()
+            isNewMap = false
+        end
         if event.time == "before" then
+            interface.onTick()
             -- TODO BALLTZE MIGRATE
             -- harmony.menu.block_input(true)
             -- Multithread callback resolve
@@ -135,43 +208,16 @@ function PluginInit()
                     -- TODO BALLTZE MIGRATE
                     -- harmony.menu.block_input(false)
                     table.remove(Lanes, laneIndex)
-                    local _, errorMessage = pcall(function ()
+                    local _, errorMessage = pcall(function()
                         return lane.thread[1]
                     end)
                     logger:debug(errorMessage)
                 else
-                    logger:warning(lane.thread.status)
+                    --logger:warning(lane.thread.status)
                 end
             end
         end
     end)
-    logger = balltze.logger.createLogger("insurrection")
-    for command, data in pairs(commands) do
-        balltze.command.registerCommand(command, command, data.description, data.help, false,
-                                        data.minArgs or 0, data.maxArgs or 0, false, true,
-                                        function(...)
-            local success, result = pcall(data.execute, ...)
-            if not success then
-                logger:error("Error executing command '{}': {}", command, result)
-                return false
-            end
-            return true
-        end)
-    end
-    return true
-end
 
-function PluginLoad()
-    -- Load Chimera compatibility
-    for k, v in pairs(balltze.chimera) do
-        if not k:includes "timer" and not k:includes "execute_script" then
-            _G[k] = v
-        end
-    end
-    logger:debug("Loading Insurrection plugin")
-    constants.get()
     components.callbacks()
-    interface.changeAspectRatio()
-    interface.load()
-    api.loadUrl()
 end

@@ -30,7 +30,7 @@ local component = {
 ---@class uiComponentEvents
 ---@field onClick? fun(value?: string | boolean | number): boolean
 ---@field onFocus? function
----@field onOpen? fun(previousWidgetTag?: tag)
+---@field onOpen? fun(previousWidgetTag?: MetaEngineTag)
 ---@field onClose? fun():boolean
 ---@field animate? function
 
@@ -39,6 +39,8 @@ component.widgets = {}
 
 -- TODO Make this local and port functions to component
 VirtualInputValue = {}
+---@type MetaEngineTag
+local previousWidgetTag
 
 function component.callbacks()
     ---@type MetaEngineTagDataUiWidgetDefinition?
@@ -50,8 +52,6 @@ function component.callbacks()
 
     balltze.event.uiWidgetAccept.subscribe(function(event)
         if event.time == "before" then
-            logger:debug("Event time: {}", event.time)
-            logger:debug("Widget accept event")
             local isCanceled = false
             local instance = component.widgets[event.context.widget.definitionTagHandle.value]
             if instance then
@@ -92,29 +92,27 @@ function component.callbacks()
     end
     balltze.event.uiWidgetFocus.subscribe(onWidgetFocus)
 
-    -- TODO BALLTZE MIGRATE
-    local function onMouseButtonPress(event)
+    balltze.event.uiWidgetMouseButtonPress.subscribe(function(event)
         if event.time == "before" then
-            local widgetInstanceIndex, button
-            local widgetTagId = harmony.menu.get_widget_values(widgetInstanceIndex).tag_id
+            local button = event.context.button:label()
+            local widgetTag = engine.userInterface.findWidget(event.context.widget.definitionTagHandle.value)
+            assert(widgetTag, "Invalid widget tag")
             if editableWidgetTagData and editableWidgetTagEntry then
-                if widgetTagId == editableWidgetTagEntry.handle then
+                if widgetTag.definitionTagHandle.value == editableWidgetTagEntry.handle.value then
                     if button == "right" then
-                        if isBalltzeAvailable then
-                            local inputString = core.getStringFromWidget(
-                                                    editableWidgetTagEntry.handle)
-                            local text = inputString .. core.getClipboard()
-                            core.setStringToWidget(text, editableWidgetTagEntry.handle)
-                            local component = components.widgets[editableWidgetTagEntry.handle]
-                            if component and component.events.onInputText then
-                                component.events.onInputText(text)
-                            end
+                        engine.core.consolePrint("Button: " .. button)
+                        local inputString = core.getStringFromWidget(editableWidgetTagEntry.handle.value)
+                        local text = inputString .. core.getClipboard()
+                        core.setStringToWidget(text, editableWidgetTagEntry.handle.value)
+                        local component = components.widgets[editableWidgetTagEntry.handle.value]
+                        if component and component.events.onInputText then
+                            component.events.onInputText(text)
                         end
                     end
                 end
             end
         end
-    end
+    end)
 
     local function onMouseScroll(widgetTagHandle)
         local widget = engine.userInterface.findWidget(widgetTagHandle)
@@ -133,7 +131,6 @@ function component.callbacks()
     end
     balltze.event.frame.subscribe(function(event)
         if event.time == "before" then
-
             local widget = engine.userInterface.getRootWidget()
             if widget then
                 if lastFocusedWidgetTagEntry then
@@ -141,23 +138,26 @@ function component.callbacks()
                     if mouse.scroll ~= 0 then
                         onMouseScroll(lastFocusedWidgetTagEntry.handle.value)
                     end
+                    if mouse.rightClick > 0 then
+                        -- TODO BALLTZE MIGRATE
+                    end
                 end
             end
         end
     end)
 
     balltze.event.uiWidgetCreate.subscribe(function(event)
-        if event.time == "before" then
-
-            local widgetValues = event.context.widget
-            if widgetValues then
-                local widgetTagHandleValue = widgetValues.definitionTagHandle.value
-                local widgetTag = engine.tag.getTag(widgetTagHandleValue,
-                                                    engine.tag.classes.uiWidgetDefinition)
-                local component = component.widgets[widgetTagHandleValue]
+        if event.time == "after" then
+            local tagHandle = event.context.definitionTagHandle.value
+            local widget = engine.userInterface.findWidget(tagHandle)
+            if widget then
+                local widgetTag = engine.tag
+                                      .getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
+                assert(widgetTag, "Invalid widget tag")
+                logger:debug("Opening tag: {}", widgetTag.path)
+                local component = component.widgets[tagHandle]
                 if component and component.events.onOpen then
-                    -- component.events.onOpen(previousWidgetTag)
-                    component.events.onOpen()
+                    component.events.onOpen(previousWidgetTag)
                 end
                 if previousWidgetTag ~= widgetTag then
                     previousWidgetTag = widgetTag
@@ -187,6 +187,7 @@ function component.callbacks()
 
     balltze.event.uiWidgetBack.subscribe(function(event)
         if event.time == "before" then
+            logger:debug("Closing tag: {}", event.context.widget.definitionTagHandle.value)
             local widgetTagHandleValue = event.context.widget.definitionTagHandle.value
             local component = component.widgets[widgetTagHandleValue]
             if component and component.events.onClose then
@@ -212,10 +213,12 @@ function component.callbacks()
             -- if pressedKey == "dpad left" or pressedKey == "dpad right" then
             if pressedKey == Balltze.event.uiWidgetListTabTypes.tabThruChildrenNextHorizontal or
                 pressedKey == Balltze.event.uiWidgetListTabTypes.tabThruChildrenPrev then
-                local component = components.widgets[listWidgetTagId] --[[@as uiComponentSpinner]]
+                local component = component.widgets[listWidgetTagId] --[[@as uiComponentSpinner]]
                 if component and component.type == "spinner" and component.events.onScroll then
-                    --component:scroll(pressedKey == "dpad left" and -1 or 1)
-                    component:scroll(pressedKey == Balltze.event.uiWidgetListTabTypes.tabThruChildrenPrev and -1 or 1)
+                    -- component:scroll(pressedKey == "dpad left" and -1 or 1)
+                    component:scroll(pressedKey ==
+                                         Balltze.event.uiWidgetListTabTypes.tabThruChildrenPrev and
+                                         -1 or 1)
                     return
                 end
             end
@@ -311,7 +314,7 @@ function component.new(tagId)
     instance.widgetDefinition = uiWidgetDefinition(tagId) or error("Invalid tagId") --[[@as uiWidgetDefinition]]
     instance.events = {}
     instance.isBackgroundAnimated = false
-    -- dprint("Created component: " .. instance.tag.path, "info")
+    -- logger:debug("Created component: " .. instance.tag.path, "info")
     component.widgets[tagId] = instance
     return instance
 end
@@ -373,7 +376,7 @@ function component.setText(self, text, mask)
 end
 
 ---@param self uiComponent
----@param callback fun(previousWidgetTag?: tag)
+---@param callback fun(previousWidgetTag?: MetaEngineTag)
 function component.onOpen(self, callback)
     self.events.onOpen = callback
 end

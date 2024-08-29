@@ -107,7 +107,7 @@ end
 
 local function connect(desiredMap, host, port, password)
     api.stopRefreshLobby()
-    if not map == "ui" then
+    if not engine.map.getCurrentMapHeader().name == "ui" then
         engine.core.consolePrint("Can't connect to a server while in-game.")
         return
     end
@@ -232,6 +232,7 @@ end
 ---@param lobbyKey? string
 function api.lobby(lobbyKey)
     if not lobbyKey then
+        logger:debug("Creating lobby")
         local lobby = async(function(await)
             loading(true, "Creating lobby...")
             ---@type httpResponse<lobbyResponse>?
@@ -302,6 +303,7 @@ function api.lobby(lobbyKey)
         return
     end
 
+    logger:debug("Joining lobby " .. lobbyKey)
     api.session.lobbyKey = lobbyKey
     local lobby = async(function(await)
         ---@type httpResponse<insurrectionLobby>?
@@ -326,11 +328,10 @@ function api.lobby(lobbyKey)
                     react.render("lobbyMenuClient")
                 end
                 -- Lobby alreadydeleteLobby
-                if lobby.server and not blam.isGameDedicated() then
+                if lobby.server and not engine.netgame.getServerType() == "dedicated" then
                     api.stopRefreshLobby()
-                    connect(lobby.server.map, lobby.server.host, lobby.server.port,
-                            lobby.server.password)
-                    preventStuckLobby()
+                    connect(lobby.server.map, lobby.server.host, lobby.server.port, lobby.server.password)
+                    --preventStuckLobby()
                 end
             end
         end
@@ -389,7 +390,7 @@ function api.refreshLobby()
                     react.render("lobbyMenuClient")
                 end
                 -- Lobby alreadydeleteLobby
-                if lobby.server and not blam.isGameDedicated() then
+                if lobby.server and not engine.netgame.getServerType() == "dedicated" then
                     api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,
                             lobby.server.password)

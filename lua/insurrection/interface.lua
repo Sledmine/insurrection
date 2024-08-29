@@ -11,7 +11,6 @@ local core = require "insurrection.core"
 local uiWidgetTag = blam.uiWidgetDefinition
 local uiWidgetCollection = blam.uiWidgetCollection
 local constants = require "insurrection.constants"
-local isGameDedicated = blam.isGameDedicated
 local chimera = require "insurrection.mods.chimera"
 
 local interface = {}
@@ -21,30 +20,13 @@ shared = interface.shared
 
 function interface.load()
     components.free()
-    --constants.get()
+    -- constants.get()
     IsUICompatible = true
     if IsUICompatible then
 
-        logger:debug("Overriding Chimera font...")
-        chimera.fontOverride()
-
-        -- Start widgets background animation
-        logger:debug("Starting widgets background animation...")
-        if BitmapsAnimationTimer then
-            BitmapsAnimationTimer.stop()
-        end
-        function On30FPSRate()
-            for tagId, component in pairs(components.widgets) do
-                if component.isBackgroundAnimated then
-                    interface.animateUIWidgetBackground(tagId)
-                end
-            end
-        end
-        BitmapsAnimationTimer = Balltze.misc.setTimer(33, On30FPSRate)
-
         -- Load Insurrection features
         logger:debug("Loading Insurrection patches...")
-        core.loadInsurrectionPatches()
+        --core.loadInsurrectionPatches()
 
         -- Components initialization
         logger:debug("Initializing components...")
@@ -69,7 +51,7 @@ function interface.load()
             local errorModalLegacy = components.new(constants.widgets.legacyModalError.id)
             errorModalLegacy:onOpen(function()
                 logger:debug("Checking if lobby is active...")
-                if api.session.lobbyKey and map == "ui" then
+                if api.session.lobbyKey and engine.map.getCurrentMapHeader().name == "ui" then
                     api.lobby(api.session.lobbyKey)
                 end
             end)
@@ -83,7 +65,7 @@ function interface.load()
             local tester = components.new(constants.widgets.tester.id)
             local testerAnimTest = components.new(tester:findChildWidgetTag("anim_test").id)
             testerAnimTest:animate()
-            --testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
+            -- testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
         end
 
         if constants.widgets.chimera then
@@ -98,14 +80,14 @@ function interface.load()
 
         -- Insurrection is running outside the UI
         if constants.widgetCollections.multiplayer then
-            local multiplayerWidgetsCollection = uiWidgetCollection(
-                                                     constants.widgetCollections.multiplayer.id)
+            local multiplayerWidgetsCollection = uiWidgetCollection(constants.widgetCollections.multiplayer.id)
             if multiplayerWidgetsCollection then
                 local pause = components.new(multiplayerWidgetsCollection.tagList[1])
                 if pause then
+                    logger:debug(multiplayerWidgetsCollection.tagList[1])
                     if constants.widgets.pause then
+                        logger:debug("Insurrection may load in external map...")
                         require "insurrection.components.dynamic.dialog"()
-                        dprint("Loading Insurrection UI in external map...")
                         local insurrectionPause = components.new(constants.widgets.pause.id)
                         local resumeButton = button.new(
                                                  insurrectionPause:findChildWidgetTag(
@@ -114,12 +96,12 @@ function interface.load()
                         local exitButton = button.new(
                                                insurrectionPause:findChildWidgetTag("exit_button").id)
                         resumeButton:onClick(function()
-                            dprint("Resume button clicked")
+                            logger:debug("Resume button clicked")
                             interface.blur(false)
                             interface.sound("back")
                         end)
                         stockResumeButton:onClick(function()
-                            dprint("Stock resume button clicked")
+                            logger:debug("Stock resume button clicked")
                             interface.sound("back")
                         end)
                         exitButton:onClick(function()
@@ -139,21 +121,23 @@ function interface.load()
                             interface.blur(false)
                         end)
                         pause:onOpen(function()
+                            logger:debug("Opening stock pause menu...")
                             if not InvalidatePauseOverride then
-                                if map ~= "ui" and (isGameDedicated() or DebugMode) then
-                                    dprint("Loading Insurrection UI in external map...")
+                                --if engine.map.getCurrentMapHeader().name ~= "ui" and (engine.netgame.getServerType() == "dedicated" or DebugMode) then
+                                if engine.map.getCurrentMapHeader().name ~= "ui" then
+                                    logger:debug("Opening Insurrection pause menu...")
                                     interface.blur(true)
-                                    harmony.menu.set_aspect_ratio(16, 9)
+                                    balltze.features.setUIAspectRatio(16, 9)
                                     menus.pause()
                                 end
                             else
-                                harmony.menu.set_aspect_ratio(4, 3)
+                                balltze.features.setUIAspectRatio(4, 3)
                             end
                             InvalidatePauseOverride = false
                         end)
                         insurrectionPause:onClose(function()
                             interface.blur(false)
-                            harmony.menu.set_aspect_ratio(4, 3)
+                            balltze.features.setUIAspectRatio(4, 3)
                         end)
                         local openMapPauseButton = button.new(
                                                        insurrectionPause:findChildWidgetTag(
@@ -170,7 +154,7 @@ function interface.load()
         end
 
         -- Set up some chimera configs
-        if map == "ui" and false then
+        if engine.map.getCurrentMapHeader().name == "ui" and false then
             local preferences = chimera.getPreferences() or {}
             -- TODO Check forced server name preference
             local notServerIpBlocking = not preferences.chimera_block_server_ip or
@@ -218,28 +202,33 @@ function interface.loadProfileNameplate(nameplateId)
         logger:debug("Loading nameplate from settings...")
         local settings = core.loadSettings()
         if settings and settings.nameplate and nameplateBitmapTags[settings.nameplate] then
-            nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id
+            -- TODO BALLTZE MIGRATE, CRASHES
+            --nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id
         end
     end
 end
 
 ---Animates UI elements by animating background bitmap
 ---@param widgetTagHandleValue number
+---@param willRepeat? boolean
 function interface.animateUIWidgetBackground(widgetTagHandleValue, willRepeat)
-    local willRepeat = willRepeat or true
-    local isUIRendering = core.getRenderedUIWidgetTagId()
-    if isUIRendering then
-        local widget = engine.userInterface.findWidget(widgetTagHandleValue)
-        if widget then
-            local uiWidgetDefinitionTagData = engine.tag.getTag(widgetTagHandleValue, engine.tag.classes.uiWidgetDefinition).data
-            local widgetBitmap = engine.tag.getTag(uiWidgetDefinitionTagData.backgroundBitmap.tagHandle, engine.tag.classes.bitmap).data
-            if widgetBitmap then
-                if widgetBitmap.bitmapData.count > 1 then
-                    if widget.bitmapIndex < widgetBitmap.bitmapData.count then
-                        widget.bitmapIndex = widget.bitmapIndex + 1
-                    else
-                        widget.bitmapIndex = 0
-                    end
+    --local willRepeat = willRepeat or true
+    local widget = engine.userInterface.findWidget(widgetTagHandleValue)
+    if widget then
+        local widgetTag = engine.tag.getTag(widgetTagHandleValue,
+                                            engine.tag.classes.uiWidgetDefinition)
+        -- TODO Change balltze to catch exceptions in timer as they propagate and crash the game
+        assert(widgetTag, "Error, widget tag not found")
+        --print("Animating widget {}", widgetTag.path)
+        local bitmapTag = engine.tag.getTag(widgetTag.data.backgroundBitmap.tagHandle.value,
+                                            engine.tag.classes.bitmap)
+        if bitmapTag then
+            local bitmapTagData = bitmapTag.data
+            if bitmapTagData.bitmapData.count > 1 then
+                if widget.bitmapIndex < bitmapTagData.bitmapData.count then
+                    widget.bitmapIndex = widget.bitmapIndex + 1
+                else
+                    widget.bitmapIndex = 0
                 end
             end
         end
@@ -282,7 +271,7 @@ end
 function interface.sound(sound)
     if not (constants.sounds.error and constants.sounds.success and constants.sounds.back and
         constants.sounds.join and constants.sounds.leave) then
-        dprint("Error, no custom sounds found", "error")
+        logger:debug("Error, no custom sounds found", "error")
         return
     end
     if sound == "error" then
@@ -296,7 +285,7 @@ function interface.sound(sound)
     elseif sound == "leave" then
         playSound(constants.sounds.leave.id)
     else
-        dprint("Invalid sound: " .. sound, "error")
+        logger:debug("Invalid sound: " .. sound, "error")
     end
 end
 
@@ -362,6 +351,13 @@ function interface.onTick()
             interface.rotateCustomizationBiped()
         end
     end
+    -- Animate UI widgets
+    -- TODO Try to animate only widgets that are visible
+    for tagId, component in pairs(components.widgets) do
+        if component.isBackgroundAnimated then
+            interface.animateUIWidgetBackground(tagId)
+        end
+    end
     -- Inventory protptype code
     -- if core.getMouseState().scrollClick > 0 then
     --    if focusedWidgetTagId then
@@ -391,6 +387,5 @@ function interface.changeAspectRatio()
         balltze.features.setUIAspectRatio(4, 3)
     end
 end
-
 
 return interface

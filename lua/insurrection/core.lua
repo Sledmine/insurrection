@@ -96,13 +96,11 @@ function core.saveSettings(settings)
 end
 
 function core.getRenderedUIWidgetTagId()
-    local isPlayerOnMenu = read_byte(blam.addressList.gameOnMenus) == 0
+    -- TODO BALLTZE MIGRATE Ensure this works when the menu is not OPEN and does not crash
+    local rootWidget = engine.userInterface.getRootWidget()
+    local isPlayerOnMenu = rootWidget ~= nil
     if isPlayerOnMenu then
-        local widgetIdAddress = read_dword(currentWidgetIdAddress)
-        if widgetIdAddress and widgetIdAddress ~= 0 then
-            local widgetId = read_dword(widgetIdAddress)
-            return widgetId
-        end
+        return rootWidget.definitionTagHandle.value
     end
 end
 
@@ -214,7 +212,7 @@ end
 ---@param password string
 function core.connectServer(host, port, password)
     local command = "connect %s:%s \"%s\""
-    execute_script(command:format(host, port, password))
+    engine.hsc.executeScript(command:format(host, port, password))
 end
 
 function core.getMyGamesHaloCEPath()
@@ -414,15 +412,11 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
 end
 
 function core.copyToClipboard(text)
-    if isBalltzeAvailable then
-        return balltze.misc.setClipboard(text)
-    end
+    return balltze.misc.setClipboard(text)
 end
 
 function core.getClipboard()
-    if isBalltzeAvailable then
-        return balltze.misc.getClipboard()
-    end
+    return balltze.misc.getClipboard()
 end
 
 ---Get the current screen aspect ratio

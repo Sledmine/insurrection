@@ -3,6 +3,7 @@ local constants = require "insurrection.constants"
 local button = require "insurrection.components.button"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
+local engine = Engine
 
 return function()
     local login = components.new(constants.widgets.login.id)
@@ -10,7 +11,7 @@ return function()
     local passwordInput = button.new(login:findChildWidgetTag("password_input").id)
     login:onOpen(function(previousWidget)
         -- Start discord presence only if script is loaded in the UI map, prevent crashes in other maps
-        if map == "ui" and (previousWidget and previousWidget.id == constants.widgets.main.id) then
+        if engine.map.getCurrentMapHeader().name == "ui" and (previousWidget and previousWidget.handle.value == constants.widgets.main.id) then
             if not discord.ready then
                 discord.startPresence()
             end

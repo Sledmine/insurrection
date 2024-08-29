@@ -1,3 +1,5 @@
+local balltze = Balltze
+local engine = Engine
 local blam = require "blam"
 local bar  = require "insurrection.components.bar"
 local tagClasses = blam.tagClasses
@@ -74,14 +76,19 @@ return function()
         console_debug(regions)
         selectedBiped = bipedPath
         bipedsList:setWidgetValues({opacity = 1})
+
         execute_script("object_create customization_biped")
-        local bipedTagEntry = findTag(bipedPath, tagClasses.biped)
-        assert(bipedTagEntry, "biped tag " .. bipedPath .. " not found")
-        local bipedTag = blam.bipedTag(bipedTagEntry.id)
-        assert(bipedTag, "biped tag " .. bipedPath .. " not found")
+
+        local tagEntry = engine.tag.findTags(bipedPath, engine.tag.classes.biped)[1]
+        assert(tagEntry, "biped tag " .. bipedPath .. " not found")
+
+        local bipedData = tagEntry.data
+        assert(bipedData, "biped tag " .. bipedPath .. " not found")
+
         -- TODO Remove this when biped animations are fixed in coop evolved
-        if not (bipedTagEntry.path:includes "marine" or bipedTagEntry.path:includes "grunt") then
-            bipedTag.weaponCount = 0
+        if not (tagEntry.path:includes "marine" or tagEntry.path:includes "grunt") then
+            -- FIXME This crashes when using Blam and doesnot exist propery weapons when using Balltze
+            --bipedData.weapons.count = 0
         end
         local bipedName = t(utils.path(bipedPath:replace("_mp", "")).name)
         currentBipedLabel:setText(bipedName)
@@ -94,8 +101,8 @@ return function()
             if sceneryName == "customization_biped" then
                 local newPaletteList = scenario.bipedPaletteList
                 -- Replace scenario biped tag with custom biped tag
-                if newPaletteList[biped.typeIndex + 1] ~= bipedTagEntry.id then
-                    newPaletteList[biped.typeIndex + 1] = bipedTagEntry.id
+                if newPaletteList[biped.typeIndex + 1] ~= tagEntry.handle.value then
+                    newPaletteList[biped.typeIndex + 1] = tagEntry.handle.value
                     scenario.bipedPaletteList = newPaletteList
                     execute_script "object_destroy customization_biped"
                     execute_script "object_create customization_biped"
@@ -109,15 +116,15 @@ return function()
         local customizationObjectData = core.getCustomizationObjectData()
         local customizationBiped = customizationObjectData.biped
         assert(customizationBiped, "No customization biped found")
-
+--
         local colorFromGame = constants.colors[profile.colorIndex]
         console_debug(colorFromGame)
         local r, g, b = color.hexToDec(colorFromGame)
         customizationBiped.colorCLowerRed = r
         customizationBiped.colorCLowerGreen = g
         customizationBiped.colorCLowerBlue = b
-
-        -- TODO Change with secondary color later
+--
+        ---- TODO Change with secondary color later
         customizationBiped.colorDLowerRed = r
         customizationBiped.colorDLowerGreen = g
         customizationBiped.colorDLowerBlue = b
@@ -179,7 +186,7 @@ return function()
                 bipedPath = savedBiped.path
                 regions = savedBiped.regions
             end
-            -- dprint(savedBiped)
+            -- logger:debug(savedBiped)
             handleSelectBiped(bipedPath, regions)
         end)
 
@@ -238,10 +245,11 @@ return function()
     end)
 
     customization:onOpen(function(previousWidgetTag)
+        logger:debug("Customization menu opened")
         discord.setState("Playing Insurrection", "In the customization menu")
         profile = core.getPlayerProfile()
         if previousWidgetTag then
-            if previousWidgetTag.id == constants.widgets.biped.id then
+            if previousWidgetTag.handle.value == constants.widgets.biped.id then
                 handleLoadBipeds()
                 return
             end

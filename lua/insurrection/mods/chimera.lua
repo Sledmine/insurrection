@@ -4,6 +4,7 @@ local ini = require "ini"
 local constants = require "insurrection.constants"
 local luna = require "luna"
 local split = luna.string.split
+local engine = Engine
 
 local core = require "insurrection.core"
 
@@ -416,7 +417,7 @@ end
 
 function chimera.executeCommand(command)
     if not execute_chimera_command then
-        console_out("execute_chimera_command is not available.")
+        engine.core.consolePrint("execute_chimera_command is not available.")
         return false
     end
     local result, error = pcall(execute_chimera_command, command, true)
@@ -424,7 +425,7 @@ function chimera.executeCommand(command)
         execute_script("cls")
         return true
     end
-    console_out(error)
+    engine.core.consolePrint(error)
     return false
 end
 
@@ -451,7 +452,7 @@ function chimera.fontOverride()
         end
         return true
     end
-    console_out("create_font_override is not available.")
+    engine.core.consolePrint("create_font_override is not available.")
     return false
 end
 

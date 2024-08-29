@@ -98,14 +98,14 @@ return function()
         end
     end
     balltzeMod:onOpen(function()
-        dprint("balltzeMod:onOpen")
+        logger:debug("balltzeMod:onOpen")
         if not balltze.isInstalled() then
             interface.dialog("ERROR", "Balltze mod is not installed.",
                              "Please install it with Mercury and try again.")
             return
         end
         config = balltze.getConfiguration() or {}
-        dprint(config)
+        logger:debug(config)
 
         local gamepadProfiles = table.map(balltze.getGamepadProfiles(), function(profile)
             local title = utils.snakeCaseToTitleCase(profile)

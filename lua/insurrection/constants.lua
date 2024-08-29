@@ -62,7 +62,10 @@ constants.customization = {
     rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190, arms = 80, gear = 0},
 }
 
+constants.widgets = {}
+
 function constants.get()
+
     constants.widgets = {
         --[[
         The following widgets are not used by the game, but are used by Insurrection.
@@ -144,6 +147,7 @@ function constants.get()
         button = findTag(fontName .. "button", tagClasses.font),
         shadow = findTag(fontName .. "shadow", tagClasses.font)
     }
+    logger:debug("Loaded constants")
 end
 
 return constants
