@@ -58,6 +58,6 @@
         "insurrection.redux.store",
         "insurrection.redux.getState"
     ],
-    "main": "lua/ui",
-    "output": "dist/ui.lua"
+    "main": "package/my-games-data-path/balltze/plugins/insurrection",
+    "output": "dist/insurrection.lua"
 }
