@@ -136,7 +136,7 @@ return container {
         { ---Center Buttons
             options {
                 name = "dashboard_new_buttons",
-                alignment = "horizontal",
+                alignment = "vertical",
                 childs = {
                     {
                         buttonDashboard {
@@ -144,8 +144,8 @@ return container {
                             text = "CUSTOM",
                             variant = "custom"
                         },
-                        60,
-                        102
+                        40,
+                        100
                     },
                     {
                         buttonDashboard {
@@ -153,8 +153,8 @@ return container {
                             text = "COOP",
                             variant = "coop"
                         },
-                        60,
-                        198
+                        40,
+                        193
                     },
                     {
                         buttonDashboard {
@@ -162,8 +162,8 @@ return container {
                             text = "FORGE",
                             variant = "forge"
                         },
-                        334,
-                        102
+                        327,
+                        100
                     },
                     {
                         buttonDashboard {
@@ -171,8 +171,8 @@ return container {
                             text = "FIREFIGHT",
                             variant = "firefight"
                         },
-                        334,
-                        198
+                        327,
+                        193
                     },
                     {
                         button {

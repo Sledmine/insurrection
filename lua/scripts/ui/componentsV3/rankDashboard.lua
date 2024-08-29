@@ -54,7 +54,7 @@ return function(props)
     }
 
     if variant == "icon" then
-        wid.background_bitmap = [[insurrection/ui/bitmaps/rank_dummy.bitmap]]
+        wid.background_bitmap = [[insurrection/ui/bitmaps/player_ranks.bitmap]]
         wid.bounds = widget.scale(rankIconSize.width, rankIconSize.height, rankIconSize.scale)
     elseif variant == "credit_icon" then
         wid.background_bitmap = [[insurrection/ui/bitmaps/credit_icon.bitmap]]
