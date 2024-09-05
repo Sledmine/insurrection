@@ -6,8 +6,9 @@ return {
         text = "1, 1, 1, 1",
         title = "1, 1, 1, 1",
         subtitle = "1, 0.301961, 0.454902, 0.623529",
-        selected = "1, 0.5, 0.5, 0.5",
+        selected = "1, 0.55, 0.55, 0.55",
         nameplate = "1, 0.8, 0.8, 0.8",
+        info = "1, 0.427451, 0.564706, 0.803922",
         palette = {
             primary = "#3d6cc1",
             secondary = "#6d90cd",
@@ -50,6 +51,11 @@ return {
             path = [[insurrection/ui/shared/version/insurrection_version_footer.ui_widget_definition]]
         },
         button = {
+            small = {
+                width = 149,
+                height = 24,
+                bitmap = [[insurrection/ui/bitmaps/small_button.bitmap]]
+            },
             normal = {
                 width = 184,
                 height = 24,
@@ -83,6 +89,11 @@ return {
                 bitmap = [[insurrection/ui/bitmaps/vertical_complex_button.bitmap]]
             },
             horizontal = {
+                width = 149,
+                height = 36,
+                bitmap = [[insurrection/ui/bitmaps/horizontal_complex_button.bitmap]]
+            },
+            horizontal_c_text = {
                 width = 149,
                 height = 36,
                 bitmap = [[insurrection/ui/bitmaps/horizontal_complex_button.bitmap]]
