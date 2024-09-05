@@ -182,6 +182,9 @@ function PluginLoad()
         for i = 1, #value do
             write_byte(address + i - 1, string.byte(value, i))
         end
+        if #value == 0 then
+            write_byte(address, 0)
+        end
     end
 
     initialize()

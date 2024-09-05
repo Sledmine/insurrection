@@ -104,7 +104,7 @@ function component.callbacks()
                         local inputString = core.getStringFromWidget(editableWidgetTagEntry.handle.value)
                         local text = inputString .. core.getClipboard()
                         core.setStringToWidget(text, editableWidgetTagEntry.handle.value)
-                        local component = components.widgets[editableWidgetTagEntry.handle.value]
+                        local component = component.widgets[editableWidgetTagEntry.handle.value]
                         if component and component.events.onInputText then
                             component.events.onInputText(text)
                         end
@@ -286,7 +286,7 @@ function component.callbacks()
                         else
                             core.setStringToWidget(text, editableWidgetTagEntry.handle.value)
                         end
-                        local component = components.widgets[editableWidgetTagEntry.handle.value]
+                         component = component.widgets[editableWidgetTagEntry.handle.value]
                         if component and component.events.onInputText then
                             component.events.onInputText(text)
                         end

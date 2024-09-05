@@ -31,7 +31,7 @@ function interface.load()
         -- Components initialization
         logger:debug("Initializing components...")
         interface.loadProfileNameplate()
-        core.cleanAllEditableWidgets()
+        interface.cleanAllEditableWidgets()
 
         -- interface.animate()
         if constants.widgets.login then
@@ -384,6 +384,22 @@ function interface.changeAspectRatio()
         execute_script("network_connect_timeout 15000")
     else
         balltze.features.setUIAspectRatio(4, 3)
+    end
+end
+
+function interface.cleanAllEditableWidgets()
+    local editableWidgets = blam.findTagsList("input", blam.tagClasses.uiWidgetDefinition) or {}
+    for _, widgetTag in pairs(editableWidgets) do
+        --logger:debug("Cleaning widget " .. widgetTag.path)
+        local widget = blam.uiWidgetDefinition(widgetTag.id)
+        assert(widget, "No widget found with tag id " .. widgetTag.id)
+        local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
+        if widgetStrings then
+            local strings = widgetStrings.strings
+            strings[1] = ""
+            logger:debug("Cleaned widget " .. widgetTag.path)
+            widgetStrings.strings = strings
+        end
     end
 end
 
