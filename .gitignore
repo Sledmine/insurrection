@@ -24,3 +24,6 @@ insurrection_host
 micro
 assets.json
 env.sh
+cffi.dll
+lcurl.dll
+discord-rpc.dll
