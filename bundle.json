@@ -3,7 +3,7 @@
     "target": "lua5.3",
     "include": [
         "lua/",
-        "lua/lua_modules/"
+        "lua/modules/"
     ],
     "modules": [
         "lanes",
@@ -58,6 +58,6 @@
         "insurrection.redux.store",
         "insurrection.redux.getState"
     ],
-    "main": "package/my-games-data-path/balltze/plugins/insurrection",
+    "main": "lua/insurrection",
     "output": "dist/insurrection.lua"
 }
