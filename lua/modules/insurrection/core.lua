@@ -76,7 +76,7 @@ function core.loadCredentials()
     if credentialsFile then
         local success, credentials = pcall(json.decode, credentialsFile)
         if success and credentials then
-            return credentials.username, base64.decode(credentials.password)
+            return credentials.username:trim(), base64.decode(credentials.password):trim()
         end
     end
 end
@@ -169,20 +169,6 @@ function core.getStringFromWidget(widgetTagId)
     local unicodeStrings = blam.unicodeStringList(widget.unicodeStringListTag)
     assert(unicodeStrings, "No unicodeStringList, can't get text from this widget")
     return unicodeStrings.strings[widget.stringListIndex + 1]
-end
-
-function core.cleanAllEditableWidgets()
-    local editableWidgets = blam.findTagsList("input", tagClasses.uiWidgetDefinition) or {}
-    for _, widgetTag in pairs(editableWidgets) do
-        local widget = blam.uiWidgetDefinition(widgetTag.id)
-        assert(widget, "No widget found with tag id " .. widgetTag.id)
-        local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
-        if widgetStrings then
-            local strings = widgetStrings.strings
-            strings[1] = ""
-            widgetStrings.strings = strings
-        end
-    end
 end
 
 function core.setStringToWidget(text, widgetTagId, mask)
