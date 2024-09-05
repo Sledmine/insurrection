@@ -239,8 +239,8 @@ return function()
                 bipeds = {[project] = selectedBiped .. "+" .. table.concat(regions, "+")}
             end
         end
-        logger:debug(nameplate)
-        logger:debug(inspect(bipeds))
+        logger:debug("Nameplate: {}", nameplate)
+        logger:debug("Bipeds: {}", inspect(bipeds))
         api.playerProfileEdit({nameplate = nameplate, bipeds = bipeds})
     end)
 
