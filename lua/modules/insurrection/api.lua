@@ -255,14 +255,13 @@ function api.lobby(lobbyKey)
                                                    state.lobby.owner
                     if isPlayerLobbyOwner then
                         menus.lobby()
-                        discord.setParty(api.session.lobbyKey, #state.lobby.players, 16,
-                                         state.lobby.map, isPlayerLobbyOwner)
                         react.render("lobbyMenu")
                     else
                         menus.lobby(true)
-                        discord.clearParty()
                         react.render("lobbyMenuClient")
                     end
+                    discord.setParty(api.session.lobbyKey, #state.lobby.players, 16,
+                                         state.lobby.map, isPlayerLobbyOwner)
                 end
                 return
             elseif response.code == requests.codes.forbidden then
@@ -313,7 +312,7 @@ function api.lobby(lobbyKey)
                     logger:debug("Connecting to lobby server...")
                     api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port, lobby.server.password)
-                    --preventStuckLobby()
+                    preventStuckLobby()
                 end
             end
         end

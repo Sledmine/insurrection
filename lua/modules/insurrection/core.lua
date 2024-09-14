@@ -114,7 +114,7 @@ function core.getCurrentUIWidgetTag()
         assert(tag, "No tag found for widget")
         -- TODO BALLTZE MIGRATE
         return {
-            id = tag.handle.value,
+            id = widget.definitionTagHandle.value,
             tagPath = tag.path,
             tagClass = tag.primaryClass,
             index = tag.handle.index
