@@ -26,6 +26,7 @@ function menus.lobby(client)
         isRejoiningLobby = currentWidgetTag.id == constants.widgets.legacyModalError.id
     end
     if client then
+        logger:info("Opening lobby client")
         openWidget(constants.widgets.lobbyClient.id, not isRejoiningLobby)
         return
     end

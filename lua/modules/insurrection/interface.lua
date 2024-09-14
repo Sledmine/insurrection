@@ -42,6 +42,7 @@ function interface.load()
             require "insurrection.components.dynamic.dashboardMenu"()
             require "insurrection.components.dynamic.customizationMenu"()
             require "insurrection.components.dynamic.lobbyMenu"()
+            require "insurrection.components.dynamic.lobbyMenuClient"()
             -- TODO Find a better way to toggle biped preview generation
             require "insurrection.components.dynamic.customizationBipedMenu" {
                 isBipedPreviewGenEnabled = false

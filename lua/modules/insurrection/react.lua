@@ -7,10 +7,14 @@ function react.mount(component)
     if not mounted[component] then
         mounted[component] = require("insurrection.components.dynamic." .. component)()
     end
+    if not mounted[component] then
+        error("Failed to mount component " .. component)
+    end
     return mounted[component]
 end
 
 function react.render(component)
+    logger:debug("Rendering component " .. component)
     local render = react.mount(component)
     return render()
 end

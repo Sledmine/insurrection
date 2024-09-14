@@ -4,6 +4,9 @@ local engine = Engine
 local luna = require "luna"
 local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
+async = require "async".async
+local dispatch = require "async".dispatch
+require "async".configure("base, table, package, string")
 execute_script = engine.hsc.executeScript
 
 ---@type Logger
@@ -196,28 +199,8 @@ function PluginLoad()
         end
         if event.time == "before" then
             interface.onTick()
-            -- TODO BALLTZE MIGRATE
-            -- harmony.menu.block_input(true)
             -- Multithread callback resolve
-            for laneIndex, lane in ipairs(Lanes) do
-                if lane.thread.status == "done" then
-                    -- TODO BALLTZE MIGRATE
-                    -- harmony.menu.block_input(false)
-                    table.remove(Lanes, laneIndex)
-                    logger:debug("Async task finished!")
-                    lane.callback(lane.thread[1])
-                elseif lane.thread.status == "error" then
-                    -- TODO BALLTZE MIGRATE
-                    -- harmony.menu.block_input(false)
-                    table.remove(Lanes, laneIndex)
-                    local _, errorMessage = pcall(function()
-                        return lane.thread[1]
-                    end)
-                    logger:debug(errorMessage)
-                else
-                    --logger:warning(lane.thread.status)
-                end
-            end
+            dispatch()
         end
     end)
 

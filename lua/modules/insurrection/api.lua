@@ -3,7 +3,6 @@ local lanes = require"lanes"
 local json = require "json"
 local getState = require "insurrection.redux.getState"
 local react = require "insurrection.react"
-local asyncLibs = "base, table, package, string"
 local blam = require "blam"
 local requests = require "requestscurl"
 local interface = require "insurrection.interface"
@@ -85,26 +84,6 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 
 -- @param inputFunction fun(await: fun(callback: fun(...): (T), ...): T)
 
----@generic T, U
----@param inputFunction fun(await: fun(callback: fun(...:U): (T), ...:U): T)
-function async(inputFunction)
-    local co = coroutine.create(inputFunction)
-    local await = function(asyncCallback, ...)
-        table.insert(Lanes, {
-            thread = lanes.gen(asyncLibs, asyncCallback)(...),
-            callback = function(ret)
-                coroutine.resume(co, ret)
-            end
-        })
-        return coroutine.yield()
-    end
-    ---@return boolean success Async function has finished successfully
-    return function()
-        local ok = coroutine.resume(co, await)
-        return ok
-    end
-end
-
 local function connect(desiredMap, host, port, password)
     api.stopRefreshLobby()
     if not engine.map.getCurrentMapHeader().name == "ui" then
@@ -116,8 +95,7 @@ local function connect(desiredMap, host, port, password)
     -- if exists("maps\\" .. desiredMap .. ".map") or exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
     if true then
         -- Force game profile name to be the same as the player's name
-        -- TODO BALLTZE MIGRATE
-        -- core.setGameProfileName(api.session.player.name)
+        core.setGameProfileName(api.session.player.name)
         core.connectServer(host, port, password)
     else
         interface.dialog("ERROR", "LOCAL MAP NOT FOUND", "Map \"" .. desiredMap ..
@@ -185,6 +163,7 @@ function api.login(username, password)
         logger:info("onLoginResponse")
         loading(false)
         if not response then
+            logger:error("No response")
             showErrorDialog("No response")
             return
         end
@@ -303,16 +282,16 @@ function api.lobby(lobbyKey)
         return
     end
 
-    logger:debug("Joining lobby " .. lobbyKey)
+    logger:debug("Joining lobby with key: " .. lobbyKey)
     api.session.lobbyKey = lobbyKey
-    local lobby = async(function(await)
+    async(function(await)
         ---@type httpResponse<insurrectionLobby>?
         local response = await(requests.get, api.url .. "/lobby/" .. lobbyKey)
         if not response then
             showErrorDialog("No response")
             return
         end
-        if response.code == 200 then
+        if response.code == requests.codes.ok then
             local lobby = response.json()
             if lobby then
                 store:dispatch(actions.setLobby(lobbyKey, lobby))
@@ -320,23 +299,25 @@ function api.lobby(lobbyKey)
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
+                    menus.lobby()
                     react.render("lobbyMenu")
-                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
-                                     isPlayerLobbyOwner)
                 else
-                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
+                    menus.lobby(true)
                     react.render("lobbyMenuClient")
                 end
-                -- Lobby alreadydeleteLobby
-                if lobby.server and not engine.netgame.getServerType() == "dedicated" then
+                discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
+                                     isPlayerLobbyOwner)
+                api.startLobbyRefresh()
+                -- Lobby already has a server running, connect to it
+                if lobby.server and engine.netgame.getServerType() ~= "dedicated" then
+                    logger:debug("Connecting to lobby server...")
                     api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port, lobby.server.password)
                     --preventStuckLobby()
                 end
             end
         end
-    end)
-    lobby()
+    end)()
 end
 
 function api.startLobbyRefresh()
@@ -354,18 +335,14 @@ function api.startLobbyRefresh()
 end
 
 function api.refreshLobby()
-    loading(true, "Refreshing lobby...", false)
     if not api.session.lobbyKey then
         return
     end
     logger:info("Refreshing lobby data...", "info")
+    loading(true, "Refreshing lobby...", false)
     local refresh = async(function(await)
         ---@type httpResponse<insurrectionLobby | requestResult>?
         local response = await(requests.get, api.url .. "/lobby/" .. api.session.lobbyKey)
-        if not response then
-            showErrorDialog("No response")
-            return
-        end
         loading(false)
         if not response then
             api.stopRefreshLobby()
@@ -376,21 +353,18 @@ function api.refreshLobby()
             local lobby = response.json()
             if lobby then
                 -- Update previously joined lobby data
-                -- store:dispatch(actions.updateLobby(api.session.lobbyKey, lobby))
                 store:dispatch(actions.setLobby(api.session.lobbyKey, lobby))
                 local state = getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     react.render("lobbyMenu")
-                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
-                                     isPlayerLobbyOwner)
                 else
-                    discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map)
                     react.render("lobbyMenuClient")
                 end
-                -- Lobby alreadydeleteLobby
-                if lobby.server and not engine.netgame.getServerType() == "dedicated" then
+                discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map, isPlayerLobbyOwner)
+                -- Lobby already has a server running, connect to it
+                if lobby.server and engine.netgame.getServerType() ~= "dedicated" then
                     api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,
                             lobby.server.password)
