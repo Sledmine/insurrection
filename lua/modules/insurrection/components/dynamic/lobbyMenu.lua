@@ -22,10 +22,20 @@ local gametypeIcons = {
     "team_slayer"
 }
 
+local templateIcons = {
+    "stock",
+    "fiesta"
+}
+
+local bitmaps = {
+    gametypeIcons = blam.findTag("lobby_gametype_icon", blam.tagClasses.bitmap),
+    templateIcons = blam.findTag("lobby_template_icon", blam.tagClasses.bitmap)
+}
+
 return function()
     local state = getState()
-    local definition = "template"
     local lobby = state.lobby
+    local definition = "map"
 
     local isPlayerLobbyOwner = api.session.player and state.lobby and api.session.player.publicId ==
                                    state.lobby.owner
@@ -74,6 +84,23 @@ return function()
 
     summary:setText("Play with your friends, define your rules and enjoy.")
 
+    local function getMapBackgroundBitmap(mapName)
+        local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
+        assert(mapCollection, "No map preview collection found")
+        for k, v in pairs(mapCollection.tagList) do
+            local bitmapTag = blam.getTag(v) --[[@as tag]]
+            local mapBitmaName = core.getTagName(bitmapTag.path):lower()
+            if mapBitmaName == mapName:lower() then
+                return bitmapTag.id
+            end
+        end
+        return constants.bitmaps.unknownMapPreview.id
+    end
+
+    local function setMapBackgroundBitmap(mapName)
+        mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
+    end
+
     if lobby and isPlayerLobbyOwner then
         elementsList:onSelect(function(item)
             item.value:setText(item.label)
@@ -90,16 +117,7 @@ return function()
                 map = map:getText(),
                 gametype = gametype:getText()
             })
-            mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
-            local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
-            assert(mapCollection, "No map preview collection found")
-            for k, v in pairs(mapCollection.tagList) do
-                local bitmapTag = blam.getTag(v) --[[@as tag]]
-                local mapName = core.getTagName(bitmapTag.path):lower()
-                if mapName == item.label:lower() then
-                    mapPreview.widgetDefinition.backgroundBitmap = bitmapTag.id
-                end
-            end
+            setMapBackgroundBitmap(item.label)
         end)
 
         local handleDefinition = function(lobbyDef, newDefinition)
@@ -112,14 +130,19 @@ return function()
             component:setItems(table.map(state.available[newDefinition .. "s"], function(element)
                 ---@type uiComponentListItem
                 local item = {label = element, value = lobbyDef}
-                if newDefinition ~= "map" then
+                if newDefinition == "template" or newDefinition == "gametype" then
                     item.bitmap = function(uiComponent)
                         local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
-                        local iconToUse = table.find(gametypeIcons, function(icon)
+                        local iconBitmaps = newDefinition == "template" and bitmaps.templateIcons or
+                                                   bitmaps.gametypeIcons
+                        assert(iconBitmaps, "No icon bitmaps found")
+                        icon.widgetDefinition.backgroundBitmap = iconBitmaps.id
+                        local iconsToUse = newDefinition == "template" and templateIcons or gametypeIcons
+                        local iconToUse = table.find(iconsToUse, function(icon)
                             return element:includes(icon)
                         end)
                         local backgroundBitmapIndex =
-                            (table.indexof(gametypeIcons, iconToUse) or 1) - 1
+                            (table.indexof(iconsToUse, iconToUse) or 1) - 1
                         if backgroundBitmapIndex then
                             icon:setWidgetValues({bitmapIndex = backgroundBitmapIndex})
                         end
@@ -134,13 +157,12 @@ return function()
             fullMapList:replace(elementsList.tagId)
             handleDefinition(template, "template")
         end)
-        -- Force selection of template at start
-        template.events.onClick()
         template:onFocus(function()
             summary:setText(
                 "Template defines a set of changes to the base server that will be applied when the lobby is created.")
         end)
 
+        -- Force selection of map definition when opening the lobby menu
         map:onClick(function()
             elementsList:replace(fullMapList.tagId)
             handleDefinition(map, "map")
@@ -149,6 +171,7 @@ return function()
             summary:setText(
                 "Choose a map from the available list to play on, you need to have the map installed.")
         end)
+        map.events.onClick()
 
         gametype:onClick(function()
             fullMapList:replace(elementsList.tagId)
@@ -202,6 +225,11 @@ return function()
         end))
     end)
 
+    lobbyMenu:onOpen(function()
+        if map.events.onClick then
+            map.events.onClick()
+        end
+    end)
     lobbyMenu:onClose(function()
         api.deleteLobby()
     end)
@@ -220,6 +248,7 @@ return function()
         if api.session.lobbyKey then
             key:setText(string.rep("*", #api.session.lobbyKey))
         end
+        setMapBackgroundBitmap(state.lobby.map)
 
         playersList:setItems(table.map(state.lobby.players, function(player)
             local nameplateTag = constants.nameplates[player.nameplate] or {}

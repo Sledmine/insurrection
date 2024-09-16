@@ -46,17 +46,17 @@ return container("lobby_menu", {
             {
                 optionsV2("definitions", "horizontal", {
                     {
-                        complexButton("definition_template", string.rep(" ", 32), "TEMPLATE",
-                                      {variant = "horizontal"}),
-                        defsLayout()
-                    },
-                    {
                         complexButton("definition_map", string.rep(" ", 32), "MAP",
                                       {variant = "horizontal"}),
                         defsLayout()
                     },
                     {
                         complexButton("definition_gametype", string.rep(" ", 32), "GAMETYPE",
+                                      {variant = "horizontal"}),
+                        defsLayout()
+                    },
+                    {
+                        complexButton("definition_template", string.rep(" ", 32), "TEMPLATE",
                                       {variant = "horizontal"}),
                         defsLayout()
                     }
