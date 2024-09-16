@@ -147,7 +147,7 @@ function constants.get()
         button = findTag(fontName .. "button", tagClasses.font),
         shadow = findTag(fontName .. "shadow", tagClasses.font)
     }
-    logger:debug("Loaded constants")
+    log("Loaded constants")
 end
 
 return constants

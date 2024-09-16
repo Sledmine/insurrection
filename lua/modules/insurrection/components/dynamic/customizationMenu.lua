@@ -186,7 +186,7 @@ return function()
                 bipedPath = savedBiped.path
                 regions = savedBiped.regions
             end
-            -- logger:debug(savedBiped)
+            -- log(savedBiped)
             handleSelectBiped(bipedPath, regions)
         end)
 
@@ -239,13 +239,13 @@ return function()
                 bipeds = {[project] = selectedBiped .. "+" .. table.concat(regions, "+")}
             end
         end
-        logger:debug("Nameplate: {}", nameplate)
-        logger:debug("Bipeds: {}", inspect(bipeds))
+        log("Nameplate: {}", nameplate)
+        log("Bipeds: {}", inspect(bipeds))
         api.playerProfileEdit({nameplate = nameplate, bipeds = bipeds})
     end)
 
     customization:onOpen(function(previousWidgetTag)
-        logger:debug("Customization menu opened")
+        log("Customization menu opened")
         discord.setState("Playing Insurrection", "In the customization menu")
         profile = core.getPlayerProfile()
         if previousWidgetTag then

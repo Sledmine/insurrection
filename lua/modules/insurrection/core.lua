@@ -286,7 +286,7 @@ function core.loading(isLoading, text, blockInput)
             -- harmony.menu.block_input(true)
         end
         LoadingText = text or "Loading..."
-        logger:debug(LoadingText)
+        log(LoadingText)
     else
         -- TODO BALLTZE MIGRATE
         -- harmony.menu.block_input(false)
@@ -409,7 +409,7 @@ end
 ---@return number aspectWidth, number aspectHeight
 function core.getScreenAspectRatio()
     local screenWidth, screenHeight = core.getScreenResolution()
-    logger:debug("Screen resolution: " .. screenWidth .. "x" .. screenHeight)
+    log("Screen resolution: " .. screenWidth .. "x" .. screenHeight)
     -- Calculate the greatest common divisor (GCD) using Euclidean algorithm
     local function gcd(a, b)
         while b ~= 0 do

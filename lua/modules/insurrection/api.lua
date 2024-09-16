@@ -78,7 +78,7 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 --    if #Lanes == 0 then
 --        Lanes[#Lanes + 1] = {thread = lanes.gen(asyncLibs, func)(...), callback = callback}
 --    else
---        logger:debug("Warning! An async function is trying to add another thread!")
+--        log("Warning! An async function is trying to add another thread!")
 --    end
 -- end
 
@@ -90,7 +90,7 @@ local function connect(desiredMap, host, port, password)
         engine.core.consolePrint("Can't connect to a server while in-game.")
         return
     end
-    -- logger:debug("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
+    -- log("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
     -- TODO BALLTZE MIGRATE
     -- if exists("maps\\" .. desiredMap .. ".map") or exists(core.getMyGamesHaloCEPath() .. "\\chimera\\maps\\" .. desiredMap .. ".map") then
     if true then
@@ -160,7 +160,7 @@ function api.login(username, password)
         ---@type httpResponse<loginResponse>?
         local response = await(requests.postform, api.url .. "/login",
                                {username = username, password = password})
-        logger:info("onLoginResponse")
+        log("onLoginResponse")
         loading(false)
         if not response then
             logger:error("No response")
@@ -211,7 +211,7 @@ end
 ---@param lobbyKey? string
 function api.lobby(lobbyKey)
     if not lobbyKey then
-        logger:debug("Creating lobby")
+        log("Creating lobby")
         local lobby = async(function(await)
             loading(true, "Creating lobby...")
             ---@type httpResponse<lobbyResponse>?
@@ -281,7 +281,7 @@ function api.lobby(lobbyKey)
         return
     end
 
-    logger:debug("Joining lobby with key: " .. lobbyKey)
+    log("Joining lobby with key: " .. lobbyKey)
     api.session.lobbyKey = lobbyKey
     async(function(await)
         ---@type httpResponse<insurrectionLobby>?
@@ -309,7 +309,7 @@ function api.lobby(lobbyKey)
                 api.startLobbyRefresh()
                 -- Lobby already has a server running, connect to it
                 if lobby.server and engine.netgame.getServerType() ~= "dedicated" then
-                    logger:debug("Connecting to lobby server...")
+                    log("Connecting to lobby server...")
                     api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port, lobby.server.password)
                     preventStuckLobby()
@@ -389,7 +389,7 @@ function api.stopRefreshLobby()
 end
 function api.deleteLobby()
     if api.session.lobbyKey then
-        logger:warning("DELETING lobby")
+        log("DELETING lobby")
         api.variables.refreshTimer.stop()
         api.variables.refreshTimer = nil
         api.session.lobbyKey = nil

@@ -53,6 +53,12 @@ local customUiWidgetPaths = {
     {constants.path.customSounds, "tag_collection"}
 }
 
+function log(...)
+    if DebugMode then
+        logger:debug(...)
+    end
+end
+
 function PluginMetadata()
     return {
         name = "Insurrection",
@@ -69,6 +75,7 @@ local commands = {
         help = "<boolean>",
         execute = function(enable)
             DebugMode = luna.bool(enable)
+            engine.core.consolePrint("Debug mode: " .. tostring(DebugMode))
         end
     },
     setup_fonts = {
@@ -107,13 +114,13 @@ local commands = {
 }
 
 local function initialize()
-    logger:debug("Initializing Insurrection")
+    log("Initializing Insurrection")
     api.loadUrl()
     components.free()
     constants.get()
     interface.load()
     interface.changeAspectRatio()
-    logger:debug("Overriding Chimera font...")
+    log("Overriding Chimera font...")
     chimera.fontOverride()
 end
 
@@ -124,7 +131,7 @@ function PluginInit()
         if event.time == "before" then
             isNewMap = true
             if event.context:mapName() == "ui" then
-                logger:debug("Loading Insurrection UI")
+                log("Loading Insurrection UI")
                 for mapName, bipeds in pairs(customBipedPaths) do
                     for _, bipedPath in pairs(bipeds) do
                         balltze.features.importTagFromMap(mapName, bipedPath, "biped")
@@ -146,7 +153,7 @@ function PluginInit()
         balltze.command.registerCommand(command, command, data.description, data.help, false,
                                         data.minArgs or 0, data.maxArgs or 0, false, true,
                                         function(...)
-            local success, result = pcall(data.execute, ...)
+            local success, result = pcall(data.execute, table.unpack(...))
             if not success then
                 logger:error("Error executing command '{}': {}", command, result)
                 return false

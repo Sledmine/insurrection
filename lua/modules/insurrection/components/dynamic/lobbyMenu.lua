@@ -103,7 +103,7 @@ return function()
         end)
 
         local handleDefinition = function(lobbyDef, newDefinition)
-            logger:debug("Changing definition to " .. newDefinition)
+            log("Changing definition to " .. newDefinition)
             search:setText("")
             local component = elementsList
             if newDefinition == "map" then

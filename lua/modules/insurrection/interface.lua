@@ -25,11 +25,11 @@ function interface.load()
     if IsUICompatible then
 
         -- Load Insurrection features
-        logger:debug("Loading Insurrection patches...")
+        log("Loading Insurrection patches...")
         core.loadInsurrectionPatches()
 
         -- Components initialization
-        logger:debug("Initializing components...")
+        log("Initializing components...")
         interface.loadProfileNameplate()
         interface.cleanAllEditableWidgets()
 
@@ -51,7 +51,7 @@ function interface.load()
 
             local errorModalLegacy = components.new(constants.widgets.legacyModalError.id)
             errorModalLegacy:onOpen(function()
-                logger:debug("Checking if lobby is active...")
+                log("Checking if lobby is active...")
                 if api.session.lobbyKey and engine.map.getCurrentMapHeader().name == "ui" then
                     api.lobby(api.session.lobbyKey)
                 end
@@ -85,9 +85,9 @@ function interface.load()
             if multiplayerWidgetsCollection then
                 local pause = components.new(multiplayerWidgetsCollection.tagList[1])
                 if pause then
-                    logger:debug(multiplayerWidgetsCollection.tagList[1])
+                    log(multiplayerWidgetsCollection.tagList[1])
                     if constants.widgets.pause then
-                        logger:debug("Insurrection may load in external map...")
+                        log("Insurrection may load in external map...")
                         require "insurrection.components.dynamic.dialog"()
                         local insurrectionPause = components.new(constants.widgets.pause.id)
                         local resumeButton = button.new(
@@ -97,12 +97,12 @@ function interface.load()
                         local exitButton = button.new(
                                                insurrectionPause:findChildWidgetTag("exit_button").id)
                         resumeButton:onClick(function()
-                            logger:debug("Resume button clicked")
+                            log("Resume button clicked")
                             interface.blur(false)
                             interface.sound("back")
                         end)
                         stockResumeButton:onClick(function()
-                            logger:debug("Stock resume button clicked")
+                            log("Stock resume button clicked")
                             interface.sound("back")
                         end)
                         exitButton:onClick(function()
@@ -122,11 +122,11 @@ function interface.load()
                             interface.blur(false)
                         end)
                         pause:onOpen(function()
-                            logger:debug("Opening stock pause menu...")
+                            log("Opening stock pause menu...")
                             if not InvalidatePauseOverride then
                                 --if engine.map.getCurrentMapHeader().name ~= "ui" and (engine.netgame.getServerType() == "dedicated" or DebugMode) then
                                 if engine.map.getCurrentMapHeader().name ~= "ui" then
-                                    logger:debug("Opening Insurrection pause menu...")
+                                    log("Opening Insurrection pause menu...")
                                     interface.blur(true)
                                     balltze.features.setUIAspectRatio(16, 9)
                                     menus.pause()
@@ -177,7 +177,7 @@ end
 
 function interface.loadProfileNameplate(nameplateId)
     if not constants.tagCollections.nameplates then
-        logger:debug("Error, no nameplates collection found")
+        log("Error, no nameplates collection found")
         return
     end
     local nameplate = components.new(constants.widgets.nameplate.id)
@@ -194,13 +194,13 @@ function interface.loadProfileNameplate(nameplateId)
         nameplate:animate()
         if nameplateId then
             if not nameplateBitmapTags[nameplateId] then
-                logger:debug("Invalid nameplate id: " .. nameplateId)
+                log("Invalid nameplate id: " .. nameplateId)
                 return
             end
             nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[nameplateId].id
             return
         end
-        logger:debug("Loading nameplate from settings...")
+        log("Loading nameplate from settings...")
         local settings = core.loadSettings()
         if settings and settings.nameplate and nameplateBitmapTags[settings.nameplate] then
             nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id
@@ -242,7 +242,7 @@ end
 function interface.dialog(titleText, subtitleText, bodyText)
     if constants.sounds then
         if titleText == "WARNING" or titleText == "ERROR" then
-            logger:debug(constants.sounds.error.path)
+            log(constants.sounds.error.path)
             playSound(constants.sounds.error.id)
         else
             playSound(constants.sounds.success.id)
@@ -271,7 +271,7 @@ end
 function interface.sound(sound)
     if not (constants.sounds.error and constants.sounds.success and constants.sounds.back and
         constants.sounds.join and constants.sounds.leave) then
-        logger:debug("Error, no custom sounds found", "error")
+        log("Error, no custom sounds found", "error")
         return
     end
     if sound == "error" then
@@ -285,7 +285,7 @@ function interface.sound(sound)
     elseif sound == "leave" then
         playSound(constants.sounds.leave.id)
     else
-        logger:debug("Invalid sound: " .. sound, "error")
+        log("Invalid sound: " .. sound, "error")
     end
 end
 
@@ -374,7 +374,7 @@ end
 function interface.changeAspectRatio()
     if core.getCurrentUIWidgetTag() then
         -- Change UI aspect ratio
-        logger:debug("Setting UI aspect ratio to 16:9")
+        log("Setting UI aspect ratio to 16:9")
         balltze.features.setUIAspectRatio(16, 9)
         -- Enable menu blur
         execute_script("menu_blur_on")
@@ -390,14 +390,14 @@ end
 function interface.cleanAllEditableWidgets()
     local editableWidgets = blam.findTagsList("input", blam.tagClasses.uiWidgetDefinition) or {}
     for _, widgetTag in pairs(editableWidgets) do
-        --logger:debug("Cleaning widget " .. widgetTag.path)
+        --log("Cleaning widget " .. widgetTag.path)
         local widget = blam.uiWidgetDefinition(widgetTag.id)
         assert(widget, "No widget found with tag id " .. widgetTag.id)
         local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
         if widgetStrings then
             local strings = widgetStrings.strings
             strings[1] = ""
-            logger:debug("Cleaned widget " .. widgetTag.path)
+            log("Cleaned widget " .. widgetTag.path)
             widgetStrings.strings = strings
         end
     end

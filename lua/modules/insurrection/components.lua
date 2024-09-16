@@ -154,7 +154,7 @@ function component.callbacks()
                 local widgetTag = engine.tag
                                       .getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
                 assert(widgetTag, "Invalid widget tag")
-                logger:debug("Opening tag: {}", widgetTag.path)
+                log("Opening tag: {}", widgetTag.path)
                 local component = component.widgets[tagHandle]
                 if component and component.events.onOpen then
                     component.events.onOpen(previousWidgetTag)
@@ -169,7 +169,7 @@ function component.callbacks()
                     local widgetCount = widgetTagData.childWidgets.count
                     if widgetTagData and widgetCount > 0 then
                         local optionWidget = widgetTagData.childWidgets.elements[widgetCount]
-                        -- logger:debug("Option widget: {}", inspect(table.keys(optionWidget.widgetTag)))
+                        -- log("Option widget: {}", inspect(table.keys(optionWidget.widgetTag)))
                         local optionsWidgetTag = engine.tag.getTag(
                                                      optionWidget.widgetTag.tagHandle.value,
                                                      engine.tag.classes.uiWidgetDefinition)
@@ -187,7 +187,7 @@ function component.callbacks()
 
     balltze.event.uiWidgetBack.subscribe(function(event)
         if event.time == "before" then
-            logger:debug("Closing tag: {}", event.context.widget.definitionTagHandle.value)
+            log("Closing tag: {}", event.context.widget.definitionTagHandle.value)
             local widgetTagHandleValue = event.context.widget.definitionTagHandle.value
             local component = component.widgets[widgetTagHandleValue]
             if component and component.events.onClose then
@@ -202,7 +202,7 @@ function component.callbacks()
     balltze.event.uiWidgetListTab.subscribe(function(event)
         if event.time == "before" then
             local pressedKey = event.context.tab
-            logger:debug("Pressed key: {}", pressedKey)
+            log("Pressed key: {}", pressedKey)
 
             local listWidgetTagId = event.context.widgetList.definitionTagHandle.value
             local previousFocusedWidgetId = event.context.widgetList.focusedChild
@@ -314,7 +314,7 @@ function component.new(tagId)
     instance.widgetDefinition = uiWidgetDefinition(tagId) or error("Invalid tagId") --[[@as uiWidgetDefinition]]
     instance.events = {}
     instance.isBackgroundAnimated = false
-    -- logger:debug("Created component: " .. instance.tag.path, "info")
+    -- log("Created component: " .. instance.tag.path, "info")
     component.widgets[tagId] = instance
     return instance
 end
