@@ -4,16 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.7.1] - 2024-06-
+## [2.8.0] - 2024-09-
 ### Fixed
+- Lobby map preview not being updated properly
+- Lobby gametypes bitmaps not being updated instantly after changing it
+- Issue that probably caused malformed credentials to be saved
 - Labels with height greater that 1 will now be properly displayed in menus
 - Color profile not being reflected in custom biped selection after changing it in the profile menu
+- Crashes when pressing keys in the loading screen
 
 ### Added
 - Scroll bar for custom list menus
+- Custom menus now play open sound when opened as stock menus
+- Icons for template selection in lobby menu
 
 ### Changed
 - Scroll trough mouse sound error will not play when reaching edges of a list
+- Lobby menu now displays map selection first instead of template
 
 ## [2.7.0] - 2024-06-20
 ### Added
