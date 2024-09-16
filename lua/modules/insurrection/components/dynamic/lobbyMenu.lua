@@ -131,8 +131,8 @@ return function()
         end
 
         template:onClick(function()
-            handleDefinition(template, "template")
             fullMapList:replace(elementsList.tagId)
+            handleDefinition(template, "template")
         end)
         -- Force selection of template at start
         template.events.onClick()
@@ -142,8 +142,8 @@ return function()
         end)
 
         map:onClick(function()
-            handleDefinition(map, "map")
             elementsList:replace(fullMapList.tagId)
+            handleDefinition(map, "map")
         end)
         map:onFocus(function()
             summary:setText(
@@ -151,8 +151,8 @@ return function()
         end)
 
         gametype:onClick(function()
-            handleDefinition(gametype, "gametype")
             fullMapList:replace(elementsList.tagId)
+            handleDefinition(gametype, "gametype")
         end)
         gametype:onFocus(function()
             summary:setText(
