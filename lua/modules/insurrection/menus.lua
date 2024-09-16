@@ -1,9 +1,14 @@
 local engine = Engine
-local openWidget = engine.userInterface.openWidget
 local constants = require "insurrection.constants"
+local playSound = engine.userInterface.playSound
 local core = require "insurrection.core"
 
 local menus = {}
+
+local function openWidget(...)
+    playSound(constants.sounds.success.id)
+    engine.userInterface.openWidget(...)
+end
 
 function menus.dashboard()
     openWidget(constants.widgets.dashboard.id, true)
