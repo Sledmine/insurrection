@@ -1,11 +1,3 @@
-local blam = require "blam"
-local tagClasses = blam.tagClasses
-local findTag = blam.findTag
-local function findWidgetTag(partialName)
-    return findTag(partialName, blam.tagClasses.uiWidgetDefinition)
-end
-local core = require "insurrection.core"
-
 local constants = {}
 
 constants.path = {
@@ -14,6 +6,108 @@ constants.path = {
     dialog = [[insurrection\ui\menus\dialog\dialog_menu]],
     customSounds = [[insurrection\sound\custom_sounds]],
     tester = [[insurrection\ui\menus\tester\tester_menu]]
+}
+
+constants.customColor = {
+    black = "#141414",
+    brown = "#413823",
+    blue = "#001473",
+    indigo = "#0051a7",
+    green = "#117300",
+    muddy_green = "#687434",
+    mustard = "#918d09",
+    rum = "#89642c",
+    rust = "#8b3900",
+    berry = "#8b0000",
+    eggplant = "#a70069",
+    purple = "#a70069"
+}
+
+constants.customColors = {
+    {
+        constants.customColor.black,
+        "#323232", --charcoal
+        "#787878", --gray
+        "#c8c8c8", --silver
+        "#ffffff", --white
+    },
+    {
+        constants.customColor.brown,
+        "#8c7a53", --pale brown
+        "#7a7966", --ash
+        "#a2a089", --sage
+        "#d1d0c1", --misr
+    },
+    {
+        constants.customColor.blue,
+        "#303c8f", --cobalt
+        "#5966ac", --deluge
+        "#8493c8", --ice
+        "#b0c0e4", --cerulean
+    },
+    {
+        constants.customColor.indigo,
+        "#2f79bc", --mariner
+        "#57a3d1", --moonstone
+        "#80cde6", --malibu
+        "#abf8fc", --light cyan
+    },
+    {
+        constants.customColor.green,
+        "#18a20b", --grass
+        "#40c937", --alien
+        "#82ec7a", --algae
+        "#b9f9b4", --pastel green
+    },
+    {
+        constants.customColor.muddy_green,
+        "#7a8932", --drab
+        "#8f9e4d", --moss
+        "#acbc6a", --olive
+        "#ddf1a4", --caper
+    },
+    {
+        constants.customColor.mustard,
+        "#bfbf00", --bile
+        "#eaea4d", --banana
+        "#f7f79a", --buff
+        "#ffffc7", --ecru
+    },
+    {
+        constants.customColor.rum,
+        "#b27e10", --gold
+        "#eaae14", --bee
+        "#f7bd44", --mango
+        "#FCCB77", --chardonnay
+    },
+    {
+        constants.customColor.rust,
+        "#b14e00", --burnt
+        "#e86600", --bamboo
+        "#f78335", --tiger
+        "#f9a37a", --peach
+    },
+    {
+        constants.customColor.berry,
+        "#b50000", --scarlet
+        "#ea0000", --corsa
+        "#f35d5d", --sunset
+        "#ff8c8c", --geraldine
+    },
+    {
+        constants.customColor.eggplant,
+        "#ce0081", --red violet
+        "#ff00a0", --cerise
+        "#ff7eb9", --pink
+        "#ffbad5", --candy
+    },
+    {
+        constants.customColor.purple,
+        "#462f6f", --meteorite
+        "#8b70a5", --lilac
+        "#d0a9f6", --violet
+        "#e1cdf6", --lavender
+    },
 }
 
 constants.color = {
@@ -59,12 +153,19 @@ constants.colors = {
 }
 
 constants.customization = {
-    rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190, arms = 80, gear = 0},
+    rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190, arms = 80, gear = 0}
 }
 
 constants.widgets = {}
 
 function constants.get()
+    local blam = require "blam"
+    local tagClasses = blam.tagClasses
+    local findTag = blam.findTag
+    local function findWidgetTag(partialName)
+        return findTag(partialName, blam.tagClasses.uiWidgetDefinition)
+    end
+    local core = require "insurrection.core"
 
     constants.widgets = {
         --[[
