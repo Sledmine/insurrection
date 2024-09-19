@@ -8,6 +8,8 @@ local floor = math.floor
 ---@field name string
 ---@field color string
 ---@field text? string
+---@field width? number
+---@field height? number
 
 ---Generic color button component
 ---@param props colorProps
@@ -16,14 +18,16 @@ return function(props)
     local name = props.name
     local color = props.color
     local text = props.text
+    local width = props.width or 32
+    local height = props.height or 32
 
     local widgetPath = widget.path .. "buttons/" .. name .. "_color_button.ui_widget_definition"
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        bounds = widget.bounds(0, 0, 32, 32),
+        bounds = widget.bounds(0, 0, height, width),
         flags = {pass_unhandled_events_to_focused_child = true},
-        background_bitmap = "insurrection/ui/bitmaps/solid_red.bitmap",
+        background_bitmap = widget.color(color),
         event_handlers = {
             {event_type = "a_button"},
             {
