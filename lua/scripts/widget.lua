@@ -318,7 +318,7 @@ function widget.color(color, name)
 
     if not fs.is("tags/" .. bitmapPath .. ".bitmap") then
         -- Create bitmap from color using image magick, assume color is in hex
-        os.execute("convert -size 8x8 xc:" .. color .. " " .. imagePath)
+        os.execute("convert -size 4x4 xc:" .. color .. " " .. imagePath)
         os.execute("invader-bitmap -F 32-bit -T interface_bitmaps " .. bitmapPath)
     end
     return bitmapPath .. ".bitmap"
