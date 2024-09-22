@@ -7,7 +7,6 @@ local floor = math.floor
 ---@class colorProps
 ---@field name string
 ---@field color string
----@field text? string
 ---@field width? number
 ---@field height? number
 
@@ -17,7 +16,6 @@ local floor = math.floor
 return function(props)
     local name = props.name
     local color = props.color
-    local text = props.text
     local width = props.width or 32
     local height = props.height or 32
 

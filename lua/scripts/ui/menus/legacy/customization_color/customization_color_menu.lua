@@ -97,7 +97,7 @@ return container {
                     options("customization_color_actions", "horizontal", {
                         {
                             button("save_color", "SAVE COLOR",
-                                   {func = "emit_custom_activation_event"}),
+                                   {func = "emit_custom_activation_event", back = true}),
                             pos.back.x - 186,
                             pos.back.y
                         },

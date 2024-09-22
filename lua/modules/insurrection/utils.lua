@@ -55,4 +55,19 @@ function utils.sortTableAlphabetically(t)
     return sorted
 end
 
+---Returns a snake case string from a camel case string
+---@param s string
+---@return string
+function utils.camelCaseToSnakeCase(s)
+    -- Convert camelCase to snake_case but keep numbers
+    s = s:sub(1, 1):lower() .. s:sub(2)
+    local new = s:gsub("([A-Z])", function(c)
+        return "_" .. c:lower()
+    end)
+    if new:sub(1, 1) == "_" then
+        new = new:sub(2)
+    end
+    return new
+end
+
 return utils

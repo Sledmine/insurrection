@@ -10,104 +10,163 @@ constants.path = {
 
 constants.customColor = {
     black = "#141414",
+    charcoal = "#323232",
+    gray = "#787878",
+    silver = "#c8c8c8",
+    white = "#ffffff",
+    --
     brown = "#413823",
+    paleBrown = "#8c7a53",
+    ash = "#7a7966",
+    sage = "#a2a089",
+    misr = "#d1d0c1",
+    --
     blue = "#001473",
+    cobalt = "#303c8f",
+    deluge = "#5966ac",
+    ice = "#8493c8",
+    cerulean = "#b0c0e4",
+    --
     indigo = "#0051a7",
+    mariner = "#2f79bc",
+    moonstone = "#57a3d1",
+    malibu = "#80cde6",
+    lightCyan = "#abf8fc",
+    --
     green = "#117300",
-    muddy_green = "#687434",
+    grass = "#18a20b",
+    alien = "#40c937",
+    algae = "#82ec7a",
+    pastelGreen = "#b9f9b4",
+    --
+    muddyGreen = "#687434",
+    drab = "#7a8932",
+    moss = "#8f9e4d",
+    olive = "#acbc6a",
+    caper = "#ddf1a4",
+    --
     mustard = "#918d09",
+    bile = "#bfbf00",
+    banana = "#eaea4d",
+    buff = "#f7f79a",
+    ecru = "#ffffc7",
+    --
     rum = "#89642c",
+    gold = "#b27e10",
+    bee = "#eaae14",
+    mango = "#f7bd44",
+    chardonnay = "#FCCB77",
+    --
     rust = "#8b3900",
+    burnt = "#b14e00",
+    bamboo = "#e86600",
+    tiger = "#f78335",
+    peach = "#f9a37a",
+    --
     berry = "#8b0000",
+    scarlet = "#b50000",
+    corsa = "#ea0000",
+    sunset = "#f35d5d",
+    geraldine = "#ff8c8c",
+    --
     eggplant = "#a70069",
-    purple = "#a70069"
+    redViolet = "#ce0081",
+    cerise = "#ff00a0",
+    pink = "#ff7eb9",
+    candy = "#ffbad5",
+    --
+    purple = "#321861",
+    meteorite = "#462f6f",
+    lilac = "#8b70a5",
+    violet = "#d0a9f6",
+    lavender = "#e1cdf6"
 }
 
 constants.customColors = {
     {
         constants.customColor.black,
-        "#323232", --charcoal
-        "#787878", --gray
-        "#c8c8c8", --silver
-        "#ffffff", --white
+        constants.customColor.charcoal,
+        constants.customColor.gray,
+        constants.customColor.silver,
+        constants.customColor.white
     },
     {
         constants.customColor.brown,
-        "#8c7a53", --pale brown
-        "#7a7966", --ash
-        "#a2a089", --sage
-        "#d1d0c1", --misr
+        constants.customColor.paleBrown,
+        constants.customColor.ash,
+        constants.customColor.sage,
+        constants.customColor.misr
     },
     {
         constants.customColor.blue,
-        "#303c8f", --cobalt
-        "#5966ac", --deluge
-        "#8493c8", --ice
-        "#b0c0e4", --cerulean
+        constants.customColor.cobalt,
+        constants.customColor.deluge,
+        constants.customColor.ice,
+        constants.customColor.cerulean
     },
     {
         constants.customColor.indigo,
-        "#2f79bc", --mariner
-        "#57a3d1", --moonstone
-        "#80cde6", --malibu
-        "#abf8fc", --light cyan
+        constants.customColor.mariner,
+        constants.customColor.moonstone,
+        constants.customColor.malibu,
+        constants.customColor.lightCyan
     },
     {
         constants.customColor.green,
-        "#18a20b", --grass
-        "#40c937", --alien
-        "#82ec7a", --algae
-        "#b9f9b4", --pastel green
+        constants.customColor.grass,
+        constants.customColor.alien,
+        constants.customColor.algae,
+        constants.customColor.pastelGreen
     },
     {
-        constants.customColor.muddy_green,
-        "#7a8932", --drab
-        "#8f9e4d", --moss
-        "#acbc6a", --olive
-        "#ddf1a4", --caper
+        constants.customColor.muddyGreen,
+        constants.customColor.drab,
+        constants.customColor.moss,
+        constants.customColor.olive,
+        constants.customColor.caper
     },
     {
         constants.customColor.mustard,
-        "#bfbf00", --bile
-        "#eaea4d", --banana
-        "#f7f79a", --buff
-        "#ffffc7", --ecru
+        constants.customColor.bile,
+        constants.customColor.banana,
+        constants.customColor.buff,
+        constants.customColor.ecru
     },
     {
         constants.customColor.rum,
-        "#b27e10", --gold
-        "#eaae14", --bee
-        "#f7bd44", --mango
-        "#FCCB77", --chardonnay
+        constants.customColor.gold,
+        constants.customColor.bee,
+        constants.customColor.mango,
+        constants.customColor.chardonnay
     },
     {
         constants.customColor.rust,
-        "#b14e00", --burnt
-        "#e86600", --bamboo
-        "#f78335", --tiger
-        "#f9a37a", --peach
+        constants.customColor.burnt,
+        constants.customColor.bamboo,
+        constants.customColor.tiger,
+        constants.customColor.peach
     },
     {
         constants.customColor.berry,
-        "#b50000", --scarlet
-        "#ea0000", --corsa
-        "#f35d5d", --sunset
-        "#ff8c8c", --geraldine
+        constants.customColor.scarlet,
+        constants.customColor.corsa,
+        constants.customColor.sunset,
+        constants.customColor.geraldine
     },
     {
         constants.customColor.eggplant,
-        "#ce0081", --red violet
-        "#ff00a0", --cerise
-        "#ff7eb9", --pink
-        "#ffbad5", --candy
+        constants.customColor.redViolet,
+        constants.customColor.cerise,
+        constants.customColor.pink,
+        constants.customColor.candy
     },
     {
         constants.customColor.purple,
-        "#462f6f", --meteorite
-        "#8b70a5", --lilac
-        "#d0a9f6", --violet
-        "#e1cdf6", --lavender
-    },
+        constants.customColor.meteorite,
+        constants.customColor.lilac,
+        constants.customColor.violet,
+        constants.customColor.lavender
+    }
 }
 
 constants.color = {

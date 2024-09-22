@@ -189,7 +189,7 @@ function widget.init(widgetPath)
 end
 
 ---Align multiple widgets to a specific position
----@param alignment '"vertical"' | '"horizontal"'
+---@param alignment "vertical" | "horizontal"
 ---@param size number
 ---@param horizontal number
 ---@param vertical number
@@ -312,7 +312,7 @@ end
 ---@param name? string
 ---@return string
 function widget.color(color, name)
-    local colorDecimal = tonumber(color:sub(2), 16) or 0 
+    local colorDecimal = tonumber(color:sub(2), 16) or 0
     local bitmapPath = "insurrection/ui/bitmaps/color_" .. (name or colorDecimal)
     local imagePath = "data/insurrection/ui/bitmaps/color_" .. (name or colorDecimal) .. ".png"
 
@@ -322,6 +322,28 @@ function widget.color(color, name)
         os.execute("invader-bitmap -F 32-bit -T interface_bitmaps " .. bitmapPath)
     end
     return bitmapPath .. ".bitmap"
+end
+
+--- Save widget path into a global tag collection reference
+---@param widgetPath string
+---@param tagCollectionPath string
+function widget.global(widgetPath, tagCollectionPath)
+    local widgetCount = widget.count(tagCollectionPath, "tags")
+
+    local widgets = {}
+    for i = 0, widgetCount - 1 do
+        local widget = widget.get(tagCollectionPath, "tags", i, "reference")
+        table.insert(widgets, {reference = widget})
+    end
+
+    if not table.find(widgets, function(v, k)
+        return v.reference == widgetPath
+    end) then
+        table.insert(widgets, {reference = widgetPath})
+        widget.create(tagCollectionPath, {tags = widgets})
+        return
+    end
+    print("Widget already exists in tag collection.")
 end
 
 return widget
