@@ -45,7 +45,8 @@ local colors = table.map(customColors, function(column, columnIndex)
     end)
 end)
 
-local primaryColorPosition = {x = 21, y = 134}
+local primaryColorPosition = {x = -10, y = 130}
+local SecondaryColorPosition = {x = -10, y = 285}
 
 local colorComponents = table.map(colors, function(column, columnIndex)
     return table.map(column, function(colorPath, colorIndex)
@@ -71,6 +72,20 @@ local colorColumns = table.map(colorComponents, function(column, columnIndex)
     }
 end)
 
+local colorColumnsSecondary = table.map(colorComponents, function(column, columnIndex)
+    return {
+        options {
+            name = "customization_biped_colors_column_" .. columnIndex,
+            layout = "vertical",
+            childs = column,
+            width = 28,
+            height = 100
+        },
+        SecondaryColorPosition.x + (columnIndex * 30),
+        SecondaryColorPosition.y
+    }
+end)
+
 local customizationBipedColorMenuPath = container {
     name = "customization_biped_colors_menu",
     background = "fade",
@@ -85,14 +100,23 @@ local customizationBipedColorMenuPath = container {
             pos.header.y
         },
         {
+            header {
+                name = "primary_color",
+                title = "PRIMARY COLOR",
+                subtitle = "$colorName"
+            },
+            20,
+            103
+        },
+        {
             bar {
                 name = "customization_primary_color_scroll",
                 orientation = "horizontal",
                 type = "scroll",
                 size = barSize
             },
-            (constants.screen.width / 2) - (barSize / 2),
-            425
+            20,
+            240
         },
         {
             options {
@@ -103,6 +127,45 @@ local customizationBipedColorMenuPath = container {
                 --    --{button {name = "back", text = "BACK", back = true}, pos.back.x, pos.back.y}
                 --}
             }
+        },
+        {
+            header {
+                name = "secondary_color",
+                title = "SECONDARY COLOR",
+                subtitle = "$colorName"
+            },
+            pos.colorHeader.x,
+            258
+        },
+        {
+            bar {
+                name = "customization_primary_color_scroll",
+                orientation = "horizontal",
+                type = "scroll",
+                size = barSize
+            },
+            20,
+            395
+        },
+        {
+            options {
+                name = "customization_biped_colors_secondary",
+                layout = "vertical",
+                childs = colorColumnsSecondary
+                --{
+                --    --{button {name = "back", text = "BACK", back = true}, pos.back.x, pos.back.y}
+                --}
+            }
+        },
+        {
+            button {
+                name = "back",
+                text = "BACK",
+                variant = "normal",
+                back = true
+            },
+            pos.back.x,
+            pos.back.y
         },
         {constants.components.currentProfile.path, 624, 20},
         {constants.components.version.path, 0, 460}
