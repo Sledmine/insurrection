@@ -46,7 +46,7 @@ local colors = table.map(customColors, function(column, columnIndex)
 end)
 
 local primaryColorPosition = {x = -10, y = 130}
-local SecondaryColorPosition = {x = -10, y = 285}
+local secondaryColorPosition = {x = -10, y = 285}
 
 local colorComponents = table.map(colors, function(column, columnIndex)
     return table.map(column, function(colorPath, colorIndex)
@@ -81,8 +81,8 @@ local colorColumnsSecondary = table.map(colorComponents, function(column, column
             width = 28,
             height = 100
         },
-        SecondaryColorPosition.x + (columnIndex * 30),
-        SecondaryColorPosition.y
+        secondaryColorPosition.x + (columnIndex * 30),
+        secondaryColorPosition.y
     }
 end)
 
