@@ -22,6 +22,9 @@ function interface.load()
     components.free()
     -- constants.get()
     IsUICompatible = true
+    -- local scenery = engine.tag.findTags("halo", engine.tag.classes.scenery)[1]
+    -- assert(scenery, "Error, no scenery tag found")
+    -- engine.core.consolePrint("{}", tostring(inspect(table.keys(scenery.data))))
     if IsUICompatible then
 
         -- Load Insurrection features
@@ -48,6 +51,7 @@ function interface.load()
                 isBipedPreviewGenEnabled = false
             }
             require "insurrection.components.dynamic.lobbyBrowserMenu"()
+            require "insurrection.components.dynamic.customizationBipedColorMenu"()
 
             local errorModalLegacy = components.new(constants.widgets.legacyModalError.id)
             errorModalLegacy:onOpen(function()
@@ -81,7 +85,8 @@ function interface.load()
 
         -- Insurrection is running outside the UI
         if constants.widgetCollections.multiplayer then
-            local multiplayerWidgetsCollection = uiWidgetCollection(constants.widgetCollections.multiplayer.id)
+            local multiplayerWidgetsCollection = uiWidgetCollection(
+                                                     constants.widgetCollections.multiplayer.id)
             if multiplayerWidgetsCollection then
                 local pause = components.new(multiplayerWidgetsCollection.tagList[1])
                 if pause then
@@ -124,7 +129,7 @@ function interface.load()
                         pause:onOpen(function()
                             log("Opening stock pause menu...")
                             if not InvalidatePauseOverride then
-                                --if engine.map.getCurrentMapHeader().name ~= "ui" and (engine.netgame.getServerType() == "dedicated" or DebugMode) then
+                                -- if engine.map.getCurrentMapHeader().name ~= "ui" and (engine.netgame.getServerType() == "dedicated" or DebugMode) then
                                 if engine.map.getCurrentMapHeader().name ~= "ui" then
                                     log("Opening Insurrection pause menu...")
                                     interface.blur(true)
@@ -212,14 +217,14 @@ end
 ---@param widgetTagHandleValue number
 ---@param willRepeat? boolean
 function interface.animateUIWidgetBackground(widgetTagHandleValue, willRepeat)
-    --local willRepeat = willRepeat or true
+    -- local willRepeat = willRepeat or true
     local widget = engine.userInterface.findWidget(widgetTagHandleValue)
     if widget then
         local widgetTag = engine.tag.getTag(widgetTagHandleValue,
                                             engine.tag.classes.uiWidgetDefinition)
         -- TODO Change balltze to catch exceptions in timer as they propagate and crash the game
         assert(widgetTag, "Error, widget tag not found")
-        --print("Animating widget {}", widgetTag.path)
+        -- print("Animating widget {}", widgetTag.path)
         local bitmapTag = engine.tag.getTag(widgetTag.data.backgroundBitmap.tagHandle.value,
                                             engine.tag.classes.bitmap)
         if bitmapTag then
@@ -346,7 +351,8 @@ function interface.onTick()
         return
     end
     if constants.widgets.biped then
-        if currentWidgetTag.id == constants.widgets.biped.id then
+        if currentWidgetTag.id == constants.widgets.biped.id or currentWidgetTag.id ==
+            constants.widgets.bipedColor.id then
             interface.rotateCustomizationBiped()
         end
     end
@@ -390,7 +396,7 @@ end
 function interface.cleanAllEditableWidgets()
     local editableWidgets = blam.findTagsList("input", blam.tagClasses.uiWidgetDefinition) or {}
     for _, widgetTag in pairs(editableWidgets) do
-        --log("Cleaning widget " .. widgetTag.path)
+        -- log("Cleaning widget " .. widgetTag.path)
         local widget = blam.uiWidgetDefinition(widgetTag.id)
         assert(widget, "No widget found with tag id " .. widgetTag.id)
         local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)

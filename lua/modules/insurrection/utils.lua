@@ -32,15 +32,17 @@ end
 ---Returns an upper sentence case string from a snake case string
 ---@param s string
 function utils.snakeCaseToUpperTitleCase(s)
-    return s:upper():replace("_", " ")
+    local str = s:upper():replace("_", " ")
+    return str
 end
 
 ---Returns a tile case string from a snake case string
 ---@param s string
 function utils.snakeCaseToTitleCase(s)
-    return s:replace("_", " "):gsub("(%l)(%w*)", function(a, b)
+    local str = s:replace("_", " "):gsub("(%l)(%w*)", function(a, b)
         return a:upper() .. b
     end)
+    return str
 end
 
 ---Returns a table sorted alphabetically by key

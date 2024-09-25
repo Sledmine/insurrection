@@ -7,6 +7,7 @@ local blam = require "blam"
 local core = require "insurrection.core"
 local color = require "color"
 local bar = require "insurrection.components.bar"
+local menus = require "insurrection.menus"
 local t = utils.snakeCaseToUpperTitleCase
 
 local staticRegions = {
@@ -135,7 +136,8 @@ return function(props)
     local customization = components.new(constants.widgets.biped.id)
     local geometryName = components.new(customization:findChildWidgetTag("geometry_name").id)
     local options = list.new(customization:findChildWidgetTag("geometry_list").id, 1, 8)
-    local scrollOptionsBar = bar.new(customization:findChildWidgetTag("geometry_scroll").id, "scroll")
+    local scrollOptionsBar = bar.new(customization:findChildWidgetTag("geometry_scroll").id,
+                                     "scroll")
     options:setScrollBar(scrollOptionsBar)
     local back = button.new(options:findChildWidgetTag("back").id)
 
@@ -170,20 +172,24 @@ return function(props)
             }
         end)
 
-        if DebugMode then
-            table.insert(regions, {
-                value = "visor",
-                label = t("visor"),
-                bitmap = function(uiComponent)
-                    local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
-                    icon.widgetDefinition.backgroundBitmap =
-                        constants.bitmaps.customization.regions.id
-                    icon:setWidgetValues({
-                        bitmapIndex = getBitmapIndexForRegion("visor")
-                    })
-                end
-            })
-        end
+        table.insert(regions, 1, {
+            value = "visor",
+            label = t("visor"),
+            bitmap = function(uiComponent)
+                local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
+                icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("visor")})
+            end
+        })
+        table.insert(regions, 1, {
+            value = "color",
+            label = t("color"),
+            bitmap = function(uiComponent)
+                local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
+                icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("color")})
+            end
+        })
 
         editing = "regions"
         options:setItems(regions)
@@ -194,12 +200,6 @@ return function(props)
         if region == "visor" then
             local visors = {}
             -- TODO Add visor permutations dynamically
-            -- for visorIndex = 0, 24 do
-            --    table.insert(visors, {
-            --        value = visorIndex,
-            --        label = t("visor") .. " " .. visorIndex
-            --    })
-            -- end
             for _, visorName in ipairs(staticVisors) do
                 table.insert(visors, {
                     value = table.indexof(staticVisors, visorName) - 1,
@@ -209,14 +209,16 @@ return function(props)
                             components.new(uiComponent:findChildWidgetTag("button_icon").id)
                         icon.widgetDefinition.backgroundBitmap =
                             constants.bitmaps.customization.regions.id
-                        icon:setWidgetValues({
-                            bitmapIndex = getBitmapIndexForRegion("visor")
-                        })
+                        icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("visor")})
                     end
                 })
             end
             editing = "visor"
             options:setItems(visors)
+            return
+        end
+        if region == "color" then
+            menus.bipedColor()
             return
         end
 
@@ -277,8 +279,8 @@ return function(props)
 
     local function generateBipedPreviews()
         IsUIPhotoSessionRunning = true
-        execute_script("object_create green_screen")
-        console_debug("Generating biped previews")
+        log("object_create green_screen")
+        log("Generating biped previews")
         execute_script("cls")
         -- core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 0.04})
         core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 0})
@@ -327,7 +329,7 @@ return function(props)
                     setEditingGeometry(currentRegionName, 1)
                     core.setObjectPermutationSafely(customizationBiped, regionIndex,
                                                     permutationIndex - 1)
-                    -- console_debug("Generating biped preview for " .. regionName .. " " .. permutation.name)
+                    -- log("Generating biped preview for " .. regionName .. " " .. permutation.name)
                     customizationBiped.animationFrame = 0
                     local screenShotName = region.name .. "+" ..
                                                string.format("%02d", permutationIndex) .. ".png"
@@ -359,9 +361,11 @@ return function(props)
         elseif editing == "permutations" then
             local permutation = item.value
             setPermutation(permutation)
-        else
+        elseif editing == "visor" then
             local visor = item.value
             setVisor(visor)
+        else
+            menus.bipedColor()
         end
     end)
 

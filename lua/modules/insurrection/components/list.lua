@@ -28,7 +28,7 @@ local list = setmetatable({
 }, {__index = components})
 
 ---@class uiComponentListItem
----@field label string
+---@field label? string
 ---@field value string | boolean | number | any
 ---@field bitmap? number | fun(uiComponent: uiComponent)
 
@@ -238,6 +238,7 @@ function list.getSelectedItem(self)
 end
 
 ---@param self uiComponentList
+---@param isScrollable boolean
 function list.scrollable(self, isScrollable)
     self.isScrollable = isScrollable
 end

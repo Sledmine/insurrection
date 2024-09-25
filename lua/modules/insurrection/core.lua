@@ -3,6 +3,7 @@ local blam = require "blam"
 local tagClasses = blam.tagClasses
 local json = require "json"
 local base64 = require "base64"
+local color = require "color"
 local balltze = Balltze
 local engine = Engine
 
@@ -436,6 +437,31 @@ function core.getPlayerProfile()
     profile.name = blam.readUnicodeString(profileNameAddress, true)
     profile.colorIndex = read_byte(profileColorAddress) + 1
     return profile
+end
+
+--- Set customization biped color if possible
+--- @param primaryColorHex? string
+--- @param secondaryColorHex? string
+function core.setCustomizationBipedColor(primaryColorHex, secondaryColorHex)
+    local customizationObjectData = core.getCustomizationObjectData()
+    local customizationBiped = customizationObjectData.biped
+
+    -- Set primary color
+    if primaryColorHex then
+        local r, g, b = color.hexToDec(primaryColorHex)
+        customizationBiped.colorCLowerRed = r
+        customizationBiped.colorCLowerGreen = g
+        customizationBiped.colorCLowerBlue = b
+    end
+
+
+    -- Set secondary color
+    if secondaryColorHex then
+        r, g, b = color.hexToDec(secondaryColorHex)
+        customizationBiped.colorDLowerRed = r
+        customizationBiped.colorDLowerGreen = g
+        customizationBiped.colorDLowerBlue = b
+    end
 end
 
 return core

@@ -1,6 +1,8 @@
 local components = require "insurrection.components"
 local balltze = Balltze
 local engine = Engine
+package.preload["luna"] = nil
+package.loaded["luna"] = nil
 local luna = require "luna"
 local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
@@ -69,11 +71,26 @@ function PluginMetadata()
     }
 end
 
+local function initialize()
+    log("Initializing Insurrection")
+    api.loadUrl()
+    components.free()
+    constants.get()
+    interface.load()
+    interface.changeAspectRatio()
+    log("Overriding Chimera font...")
+    chimera.fontOverride()
+end
+
 local commands = {
     debug = {
         description = "Enable Insurrection debug mode",
         help = "<boolean>",
         execute = function(enable)
+            if enable == nil then
+                DebugMode = not DebugMode
+                return
+            end
             DebugMode = luna.bool(enable)
             engine.core.consolePrint("Debug mode: " .. tostring(DebugMode))
         end
@@ -100,9 +117,9 @@ local commands = {
         execute = function()
             IsDebugCustomization = true
             interface.blur(false)
-            -- interface.close(true)
-            execute_script("set_customization_background 1")
-            execute_script("object_create customization_biped")
+            interface.close(true)            
+            --execute_script("set_customization_background 1")
+            --execute_script("object_create customization_biped")
         end
     },
     test = {
@@ -112,17 +129,6 @@ local commands = {
         end
     }
 }
-
-local function initialize()
-    log("Initializing Insurrection")
-    api.loadUrl()
-    components.free()
-    constants.get()
-    interface.load()
-    interface.changeAspectRatio()
-    log("Overriding Chimera font...")
-    chimera.fontOverride()
-end
 
 function PluginInit()
     logger = balltze.logger.createLogger("insurrection")

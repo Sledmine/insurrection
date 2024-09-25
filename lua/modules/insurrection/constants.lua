@@ -251,7 +251,9 @@ function constants.get()
         biped = findWidgetTag("customization_biped\\customization_biped_menu"),
         browser = findWidgetTag("lobby_browser_menu"),
         legacyModalError = findWidgetTag("error_modal_fullscreen"),
-        balltze = findWidgetTag("balltze\\balltze_mod_menu")
+        balltze = findWidgetTag("balltze\\balltze_mod_menu"),
+        -- TODO Rename colors to color
+        bipedColor = findWidgetTag("customization_biped_colors_menu"),
     }
 
     constants.sounds = {

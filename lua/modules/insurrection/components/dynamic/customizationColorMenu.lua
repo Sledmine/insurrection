@@ -8,7 +8,7 @@ local core = require "insurrection.core"
 local getWidgetValues = core.getWidgetValues
 local setWidgetValues = core.setWidgetValues
 local menus = require "insurrection.menus"
-local delay = require "insurrection.utils".delay
+local delay = require"insurrection.utils".delay
 
 return function()
     local customizationColor = components.new(constants.widgets.color.id)
@@ -21,74 +21,62 @@ return function()
 
     local saveId = customizationColorListActions:findChildWidgetTag("save").id
     local customizationColorSaveButton = button.new(saveId)
-    openSettingsMenu = function()
-        menus.open(constants.widgets.settings.id)
-    end
-    customizationColorSaveButton:onClick(function()
-        -- FIXME BALLTZE MIGRATE
-        --delay(30, openSettingsMenu)
-    end)
     local colorButtons = customizationColorListOptions:getChildWidgetTags()
+
+    local page = 0
+    local multiplier = #colorButtons - 2
+
+    local scrollDown = button.new(colorButtons[1].id)
+    local scrollUp = button.new(colorButtons[#colorButtons - 1].id)
+    scrollDown:onClick(function()
+    end)
+    scrollUp:onClick(function()
+    end)
+
     updateColorMenu = function()
-        local currentColorDescription = components.new(
-                                            blam.findTag("current_color_label",
-                                                         blam.tagClasses.uiWidgetDefinition).id)
-        -- TODO Get this from memory, not from the UI
-        -- It seems like this widget is not found by harmony.menu.find_widgets
-        -- local currentColorName = blam.readUnicodeString(core.getWidgetValues(
-        --                                                    currentColorDescription.tag.id)
-        --                                                    .text, true):lower()
-        local scenario = blam.scenario(0)
-        assert(scenario)
-        local colorValue = constants.color[currentColorName]
-        local menuBiped
-        for k, objectIndex in pairs(blam.getObjects()) do
-            local object = blam.object(get_object(objectIndex))
-            if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
-                menuBiped = object
-                local tag = blam.getTag(menuBiped.tagId)
-                if tag and tag.path:find "cyborg" then
-                    if colorValue then
-                        local r, g, b = color.hexToDec(colorValue)
-                        menuBiped.colorCLowerRed = r
-                        menuBiped.colorCLowerGreen = g
-                        menuBiped.colorCLowerBlue = b
-                    end
-                    break
-                end
-            end
-        end
-        
+        Engine.core.consolePrint("Updating color menu")
+
+        local profile = core.getPlayerProfile()
+        local colorFromGame = constants.colors[profile.colorIndex]
+        local colorName = table.flip(constants.color)[colorFromGame]:lower()
+        logger:debug("Color: {}", colorName)
+
+        local customizationBiped = core.getCustomizationObjectData().biped
+        local r, g, b = color.hexToDec(colorFromGame)
+        customizationBiped.colorCLowerRed = r
+        customizationBiped.colorCLowerGreen = g
+        customizationBiped.colorCLowerBlue = b
+
+        customizationBiped.colorDLowerRed = r
+        customizationBiped.colorDLowerGreen = g
+        customizationBiped.colorDLowerBlue = b
 
         for buttonIndex, tag in pairs(colorButtons) do
             if buttonIndex > 1 and buttonIndex < #colorButtons - 1 then
                 local colorButton = button.new(tag.id)
                 local colorButtonText = button.new(colorButton:findChildWidgetTag("_text").id)
                 local colorIcon = button.new(colorButton:findChildWidgetTag("_icon").id)
-                local colorName = blam.readUnicodeString(
-                                      getWidgetValues(colorButtonText.tag.id).text, true):lower()
-                local colorValue = constants.color[colorName]
-                if colorValue then
-                    local colorIndex = table.flip(constants.colors)[colorValue] - 1
-                    setWidgetValues(colorIcon.tag.id, {bitmapIndex = colorIndex})
+                --local colorValue = constants.colors[]
+                --if colorValue then
+                --   local colorIndex = table.flip(constants.colors)[colorValue] - 1
+                --   setWidgetValues(colorIcon.tag.id, {bitmapIndex = colorIndex})
                     colorButton:onClick(function()
-                        local r, g, b = color.hexToDec(colorValue)
-                        menuBiped.colorCLowerRed = r
-                        menuBiped.colorCLowerGreen = g
-                        menuBiped.colorCLowerBlue = b
+                        Engine.core.consolePrint(profile.colorIndex)
+                        Engine.core.consolePrint(core.getPlayerProfile().colorIndex)
+                        --local r, g, b = color.hexToDec(colorValue)
+                        --customizationBiped.colorCLowerRed = r
+                        --customizationBiped.colorCLowerGreen = g
+                        --customizationBiped.colorCLowerBlue = b
                     end)
-                end
-            else
-                local scrollButton = button.new(tag.id)
-                scrollButton:onClick(function()
-                    delay(45, updateColorMenu)
-                end)
+                --end
             end
         end
         return false
     end
     customizationColor:onOpen(function()
         execute_script "object_create customization_biped"
-        delay(45, updateColorMenu)
+
+        -- delay(45, updateColorMenu)
+        updateColorMenu()
     end)
 end

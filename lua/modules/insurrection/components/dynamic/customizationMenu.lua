@@ -1,7 +1,8 @@
 local balltze = Balltze
 local engine = Engine
 local blam = require "blam"
-local bar  = require "insurrection.components.bar"
+local bar = require "insurrection.components.bar"
+local interface = require "insurrection.interface"
 local tagClasses = blam.tagClasses
 local findTag = blam.findTag
 local color = require "color"
@@ -32,7 +33,7 @@ return function()
     local nameplatePreview = components.new(findTag("nameplate_preview",
                                                     tagClasses.uiWidgetDefinition).id)
     nameplatePreview:animate()
-    
+
     local scrollBar = bar.new(customization:findChildWidgetTag("customization_scroll").id, "scroll")
     -- Get nameplate list widget
     local nameplatesList = list.new(customization:findChildWidgetTag("nameplates_options").id, 1, 9)
@@ -58,8 +59,9 @@ return function()
                                         customization:findChildWidgetTag("save_customization").id)
 
     nameplatesList:onSelect(function(item)
-        console_debug(item.value)
-        nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap --[[@as number]]
+        log(item.value)
+        interface.loadProfileNameplate(item.value)
+        -- nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap --[[@as number]]
     end)
     local sortedNameplates = table.keys(constants.nameplates)
     table.sort(sortedNameplates)
@@ -72,8 +74,8 @@ return function()
     ---@param bipedPath string
     ---@param regions? number[]
     local handleSelectBiped = function(bipedPath, regions)
-        console_debug(bipedPath)
-        console_debug(regions)
+        log(bipedPath)
+        log(inspect(regions))
         selectedBiped = bipedPath
         bipedsList:setWidgetValues({opacity = 1})
 
@@ -87,11 +89,11 @@ return function()
 
         -- TODO Remove this when biped animations are fixed in coop evolved
         if not (tagEntry.path:includes "marine" or tagEntry.path:includes "grunt") then
-            -- FIXME This crashes when using Blam and doesnot exist propery weapons when using Balltze
-            --bipedData.weapons.count = 0
+            -- FIXME This crashes when using Blam and does not exist propery weapons when using Balltze
+            -- bipedData.weapons.count = 0
+            local bipedTag = blam.bipedTag(tagEntry.handle.value)
+            bipedTag.weaponCount = 0
         end
-        local bipedName = t(utils.path(bipedPath:replace("_mp", "")).name)
-        currentBipedLabel:setText(bipedName)
 
         local scenario = blam.scenario(0)
         assert(scenario)
@@ -116,14 +118,17 @@ return function()
         local customizationObjectData = core.getCustomizationObjectData()
         local customizationBiped = customizationObjectData.biped
         assert(customizationBiped, "No customization biped found")
---
+
+        local bipedName = t(utils.path(bipedPath:replace("_mp", "")).name)
+        currentBipedLabel:setText(bipedName)
+        --
         local colorFromGame = constants.colors[profile.colorIndex]
         console_debug(colorFromGame)
         local r, g, b = color.hexToDec(colorFromGame)
         customizationBiped.colorCLowerRed = r
         customizationBiped.colorCLowerGreen = g
         customizationBiped.colorCLowerBlue = b
---
+        --
         ---- TODO Change with secondary color later
         customizationBiped.colorDLowerRed = r
         customizationBiped.colorDLowerGreen = g
@@ -137,7 +142,7 @@ return function()
     end
 
     local function handleLoadNameplates()
-        execute_script("set_ui_background")
+        execute_script("set_customization_background")
         nameplatesList:refresh()
         currentBipedLabel:setText("")
         selectBipedsWrapper:replace(nameplatesList.tagId)
@@ -160,7 +165,7 @@ return function()
         end
 
         nameplatesList:replace(selectBipedsWrapper.tagId)
-        --scrollBar:setWidgetValues {left_bound = selectProjectsList:getWidgetValues().left_bound + 184 + 5}
+        -- scrollBar:setWidgetValues {left_bound = selectProjectsList:getWidgetValues().left_bound + 184 + 5}
         local state = getState()
 
         local projects = table.keys(state.available.customization)
@@ -212,7 +217,6 @@ return function()
     end
 
     selectBipedButton:onClick(function()
-        execute_script("set_customization_background")
         handleLoadBipeds(true)
     end)
 
@@ -242,6 +246,11 @@ return function()
         log("Nameplate: {}", nameplate)
         log("Bipeds: {}", inspect(bipeds))
         api.playerProfileEdit({nameplate = nameplate, bipeds = bipeds})
+    end)
+
+    customization:onClose(function()
+        logger:debug("Customization menu closed")
+        interface.loadProfileNameplate()
     end)
 
     customization:onOpen(function(previousWidgetTag)

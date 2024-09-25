@@ -52,6 +52,7 @@ function component.callbacks()
 
     balltze.event.uiWidgetAccept.subscribe(function(event)
         if event.time == "before" then
+            log("Accepting widget: {}", event.context.widget.definitionTagHandle.value)
             local isCanceled = false
             local instance = component.widgets[event.context.widget.definitionTagHandle.value]
             if instance then
@@ -95,13 +96,15 @@ function component.callbacks()
     balltze.event.uiWidgetMouseButtonPress.subscribe(function(event)
         if event.time == "before" then
             local button = event.context.button:label()
-            local widgetTag = engine.userInterface.findWidget(event.context.widget.definitionTagHandle.value)
+            local widgetTag = engine.userInterface.findWidget(event.context.widget
+                                                                  .definitionTagHandle.value)
             assert(widgetTag, "Invalid widget tag")
             if editableWidgetTagData and editableWidgetTagEntry then
                 if widgetTag.definitionTagHandle.value == editableWidgetTagEntry.handle.value then
                     if button == "right" then
                         engine.core.consolePrint("Button: " .. button)
-                        local inputString = core.getStringFromWidget(editableWidgetTagEntry.handle.value)
+                        local inputString = core.getStringFromWidget(
+                                                editableWidgetTagEntry.handle.value)
                         local text = inputString .. core.getClipboard()
                         core.setStringToWidget(text, editableWidgetTagEntry.handle.value)
                         local component = component.widgets[editableWidgetTagEntry.handle.value]
@@ -155,9 +158,15 @@ function component.callbacks()
                                       .getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
                 assert(widgetTag, "Invalid widget tag")
                 log("Opening tag: {}", widgetTag.path)
-                local component = component.widgets[tagHandle]
-                if component and component.events.onOpen then
-                    component.events.onOpen(previousWidgetTag)
+                local componentInstance = component.widgets[tagHandle]
+                if componentInstance and componentInstance.events.onOpen then
+                    componentInstance.events.onOpen(previousWidgetTag)
+                end
+                if previousWidgetTag then
+                    local previousComponentInstance = component.widgets[previousWidgetTag.handle.value]
+                    if previousComponentInstance and previousComponentInstance.events.onClose then
+                        previousComponentInstance.events.onClose()
+                    end
                 end
                 if previousWidgetTag ~= widgetTag then
                     previousWidgetTag = widgetTag
@@ -184,6 +193,13 @@ function component.callbacks()
             end
         end
     end)
+
+    -- We might be able to use this in the future to play custom sounds or something
+    --balltze.event.uiWidgetSound.subscribe(function(event)
+    --    if event.time == "before" then
+    --        local sound = event.context.sound
+    --    end
+    --end)
 
     balltze.event.uiWidgetBack.subscribe(function(event)
         if event.time == "before" then
@@ -278,7 +294,6 @@ function component.callbacks()
                     -- engine.core.consolePrint("Input string: " .. inputString)
                     local text = core.mapKeyToText(pressedKey, inputString)
                     if text then
-                        engine.core.consolePrint("Text: " .. text)
                         -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
                         -- if editableWidgetTagData.name:find "password" then
                         if editableWidgetTagData.name:find "password" then
@@ -286,7 +301,7 @@ function component.callbacks()
                         else
                             core.setStringToWidget(text, editableWidgetTagEntry.handle.value)
                         end
-                         component = component.widgets[editableWidgetTagEntry.handle.value]
+                        component = component.widgets[editableWidgetTagEntry.handle.value]
                         if component and component.events.onInputText then
                             component.events.onInputText(text)
                         end

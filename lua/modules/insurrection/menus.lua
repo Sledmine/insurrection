@@ -43,8 +43,8 @@ function menus.pause()
     openWidget(constants.widgets.pause.id, false)
 end
 
-function menus.open(widget)
-    openWidget(widget, false)
+function menus.open(widget, replace)
+    openWidget(widget, replace or false)
 end
 
 function menus.biped()
@@ -53,6 +53,10 @@ end
 
 function menus.lobbies()
     openWidget(constants.widgets.browser.id, true)
+end
+
+function menus.bipedColor()
+    openWidget(constants.widgets.bipedColor.id, true)
 end
 
 return menus

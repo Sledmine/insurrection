@@ -390,7 +390,9 @@ end
 function api.deleteLobby()
     if api.session.lobbyKey then
         log("DELETING lobby")
-        api.variables.refreshTimer.stop()
+        if api.variables.refreshTimer then
+            api.variables.refreshTimer.stop()
+        end
         api.variables.refreshTimer = nil
         api.session.lobbyKey = nil
         store:dispatch(actions.setLobby(nil, nil))

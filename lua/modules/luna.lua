@@ -1,4 +1,4 @@
-local luna = {_VERSION = "2.4.0"}
+local luna = {_VERSION = "2.5.0"}
 
 luna.string = {}
 
@@ -383,17 +383,38 @@ end
 
 --- Returns a table with all values extended from all tables passed as arguments.
 ---@generic K, V
+---@param t table<K, V>
 ---@vararg table<K, V>
 ---@return V[]
 ---@nodiscard
-function table.extend(...)
-    local extended = {}
+function table.extend(t, ...)
+    assert(t ~= nil, "table.extend: t must not be nil")
+    assert(type(t) == "table" or type(t) == "userdata", "table.extend: t must be a table")
+    local extended = table.copy(t)
     for _, t in ipairs {...} do
         for _, v in pairs(t) do
             extended[#extended + 1] = v
         end
     end
+    ---@diagnostic disable-next-line: return-type-mismatch
     return extended
+end
+
+--- Append values to a table.
+--- It will append all values to the end of the table.
+---@generic V
+---@param t V[]
+---@vararg V
+---@return V[]
+function table.append(t, ...)
+    assert(t ~= nil, "table.append: t must not be nil")
+    assert(type(t) == "table" or type(t) == "userdata", "table.append: t must be a table")
+    local appended = table.copy(t)
+    for _, v in ipairs {...} do
+        appended[#appended + 1] = v
+    end
+    ---@diagnostic disable-next-line: return-type-mismatch
+    return appended
 end
 
 --- Returns a table with all elements in reversed order.
@@ -535,6 +556,9 @@ luna.table.slice = table.slice
 luna.table.chunks = table.chunks
 luna.table.count = table.count
 luna.table.keyof = table.keyof
+luna.table.flatten = table.flatten
+luna.table.extend = table.extend
+luna.table.append = table.append
 
 luna.file = {}
 
