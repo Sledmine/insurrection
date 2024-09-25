@@ -109,13 +109,24 @@ local customizationBipedColorMenuPath = container {
             pos.header.y
         },
         {
-            header {
-                name = "primary_color",
-                title = "PRIMARY COLOR",
-                subtitle = widget.strmem(32, "$colorName")
+            label {
+                name = "primary_color_title",
+                text = "PRIMARY COLOR",
+                justify = "left",
+                variant = "title"
             },
             20,
-            103
+            98
+        },
+        {
+            label {
+                name = "primary_color_subtitle",
+                text = widget.strmem(32, "$colorName"),
+                justify = "left",
+                variant = "focus"
+            },
+            20,
+            111
         },
         --{
         --    bar {
@@ -128,13 +139,24 @@ local customizationBipedColorMenuPath = container {
         --    240
         --},
         {
-            header {
-                name = "secondary_color",
-                title = "SECONDARY COLOR",
-                subtitle = widget.strmem(32, "$colorName")
+            label {
+                name = "secondary_color_title",
+                text = "SECONDARY COLOR",
+                justify = "left",
+                variant = "title"
             },
             20,
-            258
+            253
+        },
+        {
+            label {
+                name = "secondary_color_subtitle",
+                text = widget.strmem(32, "$colorName"),
+                justify = "left",
+                variant = "focus"
+            },
+            20,
+            266
         },
         --{
         --    bar {
