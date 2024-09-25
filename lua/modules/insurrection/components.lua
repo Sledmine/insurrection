@@ -165,7 +165,7 @@ function component.callbacks()
                 if previousWidgetTag then
                     local previousComponentInstance = component.widgets[previousWidgetTag.handle.value]
                     if previousComponentInstance and previousComponentInstance.events.onClose then
-                        previousComponentInstance.events.onClose()
+                        --previousComponentInstance.events.onClose()
                     end
                 end
                 if previousWidgetTag ~= widgetTag then
