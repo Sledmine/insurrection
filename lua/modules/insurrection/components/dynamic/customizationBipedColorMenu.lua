@@ -17,6 +17,8 @@ return function()
 
     local primaryColorLabel = components.new(customizationColor:findChildWidgetTag(
                                                  "primary_color_subtitle").id)
+    
+    local secondaryColorLabel = components.new(customizationColor:findChildWidgetTag ("secondary_color_subtitle").id)
 
     local customizationBipedColorOptionsHandle = customizationColor:findChildWidgetTag(
                                                      "customization_biped_colors_options").id
@@ -28,7 +30,6 @@ return function()
         local colorPrimaryColumnList = list.new(colorPrimaryColumnHandle)
         colorPrimaryColumnList:scrollable(false)
         colorPrimaryColumnList:onSelect(function(item)
-            Engine.core.consolePrint("Selected color: " .. item.value)
             local colorName = table.keyof(constants.customColor, item.value)
             primaryColorLabel:setText(l(colorName))
             core.setCustomizationBipedColor(item.value)
@@ -44,9 +45,8 @@ return function()
         local colorSecondaryColumnList = list.new(colorSecondaryColumnHandle)
         colorSecondaryColumnList:scrollable(false)
         colorSecondaryColumnList:onSelect(function(item)
-            Engine.core.consolePrint("Selected color: " .. item.value)
             local colorName = table.keyof(constants.customColor, item.value)
-            primaryColorLabel:setText(l(colorName))
+            secondaryColorLabel:setText(l(colorName))
             core.setCustomizationBipedColor(nil, item.value)
         end)
         colorSecondaryColumnList:setItems(table.map(table.reverse(
