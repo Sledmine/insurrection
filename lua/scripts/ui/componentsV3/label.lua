@@ -6,7 +6,7 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@class labelProps
 ---@field name string Name of the component
 ---@field text string | string[] Text to display
----@field variant? '"title"' | '"subtitle"' | '"text"'
+---@field variant? "title" | "subtitle" | "text" | "focus"
 ---@field justify? "left" | "center" | "right"
 ---@field size? number
 ---@field width? number
@@ -37,6 +37,8 @@ return function(props)
     elseif props.variant == "subtitle" then
         textFont = constants.fonts.subtitle
         textColor = constants.color.subtitle
+    elseif props.variant == "focus" then
+        textColor = constants.color.focus
     end
     local bounds
     if props.width or props.height then
