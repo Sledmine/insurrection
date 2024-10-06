@@ -126,7 +126,7 @@ local function getBipedName(tagPath)
 end
 
 local function getBitmapIndexForRegion(region)
-    return (table.indexof(staticRegions, region) or 1) - 1
+    return (table.indexof(staticRegions, region) or 12) - 1
 end
 
 return function(props)
