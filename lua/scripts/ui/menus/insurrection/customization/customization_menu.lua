@@ -148,10 +148,6 @@ return container {
                                     button("scroll_nameplates_list_down", nil, {arrow = "down"}),
                                     nameplatesLayout()
                                 }
-                            },
-                            description = wrapper {
-                                name = "nameplate_description",
-                                {{nameplate("preview", nil, {preview = true}), 254, 200}}
                             }
                         }
                     },

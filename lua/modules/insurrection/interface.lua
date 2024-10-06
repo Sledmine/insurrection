@@ -34,7 +34,7 @@ function interface.load()
         -- Components initialization
         log("Initializing components...")
         interface.loadProfileNameplate()
-        interface.cleanAllEditableWidgets()
+        components.cleanAllEditableWidgets()
 
         -- interface.animate()
         if constants.widgets.login then
@@ -393,20 +393,12 @@ function interface.changeAspectRatio()
     end
 end
 
-function interface.cleanAllEditableWidgets()
-    local editableWidgets = blam.findTagsList("input", blam.tagClasses.uiWidgetDefinition) or {}
-    for _, widgetTag in pairs(editableWidgets) do
-        -- log("Cleaning widget " .. widgetTag.path)
-        local widget = blam.uiWidgetDefinition(widgetTag.id)
-        assert(widget, "No widget found with tag id " .. widgetTag.id)
-        local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
-        if widgetStrings then
-            local strings = widgetStrings.strings
-            strings[1] = ""
-            log("Cleaned widget " .. widgetTag.path)
-            widgetStrings.strings = strings
-        end
-    end
+---Fade screen in or out
+---@param type "in" | "out"
+---@param duration number
+function interface.fade(type, duration)
+    local type = type == "in" and "in" or "out"
+    execute_script("fade_" .. type .. " 0 0 0 " .. duration)
 end
 
 return interface

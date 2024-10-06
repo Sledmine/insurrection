@@ -36,4 +36,9 @@ return function()
         api.stopRefreshLobby()
         discord.clearPresence()
     end)
+
+    local customizationButton = button.new(dashboard:findChildWidgetTag("customization_button").id)
+    customizationButton:onClick(function()
+        interface.fade("in", 60)
+    end)
 end

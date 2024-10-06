@@ -92,6 +92,12 @@ function core.loadSettings()
     end
 end
 
+function core.updateSettings(newSettings)
+    local previousSettings = core.loadSettings() or {}
+    local settings = table.merge(previousSettings, newSettings)
+    core.saveSettings(settings)
+end
+
 function core.saveSettings(settings)
     Balltze.filesystem.writeFile("settings.json", json.encode(settings))
 end
@@ -362,10 +368,14 @@ function core.getCustomizationObjectData()
     assert(customizationModel, "No customization biped model found")
     return {
         id = customizationObjectId,
+        handle = customizationObjectId,
         biped = customizationBiped,
         bipedTag = customizationBipedTag,
         tag = blam.getTag(customizationBiped.tagId),
-        model = customizationModel
+        model = customizationModel,
+        color = {
+            -- TODO Add color values
+        }
     }
 end
 

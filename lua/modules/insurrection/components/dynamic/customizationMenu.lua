@@ -16,23 +16,14 @@ local core = require "insurrection.core"
 local getState = require "insurrection.redux.getState"
 local t = utils.snakeCaseToUpperTitleCase
 
----@return number?
-local number = function(v)
-    return tonumber(v)
-end
-
 return function()
     local selectedProject
     local selectedBiped
     local profile = core.getPlayerProfile()
+    local state = getState()
 
     -- Get customization widget menu
     local customization = components.new(constants.widgets.customization.id)
-
-    -- Get nameplate preview widget
-    local nameplatePreview = components.new(findTag("nameplate_preview",
-                                                    tagClasses.uiWidgetDefinition).id)
-    nameplatePreview:animate()
 
     local scrollBar = bar.new(customization:findChildWidgetTag("customization_scroll").id, "scroll")
     -- Get nameplate list widget
@@ -46,6 +37,9 @@ return function()
     selectProjectsList:setScrollBar(scrollBar)
     local bipedsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project_biped").id)
 
+    local customizationOptions = components.new(customization:findChildWidgetTag(
+                                                    "customization_options").id)
+    local backButton = button.new(customizationOptions:findChildWidgetTag("back").id)
     local customizationTypesList = components.new(customization:findChildWidgetTag("types").id)
     local selectNameplateButton = button.new(
                                       customizationTypesList:findChildWidgetTag("nameplates").id)
@@ -77,7 +71,6 @@ return function()
         log(bipedPath)
         log(inspect(regions))
         selectedBiped = bipedPath
-        bipedsList:setWidgetValues({opacity = 1})
 
         execute_script("object_create customization_biped")
 
@@ -89,6 +82,7 @@ return function()
 
         -- TODO Remove this when biped animations are fixed in coop evolved
         if not (tagEntry.path:includes "marine" or tagEntry.path:includes "grunt") then
+
             -- FIXME This crashes when using Blam and does not exist propery weapons when using Balltze
             -- bipedData.weapons.count = 0
             local bipedTag = blam.bipedTag(tagEntry.handle.value)
@@ -148,51 +142,45 @@ return function()
         selectBipedsWrapper:replace(nameplatesList.tagId)
     end
 
-    ---@param reset boolean?
-    local function handleLoadBipeds(reset)
-        if reset then
-            bipedsList:setWidgetValues({opacity = 0})
+    ---@param projectName? string
+    local function handleLoadProject(projectName)
+        local savedBipeds = api.getSavedBipeds()
+        local lastSavedProject = (core.loadSettings() or {}).lastSavedProject
+        -- TODO Load last selected project
+        local projectName = projectName or lastSavedProject or table.keys(state.available.customization)[1]
+        selectedProject = projectName
+        local project = state.available.customization[projectName]
+        local bipeds = table.map(project.tags, function(bipedPath)
+            return {label = "CUSTOMIZE", value = bipedPath:replace(".biped", "")}
+        end)
+        bipeds = utils.sortTableAlphabetically(bipeds)
+        bipedsList:setItems(bipeds)
+        local regions
+        local bipedPath = bipeds[1].value
+        local savedBiped = savedBipeds[projectName]
+        if savedBiped then
+            bipedsList:setCurrentItemIndex(table.indexof(bipeds, table.find(bipeds, function(biped)
+                return biped.value == savedBiped.path
+            end)) or 1)
+            bipedPath = savedBiped.path
+            regions = savedBiped.regions
         end
-        local savedBipeds = {}
-        if api.session and api.session.player and api.session.player.bipeds then
-            savedBipeds = table.map(api.session.player.bipeds, function(data)
-                local elements = data:split("+")
-                return {
-                    path = elements[1],
-                    regions = table.map(table.slice(elements, 2, #elements), number)
-                }
-            end)
-        end
+        -- log(savedBiped)
+        handleSelectBiped(bipedPath, regions)
+    end
 
-        nameplatesList:replace(selectBipedsWrapper.tagId)
-        -- scrollBar:setWidgetValues {left_bound = selectProjectsList:getWidgetValues().left_bound + 184 + 5}
+    ---@param openList boolean?
+    local function handleLoadBipeds(openList)
+        if openList then
+            nameplatesList:replace(selectBipedsWrapper.tagId)
+        end
         local state = getState()
 
         local projects = table.keys(state.available.customization)
         table.sort(projects)
 
         selectProjectsList:onSelect(function(item)
-            local projectName = item.value --[[@as string]]
-            selectedProject = projectName
-            local project = state.available.customization[projectName]
-            local bipeds = table.map(project.tags, function(bipedPath)
-                return {label = "CUSTOMIZE", value = bipedPath:replace(".biped", "")}
-            end)
-            bipeds = utils.sortTableAlphabetically(bipeds)
-            bipedsList:setItems(bipeds)
-            local regions
-            local bipedPath = bipeds[1].value
-            local savedBiped = savedBipeds[projectName]
-            if savedBiped then
-                bipedsList:setCurrentItemIndex(table.indexof(bipeds,
-                                                             table.find(bipeds, function(biped)
-                    return biped.value == savedBiped.path
-                end)) or 1)
-                bipedPath = savedBiped.path
-                regions = savedBiped.regions
-            end
-            -- log(savedBiped)
-            handleSelectBiped(bipedPath, regions)
+            handleLoadProject(item.value)
         end)
 
         selectProjectsList:setItems(table.map(projects, function(project)
@@ -208,7 +196,7 @@ return function()
             -- Due to current implementation, setItems is not executed when coming back from another
             -- widget, so we need to reset the state manually or prevent scenarios where we get
             -- and invalid state
-            console_debug(item.value)
+            log(item.value)
             if core.getCustomizationObjectId() then
                 menus.biped()
             end
@@ -217,6 +205,7 @@ return function()
     end
 
     selectBipedButton:onClick(function()
+        handleLoadProject()
         handleLoadBipeds(true)
     end)
 
@@ -249,7 +238,7 @@ return function()
     end)
 
     customization:onClose(function()
-        logger:debug("Customization menu closed")
+        interface.fade("in", 30)
         interface.loadProfileNameplate()
     end)
 
@@ -259,11 +248,20 @@ return function()
         profile = core.getPlayerProfile()
         if previousWidgetTag then
             if previousWidgetTag.handle.value == constants.widgets.biped.id then
-                handleLoadBipeds()
+                handleLoadBipeds(true)
                 return
             end
         end
+        local savedBipeds = api.getSavedBipeds()
+        if savedBipeds then
+            handleLoadProject()
+            handleLoadBipeds()
+        end
         handleLoadNameplates()
+    end)
+
+    backButton:onClick(function()
+        customization.events.onClose()
     end)
 
     return function()

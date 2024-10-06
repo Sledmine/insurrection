@@ -319,6 +319,22 @@ function component.callbacks()
     -- harmony.set_callback("key press", "OnKeypress")
 end
 
+function component.cleanAllEditableWidgets()
+    local editableWidgets = blam.findTagsList("input", blam.tagClasses.uiWidgetDefinition) or {}
+    for _, widgetTag in pairs(editableWidgets) do
+        -- log("Cleaning widget " .. widgetTag.path)
+        local widget = blam.uiWidgetDefinition(widgetTag.id)
+        assert(widget, "No widget found with tag id " .. widgetTag.id)
+        local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
+        if widgetStrings then
+            local strings = widgetStrings.strings
+            strings[1] = ""
+            log("Cleaned widget " .. widgetTag.path)
+            widgetStrings.strings = strings
+        end
+    end
+end
+
 ---@param tagId number
 ---@return uiComponent
 function component.new(tagId)

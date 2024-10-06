@@ -1,5 +1,5 @@
 local engine = Engine
-local lanes = require"lanes"
+local lanes = require "lanes"
 local json = require "json"
 local getState = require "insurrection.redux.getState"
 local react = require "insurrection.react"
@@ -173,7 +173,7 @@ function api.login(username, password)
             api.session.player = jsonResponse.player
             requests.headers = {"Authorization: Bearer " .. api.session.token}
             -- Save last defined nameplate
-            core.saveSettings({nameplate = jsonResponse.player.nameplate})
+            core.updateSettings({nameplate = jsonResponse.player.nameplate})
             interface.loadProfileNameplate()
             api.available()
             menus.dashboard()
@@ -261,7 +261,7 @@ function api.lobby(lobbyKey)
                         react.render("lobbyMenuClient")
                     end
                     discord.setParty(api.session.lobbyKey, #state.lobby.players, 16,
-                                         state.lobby.map, isPlayerLobbyOwner)
+                                     state.lobby.map, isPlayerLobbyOwner)
                 end
                 return
             elseif response.code == requests.codes.forbidden then
@@ -305,13 +305,14 @@ function api.lobby(lobbyKey)
                     react.render("lobbyMenuClient")
                 end
                 discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
-                                     isPlayerLobbyOwner)
+                                 isPlayerLobbyOwner)
                 api.startLobbyRefresh()
                 -- Lobby already has a server running, connect to it
                 if lobby.server and engine.netgame.getServerType() ~= "dedicated" then
                     log("Connecting to lobby server...")
                     api.stopRefreshLobby()
-                    connect(lobby.server.map, lobby.server.host, lobby.server.port, lobby.server.password)
+                    connect(lobby.server.map, lobby.server.host, lobby.server.port,
+                            lobby.server.password)
                     preventStuckLobby()
                 end
             end
@@ -361,7 +362,8 @@ function api.refreshLobby()
                 else
                     react.render("lobbyMenuClient")
                 end
-                discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map, isPlayerLobbyOwner)
+                discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
+                                 isPlayerLobbyOwner)
                 -- Lobby already has a server running, connect to it
                 if lobby.server and engine.netgame.getServerType() ~= "dedicated" then
                     api.stopRefreshLobby()
@@ -461,8 +463,13 @@ function api.playerProfileEdit(data)
         loading(false)
 
         if response.code == 200 then
+            local bipedProjectName = table.keys(data.bipeds)[1]
             interface.dialog("INFORMATION", "CONGRATULATIONS", "Profile customized successfully.")
             interface.loadProfileNameplate(data.nameplate)
+            core.updateSettings({
+                nameplate = data.nameplate,
+                lastSavedProject = bipedProjectName
+            })
             -- Refresh player data
             api.session.player.bipeds = table.merge(api.session.player.bipeds, data.bipeds)
             return
@@ -527,6 +534,18 @@ function api.getLobbies()
         end
     end)
     get()
+end
+
+function api.getSavedBipeds()
+    if api.session and api.session.player and api.session.player.bipeds then
+        return table.map(api.session.player.bipeds, function(data)
+            local elements = data:split("+")
+            return {
+                path = elements[1],
+                regions = table.map(table.slice(elements, 2, #elements), tointeger)
+            }
+        end)
+    end
 end
 
 return api
