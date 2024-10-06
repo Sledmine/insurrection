@@ -24,7 +24,11 @@ end
 function utils.delay(milliseconds, callback)
     local timer
     timer = Balltze.misc.setTimer(milliseconds, function()
-        callback()
+        -- Prevent the entire game from crashing as Balltze does not handle errors in timers lol
+        local success, message = pcall(callback)
+        if not success then
+            logger:error("Error in delay callback: %s", message)
+        end
         timer.stop()
     end)
 end
