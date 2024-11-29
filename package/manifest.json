@@ -1,28 +1,40 @@
 {
-    "manifestVersion": "1.1.0",
-    "files": {},
+    "manifestVersion": "2.0.0",
     "label": "insurrection",
     "version": "2.8.0",
+    "files": {},
     "category": "service",
     "author": "Insurrection Team",
     "name": "Insurrection",
     "description": "Game experience overhaul for Halo Custom Edition",
+    "removes": [
+        "luamodules",
+        "harmony"
+    ],
+    "moves": [
+        {
+            "fromPath": "lua-data-global/ui/credentials.json",
+            "toPath": "balltze-plugins/lua_insurrection/credentials.json",
+            "required": false
+        },
+        {
+            "fromPath": "lua-data-global/ui/settings.json",
+            "toPath": "balltze-plugins/lua_insurrection/settings.json",
+            "required": false
+        }
+    ],
+    "deletes": [
+        "lua-global/ui.lua",
+        "lua-data-global/ui/"
+    ],
     "dependencies": [
         {
             "label": "chimera",
             "version": "1.0.0-r969"
         },
         {
-            "label": "luamodules",
-            "version": "1.1.1"
-        },
-        {
-            "label": "harmony",
-            "version": "3.1.1"
-        },
-        {
             "label": "balltze",
-            "version": "1.1.1"
+            "version": "1.2.0"
         },
         {
             "label": "mimic",
