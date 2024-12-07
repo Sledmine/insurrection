@@ -146,10 +146,11 @@ return function()
     local function handleLoadProject(projectName)
         local savedBipeds = api.getSavedBipeds()
         local lastSavedProject = (core.loadSettings() or {}).lastSavedProject
+        local defaultProject = state.available.customization[table.keys(state.available.customization)[1]]
         -- TODO Load last selected project
         local projectName = projectName or lastSavedProject or table.keys(state.available.customization)[1]
         selectedProject = projectName
-        local project = state.available.customization[projectName]
+        local project = state.available.customization[projectName] or defaultProject
         local bipeds = table.map(project.tags, function(bipedPath)
             return {label = "CUSTOMIZE", value = bipedPath:replace(".biped", "")}
         end)

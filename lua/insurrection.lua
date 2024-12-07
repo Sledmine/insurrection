@@ -15,6 +15,7 @@ execute_script = engine.hsc.executeScript
 logger = nil
 DebugMode = false
 IsDebugCustomization = false
+IsDebugLocalCustomization = true
 inspect = require "inspect"
 constants = require "insurrection.constants"
 api = require "insurrection.api"
@@ -47,6 +48,7 @@ local customBipedPaths = {
     }
     -- forge_island_dev = {[[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
 }
+CustomBipedPaths = customBipedPaths
 
 local customUiWidgetPaths = {
     {constants.path.nameplateCollection, "tag_collection"},

@@ -187,6 +187,25 @@ end
 
 function api.available()
     loading(true, "Loading available parameters...")
+    logger:info("Loading available parameters...")
+    if IsDebugLocalCustomization then
+        local customization = {}
+        for mapName, data in pairs(CustomBipedPaths) do
+            customization[mapName] = {
+                maps = {mapName},
+                tags = table.map(data, function(tagPath)
+                    return tagPath .. ".biped"
+                end)
+            }
+        end
+        store:dispatch(actions.setAvailableResources({
+            maps = {"bloodgulch", "beavercreek", "dangercanyon", "deathisland", "icefields"},
+            gametypes = {"slayer", "ctf", "oddball"},
+            templates = {"default"},
+            customization = customization
+        }))
+        return
+    end
     local available = async(function(await)
         ---@type httpResponse<availableParameters>?
         local response = await(requests.get, api.url .. "/available")
