@@ -13,19 +13,17 @@ commands:
     - mv package/manifest.json package/manifest.json.bak
     - jq --indent 4 ".version = \"$(luajit -e 'print(require("lua.modules.insurrection.version"))')\"" package/manifest.json.bak > package/manifest.json
     - rm package/manifest.json.bak
-    - git add lua/modules/insurrection/version.lua package/manifest.json
-    - git commit -m "update version"
-    - mercury luabundle
   nameplates:
     - luajit lua/scripts/ui/nameplates/createNameplates.lua
     - mercury build
   package:
-    - rm -rf dist
     - mkdir -p dist
     - mercury luabundle
-    - cp dist/ui.lua package/lua-global/ui.lua
+    - cp dist/insurrection.lua package/balltze-plugins/insurrection.lua
     - mercury pack package/ dist/
-    - rm package/lua-global/ui.lua
+    - rm dist/insurrection.lua
+    - rm package/balltze-plugins/insurrection.lua
+    - rm package/game-maps/ui.map
   symlinks:
     - ln -f -s "$PWD/hsc/ui.hsc" "data/insurrection/map/ui/scripts/ui.hsc"
   hsc:
