@@ -326,20 +326,20 @@ Engine.tag.functionNameNullable = {}
 
 ---@class EngineTagDataGrenadeTypeHumanFragmentation : EngineTagDataGrenadeTypeEnum 
 ---@class EngineTagDataGrenadeTypeCovenantPlasma : EngineTagDataGrenadeTypeEnum 
----@class EngineTagDataGrenadeTypeGrenadeType_2 : EngineTagDataGrenadeTypeEnum 
----@class EngineTagDataGrenadeTypeGrenadeType_3 : EngineTagDataGrenadeTypeEnum 
+---@class EngineTagDataGrenadeTypeGrenadeType2 : EngineTagDataGrenadeTypeEnum 
+---@class EngineTagDataGrenadeTypeGrenadeType3 : EngineTagDataGrenadeTypeEnum 
 
 ---@alias EngineTagDataGrenadeType 
 ---| EngineTagDataGrenadeTypeHumanFragmentation
 ---| EngineTagDataGrenadeTypeCovenantPlasma
----| EngineTagDataGrenadeTypeGrenadeType_2
----| EngineTagDataGrenadeTypeGrenadeType_3
+---| EngineTagDataGrenadeTypeGrenadeType2
+---| EngineTagDataGrenadeTypeGrenadeType3
 
 ---@class EngineTagDataGrenadeTypeTable 
 ---@field humanFragmentation EngineTagDataGrenadeTypeHumanFragmentation
 ---@field covenantPlasma EngineTagDataGrenadeTypeCovenantPlasma
----@field grenadeType_2 EngineTagDataGrenadeTypeGrenadeType_2
----@field grenadeType_3 EngineTagDataGrenadeTypeGrenadeType_3
+---@field grenadeType2 EngineTagDataGrenadeTypeGrenadeType2
+---@field grenadeType3 EngineTagDataGrenadeTypeGrenadeType3
 Engine.tag.grenadeType = {} 
 
 ---@class EngineTagDataVertexTypeEnum : Enum 

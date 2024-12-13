@@ -77,7 +77,7 @@ Engine.tag.animationFrameInfoType = {}
 ---@class MetaEngineTagDataModelAnimationsAnimationFlags 
 ---@field compressedData boolean 
 ---@field worldRelative boolean 
----@field _25hzPal boolean 
+---@field 25hzPal boolean 
 
 ---@class MetaEngineTagDataModelAnimationsFlags 
 ---@field compressAllAnimations boolean 

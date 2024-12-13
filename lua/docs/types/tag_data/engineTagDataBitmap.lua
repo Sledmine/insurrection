@@ -1,19 +1,19 @@
 ---@class EngineTagDataBitmapDataTypeEnum : Enum 
 
----@class EngineTagDataBitmapDataType_2dTexture : EngineTagDataBitmapDataTypeEnum 
----@class EngineTagDataBitmapDataType_3dTexture : EngineTagDataBitmapDataTypeEnum 
+---@class EngineTagDataBitmapDataType2dTexture : EngineTagDataBitmapDataTypeEnum 
+---@class EngineTagDataBitmapDataType3dTexture : EngineTagDataBitmapDataTypeEnum 
 ---@class EngineTagDataBitmapDataTypeCubeMap : EngineTagDataBitmapDataTypeEnum 
 ---@class EngineTagDataBitmapDataTypeWhite : EngineTagDataBitmapDataTypeEnum 
 
 ---@alias EngineTagDataBitmapDataType 
----| EngineTagDataBitmapDataType_2dTexture
----| EngineTagDataBitmapDataType_3dTexture
+---| EngineTagDataBitmapDataType2dTexture
+---| EngineTagDataBitmapDataType3dTexture
 ---| EngineTagDataBitmapDataTypeCubeMap
 ---| EngineTagDataBitmapDataTypeWhite
 
 ---@class EngineTagDataBitmapDataTypeTable 
----@field e_2dTexture EngineTagDataBitmapDataType_2dTexture
----@field e_3dTexture EngineTagDataBitmapDataType_3dTexture
+---@field e2dTexture EngineTagDataBitmapDataType2dTexture
+---@field e3dTexture EngineTagDataBitmapDataType3dTexture
 ---@field eCubeMap EngineTagDataBitmapDataTypeCubeMap
 ---@field eWhite EngineTagDataBitmapDataTypeWhite
 Engine.tag.bitmapDataType = {} 
@@ -82,22 +82,22 @@ Engine.tag.bitmapDataFormat = {}
 
 ---@class EngineTagDataBitmapTypeEnum : Enum 
 
----@class EngineTagDataBitmapType_2dTextures : EngineTagDataBitmapTypeEnum 
----@class EngineTagDataBitmapType_3dTextures : EngineTagDataBitmapTypeEnum 
+---@class EngineTagDataBitmapType2dTextures : EngineTagDataBitmapTypeEnum 
+---@class EngineTagDataBitmapType3dTextures : EngineTagDataBitmapTypeEnum 
 ---@class EngineTagDataBitmapTypeCubeMaps : EngineTagDataBitmapTypeEnum 
 ---@class EngineTagDataBitmapTypeSprites : EngineTagDataBitmapTypeEnum 
 ---@class EngineTagDataBitmapTypeInterfaceBitmaps : EngineTagDataBitmapTypeEnum 
 
 ---@alias EngineTagDataBitmapType 
----| EngineTagDataBitmapType_2dTextures
----| EngineTagDataBitmapType_3dTextures
+---| EngineTagDataBitmapType2dTextures
+---| EngineTagDataBitmapType3dTextures
 ---| EngineTagDataBitmapTypeCubeMaps
 ---| EngineTagDataBitmapTypeSprites
 ---| EngineTagDataBitmapTypeInterfaceBitmaps
 
 ---@class EngineTagDataBitmapTypeTable 
----@field _2dTextures EngineTagDataBitmapType_2dTextures
----@field _3dTextures EngineTagDataBitmapType_3dTextures
+---@field 2dTextures EngineTagDataBitmapType2dTextures
+---@field 3dTextures EngineTagDataBitmapType3dTextures
 ---@field cubeMaps EngineTagDataBitmapTypeCubeMaps
 ---@field sprites EngineTagDataBitmapTypeSprites
 ---@field interfaceBitmaps EngineTagDataBitmapTypeInterfaceBitmaps
@@ -108,24 +108,24 @@ Engine.tag.bitmapType = {}
 ---@class EngineTagDataBitmapFormatDxt1 : EngineTagDataBitmapFormatEnum 
 ---@class EngineTagDataBitmapFormatDxt3 : EngineTagDataBitmapFormatEnum 
 ---@class EngineTagDataBitmapFormatDxt5 : EngineTagDataBitmapFormatEnum 
----@class EngineTagDataBitmapFormat_16Bit : EngineTagDataBitmapFormatEnum 
----@class EngineTagDataBitmapFormat_32Bit : EngineTagDataBitmapFormatEnum 
+---@class EngineTagDataBitmapFormat16Bit : EngineTagDataBitmapFormatEnum 
+---@class EngineTagDataBitmapFormat32Bit : EngineTagDataBitmapFormatEnum 
 ---@class EngineTagDataBitmapFormatMonochrome : EngineTagDataBitmapFormatEnum 
 
 ---@alias EngineTagDataBitmapFormat 
 ---| EngineTagDataBitmapFormatDxt1
 ---| EngineTagDataBitmapFormatDxt3
 ---| EngineTagDataBitmapFormatDxt5
----| EngineTagDataBitmapFormat_16Bit
----| EngineTagDataBitmapFormat_32Bit
+---| EngineTagDataBitmapFormat16Bit
+---| EngineTagDataBitmapFormat32Bit
 ---| EngineTagDataBitmapFormatMonochrome
 
 ---@class EngineTagDataBitmapFormatTable 
 ---@field dxt1 EngineTagDataBitmapFormatDxt1
 ---@field dxt3 EngineTagDataBitmapFormatDxt3
 ---@field dxt5 EngineTagDataBitmapFormatDxt5
----@field _16Bit EngineTagDataBitmapFormat_16Bit
----@field _32Bit EngineTagDataBitmapFormat_32Bit
+---@field 16Bit EngineTagDataBitmapFormat16Bit
+---@field 32Bit EngineTagDataBitmapFormat32Bit
 ---@field monochrome EngineTagDataBitmapFormatMonochrome
 Engine.tag.bitmapFormat = {} 
 
@@ -157,28 +157,28 @@ Engine.tag.bitmapUsage = {}
 
 ---@class EngineTagDataBitmapSpriteBudgetSizeEnum : Enum 
 
----@class EngineTagDataBitmapSpriteBudgetSize_32x32 : EngineTagDataBitmapSpriteBudgetSizeEnum 
----@class EngineTagDataBitmapSpriteBudgetSize_64x64 : EngineTagDataBitmapSpriteBudgetSizeEnum 
----@class EngineTagDataBitmapSpriteBudgetSize_128x128 : EngineTagDataBitmapSpriteBudgetSizeEnum 
----@class EngineTagDataBitmapSpriteBudgetSize_256x256 : EngineTagDataBitmapSpriteBudgetSizeEnum 
----@class EngineTagDataBitmapSpriteBudgetSize_512x512 : EngineTagDataBitmapSpriteBudgetSizeEnum 
----@class EngineTagDataBitmapSpriteBudgetSize_1024x1024 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize32x32 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize64x64 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize128x128 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize256x256 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize512x512 : EngineTagDataBitmapSpriteBudgetSizeEnum 
+---@class EngineTagDataBitmapSpriteBudgetSize1024x1024 : EngineTagDataBitmapSpriteBudgetSizeEnum 
 
 ---@alias EngineTagDataBitmapSpriteBudgetSize 
----| EngineTagDataBitmapSpriteBudgetSize_32x32
----| EngineTagDataBitmapSpriteBudgetSize_64x64
----| EngineTagDataBitmapSpriteBudgetSize_128x128
----| EngineTagDataBitmapSpriteBudgetSize_256x256
----| EngineTagDataBitmapSpriteBudgetSize_512x512
----| EngineTagDataBitmapSpriteBudgetSize_1024x1024
+---| EngineTagDataBitmapSpriteBudgetSize32x32
+---| EngineTagDataBitmapSpriteBudgetSize64x64
+---| EngineTagDataBitmapSpriteBudgetSize128x128
+---| EngineTagDataBitmapSpriteBudgetSize256x256
+---| EngineTagDataBitmapSpriteBudgetSize512x512
+---| EngineTagDataBitmapSpriteBudgetSize1024x1024
 
 ---@class EngineTagDataBitmapSpriteBudgetSizeTable 
----@field ze_32x32 EngineTagDataBitmapSpriteBudgetSize_32x32
----@field ze_64x64 EngineTagDataBitmapSpriteBudgetSize_64x64
----@field ze_128x128 EngineTagDataBitmapSpriteBudgetSize_128x128
----@field ze_256x256 EngineTagDataBitmapSpriteBudgetSize_256x256
----@field ze_512x512 EngineTagDataBitmapSpriteBudgetSize_512x512
----@field ze_1024x1024 EngineTagDataBitmapSpriteBudgetSize_1024x1024
+---@field ze32x32 EngineTagDataBitmapSpriteBudgetSize32x32
+---@field ze64x64 EngineTagDataBitmapSpriteBudgetSize64x64
+---@field ze128x128 EngineTagDataBitmapSpriteBudgetSize128x128
+---@field ze256x256 EngineTagDataBitmapSpriteBudgetSize256x256
+---@field ze512x512 EngineTagDataBitmapSpriteBudgetSize512x512
+---@field ze1024x1024 EngineTagDataBitmapSpriteBudgetSize1024x1024
 Engine.tag.bitmapSpriteBudgetSize = {} 
 
 ---@class EngineTagDataBitmapSpriteUsageEnum : Enum 

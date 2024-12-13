@@ -14,7 +14,7 @@
 ---@class EngineTagDataUIGameDataInputReferenceFunctionSplitscreenPregameStatusUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
 ---@class EngineTagDataUIGameDataInputReferenceFunctionNetSplitscreenPrejoinPlayers : EngineTagDataUIGameDataInputReferenceFunctionEnum 
 ---@class EngineTagDataUIGameDataInputReferenceFunctionMpProfileListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
----@class EngineTagDataUIGameDataInputReferenceFunction_3widePlayerProfileListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
+---@class EngineTagDataUIGameDataInputReferenceFunction3widePlayerProfileListUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
 ---@class EngineTagDataUIGameDataInputReferenceFunctionPlyrProfEditSelectMenuUpd8 : EngineTagDataUIGameDataInputReferenceFunctionEnum 
 ---@class EngineTagDataUIGameDataInputReferenceFunctionPlayerProfileSmallMenuUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
 ---@class EngineTagDataUIGameDataInputReferenceFunctionGameSettingsListsTextUpdate : EngineTagDataUIGameDataInputReferenceFunctionEnum 
@@ -75,7 +75,7 @@
 ---| EngineTagDataUIGameDataInputReferenceFunctionSplitscreenPregameStatusUpdate
 ---| EngineTagDataUIGameDataInputReferenceFunctionNetSplitscreenPrejoinPlayers
 ---| EngineTagDataUIGameDataInputReferenceFunctionMpProfileListUpdate
----| EngineTagDataUIGameDataInputReferenceFunction_3widePlayerProfileListUpdate
+---| EngineTagDataUIGameDataInputReferenceFunction3widePlayerProfileListUpdate
 ---| EngineTagDataUIGameDataInputReferenceFunctionPlyrProfEditSelectMenuUpd8
 ---| EngineTagDataUIGameDataInputReferenceFunctionPlayerProfileSmallMenuUpdate
 ---| EngineTagDataUIGameDataInputReferenceFunctionGameSettingsListsTextUpdate
@@ -136,7 +136,7 @@
 ---@field ctionSplitscreenPregameStatusUpdate EngineTagDataUIGameDataInputReferenceFunctionSplitscreenPregameStatusUpdate
 ---@field ctionNetSplitscreenPrejoinPlayers EngineTagDataUIGameDataInputReferenceFunctionNetSplitscreenPrejoinPlayers
 ---@field ctionMpProfileListUpdate EngineTagDataUIGameDataInputReferenceFunctionMpProfileListUpdate
----@field ction_3widePlayerProfileListUpdate EngineTagDataUIGameDataInputReferenceFunction_3widePlayerProfileListUpdate
+---@field ction3widePlayerProfileListUpdate EngineTagDataUIGameDataInputReferenceFunction3widePlayerProfileListUpdate
 ---@field ctionPlyrProfEditSelectMenuUpd8 EngineTagDataUIGameDataInputReferenceFunctionPlyrProfEditSelectMenuUpd8
 ---@field ctionPlayerProfileSmallMenuUpdate EngineTagDataUIGameDataInputReferenceFunctionPlayerProfileSmallMenuUpdate
 ---@field ctionGameSettingsListsTextUpdate EngineTagDataUIGameDataInputReferenceFunctionGameSettingsListsTextUpdate
@@ -205,7 +205,7 @@ Engine.tag.uIGameDataInputReferenceFunction = {}
 ---@class EngineTagDataUIEventTypeLeftAnalogStickDown : EngineTagDataUIEventTypeEnum 
 ---@class EngineTagDataUIEventTypeLeftAnalogStickLeft : EngineTagDataUIEventTypeEnum 
 ---@class EngineTagDataUIEventTypeLeftAnalogStickRight : EngineTagDataUIEventTypeEnum 
----@class EngineTagDataUIEventTypeLeftAnalogStickUp_1 : EngineTagDataUIEventTypeEnum 
+---@class EngineTagDataUIEventTypeLeftAnalogStickUp1 : EngineTagDataUIEventTypeEnum 
 ---@class EngineTagDataUIEventTypeRightAnalogStickDown : EngineTagDataUIEventTypeEnum 
 ---@class EngineTagDataUIEventTypeRightAnalogStickLeft : EngineTagDataUIEventTypeEnum 
 ---@class EngineTagDataUIEventTypeRightAnalogStickRight : EngineTagDataUIEventTypeEnum 
@@ -241,7 +241,7 @@ Engine.tag.uIGameDataInputReferenceFunction = {}
 ---| EngineTagDataUIEventTypeLeftAnalogStickDown
 ---| EngineTagDataUIEventTypeLeftAnalogStickLeft
 ---| EngineTagDataUIEventTypeLeftAnalogStickRight
----| EngineTagDataUIEventTypeLeftAnalogStickUp_1
+---| EngineTagDataUIEventTypeLeftAnalogStickUp1
 ---| EngineTagDataUIEventTypeRightAnalogStickDown
 ---| EngineTagDataUIEventTypeRightAnalogStickLeft
 ---| EngineTagDataUIEventTypeRightAnalogStickRight
@@ -277,7 +277,7 @@ Engine.tag.uIGameDataInputReferenceFunction = {}
 ---@field peLeftAnalogStickDown EngineTagDataUIEventTypeLeftAnalogStickDown
 ---@field peLeftAnalogStickLeft EngineTagDataUIEventTypeLeftAnalogStickLeft
 ---@field peLeftAnalogStickRight EngineTagDataUIEventTypeLeftAnalogStickRight
----@field peLeftAnalogStickUp_1 EngineTagDataUIEventTypeLeftAnalogStickUp_1
+---@field peLeftAnalogStickUp1 EngineTagDataUIEventTypeLeftAnalogStickUp1
 ---@field peRightAnalogStickDown EngineTagDataUIEventTypeRightAnalogStickDown
 ---@field peRightAnalogStickLeft EngineTagDataUIEventTypeRightAnalogStickLeft
 ---@field peRightAnalogStickRight EngineTagDataUIEventTypeRightAnalogStickRight
@@ -331,8 +331,8 @@ Engine.tag.uIEventType = {}
 ---@class EngineTagDataUIEventHandlerReferenceFunctionNetGameJoinPlayer : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListInitialize : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListDispose : EngineTagDataUIEventHandlerReferenceFunctionEnum 
----@class EngineTagDataUIEventHandlerReferenceFunction_3widePlyrProfSetForGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
----@class EngineTagDataUIEventHandlerReferenceFunction_1widePlyrProfSetForGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunction3widePlyrProfSetForGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunction1widePlyrProfSetForGame : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileBeginEditing : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileEndEditing : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetGameEngine : EngineTagDataUIEventHandlerReferenceFunctionEnum 
@@ -407,7 +407,7 @@ Engine.tag.uIEventType = {}
 ---@class EngineTagDataUIEventHandlerReferenceFunctionMouseEmitBackEvent : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadLeftEvent : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadRightEvent : EngineTagDataUIEventHandlerReferenceFunctionEnum 
----@class EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_3wideClick : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner3wideClick : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionControlsScreenInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionVideoScreenInit : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionControlsBeginBinding : EngineTagDataUIEventHandlerReferenceFunctionEnum 
@@ -446,7 +446,7 @@ Engine.tag.uIEventType = {}
 ---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyDismissFilters : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyUpdateFilterSettings : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionGamespyBackHandler : EngineTagDataUIEventHandlerReferenceFunctionEnum 
----@class EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_1wideClick : EngineTagDataUIEventHandlerReferenceFunctionEnum 
+---@class EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner1wideClick : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionControlsBackHandler : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedLaunch : EngineTagDataUIEventHandlerReferenceFunctionEnum 
 ---@class EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedOk : EngineTagDataUIEventHandlerReferenceFunctionEnum 
@@ -523,8 +523,8 @@ Engine.tag.uIEventType = {}
 ---| EngineTagDataUIEventHandlerReferenceFunctionNetGameJoinPlayer
 ---| EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListInitialize
 ---| EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListDispose
----| EngineTagDataUIEventHandlerReferenceFunction_3widePlyrProfSetForGame
----| EngineTagDataUIEventHandlerReferenceFunction_1widePlyrProfSetForGame
+---| EngineTagDataUIEventHandlerReferenceFunction3widePlyrProfSetForGame
+---| EngineTagDataUIEventHandlerReferenceFunction1widePlyrProfSetForGame
 ---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileBeginEditing
 ---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileEndEditing
 ---| EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetGameEngine
@@ -599,7 +599,7 @@ Engine.tag.uIEventType = {}
 ---| EngineTagDataUIEventHandlerReferenceFunctionMouseEmitBackEvent
 ---| EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadLeftEvent
 ---| EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadRightEvent
----| EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_3wideClick
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner3wideClick
 ---| EngineTagDataUIEventHandlerReferenceFunctionControlsScreenInit
 ---| EngineTagDataUIEventHandlerReferenceFunctionVideoScreenInit
 ---| EngineTagDataUIEventHandlerReferenceFunctionControlsBeginBinding
@@ -638,7 +638,7 @@ Engine.tag.uIEventType = {}
 ---| EngineTagDataUIEventHandlerReferenceFunctionGamespyDismissFilters
 ---| EngineTagDataUIEventHandlerReferenceFunctionGamespyUpdateFilterSettings
 ---| EngineTagDataUIEventHandlerReferenceFunctionGamespyBackHandler
----| EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_1wideClick
+---| EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner1wideClick
 ---| EngineTagDataUIEventHandlerReferenceFunctionControlsBackHandler
 ---| EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedLaunch
 ---| EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedOk
@@ -715,8 +715,8 @@ Engine.tag.uIEventType = {}
 ---@field tionNetGameJoinPlayer EngineTagDataUIEventHandlerReferenceFunctionNetGameJoinPlayer
 ---@field tionPlayerProfileListInitialize EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListInitialize
 ---@field tionPlayerProfileListDispose EngineTagDataUIEventHandlerReferenceFunctionPlayerProfileListDispose
----@field tion_3widePlyrProfSetForGame EngineTagDataUIEventHandlerReferenceFunction_3widePlyrProfSetForGame
----@field tion_1widePlyrProfSetForGame EngineTagDataUIEventHandlerReferenceFunction_1widePlyrProfSetForGame
+---@field tion3widePlyrProfSetForGame EngineTagDataUIEventHandlerReferenceFunction3widePlyrProfSetForGame
+---@field tion1widePlyrProfSetForGame EngineTagDataUIEventHandlerReferenceFunction1widePlyrProfSetForGame
 ---@field tionMpProfileBeginEditing EngineTagDataUIEventHandlerReferenceFunctionMpProfileBeginEditing
 ---@field tionMpProfileEndEditing EngineTagDataUIEventHandlerReferenceFunctionMpProfileEndEditing
 ---@field tionMpProfileSetGameEngine EngineTagDataUIEventHandlerReferenceFunctionMpProfileSetGameEngine
@@ -791,7 +791,7 @@ Engine.tag.uIEventType = {}
 ---@field tionMouseEmitBackEvent EngineTagDataUIEventHandlerReferenceFunctionMouseEmitBackEvent
 ---@field tionMouseEmitDpadLeftEvent EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadLeftEvent
 ---@field tionMouseEmitDpadRightEvent EngineTagDataUIEventHandlerReferenceFunctionMouseEmitDpadRightEvent
----@field tionMouseSpinner_3wideClick EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_3wideClick
+---@field tionMouseSpinner3wideClick EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner3wideClick
 ---@field tionControlsScreenInit EngineTagDataUIEventHandlerReferenceFunctionControlsScreenInit
 ---@field tionVideoScreenInit EngineTagDataUIEventHandlerReferenceFunctionVideoScreenInit
 ---@field tionControlsBeginBinding EngineTagDataUIEventHandlerReferenceFunctionControlsBeginBinding
@@ -830,7 +830,7 @@ Engine.tag.uIEventType = {}
 ---@field tionGamespyDismissFilters EngineTagDataUIEventHandlerReferenceFunctionGamespyDismissFilters
 ---@field tionGamespyUpdateFilterSettings EngineTagDataUIEventHandlerReferenceFunctionGamespyUpdateFilterSettings
 ---@field tionGamespyBackHandler EngineTagDataUIEventHandlerReferenceFunctionGamespyBackHandler
----@field tionMouseSpinner_1wideClick EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner_1wideClick
+---@field tionMouseSpinner1wideClick EngineTagDataUIEventHandlerReferenceFunctionMouseSpinner1wideClick
 ---@field tionControlsBackHandler EngineTagDataUIEventHandlerReferenceFunctionControlsBackHandler
 ---@field tionControlsAdvancedLaunch EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedLaunch
 ---@field tionControlsAdvancedOk EngineTagDataUIEventHandlerReferenceFunctionControlsAdvancedOk
@@ -922,24 +922,24 @@ Engine.tag.uIWidgetType = {}
 
 ---@class EngineTagDataUIControllerIndexEnum : Enum 
 
----@class EngineTagDataUIControllerIndexPlayer_1 : EngineTagDataUIControllerIndexEnum 
----@class EngineTagDataUIControllerIndexPlayer_2 : EngineTagDataUIControllerIndexEnum 
----@class EngineTagDataUIControllerIndexPlayer_3 : EngineTagDataUIControllerIndexEnum 
----@class EngineTagDataUIControllerIndexPlayer_4 : EngineTagDataUIControllerIndexEnum 
+---@class EngineTagDataUIControllerIndexPlayer1 : EngineTagDataUIControllerIndexEnum 
+---@class EngineTagDataUIControllerIndexPlayer2 : EngineTagDataUIControllerIndexEnum 
+---@class EngineTagDataUIControllerIndexPlayer3 : EngineTagDataUIControllerIndexEnum 
+---@class EngineTagDataUIControllerIndexPlayer4 : EngineTagDataUIControllerIndexEnum 
 ---@class EngineTagDataUIControllerIndexAnyPlayer : EngineTagDataUIControllerIndexEnum 
 
 ---@alias EngineTagDataUIControllerIndex 
----| EngineTagDataUIControllerIndexPlayer_1
----| EngineTagDataUIControllerIndexPlayer_2
----| EngineTagDataUIControllerIndexPlayer_3
----| EngineTagDataUIControllerIndexPlayer_4
+---| EngineTagDataUIControllerIndexPlayer1
+---| EngineTagDataUIControllerIndexPlayer2
+---| EngineTagDataUIControllerIndexPlayer3
+---| EngineTagDataUIControllerIndexPlayer4
 ---| EngineTagDataUIControllerIndexAnyPlayer
 
 ---@class EngineTagDataUIControllerIndexTable 
----@field exPlayer_1 EngineTagDataUIControllerIndexPlayer_1
----@field exPlayer_2 EngineTagDataUIControllerIndexPlayer_2
----@field exPlayer_3 EngineTagDataUIControllerIndexPlayer_3
----@field exPlayer_4 EngineTagDataUIControllerIndexPlayer_4
+---@field exPlayer1 EngineTagDataUIControllerIndexPlayer1
+---@field exPlayer2 EngineTagDataUIControllerIndexPlayer2
+---@field exPlayer3 EngineTagDataUIControllerIndexPlayer3
+---@field exPlayer4 EngineTagDataUIControllerIndexPlayer4
 ---@field exAnyPlayer EngineTagDataUIControllerIndexAnyPlayer
 Engine.tag.uIControllerIndex = {} 
 
@@ -1055,11 +1055,11 @@ Engine.tag.uIJustification = {}
 ---@field textFont MetaEngineTagDependency 
 ---@field textColor MetaEngineColorARGB 
 ---@field justification EngineTagDataUIJustification 
----@field flags_1 MetaEngineTagDataUIWidgetDefinitionFlags1 
+---@field flags1 MetaEngineTagDataUIWidgetDefinitionFlags1 
 ---@field stringListIndex MetaEngineIndex 
 ---@field horizOffset integer 
 ---@field vertOffset integer 
----@field flags_2 MetaEngineTagDataUIWidgetDefinitionFlags2 
+---@field flags2 MetaEngineTagDataUIWidgetDefinitionFlags2 
 ---@field listHeaderBitmap MetaEngineTagDependency 
 ---@field listFooterBitmap MetaEngineTagDependency 
 ---@field headerBounds MetaEngineRectangle2D 

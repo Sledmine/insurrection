@@ -1,18 +1,18 @@
 ---@class EngineTagDataSoundFormatEnum : Enum 
 
----@class EngineTagDataSoundFormat_16BitPcm : EngineTagDataSoundFormatEnum 
+---@class EngineTagDataSoundFormat16BitPcm : EngineTagDataSoundFormatEnum 
 ---@class EngineTagDataSoundFormatXboxAdpcm : EngineTagDataSoundFormatEnum 
 ---@class EngineTagDataSoundFormatImaAdpcm : EngineTagDataSoundFormatEnum 
 ---@class EngineTagDataSoundFormatOggVorbis : EngineTagDataSoundFormatEnum 
 
 ---@alias EngineTagDataSoundFormat 
----| EngineTagDataSoundFormat_16BitPcm
+---| EngineTagDataSoundFormat16BitPcm
 ---| EngineTagDataSoundFormatXboxAdpcm
 ---| EngineTagDataSoundFormatImaAdpcm
 ---| EngineTagDataSoundFormatOggVorbis
 
 ---@class EngineTagDataSoundFormatTable 
----@field _16BitPcm EngineTagDataSoundFormat_16BitPcm
+---@field 16BitPcm EngineTagDataSoundFormat16BitPcm
 ---@field xboxAdpcm EngineTagDataSoundFormatXboxAdpcm
 ---@field imaAdpcm EngineTagDataSoundFormatImaAdpcm
 ---@field oggVorbis EngineTagDataSoundFormatOggVorbis
@@ -181,16 +181,16 @@ Engine.tag.soundClass = {}
 
 ---@class EngineTagDataSoundSampleRateEnum : Enum 
 
----@class EngineTagDataSoundSampleRate_22050_Hz : EngineTagDataSoundSampleRateEnum 
----@class EngineTagDataSoundSampleRate_44100_Hz : EngineTagDataSoundSampleRateEnum 
+---@class EngineTagDataSoundSampleRate22050_Hz : EngineTagDataSoundSampleRateEnum 
+---@class EngineTagDataSoundSampleRate44100_Hz : EngineTagDataSoundSampleRateEnum 
 
 ---@alias EngineTagDataSoundSampleRate 
----| EngineTagDataSoundSampleRate_22050_Hz
----| EngineTagDataSoundSampleRate_44100_Hz
+---| EngineTagDataSoundSampleRate22050_Hz
+---| EngineTagDataSoundSampleRate44100_Hz
 
 ---@class EngineTagDataSoundSampleRateTable 
----@field e_22050_Hz EngineTagDataSoundSampleRate_22050_Hz
----@field e_44100_Hz EngineTagDataSoundSampleRate_44100_Hz
+---@field e22050_Hz EngineTagDataSoundSampleRate22050_Hz
+---@field e44100_Hz EngineTagDataSoundSampleRate44100_Hz
 Engine.tag.soundSampleRate = {} 
 
 ---@class EngineTagDataSoundChannelCountEnum : Enum 
@@ -220,9 +220,9 @@ Engine.tag.soundChannelCount = {}
 ---@field nextPermutationIndex MetaEngineIndex 
 ---@field unknownTagHandle EngineTagHandle 
 ---@field samplesPointer integer 
----@field soundTagHandle_0 EngineTagHandle 
+---@field soundTagHandle0 EngineTagHandle 
 ---@field bufferSize integer 
----@field soundTagHandle_1 EngineTagHandle 
+---@field soundTagHandle1 EngineTagHandle 
 ---@field samples MetaEngineTagDataOffset 
 ---@field mouthData MetaEngineTagDataOffset 
 ---@field subtitleData MetaEngineTagDataOffset 
@@ -233,8 +233,8 @@ Engine.tag.soundChannelCount = {}
 ---@field bendBounds number 
 ---@field actualPermutationCount integer 
 ---@field playbackRate number 
----@field unknownFfffffff_0 integer 
----@field unknownFfffffff_1 integer 
+---@field unknownFfffffff0 integer 
+---@field unknownFfffffff1 integer 
 ---@field permutations TagBlock<MetaEngineTagDataSoundPermutation> 
 
 ---@class MetaEngineTagDataSound 
@@ -261,8 +261,8 @@ Engine.tag.soundChannelCount = {}
 ---@field promotionSound MetaEngineTagDependency 
 ---@field promotionCount integer 
 ---@field longestPermutationLength integer 
----@field unknownFfffffff_0 integer 
----@field unknownFfffffff_1 integer 
+---@field unknownFfffffff0 integer 
+---@field unknownFfffffff1 integer 
 ---@field pitchRanges TagBlock<MetaEngineTagDataSoundPitchRange> 
 
 

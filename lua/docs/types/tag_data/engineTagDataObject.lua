@@ -48,13 +48,13 @@ Engine.tag.objectNoise = {}
 ---@class EngineTagDataObjectFunctionInRecentUmbrellaShieldVitality : EngineTagDataObjectFunctionInEnum 
 ---@class EngineTagDataObjectFunctionInUmbrellaShieldStun : EngineTagDataObjectFunctionInEnum 
 ---@class EngineTagDataObjectFunctionInRegion : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion_1 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion_2 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion_3 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion_4 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion_5 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion_6 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion_7 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion1 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion2 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion3 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion4 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion5 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion6 : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagDataObjectFunctionInRegion7 : EngineTagDataObjectFunctionInEnum 
 ---@class EngineTagDataObjectFunctionInAlive : EngineTagDataObjectFunctionInEnum 
 ---@class EngineTagDataObjectFunctionInCompass : EngineTagDataObjectFunctionInEnum 
 
@@ -70,13 +70,13 @@ Engine.tag.objectNoise = {}
 ---| EngineTagDataObjectFunctionInRecentUmbrellaShieldVitality
 ---| EngineTagDataObjectFunctionInUmbrellaShieldStun
 ---| EngineTagDataObjectFunctionInRegion
----| EngineTagDataObjectFunctionInRegion_1
----| EngineTagDataObjectFunctionInRegion_2
----| EngineTagDataObjectFunctionInRegion_3
----| EngineTagDataObjectFunctionInRegion_4
----| EngineTagDataObjectFunctionInRegion_5
----| EngineTagDataObjectFunctionInRegion_6
----| EngineTagDataObjectFunctionInRegion_7
+---| EngineTagDataObjectFunctionInRegion1
+---| EngineTagDataObjectFunctionInRegion2
+---| EngineTagDataObjectFunctionInRegion3
+---| EngineTagDataObjectFunctionInRegion4
+---| EngineTagDataObjectFunctionInRegion5
+---| EngineTagDataObjectFunctionInRegion6
+---| EngineTagDataObjectFunctionInRegion7
 ---| EngineTagDataObjectFunctionInAlive
 ---| EngineTagDataObjectFunctionInCompass
 
@@ -92,13 +92,13 @@ Engine.tag.objectNoise = {}
 ---@field nRecentUmbrellaShieldVitality EngineTagDataObjectFunctionInRecentUmbrellaShieldVitality
 ---@field nUmbrellaShieldStun EngineTagDataObjectFunctionInUmbrellaShieldStun
 ---@field nRegion EngineTagDataObjectFunctionInRegion
----@field nRegion_1 EngineTagDataObjectFunctionInRegion_1
----@field nRegion_2 EngineTagDataObjectFunctionInRegion_2
----@field nRegion_3 EngineTagDataObjectFunctionInRegion_3
----@field nRegion_4 EngineTagDataObjectFunctionInRegion_4
----@field nRegion_5 EngineTagDataObjectFunctionInRegion_5
----@field nRegion_6 EngineTagDataObjectFunctionInRegion_6
----@field nRegion_7 EngineTagDataObjectFunctionInRegion_7
+---@field nRegion1 EngineTagDataObjectFunctionInRegion1
+---@field nRegion2 EngineTagDataObjectFunctionInRegion2
+---@field nRegion3 EngineTagDataObjectFunctionInRegion3
+---@field nRegion4 EngineTagDataObjectFunctionInRegion4
+---@field nRegion5 EngineTagDataObjectFunctionInRegion5
+---@field nRegion6 EngineTagDataObjectFunctionInRegion6
+---@field nRegion7 EngineTagDataObjectFunctionInRegion7
 ---@field nAlive EngineTagDataObjectFunctionInAlive
 ---@field nCompass EngineTagDataObjectFunctionInCompass
 Engine.tag.objectFunctionIn = {} 

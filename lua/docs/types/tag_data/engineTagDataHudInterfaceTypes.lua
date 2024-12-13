@@ -1,21 +1,21 @@
 ---@class EngineTagDataHUDInterfaceDestinationTypeEnum : Enum 
 
----@class EngineTagDataHUDInterfaceDestinationTypeTint_0_1 : EngineTagDataHUDInterfaceDestinationTypeEnum 
+---@class EngineTagDataHUDInterfaceDestinationTypeTint01 : EngineTagDataHUDInterfaceDestinationTypeEnum 
 ---@class EngineTagDataHUDInterfaceDestinationTypeHorizontalOffset : EngineTagDataHUDInterfaceDestinationTypeEnum 
 ---@class EngineTagDataHUDInterfaceDestinationTypeVerticalOffset : EngineTagDataHUDInterfaceDestinationTypeEnum 
----@class EngineTagDataHUDInterfaceDestinationTypeFade_0_1 : EngineTagDataHUDInterfaceDestinationTypeEnum 
+---@class EngineTagDataHUDInterfaceDestinationTypeFade01 : EngineTagDataHUDInterfaceDestinationTypeEnum 
 
 ---@alias EngineTagDataHUDInterfaceDestinationType 
----| EngineTagDataHUDInterfaceDestinationTypeTint_0_1
+---| EngineTagDataHUDInterfaceDestinationTypeTint01
 ---| EngineTagDataHUDInterfaceDestinationTypeHorizontalOffset
 ---| EngineTagDataHUDInterfaceDestinationTypeVerticalOffset
----| EngineTagDataHUDInterfaceDestinationTypeFade_0_1
+---| EngineTagDataHUDInterfaceDestinationTypeFade01
 
 ---@class EngineTagDataHUDInterfaceDestinationTypeTable 
----@field typeTint_0_1 EngineTagDataHUDInterfaceDestinationTypeTint_0_1
+---@field typeTint01 EngineTagDataHUDInterfaceDestinationTypeTint01
 ---@field typeHorizontalOffset EngineTagDataHUDInterfaceDestinationTypeHorizontalOffset
 ---@field typeVerticalOffset EngineTagDataHUDInterfaceDestinationTypeVerticalOffset
----@field typeFade_0_1 EngineTagDataHUDInterfaceDestinationTypeFade_0_1
+---@field typeFade01 EngineTagDataHUDInterfaceDestinationTypeFade01
 Engine.tag.hUDInterfaceDestinationType = {} 
 
 ---@class EngineTagDataHUDInterfaceDestinationEnum : Enum 

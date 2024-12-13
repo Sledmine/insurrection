@@ -15,7 +15,7 @@
 ---@field opaqueDepth number 
 ---@field distanceToWaterPlane number 
 ---@field color MetaEngineColorRGB 
----@field flags_1 MetaEngineTagDataFogScreenFlags 
+---@field flags1 MetaEngineTagDataFogScreenFlags 
 ---@field layerCount integer 
 ---@field distanceGradient number 
 ---@field densityGradient MetaEngineFraction 

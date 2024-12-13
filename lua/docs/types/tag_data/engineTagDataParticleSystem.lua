@@ -58,7 +58,7 @@ Engine.tag.particleSystemSystemUpdatePhysics = {}
 ---@field typeStatesLoop boolean 
 ---@field forwardBackward boolean 
 ---@field particleStatesLoop boolean 
----@field forwardBackward_1 boolean 
+---@field forwardBackward1 boolean 
 ---@field particlesDieInWater boolean 
 ---@field particlesDieInAir boolean 
 ---@field particlesDieOnGround boolean 
@@ -101,8 +101,8 @@ Engine.tag.particleSystemSystemUpdatePhysics = {}
 ---@field scale number 
 ---@field animationRate number 
 ---@field rotationRate MetaEngineAngle 
----@field color_1 MetaEngineColorARGB 
----@field color_2 MetaEngineColorARGB 
+---@field color1 MetaEngineColorARGB 
+---@field color2 MetaEngineColorARGB 
 ---@field radiusMultiplier number 
 ---@field pointPhysics MetaEngineTagDependency 
 ---@field unknownInt integer 

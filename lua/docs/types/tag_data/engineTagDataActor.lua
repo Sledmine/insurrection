@@ -127,7 +127,7 @@ Engine.tag.actorDefensiveCrouchType = {}
 ---@field tryToStayStillWhenCrouched boolean 
 ---@field crouchWhenNotInCombat boolean 
 ---@field crouchWhenGuarding boolean 
----@field unused_1 boolean 
+---@field unused1 boolean 
 ---@field mustCrouchToShoot boolean 
 ---@field panicWhenSurprised boolean 
 ---@field alwaysChargeAtEnemies boolean 
@@ -211,7 +211,7 @@ Engine.tag.actorDefensiveCrouchType = {}
 ---@field cosineMaximumAimingDeviation MetaEngineEuler2D 
 ---@field cosineMaximumLookingDeviation MetaEngineEuler2D 
 ---@field doNotUse MetaEngineTagDependency 
----@field doNotUse_1 MetaEngineTagDependency 
+---@field doNotUse1 MetaEngineTagDependency 
 ---@field unreachableDangerTrigger EngineTagDataActorUnreachableDangerTrigger 
 ---@field vehicleDangerTrigger EngineTagDataActorUnreachableDangerTrigger 
 ---@field playerDangerTrigger EngineTagDataActorUnreachableDangerTrigger 
@@ -269,6 +269,6 @@ Engine.tag.actorDefensiveCrouchType = {}
 ---@field friendAvoidDist number 
 ---@field noncombatIdleSpeechTime number 
 ---@field combatIdleSpeechTime number 
----@field doNotUse_2 MetaEngineTagDependency 
+---@field doNotUse2 MetaEngineTagDependency 
 
 

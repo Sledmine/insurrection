@@ -49,7 +49,7 @@ Engine.tag.weatherParticleSystemRenderDirectionSource = {}
 ---@field mapFlags MetaEngineTagDataIsUnfilteredFlag 
 ---@field bitmap MetaEngineTagDependency 
 ---@field anchor EngineTagDataParticleAnchor 
----@field flags_1 MetaEngineTagDataIsUnfilteredFlag 
+---@field flags1 MetaEngineTagDataIsUnfilteredFlag 
 ---@field uAnimationSource EngineTagDataFunctionOut 
 ---@field uAnimationFunction EngineTagDataWaveFunction 
 ---@field uAnimationPeriod number 

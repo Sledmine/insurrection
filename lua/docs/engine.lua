@@ -16,8 +16,8 @@ Engine.core = {}
 -- Print a message of a color in the console; It uses the fmt library to format the message
 ---@param color EngineColorARGB @The color of the message
 ---@param format string @The format string in case the first argument is a color
----@param ... string @The arguments to the format string
----@overload fun(format: string, ...: string)
+---@param ... any @The arguments to the format string
+---@overload fun(format: string, ...: any)
 function Engine.core.consolePrint(color, format, ...) end
 
 -- Get the number of ticks since the engine started
@@ -37,16 +37,16 @@ Engine.gameState = {}
 -- Get an object of the current game
 ---@param handle EngineObjectHandle|integer Handle of the object
 ---@param type EngineTagDataObjectType Type of the object
----@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeBiped): MetaEngineBipedObject?
----@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeVehicle): MetaEngineVehicleObject?
----@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeGarbage): MetaEngineGarbageObject?
----@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeWeapon): MetaEngineWeaponObject?
----@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeEquipment): MetaEngineEquipmentObject?
----@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeProjectile): MetaEngineProjectileObject?
----@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeDeviceMachine): MetaEngineDeviceMachineObject?
----@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeDeviceControl): MetaEngineDeviceControlObject?
----@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeDeviceLightFixture): MetaEngineDeviceLightFixtureObject?
----@return MetaEngineBaseObject?
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeBiped): MetaEngineBipedObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeVehicle): MetaEngineVehicleObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeGarbage): MetaEngineGarbageObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeWeapon): MetaEngineWeaponObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeEquipment): MetaEngineEquipmentObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeProjectile): MetaEngineProjectileObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeDeviceMachine): MetaEngineDeviceMachineObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeDeviceControl): MetaEngineDeviceControlObject|nil
+---@overload fun(handle: EngineObjectHandle|integer, type: EngineTagDataObjectTypeDeviceLightFixture): MetaEngineDeviceLightFixtureObject|nil
+---@return MetaEngineBaseObject|nil
 function Engine.gameState.getObject(handle, type) end
 
 -- Spawn an object
@@ -313,8 +313,88 @@ function Engine.tag.getTag(tagHandleOrPath, tagClass) end
 ---Return a tag entry list given a keyword and/or a tag class
 ---
 ---Leave the keyword empty to get all tags, if tag class is nil, it will return all tags
----@param keyword string @Keyword to search for
----@param tagClass? EngineTagClass Class of the tag
+---@overload fun(keyword: string): MetaEngineTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassActor): MetaEngineActorTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassActorVariant): MetaEngineActorVariantTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassAntenna): MetaEngineAntennaTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassModelAnimations): MetaEngineModelAnimationsTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassBiped): MetaEngineBipedTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassBitmap): MetaEngineBitmapTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassContinuousDamageEffect): MetaEngineContinuousDamageEffectTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassModelCollisionGeometry): MetaEngineModelCollisionGeometryTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassColorTable): MetaEngineColorTableTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassContrail): MetaEngineContrailTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassDeviceControl): MetaEngineDeviceControlTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassDecal): MetaEngineDecalTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassUiWidgetDefinition): MetaEngineUiWidgetDefinitionTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassInputDeviceDefaults): MetaEngineInputDeviceDefaultsTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassDevice): MetaEngineDeviceTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassDetailObjectCollection): MetaEngineDetailObjectCollectionTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassEffect): MetaEngineEffectTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassEquipment): MetaEngineEquipmentTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassFlag): MetaEngineFlagTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassFog): MetaEngineFogTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassFont): MetaEngineFontTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassLightning): MetaEngineLightningTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassMaterialEffects): MetaEngineMaterialEffectsTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassGarbage): MetaEngineGarbageTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassGlow): MetaEngineGlowTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassGrenadeHudInterface): MetaEngineGrenadeHudInterfaceTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassHudMessageText): MetaEngineHudMessageTextTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassHudNumber): MetaEngineHudNumberTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassHudGlobals): MetaEngineHudGlobalsTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassItem): MetaEngineItemTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassItemCollection): MetaEngineItemCollectionTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassDamageEffect): MetaEngineDamageEffectTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassLensFlare): MetaEngineLensFlareTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassDeviceLightFixture): MetaEngineDeviceLightFixtureTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassLight): MetaEngineLightTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassSoundLooping): MetaEngineSoundLoopingTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassDeviceMachine): MetaEngineDeviceMachineTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassGlobals): MetaEngineGlobalsTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassMeter): MetaEngineMeterTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassLightVolume): MetaEngineLightVolumeTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassGbxmodel): MetaEngineGbxmodelTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassModel): MetaEngineModelTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassMultiplayerScenarioDescription): MetaEngineMultiplayerScenarioDescriptionTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassPreferencesNetworkGame): MetaEnginePreferencesNetworkGameTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassObject): MetaEngineObjectTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassParticle): MetaEngineParticleTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassParticleSystem): MetaEngineParticleSystemTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassPhysics): MetaEnginePhysicsTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassPlaceholder): MetaEnginePlaceholderTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassPointPhysics): MetaEnginePointPhysicsTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassProjectile): MetaEngineProjectileTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassWeatherParticleSystem): MetaEngineWeatherParticleSystemTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassScenarioStructureBsp): MetaEngineScenarioStructureBspTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassScenery): MetaEngineSceneryTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShaderTransparentChicagoExtended): MetaEngineShaderTransparentChicagoExtendedTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShaderTransparentChicago): MetaEngineShaderTransparentChicagoTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassScenario): MetaEngineScenarioTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShaderEnvironment): MetaEngineShaderEnvironmentTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShaderTransparentGlass): MetaEngineShaderTransparentGlassTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShader): MetaEngineShaderTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassSky): MetaEngineSkyTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShaderTransparentMeter): MetaEngineShaderTransparentMeterTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassSound): MetaEngineSoundTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassSoundEnvironment): MetaEngineSoundEnvironmentTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShaderModel): MetaEngineShaderModelTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShaderTransparentGeneric): MetaEngineShaderTransparentGenericTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassUiWidgetCollection): MetaEngineUiWidgetCollectionTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShaderTransparentPlasma): MetaEngineShaderTransparentPlasmaTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassSoundScenery): MetaEngineSoundSceneryTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassStringList): MetaEngineStringListTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassShaderTransparentWater): MetaEngineShaderTransparentWaterTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassTagCollection): MetaEngineTagCollectionTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassCameraTrack): MetaEngineCameraTrackTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassUnitHudInterface): MetaEngineUnitHudInterfaceTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassUnit): MetaEngineUnitTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassUnicodeStringList): MetaEngineUnicodeStringListTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassVirtualKeyboard): MetaEngineVirtualKeyboardTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassVehicle): MetaEngineVehicleTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassWeapon): MetaEngineWeaponTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassWind): MetaEngineWindTag[]
+---@overload fun(keyword: string, tagClass: EngineTagClassWeaponHudInterface): MetaEngineWeaponHudInterfaceTag[]
 function Engine.tag.findTags(keyword, tagClass) end
 
 -------------------------------------------------------
@@ -402,6 +482,7 @@ function Engine.userInterface.getSoundPermutationSamplesDuration(soundPermutatio
 ---@param bitmapBounds EngineRectangle2D @The bounds of the bitmap
 ---@param rect EngineRectangle2D @The rectangle to draw the bitmap
 ---@param colorMask EngineColorARGBInt @The color mask to apply to the bitmap
+---@overload fun(bitmapData: MetaEngineTagDataBitmapData, rect: EngineRectangle2D, colorMask: EngineColorARGBInt)
 function Engine.userInterface.drawBitmapInRect(bitmapData, bitmapBounds, rect, colorMask) end
 
 -------------------------------------------------------

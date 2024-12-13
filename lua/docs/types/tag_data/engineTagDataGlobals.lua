@@ -3,11 +3,11 @@
 ---@class EngineTagDataMultiplayerInformationSoundPlayBall : EngineTagDataMultiplayerInformationSoundEnum 
 ---@class EngineTagDataMultiplayerInformationSoundGameOver : EngineTagDataMultiplayerInformationSoundEnum 
 ---@class EngineTagDataMultiplayerInformationSoundOneMinuteToWin : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSound_30SecondsToWin : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSound30SecondsToWin : EngineTagDataMultiplayerInformationSoundEnum 
 ---@class EngineTagDataMultiplayerInformationSoundRedTeamMinuteToWin : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundRedTeam_30ToWin : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundRedTeam30ToWin : EngineTagDataMultiplayerInformationSoundEnum 
 ---@class EngineTagDataMultiplayerInformationSoundBlueTeamMinuteToWin : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundBlueTeam_30ToWin : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagDataMultiplayerInformationSoundBlueTeam30ToWin : EngineTagDataMultiplayerInformationSoundEnum 
 ---@class EngineTagDataMultiplayerInformationSoundBlueTeamHasTheFlag : EngineTagDataMultiplayerInformationSoundEnum 
 ---@class EngineTagDataMultiplayerInformationSoundBlueTeamFlagReturned : EngineTagDataMultiplayerInformationSoundEnum 
 ---@class EngineTagDataMultiplayerInformationSoundBlueTeamScore : EngineTagDataMultiplayerInformationSoundEnum 
@@ -49,11 +49,11 @@
 ---| EngineTagDataMultiplayerInformationSoundPlayBall
 ---| EngineTagDataMultiplayerInformationSoundGameOver
 ---| EngineTagDataMultiplayerInformationSoundOneMinuteToWin
----| EngineTagDataMultiplayerInformationSound_30SecondsToWin
+---| EngineTagDataMultiplayerInformationSound30SecondsToWin
 ---| EngineTagDataMultiplayerInformationSoundRedTeamMinuteToWin
----| EngineTagDataMultiplayerInformationSoundRedTeam_30ToWin
+---| EngineTagDataMultiplayerInformationSoundRedTeam30ToWin
 ---| EngineTagDataMultiplayerInformationSoundBlueTeamMinuteToWin
----| EngineTagDataMultiplayerInformationSoundBlueTeam_30ToWin
+---| EngineTagDataMultiplayerInformationSoundBlueTeam30ToWin
 ---| EngineTagDataMultiplayerInformationSoundBlueTeamHasTheFlag
 ---| EngineTagDataMultiplayerInformationSoundBlueTeamFlagReturned
 ---| EngineTagDataMultiplayerInformationSoundBlueTeamScore
@@ -95,11 +95,11 @@
 ---@field dPlayBall EngineTagDataMultiplayerInformationSoundPlayBall
 ---@field dGameOver EngineTagDataMultiplayerInformationSoundGameOver
 ---@field dOneMinuteToWin EngineTagDataMultiplayerInformationSoundOneMinuteToWin
----@field d_30SecondsToWin EngineTagDataMultiplayerInformationSound_30SecondsToWin
+---@field d30SecondsToWin EngineTagDataMultiplayerInformationSound30SecondsToWin
 ---@field dRedTeamMinuteToWin EngineTagDataMultiplayerInformationSoundRedTeamMinuteToWin
----@field dRedTeam_30ToWin EngineTagDataMultiplayerInformationSoundRedTeam_30ToWin
+---@field dRedTeam30ToWin EngineTagDataMultiplayerInformationSoundRedTeam30ToWin
 ---@field dBlueTeamMinuteToWin EngineTagDataMultiplayerInformationSoundBlueTeamMinuteToWin
----@field dBlueTeam_30ToWin EngineTagDataMultiplayerInformationSoundBlueTeam_30ToWin
+---@field dBlueTeam30ToWin EngineTagDataMultiplayerInformationSoundBlueTeam30ToWin
 ---@field dBlueTeamHasTheFlag EngineTagDataMultiplayerInformationSoundBlueTeamHasTheFlag
 ---@field dBlueTeamFlagReturned EngineTagDataMultiplayerInformationSoundBlueTeamFlagReturned
 ---@field dBlueTeamScore EngineTagDataMultiplayerInformationSoundBlueTeamScore
@@ -266,14 +266,14 @@ Engine.tag.multiplayerInformationSound = {}
 ---@field normalMajorUpgrade number 
 ---@field hardMajorUpgrade number 
 ---@field impossMajorUpgrade number 
----@field easyMajorUpgrade_1 number 
----@field normalMajorUpgrade_1 number 
----@field hardMajorUpgrade_1 number 
----@field impossMajorUpgrade_1 number 
----@field easyMajorUpgrade_2 number 
----@field normalMajorUpgrade_2 number 
----@field hardMajorUpgrade_2 number 
----@field impossMajorUpgrade_2 number 
+---@field easyMajorUpgrade1 number 
+---@field normalMajorUpgrade1 number 
+---@field hardMajorUpgrade1 number 
+---@field impossMajorUpgrade1 number 
+---@field easyMajorUpgrade2 number 
+---@field normalMajorUpgrade2 number 
+---@field hardMajorUpgrade2 number 
+---@field impossMajorUpgrade2 number 
 
 ---@class MetaEngineTagDataGlobalsGrenade 
 ---@field maximumCount integer 
@@ -291,13 +291,13 @@ Engine.tag.multiplayerInformationSound = {}
 ---@field linearCornerFade MetaEngineTagDependency 
 ---@field activeCamouflageDistortion MetaEngineTagDependency 
 ---@field glow MetaEngineTagDependency 
----@field default_2d MetaEngineTagDependency 
----@field default_3d MetaEngineTagDependency 
+---@field default2d MetaEngineTagDependency 
+---@field default3d MetaEngineTagDependency 
 ---@field defaultCubeMap MetaEngineTagDependency 
----@field test_0 MetaEngineTagDependency 
----@field test_1 MetaEngineTagDependency 
----@field test_2 MetaEngineTagDependency 
----@field test_3 MetaEngineTagDependency 
+---@field test0 MetaEngineTagDependency 
+---@field test1 MetaEngineTagDependency 
+---@field test2 MetaEngineTagDependency 
+---@field test3 MetaEngineTagDependency 
 ---@field videoScanlineMap MetaEngineTagDependency 
 ---@field videoNoiseMap MetaEngineTagDependency 
 ---@field flags MetaEngineTagDataGlobalsRasterizerDataFlags 
@@ -307,7 +307,7 @@ Engine.tag.multiplayerInformationSound = {}
 ---@field hyperStealthRefraction number 
 ---@field hyperStealthDistanceFalloff number 
 ---@field hyperStealthTintColor MetaEngineColorRGB 
----@field distanceAttenuation_2d MetaEngineTagDependency 
+---@field distanceAttenuation2d MetaEngineTagDependency 
 
 ---@class MetaEngineTagDataGlobalsInterfaceBitmaps 
 ---@field fontSystem MetaEngineTagDependency 

@@ -128,7 +128,7 @@ Engine.tag.damageEffectCategory = {}
 ---@field ignoreSeatScaleForDirDmg boolean 
 ---@field forcesHardPing boolean 
 ---@field doesNotHurtPlayers boolean 
----@field use_3dInstantaneousAcceleration boolean 
+---@field use3dInstantaneousAcceleration boolean 
 ---@field allowAnyNonZeroAccelerationValue boolean 
 
 ---@class MetaEngineTagDataDamageEffectFlags 

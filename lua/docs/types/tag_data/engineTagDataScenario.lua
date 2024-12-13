@@ -196,37 +196,37 @@ Engine.tag.scenarioMajorUpgrade = {}
 ---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum : Enum 
 
 ---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenNever : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen75Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen50Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen25Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
 ---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenAnybodyDead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen25Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen50Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagDataScenarioChangeAttackingDefendingStateWhen75Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
 ---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenAllButOneDead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
 ---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenAllDead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
 
 ---@alias EngineTagDataScenarioChangeAttackingDefendingStateWhen 
 ---| EngineTagDataScenarioChangeAttackingDefendingStateWhenNever
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Strength
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Strength
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Strength
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen75Strength
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen50Strength
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen25Strength
 ---| EngineTagDataScenarioChangeAttackingDefendingStateWhenAnybodyDead
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Dead
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Dead
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Dead
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen25Dead
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen50Dead
+---| EngineTagDataScenarioChangeAttackingDefendingStateWhen75Dead
 ---| EngineTagDataScenarioChangeAttackingDefendingStateWhenAllButOneDead
 ---| EngineTagDataScenarioChangeAttackingDefendingStateWhenAllDead
 
 ---@class EngineTagDataScenarioChangeAttackingDefendingStateWhenTable 
 ---@field whenNever EngineTagDataScenarioChangeAttackingDefendingStateWhenNever
----@field when_75Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Strength
----@field when_50Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Strength
----@field when_25Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Strength
+---@field when75Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen75Strength
+---@field when50Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen50Strength
+---@field when25Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen25Strength
 ---@field whenAnybodyDead EngineTagDataScenarioChangeAttackingDefendingStateWhenAnybodyDead
----@field when_25Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen_25Dead
----@field when_50Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen_50Dead
----@field when_75Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen_75Dead
+---@field when25Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen25Dead
+---@field when50Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen50Dead
+---@field when75Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen75Dead
 ---@field whenAllButOneDead EngineTagDataScenarioChangeAttackingDefendingStateWhenAllButOneDead
 ---@field whenAllDead EngineTagDataScenarioChangeAttackingDefendingStateWhenAllDead
 Engine.tag.scenarioChangeAttackingDefendingStateWhen = {} 
@@ -854,7 +854,7 @@ Engine.tag.scenarioJustification = {}
 ---@field initiallyBlind boolean 
 ---@field initiallyDeaf boolean 
 ---@field initiallyBraindead boolean 
----@field _3dFiringPositions boolean 
+---@field 3dFiringPositions boolean 
 ---@field manualBspIndexSpecified boolean 
 
 ---@class MetaEngineTagDataScenarioCommandListFlags 
@@ -1100,10 +1100,10 @@ Engine.tag.scenarioJustification = {}
 ---@field facing MetaEngineAngle 
 ---@field teamIndex MetaEngineIndex 
 ---@field bspIndex MetaEngineIndex 
----@field type_0 EngineTagDataScenarioSpawnType 
----@field type_1 EngineTagDataScenarioSpawnType 
----@field type_2 EngineTagDataScenarioSpawnType 
----@field type_3 EngineTagDataScenarioSpawnType 
+---@field type0 EngineTagDataScenarioSpawnType 
+---@field type1 EngineTagDataScenarioSpawnType 
+---@field type2 EngineTagDataScenarioSpawnType 
+---@field type3 EngineTagDataScenarioSpawnType 
 
 ---@class MetaEngineTagDataScenarioTriggerVolume 
 ---@field unknown integer 
@@ -1131,10 +1131,10 @@ Engine.tag.scenarioJustification = {}
 
 ---@class MetaEngineTagDataScenarioNetgameEquipment 
 ---@field flags MetaEngineTagDataScenarioNetgameEquipmentFlags 
----@field type_0 EngineTagDataScenarioSpawnType 
----@field type_1 EngineTagDataScenarioSpawnType 
----@field type_2 EngineTagDataScenarioSpawnType 
----@field type_3 EngineTagDataScenarioSpawnType 
+---@field type0 EngineTagDataScenarioSpawnType 
+---@field type1 EngineTagDataScenarioSpawnType 
+---@field type2 EngineTagDataScenarioSpawnType 
+---@field type3 EngineTagDataScenarioSpawnType 
 ---@field teamIndex MetaEngineIndex 
 ---@field spawnTime integer 
 ---@field unknownFfffffff integer 
@@ -1144,16 +1144,16 @@ Engine.tag.scenarioJustification = {}
 
 ---@class MetaEngineTagDataScenarioStartingEquipment 
 ---@field flags MetaEngineTagDataScenarioStartingEquipmentFlags 
----@field type_0 EngineTagDataScenarioSpawnType 
----@field type_1 EngineTagDataScenarioSpawnType 
----@field type_2 EngineTagDataScenarioSpawnType 
----@field type_3 EngineTagDataScenarioSpawnType 
----@field itemCollection_1 MetaEngineTagDependency 
----@field itemCollection_2 MetaEngineTagDependency 
----@field itemCollection_3 MetaEngineTagDependency 
----@field itemCollection_4 MetaEngineTagDependency 
----@field itemCollection_5 MetaEngineTagDependency 
----@field itemCollection_6 MetaEngineTagDependency 
+---@field type0 EngineTagDataScenarioSpawnType 
+---@field type1 EngineTagDataScenarioSpawnType 
+---@field type2 EngineTagDataScenarioSpawnType 
+---@field type3 EngineTagDataScenarioSpawnType 
+---@field itemCollection1 MetaEngineTagDependency 
+---@field itemCollection2 MetaEngineTagDependency 
+---@field itemCollection3 MetaEngineTagDependency 
+---@field itemCollection4 MetaEngineTagDependency 
+---@field itemCollection5 MetaEngineTagDependency 
+---@field itemCollection6 MetaEngineTagDependency 
 
 ---@class MetaEngineTagDataScenarioBSPSwitchTriggerVolume 
 ---@field triggerVolume MetaEngineIndex 
@@ -1230,7 +1230,7 @@ Engine.tag.scenarioJustification = {}
 ---@field changeAttackingDefendingStateWhen EngineTagDataScenarioChangeAttackingDefendingStateWhen 
 ---@field happensTo MetaEngineIndex 
 ---@field maneuverWhen EngineTagDataScenarioChangeAttackingDefendingStateWhen 
----@field happensTo_1 MetaEngineIndex 
+---@field happensTo1 MetaEngineIndex 
 
 ---@class MetaEngineTagDataScenarioFiringPosition 
 ---@field position MetaEnginePoint3D 
@@ -1257,8 +1257,8 @@ Engine.tag.scenarioJustification = {}
 ---@field atomModifier integer 
 ---@field parameter1 number 
 ---@field parameter2 number 
----@field point_1 MetaEngineIndex 
----@field point_2 MetaEngineIndex 
+---@field point1 MetaEngineIndex 
+---@field point2 MetaEngineIndex 
 ---@field animation MetaEngineIndex 
 ---@field script MetaEngineIndex 
 ---@field recording MetaEngineIndex 
@@ -1303,12 +1303,12 @@ Engine.tag.scenarioJustification = {}
 ---@field addressee EngineTagDataScenarioAddressee 
 ---@field addresseeParticipant MetaEngineIndex 
 ---@field lineDelayTime number 
----@field variant_1 MetaEngineTagDependency 
----@field variant_2 MetaEngineTagDependency 
----@field variant_3 MetaEngineTagDependency 
----@field variant_4 MetaEngineTagDependency 
----@field variant_5 MetaEngineTagDependency 
----@field variant_6 MetaEngineTagDependency 
+---@field variant1 MetaEngineTagDependency 
+---@field variant2 MetaEngineTagDependency 
+---@field variant3 MetaEngineTagDependency 
+---@field variant4 MetaEngineTagDependency 
+---@field variant5 MetaEngineTagDependency 
+---@field variant6 MetaEngineTagDependency 
 
 ---@class MetaEngineTagDataScenarioAIConversation 
 ---@field name MetaEngineTagString 

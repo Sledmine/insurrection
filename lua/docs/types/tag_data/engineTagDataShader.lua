@@ -67,19 +67,19 @@ Engine.tag.shaderColorFunctionType = {}
 
 ---@class EngineTagDataShaderFirstMapTypeEnum : Enum 
 
----@class EngineTagDataShaderFirstMapType_2dMap : EngineTagDataShaderFirstMapTypeEnum 
+---@class EngineTagDataShaderFirstMapType2dMap : EngineTagDataShaderFirstMapTypeEnum 
 ---@class EngineTagDataShaderFirstMapTypeFirstMapIsReflectionCubeMap : EngineTagDataShaderFirstMapTypeEnum 
 ---@class EngineTagDataShaderFirstMapTypeFirstMapIsObjectCenteredCubeMap : EngineTagDataShaderFirstMapTypeEnum 
 ---@class EngineTagDataShaderFirstMapTypeFirstMapIsViewerCenteredCubeMap : EngineTagDataShaderFirstMapTypeEnum 
 
 ---@alias EngineTagDataShaderFirstMapType 
----| EngineTagDataShaderFirstMapType_2dMap
+---| EngineTagDataShaderFirstMapType2dMap
 ---| EngineTagDataShaderFirstMapTypeFirstMapIsReflectionCubeMap
 ---| EngineTagDataShaderFirstMapTypeFirstMapIsObjectCenteredCubeMap
 ---| EngineTagDataShaderFirstMapTypeFirstMapIsViewerCenteredCubeMap
 
 ---@class EngineTagDataShaderFirstMapTypeTable 
----@field pe_2dMap EngineTagDataShaderFirstMapType_2dMap
+---@field pe2dMap EngineTagDataShaderFirstMapType2dMap
 ---@field peFirstMapIsReflectionCubeMap EngineTagDataShaderFirstMapTypeFirstMapIsReflectionCubeMap
 ---@field peFirstMapIsObjectCenteredCubeMap EngineTagDataShaderFirstMapTypeFirstMapIsObjectCenteredCubeMap
 ---@field peFirstMapIsViewerCenteredCubeMap EngineTagDataShaderFirstMapTypeFirstMapIsViewerCenteredCubeMap

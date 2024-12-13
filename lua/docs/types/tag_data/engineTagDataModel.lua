@@ -98,7 +98,7 @@
 ---@field doNotCrashTheGame integer 
 ---@field triangleCount integer 
 ---@field triangleOffset integer 
----@field triangleOffset_2 integer 
+---@field triangleOffset2 integer 
 ---@field vertexType EngineTagDataVertexType 
 ---@field vertexCount integer 
 ---@field vertexPointer integer 

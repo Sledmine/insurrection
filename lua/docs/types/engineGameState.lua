@@ -53,6 +53,21 @@
 ---@field shieldRecharging boolean
 ---@field killedNoStats boolean
 
+---@class MetaEngineObjectVitals
+---@field baseHealth number
+---@field baseShield number
+---@field health number
+---@field shield number
+---@field currentShieldDamage number
+---@field currentHealthDamage number
+---@field entangledObject EngineObjectHandle
+---@field recentShieldDamage number
+---@field recentHealthDamage number
+---@field recentShieldDamageTime integer
+---@field recentHealthDamageTime integer
+---@field shieldStunTime integer
+---@field flags MetaEngineObjectVitalsFlags
+
 ---@class MetaEngineObjectAttachmentsData
 ---@field types table<integer, string>
 ---@field attachments table<integer, integer>
@@ -101,7 +116,7 @@
 ---@field animationFrame integer
 ---@field animationInterpolationFrame integer
 ---@field animationInterpolationFrameCount integer
----@field vitals MetaEngineObjectVitalsFlags
+---@field vitals MetaEngineObjectVitals
 ---@field clusterPartition integer
 ---@field unknownObject integer
 ---@field nextObject integer
@@ -275,7 +290,7 @@
 ---@field vehicleSeatId integer
 ---@field currentWeaponId integer
 ---@field nextWeaponId integer
----@field weapons table<integer, integer>
+---@field weapons EngineObjectHandle[]
 ---@field weaponReadyTicks table<integer, integer>
 ---@field equipmentHandle integer
 ---@field currentGrenadeIndex integer
@@ -483,8 +498,8 @@
 ---@field integratedLightPower number
 ---@field trackedObject integer
 ---@field altShotsLoaded integer
----@field triggers table<integer, MetaEngineWeaponTrigger>
----@field magazines table<integer, MetaEngineWeaponMagazine>
+---@field triggers MetaEngineWeaponTrigger[]
+---@field magazines MetaEngineWeaponMagazine[]
 ---@field lastTriggerFireTick integer
 ---@field reloadStartingPoint MetaEngineWeaponReloadStartData
 ---@field network MetaEngineWeaponNetwork
@@ -626,7 +641,7 @@
 ---@field interactionObjectSeat integer
 ---@field respawnTime integer
 ---@field respawnTimeGrowth integer
----@field objectHandle integer
+---@field objectHandle EngineObjectHandle
 ---@field prevObjectHandle integer
 ---@field bspClusterId integer
 ---@field weaponSwapResult boolean

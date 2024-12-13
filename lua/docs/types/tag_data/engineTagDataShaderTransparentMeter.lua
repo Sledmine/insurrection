@@ -2,7 +2,7 @@
 ---@field decal boolean 
 ---@field twoSided boolean 
 ---@field flashColorIsNegative boolean 
----@field tintMode_2 boolean 
+---@field tintMode2 boolean 
 ---@field unfiltered boolean 
 
 ---@class MetaEngineTagDataShaderTransparentMeter: MetaEngineTagDataShader  
