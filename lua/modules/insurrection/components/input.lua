@@ -1,7 +1,7 @@
 local button = require "insurrection.components.button"
 
 ---@class uiComponentInputClass : uiComponentButton
-local input = setmetatable({}, {__index = button})
+local input = setmetatable({type = "input"}, {__index = button})
 
 ---@class uiComponentInputEvents : uiComponentEvents
 ---@field onInputText fun(text: string) | nil

@@ -15,7 +15,7 @@ execute_script = engine.hsc.executeScript
 logger = nil
 DebugMode = false
 IsDebugCustomization = false
-IsDebugLocalCustomization = true
+IsDebugLocalCustomizationEnabled = false
 inspect = require "inspect"
 constants = require "insurrection.constants"
 api = require "insurrection.api"
@@ -132,7 +132,7 @@ local commands = {
     }
 }
 
-function PluginInit()
+function PluginLoad()
     logger = balltze.logger.createLogger("insurrection")
 
     balltze.event.mapLoad.subscribe(function(event)
@@ -170,10 +170,6 @@ function PluginInit()
         end)
     end
 
-    return true
-end
-
-function PluginLoad()
     -- Load Chimera compatibility
     for k, v in pairs(balltze.chimera) do
         if not k:includes "timer" and not k:includes "execute_script" then
@@ -220,4 +216,9 @@ function PluginLoad()
     end)
 
     components.callbacks()
+
+    return true
+end
+
+function PluginUnload()
 end

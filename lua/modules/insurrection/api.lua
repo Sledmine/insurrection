@@ -188,7 +188,7 @@ end
 function api.available()
     loading(true, "Loading available parameters...")
     logger:info("Loading available parameters...")
-    if IsDebugLocalCustomization then
+    if IsDebugLocalCustomizationEnabled then
         local customization = {}
         for mapName, data in pairs(CustomBipedPaths) do
             customization[mapName] = {
