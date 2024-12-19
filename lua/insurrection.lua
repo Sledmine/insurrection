@@ -1,4 +1,5 @@
 local components = require "insurrection.components"
+local specialEvents = require "insurrection.specialEvents"
 local balltze = Balltze
 local engine = Engine
 package.preload["luna"] = nil
@@ -6,9 +7,9 @@ package.loaded["luna"] = nil
 local luna = require "luna"
 local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
-async = require "async".async
-local dispatch = require "async".dispatch
-require "async".configure("base, table, package, string")
+async = require"async".async
+local dispatch = require"async".dispatch
+require"async".configure("base, table, package, string")
 execute_script = engine.hsc.executeScript
 
 ---@type Logger
@@ -21,7 +22,7 @@ constants = require "insurrection.constants"
 api = require "insurrection.api"
 discord = require "insurrection.discord"
 store = require "insurrection.redux.store"
-local isNewMap = false
+local isNewMap = true
 
 ---@type uiWidgetDefinition?
 local editableWidget
@@ -46,15 +47,17 @@ local customBipedPaths = {
         [[[shm]\halo_1\characters\elite\elite_mp]],
         [[[shm]\halo_1\characters\grunt\grunt_mp]]
     }
-    -- forge_island_dev = {[[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
+    -- forge_island_dev = {[ze[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
 }
 CustomBipedPaths = customBipedPaths
 
 local customUiWidgetPaths = {
-    {constants.path.nameplateCollection, "tag_collection"},
-    {constants.path.pauseMenu, "ui_widget_definition"},
-    {constants.path.dialog, "ui_widget_definition"},
-    {constants.path.customSounds, "tag_collection"}
+    {constants.path.nameplateCollection, engine.tag.classes.tagCollection},
+    {constants.path.pauseMenu, engine.tag.classes.uiWidgetDefinition},
+    {constants.path.dialog, engine.tag.classes.uiWidgetDefinition},
+    {constants.path.customSounds, engine.tag.classes.tagCollection},
+    {constants.path.christmasHat, engine.tag.classes.scenery}
+
 }
 
 function log(...)
@@ -119,9 +122,9 @@ local commands = {
         execute = function()
             IsDebugCustomization = true
             interface.blur(false)
-            interface.close(true)            
-            --execute_script("set_customization_background 1")
-            --execute_script("object_create customization_biped")
+            interface.close(true)
+            -- execute_script("set_customization_background 1")
+            -- execute_script("object_create customization_biped")
         end
     },
     test = {
@@ -132,50 +135,17 @@ local commands = {
     }
 }
 
-function PluginLoad()
-    logger = balltze.logger.createLogger("insurrection")
+local isChimeraLoaded = false
 
-    balltze.event.mapLoad.subscribe(function(event)
-        if event.time == "before" then
-            isNewMap = true
-            if event.context:mapName() == "ui" then
-                log("Loading Insurrection UI")
-                for mapName, bipeds in pairs(customBipedPaths) do
-                    for _, bipedPath in pairs(bipeds) do
-                        balltze.features.importTagFromMap(mapName, bipedPath, "biped")
-                    end
-                end
-            --elseif api.session.lobbyKey then
-            else
-                -- TODO BALLTZE MIGRATE
-                for _, tagPath in pairs(customUiWidgetPaths) do
-                    balltze.features.importTagFromMap("ui", tagPath[1], tagPath[2])
-                end
-            end
-        else
-            balltze.features.clearTagImports()
-        end
-    end, "lowest")
-
-    for command, data in pairs(commands) do
-        balltze.command.registerCommand(command, command, data.description, data.help, false,
-                                        data.minArgs or 0, data.maxArgs or 0, false, true,
-                                        function(...)
-            local success, result = pcall(data.execute, table.unpack(...))
-            if not success then
-                logger:error("Error executing command '{}': {}", command, result)
-                return false
-            end
-            return true
-        end)
-    end
-
+local function loadChimeraCompatibility()
     -- Load Chimera compatibility
     for k, v in pairs(balltze.chimera) do
-        if not k:includes "timer" and not k:includes "execute_script" then
+        if not k:includes "timer" and not k:includes "execute_script" and
+            not k:includes "set_callback" then
             _G[k] = v
         end
     end
+    server_type = engine.netgame.getServerType()
 
     -- Replace Chimera functions with Balltze functions
     write_bit = function(address, bit, value)
@@ -192,7 +162,7 @@ function PluginLoad()
     write_dword = balltze.memory.writeInt32
     write_int = balltze.memory.writeInt32
     write_float = balltze.memory.writeFloat
-    write_string = function (address, value)
+    write_string = function(address, value)
         for i = 1, #value do
             write_byte(address + i - 1, string.byte(value, i))
         end
@@ -200,20 +170,77 @@ function PluginLoad()
             write_byte(address, 0)
         end
     end
+end
 
-    initialize()
- 
-    balltze.event.tick.subscribe(function(event)
-        if isNewMap then
-            initialize()
-            isNewMap = false
+local onMapLoadEvent
+local onTickEvent
+
+function PluginLoad()
+    logger = balltze.logger.createLogger("insurrection")
+
+    local function importCustomizableBipeds()
+        for mapName, bipeds in pairs(customBipedPaths) do
+            for _, bipedPath in pairs(bipeds) do
+                balltze.features.importTagFromMap(mapName, bipedPath, engine.tag.classes.biped)
+            end
         end
-        if event.time == "before" then
-            interface.onTick()
-            -- Multithread callback resolve
-            dispatch()
-        end
-    end)
+    end
+
+    importCustomizableBipeds()
+
+    if not onMapLoadEvent then
+        onMapLoadEvent = balltze.event.mapLoad.subscribe(function(event)
+            if event.time == "before" then
+                isNewMap = true
+                if event.context:mapName() == "ui" then
+                    logger:debug("Importing external customizable bipeds...")
+                    importCustomizableBipeds()
+                    -- elseif api.session.lobbyKey then
+                else
+                    for _, tagPath in pairs(customUiWidgetPaths) do
+                        balltze.features.importTagFromMap("ui", tagPath[1], tagPath[2])
+                    end
+                end
+            else
+                balltze.features.clearTagImports()
+            end
+        end, "lowest")
+    end
+
+    if not onTickEvent then
+        onTickEvent = balltze.event.tick.subscribe(function(event)
+            if not isChimeraLoaded and balltze.chimera then
+                logger:debug("Chimera compatibility loaded")
+                loadChimeraCompatibility()
+                isChimeraLoaded = true
+            end
+            if isChimeraLoaded then
+                if isNewMap then
+                    initialize()
+                    isNewMap = false
+                end
+                if event.time == "before" then
+                    interface.onTick()
+                    specialEvents.onTick()
+                    -- Multithread callback resolve
+                    dispatch()
+                end
+            end
+        end)
+    end
+
+    for command, data in pairs(commands) do
+        balltze.command.registerCommand(command, command, data.description, data.help, false,
+                                        data.minArgs or 0, data.maxArgs or 0, false, true,
+                                        function(...)
+            local success, result = pcall(data.execute, table.unpack(...))
+            if not success then
+                logger:error("Error executing command '{}': {}", command, result)
+                return false
+            end
+            return true
+        end)
+    end
 
     components.callbacks()
 

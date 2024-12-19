@@ -5,7 +5,8 @@ constants.path = {
     nameplateCollection = [[insurrection\ui\shared\nameplates]],
     dialog = [[insurrection\ui\menus\dialog\dialog_menu]],
     customSounds = [[insurrection\sound\custom_sounds]],
-    tester = [[insurrection\ui\menus\tester\tester_menu]]
+    tester = [[insurrection\ui\menus\tester\tester_menu]],
+    christmasHat = [[insurrection\hats\christmas\christmas_hat]]
 }
 
 constants.customColor = {
@@ -215,6 +216,10 @@ constants.customization = {
     rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190, arms = 80, gear = 0}
 }
 
+constants.limits = {
+    maximumPlayers = 15,
+}
+
 constants.widgets = {}
 
 function constants.get()
@@ -308,6 +313,10 @@ function constants.get()
         subtitle = findTag(fontName .. "subtitle", tagClasses.font),
         button = findTag(fontName .. "button", tagClasses.font),
         shadow = findTag(fontName .. "shadow", tagClasses.font)
+    }
+
+    constants.scenery = {
+        christmasHat = findTag(constants.path.christmasHat, tagClasses.scenery)
     }
     log("Loaded constants")
 end

@@ -75,16 +75,27 @@ return function()
         execute_script("object_create customization_biped")
 
         local tagEntry = engine.tag.findTags(bipedPath, engine.tag.classes.biped)[1]
-        assert(tagEntry, "biped tag " .. bipedPath .. " not found")
+        if not tagEntry then
+            logger:error("Biped tag: {} not found", bipedPath)
+            return
+        end
 
         local bipedData = tagEntry.data
-        assert(bipedData, "biped tag " .. bipedPath .. " not found")
+        if not bipedData then
+            logger:error("Biped tag: {} has no data", bipedPath)
+            return
+        end
 
+        local bipedTag = engine.tag.getTag(tagEntry.handle.value, engine.tag.classes.biped)
+        assert(bipedTag, "Biped tag data not found")
+        -- TODO Check if this is the right way to remove creation effect
+        bipedTag.data.creationEffect.tagHandle.value = 0xFFFFFFFF
         -- TODO Remove this when biped animations are fixed in coop evolved
         if not (tagEntry.path:includes "marine" or tagEntry.path:includes "grunt") then
+            -- FIXME This does not work with Balltze as weapons count is read only
+            -- bipedTag.data.weapons.count = 0
 
-            -- FIXME This crashes when using Blam and does not exist propery weapons when using Balltze
-            -- bipedData.weapons.count = 0
+            -- TODO Try to use unit remove weapon function or something similar
             local bipedTag = blam.bipedTag(tagEntry.handle.value)
             bipedTag.weaponCount = 0
         end
@@ -103,7 +114,7 @@ return function()
                     execute_script "object_destroy customization_biped"
                     execute_script "object_create customization_biped"
                     execute_script "fade_screen_in"
-                    console_debug("Biped tag replaced")
+                    logger:debug("Biped tag replaced")
                 end
                 break
             end
@@ -117,7 +128,7 @@ return function()
         currentBipedLabel:setText(bipedName)
         --
         local colorFromGame = constants.colors[profile.colorIndex]
-        console_debug(colorFromGame)
+        logger:debug(colorFromGame)
         local r, g, b = color.hexToDec(colorFromGame)
         customizationBiped.colorCLowerRed = r
         customizationBiped.colorCLowerGreen = g
@@ -128,7 +139,7 @@ return function()
         customizationBiped.colorDLowerGreen = g
         customizationBiped.colorDLowerBlue = b
         if regions then
-            console_debug("Setting regions")
+            logger:debug("Setting regions")
             for regionIndex, permutationIndex in pairs(regions) do
                 core.setObjectPermutationSafely(customizationBiped, regionIndex, permutationIndex)
             end
@@ -146,9 +157,11 @@ return function()
     local function handleLoadProject(projectName)
         local savedBipeds = api.getSavedBipeds()
         local lastSavedProject = (core.loadSettings() or {}).lastSavedProject
-        local defaultProject = state.available.customization[table.keys(state.available.customization)[1]]
+        local defaultProject = state.available.customization[table.keys(state.available
+                                                                            .customization)[1]]
         -- TODO Load last selected project
-        local projectName = projectName or lastSavedProject or table.keys(state.available.customization)[1]
+        local projectName = projectName or lastSavedProject or
+                                table.keys(state.available.customization)[1]
         selectedProject = projectName
         local project = state.available.customization[projectName] or defaultProject
         local bipeds = table.map(project.tags, function(bipedPath)

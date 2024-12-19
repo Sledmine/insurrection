@@ -148,9 +148,9 @@ end
 function api.loadUrl(host)
     api.version = "v1"
     api.host = Balltze.filesystem.readFile("insurrection_host") or host or "http://localhost:4343/"
-    if DebugMode then
-        api.host = "http://localhost:4343/"
-    end
+    --if DebugMode then
+    --    api.host = "http://localhost:4343/"
+    --end
     api.url = api.host .. api.version
 end
 
