@@ -83,7 +83,6 @@ local function initialize()
     constants.get()
     interface.load()
     interface.changeAspectRatio()
-    log("Overriding Chimera font...")
     chimera.fontOverride()
 end
 
@@ -91,11 +90,9 @@ local commands = {
     debug = {
         description = "Enable Insurrection debug mode",
         help = "<boolean>",
+        minArgs = 1,
+        maxArgs = 1,
         execute = function(enable)
-            if enable == nil then
-                DebugMode = not DebugMode
-                return
-            end
             DebugMode = luna.bool(enable)
             engine.core.consolePrint("Debug mode: " .. tostring(DebugMode))
         end
@@ -148,15 +145,7 @@ local function loadChimeraCompatibility()
     server_type = engine.netgame.getServerType()
 
     -- Replace Chimera functions with Balltze functions
-    write_bit = function(address, bit, value)
-        local byte = read_byte(address)
-        if value then
-            byte = byte | (1 << bit)
-        else
-            byte = byte & ~(1 << bit)
-        end
-        write_byte(address, byte)
-    end
+    write_bit = balltze.memory.writeBit
     write_byte = balltze.memory.writeInt8
     write_word = balltze.memory.writeInt16
     write_dword = balltze.memory.writeInt32
@@ -170,13 +159,15 @@ local function loadChimeraCompatibility()
             write_byte(address, 0)
         end
     end
+    execute_script = engine.hsc.executeScript
 end
 
 local onMapLoadEvent
 local onTickEvent
 
 function PluginLoad()
-    logger = balltze.logger.createLogger("insurrection")
+    logger = balltze.logger.createLogger("Insurrection")
+    logger:muteDebug(not DebugMode)
 
     local function importCustomizableBipeds()
         for mapName, bipeds in pairs(customBipedPaths) do
@@ -197,6 +188,7 @@ function PluginLoad()
                     importCustomizableBipeds()
                     -- elseif api.session.lobbyKey then
                 else
+                    balltze.features.clearTagImports()
                     for _, tagPath in pairs(customUiWidgetPaths) do
                         balltze.features.importTagFromMap("ui", tagPath[1], tagPath[2])
                     end
@@ -209,17 +201,17 @@ function PluginLoad()
 
     if not onTickEvent then
         onTickEvent = balltze.event.tick.subscribe(function(event)
-            if not isChimeraLoaded and balltze.chimera then
-                logger:debug("Chimera compatibility loaded")
-                loadChimeraCompatibility()
-                isChimeraLoaded = true
-            end
-            if isChimeraLoaded then
-                if isNewMap then
-                    initialize()
-                    isNewMap = false
+            if event.time == "before" then
+                if not isChimeraLoaded and balltze.chimera then
+                    logger:debug("Chimera compatibility loaded")
+                    loadChimeraCompatibility()
+                    isChimeraLoaded = true
                 end
-                if event.time == "before" then
+                if isChimeraLoaded then
+                    if isNewMap then
+                        initialize()
+                        isNewMap = false
+                    end
                     interface.onTick()
                     specialEvents.onTick()
                     -- Multithread callback resolve

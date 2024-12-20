@@ -434,6 +434,7 @@ local function safeFontOverride(...)
 end
 
 function chimera.fontOverride()
+    logger:debug("Overriding Chimera font...")
     if create_font_override then
         if constants.fonts.text then
             safeFontOverride(constants.fonts.text.id, "Geogrotesque-Regular", 14, 400, 2, 2, 1, 1)
@@ -452,7 +453,7 @@ function chimera.fontOverride()
         end
         return true
     end
-    engine.core.consolePrint("create_font_override is not available.")
+    logger:error("create_font_override is not available.")
     return false
 end
 
