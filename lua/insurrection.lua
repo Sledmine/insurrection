@@ -215,7 +215,10 @@ function PluginLoad()
                     interface.onTick()
                     specialEvents.onTick()
                     -- Multithread callback resolve
-                    dispatch()
+                    local success, message = pcall(dispatch)
+                    if not success then
+                        logger:error(tostring(message))
+                    end
                 end
             end
         end)
