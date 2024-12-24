@@ -1,260 +1,260 @@
----@class EngineTagDataUnitFunctionInEnum : Enum 
+---@class EngineTagUnitFunctionInEnum : Enum 
 
----@class EngineTagDataUnitFunctionInNone : EngineTagDataUnitFunctionInEnum 
----@class EngineTagDataUnitFunctionInDriverSeatPower : EngineTagDataUnitFunctionInEnum 
----@class EngineTagDataUnitFunctionInGunnerSeatPower : EngineTagDataUnitFunctionInEnum 
----@class EngineTagDataUnitFunctionInAimingChange : EngineTagDataUnitFunctionInEnum 
----@class EngineTagDataUnitFunctionInMouthAperture : EngineTagDataUnitFunctionInEnum 
----@class EngineTagDataUnitFunctionInIntegratedLightPower : EngineTagDataUnitFunctionInEnum 
----@class EngineTagDataUnitFunctionInCanBlink : EngineTagDataUnitFunctionInEnum 
----@class EngineTagDataUnitFunctionInShieldSapping : EngineTagDataUnitFunctionInEnum 
+---@class EngineTagUnitFunctionInNone : EngineTagUnitFunctionInEnum 
+---@class EngineTagUnitFunctionInDriverSeatPower : EngineTagUnitFunctionInEnum 
+---@class EngineTagUnitFunctionInGunnerSeatPower : EngineTagUnitFunctionInEnum 
+---@class EngineTagUnitFunctionInAimingChange : EngineTagUnitFunctionInEnum 
+---@class EngineTagUnitFunctionInMouthAperture : EngineTagUnitFunctionInEnum 
+---@class EngineTagUnitFunctionInIntegratedLightPower : EngineTagUnitFunctionInEnum 
+---@class EngineTagUnitFunctionInCanBlink : EngineTagUnitFunctionInEnum 
+---@class EngineTagUnitFunctionInShieldSapping : EngineTagUnitFunctionInEnum 
 
----@alias EngineTagDataUnitFunctionIn 
----| EngineTagDataUnitFunctionInNone
----| EngineTagDataUnitFunctionInDriverSeatPower
----| EngineTagDataUnitFunctionInGunnerSeatPower
----| EngineTagDataUnitFunctionInAimingChange
----| EngineTagDataUnitFunctionInMouthAperture
----| EngineTagDataUnitFunctionInIntegratedLightPower
----| EngineTagDataUnitFunctionInCanBlink
----| EngineTagDataUnitFunctionInShieldSapping
+---@alias EngineTagUnitFunctionIn 
+---| EngineTagUnitFunctionInNone
+---| EngineTagUnitFunctionInDriverSeatPower
+---| EngineTagUnitFunctionInGunnerSeatPower
+---| EngineTagUnitFunctionInAimingChange
+---| EngineTagUnitFunctionInMouthAperture
+---| EngineTagUnitFunctionInIntegratedLightPower
+---| EngineTagUnitFunctionInCanBlink
+---| EngineTagUnitFunctionInShieldSapping
 
----@class EngineTagDataUnitFunctionInTable 
----@field nNone EngineTagDataUnitFunctionInNone
----@field nDriverSeatPower EngineTagDataUnitFunctionInDriverSeatPower
----@field nGunnerSeatPower EngineTagDataUnitFunctionInGunnerSeatPower
----@field nAimingChange EngineTagDataUnitFunctionInAimingChange
----@field nMouthAperture EngineTagDataUnitFunctionInMouthAperture
----@field nIntegratedLightPower EngineTagDataUnitFunctionInIntegratedLightPower
----@field nCanBlink EngineTagDataUnitFunctionInCanBlink
----@field nShieldSapping EngineTagDataUnitFunctionInShieldSapping
+---@class EngineTagUnitFunctionInTable 
+---@field nNone EngineTagUnitFunctionInNone
+---@field nDriverSeatPower EngineTagUnitFunctionInDriverSeatPower
+---@field nGunnerSeatPower EngineTagUnitFunctionInGunnerSeatPower
+---@field nAimingChange EngineTagUnitFunctionInAimingChange
+---@field nMouthAperture EngineTagUnitFunctionInMouthAperture
+---@field nIntegratedLightPower EngineTagUnitFunctionInIntegratedLightPower
+---@field nCanBlink EngineTagUnitFunctionInCanBlink
+---@field nShieldSapping EngineTagUnitFunctionInShieldSapping
 Engine.tag.unitFunctionIn = {} 
 
----@class EngineTagDataUnitDefaultTeamEnum : Enum 
+---@class EngineTagUnitDefaultTeamEnum : Enum 
 
----@class EngineTagDataUnitDefaultTeamNone : EngineTagDataUnitDefaultTeamEnum 
----@class EngineTagDataUnitDefaultTeamPlayer : EngineTagDataUnitDefaultTeamEnum 
----@class EngineTagDataUnitDefaultTeamHuman : EngineTagDataUnitDefaultTeamEnum 
----@class EngineTagDataUnitDefaultTeamCovenant : EngineTagDataUnitDefaultTeamEnum 
----@class EngineTagDataUnitDefaultTeamFlood : EngineTagDataUnitDefaultTeamEnum 
----@class EngineTagDataUnitDefaultTeamSentinel : EngineTagDataUnitDefaultTeamEnum 
----@class EngineTagDataUnitDefaultTeamUnused6 : EngineTagDataUnitDefaultTeamEnum 
----@class EngineTagDataUnitDefaultTeamUnused7 : EngineTagDataUnitDefaultTeamEnum 
----@class EngineTagDataUnitDefaultTeamUnused8 : EngineTagDataUnitDefaultTeamEnum 
----@class EngineTagDataUnitDefaultTeamUnused9 : EngineTagDataUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamNone : EngineTagUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamPlayer : EngineTagUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamHuman : EngineTagUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamCovenant : EngineTagUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamFlood : EngineTagUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamSentinel : EngineTagUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamUnused6 : EngineTagUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamUnused7 : EngineTagUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamUnused8 : EngineTagUnitDefaultTeamEnum 
+---@class EngineTagUnitDefaultTeamUnused9 : EngineTagUnitDefaultTeamEnum 
 
----@alias EngineTagDataUnitDefaultTeam 
----| EngineTagDataUnitDefaultTeamNone
----| EngineTagDataUnitDefaultTeamPlayer
----| EngineTagDataUnitDefaultTeamHuman
----| EngineTagDataUnitDefaultTeamCovenant
----| EngineTagDataUnitDefaultTeamFlood
----| EngineTagDataUnitDefaultTeamSentinel
----| EngineTagDataUnitDefaultTeamUnused6
----| EngineTagDataUnitDefaultTeamUnused7
----| EngineTagDataUnitDefaultTeamUnused8
----| EngineTagDataUnitDefaultTeamUnused9
+---@alias EngineTagUnitDefaultTeam 
+---| EngineTagUnitDefaultTeamNone
+---| EngineTagUnitDefaultTeamPlayer
+---| EngineTagUnitDefaultTeamHuman
+---| EngineTagUnitDefaultTeamCovenant
+---| EngineTagUnitDefaultTeamFlood
+---| EngineTagUnitDefaultTeamSentinel
+---| EngineTagUnitDefaultTeamUnused6
+---| EngineTagUnitDefaultTeamUnused7
+---| EngineTagUnitDefaultTeamUnused8
+---| EngineTagUnitDefaultTeamUnused9
 
----@class EngineTagDataUnitDefaultTeamTable 
----@field mNone EngineTagDataUnitDefaultTeamNone
----@field mPlayer EngineTagDataUnitDefaultTeamPlayer
----@field mHuman EngineTagDataUnitDefaultTeamHuman
----@field mCovenant EngineTagDataUnitDefaultTeamCovenant
----@field mFlood EngineTagDataUnitDefaultTeamFlood
----@field mSentinel EngineTagDataUnitDefaultTeamSentinel
----@field mUnused6 EngineTagDataUnitDefaultTeamUnused6
----@field mUnused7 EngineTagDataUnitDefaultTeamUnused7
----@field mUnused8 EngineTagDataUnitDefaultTeamUnused8
----@field mUnused9 EngineTagDataUnitDefaultTeamUnused9
+---@class EngineTagUnitDefaultTeamTable 
+---@field mNone EngineTagUnitDefaultTeamNone
+---@field mPlayer EngineTagUnitDefaultTeamPlayer
+---@field mHuman EngineTagUnitDefaultTeamHuman
+---@field mCovenant EngineTagUnitDefaultTeamCovenant
+---@field mFlood EngineTagUnitDefaultTeamFlood
+---@field mSentinel EngineTagUnitDefaultTeamSentinel
+---@field mUnused6 EngineTagUnitDefaultTeamUnused6
+---@field mUnused7 EngineTagUnitDefaultTeamUnused7
+---@field mUnused8 EngineTagUnitDefaultTeamUnused8
+---@field mUnused9 EngineTagUnitDefaultTeamUnused9
 Engine.tag.unitDefaultTeam = {} 
 
----@class EngineTagDataUnitMotionSensorBlipSizeEnum : Enum 
+---@class EngineTagUnitMotionSensorBlipSizeEnum : Enum 
 
----@class EngineTagDataUnitMotionSensorBlipSizeMedium : EngineTagDataUnitMotionSensorBlipSizeEnum 
----@class EngineTagDataUnitMotionSensorBlipSizeSmall : EngineTagDataUnitMotionSensorBlipSizeEnum 
----@class EngineTagDataUnitMotionSensorBlipSizeLarge : EngineTagDataUnitMotionSensorBlipSizeEnum 
+---@class EngineTagUnitMotionSensorBlipSizeMedium : EngineTagUnitMotionSensorBlipSizeEnum 
+---@class EngineTagUnitMotionSensorBlipSizeSmall : EngineTagUnitMotionSensorBlipSizeEnum 
+---@class EngineTagUnitMotionSensorBlipSizeLarge : EngineTagUnitMotionSensorBlipSizeEnum 
 
----@alias EngineTagDataUnitMotionSensorBlipSize 
----| EngineTagDataUnitMotionSensorBlipSizeMedium
----| EngineTagDataUnitMotionSensorBlipSizeSmall
----| EngineTagDataUnitMotionSensorBlipSizeLarge
+---@alias EngineTagUnitMotionSensorBlipSize 
+---| EngineTagUnitMotionSensorBlipSizeMedium
+---| EngineTagUnitMotionSensorBlipSizeSmall
+---| EngineTagUnitMotionSensorBlipSizeLarge
 
----@class EngineTagDataUnitMotionSensorBlipSizeTable 
----@field izeMedium EngineTagDataUnitMotionSensorBlipSizeMedium
----@field izeSmall EngineTagDataUnitMotionSensorBlipSizeSmall
----@field izeLarge EngineTagDataUnitMotionSensorBlipSizeLarge
+---@class EngineTagUnitMotionSensorBlipSizeTable 
+---@field izeMedium EngineTagUnitMotionSensorBlipSizeMedium
+---@field izeSmall EngineTagUnitMotionSensorBlipSizeSmall
+---@field izeLarge EngineTagUnitMotionSensorBlipSizeLarge
 Engine.tag.unitMotionSensorBlipSize = {} 
 
----@class EngineTagDataMetagameTypeEnum : Enum 
+---@class EngineTagMetagameTypeEnum : Enum 
 
----@class EngineTagDataMetagameTypeBrute : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeGrunt : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeJackal : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeSkirmisher : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeMarine : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeSpartan : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeBugger : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeHunter : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeFloodInfection : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeFloodCarrier : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeFloodCombat : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeFloodPure : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeSentinel : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeElite : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeEngineer : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeMule : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeTurret : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeMongoose : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeWarthog : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeScorpion : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeHornet : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypePelican : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeRevenant : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeSeraph : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeShade : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeWatchtower : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeGhost : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeChopper : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeMauler : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeWraith : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeBanshee : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypePhantom : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeScarab : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeGuntower : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeTuningFork : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeBroadsword : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeMammoth : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeLich : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeMantis : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeWasp : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypePhaeton : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeBishop : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypeKnight : EngineTagDataMetagameTypeEnum 
----@class EngineTagDataMetagameTypePawn : EngineTagDataMetagameTypeEnum 
+---@class EngineTagMetagameTypeBrute : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeGrunt : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeJackal : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeSkirmisher : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeMarine : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeSpartan : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeBugger : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeHunter : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeFloodInfection : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeFloodCarrier : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeFloodCombat : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeFloodPure : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeSentinel : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeElite : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeEngineer : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeMule : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeTurret : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeMongoose : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeWarthog : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeScorpion : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeHornet : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypePelican : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeRevenant : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeSeraph : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeShade : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeWatchtower : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeGhost : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeChopper : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeMauler : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeWraith : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeBanshee : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypePhantom : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeScarab : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeGuntower : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeTuningFork : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeBroadsword : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeMammoth : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeLich : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeMantis : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeWasp : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypePhaeton : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeBishop : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypeKnight : EngineTagMetagameTypeEnum 
+---@class EngineTagMetagameTypePawn : EngineTagMetagameTypeEnum 
 
----@alias EngineTagDataMetagameType 
----| EngineTagDataMetagameTypeBrute
----| EngineTagDataMetagameTypeGrunt
----| EngineTagDataMetagameTypeJackal
----| EngineTagDataMetagameTypeSkirmisher
----| EngineTagDataMetagameTypeMarine
----| EngineTagDataMetagameTypeSpartan
----| EngineTagDataMetagameTypeBugger
----| EngineTagDataMetagameTypeHunter
----| EngineTagDataMetagameTypeFloodInfection
----| EngineTagDataMetagameTypeFloodCarrier
----| EngineTagDataMetagameTypeFloodCombat
----| EngineTagDataMetagameTypeFloodPure
----| EngineTagDataMetagameTypeSentinel
----| EngineTagDataMetagameTypeElite
----| EngineTagDataMetagameTypeEngineer
----| EngineTagDataMetagameTypeMule
----| EngineTagDataMetagameTypeTurret
----| EngineTagDataMetagameTypeMongoose
----| EngineTagDataMetagameTypeWarthog
----| EngineTagDataMetagameTypeScorpion
----| EngineTagDataMetagameTypeHornet
----| EngineTagDataMetagameTypePelican
----| EngineTagDataMetagameTypeRevenant
----| EngineTagDataMetagameTypeSeraph
----| EngineTagDataMetagameTypeShade
----| EngineTagDataMetagameTypeWatchtower
----| EngineTagDataMetagameTypeGhost
----| EngineTagDataMetagameTypeChopper
----| EngineTagDataMetagameTypeMauler
----| EngineTagDataMetagameTypeWraith
----| EngineTagDataMetagameTypeBanshee
----| EngineTagDataMetagameTypePhantom
----| EngineTagDataMetagameTypeScarab
----| EngineTagDataMetagameTypeGuntower
----| EngineTagDataMetagameTypeTuningFork
----| EngineTagDataMetagameTypeBroadsword
----| EngineTagDataMetagameTypeMammoth
----| EngineTagDataMetagameTypeLich
----| EngineTagDataMetagameTypeMantis
----| EngineTagDataMetagameTypeWasp
----| EngineTagDataMetagameTypePhaeton
----| EngineTagDataMetagameTypeBishop
----| EngineTagDataMetagameTypeKnight
----| EngineTagDataMetagameTypePawn
+---@alias EngineTagMetagameType 
+---| EngineTagMetagameTypeBrute
+---| EngineTagMetagameTypeGrunt
+---| EngineTagMetagameTypeJackal
+---| EngineTagMetagameTypeSkirmisher
+---| EngineTagMetagameTypeMarine
+---| EngineTagMetagameTypeSpartan
+---| EngineTagMetagameTypeBugger
+---| EngineTagMetagameTypeHunter
+---| EngineTagMetagameTypeFloodInfection
+---| EngineTagMetagameTypeFloodCarrier
+---| EngineTagMetagameTypeFloodCombat
+---| EngineTagMetagameTypeFloodPure
+---| EngineTagMetagameTypeSentinel
+---| EngineTagMetagameTypeElite
+---| EngineTagMetagameTypeEngineer
+---| EngineTagMetagameTypeMule
+---| EngineTagMetagameTypeTurret
+---| EngineTagMetagameTypeMongoose
+---| EngineTagMetagameTypeWarthog
+---| EngineTagMetagameTypeScorpion
+---| EngineTagMetagameTypeHornet
+---| EngineTagMetagameTypePelican
+---| EngineTagMetagameTypeRevenant
+---| EngineTagMetagameTypeSeraph
+---| EngineTagMetagameTypeShade
+---| EngineTagMetagameTypeWatchtower
+---| EngineTagMetagameTypeGhost
+---| EngineTagMetagameTypeChopper
+---| EngineTagMetagameTypeMauler
+---| EngineTagMetagameTypeWraith
+---| EngineTagMetagameTypeBanshee
+---| EngineTagMetagameTypePhantom
+---| EngineTagMetagameTypeScarab
+---| EngineTagMetagameTypeGuntower
+---| EngineTagMetagameTypeTuningFork
+---| EngineTagMetagameTypeBroadsword
+---| EngineTagMetagameTypeMammoth
+---| EngineTagMetagameTypeLich
+---| EngineTagMetagameTypeMantis
+---| EngineTagMetagameTypeWasp
+---| EngineTagMetagameTypePhaeton
+---| EngineTagMetagameTypeBishop
+---| EngineTagMetagameTypeKnight
+---| EngineTagMetagameTypePawn
 
----@class EngineTagDataMetagameTypeTable 
----@field brute EngineTagDataMetagameTypeBrute
----@field grunt EngineTagDataMetagameTypeGrunt
----@field jackal EngineTagDataMetagameTypeJackal
----@field skirmisher EngineTagDataMetagameTypeSkirmisher
----@field marine EngineTagDataMetagameTypeMarine
----@field spartan EngineTagDataMetagameTypeSpartan
----@field bugger EngineTagDataMetagameTypeBugger
----@field hunter EngineTagDataMetagameTypeHunter
----@field floodInfection EngineTagDataMetagameTypeFloodInfection
----@field floodCarrier EngineTagDataMetagameTypeFloodCarrier
----@field floodCombat EngineTagDataMetagameTypeFloodCombat
----@field floodPure EngineTagDataMetagameTypeFloodPure
----@field sentinel EngineTagDataMetagameTypeSentinel
----@field elite EngineTagDataMetagameTypeElite
----@field engineer EngineTagDataMetagameTypeEngineer
----@field mule EngineTagDataMetagameTypeMule
----@field turret EngineTagDataMetagameTypeTurret
----@field mongoose EngineTagDataMetagameTypeMongoose
----@field warthog EngineTagDataMetagameTypeWarthog
----@field scorpion EngineTagDataMetagameTypeScorpion
----@field hornet EngineTagDataMetagameTypeHornet
----@field pelican EngineTagDataMetagameTypePelican
----@field revenant EngineTagDataMetagameTypeRevenant
----@field seraph EngineTagDataMetagameTypeSeraph
----@field shade EngineTagDataMetagameTypeShade
----@field watchtower EngineTagDataMetagameTypeWatchtower
----@field ghost EngineTagDataMetagameTypeGhost
----@field chopper EngineTagDataMetagameTypeChopper
----@field mauler EngineTagDataMetagameTypeMauler
----@field wraith EngineTagDataMetagameTypeWraith
----@field banshee EngineTagDataMetagameTypeBanshee
----@field phantom EngineTagDataMetagameTypePhantom
----@field scarab EngineTagDataMetagameTypeScarab
----@field guntower EngineTagDataMetagameTypeGuntower
----@field tuningFork EngineTagDataMetagameTypeTuningFork
----@field broadsword EngineTagDataMetagameTypeBroadsword
----@field mammoth EngineTagDataMetagameTypeMammoth
----@field lich EngineTagDataMetagameTypeLich
----@field mantis EngineTagDataMetagameTypeMantis
----@field wasp EngineTagDataMetagameTypeWasp
----@field phaeton EngineTagDataMetagameTypePhaeton
----@field bishop EngineTagDataMetagameTypeBishop
----@field knight EngineTagDataMetagameTypeKnight
----@field pawn EngineTagDataMetagameTypePawn
+---@class EngineTagMetagameTypeTable 
+---@field brute EngineTagMetagameTypeBrute
+---@field grunt EngineTagMetagameTypeGrunt
+---@field jackal EngineTagMetagameTypeJackal
+---@field skirmisher EngineTagMetagameTypeSkirmisher
+---@field marine EngineTagMetagameTypeMarine
+---@field spartan EngineTagMetagameTypeSpartan
+---@field bugger EngineTagMetagameTypeBugger
+---@field hunter EngineTagMetagameTypeHunter
+---@field floodInfection EngineTagMetagameTypeFloodInfection
+---@field floodCarrier EngineTagMetagameTypeFloodCarrier
+---@field floodCombat EngineTagMetagameTypeFloodCombat
+---@field floodPure EngineTagMetagameTypeFloodPure
+---@field sentinel EngineTagMetagameTypeSentinel
+---@field elite EngineTagMetagameTypeElite
+---@field engineer EngineTagMetagameTypeEngineer
+---@field mule EngineTagMetagameTypeMule
+---@field turret EngineTagMetagameTypeTurret
+---@field mongoose EngineTagMetagameTypeMongoose
+---@field warthog EngineTagMetagameTypeWarthog
+---@field scorpion EngineTagMetagameTypeScorpion
+---@field hornet EngineTagMetagameTypeHornet
+---@field pelican EngineTagMetagameTypePelican
+---@field revenant EngineTagMetagameTypeRevenant
+---@field seraph EngineTagMetagameTypeSeraph
+---@field shade EngineTagMetagameTypeShade
+---@field watchtower EngineTagMetagameTypeWatchtower
+---@field ghost EngineTagMetagameTypeGhost
+---@field chopper EngineTagMetagameTypeChopper
+---@field mauler EngineTagMetagameTypeMauler
+---@field wraith EngineTagMetagameTypeWraith
+---@field banshee EngineTagMetagameTypeBanshee
+---@field phantom EngineTagMetagameTypePhantom
+---@field scarab EngineTagMetagameTypeScarab
+---@field guntower EngineTagMetagameTypeGuntower
+---@field tuningFork EngineTagMetagameTypeTuningFork
+---@field broadsword EngineTagMetagameTypeBroadsword
+---@field mammoth EngineTagMetagameTypeMammoth
+---@field lich EngineTagMetagameTypeLich
+---@field mantis EngineTagMetagameTypeMantis
+---@field wasp EngineTagMetagameTypeWasp
+---@field phaeton EngineTagMetagameTypePhaeton
+---@field bishop EngineTagMetagameTypeBishop
+---@field knight EngineTagMetagameTypeKnight
+---@field pawn EngineTagMetagameTypePawn
 Engine.tag.metagameType = {} 
 
----@class EngineTagDataMetagameClassEnum : Enum 
+---@class EngineTagMetagameClassEnum : Enum 
 
----@class EngineTagDataMetagameClassInfantry : EngineTagDataMetagameClassEnum 
----@class EngineTagDataMetagameClassLeader : EngineTagDataMetagameClassEnum 
----@class EngineTagDataMetagameClassHero : EngineTagDataMetagameClassEnum 
----@class EngineTagDataMetagameClassSpecialist : EngineTagDataMetagameClassEnum 
----@class EngineTagDataMetagameClassLightVehicle : EngineTagDataMetagameClassEnum 
----@class EngineTagDataMetagameClassHeavyVehicle : EngineTagDataMetagameClassEnum 
----@class EngineTagDataMetagameClassGiantVehicle : EngineTagDataMetagameClassEnum 
----@class EngineTagDataMetagameClassStandardVehicle : EngineTagDataMetagameClassEnum 
+---@class EngineTagMetagameClassInfantry : EngineTagMetagameClassEnum 
+---@class EngineTagMetagameClassLeader : EngineTagMetagameClassEnum 
+---@class EngineTagMetagameClassHero : EngineTagMetagameClassEnum 
+---@class EngineTagMetagameClassSpecialist : EngineTagMetagameClassEnum 
+---@class EngineTagMetagameClassLightVehicle : EngineTagMetagameClassEnum 
+---@class EngineTagMetagameClassHeavyVehicle : EngineTagMetagameClassEnum 
+---@class EngineTagMetagameClassGiantVehicle : EngineTagMetagameClassEnum 
+---@class EngineTagMetagameClassStandardVehicle : EngineTagMetagameClassEnum 
 
----@alias EngineTagDataMetagameClass 
----| EngineTagDataMetagameClassInfantry
----| EngineTagDataMetagameClassLeader
----| EngineTagDataMetagameClassHero
----| EngineTagDataMetagameClassSpecialist
----| EngineTagDataMetagameClassLightVehicle
----| EngineTagDataMetagameClassHeavyVehicle
----| EngineTagDataMetagameClassGiantVehicle
----| EngineTagDataMetagameClassStandardVehicle
+---@alias EngineTagMetagameClass 
+---| EngineTagMetagameClassInfantry
+---| EngineTagMetagameClassLeader
+---| EngineTagMetagameClassHero
+---| EngineTagMetagameClassSpecialist
+---| EngineTagMetagameClassLightVehicle
+---| EngineTagMetagameClassHeavyVehicle
+---| EngineTagMetagameClassGiantVehicle
+---| EngineTagMetagameClassStandardVehicle
 
----@class EngineTagDataMetagameClassTable 
----@field infantry EngineTagDataMetagameClassInfantry
----@field leader EngineTagDataMetagameClassLeader
----@field hero EngineTagDataMetagameClassHero
----@field specialist EngineTagDataMetagameClassSpecialist
----@field lightVehicle EngineTagDataMetagameClassLightVehicle
----@field heavyVehicle EngineTagDataMetagameClassHeavyVehicle
----@field giantVehicle EngineTagDataMetagameClassGiantVehicle
----@field standardVehicle EngineTagDataMetagameClassStandardVehicle
+---@class EngineTagMetagameClassTable 
+---@field infantry EngineTagMetagameClassInfantry
+---@field leader EngineTagMetagameClassLeader
+---@field hero EngineTagMetagameClassHero
+---@field specialist EngineTagMetagameClassSpecialist
+---@field lightVehicle EngineTagMetagameClassLightVehicle
+---@field heavyVehicle EngineTagMetagameClassHeavyVehicle
+---@field giantVehicle EngineTagMetagameClassGiantVehicle
+---@field standardVehicle EngineTagMetagameClassStandardVehicle
 Engine.tag.metagameClass = {} 
 
 ---@class MetaEngineTagDataUnitFlags 

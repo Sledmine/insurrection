@@ -1,141 +1,141 @@
----@class EngineTagDataVirtualKeyboardKeyboardKeyEnum : Enum 
+---@class EngineTagVirtualKeyboardKeyboardKeyEnum : Enum 
 
----@class EngineTagDataVirtualKeyboardKeyboardKey1 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKey2 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKey3 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKey4 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKey5 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKey6 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKey7 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKey8 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKey9 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKey0 : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyA : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyB : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyC : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyD : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyE : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyF : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyG : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyH : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyI : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyJ : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyK : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyL : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyM : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyN : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyO : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyP : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyQ : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyR : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyS : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyT : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyU : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyV : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyW : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyX : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyY : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyZ : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyDone : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyShift : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyCapsLock : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeySymbols : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyBackspace : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyLeft : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeyRight : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
----@class EngineTagDataVirtualKeyboardKeyboardKeySpace : EngineTagDataVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey1 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey2 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey3 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey4 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey5 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey6 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey7 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey8 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey9 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKey0 : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyA : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyB : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyC : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyD : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyE : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyF : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyG : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyH : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyI : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyJ : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyK : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyL : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyM : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyN : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyO : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyP : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyQ : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyR : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyS : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyT : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyU : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyV : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyW : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyX : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyY : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyZ : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyDone : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyShift : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyCapsLock : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeySymbols : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyBackspace : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyLeft : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeyRight : EngineTagVirtualKeyboardKeyboardKeyEnum 
+---@class EngineTagVirtualKeyboardKeyboardKeySpace : EngineTagVirtualKeyboardKeyboardKeyEnum 
 
----@alias EngineTagDataVirtualKeyboardKeyboardKey 
----| EngineTagDataVirtualKeyboardKeyboardKey1
----| EngineTagDataVirtualKeyboardKeyboardKey2
----| EngineTagDataVirtualKeyboardKeyboardKey3
----| EngineTagDataVirtualKeyboardKeyboardKey4
----| EngineTagDataVirtualKeyboardKeyboardKey5
----| EngineTagDataVirtualKeyboardKeyboardKey6
----| EngineTagDataVirtualKeyboardKeyboardKey7
----| EngineTagDataVirtualKeyboardKeyboardKey8
----| EngineTagDataVirtualKeyboardKeyboardKey9
----| EngineTagDataVirtualKeyboardKeyboardKey0
----| EngineTagDataVirtualKeyboardKeyboardKeyA
----| EngineTagDataVirtualKeyboardKeyboardKeyB
----| EngineTagDataVirtualKeyboardKeyboardKeyC
----| EngineTagDataVirtualKeyboardKeyboardKeyD
----| EngineTagDataVirtualKeyboardKeyboardKeyE
----| EngineTagDataVirtualKeyboardKeyboardKeyF
----| EngineTagDataVirtualKeyboardKeyboardKeyG
----| EngineTagDataVirtualKeyboardKeyboardKeyH
----| EngineTagDataVirtualKeyboardKeyboardKeyI
----| EngineTagDataVirtualKeyboardKeyboardKeyJ
----| EngineTagDataVirtualKeyboardKeyboardKeyK
----| EngineTagDataVirtualKeyboardKeyboardKeyL
----| EngineTagDataVirtualKeyboardKeyboardKeyM
----| EngineTagDataVirtualKeyboardKeyboardKeyN
----| EngineTagDataVirtualKeyboardKeyboardKeyO
----| EngineTagDataVirtualKeyboardKeyboardKeyP
----| EngineTagDataVirtualKeyboardKeyboardKeyQ
----| EngineTagDataVirtualKeyboardKeyboardKeyR
----| EngineTagDataVirtualKeyboardKeyboardKeyS
----| EngineTagDataVirtualKeyboardKeyboardKeyT
----| EngineTagDataVirtualKeyboardKeyboardKeyU
----| EngineTagDataVirtualKeyboardKeyboardKeyV
----| EngineTagDataVirtualKeyboardKeyboardKeyW
----| EngineTagDataVirtualKeyboardKeyboardKeyX
----| EngineTagDataVirtualKeyboardKeyboardKeyY
----| EngineTagDataVirtualKeyboardKeyboardKeyZ
----| EngineTagDataVirtualKeyboardKeyboardKeyDone
----| EngineTagDataVirtualKeyboardKeyboardKeyShift
----| EngineTagDataVirtualKeyboardKeyboardKeyCapsLock
----| EngineTagDataVirtualKeyboardKeyboardKeySymbols
----| EngineTagDataVirtualKeyboardKeyboardKeyBackspace
----| EngineTagDataVirtualKeyboardKeyboardKeyLeft
----| EngineTagDataVirtualKeyboardKeyboardKeyRight
----| EngineTagDataVirtualKeyboardKeyboardKeySpace
+---@alias EngineTagVirtualKeyboardKeyboardKey 
+---| EngineTagVirtualKeyboardKeyboardKey1
+---| EngineTagVirtualKeyboardKeyboardKey2
+---| EngineTagVirtualKeyboardKeyboardKey3
+---| EngineTagVirtualKeyboardKeyboardKey4
+---| EngineTagVirtualKeyboardKeyboardKey5
+---| EngineTagVirtualKeyboardKeyboardKey6
+---| EngineTagVirtualKeyboardKeyboardKey7
+---| EngineTagVirtualKeyboardKeyboardKey8
+---| EngineTagVirtualKeyboardKeyboardKey9
+---| EngineTagVirtualKeyboardKeyboardKey0
+---| EngineTagVirtualKeyboardKeyboardKeyA
+---| EngineTagVirtualKeyboardKeyboardKeyB
+---| EngineTagVirtualKeyboardKeyboardKeyC
+---| EngineTagVirtualKeyboardKeyboardKeyD
+---| EngineTagVirtualKeyboardKeyboardKeyE
+---| EngineTagVirtualKeyboardKeyboardKeyF
+---| EngineTagVirtualKeyboardKeyboardKeyG
+---| EngineTagVirtualKeyboardKeyboardKeyH
+---| EngineTagVirtualKeyboardKeyboardKeyI
+---| EngineTagVirtualKeyboardKeyboardKeyJ
+---| EngineTagVirtualKeyboardKeyboardKeyK
+---| EngineTagVirtualKeyboardKeyboardKeyL
+---| EngineTagVirtualKeyboardKeyboardKeyM
+---| EngineTagVirtualKeyboardKeyboardKeyN
+---| EngineTagVirtualKeyboardKeyboardKeyO
+---| EngineTagVirtualKeyboardKeyboardKeyP
+---| EngineTagVirtualKeyboardKeyboardKeyQ
+---| EngineTagVirtualKeyboardKeyboardKeyR
+---| EngineTagVirtualKeyboardKeyboardKeyS
+---| EngineTagVirtualKeyboardKeyboardKeyT
+---| EngineTagVirtualKeyboardKeyboardKeyU
+---| EngineTagVirtualKeyboardKeyboardKeyV
+---| EngineTagVirtualKeyboardKeyboardKeyW
+---| EngineTagVirtualKeyboardKeyboardKeyX
+---| EngineTagVirtualKeyboardKeyboardKeyY
+---| EngineTagVirtualKeyboardKeyboardKeyZ
+---| EngineTagVirtualKeyboardKeyboardKeyDone
+---| EngineTagVirtualKeyboardKeyboardKeyShift
+---| EngineTagVirtualKeyboardKeyboardKeyCapsLock
+---| EngineTagVirtualKeyboardKeyboardKeySymbols
+---| EngineTagVirtualKeyboardKeyboardKeyBackspace
+---| EngineTagVirtualKeyboardKeyboardKeyLeft
+---| EngineTagVirtualKeyboardKeyboardKeyRight
+---| EngineTagVirtualKeyboardKeyboardKeySpace
 
----@class EngineTagDataVirtualKeyboardKeyboardKeyTable 
----@field ey1 EngineTagDataVirtualKeyboardKeyboardKey1
----@field ey2 EngineTagDataVirtualKeyboardKeyboardKey2
----@field ey3 EngineTagDataVirtualKeyboardKeyboardKey3
----@field ey4 EngineTagDataVirtualKeyboardKeyboardKey4
----@field ey5 EngineTagDataVirtualKeyboardKeyboardKey5
----@field ey6 EngineTagDataVirtualKeyboardKeyboardKey6
----@field ey7 EngineTagDataVirtualKeyboardKeyboardKey7
----@field ey8 EngineTagDataVirtualKeyboardKeyboardKey8
----@field ey9 EngineTagDataVirtualKeyboardKeyboardKey9
----@field ey0 EngineTagDataVirtualKeyboardKeyboardKey0
----@field eyA EngineTagDataVirtualKeyboardKeyboardKeyA
----@field eyB EngineTagDataVirtualKeyboardKeyboardKeyB
----@field eyC EngineTagDataVirtualKeyboardKeyboardKeyC
----@field eyD EngineTagDataVirtualKeyboardKeyboardKeyD
----@field eyE EngineTagDataVirtualKeyboardKeyboardKeyE
----@field eyF EngineTagDataVirtualKeyboardKeyboardKeyF
----@field eyG EngineTagDataVirtualKeyboardKeyboardKeyG
----@field eyH EngineTagDataVirtualKeyboardKeyboardKeyH
----@field eyI EngineTagDataVirtualKeyboardKeyboardKeyI
----@field eyJ EngineTagDataVirtualKeyboardKeyboardKeyJ
----@field eyK EngineTagDataVirtualKeyboardKeyboardKeyK
----@field eyL EngineTagDataVirtualKeyboardKeyboardKeyL
----@field eyM EngineTagDataVirtualKeyboardKeyboardKeyM
----@field eyN EngineTagDataVirtualKeyboardKeyboardKeyN
----@field eyO EngineTagDataVirtualKeyboardKeyboardKeyO
----@field eyP EngineTagDataVirtualKeyboardKeyboardKeyP
----@field eyQ EngineTagDataVirtualKeyboardKeyboardKeyQ
----@field eyR EngineTagDataVirtualKeyboardKeyboardKeyR
----@field eyS EngineTagDataVirtualKeyboardKeyboardKeyS
----@field eyT EngineTagDataVirtualKeyboardKeyboardKeyT
----@field eyU EngineTagDataVirtualKeyboardKeyboardKeyU
----@field eyV EngineTagDataVirtualKeyboardKeyboardKeyV
----@field eyW EngineTagDataVirtualKeyboardKeyboardKeyW
----@field eyX EngineTagDataVirtualKeyboardKeyboardKeyX
----@field eyY EngineTagDataVirtualKeyboardKeyboardKeyY
----@field eyZ EngineTagDataVirtualKeyboardKeyboardKeyZ
----@field eyDone EngineTagDataVirtualKeyboardKeyboardKeyDone
----@field eyShift EngineTagDataVirtualKeyboardKeyboardKeyShift
----@field eyCapsLock EngineTagDataVirtualKeyboardKeyboardKeyCapsLock
----@field eySymbols EngineTagDataVirtualKeyboardKeyboardKeySymbols
----@field eyBackspace EngineTagDataVirtualKeyboardKeyboardKeyBackspace
----@field eyLeft EngineTagDataVirtualKeyboardKeyboardKeyLeft
----@field eyRight EngineTagDataVirtualKeyboardKeyboardKeyRight
----@field eySpace EngineTagDataVirtualKeyboardKeyboardKeySpace
+---@class EngineTagVirtualKeyboardKeyboardKeyTable 
+---@field ey1 EngineTagVirtualKeyboardKeyboardKey1
+---@field ey2 EngineTagVirtualKeyboardKeyboardKey2
+---@field ey3 EngineTagVirtualKeyboardKeyboardKey3
+---@field ey4 EngineTagVirtualKeyboardKeyboardKey4
+---@field ey5 EngineTagVirtualKeyboardKeyboardKey5
+---@field ey6 EngineTagVirtualKeyboardKeyboardKey6
+---@field ey7 EngineTagVirtualKeyboardKeyboardKey7
+---@field ey8 EngineTagVirtualKeyboardKeyboardKey8
+---@field ey9 EngineTagVirtualKeyboardKeyboardKey9
+---@field ey0 EngineTagVirtualKeyboardKeyboardKey0
+---@field eyA EngineTagVirtualKeyboardKeyboardKeyA
+---@field eyB EngineTagVirtualKeyboardKeyboardKeyB
+---@field eyC EngineTagVirtualKeyboardKeyboardKeyC
+---@field eyD EngineTagVirtualKeyboardKeyboardKeyD
+---@field eyE EngineTagVirtualKeyboardKeyboardKeyE
+---@field eyF EngineTagVirtualKeyboardKeyboardKeyF
+---@field eyG EngineTagVirtualKeyboardKeyboardKeyG
+---@field eyH EngineTagVirtualKeyboardKeyboardKeyH
+---@field eyI EngineTagVirtualKeyboardKeyboardKeyI
+---@field eyJ EngineTagVirtualKeyboardKeyboardKeyJ
+---@field eyK EngineTagVirtualKeyboardKeyboardKeyK
+---@field eyL EngineTagVirtualKeyboardKeyboardKeyL
+---@field eyM EngineTagVirtualKeyboardKeyboardKeyM
+---@field eyN EngineTagVirtualKeyboardKeyboardKeyN
+---@field eyO EngineTagVirtualKeyboardKeyboardKeyO
+---@field eyP EngineTagVirtualKeyboardKeyboardKeyP
+---@field eyQ EngineTagVirtualKeyboardKeyboardKeyQ
+---@field eyR EngineTagVirtualKeyboardKeyboardKeyR
+---@field eyS EngineTagVirtualKeyboardKeyboardKeyS
+---@field eyT EngineTagVirtualKeyboardKeyboardKeyT
+---@field eyU EngineTagVirtualKeyboardKeyboardKeyU
+---@field eyV EngineTagVirtualKeyboardKeyboardKeyV
+---@field eyW EngineTagVirtualKeyboardKeyboardKeyW
+---@field eyX EngineTagVirtualKeyboardKeyboardKeyX
+---@field eyY EngineTagVirtualKeyboardKeyboardKeyY
+---@field eyZ EngineTagVirtualKeyboardKeyboardKeyZ
+---@field eyDone EngineTagVirtualKeyboardKeyboardKeyDone
+---@field eyShift EngineTagVirtualKeyboardKeyboardKeyShift
+---@field eyCapsLock EngineTagVirtualKeyboardKeyboardKeyCapsLock
+---@field eySymbols EngineTagVirtualKeyboardKeyboardKeySymbols
+---@field eyBackspace EngineTagVirtualKeyboardKeyboardKeyBackspace
+---@field eyLeft EngineTagVirtualKeyboardKeyboardKeyLeft
+---@field eyRight EngineTagVirtualKeyboardKeyboardKeyRight
+---@field eySpace EngineTagVirtualKeyboardKeyboardKeySpace
 Engine.tag.virtualKeyboardKeyboardKey = {} 
 
 ---@class MetaEngineTagDataVirtualKeyboardVirtualKey 

@@ -1,44 +1,44 @@
----@class EngineTagDataDecalTypeEnum : Enum 
+---@class EngineTagDecalTypeEnum : Enum 
 
----@class EngineTagDataDecalTypeScratch : EngineTagDataDecalTypeEnum 
----@class EngineTagDataDecalTypeSplatter : EngineTagDataDecalTypeEnum 
----@class EngineTagDataDecalTypeBurn : EngineTagDataDecalTypeEnum 
----@class EngineTagDataDecalTypePaintedSign : EngineTagDataDecalTypeEnum 
+---@class EngineTagDecalTypeScratch : EngineTagDecalTypeEnum 
+---@class EngineTagDecalTypeSplatter : EngineTagDecalTypeEnum 
+---@class EngineTagDecalTypeBurn : EngineTagDecalTypeEnum 
+---@class EngineTagDecalTypePaintedSign : EngineTagDecalTypeEnum 
 
----@alias EngineTagDataDecalType 
----| EngineTagDataDecalTypeScratch
----| EngineTagDataDecalTypeSplatter
----| EngineTagDataDecalTypeBurn
----| EngineTagDataDecalTypePaintedSign
+---@alias EngineTagDecalType 
+---| EngineTagDecalTypeScratch
+---| EngineTagDecalTypeSplatter
+---| EngineTagDecalTypeBurn
+---| EngineTagDecalTypePaintedSign
 
----@class EngineTagDataDecalTypeTable 
----@field scratch EngineTagDataDecalTypeScratch
----@field splatter EngineTagDataDecalTypeSplatter
----@field burn EngineTagDataDecalTypeBurn
----@field paintedSign EngineTagDataDecalTypePaintedSign
+---@class EngineTagDecalTypeTable 
+---@field scratch EngineTagDecalTypeScratch
+---@field splatter EngineTagDecalTypeSplatter
+---@field burn EngineTagDecalTypeBurn
+---@field paintedSign EngineTagDecalTypePaintedSign
 Engine.tag.decalType = {} 
 
----@class EngineTagDataDecalLayerEnum : Enum 
+---@class EngineTagDecalLayerEnum : Enum 
 
----@class EngineTagDataDecalLayerPrimary : EngineTagDataDecalLayerEnum 
----@class EngineTagDataDecalLayerSecondary : EngineTagDataDecalLayerEnum 
----@class EngineTagDataDecalLayerLight : EngineTagDataDecalLayerEnum 
----@class EngineTagDataDecalLayerAlphaTested : EngineTagDataDecalLayerEnum 
----@class EngineTagDataDecalLayerWater : EngineTagDataDecalLayerEnum 
+---@class EngineTagDecalLayerPrimary : EngineTagDecalLayerEnum 
+---@class EngineTagDecalLayerSecondary : EngineTagDecalLayerEnum 
+---@class EngineTagDecalLayerLight : EngineTagDecalLayerEnum 
+---@class EngineTagDecalLayerAlphaTested : EngineTagDecalLayerEnum 
+---@class EngineTagDecalLayerWater : EngineTagDecalLayerEnum 
 
----@alias EngineTagDataDecalLayer 
----| EngineTagDataDecalLayerPrimary
----| EngineTagDataDecalLayerSecondary
----| EngineTagDataDecalLayerLight
----| EngineTagDataDecalLayerAlphaTested
----| EngineTagDataDecalLayerWater
+---@alias EngineTagDecalLayer 
+---| EngineTagDecalLayerPrimary
+---| EngineTagDecalLayerSecondary
+---| EngineTagDecalLayerLight
+---| EngineTagDecalLayerAlphaTested
+---| EngineTagDecalLayerWater
 
----@class EngineTagDataDecalLayerTable 
----@field primary EngineTagDataDecalLayerPrimary
----@field secondary EngineTagDataDecalLayerSecondary
----@field light EngineTagDataDecalLayerLight
----@field alphaTested EngineTagDataDecalLayerAlphaTested
----@field water EngineTagDataDecalLayerWater
+---@class EngineTagDecalLayerTable 
+---@field primary EngineTagDecalLayerPrimary
+---@field secondary EngineTagDecalLayerSecondary
+---@field light EngineTagDecalLayerLight
+---@field alphaTested EngineTagDecalLayerAlphaTested
+---@field water EngineTagDecalLayerWater
 Engine.tag.decalLayer = {} 
 
 ---@class MetaEngineTagDataDecalFlags 

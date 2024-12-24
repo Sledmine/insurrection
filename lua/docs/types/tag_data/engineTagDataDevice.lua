@@ -1,30 +1,30 @@
----@class EngineTagDataDeviceInEnum : Enum 
+---@class EngineTagDeviceInEnum : Enum 
 
----@class EngineTagDataDeviceInNone : EngineTagDataDeviceInEnum 
----@class EngineTagDataDeviceInPower : EngineTagDataDeviceInEnum 
----@class EngineTagDataDeviceInChangeInPower : EngineTagDataDeviceInEnum 
----@class EngineTagDataDeviceInPosition : EngineTagDataDeviceInEnum 
----@class EngineTagDataDeviceInChangeInPosition : EngineTagDataDeviceInEnum 
----@class EngineTagDataDeviceInLocked : EngineTagDataDeviceInEnum 
----@class EngineTagDataDeviceInDelay : EngineTagDataDeviceInEnum 
+---@class EngineTagDeviceInNone : EngineTagDeviceInEnum 
+---@class EngineTagDeviceInPower : EngineTagDeviceInEnum 
+---@class EngineTagDeviceInChangeInPower : EngineTagDeviceInEnum 
+---@class EngineTagDeviceInPosition : EngineTagDeviceInEnum 
+---@class EngineTagDeviceInChangeInPosition : EngineTagDeviceInEnum 
+---@class EngineTagDeviceInLocked : EngineTagDeviceInEnum 
+---@class EngineTagDeviceInDelay : EngineTagDeviceInEnum 
 
----@alias EngineTagDataDeviceIn 
----| EngineTagDataDeviceInNone
----| EngineTagDataDeviceInPower
----| EngineTagDataDeviceInChangeInPower
----| EngineTagDataDeviceInPosition
----| EngineTagDataDeviceInChangeInPosition
----| EngineTagDataDeviceInLocked
----| EngineTagDataDeviceInDelay
+---@alias EngineTagDeviceIn 
+---| EngineTagDeviceInNone
+---| EngineTagDeviceInPower
+---| EngineTagDeviceInChangeInPower
+---| EngineTagDeviceInPosition
+---| EngineTagDeviceInChangeInPosition
+---| EngineTagDeviceInLocked
+---| EngineTagDeviceInDelay
 
----@class EngineTagDataDeviceInTable 
----@field none EngineTagDataDeviceInNone
----@field power EngineTagDataDeviceInPower
----@field changeInPower EngineTagDataDeviceInChangeInPower
----@field position EngineTagDataDeviceInPosition
----@field changeInPosition EngineTagDataDeviceInChangeInPosition
----@field locked EngineTagDataDeviceInLocked
----@field delay EngineTagDataDeviceInDelay
+---@class EngineTagDeviceInTable 
+---@field none EngineTagDeviceInNone
+---@field power EngineTagDeviceInPower
+---@field changeInPower EngineTagDeviceInChangeInPower
+---@field position EngineTagDeviceInPosition
+---@field changeInPosition EngineTagDeviceInChangeInPosition
+---@field locked EngineTagDeviceInLocked
+---@field delay EngineTagDeviceInDelay
 Engine.tag.deviceIn = {} 
 
 ---@class MetaEngineTagDataDeviceFlags 

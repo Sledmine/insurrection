@@ -1,173 +1,173 @@
----@class EngineTagDataHUDInterfaceDestinationTypeEnum : Enum 
+---@class EngineTagHUDInterfaceDestinationTypeEnum : Enum 
 
----@class EngineTagDataHUDInterfaceDestinationTypeTint01 : EngineTagDataHUDInterfaceDestinationTypeEnum 
----@class EngineTagDataHUDInterfaceDestinationTypeHorizontalOffset : EngineTagDataHUDInterfaceDestinationTypeEnum 
----@class EngineTagDataHUDInterfaceDestinationTypeVerticalOffset : EngineTagDataHUDInterfaceDestinationTypeEnum 
----@class EngineTagDataHUDInterfaceDestinationTypeFade01 : EngineTagDataHUDInterfaceDestinationTypeEnum 
+---@class EngineTagHUDInterfaceDestinationTypeTint01 : EngineTagHUDInterfaceDestinationTypeEnum 
+---@class EngineTagHUDInterfaceDestinationTypeHorizontalOffset : EngineTagHUDInterfaceDestinationTypeEnum 
+---@class EngineTagHUDInterfaceDestinationTypeVerticalOffset : EngineTagHUDInterfaceDestinationTypeEnum 
+---@class EngineTagHUDInterfaceDestinationTypeFade01 : EngineTagHUDInterfaceDestinationTypeEnum 
 
----@alias EngineTagDataHUDInterfaceDestinationType 
----| EngineTagDataHUDInterfaceDestinationTypeTint01
----| EngineTagDataHUDInterfaceDestinationTypeHorizontalOffset
----| EngineTagDataHUDInterfaceDestinationTypeVerticalOffset
----| EngineTagDataHUDInterfaceDestinationTypeFade01
+---@alias EngineTagHUDInterfaceDestinationType 
+---| EngineTagHUDInterfaceDestinationTypeTint01
+---| EngineTagHUDInterfaceDestinationTypeHorizontalOffset
+---| EngineTagHUDInterfaceDestinationTypeVerticalOffset
+---| EngineTagHUDInterfaceDestinationTypeFade01
 
----@class EngineTagDataHUDInterfaceDestinationTypeTable 
----@field typeTint01 EngineTagDataHUDInterfaceDestinationTypeTint01
----@field typeHorizontalOffset EngineTagDataHUDInterfaceDestinationTypeHorizontalOffset
----@field typeVerticalOffset EngineTagDataHUDInterfaceDestinationTypeVerticalOffset
----@field typeFade01 EngineTagDataHUDInterfaceDestinationTypeFade01
+---@class EngineTagHUDInterfaceDestinationTypeTable 
+---@field typeTint01 EngineTagHUDInterfaceDestinationTypeTint01
+---@field typeHorizontalOffset EngineTagHUDInterfaceDestinationTypeHorizontalOffset
+---@field typeVerticalOffset EngineTagHUDInterfaceDestinationTypeVerticalOffset
+---@field typeFade01 EngineTagHUDInterfaceDestinationTypeFade01
 Engine.tag.hUDInterfaceDestinationType = {} 
 
----@class EngineTagDataHUDInterfaceDestinationEnum : Enum 
+---@class EngineTagHUDInterfaceDestinationEnum : Enum 
 
----@class EngineTagDataHUDInterfaceDestinationGeometryOffset : EngineTagDataHUDInterfaceDestinationEnum 
----@class EngineTagDataHUDInterfaceDestinationPrimaryMap : EngineTagDataHUDInterfaceDestinationEnum 
----@class EngineTagDataHUDInterfaceDestinationSecondaryMap : EngineTagDataHUDInterfaceDestinationEnum 
----@class EngineTagDataHUDInterfaceDestinationTertiaryMap : EngineTagDataHUDInterfaceDestinationEnum 
+---@class EngineTagHUDInterfaceDestinationGeometryOffset : EngineTagHUDInterfaceDestinationEnum 
+---@class EngineTagHUDInterfaceDestinationPrimaryMap : EngineTagHUDInterfaceDestinationEnum 
+---@class EngineTagHUDInterfaceDestinationSecondaryMap : EngineTagHUDInterfaceDestinationEnum 
+---@class EngineTagHUDInterfaceDestinationTertiaryMap : EngineTagHUDInterfaceDestinationEnum 
 
----@alias EngineTagDataHUDInterfaceDestination 
----| EngineTagDataHUDInterfaceDestinationGeometryOffset
----| EngineTagDataHUDInterfaceDestinationPrimaryMap
----| EngineTagDataHUDInterfaceDestinationSecondaryMap
----| EngineTagDataHUDInterfaceDestinationTertiaryMap
+---@alias EngineTagHUDInterfaceDestination 
+---| EngineTagHUDInterfaceDestinationGeometryOffset
+---| EngineTagHUDInterfaceDestinationPrimaryMap
+---| EngineTagHUDInterfaceDestinationSecondaryMap
+---| EngineTagHUDInterfaceDestinationTertiaryMap
 
----@class EngineTagDataHUDInterfaceDestinationTable 
----@field ionGeometryOffset EngineTagDataHUDInterfaceDestinationGeometryOffset
----@field ionPrimaryMap EngineTagDataHUDInterfaceDestinationPrimaryMap
----@field ionSecondaryMap EngineTagDataHUDInterfaceDestinationSecondaryMap
----@field ionTertiaryMap EngineTagDataHUDInterfaceDestinationTertiaryMap
+---@class EngineTagHUDInterfaceDestinationTable 
+---@field ionGeometryOffset EngineTagHUDInterfaceDestinationGeometryOffset
+---@field ionPrimaryMap EngineTagHUDInterfaceDestinationPrimaryMap
+---@field ionSecondaryMap EngineTagHUDInterfaceDestinationSecondaryMap
+---@field ionTertiaryMap EngineTagHUDInterfaceDestinationTertiaryMap
 Engine.tag.hUDInterfaceDestination = {} 
 
----@class EngineTagDataHUDInterfaceSourceEnum : Enum 
+---@class EngineTagHUDInterfaceSourceEnum : Enum 
 
----@class EngineTagDataHUDInterfaceSourcePlayerPitch : EngineTagDataHUDInterfaceSourceEnum 
----@class EngineTagDataHUDInterfaceSourcePlayerPitchTangent : EngineTagDataHUDInterfaceSourceEnum 
----@class EngineTagDataHUDInterfaceSourcePlayerYaw : EngineTagDataHUDInterfaceSourceEnum 
----@class EngineTagDataHUDInterfaceSourceWeaponAmmoTotal : EngineTagDataHUDInterfaceSourceEnum 
----@class EngineTagDataHUDInterfaceSourceWeaponAmmoLoaded : EngineTagDataHUDInterfaceSourceEnum 
----@class EngineTagDataHUDInterfaceSourceWeaponHeat : EngineTagDataHUDInterfaceSourceEnum 
----@class EngineTagDataHUDInterfaceSourceExplicitUsesLowBound : EngineTagDataHUDInterfaceSourceEnum 
----@class EngineTagDataHUDInterfaceSourceWeaponZoomLevel : EngineTagDataHUDInterfaceSourceEnum 
+---@class EngineTagHUDInterfaceSourcePlayerPitch : EngineTagHUDInterfaceSourceEnum 
+---@class EngineTagHUDInterfaceSourcePlayerPitchTangent : EngineTagHUDInterfaceSourceEnum 
+---@class EngineTagHUDInterfaceSourcePlayerYaw : EngineTagHUDInterfaceSourceEnum 
+---@class EngineTagHUDInterfaceSourceWeaponAmmoTotal : EngineTagHUDInterfaceSourceEnum 
+---@class EngineTagHUDInterfaceSourceWeaponAmmoLoaded : EngineTagHUDInterfaceSourceEnum 
+---@class EngineTagHUDInterfaceSourceWeaponHeat : EngineTagHUDInterfaceSourceEnum 
+---@class EngineTagHUDInterfaceSourceExplicitUsesLowBound : EngineTagHUDInterfaceSourceEnum 
+---@class EngineTagHUDInterfaceSourceWeaponZoomLevel : EngineTagHUDInterfaceSourceEnum 
 
----@alias EngineTagDataHUDInterfaceSource 
----| EngineTagDataHUDInterfaceSourcePlayerPitch
----| EngineTagDataHUDInterfaceSourcePlayerPitchTangent
----| EngineTagDataHUDInterfaceSourcePlayerYaw
----| EngineTagDataHUDInterfaceSourceWeaponAmmoTotal
----| EngineTagDataHUDInterfaceSourceWeaponAmmoLoaded
----| EngineTagDataHUDInterfaceSourceWeaponHeat
----| EngineTagDataHUDInterfaceSourceExplicitUsesLowBound
----| EngineTagDataHUDInterfaceSourceWeaponZoomLevel
+---@alias EngineTagHUDInterfaceSource 
+---| EngineTagHUDInterfaceSourcePlayerPitch
+---| EngineTagHUDInterfaceSourcePlayerPitchTangent
+---| EngineTagHUDInterfaceSourcePlayerYaw
+---| EngineTagHUDInterfaceSourceWeaponAmmoTotal
+---| EngineTagHUDInterfaceSourceWeaponAmmoLoaded
+---| EngineTagHUDInterfaceSourceWeaponHeat
+---| EngineTagHUDInterfaceSourceExplicitUsesLowBound
+---| EngineTagHUDInterfaceSourceWeaponZoomLevel
 
----@class EngineTagDataHUDInterfaceSourceTable 
----@field rcePlayerPitch EngineTagDataHUDInterfaceSourcePlayerPitch
----@field rcePlayerPitchTangent EngineTagDataHUDInterfaceSourcePlayerPitchTangent
----@field rcePlayerYaw EngineTagDataHUDInterfaceSourcePlayerYaw
----@field rceWeaponAmmoTotal EngineTagDataHUDInterfaceSourceWeaponAmmoTotal
----@field rceWeaponAmmoLoaded EngineTagDataHUDInterfaceSourceWeaponAmmoLoaded
----@field rceWeaponHeat EngineTagDataHUDInterfaceSourceWeaponHeat
----@field rceExplicitUsesLowBound EngineTagDataHUDInterfaceSourceExplicitUsesLowBound
----@field rceWeaponZoomLevel EngineTagDataHUDInterfaceSourceWeaponZoomLevel
+---@class EngineTagHUDInterfaceSourceTable 
+---@field rcePlayerPitch EngineTagHUDInterfaceSourcePlayerPitch
+---@field rcePlayerPitchTangent EngineTagHUDInterfaceSourcePlayerPitchTangent
+---@field rcePlayerYaw EngineTagHUDInterfaceSourcePlayerYaw
+---@field rceWeaponAmmoTotal EngineTagHUDInterfaceSourceWeaponAmmoTotal
+---@field rceWeaponAmmoLoaded EngineTagHUDInterfaceSourceWeaponAmmoLoaded
+---@field rceWeaponHeat EngineTagHUDInterfaceSourceWeaponHeat
+---@field rceExplicitUsesLowBound EngineTagHUDInterfaceSourceExplicitUsesLowBound
+---@field rceWeaponZoomLevel EngineTagHUDInterfaceSourceWeaponZoomLevel
 Engine.tag.hUDInterfaceSource = {} 
 
----@class EngineTagDataHUDInterfaceMultitextureOverlayAnchorEnum : Enum 
+---@class EngineTagHUDInterfaceMultitextureOverlayAnchorEnum : Enum 
 
----@class EngineTagDataHUDInterfaceMultitextureOverlayAnchorTexture : EngineTagDataHUDInterfaceMultitextureOverlayAnchorEnum 
----@class EngineTagDataHUDInterfaceMultitextureOverlayAnchorScreen : EngineTagDataHUDInterfaceMultitextureOverlayAnchorEnum 
+---@class EngineTagHUDInterfaceMultitextureOverlayAnchorTexture : EngineTagHUDInterfaceMultitextureOverlayAnchorEnum 
+---@class EngineTagHUDInterfaceMultitextureOverlayAnchorScreen : EngineTagHUDInterfaceMultitextureOverlayAnchorEnum 
 
----@alias EngineTagDataHUDInterfaceMultitextureOverlayAnchor 
----| EngineTagDataHUDInterfaceMultitextureOverlayAnchorTexture
----| EngineTagDataHUDInterfaceMultitextureOverlayAnchorScreen
+---@alias EngineTagHUDInterfaceMultitextureOverlayAnchor 
+---| EngineTagHUDInterfaceMultitextureOverlayAnchorTexture
+---| EngineTagHUDInterfaceMultitextureOverlayAnchorScreen
 
----@class EngineTagDataHUDInterfaceMultitextureOverlayAnchorTable 
----@field nchorTexture EngineTagDataHUDInterfaceMultitextureOverlayAnchorTexture
----@field nchorScreen EngineTagDataHUDInterfaceMultitextureOverlayAnchorScreen
+---@class EngineTagHUDInterfaceMultitextureOverlayAnchorTable 
+---@field nchorTexture EngineTagHUDInterfaceMultitextureOverlayAnchorTexture
+---@field nchorScreen EngineTagHUDInterfaceMultitextureOverlayAnchorScreen
 Engine.tag.hUDInterfaceMultitextureOverlayAnchor = {} 
 
----@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum : Enum 
+---@class EngineTagHUDInterfaceZeroToOneBlendFunctionEnum : Enum 
 
----@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionAdd : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
----@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionSubtract : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
----@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
----@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply2x : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
----@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionDot : EngineTagDataHUDInterfaceZeroToOneBlendFunctionEnum 
+---@class EngineTagHUDInterfaceZeroToOneBlendFunctionAdd : EngineTagHUDInterfaceZeroToOneBlendFunctionEnum 
+---@class EngineTagHUDInterfaceZeroToOneBlendFunctionSubtract : EngineTagHUDInterfaceZeroToOneBlendFunctionEnum 
+---@class EngineTagHUDInterfaceZeroToOneBlendFunctionMultiply : EngineTagHUDInterfaceZeroToOneBlendFunctionEnum 
+---@class EngineTagHUDInterfaceZeroToOneBlendFunctionMultiply2x : EngineTagHUDInterfaceZeroToOneBlendFunctionEnum 
+---@class EngineTagHUDInterfaceZeroToOneBlendFunctionDot : EngineTagHUDInterfaceZeroToOneBlendFunctionEnum 
 
----@alias EngineTagDataHUDInterfaceZeroToOneBlendFunction 
----| EngineTagDataHUDInterfaceZeroToOneBlendFunctionAdd
----| EngineTagDataHUDInterfaceZeroToOneBlendFunctionSubtract
----| EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply
----| EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply2x
----| EngineTagDataHUDInterfaceZeroToOneBlendFunctionDot
+---@alias EngineTagHUDInterfaceZeroToOneBlendFunction 
+---| EngineTagHUDInterfaceZeroToOneBlendFunctionAdd
+---| EngineTagHUDInterfaceZeroToOneBlendFunctionSubtract
+---| EngineTagHUDInterfaceZeroToOneBlendFunctionMultiply
+---| EngineTagHUDInterfaceZeroToOneBlendFunctionMultiply2x
+---| EngineTagHUDInterfaceZeroToOneBlendFunctionDot
 
----@class EngineTagDataHUDInterfaceZeroToOneBlendFunctionTable 
----@field unctionAdd EngineTagDataHUDInterfaceZeroToOneBlendFunctionAdd
----@field unctionSubtract EngineTagDataHUDInterfaceZeroToOneBlendFunctionSubtract
----@field unctionMultiply EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply
----@field unctionMultiply2x EngineTagDataHUDInterfaceZeroToOneBlendFunctionMultiply2x
----@field unctionDot EngineTagDataHUDInterfaceZeroToOneBlendFunctionDot
+---@class EngineTagHUDInterfaceZeroToOneBlendFunctionTable 
+---@field unctionAdd EngineTagHUDInterfaceZeroToOneBlendFunctionAdd
+---@field unctionSubtract EngineTagHUDInterfaceZeroToOneBlendFunctionSubtract
+---@field unctionMultiply EngineTagHUDInterfaceZeroToOneBlendFunctionMultiply
+---@field unctionMultiply2x EngineTagHUDInterfaceZeroToOneBlendFunctionMultiply2x
+---@field unctionDot EngineTagHUDInterfaceZeroToOneBlendFunctionDot
 Engine.tag.hUDInterfaceZeroToOneBlendFunction = {} 
 
----@class EngineTagDataHUDInterfaceWrapModeEnum : Enum 
+---@class EngineTagHUDInterfaceWrapModeEnum : Enum 
 
----@class EngineTagDataHUDInterfaceWrapModeClamp : EngineTagDataHUDInterfaceWrapModeEnum 
----@class EngineTagDataHUDInterfaceWrapModeWrap : EngineTagDataHUDInterfaceWrapModeEnum 
+---@class EngineTagHUDInterfaceWrapModeClamp : EngineTagHUDInterfaceWrapModeEnum 
+---@class EngineTagHUDInterfaceWrapModeWrap : EngineTagHUDInterfaceWrapModeEnum 
 
----@alias EngineTagDataHUDInterfaceWrapMode 
----| EngineTagDataHUDInterfaceWrapModeClamp
----| EngineTagDataHUDInterfaceWrapModeWrap
+---@alias EngineTagHUDInterfaceWrapMode 
+---| EngineTagHUDInterfaceWrapModeClamp
+---| EngineTagHUDInterfaceWrapModeWrap
 
----@class EngineTagDataHUDInterfaceWrapModeTable 
----@field modeClamp EngineTagDataHUDInterfaceWrapModeClamp
----@field modeWrap EngineTagDataHUDInterfaceWrapModeWrap
+---@class EngineTagHUDInterfaceWrapModeTable 
+---@field modeClamp EngineTagHUDInterfaceWrapModeClamp
+---@field modeWrap EngineTagHUDInterfaceWrapModeWrap
 Engine.tag.hUDInterfaceWrapMode = {} 
 
----@class EngineTagDataHUDInterfaceAnchorEnum : Enum 
+---@class EngineTagHUDInterfaceAnchorEnum : Enum 
 
----@class EngineTagDataHUDInterfaceAnchorTopLeft : EngineTagDataHUDInterfaceAnchorEnum 
----@class EngineTagDataHUDInterfaceAnchorTopRight : EngineTagDataHUDInterfaceAnchorEnum 
----@class EngineTagDataHUDInterfaceAnchorBottomLeft : EngineTagDataHUDInterfaceAnchorEnum 
----@class EngineTagDataHUDInterfaceAnchorBottomRight : EngineTagDataHUDInterfaceAnchorEnum 
----@class EngineTagDataHUDInterfaceAnchorCenter : EngineTagDataHUDInterfaceAnchorEnum 
+---@class EngineTagHUDInterfaceAnchorTopLeft : EngineTagHUDInterfaceAnchorEnum 
+---@class EngineTagHUDInterfaceAnchorTopRight : EngineTagHUDInterfaceAnchorEnum 
+---@class EngineTagHUDInterfaceAnchorBottomLeft : EngineTagHUDInterfaceAnchorEnum 
+---@class EngineTagHUDInterfaceAnchorBottomRight : EngineTagHUDInterfaceAnchorEnum 
+---@class EngineTagHUDInterfaceAnchorCenter : EngineTagHUDInterfaceAnchorEnum 
 
----@alias EngineTagDataHUDInterfaceAnchor 
----| EngineTagDataHUDInterfaceAnchorTopLeft
----| EngineTagDataHUDInterfaceAnchorTopRight
----| EngineTagDataHUDInterfaceAnchorBottomLeft
----| EngineTagDataHUDInterfaceAnchorBottomRight
----| EngineTagDataHUDInterfaceAnchorCenter
+---@alias EngineTagHUDInterfaceAnchor 
+---| EngineTagHUDInterfaceAnchorTopLeft
+---| EngineTagHUDInterfaceAnchorTopRight
+---| EngineTagHUDInterfaceAnchorBottomLeft
+---| EngineTagHUDInterfaceAnchorBottomRight
+---| EngineTagHUDInterfaceAnchorCenter
 
----@class EngineTagDataHUDInterfaceAnchorTable 
----@field horTopLeft EngineTagDataHUDInterfaceAnchorTopLeft
----@field horTopRight EngineTagDataHUDInterfaceAnchorTopRight
----@field horBottomLeft EngineTagDataHUDInterfaceAnchorBottomLeft
----@field horBottomRight EngineTagDataHUDInterfaceAnchorBottomRight
----@field horCenter EngineTagDataHUDInterfaceAnchorCenter
+---@class EngineTagHUDInterfaceAnchorTable 
+---@field horTopLeft EngineTagHUDInterfaceAnchorTopLeft
+---@field horTopRight EngineTagHUDInterfaceAnchorTopRight
+---@field horBottomLeft EngineTagHUDInterfaceAnchorBottomLeft
+---@field horBottomRight EngineTagHUDInterfaceAnchorBottomRight
+---@field horCenter EngineTagHUDInterfaceAnchorCenter
 Engine.tag.hUDInterfaceAnchor = {} 
 
----@class EngineTagDataHUDInterfaceChildAnchorEnum : Enum 
+---@class EngineTagHUDInterfaceChildAnchorEnum : Enum 
 
----@class EngineTagDataHUDInterfaceChildAnchorFromParent : EngineTagDataHUDInterfaceChildAnchorEnum 
----@class EngineTagDataHUDInterfaceChildAnchorTopLeft : EngineTagDataHUDInterfaceChildAnchorEnum 
----@class EngineTagDataHUDInterfaceChildAnchorTopRight : EngineTagDataHUDInterfaceChildAnchorEnum 
----@class EngineTagDataHUDInterfaceChildAnchorBottomLeft : EngineTagDataHUDInterfaceChildAnchorEnum 
----@class EngineTagDataHUDInterfaceChildAnchorBottomRight : EngineTagDataHUDInterfaceChildAnchorEnum 
----@class EngineTagDataHUDInterfaceChildAnchorCenter : EngineTagDataHUDInterfaceChildAnchorEnum 
+---@class EngineTagHUDInterfaceChildAnchorFromParent : EngineTagHUDInterfaceChildAnchorEnum 
+---@class EngineTagHUDInterfaceChildAnchorTopLeft : EngineTagHUDInterfaceChildAnchorEnum 
+---@class EngineTagHUDInterfaceChildAnchorTopRight : EngineTagHUDInterfaceChildAnchorEnum 
+---@class EngineTagHUDInterfaceChildAnchorBottomLeft : EngineTagHUDInterfaceChildAnchorEnum 
+---@class EngineTagHUDInterfaceChildAnchorBottomRight : EngineTagHUDInterfaceChildAnchorEnum 
+---@class EngineTagHUDInterfaceChildAnchorCenter : EngineTagHUDInterfaceChildAnchorEnum 
 
----@alias EngineTagDataHUDInterfaceChildAnchor 
----| EngineTagDataHUDInterfaceChildAnchorFromParent
----| EngineTagDataHUDInterfaceChildAnchorTopLeft
----| EngineTagDataHUDInterfaceChildAnchorTopRight
----| EngineTagDataHUDInterfaceChildAnchorBottomLeft
----| EngineTagDataHUDInterfaceChildAnchorBottomRight
----| EngineTagDataHUDInterfaceChildAnchorCenter
+---@alias EngineTagHUDInterfaceChildAnchor 
+---| EngineTagHUDInterfaceChildAnchorFromParent
+---| EngineTagHUDInterfaceChildAnchorTopLeft
+---| EngineTagHUDInterfaceChildAnchorTopRight
+---| EngineTagHUDInterfaceChildAnchorBottomLeft
+---| EngineTagHUDInterfaceChildAnchorBottomRight
+---| EngineTagHUDInterfaceChildAnchorCenter
 
----@class EngineTagDataHUDInterfaceChildAnchorTable 
----@field chorFromParent EngineTagDataHUDInterfaceChildAnchorFromParent
----@field chorTopLeft EngineTagDataHUDInterfaceChildAnchorTopLeft
----@field chorTopRight EngineTagDataHUDInterfaceChildAnchorTopRight
----@field chorBottomLeft EngineTagDataHUDInterfaceChildAnchorBottomLeft
----@field chorBottomRight EngineTagDataHUDInterfaceChildAnchorBottomRight
----@field chorCenter EngineTagDataHUDInterfaceChildAnchorCenter
+---@class EngineTagHUDInterfaceChildAnchorTable 
+---@field chorFromParent EngineTagHUDInterfaceChildAnchorFromParent
+---@field chorTopLeft EngineTagHUDInterfaceChildAnchorTopLeft
+---@field chorTopRight EngineTagHUDInterfaceChildAnchorTopRight
+---@field chorBottomLeft EngineTagHUDInterfaceChildAnchorBottomLeft
+---@field chorBottomRight EngineTagHUDInterfaceChildAnchorBottomRight
+---@field chorCenter EngineTagHUDInterfaceChildAnchorCenter
 Engine.tag.hUDInterfaceChildAnchor = {} 
 
 ---@class MetaEngineTagDataHUDInterfaceMeterFlags 

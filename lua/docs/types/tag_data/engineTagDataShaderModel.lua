@@ -1,36 +1,36 @@
----@class EngineTagDataShaderModelDetailMaskEnum : Enum 
+---@class EngineTagShaderModelDetailMaskEnum : Enum 
 
----@class EngineTagDataShaderModelDetailMaskNone : EngineTagDataShaderModelDetailMaskEnum 
----@class EngineTagDataShaderModelDetailMaskReflectionMaskInverse : EngineTagDataShaderModelDetailMaskEnum 
----@class EngineTagDataShaderModelDetailMaskReflectionMask : EngineTagDataShaderModelDetailMaskEnum 
----@class EngineTagDataShaderModelDetailMaskSelfIlluminationMaskInverse : EngineTagDataShaderModelDetailMaskEnum 
----@class EngineTagDataShaderModelDetailMaskSelfIlluminationMask : EngineTagDataShaderModelDetailMaskEnum 
----@class EngineTagDataShaderModelDetailMaskChangeColorMaskInverse : EngineTagDataShaderModelDetailMaskEnum 
----@class EngineTagDataShaderModelDetailMaskChangeColorMask : EngineTagDataShaderModelDetailMaskEnum 
----@class EngineTagDataShaderModelDetailMaskAuxiliaryMaskInverse : EngineTagDataShaderModelDetailMaskEnum 
----@class EngineTagDataShaderModelDetailMaskAuxiliaryMask : EngineTagDataShaderModelDetailMaskEnum 
+---@class EngineTagShaderModelDetailMaskNone : EngineTagShaderModelDetailMaskEnum 
+---@class EngineTagShaderModelDetailMaskReflectionMaskInverse : EngineTagShaderModelDetailMaskEnum 
+---@class EngineTagShaderModelDetailMaskReflectionMask : EngineTagShaderModelDetailMaskEnum 
+---@class EngineTagShaderModelDetailMaskSelfIlluminationMaskInverse : EngineTagShaderModelDetailMaskEnum 
+---@class EngineTagShaderModelDetailMaskSelfIlluminationMask : EngineTagShaderModelDetailMaskEnum 
+---@class EngineTagShaderModelDetailMaskChangeColorMaskInverse : EngineTagShaderModelDetailMaskEnum 
+---@class EngineTagShaderModelDetailMaskChangeColorMask : EngineTagShaderModelDetailMaskEnum 
+---@class EngineTagShaderModelDetailMaskAuxiliaryMaskInverse : EngineTagShaderModelDetailMaskEnum 
+---@class EngineTagShaderModelDetailMaskAuxiliaryMask : EngineTagShaderModelDetailMaskEnum 
 
----@alias EngineTagDataShaderModelDetailMask 
----| EngineTagDataShaderModelDetailMaskNone
----| EngineTagDataShaderModelDetailMaskReflectionMaskInverse
----| EngineTagDataShaderModelDetailMaskReflectionMask
----| EngineTagDataShaderModelDetailMaskSelfIlluminationMaskInverse
----| EngineTagDataShaderModelDetailMaskSelfIlluminationMask
----| EngineTagDataShaderModelDetailMaskChangeColorMaskInverse
----| EngineTagDataShaderModelDetailMaskChangeColorMask
----| EngineTagDataShaderModelDetailMaskAuxiliaryMaskInverse
----| EngineTagDataShaderModelDetailMaskAuxiliaryMask
+---@alias EngineTagShaderModelDetailMask 
+---| EngineTagShaderModelDetailMaskNone
+---| EngineTagShaderModelDetailMaskReflectionMaskInverse
+---| EngineTagShaderModelDetailMaskReflectionMask
+---| EngineTagShaderModelDetailMaskSelfIlluminationMaskInverse
+---| EngineTagShaderModelDetailMaskSelfIlluminationMask
+---| EngineTagShaderModelDetailMaskChangeColorMaskInverse
+---| EngineTagShaderModelDetailMaskChangeColorMask
+---| EngineTagShaderModelDetailMaskAuxiliaryMaskInverse
+---| EngineTagShaderModelDetailMaskAuxiliaryMask
 
----@class EngineTagDataShaderModelDetailMaskTable 
----@field skNone EngineTagDataShaderModelDetailMaskNone
----@field skReflectionMaskInverse EngineTagDataShaderModelDetailMaskReflectionMaskInverse
----@field skReflectionMask EngineTagDataShaderModelDetailMaskReflectionMask
----@field skSelfIlluminationMaskInverse EngineTagDataShaderModelDetailMaskSelfIlluminationMaskInverse
----@field skSelfIlluminationMask EngineTagDataShaderModelDetailMaskSelfIlluminationMask
----@field skChangeColorMaskInverse EngineTagDataShaderModelDetailMaskChangeColorMaskInverse
----@field skChangeColorMask EngineTagDataShaderModelDetailMaskChangeColorMask
----@field skAuxiliaryMaskInverse EngineTagDataShaderModelDetailMaskAuxiliaryMaskInverse
----@field skAuxiliaryMask EngineTagDataShaderModelDetailMaskAuxiliaryMask
+---@class EngineTagShaderModelDetailMaskTable 
+---@field skNone EngineTagShaderModelDetailMaskNone
+---@field skReflectionMaskInverse EngineTagShaderModelDetailMaskReflectionMaskInverse
+---@field skReflectionMask EngineTagShaderModelDetailMaskReflectionMask
+---@field skSelfIlluminationMaskInverse EngineTagShaderModelDetailMaskSelfIlluminationMaskInverse
+---@field skSelfIlluminationMask EngineTagShaderModelDetailMaskSelfIlluminationMask
+---@field skChangeColorMaskInverse EngineTagShaderModelDetailMaskChangeColorMaskInverse
+---@field skChangeColorMask EngineTagShaderModelDetailMaskChangeColorMask
+---@field skAuxiliaryMaskInverse EngineTagShaderModelDetailMaskAuxiliaryMaskInverse
+---@field skAuxiliaryMask EngineTagShaderModelDetailMaskAuxiliaryMask
 Engine.tag.shaderModelDetailMask = {} 
 
 ---@class MetaEngineTagDataShaderModelFlags 

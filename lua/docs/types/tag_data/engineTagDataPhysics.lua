@@ -1,21 +1,21 @@
----@class EngineTagDataPhysicsFrictionTypeEnum : Enum 
+---@class EngineTagPhysicsFrictionTypeEnum : Enum 
 
----@class EngineTagDataPhysicsFrictionTypePoint : EngineTagDataPhysicsFrictionTypeEnum 
----@class EngineTagDataPhysicsFrictionTypeForward : EngineTagDataPhysicsFrictionTypeEnum 
----@class EngineTagDataPhysicsFrictionTypeLeft : EngineTagDataPhysicsFrictionTypeEnum 
----@class EngineTagDataPhysicsFrictionTypeUp : EngineTagDataPhysicsFrictionTypeEnum 
+---@class EngineTagPhysicsFrictionTypePoint : EngineTagPhysicsFrictionTypeEnum 
+---@class EngineTagPhysicsFrictionTypeForward : EngineTagPhysicsFrictionTypeEnum 
+---@class EngineTagPhysicsFrictionTypeLeft : EngineTagPhysicsFrictionTypeEnum 
+---@class EngineTagPhysicsFrictionTypeUp : EngineTagPhysicsFrictionTypeEnum 
 
----@alias EngineTagDataPhysicsFrictionType 
----| EngineTagDataPhysicsFrictionTypePoint
----| EngineTagDataPhysicsFrictionTypeForward
----| EngineTagDataPhysicsFrictionTypeLeft
----| EngineTagDataPhysicsFrictionTypeUp
+---@alias EngineTagPhysicsFrictionType 
+---| EngineTagPhysicsFrictionTypePoint
+---| EngineTagPhysicsFrictionTypeForward
+---| EngineTagPhysicsFrictionTypeLeft
+---| EngineTagPhysicsFrictionTypeUp
 
----@class EngineTagDataPhysicsFrictionTypeTable 
----@field ePoint EngineTagDataPhysicsFrictionTypePoint
----@field eForward EngineTagDataPhysicsFrictionTypeForward
----@field eLeft EngineTagDataPhysicsFrictionTypeLeft
----@field eUp EngineTagDataPhysicsFrictionTypeUp
+---@class EngineTagPhysicsFrictionTypeTable 
+---@field ePoint EngineTagPhysicsFrictionTypePoint
+---@field eForward EngineTagPhysicsFrictionTypeForward
+---@field eLeft EngineTagPhysicsFrictionTypeLeft
+---@field eUp EngineTagPhysicsFrictionTypeUp
 Engine.tag.physicsFrictionType = {} 
 
 ---@class MetaEngineTagDataPhysicsPoweredMassPointFlags 

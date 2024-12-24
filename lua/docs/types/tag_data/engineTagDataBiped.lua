@@ -1,15 +1,15 @@
----@class EngineTagDataBipedFunctionInEnum : Enum 
+---@class EngineTagBipedFunctionInEnum : Enum 
 
----@class EngineTagDataBipedFunctionInNone : EngineTagDataBipedFunctionInEnum 
----@class EngineTagDataBipedFunctionInFlyingVelocity : EngineTagDataBipedFunctionInEnum 
+---@class EngineTagBipedFunctionInNone : EngineTagBipedFunctionInEnum 
+---@class EngineTagBipedFunctionInFlyingVelocity : EngineTagBipedFunctionInEnum 
 
----@alias EngineTagDataBipedFunctionIn 
----| EngineTagDataBipedFunctionInNone
----| EngineTagDataBipedFunctionInFlyingVelocity
+---@alias EngineTagBipedFunctionIn 
+---| EngineTagBipedFunctionInNone
+---| EngineTagBipedFunctionInFlyingVelocity
 
----@class EngineTagDataBipedFunctionInTable 
----@field nNone EngineTagDataBipedFunctionInNone
----@field nFlyingVelocity EngineTagDataBipedFunctionInFlyingVelocity
+---@class EngineTagBipedFunctionInTable 
+---@field nNone EngineTagBipedFunctionInNone
+---@field nFlyingVelocity EngineTagBipedFunctionInFlyingVelocity
 Engine.tag.bipedFunctionIn = {} 
 
 ---@class MetaEngineTagDataBipedFlags 

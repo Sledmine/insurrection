@@ -1,32 +1,32 @@
----@class EngineTagDataMachineTypeEnum : Enum 
+---@class EngineTagMachineTypeEnum : Enum 
 
----@class EngineTagDataMachineTypeDoor : EngineTagDataMachineTypeEnum 
----@class EngineTagDataMachineTypePlatform : EngineTagDataMachineTypeEnum 
----@class EngineTagDataMachineTypeGear : EngineTagDataMachineTypeEnum 
+---@class EngineTagMachineTypeDoor : EngineTagMachineTypeEnum 
+---@class EngineTagMachineTypePlatform : EngineTagMachineTypeEnum 
+---@class EngineTagMachineTypeGear : EngineTagMachineTypeEnum 
 
----@alias EngineTagDataMachineType 
----| EngineTagDataMachineTypeDoor
----| EngineTagDataMachineTypePlatform
----| EngineTagDataMachineTypeGear
+---@alias EngineTagMachineType 
+---| EngineTagMachineTypeDoor
+---| EngineTagMachineTypePlatform
+---| EngineTagMachineTypeGear
 
----@class EngineTagDataMachineTypeTable 
----@field door EngineTagDataMachineTypeDoor
----@field platform EngineTagDataMachineTypePlatform
----@field gear EngineTagDataMachineTypeGear
+---@class EngineTagMachineTypeTable 
+---@field door EngineTagMachineTypeDoor
+---@field platform EngineTagMachineTypePlatform
+---@field gear EngineTagMachineTypeGear
 Engine.tag.machineType = {} 
 
----@class EngineTagDataMachineCollisionResponseEnum : Enum 
+---@class EngineTagMachineCollisionResponseEnum : Enum 
 
----@class EngineTagDataMachineCollisionResponsePauseUntilCrushed : EngineTagDataMachineCollisionResponseEnum 
----@class EngineTagDataMachineCollisionResponseReverseDirections : EngineTagDataMachineCollisionResponseEnum 
+---@class EngineTagMachineCollisionResponsePauseUntilCrushed : EngineTagMachineCollisionResponseEnum 
+---@class EngineTagMachineCollisionResponseReverseDirections : EngineTagMachineCollisionResponseEnum 
 
----@alias EngineTagDataMachineCollisionResponse 
----| EngineTagDataMachineCollisionResponsePauseUntilCrushed
----| EngineTagDataMachineCollisionResponseReverseDirections
+---@alias EngineTagMachineCollisionResponse 
+---| EngineTagMachineCollisionResponsePauseUntilCrushed
+---| EngineTagMachineCollisionResponseReverseDirections
 
----@class EngineTagDataMachineCollisionResponseTable 
----@field ePauseUntilCrushed EngineTagDataMachineCollisionResponsePauseUntilCrushed
----@field eReverseDirections EngineTagDataMachineCollisionResponseReverseDirections
+---@class EngineTagMachineCollisionResponseTable 
+---@field ePauseUntilCrushed EngineTagMachineCollisionResponsePauseUntilCrushed
+---@field eReverseDirections EngineTagMachineCollisionResponseReverseDirections
 Engine.tag.machineCollisionResponse = {} 
 
 ---@class MetaEngineTagDataMachineFlags 

@@ -1,180 +1,180 @@
----@class EngineTagDataWeaponSecondaryTriggerModeEnum : Enum 
+---@class EngineTagWeaponSecondaryTriggerModeEnum : Enum 
 
----@class EngineTagDataWeaponSecondaryTriggerModeNormal : EngineTagDataWeaponSecondaryTriggerModeEnum 
----@class EngineTagDataWeaponSecondaryTriggerModeSlavedToPrimary : EngineTagDataWeaponSecondaryTriggerModeEnum 
----@class EngineTagDataWeaponSecondaryTriggerModeInhibitsPrimary : EngineTagDataWeaponSecondaryTriggerModeEnum 
----@class EngineTagDataWeaponSecondaryTriggerModeLoadsAlterateAmmunition : EngineTagDataWeaponSecondaryTriggerModeEnum 
----@class EngineTagDataWeaponSecondaryTriggerModeLoadsMultiplePrimaryAmmunition : EngineTagDataWeaponSecondaryTriggerModeEnum 
+---@class EngineTagWeaponSecondaryTriggerModeNormal : EngineTagWeaponSecondaryTriggerModeEnum 
+---@class EngineTagWeaponSecondaryTriggerModeSlavedToPrimary : EngineTagWeaponSecondaryTriggerModeEnum 
+---@class EngineTagWeaponSecondaryTriggerModeInhibitsPrimary : EngineTagWeaponSecondaryTriggerModeEnum 
+---@class EngineTagWeaponSecondaryTriggerModeLoadsAlterateAmmunition : EngineTagWeaponSecondaryTriggerModeEnum 
+---@class EngineTagWeaponSecondaryTriggerModeLoadsMultiplePrimaryAmmunition : EngineTagWeaponSecondaryTriggerModeEnum 
 
----@alias EngineTagDataWeaponSecondaryTriggerMode 
----| EngineTagDataWeaponSecondaryTriggerModeNormal
----| EngineTagDataWeaponSecondaryTriggerModeSlavedToPrimary
----| EngineTagDataWeaponSecondaryTriggerModeInhibitsPrimary
----| EngineTagDataWeaponSecondaryTriggerModeLoadsAlterateAmmunition
----| EngineTagDataWeaponSecondaryTriggerModeLoadsMultiplePrimaryAmmunition
+---@alias EngineTagWeaponSecondaryTriggerMode 
+---| EngineTagWeaponSecondaryTriggerModeNormal
+---| EngineTagWeaponSecondaryTriggerModeSlavedToPrimary
+---| EngineTagWeaponSecondaryTriggerModeInhibitsPrimary
+---| EngineTagWeaponSecondaryTriggerModeLoadsAlterateAmmunition
+---| EngineTagWeaponSecondaryTriggerModeLoadsMultiplePrimaryAmmunition
 
----@class EngineTagDataWeaponSecondaryTriggerModeTable 
----@field deNormal EngineTagDataWeaponSecondaryTriggerModeNormal
----@field deSlavedToPrimary EngineTagDataWeaponSecondaryTriggerModeSlavedToPrimary
----@field deInhibitsPrimary EngineTagDataWeaponSecondaryTriggerModeInhibitsPrimary
----@field deLoadsAlterateAmmunition EngineTagDataWeaponSecondaryTriggerModeLoadsAlterateAmmunition
----@field deLoadsMultiplePrimaryAmmunition EngineTagDataWeaponSecondaryTriggerModeLoadsMultiplePrimaryAmmunition
+---@class EngineTagWeaponSecondaryTriggerModeTable 
+---@field deNormal EngineTagWeaponSecondaryTriggerModeNormal
+---@field deSlavedToPrimary EngineTagWeaponSecondaryTriggerModeSlavedToPrimary
+---@field deInhibitsPrimary EngineTagWeaponSecondaryTriggerModeInhibitsPrimary
+---@field deLoadsAlterateAmmunition EngineTagWeaponSecondaryTriggerModeLoadsAlterateAmmunition
+---@field deLoadsMultiplePrimaryAmmunition EngineTagWeaponSecondaryTriggerModeLoadsMultiplePrimaryAmmunition
 Engine.tag.weaponSecondaryTriggerMode = {} 
 
----@class EngineTagDataWeaponFunctionInEnum : Enum 
+---@class EngineTagWeaponFunctionInEnum : Enum 
 
----@class EngineTagDataWeaponFunctionInNone : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInHeat : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInPrimaryAmmunition : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInSecondaryAmmunition : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInPrimaryRateOfFire : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInSecondaryRateOfFire : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInReady : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInPrimaryEjectionPort : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInSecondaryEjectionPort : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInOverheated : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInPrimaryCharged : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInSecondaryCharged : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInIllumination : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInAge : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInIntegratedLight : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInPrimaryFiring : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInSecondaryFiring : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInPrimaryFiringOn : EngineTagDataWeaponFunctionInEnum 
----@class EngineTagDataWeaponFunctionInSecondaryFiringOn : EngineTagDataWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInNone : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInHeat : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInPrimaryAmmunition : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInSecondaryAmmunition : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInPrimaryRateOfFire : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInSecondaryRateOfFire : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInReady : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInPrimaryEjectionPort : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInSecondaryEjectionPort : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInOverheated : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInPrimaryCharged : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInSecondaryCharged : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInIllumination : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInAge : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInIntegratedLight : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInPrimaryFiring : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInSecondaryFiring : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInPrimaryFiringOn : EngineTagWeaponFunctionInEnum 
+---@class EngineTagWeaponFunctionInSecondaryFiringOn : EngineTagWeaponFunctionInEnum 
 
----@alias EngineTagDataWeaponFunctionIn 
----| EngineTagDataWeaponFunctionInNone
----| EngineTagDataWeaponFunctionInHeat
----| EngineTagDataWeaponFunctionInPrimaryAmmunition
----| EngineTagDataWeaponFunctionInSecondaryAmmunition
----| EngineTagDataWeaponFunctionInPrimaryRateOfFire
----| EngineTagDataWeaponFunctionInSecondaryRateOfFire
----| EngineTagDataWeaponFunctionInReady
----| EngineTagDataWeaponFunctionInPrimaryEjectionPort
----| EngineTagDataWeaponFunctionInSecondaryEjectionPort
----| EngineTagDataWeaponFunctionInOverheated
----| EngineTagDataWeaponFunctionInPrimaryCharged
----| EngineTagDataWeaponFunctionInSecondaryCharged
----| EngineTagDataWeaponFunctionInIllumination
----| EngineTagDataWeaponFunctionInAge
----| EngineTagDataWeaponFunctionInIntegratedLight
----| EngineTagDataWeaponFunctionInPrimaryFiring
----| EngineTagDataWeaponFunctionInSecondaryFiring
----| EngineTagDataWeaponFunctionInPrimaryFiringOn
----| EngineTagDataWeaponFunctionInSecondaryFiringOn
+---@alias EngineTagWeaponFunctionIn 
+---| EngineTagWeaponFunctionInNone
+---| EngineTagWeaponFunctionInHeat
+---| EngineTagWeaponFunctionInPrimaryAmmunition
+---| EngineTagWeaponFunctionInSecondaryAmmunition
+---| EngineTagWeaponFunctionInPrimaryRateOfFire
+---| EngineTagWeaponFunctionInSecondaryRateOfFire
+---| EngineTagWeaponFunctionInReady
+---| EngineTagWeaponFunctionInPrimaryEjectionPort
+---| EngineTagWeaponFunctionInSecondaryEjectionPort
+---| EngineTagWeaponFunctionInOverheated
+---| EngineTagWeaponFunctionInPrimaryCharged
+---| EngineTagWeaponFunctionInSecondaryCharged
+---| EngineTagWeaponFunctionInIllumination
+---| EngineTagWeaponFunctionInAge
+---| EngineTagWeaponFunctionInIntegratedLight
+---| EngineTagWeaponFunctionInPrimaryFiring
+---| EngineTagWeaponFunctionInSecondaryFiring
+---| EngineTagWeaponFunctionInPrimaryFiringOn
+---| EngineTagWeaponFunctionInSecondaryFiringOn
 
----@class EngineTagDataWeaponFunctionInTable 
----@field nNone EngineTagDataWeaponFunctionInNone
----@field nHeat EngineTagDataWeaponFunctionInHeat
----@field nPrimaryAmmunition EngineTagDataWeaponFunctionInPrimaryAmmunition
----@field nSecondaryAmmunition EngineTagDataWeaponFunctionInSecondaryAmmunition
----@field nPrimaryRateOfFire EngineTagDataWeaponFunctionInPrimaryRateOfFire
----@field nSecondaryRateOfFire EngineTagDataWeaponFunctionInSecondaryRateOfFire
----@field nReady EngineTagDataWeaponFunctionInReady
----@field nPrimaryEjectionPort EngineTagDataWeaponFunctionInPrimaryEjectionPort
----@field nSecondaryEjectionPort EngineTagDataWeaponFunctionInSecondaryEjectionPort
----@field nOverheated EngineTagDataWeaponFunctionInOverheated
----@field nPrimaryCharged EngineTagDataWeaponFunctionInPrimaryCharged
----@field nSecondaryCharged EngineTagDataWeaponFunctionInSecondaryCharged
----@field nIllumination EngineTagDataWeaponFunctionInIllumination
----@field nAge EngineTagDataWeaponFunctionInAge
----@field nIntegratedLight EngineTagDataWeaponFunctionInIntegratedLight
----@field nPrimaryFiring EngineTagDataWeaponFunctionInPrimaryFiring
----@field nSecondaryFiring EngineTagDataWeaponFunctionInSecondaryFiring
----@field nPrimaryFiringOn EngineTagDataWeaponFunctionInPrimaryFiringOn
----@field nSecondaryFiringOn EngineTagDataWeaponFunctionInSecondaryFiringOn
+---@class EngineTagWeaponFunctionInTable 
+---@field nNone EngineTagWeaponFunctionInNone
+---@field nHeat EngineTagWeaponFunctionInHeat
+---@field nPrimaryAmmunition EngineTagWeaponFunctionInPrimaryAmmunition
+---@field nSecondaryAmmunition EngineTagWeaponFunctionInSecondaryAmmunition
+---@field nPrimaryRateOfFire EngineTagWeaponFunctionInPrimaryRateOfFire
+---@field nSecondaryRateOfFire EngineTagWeaponFunctionInSecondaryRateOfFire
+---@field nReady EngineTagWeaponFunctionInReady
+---@field nPrimaryEjectionPort EngineTagWeaponFunctionInPrimaryEjectionPort
+---@field nSecondaryEjectionPort EngineTagWeaponFunctionInSecondaryEjectionPort
+---@field nOverheated EngineTagWeaponFunctionInOverheated
+---@field nPrimaryCharged EngineTagWeaponFunctionInPrimaryCharged
+---@field nSecondaryCharged EngineTagWeaponFunctionInSecondaryCharged
+---@field nIllumination EngineTagWeaponFunctionInIllumination
+---@field nAge EngineTagWeaponFunctionInAge
+---@field nIntegratedLight EngineTagWeaponFunctionInIntegratedLight
+---@field nPrimaryFiring EngineTagWeaponFunctionInPrimaryFiring
+---@field nSecondaryFiring EngineTagWeaponFunctionInSecondaryFiring
+---@field nPrimaryFiringOn EngineTagWeaponFunctionInPrimaryFiringOn
+---@field nSecondaryFiringOn EngineTagWeaponFunctionInSecondaryFiringOn
 Engine.tag.weaponFunctionIn = {} 
 
----@class EngineTagDataWeaponMovementPenalizedEnum : Enum 
+---@class EngineTagWeaponMovementPenalizedEnum : Enum 
 
----@class EngineTagDataWeaponMovementPenalizedAlways : EngineTagDataWeaponMovementPenalizedEnum 
----@class EngineTagDataWeaponMovementPenalizedWhenZoomed : EngineTagDataWeaponMovementPenalizedEnum 
----@class EngineTagDataWeaponMovementPenalizedWhenZoomedOrReloading : EngineTagDataWeaponMovementPenalizedEnum 
+---@class EngineTagWeaponMovementPenalizedAlways : EngineTagWeaponMovementPenalizedEnum 
+---@class EngineTagWeaponMovementPenalizedWhenZoomed : EngineTagWeaponMovementPenalizedEnum 
+---@class EngineTagWeaponMovementPenalizedWhenZoomedOrReloading : EngineTagWeaponMovementPenalizedEnum 
 
----@alias EngineTagDataWeaponMovementPenalized 
----| EngineTagDataWeaponMovementPenalizedAlways
----| EngineTagDataWeaponMovementPenalizedWhenZoomed
----| EngineTagDataWeaponMovementPenalizedWhenZoomedOrReloading
+---@alias EngineTagWeaponMovementPenalized 
+---| EngineTagWeaponMovementPenalizedAlways
+---| EngineTagWeaponMovementPenalizedWhenZoomed
+---| EngineTagWeaponMovementPenalizedWhenZoomedOrReloading
 
----@class EngineTagDataWeaponMovementPenalizedTable 
----@field dAlways EngineTagDataWeaponMovementPenalizedAlways
----@field dWhenZoomed EngineTagDataWeaponMovementPenalizedWhenZoomed
----@field dWhenZoomedOrReloading EngineTagDataWeaponMovementPenalizedWhenZoomedOrReloading
+---@class EngineTagWeaponMovementPenalizedTable 
+---@field dAlways EngineTagWeaponMovementPenalizedAlways
+---@field dWhenZoomed EngineTagWeaponMovementPenalizedWhenZoomed
+---@field dWhenZoomedOrReloading EngineTagWeaponMovementPenalizedWhenZoomedOrReloading
 Engine.tag.weaponMovementPenalized = {} 
 
----@class EngineTagDataWeaponTypeEnum : Enum 
+---@class EngineTagWeaponTypeEnum : Enum 
 
----@class EngineTagDataWeaponTypeUndefined : EngineTagDataWeaponTypeEnum 
----@class EngineTagDataWeaponTypeShotgun : EngineTagDataWeaponTypeEnum 
----@class EngineTagDataWeaponTypeNeedler : EngineTagDataWeaponTypeEnum 
----@class EngineTagDataWeaponTypePlasmaPistol : EngineTagDataWeaponTypeEnum 
----@class EngineTagDataWeaponTypePlasmaRifle : EngineTagDataWeaponTypeEnum 
----@class EngineTagDataWeaponTypeRocketLauncher : EngineTagDataWeaponTypeEnum 
+---@class EngineTagWeaponTypeUndefined : EngineTagWeaponTypeEnum 
+---@class EngineTagWeaponTypeShotgun : EngineTagWeaponTypeEnum 
+---@class EngineTagWeaponTypeNeedler : EngineTagWeaponTypeEnum 
+---@class EngineTagWeaponTypePlasmaPistol : EngineTagWeaponTypeEnum 
+---@class EngineTagWeaponTypePlasmaRifle : EngineTagWeaponTypeEnum 
+---@class EngineTagWeaponTypeRocketLauncher : EngineTagWeaponTypeEnum 
 
----@alias EngineTagDataWeaponType 
----| EngineTagDataWeaponTypeUndefined
----| EngineTagDataWeaponTypeShotgun
----| EngineTagDataWeaponTypeNeedler
----| EngineTagDataWeaponTypePlasmaPistol
----| EngineTagDataWeaponTypePlasmaRifle
----| EngineTagDataWeaponTypeRocketLauncher
+---@alias EngineTagWeaponType 
+---| EngineTagWeaponTypeUndefined
+---| EngineTagWeaponTypeShotgun
+---| EngineTagWeaponTypeNeedler
+---| EngineTagWeaponTypePlasmaPistol
+---| EngineTagWeaponTypePlasmaRifle
+---| EngineTagWeaponTypeRocketLauncher
 
----@class EngineTagDataWeaponTypeTable 
----@field undefined EngineTagDataWeaponTypeUndefined
----@field shotgun EngineTagDataWeaponTypeShotgun
----@field needler EngineTagDataWeaponTypeNeedler
----@field plasmaPistol EngineTagDataWeaponTypePlasmaPistol
----@field plasmaRifle EngineTagDataWeaponTypePlasmaRifle
----@field rocketLauncher EngineTagDataWeaponTypeRocketLauncher
+---@class EngineTagWeaponTypeTable 
+---@field undefined EngineTagWeaponTypeUndefined
+---@field shotgun EngineTagWeaponTypeShotgun
+---@field needler EngineTagWeaponTypeNeedler
+---@field plasmaPistol EngineTagWeaponTypePlasmaPistol
+---@field plasmaRifle EngineTagWeaponTypePlasmaRifle
+---@field rocketLauncher EngineTagWeaponTypeRocketLauncher
 Engine.tag.weaponType = {} 
 
----@class EngineTagDataWeaponPredictionTypeEnum : Enum 
+---@class EngineTagWeaponPredictionTypeEnum : Enum 
 
----@class EngineTagDataWeaponPredictionTypeNone : EngineTagDataWeaponPredictionTypeEnum 
----@class EngineTagDataWeaponPredictionTypeContinuous : EngineTagDataWeaponPredictionTypeEnum 
----@class EngineTagDataWeaponPredictionTypeInstant : EngineTagDataWeaponPredictionTypeEnum 
+---@class EngineTagWeaponPredictionTypeNone : EngineTagWeaponPredictionTypeEnum 
+---@class EngineTagWeaponPredictionTypeContinuous : EngineTagWeaponPredictionTypeEnum 
+---@class EngineTagWeaponPredictionTypeInstant : EngineTagWeaponPredictionTypeEnum 
 
----@alias EngineTagDataWeaponPredictionType 
----| EngineTagDataWeaponPredictionTypeNone
----| EngineTagDataWeaponPredictionTypeContinuous
----| EngineTagDataWeaponPredictionTypeInstant
+---@alias EngineTagWeaponPredictionType 
+---| EngineTagWeaponPredictionTypeNone
+---| EngineTagWeaponPredictionTypeContinuous
+---| EngineTagWeaponPredictionTypeInstant
 
----@class EngineTagDataWeaponPredictionTypeTable 
----@field eNone EngineTagDataWeaponPredictionTypeNone
----@field eContinuous EngineTagDataWeaponPredictionTypeContinuous
----@field eInstant EngineTagDataWeaponPredictionTypeInstant
+---@class EngineTagWeaponPredictionTypeTable 
+---@field eNone EngineTagWeaponPredictionTypeNone
+---@field eContinuous EngineTagWeaponPredictionTypeContinuous
+---@field eInstant EngineTagWeaponPredictionTypeInstant
 Engine.tag.weaponPredictionType = {} 
 
----@class EngineTagDataWeaponOverchargedActionEnum : Enum 
+---@class EngineTagWeaponOverchargedActionEnum : Enum 
 
----@class EngineTagDataWeaponOverchargedActionNone : EngineTagDataWeaponOverchargedActionEnum 
----@class EngineTagDataWeaponOverchargedActionExplode : EngineTagDataWeaponOverchargedActionEnum 
----@class EngineTagDataWeaponOverchargedActionDischarge : EngineTagDataWeaponOverchargedActionEnum 
+---@class EngineTagWeaponOverchargedActionNone : EngineTagWeaponOverchargedActionEnum 
+---@class EngineTagWeaponOverchargedActionExplode : EngineTagWeaponOverchargedActionEnum 
+---@class EngineTagWeaponOverchargedActionDischarge : EngineTagWeaponOverchargedActionEnum 
 
----@alias EngineTagDataWeaponOverchargedAction 
----| EngineTagDataWeaponOverchargedActionNone
----| EngineTagDataWeaponOverchargedActionExplode
----| EngineTagDataWeaponOverchargedActionDischarge
+---@alias EngineTagWeaponOverchargedAction 
+---| EngineTagWeaponOverchargedActionNone
+---| EngineTagWeaponOverchargedActionExplode
+---| EngineTagWeaponOverchargedActionDischarge
 
----@class EngineTagDataWeaponOverchargedActionTable 
----@field nNone EngineTagDataWeaponOverchargedActionNone
----@field nExplode EngineTagDataWeaponOverchargedActionExplode
----@field nDischarge EngineTagDataWeaponOverchargedActionDischarge
+---@class EngineTagWeaponOverchargedActionTable 
+---@field nNone EngineTagWeaponOverchargedActionNone
+---@field nExplode EngineTagWeaponOverchargedActionExplode
+---@field nDischarge EngineTagWeaponOverchargedActionDischarge
 Engine.tag.weaponOverchargedAction = {} 
 
----@class EngineTagDataWeaponDistributionFunctionEnum : Enum 
+---@class EngineTagWeaponDistributionFunctionEnum : Enum 
 
----@class EngineTagDataWeaponDistributionFunctionPoint : EngineTagDataWeaponDistributionFunctionEnum 
----@class EngineTagDataWeaponDistributionFunctionHorizontalFan : EngineTagDataWeaponDistributionFunctionEnum 
+---@class EngineTagWeaponDistributionFunctionPoint : EngineTagWeaponDistributionFunctionEnum 
+---@class EngineTagWeaponDistributionFunctionHorizontalFan : EngineTagWeaponDistributionFunctionEnum 
 
----@alias EngineTagDataWeaponDistributionFunction 
----| EngineTagDataWeaponDistributionFunctionPoint
----| EngineTagDataWeaponDistributionFunctionHorizontalFan
+---@alias EngineTagWeaponDistributionFunction 
+---| EngineTagWeaponDistributionFunctionPoint
+---| EngineTagWeaponDistributionFunctionHorizontalFan
 
----@class EngineTagDataWeaponDistributionFunctionTable 
----@field nPoint EngineTagDataWeaponDistributionFunctionPoint
----@field nHorizontalFan EngineTagDataWeaponDistributionFunctionHorizontalFan
+---@class EngineTagWeaponDistributionFunctionTable 
+---@field nPoint EngineTagWeaponDistributionFunctionPoint
+---@field nHorizontalFan EngineTagWeaponDistributionFunctionHorizontalFan
 Engine.tag.weaponDistributionFunction = {} 
 
 ---@class MetaEngineTagDataWeaponMagazineFlags 

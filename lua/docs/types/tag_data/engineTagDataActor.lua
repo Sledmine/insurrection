@@ -1,121 +1,121 @@
----@class EngineTagDataActorTypeEnum : Enum 
+---@class EngineTagActorTypeEnum : Enum 
 
----@class EngineTagDataActorTypeElite : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeJackal : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeGrunt : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeHunter : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeEngineer : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeAssassin : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypePlayer : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeMarine : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeCrew : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeCombatForm : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeInfectionForm : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeCarrierForm : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeMonitor : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeSentinel : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeNone : EngineTagDataActorTypeEnum 
----@class EngineTagDataActorTypeMountedWeapon : EngineTagDataActorTypeEnum 
+---@class EngineTagActorTypeElite : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeJackal : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeGrunt : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeHunter : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeEngineer : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeAssassin : EngineTagActorTypeEnum 
+---@class EngineTagActorTypePlayer : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeMarine : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeCrew : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeCombatForm : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeInfectionForm : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeCarrierForm : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeMonitor : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeSentinel : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeNone : EngineTagActorTypeEnum 
+---@class EngineTagActorTypeMountedWeapon : EngineTagActorTypeEnum 
 
----@alias EngineTagDataActorType 
----| EngineTagDataActorTypeElite
----| EngineTagDataActorTypeJackal
----| EngineTagDataActorTypeGrunt
----| EngineTagDataActorTypeHunter
----| EngineTagDataActorTypeEngineer
----| EngineTagDataActorTypeAssassin
----| EngineTagDataActorTypePlayer
----| EngineTagDataActorTypeMarine
----| EngineTagDataActorTypeCrew
----| EngineTagDataActorTypeCombatForm
----| EngineTagDataActorTypeInfectionForm
----| EngineTagDataActorTypeCarrierForm
----| EngineTagDataActorTypeMonitor
----| EngineTagDataActorTypeSentinel
----| EngineTagDataActorTypeNone
----| EngineTagDataActorTypeMountedWeapon
+---@alias EngineTagActorType 
+---| EngineTagActorTypeElite
+---| EngineTagActorTypeJackal
+---| EngineTagActorTypeGrunt
+---| EngineTagActorTypeHunter
+---| EngineTagActorTypeEngineer
+---| EngineTagActorTypeAssassin
+---| EngineTagActorTypePlayer
+---| EngineTagActorTypeMarine
+---| EngineTagActorTypeCrew
+---| EngineTagActorTypeCombatForm
+---| EngineTagActorTypeInfectionForm
+---| EngineTagActorTypeCarrierForm
+---| EngineTagActorTypeMonitor
+---| EngineTagActorTypeSentinel
+---| EngineTagActorTypeNone
+---| EngineTagActorTypeMountedWeapon
 
----@class EngineTagDataActorTypeTable 
----@field elite EngineTagDataActorTypeElite
----@field jackal EngineTagDataActorTypeJackal
----@field grunt EngineTagDataActorTypeGrunt
----@field hunter EngineTagDataActorTypeHunter
----@field engineer EngineTagDataActorTypeEngineer
----@field assassin EngineTagDataActorTypeAssassin
----@field player EngineTagDataActorTypePlayer
----@field marine EngineTagDataActorTypeMarine
----@field crew EngineTagDataActorTypeCrew
----@field combatForm EngineTagDataActorTypeCombatForm
----@field infectionForm EngineTagDataActorTypeInfectionForm
----@field carrierForm EngineTagDataActorTypeCarrierForm
----@field monitor EngineTagDataActorTypeMonitor
----@field sentinel EngineTagDataActorTypeSentinel
----@field none EngineTagDataActorTypeNone
----@field mountedWeapon EngineTagDataActorTypeMountedWeapon
+---@class EngineTagActorTypeTable 
+---@field elite EngineTagActorTypeElite
+---@field jackal EngineTagActorTypeJackal
+---@field grunt EngineTagActorTypeGrunt
+---@field hunter EngineTagActorTypeHunter
+---@field engineer EngineTagActorTypeEngineer
+---@field assassin EngineTagActorTypeAssassin
+---@field player EngineTagActorTypePlayer
+---@field marine EngineTagActorTypeMarine
+---@field crew EngineTagActorTypeCrew
+---@field combatForm EngineTagActorTypeCombatForm
+---@field infectionForm EngineTagActorTypeInfectionForm
+---@field carrierForm EngineTagActorTypeCarrierForm
+---@field monitor EngineTagActorTypeMonitor
+---@field sentinel EngineTagActorTypeSentinel
+---@field none EngineTagActorTypeNone
+---@field mountedWeapon EngineTagActorTypeMountedWeapon
 Engine.tag.actorType = {} 
 
----@class EngineTagDataActorUnreachableDangerTriggerEnum : Enum 
+---@class EngineTagActorUnreachableDangerTriggerEnum : Enum 
 
----@class EngineTagDataActorUnreachableDangerTriggerNever : EngineTagDataActorUnreachableDangerTriggerEnum 
----@class EngineTagDataActorUnreachableDangerTriggerVisible : EngineTagDataActorUnreachableDangerTriggerEnum 
----@class EngineTagDataActorUnreachableDangerTriggerShooting : EngineTagDataActorUnreachableDangerTriggerEnum 
----@class EngineTagDataActorUnreachableDangerTriggerShootingNearUs : EngineTagDataActorUnreachableDangerTriggerEnum 
----@class EngineTagDataActorUnreachableDangerTriggerDamagingUs : EngineTagDataActorUnreachableDangerTriggerEnum 
----@class EngineTagDataActorUnreachableDangerTriggerUnused : EngineTagDataActorUnreachableDangerTriggerEnum 
----@class EngineTagDataActorUnreachableDangerTriggerUnused1 : EngineTagDataActorUnreachableDangerTriggerEnum 
----@class EngineTagDataActorUnreachableDangerTriggerUnused2 : EngineTagDataActorUnreachableDangerTriggerEnum 
----@class EngineTagDataActorUnreachableDangerTriggerUnused3 : EngineTagDataActorUnreachableDangerTriggerEnum 
----@class EngineTagDataActorUnreachableDangerTriggerUnused4 : EngineTagDataActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerNever : EngineTagActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerVisible : EngineTagActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerShooting : EngineTagActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerShootingNearUs : EngineTagActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerDamagingUs : EngineTagActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerUnused : EngineTagActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerUnused1 : EngineTagActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerUnused2 : EngineTagActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerUnused3 : EngineTagActorUnreachableDangerTriggerEnum 
+---@class EngineTagActorUnreachableDangerTriggerUnused4 : EngineTagActorUnreachableDangerTriggerEnum 
 
----@alias EngineTagDataActorUnreachableDangerTrigger 
----| EngineTagDataActorUnreachableDangerTriggerNever
----| EngineTagDataActorUnreachableDangerTriggerVisible
----| EngineTagDataActorUnreachableDangerTriggerShooting
----| EngineTagDataActorUnreachableDangerTriggerShootingNearUs
----| EngineTagDataActorUnreachableDangerTriggerDamagingUs
----| EngineTagDataActorUnreachableDangerTriggerUnused
----| EngineTagDataActorUnreachableDangerTriggerUnused1
----| EngineTagDataActorUnreachableDangerTriggerUnused2
----| EngineTagDataActorUnreachableDangerTriggerUnused3
----| EngineTagDataActorUnreachableDangerTriggerUnused4
+---@alias EngineTagActorUnreachableDangerTrigger 
+---| EngineTagActorUnreachableDangerTriggerNever
+---| EngineTagActorUnreachableDangerTriggerVisible
+---| EngineTagActorUnreachableDangerTriggerShooting
+---| EngineTagActorUnreachableDangerTriggerShootingNearUs
+---| EngineTagActorUnreachableDangerTriggerDamagingUs
+---| EngineTagActorUnreachableDangerTriggerUnused
+---| EngineTagActorUnreachableDangerTriggerUnused1
+---| EngineTagActorUnreachableDangerTriggerUnused2
+---| EngineTagActorUnreachableDangerTriggerUnused3
+---| EngineTagActorUnreachableDangerTriggerUnused4
 
----@class EngineTagDataActorUnreachableDangerTriggerTable 
----@field erNever EngineTagDataActorUnreachableDangerTriggerNever
----@field erVisible EngineTagDataActorUnreachableDangerTriggerVisible
----@field erShooting EngineTagDataActorUnreachableDangerTriggerShooting
----@field erShootingNearUs EngineTagDataActorUnreachableDangerTriggerShootingNearUs
----@field erDamagingUs EngineTagDataActorUnreachableDangerTriggerDamagingUs
----@field erUnused EngineTagDataActorUnreachableDangerTriggerUnused
----@field erUnused1 EngineTagDataActorUnreachableDangerTriggerUnused1
----@field erUnused2 EngineTagDataActorUnreachableDangerTriggerUnused2
----@field erUnused3 EngineTagDataActorUnreachableDangerTriggerUnused3
----@field erUnused4 EngineTagDataActorUnreachableDangerTriggerUnused4
+---@class EngineTagActorUnreachableDangerTriggerTable 
+---@field erNever EngineTagActorUnreachableDangerTriggerNever
+---@field erVisible EngineTagActorUnreachableDangerTriggerVisible
+---@field erShooting EngineTagActorUnreachableDangerTriggerShooting
+---@field erShootingNearUs EngineTagActorUnreachableDangerTriggerShootingNearUs
+---@field erDamagingUs EngineTagActorUnreachableDangerTriggerDamagingUs
+---@field erUnused EngineTagActorUnreachableDangerTriggerUnused
+---@field erUnused1 EngineTagActorUnreachableDangerTriggerUnused1
+---@field erUnused2 EngineTagActorUnreachableDangerTriggerUnused2
+---@field erUnused3 EngineTagActorUnreachableDangerTriggerUnused3
+---@field erUnused4 EngineTagActorUnreachableDangerTriggerUnused4
 Engine.tag.actorUnreachableDangerTrigger = {} 
 
----@class EngineTagDataActorDefensiveCrouchTypeEnum : Enum 
+---@class EngineTagActorDefensiveCrouchTypeEnum : Enum 
 
----@class EngineTagDataActorDefensiveCrouchTypeNever : EngineTagDataActorDefensiveCrouchTypeEnum 
----@class EngineTagDataActorDefensiveCrouchTypeDanger : EngineTagDataActorDefensiveCrouchTypeEnum 
----@class EngineTagDataActorDefensiveCrouchTypeLowShields : EngineTagDataActorDefensiveCrouchTypeEnum 
----@class EngineTagDataActorDefensiveCrouchTypeHideBehindShield : EngineTagDataActorDefensiveCrouchTypeEnum 
----@class EngineTagDataActorDefensiveCrouchTypeAnyTarget : EngineTagDataActorDefensiveCrouchTypeEnum 
----@class EngineTagDataActorDefensiveCrouchTypeFloodShamble : EngineTagDataActorDefensiveCrouchTypeEnum 
+---@class EngineTagActorDefensiveCrouchTypeNever : EngineTagActorDefensiveCrouchTypeEnum 
+---@class EngineTagActorDefensiveCrouchTypeDanger : EngineTagActorDefensiveCrouchTypeEnum 
+---@class EngineTagActorDefensiveCrouchTypeLowShields : EngineTagActorDefensiveCrouchTypeEnum 
+---@class EngineTagActorDefensiveCrouchTypeHideBehindShield : EngineTagActorDefensiveCrouchTypeEnum 
+---@class EngineTagActorDefensiveCrouchTypeAnyTarget : EngineTagActorDefensiveCrouchTypeEnum 
+---@class EngineTagActorDefensiveCrouchTypeFloodShamble : EngineTagActorDefensiveCrouchTypeEnum 
 
----@alias EngineTagDataActorDefensiveCrouchType 
----| EngineTagDataActorDefensiveCrouchTypeNever
----| EngineTagDataActorDefensiveCrouchTypeDanger
----| EngineTagDataActorDefensiveCrouchTypeLowShields
----| EngineTagDataActorDefensiveCrouchTypeHideBehindShield
----| EngineTagDataActorDefensiveCrouchTypeAnyTarget
----| EngineTagDataActorDefensiveCrouchTypeFloodShamble
+---@alias EngineTagActorDefensiveCrouchType 
+---| EngineTagActorDefensiveCrouchTypeNever
+---| EngineTagActorDefensiveCrouchTypeDanger
+---| EngineTagActorDefensiveCrouchTypeLowShields
+---| EngineTagActorDefensiveCrouchTypeHideBehindShield
+---| EngineTagActorDefensiveCrouchTypeAnyTarget
+---| EngineTagActorDefensiveCrouchTypeFloodShamble
 
----@class EngineTagDataActorDefensiveCrouchTypeTable 
----@field peNever EngineTagDataActorDefensiveCrouchTypeNever
----@field peDanger EngineTagDataActorDefensiveCrouchTypeDanger
----@field peLowShields EngineTagDataActorDefensiveCrouchTypeLowShields
----@field peHideBehindShield EngineTagDataActorDefensiveCrouchTypeHideBehindShield
----@field peAnyTarget EngineTagDataActorDefensiveCrouchTypeAnyTarget
----@field peFloodShamble EngineTagDataActorDefensiveCrouchTypeFloodShamble
+---@class EngineTagActorDefensiveCrouchTypeTable 
+---@field peNever EngineTagActorDefensiveCrouchTypeNever
+---@field peDanger EngineTagActorDefensiveCrouchTypeDanger
+---@field peLowShields EngineTagActorDefensiveCrouchTypeLowShields
+---@field peHideBehindShield EngineTagActorDefensiveCrouchTypeHideBehindShield
+---@field peAnyTarget EngineTagActorDefensiveCrouchTypeAnyTarget
+---@field peFloodShamble EngineTagActorDefensiveCrouchTypeFloodShamble
 Engine.tag.actorDefensiveCrouchType = {} 
 
 ---@class MetaEngineTagDataActorFlags 

@@ -1,734 +1,734 @@
----@class EngineTagDataScenarioTypeEnum : Enum 
+---@class EngineTagScenarioTypeEnum : Enum 
 
----@class EngineTagDataScenarioTypeSingleplayer : EngineTagDataScenarioTypeEnum 
----@class EngineTagDataScenarioTypeMultiplayer : EngineTagDataScenarioTypeEnum 
----@class EngineTagDataScenarioTypeUserInterface : EngineTagDataScenarioTypeEnum 
+---@class EngineTagScenarioTypeSingleplayer : EngineTagScenarioTypeEnum 
+---@class EngineTagScenarioTypeMultiplayer : EngineTagScenarioTypeEnum 
+---@class EngineTagScenarioTypeUserInterface : EngineTagScenarioTypeEnum 
 
----@alias EngineTagDataScenarioType 
----| EngineTagDataScenarioTypeSingleplayer
----| EngineTagDataScenarioTypeMultiplayer
----| EngineTagDataScenarioTypeUserInterface
+---@alias EngineTagScenarioType 
+---| EngineTagScenarioTypeSingleplayer
+---| EngineTagScenarioTypeMultiplayer
+---| EngineTagScenarioTypeUserInterface
 
----@class EngineTagDataScenarioTypeTable 
----@field singleplayer EngineTagDataScenarioTypeSingleplayer
----@field multiplayer EngineTagDataScenarioTypeMultiplayer
----@field userInterface EngineTagDataScenarioTypeUserInterface
+---@class EngineTagScenarioTypeTable 
+---@field singleplayer EngineTagScenarioTypeSingleplayer
+---@field multiplayer EngineTagScenarioTypeMultiplayer
+---@field userInterface EngineTagScenarioTypeUserInterface
 Engine.tag.scenarioType = {} 
 
----@class EngineTagDataScenarioSpawnTypeEnum : Enum 
+---@class EngineTagScenarioSpawnTypeEnum : Enum 
 
----@class EngineTagDataScenarioSpawnTypeNone : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeCtf : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeSlayer : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeOddball : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeKingOfTheHill : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeRace : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeTerminator : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeStub : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeIgnored1 : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeIgnored2 : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeIgnored3 : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeIgnored4 : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeAllGames : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeAllExceptCtf : EngineTagDataScenarioSpawnTypeEnum 
----@class EngineTagDataScenarioSpawnTypeAllExceptRaceAndCtf : EngineTagDataScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeNone : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeCtf : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeSlayer : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeOddball : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeKingOfTheHill : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeRace : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeTerminator : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeStub : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeIgnored1 : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeIgnored2 : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeIgnored3 : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeIgnored4 : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeAllGames : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeAllExceptCtf : EngineTagScenarioSpawnTypeEnum 
+---@class EngineTagScenarioSpawnTypeAllExceptRaceAndCtf : EngineTagScenarioSpawnTypeEnum 
 
----@alias EngineTagDataScenarioSpawnType 
----| EngineTagDataScenarioSpawnTypeNone
----| EngineTagDataScenarioSpawnTypeCtf
----| EngineTagDataScenarioSpawnTypeSlayer
----| EngineTagDataScenarioSpawnTypeOddball
----| EngineTagDataScenarioSpawnTypeKingOfTheHill
----| EngineTagDataScenarioSpawnTypeRace
----| EngineTagDataScenarioSpawnTypeTerminator
----| EngineTagDataScenarioSpawnTypeStub
----| EngineTagDataScenarioSpawnTypeIgnored1
----| EngineTagDataScenarioSpawnTypeIgnored2
----| EngineTagDataScenarioSpawnTypeIgnored3
----| EngineTagDataScenarioSpawnTypeIgnored4
----| EngineTagDataScenarioSpawnTypeAllGames
----| EngineTagDataScenarioSpawnTypeAllExceptCtf
----| EngineTagDataScenarioSpawnTypeAllExceptRaceAndCtf
+---@alias EngineTagScenarioSpawnType 
+---| EngineTagScenarioSpawnTypeNone
+---| EngineTagScenarioSpawnTypeCtf
+---| EngineTagScenarioSpawnTypeSlayer
+---| EngineTagScenarioSpawnTypeOddball
+---| EngineTagScenarioSpawnTypeKingOfTheHill
+---| EngineTagScenarioSpawnTypeRace
+---| EngineTagScenarioSpawnTypeTerminator
+---| EngineTagScenarioSpawnTypeStub
+---| EngineTagScenarioSpawnTypeIgnored1
+---| EngineTagScenarioSpawnTypeIgnored2
+---| EngineTagScenarioSpawnTypeIgnored3
+---| EngineTagScenarioSpawnTypeIgnored4
+---| EngineTagScenarioSpawnTypeAllGames
+---| EngineTagScenarioSpawnTypeAllExceptCtf
+---| EngineTagScenarioSpawnTypeAllExceptRaceAndCtf
 
----@class EngineTagDataScenarioSpawnTypeTable 
----@field eNone EngineTagDataScenarioSpawnTypeNone
----@field eCtf EngineTagDataScenarioSpawnTypeCtf
----@field eSlayer EngineTagDataScenarioSpawnTypeSlayer
----@field eOddball EngineTagDataScenarioSpawnTypeOddball
----@field eKingOfTheHill EngineTagDataScenarioSpawnTypeKingOfTheHill
----@field eRace EngineTagDataScenarioSpawnTypeRace
----@field eTerminator EngineTagDataScenarioSpawnTypeTerminator
----@field eStub EngineTagDataScenarioSpawnTypeStub
----@field eIgnored1 EngineTagDataScenarioSpawnTypeIgnored1
----@field eIgnored2 EngineTagDataScenarioSpawnTypeIgnored2
----@field eIgnored3 EngineTagDataScenarioSpawnTypeIgnored3
----@field eIgnored4 EngineTagDataScenarioSpawnTypeIgnored4
----@field eAllGames EngineTagDataScenarioSpawnTypeAllGames
----@field eAllExceptCtf EngineTagDataScenarioSpawnTypeAllExceptCtf
----@field eAllExceptRaceAndCtf EngineTagDataScenarioSpawnTypeAllExceptRaceAndCtf
+---@class EngineTagScenarioSpawnTypeTable 
+---@field eNone EngineTagScenarioSpawnTypeNone
+---@field eCtf EngineTagScenarioSpawnTypeCtf
+---@field eSlayer EngineTagScenarioSpawnTypeSlayer
+---@field eOddball EngineTagScenarioSpawnTypeOddball
+---@field eKingOfTheHill EngineTagScenarioSpawnTypeKingOfTheHill
+---@field eRace EngineTagScenarioSpawnTypeRace
+---@field eTerminator EngineTagScenarioSpawnTypeTerminator
+---@field eStub EngineTagScenarioSpawnTypeStub
+---@field eIgnored1 EngineTagScenarioSpawnTypeIgnored1
+---@field eIgnored2 EngineTagScenarioSpawnTypeIgnored2
+---@field eIgnored3 EngineTagScenarioSpawnTypeIgnored3
+---@field eIgnored4 EngineTagScenarioSpawnTypeIgnored4
+---@field eAllGames EngineTagScenarioSpawnTypeAllGames
+---@field eAllExceptCtf EngineTagScenarioSpawnTypeAllExceptCtf
+---@field eAllExceptRaceAndCtf EngineTagScenarioSpawnTypeAllExceptRaceAndCtf
 Engine.tag.scenarioSpawnType = {} 
 
----@class EngineTagDataScenarioNetgameFlagTypeEnum : Enum 
+---@class EngineTagScenarioNetgameFlagTypeEnum : Enum 
 
----@class EngineTagDataScenarioNetgameFlagTypeCtfFlag : EngineTagDataScenarioNetgameFlagTypeEnum 
----@class EngineTagDataScenarioNetgameFlagTypeCtfVehicle : EngineTagDataScenarioNetgameFlagTypeEnum 
----@class EngineTagDataScenarioNetgameFlagTypeOddballBallSpawn : EngineTagDataScenarioNetgameFlagTypeEnum 
----@class EngineTagDataScenarioNetgameFlagTypeRaceTrack : EngineTagDataScenarioNetgameFlagTypeEnum 
----@class EngineTagDataScenarioNetgameFlagTypeRaceVehicle : EngineTagDataScenarioNetgameFlagTypeEnum 
----@class EngineTagDataScenarioNetgameFlagTypeVegasBank : EngineTagDataScenarioNetgameFlagTypeEnum 
----@class EngineTagDataScenarioNetgameFlagTypeTeleportFrom : EngineTagDataScenarioNetgameFlagTypeEnum 
----@class EngineTagDataScenarioNetgameFlagTypeTeleportTo : EngineTagDataScenarioNetgameFlagTypeEnum 
----@class EngineTagDataScenarioNetgameFlagTypeHillFlag : EngineTagDataScenarioNetgameFlagTypeEnum 
+---@class EngineTagScenarioNetgameFlagTypeCtfFlag : EngineTagScenarioNetgameFlagTypeEnum 
+---@class EngineTagScenarioNetgameFlagTypeCtfVehicle : EngineTagScenarioNetgameFlagTypeEnum 
+---@class EngineTagScenarioNetgameFlagTypeOddballBallSpawn : EngineTagScenarioNetgameFlagTypeEnum 
+---@class EngineTagScenarioNetgameFlagTypeRaceTrack : EngineTagScenarioNetgameFlagTypeEnum 
+---@class EngineTagScenarioNetgameFlagTypeRaceVehicle : EngineTagScenarioNetgameFlagTypeEnum 
+---@class EngineTagScenarioNetgameFlagTypeVegasBank : EngineTagScenarioNetgameFlagTypeEnum 
+---@class EngineTagScenarioNetgameFlagTypeTeleportFrom : EngineTagScenarioNetgameFlagTypeEnum 
+---@class EngineTagScenarioNetgameFlagTypeTeleportTo : EngineTagScenarioNetgameFlagTypeEnum 
+---@class EngineTagScenarioNetgameFlagTypeHillFlag : EngineTagScenarioNetgameFlagTypeEnum 
 
----@alias EngineTagDataScenarioNetgameFlagType 
----| EngineTagDataScenarioNetgameFlagTypeCtfFlag
----| EngineTagDataScenarioNetgameFlagTypeCtfVehicle
----| EngineTagDataScenarioNetgameFlagTypeOddballBallSpawn
----| EngineTagDataScenarioNetgameFlagTypeRaceTrack
----| EngineTagDataScenarioNetgameFlagTypeRaceVehicle
----| EngineTagDataScenarioNetgameFlagTypeVegasBank
----| EngineTagDataScenarioNetgameFlagTypeTeleportFrom
----| EngineTagDataScenarioNetgameFlagTypeTeleportTo
----| EngineTagDataScenarioNetgameFlagTypeHillFlag
+---@alias EngineTagScenarioNetgameFlagType 
+---| EngineTagScenarioNetgameFlagTypeCtfFlag
+---| EngineTagScenarioNetgameFlagTypeCtfVehicle
+---| EngineTagScenarioNetgameFlagTypeOddballBallSpawn
+---| EngineTagScenarioNetgameFlagTypeRaceTrack
+---| EngineTagScenarioNetgameFlagTypeRaceVehicle
+---| EngineTagScenarioNetgameFlagTypeVegasBank
+---| EngineTagScenarioNetgameFlagTypeTeleportFrom
+---| EngineTagScenarioNetgameFlagTypeTeleportTo
+---| EngineTagScenarioNetgameFlagTypeHillFlag
 
----@class EngineTagDataScenarioNetgameFlagTypeTable 
----@field peCtfFlag EngineTagDataScenarioNetgameFlagTypeCtfFlag
----@field peCtfVehicle EngineTagDataScenarioNetgameFlagTypeCtfVehicle
----@field peOddballBallSpawn EngineTagDataScenarioNetgameFlagTypeOddballBallSpawn
----@field peRaceTrack EngineTagDataScenarioNetgameFlagTypeRaceTrack
----@field peRaceVehicle EngineTagDataScenarioNetgameFlagTypeRaceVehicle
----@field peVegasBank EngineTagDataScenarioNetgameFlagTypeVegasBank
----@field peTeleportFrom EngineTagDataScenarioNetgameFlagTypeTeleportFrom
----@field peTeleportTo EngineTagDataScenarioNetgameFlagTypeTeleportTo
----@field peHillFlag EngineTagDataScenarioNetgameFlagTypeHillFlag
+---@class EngineTagScenarioNetgameFlagTypeTable 
+---@field peCtfFlag EngineTagScenarioNetgameFlagTypeCtfFlag
+---@field peCtfVehicle EngineTagScenarioNetgameFlagTypeCtfVehicle
+---@field peOddballBallSpawn EngineTagScenarioNetgameFlagTypeOddballBallSpawn
+---@field peRaceTrack EngineTagScenarioNetgameFlagTypeRaceTrack
+---@field peRaceVehicle EngineTagScenarioNetgameFlagTypeRaceVehicle
+---@field peVegasBank EngineTagScenarioNetgameFlagTypeVegasBank
+---@field peTeleportFrom EngineTagScenarioNetgameFlagTypeTeleportFrom
+---@field peTeleportTo EngineTagScenarioNetgameFlagTypeTeleportTo
+---@field peHillFlag EngineTagScenarioNetgameFlagTypeHillFlag
 Engine.tag.scenarioNetgameFlagType = {} 
 
----@class EngineTagDataScenarioReturnStateEnum : Enum 
+---@class EngineTagScenarioReturnStateEnum : Enum 
 
----@class EngineTagDataScenarioReturnStateNone : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateSleeping : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateAlert : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateMovingRepeatSamePosition : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateMovingLoop : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateMovingLoopBackAndForth : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateMovingLoopRandomly : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateMovingRandomly : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateGuarding : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateGuardingAtGuardPosition : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateSearching : EngineTagDataScenarioReturnStateEnum 
----@class EngineTagDataScenarioReturnStateFleeing : EngineTagDataScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateNone : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateSleeping : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateAlert : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateMovingRepeatSamePosition : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateMovingLoop : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateMovingLoopBackAndForth : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateMovingLoopRandomly : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateMovingRandomly : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateGuarding : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateGuardingAtGuardPosition : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateSearching : EngineTagScenarioReturnStateEnum 
+---@class EngineTagScenarioReturnStateFleeing : EngineTagScenarioReturnStateEnum 
 
----@alias EngineTagDataScenarioReturnState 
----| EngineTagDataScenarioReturnStateNone
----| EngineTagDataScenarioReturnStateSleeping
----| EngineTagDataScenarioReturnStateAlert
----| EngineTagDataScenarioReturnStateMovingRepeatSamePosition
----| EngineTagDataScenarioReturnStateMovingLoop
----| EngineTagDataScenarioReturnStateMovingLoopBackAndForth
----| EngineTagDataScenarioReturnStateMovingLoopRandomly
----| EngineTagDataScenarioReturnStateMovingRandomly
----| EngineTagDataScenarioReturnStateGuarding
----| EngineTagDataScenarioReturnStateGuardingAtGuardPosition
----| EngineTagDataScenarioReturnStateSearching
----| EngineTagDataScenarioReturnStateFleeing
+---@alias EngineTagScenarioReturnState 
+---| EngineTagScenarioReturnStateNone
+---| EngineTagScenarioReturnStateSleeping
+---| EngineTagScenarioReturnStateAlert
+---| EngineTagScenarioReturnStateMovingRepeatSamePosition
+---| EngineTagScenarioReturnStateMovingLoop
+---| EngineTagScenarioReturnStateMovingLoopBackAndForth
+---| EngineTagScenarioReturnStateMovingLoopRandomly
+---| EngineTagScenarioReturnStateMovingRandomly
+---| EngineTagScenarioReturnStateGuarding
+---| EngineTagScenarioReturnStateGuardingAtGuardPosition
+---| EngineTagScenarioReturnStateSearching
+---| EngineTagScenarioReturnStateFleeing
 
----@class EngineTagDataScenarioReturnStateTable 
----@field eNone EngineTagDataScenarioReturnStateNone
----@field eSleeping EngineTagDataScenarioReturnStateSleeping
----@field eAlert EngineTagDataScenarioReturnStateAlert
----@field eMovingRepeatSamePosition EngineTagDataScenarioReturnStateMovingRepeatSamePosition
----@field eMovingLoop EngineTagDataScenarioReturnStateMovingLoop
----@field eMovingLoopBackAndForth EngineTagDataScenarioReturnStateMovingLoopBackAndForth
----@field eMovingLoopRandomly EngineTagDataScenarioReturnStateMovingLoopRandomly
----@field eMovingRandomly EngineTagDataScenarioReturnStateMovingRandomly
----@field eGuarding EngineTagDataScenarioReturnStateGuarding
----@field eGuardingAtGuardPosition EngineTagDataScenarioReturnStateGuardingAtGuardPosition
----@field eSearching EngineTagDataScenarioReturnStateSearching
----@field eFleeing EngineTagDataScenarioReturnStateFleeing
+---@class EngineTagScenarioReturnStateTable 
+---@field eNone EngineTagScenarioReturnStateNone
+---@field eSleeping EngineTagScenarioReturnStateSleeping
+---@field eAlert EngineTagScenarioReturnStateAlert
+---@field eMovingRepeatSamePosition EngineTagScenarioReturnStateMovingRepeatSamePosition
+---@field eMovingLoop EngineTagScenarioReturnStateMovingLoop
+---@field eMovingLoopBackAndForth EngineTagScenarioReturnStateMovingLoopBackAndForth
+---@field eMovingLoopRandomly EngineTagScenarioReturnStateMovingLoopRandomly
+---@field eMovingRandomly EngineTagScenarioReturnStateMovingRandomly
+---@field eGuarding EngineTagScenarioReturnStateGuarding
+---@field eGuardingAtGuardPosition EngineTagScenarioReturnStateGuardingAtGuardPosition
+---@field eSearching EngineTagScenarioReturnStateSearching
+---@field eFleeing EngineTagScenarioReturnStateFleeing
 Engine.tag.scenarioReturnState = {} 
 
----@class EngineTagDataScenarioUniqueLeaderTypeEnum : Enum 
+---@class EngineTagScenarioUniqueLeaderTypeEnum : Enum 
 
----@class EngineTagDataScenarioUniqueLeaderTypeNormal : EngineTagDataScenarioUniqueLeaderTypeEnum 
----@class EngineTagDataScenarioUniqueLeaderTypeNone : EngineTagDataScenarioUniqueLeaderTypeEnum 
----@class EngineTagDataScenarioUniqueLeaderTypeRandom : EngineTagDataScenarioUniqueLeaderTypeEnum 
----@class EngineTagDataScenarioUniqueLeaderTypeSgtJohnson : EngineTagDataScenarioUniqueLeaderTypeEnum 
----@class EngineTagDataScenarioUniqueLeaderTypeSgtLehto : EngineTagDataScenarioUniqueLeaderTypeEnum 
+---@class EngineTagScenarioUniqueLeaderTypeNormal : EngineTagScenarioUniqueLeaderTypeEnum 
+---@class EngineTagScenarioUniqueLeaderTypeNone : EngineTagScenarioUniqueLeaderTypeEnum 
+---@class EngineTagScenarioUniqueLeaderTypeRandom : EngineTagScenarioUniqueLeaderTypeEnum 
+---@class EngineTagScenarioUniqueLeaderTypeSgtJohnson : EngineTagScenarioUniqueLeaderTypeEnum 
+---@class EngineTagScenarioUniqueLeaderTypeSgtLehto : EngineTagScenarioUniqueLeaderTypeEnum 
 
----@alias EngineTagDataScenarioUniqueLeaderType 
----| EngineTagDataScenarioUniqueLeaderTypeNormal
----| EngineTagDataScenarioUniqueLeaderTypeNone
----| EngineTagDataScenarioUniqueLeaderTypeRandom
----| EngineTagDataScenarioUniqueLeaderTypeSgtJohnson
----| EngineTagDataScenarioUniqueLeaderTypeSgtLehto
+---@alias EngineTagScenarioUniqueLeaderType 
+---| EngineTagScenarioUniqueLeaderTypeNormal
+---| EngineTagScenarioUniqueLeaderTypeNone
+---| EngineTagScenarioUniqueLeaderTypeRandom
+---| EngineTagScenarioUniqueLeaderTypeSgtJohnson
+---| EngineTagScenarioUniqueLeaderTypeSgtLehto
 
----@class EngineTagDataScenarioUniqueLeaderTypeTable 
----@field peNormal EngineTagDataScenarioUniqueLeaderTypeNormal
----@field peNone EngineTagDataScenarioUniqueLeaderTypeNone
----@field peRandom EngineTagDataScenarioUniqueLeaderTypeRandom
----@field peSgtJohnson EngineTagDataScenarioUniqueLeaderTypeSgtJohnson
----@field peSgtLehto EngineTagDataScenarioUniqueLeaderTypeSgtLehto
+---@class EngineTagScenarioUniqueLeaderTypeTable 
+---@field peNormal EngineTagScenarioUniqueLeaderTypeNormal
+---@field peNone EngineTagScenarioUniqueLeaderTypeNone
+---@field peRandom EngineTagScenarioUniqueLeaderTypeRandom
+---@field peSgtJohnson EngineTagScenarioUniqueLeaderTypeSgtJohnson
+---@field peSgtLehto EngineTagScenarioUniqueLeaderTypeSgtLehto
 Engine.tag.scenarioUniqueLeaderType = {} 
 
----@class EngineTagDataScenarioMajorUpgradeEnum : Enum 
+---@class EngineTagScenarioMajorUpgradeEnum : Enum 
 
----@class EngineTagDataScenarioMajorUpgradeNormal : EngineTagDataScenarioMajorUpgradeEnum 
----@class EngineTagDataScenarioMajorUpgradeFew : EngineTagDataScenarioMajorUpgradeEnum 
----@class EngineTagDataScenarioMajorUpgradeMany : EngineTagDataScenarioMajorUpgradeEnum 
----@class EngineTagDataScenarioMajorUpgradeNone : EngineTagDataScenarioMajorUpgradeEnum 
----@class EngineTagDataScenarioMajorUpgradeAll : EngineTagDataScenarioMajorUpgradeEnum 
+---@class EngineTagScenarioMajorUpgradeNormal : EngineTagScenarioMajorUpgradeEnum 
+---@class EngineTagScenarioMajorUpgradeFew : EngineTagScenarioMajorUpgradeEnum 
+---@class EngineTagScenarioMajorUpgradeMany : EngineTagScenarioMajorUpgradeEnum 
+---@class EngineTagScenarioMajorUpgradeNone : EngineTagScenarioMajorUpgradeEnum 
+---@class EngineTagScenarioMajorUpgradeAll : EngineTagScenarioMajorUpgradeEnum 
 
----@alias EngineTagDataScenarioMajorUpgrade 
----| EngineTagDataScenarioMajorUpgradeNormal
----| EngineTagDataScenarioMajorUpgradeFew
----| EngineTagDataScenarioMajorUpgradeMany
----| EngineTagDataScenarioMajorUpgradeNone
----| EngineTagDataScenarioMajorUpgradeAll
+---@alias EngineTagScenarioMajorUpgrade 
+---| EngineTagScenarioMajorUpgradeNormal
+---| EngineTagScenarioMajorUpgradeFew
+---| EngineTagScenarioMajorUpgradeMany
+---| EngineTagScenarioMajorUpgradeNone
+---| EngineTagScenarioMajorUpgradeAll
 
----@class EngineTagDataScenarioMajorUpgradeTable 
----@field eNormal EngineTagDataScenarioMajorUpgradeNormal
----@field eFew EngineTagDataScenarioMajorUpgradeFew
----@field eMany EngineTagDataScenarioMajorUpgradeMany
----@field eNone EngineTagDataScenarioMajorUpgradeNone
----@field eAll EngineTagDataScenarioMajorUpgradeAll
+---@class EngineTagScenarioMajorUpgradeTable 
+---@field eNormal EngineTagScenarioMajorUpgradeNormal
+---@field eFew EngineTagScenarioMajorUpgradeFew
+---@field eMany EngineTagScenarioMajorUpgradeMany
+---@field eNone EngineTagScenarioMajorUpgradeNone
+---@field eAll EngineTagScenarioMajorUpgradeAll
 Engine.tag.scenarioMajorUpgrade = {} 
 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum : Enum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhenEnum : Enum 
 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhenNever : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen75Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen50Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen25Strength : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhenAnybodyDead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen25Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen50Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhen75Dead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhenAllButOneDead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhenAllDead : EngineTagDataScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhenNever : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhen75Strength : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhen50Strength : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhen25Strength : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhenAnybodyDead : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhen25Dead : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhen50Dead : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhen75Dead : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhenAllButOneDead : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
+---@class EngineTagScenarioChangeAttackingDefendingStateWhenAllDead : EngineTagScenarioChangeAttackingDefendingStateWhenEnum 
 
----@alias EngineTagDataScenarioChangeAttackingDefendingStateWhen 
----| EngineTagDataScenarioChangeAttackingDefendingStateWhenNever
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen75Strength
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen50Strength
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen25Strength
----| EngineTagDataScenarioChangeAttackingDefendingStateWhenAnybodyDead
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen25Dead
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen50Dead
----| EngineTagDataScenarioChangeAttackingDefendingStateWhen75Dead
----| EngineTagDataScenarioChangeAttackingDefendingStateWhenAllButOneDead
----| EngineTagDataScenarioChangeAttackingDefendingStateWhenAllDead
+---@alias EngineTagScenarioChangeAttackingDefendingStateWhen 
+---| EngineTagScenarioChangeAttackingDefendingStateWhenNever
+---| EngineTagScenarioChangeAttackingDefendingStateWhen75Strength
+---| EngineTagScenarioChangeAttackingDefendingStateWhen50Strength
+---| EngineTagScenarioChangeAttackingDefendingStateWhen25Strength
+---| EngineTagScenarioChangeAttackingDefendingStateWhenAnybodyDead
+---| EngineTagScenarioChangeAttackingDefendingStateWhen25Dead
+---| EngineTagScenarioChangeAttackingDefendingStateWhen50Dead
+---| EngineTagScenarioChangeAttackingDefendingStateWhen75Dead
+---| EngineTagScenarioChangeAttackingDefendingStateWhenAllButOneDead
+---| EngineTagScenarioChangeAttackingDefendingStateWhenAllDead
 
----@class EngineTagDataScenarioChangeAttackingDefendingStateWhenTable 
----@field whenNever EngineTagDataScenarioChangeAttackingDefendingStateWhenNever
----@field when75Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen75Strength
----@field when50Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen50Strength
----@field when25Strength EngineTagDataScenarioChangeAttackingDefendingStateWhen25Strength
----@field whenAnybodyDead EngineTagDataScenarioChangeAttackingDefendingStateWhenAnybodyDead
----@field when25Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen25Dead
----@field when50Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen50Dead
----@field when75Dead EngineTagDataScenarioChangeAttackingDefendingStateWhen75Dead
----@field whenAllButOneDead EngineTagDataScenarioChangeAttackingDefendingStateWhenAllButOneDead
----@field whenAllDead EngineTagDataScenarioChangeAttackingDefendingStateWhenAllDead
+---@class EngineTagScenarioChangeAttackingDefendingStateWhenTable 
+---@field whenNever EngineTagScenarioChangeAttackingDefendingStateWhenNever
+---@field when75Strength EngineTagScenarioChangeAttackingDefendingStateWhen75Strength
+---@field when50Strength EngineTagScenarioChangeAttackingDefendingStateWhen50Strength
+---@field when25Strength EngineTagScenarioChangeAttackingDefendingStateWhen25Strength
+---@field whenAnybodyDead EngineTagScenarioChangeAttackingDefendingStateWhenAnybodyDead
+---@field when25Dead EngineTagScenarioChangeAttackingDefendingStateWhen25Dead
+---@field when50Dead EngineTagScenarioChangeAttackingDefendingStateWhen50Dead
+---@field when75Dead EngineTagScenarioChangeAttackingDefendingStateWhen75Dead
+---@field whenAllButOneDead EngineTagScenarioChangeAttackingDefendingStateWhenAllButOneDead
+---@field whenAllDead EngineTagScenarioChangeAttackingDefendingStateWhenAllDead
 Engine.tag.scenarioChangeAttackingDefendingStateWhen = {} 
 
----@class EngineTagDataScenarioGroupIndexEnum : Enum 
+---@class EngineTagScenarioGroupIndexEnum : Enum 
 
----@class EngineTagDataScenarioGroupIndexA : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexB : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexC : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexD : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexE : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexF : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexG : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexH : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexI : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexJ : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexK : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexL : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexM : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexN : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexO : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexP : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexQ : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexR : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexS : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexT : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexU : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexV : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexW : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexX : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexY : EngineTagDataScenarioGroupIndexEnum 
----@class EngineTagDataScenarioGroupIndexZ : EngineTagDataScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexA : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexB : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexC : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexD : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexE : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexF : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexG : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexH : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexI : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexJ : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexK : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexL : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexM : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexN : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexO : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexP : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexQ : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexR : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexS : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexT : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexU : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexV : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexW : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexX : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexY : EngineTagScenarioGroupIndexEnum 
+---@class EngineTagScenarioGroupIndexZ : EngineTagScenarioGroupIndexEnum 
 
----@alias EngineTagDataScenarioGroupIndex 
----| EngineTagDataScenarioGroupIndexA
----| EngineTagDataScenarioGroupIndexB
----| EngineTagDataScenarioGroupIndexC
----| EngineTagDataScenarioGroupIndexD
----| EngineTagDataScenarioGroupIndexE
----| EngineTagDataScenarioGroupIndexF
----| EngineTagDataScenarioGroupIndexG
----| EngineTagDataScenarioGroupIndexH
----| EngineTagDataScenarioGroupIndexI
----| EngineTagDataScenarioGroupIndexJ
----| EngineTagDataScenarioGroupIndexK
----| EngineTagDataScenarioGroupIndexL
----| EngineTagDataScenarioGroupIndexM
----| EngineTagDataScenarioGroupIndexN
----| EngineTagDataScenarioGroupIndexO
----| EngineTagDataScenarioGroupIndexP
----| EngineTagDataScenarioGroupIndexQ
----| EngineTagDataScenarioGroupIndexR
----| EngineTagDataScenarioGroupIndexS
----| EngineTagDataScenarioGroupIndexT
----| EngineTagDataScenarioGroupIndexU
----| EngineTagDataScenarioGroupIndexV
----| EngineTagDataScenarioGroupIndexW
----| EngineTagDataScenarioGroupIndexX
----| EngineTagDataScenarioGroupIndexY
----| EngineTagDataScenarioGroupIndexZ
+---@alias EngineTagScenarioGroupIndex 
+---| EngineTagScenarioGroupIndexA
+---| EngineTagScenarioGroupIndexB
+---| EngineTagScenarioGroupIndexC
+---| EngineTagScenarioGroupIndexD
+---| EngineTagScenarioGroupIndexE
+---| EngineTagScenarioGroupIndexF
+---| EngineTagScenarioGroupIndexG
+---| EngineTagScenarioGroupIndexH
+---| EngineTagScenarioGroupIndexI
+---| EngineTagScenarioGroupIndexJ
+---| EngineTagScenarioGroupIndexK
+---| EngineTagScenarioGroupIndexL
+---| EngineTagScenarioGroupIndexM
+---| EngineTagScenarioGroupIndexN
+---| EngineTagScenarioGroupIndexO
+---| EngineTagScenarioGroupIndexP
+---| EngineTagScenarioGroupIndexQ
+---| EngineTagScenarioGroupIndexR
+---| EngineTagScenarioGroupIndexS
+---| EngineTagScenarioGroupIndexT
+---| EngineTagScenarioGroupIndexU
+---| EngineTagScenarioGroupIndexV
+---| EngineTagScenarioGroupIndexW
+---| EngineTagScenarioGroupIndexX
+---| EngineTagScenarioGroupIndexY
+---| EngineTagScenarioGroupIndexZ
 
----@class EngineTagDataScenarioGroupIndexTable 
----@field xA EngineTagDataScenarioGroupIndexA
----@field xB EngineTagDataScenarioGroupIndexB
----@field xC EngineTagDataScenarioGroupIndexC
----@field xD EngineTagDataScenarioGroupIndexD
----@field xE EngineTagDataScenarioGroupIndexE
----@field xF EngineTagDataScenarioGroupIndexF
----@field xG EngineTagDataScenarioGroupIndexG
----@field xH EngineTagDataScenarioGroupIndexH
----@field xI EngineTagDataScenarioGroupIndexI
----@field xJ EngineTagDataScenarioGroupIndexJ
----@field xK EngineTagDataScenarioGroupIndexK
----@field xL EngineTagDataScenarioGroupIndexL
----@field xM EngineTagDataScenarioGroupIndexM
----@field xN EngineTagDataScenarioGroupIndexN
----@field xO EngineTagDataScenarioGroupIndexO
----@field xP EngineTagDataScenarioGroupIndexP
----@field xQ EngineTagDataScenarioGroupIndexQ
----@field xR EngineTagDataScenarioGroupIndexR
----@field xS EngineTagDataScenarioGroupIndexS
----@field xT EngineTagDataScenarioGroupIndexT
----@field xU EngineTagDataScenarioGroupIndexU
----@field xV EngineTagDataScenarioGroupIndexV
----@field xW EngineTagDataScenarioGroupIndexW
----@field xX EngineTagDataScenarioGroupIndexX
----@field xY EngineTagDataScenarioGroupIndexY
----@field xZ EngineTagDataScenarioGroupIndexZ
+---@class EngineTagScenarioGroupIndexTable 
+---@field xA EngineTagScenarioGroupIndexA
+---@field xB EngineTagScenarioGroupIndexB
+---@field xC EngineTagScenarioGroupIndexC
+---@field xD EngineTagScenarioGroupIndexD
+---@field xE EngineTagScenarioGroupIndexE
+---@field xF EngineTagScenarioGroupIndexF
+---@field xG EngineTagScenarioGroupIndexG
+---@field xH EngineTagScenarioGroupIndexH
+---@field xI EngineTagScenarioGroupIndexI
+---@field xJ EngineTagScenarioGroupIndexJ
+---@field xK EngineTagScenarioGroupIndexK
+---@field xL EngineTagScenarioGroupIndexL
+---@field xM EngineTagScenarioGroupIndexM
+---@field xN EngineTagScenarioGroupIndexN
+---@field xO EngineTagScenarioGroupIndexO
+---@field xP EngineTagScenarioGroupIndexP
+---@field xQ EngineTagScenarioGroupIndexQ
+---@field xR EngineTagScenarioGroupIndexR
+---@field xS EngineTagScenarioGroupIndexS
+---@field xT EngineTagScenarioGroupIndexT
+---@field xU EngineTagScenarioGroupIndexU
+---@field xV EngineTagScenarioGroupIndexV
+---@field xW EngineTagScenarioGroupIndexW
+---@field xX EngineTagScenarioGroupIndexX
+---@field xY EngineTagScenarioGroupIndexY
+---@field xZ EngineTagScenarioGroupIndexZ
 Engine.tag.scenarioGroupIndex = {} 
 
----@class EngineTagDataScenarioTeamIndexEnum : Enum 
+---@class EngineTagScenarioTeamIndexEnum : Enum 
 
----@class EngineTagDataScenarioTeamIndexDefaultByUnit : EngineTagDataScenarioTeamIndexEnum 
----@class EngineTagDataScenarioTeamIndexPlayer : EngineTagDataScenarioTeamIndexEnum 
----@class EngineTagDataScenarioTeamIndexHuman : EngineTagDataScenarioTeamIndexEnum 
----@class EngineTagDataScenarioTeamIndexCovenant : EngineTagDataScenarioTeamIndexEnum 
----@class EngineTagDataScenarioTeamIndexFlood : EngineTagDataScenarioTeamIndexEnum 
----@class EngineTagDataScenarioTeamIndexSentinel : EngineTagDataScenarioTeamIndexEnum 
----@class EngineTagDataScenarioTeamIndexUnused6 : EngineTagDataScenarioTeamIndexEnum 
----@class EngineTagDataScenarioTeamIndexUnused7 : EngineTagDataScenarioTeamIndexEnum 
----@class EngineTagDataScenarioTeamIndexUnused8 : EngineTagDataScenarioTeamIndexEnum 
----@class EngineTagDataScenarioTeamIndexUnused9 : EngineTagDataScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexDefaultByUnit : EngineTagScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexPlayer : EngineTagScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexHuman : EngineTagScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexCovenant : EngineTagScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexFlood : EngineTagScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexSentinel : EngineTagScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexUnused6 : EngineTagScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexUnused7 : EngineTagScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexUnused8 : EngineTagScenarioTeamIndexEnum 
+---@class EngineTagScenarioTeamIndexUnused9 : EngineTagScenarioTeamIndexEnum 
 
----@alias EngineTagDataScenarioTeamIndex 
----| EngineTagDataScenarioTeamIndexDefaultByUnit
----| EngineTagDataScenarioTeamIndexPlayer
----| EngineTagDataScenarioTeamIndexHuman
----| EngineTagDataScenarioTeamIndexCovenant
----| EngineTagDataScenarioTeamIndexFlood
----| EngineTagDataScenarioTeamIndexSentinel
----| EngineTagDataScenarioTeamIndexUnused6
----| EngineTagDataScenarioTeamIndexUnused7
----| EngineTagDataScenarioTeamIndexUnused8
----| EngineTagDataScenarioTeamIndexUnused9
+---@alias EngineTagScenarioTeamIndex 
+---| EngineTagScenarioTeamIndexDefaultByUnit
+---| EngineTagScenarioTeamIndexPlayer
+---| EngineTagScenarioTeamIndexHuman
+---| EngineTagScenarioTeamIndexCovenant
+---| EngineTagScenarioTeamIndexFlood
+---| EngineTagScenarioTeamIndexSentinel
+---| EngineTagScenarioTeamIndexUnused6
+---| EngineTagScenarioTeamIndexUnused7
+---| EngineTagScenarioTeamIndexUnused8
+---| EngineTagScenarioTeamIndexUnused9
 
----@class EngineTagDataScenarioTeamIndexTable 
----@field xDefaultByUnit EngineTagDataScenarioTeamIndexDefaultByUnit
----@field xPlayer EngineTagDataScenarioTeamIndexPlayer
----@field xHuman EngineTagDataScenarioTeamIndexHuman
----@field xCovenant EngineTagDataScenarioTeamIndexCovenant
----@field xFlood EngineTagDataScenarioTeamIndexFlood
----@field xSentinel EngineTagDataScenarioTeamIndexSentinel
----@field xUnused6 EngineTagDataScenarioTeamIndexUnused6
----@field xUnused7 EngineTagDataScenarioTeamIndexUnused7
----@field xUnused8 EngineTagDataScenarioTeamIndexUnused8
----@field xUnused9 EngineTagDataScenarioTeamIndexUnused9
+---@class EngineTagScenarioTeamIndexTable 
+---@field xDefaultByUnit EngineTagScenarioTeamIndexDefaultByUnit
+---@field xPlayer EngineTagScenarioTeamIndexPlayer
+---@field xHuman EngineTagScenarioTeamIndexHuman
+---@field xCovenant EngineTagScenarioTeamIndexCovenant
+---@field xFlood EngineTagScenarioTeamIndexFlood
+---@field xSentinel EngineTagScenarioTeamIndexSentinel
+---@field xUnused6 EngineTagScenarioTeamIndexUnused6
+---@field xUnused7 EngineTagScenarioTeamIndexUnused7
+---@field xUnused8 EngineTagScenarioTeamIndexUnused8
+---@field xUnused9 EngineTagScenarioTeamIndexUnused9
 Engine.tag.scenarioTeamIndex = {} 
 
----@class EngineTagDataScenarioSearchBehaviorEnum : Enum 
+---@class EngineTagScenarioSearchBehaviorEnum : Enum 
 
----@class EngineTagDataScenarioSearchBehaviorNormal : EngineTagDataScenarioSearchBehaviorEnum 
----@class EngineTagDataScenarioSearchBehaviorNever : EngineTagDataScenarioSearchBehaviorEnum 
----@class EngineTagDataScenarioSearchBehaviorTenacious : EngineTagDataScenarioSearchBehaviorEnum 
+---@class EngineTagScenarioSearchBehaviorNormal : EngineTagScenarioSearchBehaviorEnum 
+---@class EngineTagScenarioSearchBehaviorNever : EngineTagScenarioSearchBehaviorEnum 
+---@class EngineTagScenarioSearchBehaviorTenacious : EngineTagScenarioSearchBehaviorEnum 
 
----@alias EngineTagDataScenarioSearchBehavior 
----| EngineTagDataScenarioSearchBehaviorNormal
----| EngineTagDataScenarioSearchBehaviorNever
----| EngineTagDataScenarioSearchBehaviorTenacious
+---@alias EngineTagScenarioSearchBehavior 
+---| EngineTagScenarioSearchBehaviorNormal
+---| EngineTagScenarioSearchBehaviorNever
+---| EngineTagScenarioSearchBehaviorTenacious
 
----@class EngineTagDataScenarioSearchBehaviorTable 
----@field rNormal EngineTagDataScenarioSearchBehaviorNormal
----@field rNever EngineTagDataScenarioSearchBehaviorNever
----@field rTenacious EngineTagDataScenarioSearchBehaviorTenacious
+---@class EngineTagScenarioSearchBehaviorTable 
+---@field rNormal EngineTagScenarioSearchBehaviorNormal
+---@field rNever EngineTagScenarioSearchBehaviorNever
+---@field rTenacious EngineTagScenarioSearchBehaviorTenacious
 Engine.tag.scenarioSearchBehavior = {} 
 
----@class EngineTagDataScenarioAtomTypeEnum : Enum 
+---@class EngineTagScenarioAtomTypeEnum : Enum 
 
----@class EngineTagDataScenarioAtomTypePause : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeGoTo : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeGoToAndFace : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeMoveInDirection : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeLook : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeAnimationMode : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeCrouch : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeShoot : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeGrenade : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeVehicle : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeRunningJump : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeTargetedJump : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeScript : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeAnimate : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeRecording : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeAction : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeVocalize : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeTargeting : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeInitiative : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeWait : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeLoop : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeDie : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeMoveImmediate : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeLookRandom : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeLookPlayer : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeLookObject : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeSetRadius : EngineTagDataScenarioAtomTypeEnum 
----@class EngineTagDataScenarioAtomTypeTeleport : EngineTagDataScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypePause : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeGoTo : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeGoToAndFace : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeMoveInDirection : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeLook : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeAnimationMode : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeCrouch : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeShoot : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeGrenade : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeVehicle : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeRunningJump : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeTargetedJump : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeScript : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeAnimate : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeRecording : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeAction : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeVocalize : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeTargeting : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeInitiative : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeWait : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeLoop : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeDie : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeMoveImmediate : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeLookRandom : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeLookPlayer : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeLookObject : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeSetRadius : EngineTagScenarioAtomTypeEnum 
+---@class EngineTagScenarioAtomTypeTeleport : EngineTagScenarioAtomTypeEnum 
 
----@alias EngineTagDataScenarioAtomType 
----| EngineTagDataScenarioAtomTypePause
----| EngineTagDataScenarioAtomTypeGoTo
----| EngineTagDataScenarioAtomTypeGoToAndFace
----| EngineTagDataScenarioAtomTypeMoveInDirection
----| EngineTagDataScenarioAtomTypeLook
----| EngineTagDataScenarioAtomTypeAnimationMode
----| EngineTagDataScenarioAtomTypeCrouch
----| EngineTagDataScenarioAtomTypeShoot
----| EngineTagDataScenarioAtomTypeGrenade
----| EngineTagDataScenarioAtomTypeVehicle
----| EngineTagDataScenarioAtomTypeRunningJump
----| EngineTagDataScenarioAtomTypeTargetedJump
----| EngineTagDataScenarioAtomTypeScript
----| EngineTagDataScenarioAtomTypeAnimate
----| EngineTagDataScenarioAtomTypeRecording
----| EngineTagDataScenarioAtomTypeAction
----| EngineTagDataScenarioAtomTypeVocalize
----| EngineTagDataScenarioAtomTypeTargeting
----| EngineTagDataScenarioAtomTypeInitiative
----| EngineTagDataScenarioAtomTypeWait
----| EngineTagDataScenarioAtomTypeLoop
----| EngineTagDataScenarioAtomTypeDie
----| EngineTagDataScenarioAtomTypeMoveImmediate
----| EngineTagDataScenarioAtomTypeLookRandom
----| EngineTagDataScenarioAtomTypeLookPlayer
----| EngineTagDataScenarioAtomTypeLookObject
----| EngineTagDataScenarioAtomTypeSetRadius
----| EngineTagDataScenarioAtomTypeTeleport
+---@alias EngineTagScenarioAtomType 
+---| EngineTagScenarioAtomTypePause
+---| EngineTagScenarioAtomTypeGoTo
+---| EngineTagScenarioAtomTypeGoToAndFace
+---| EngineTagScenarioAtomTypeMoveInDirection
+---| EngineTagScenarioAtomTypeLook
+---| EngineTagScenarioAtomTypeAnimationMode
+---| EngineTagScenarioAtomTypeCrouch
+---| EngineTagScenarioAtomTypeShoot
+---| EngineTagScenarioAtomTypeGrenade
+---| EngineTagScenarioAtomTypeVehicle
+---| EngineTagScenarioAtomTypeRunningJump
+---| EngineTagScenarioAtomTypeTargetedJump
+---| EngineTagScenarioAtomTypeScript
+---| EngineTagScenarioAtomTypeAnimate
+---| EngineTagScenarioAtomTypeRecording
+---| EngineTagScenarioAtomTypeAction
+---| EngineTagScenarioAtomTypeVocalize
+---| EngineTagScenarioAtomTypeTargeting
+---| EngineTagScenarioAtomTypeInitiative
+---| EngineTagScenarioAtomTypeWait
+---| EngineTagScenarioAtomTypeLoop
+---| EngineTagScenarioAtomTypeDie
+---| EngineTagScenarioAtomTypeMoveImmediate
+---| EngineTagScenarioAtomTypeLookRandom
+---| EngineTagScenarioAtomTypeLookPlayer
+---| EngineTagScenarioAtomTypeLookObject
+---| EngineTagScenarioAtomTypeSetRadius
+---| EngineTagScenarioAtomTypeTeleport
 
----@class EngineTagDataScenarioAtomTypeTable 
----@field ePause EngineTagDataScenarioAtomTypePause
----@field eGoTo EngineTagDataScenarioAtomTypeGoTo
----@field eGoToAndFace EngineTagDataScenarioAtomTypeGoToAndFace
----@field eMoveInDirection EngineTagDataScenarioAtomTypeMoveInDirection
----@field eLook EngineTagDataScenarioAtomTypeLook
----@field eAnimationMode EngineTagDataScenarioAtomTypeAnimationMode
----@field eCrouch EngineTagDataScenarioAtomTypeCrouch
----@field eShoot EngineTagDataScenarioAtomTypeShoot
----@field eGrenade EngineTagDataScenarioAtomTypeGrenade
----@field eVehicle EngineTagDataScenarioAtomTypeVehicle
----@field eRunningJump EngineTagDataScenarioAtomTypeRunningJump
----@field eTargetedJump EngineTagDataScenarioAtomTypeTargetedJump
----@field eScript EngineTagDataScenarioAtomTypeScript
----@field eAnimate EngineTagDataScenarioAtomTypeAnimate
----@field eRecording EngineTagDataScenarioAtomTypeRecording
----@field eAction EngineTagDataScenarioAtomTypeAction
----@field eVocalize EngineTagDataScenarioAtomTypeVocalize
----@field eTargeting EngineTagDataScenarioAtomTypeTargeting
----@field eInitiative EngineTagDataScenarioAtomTypeInitiative
----@field eWait EngineTagDataScenarioAtomTypeWait
----@field eLoop EngineTagDataScenarioAtomTypeLoop
----@field eDie EngineTagDataScenarioAtomTypeDie
----@field eMoveImmediate EngineTagDataScenarioAtomTypeMoveImmediate
----@field eLookRandom EngineTagDataScenarioAtomTypeLookRandom
----@field eLookPlayer EngineTagDataScenarioAtomTypeLookPlayer
----@field eLookObject EngineTagDataScenarioAtomTypeLookObject
----@field eSetRadius EngineTagDataScenarioAtomTypeSetRadius
----@field eTeleport EngineTagDataScenarioAtomTypeTeleport
+---@class EngineTagScenarioAtomTypeTable 
+---@field ePause EngineTagScenarioAtomTypePause
+---@field eGoTo EngineTagScenarioAtomTypeGoTo
+---@field eGoToAndFace EngineTagScenarioAtomTypeGoToAndFace
+---@field eMoveInDirection EngineTagScenarioAtomTypeMoveInDirection
+---@field eLook EngineTagScenarioAtomTypeLook
+---@field eAnimationMode EngineTagScenarioAtomTypeAnimationMode
+---@field eCrouch EngineTagScenarioAtomTypeCrouch
+---@field eShoot EngineTagScenarioAtomTypeShoot
+---@field eGrenade EngineTagScenarioAtomTypeGrenade
+---@field eVehicle EngineTagScenarioAtomTypeVehicle
+---@field eRunningJump EngineTagScenarioAtomTypeRunningJump
+---@field eTargetedJump EngineTagScenarioAtomTypeTargetedJump
+---@field eScript EngineTagScenarioAtomTypeScript
+---@field eAnimate EngineTagScenarioAtomTypeAnimate
+---@field eRecording EngineTagScenarioAtomTypeRecording
+---@field eAction EngineTagScenarioAtomTypeAction
+---@field eVocalize EngineTagScenarioAtomTypeVocalize
+---@field eTargeting EngineTagScenarioAtomTypeTargeting
+---@field eInitiative EngineTagScenarioAtomTypeInitiative
+---@field eWait EngineTagScenarioAtomTypeWait
+---@field eLoop EngineTagScenarioAtomTypeLoop
+---@field eDie EngineTagScenarioAtomTypeDie
+---@field eMoveImmediate EngineTagScenarioAtomTypeMoveImmediate
+---@field eLookRandom EngineTagScenarioAtomTypeLookRandom
+---@field eLookPlayer EngineTagScenarioAtomTypeLookPlayer
+---@field eLookObject EngineTagScenarioAtomTypeLookObject
+---@field eSetRadius EngineTagScenarioAtomTypeSetRadius
+---@field eTeleport EngineTagScenarioAtomTypeTeleport
 Engine.tag.scenarioAtomType = {} 
 
----@class EngineTagDataScenarioSelectionTypeEnum : Enum 
+---@class EngineTagScenarioSelectionTypeEnum : Enum 
 
----@class EngineTagDataScenarioSelectionTypeFriendlyActor : EngineTagDataScenarioSelectionTypeEnum 
----@class EngineTagDataScenarioSelectionTypeDisembodied : EngineTagDataScenarioSelectionTypeEnum 
----@class EngineTagDataScenarioSelectionTypeInPlayerSVehicle : EngineTagDataScenarioSelectionTypeEnum 
----@class EngineTagDataScenarioSelectionTypeNotInAVehicle : EngineTagDataScenarioSelectionTypeEnum 
----@class EngineTagDataScenarioSelectionTypePreferSergeant : EngineTagDataScenarioSelectionTypeEnum 
----@class EngineTagDataScenarioSelectionTypeAnyActor : EngineTagDataScenarioSelectionTypeEnum 
----@class EngineTagDataScenarioSelectionTypeRadioUnit : EngineTagDataScenarioSelectionTypeEnum 
----@class EngineTagDataScenarioSelectionTypeRadioSergeant : EngineTagDataScenarioSelectionTypeEnum 
+---@class EngineTagScenarioSelectionTypeFriendlyActor : EngineTagScenarioSelectionTypeEnum 
+---@class EngineTagScenarioSelectionTypeDisembodied : EngineTagScenarioSelectionTypeEnum 
+---@class EngineTagScenarioSelectionTypeInPlayerSVehicle : EngineTagScenarioSelectionTypeEnum 
+---@class EngineTagScenarioSelectionTypeNotInAVehicle : EngineTagScenarioSelectionTypeEnum 
+---@class EngineTagScenarioSelectionTypePreferSergeant : EngineTagScenarioSelectionTypeEnum 
+---@class EngineTagScenarioSelectionTypeAnyActor : EngineTagScenarioSelectionTypeEnum 
+---@class EngineTagScenarioSelectionTypeRadioUnit : EngineTagScenarioSelectionTypeEnum 
+---@class EngineTagScenarioSelectionTypeRadioSergeant : EngineTagScenarioSelectionTypeEnum 
 
----@alias EngineTagDataScenarioSelectionType 
----| EngineTagDataScenarioSelectionTypeFriendlyActor
----| EngineTagDataScenarioSelectionTypeDisembodied
----| EngineTagDataScenarioSelectionTypeInPlayerSVehicle
----| EngineTagDataScenarioSelectionTypeNotInAVehicle
----| EngineTagDataScenarioSelectionTypePreferSergeant
----| EngineTagDataScenarioSelectionTypeAnyActor
----| EngineTagDataScenarioSelectionTypeRadioUnit
----| EngineTagDataScenarioSelectionTypeRadioSergeant
+---@alias EngineTagScenarioSelectionType 
+---| EngineTagScenarioSelectionTypeFriendlyActor
+---| EngineTagScenarioSelectionTypeDisembodied
+---| EngineTagScenarioSelectionTypeInPlayerSVehicle
+---| EngineTagScenarioSelectionTypeNotInAVehicle
+---| EngineTagScenarioSelectionTypePreferSergeant
+---| EngineTagScenarioSelectionTypeAnyActor
+---| EngineTagScenarioSelectionTypeRadioUnit
+---| EngineTagScenarioSelectionTypeRadioSergeant
 
----@class EngineTagDataScenarioSelectionTypeTable 
----@field eFriendlyActor EngineTagDataScenarioSelectionTypeFriendlyActor
----@field eDisembodied EngineTagDataScenarioSelectionTypeDisembodied
----@field eInPlayerSVehicle EngineTagDataScenarioSelectionTypeInPlayerSVehicle
----@field eNotInAVehicle EngineTagDataScenarioSelectionTypeNotInAVehicle
----@field ePreferSergeant EngineTagDataScenarioSelectionTypePreferSergeant
----@field eAnyActor EngineTagDataScenarioSelectionTypeAnyActor
----@field eRadioUnit EngineTagDataScenarioSelectionTypeRadioUnit
----@field eRadioSergeant EngineTagDataScenarioSelectionTypeRadioSergeant
+---@class EngineTagScenarioSelectionTypeTable 
+---@field eFriendlyActor EngineTagScenarioSelectionTypeFriendlyActor
+---@field eDisembodied EngineTagScenarioSelectionTypeDisembodied
+---@field eInPlayerSVehicle EngineTagScenarioSelectionTypeInPlayerSVehicle
+---@field eNotInAVehicle EngineTagScenarioSelectionTypeNotInAVehicle
+---@field ePreferSergeant EngineTagScenarioSelectionTypePreferSergeant
+---@field eAnyActor EngineTagScenarioSelectionTypeAnyActor
+---@field eRadioUnit EngineTagScenarioSelectionTypeRadioUnit
+---@field eRadioSergeant EngineTagScenarioSelectionTypeRadioSergeant
 Engine.tag.scenarioSelectionType = {} 
 
----@class EngineTagDataScenarioAddresseeEnum : Enum 
+---@class EngineTagScenarioAddresseeEnum : Enum 
 
----@class EngineTagDataScenarioAddresseeNone : EngineTagDataScenarioAddresseeEnum 
----@class EngineTagDataScenarioAddresseePlayer : EngineTagDataScenarioAddresseeEnum 
----@class EngineTagDataScenarioAddresseeParticipant : EngineTagDataScenarioAddresseeEnum 
+---@class EngineTagScenarioAddresseeNone : EngineTagScenarioAddresseeEnum 
+---@class EngineTagScenarioAddresseePlayer : EngineTagScenarioAddresseeEnum 
+---@class EngineTagScenarioAddresseeParticipant : EngineTagScenarioAddresseeEnum 
 
----@alias EngineTagDataScenarioAddressee 
----| EngineTagDataScenarioAddresseeNone
----| EngineTagDataScenarioAddresseePlayer
----| EngineTagDataScenarioAddresseeParticipant
+---@alias EngineTagScenarioAddressee 
+---| EngineTagScenarioAddresseeNone
+---| EngineTagScenarioAddresseePlayer
+---| EngineTagScenarioAddresseeParticipant
 
----@class EngineTagDataScenarioAddresseeTable 
----@field none EngineTagDataScenarioAddresseeNone
----@field player EngineTagDataScenarioAddresseePlayer
----@field participant EngineTagDataScenarioAddresseeParticipant
+---@class EngineTagScenarioAddresseeTable 
+---@field none EngineTagScenarioAddresseeNone
+---@field player EngineTagScenarioAddresseePlayer
+---@field participant EngineTagScenarioAddresseeParticipant
 Engine.tag.scenarioAddressee = {} 
 
----@class EngineTagDataScenarioScriptTypeEnum : Enum 
+---@class EngineTagScenarioScriptTypeEnum : Enum 
 
----@class EngineTagDataScenarioScriptTypeStartup : EngineTagDataScenarioScriptTypeEnum 
----@class EngineTagDataScenarioScriptTypeDormant : EngineTagDataScenarioScriptTypeEnum 
----@class EngineTagDataScenarioScriptTypeContinuous : EngineTagDataScenarioScriptTypeEnum 
----@class EngineTagDataScenarioScriptTypeStatic : EngineTagDataScenarioScriptTypeEnum 
----@class EngineTagDataScenarioScriptTypeStub : EngineTagDataScenarioScriptTypeEnum 
+---@class EngineTagScenarioScriptTypeStartup : EngineTagScenarioScriptTypeEnum 
+---@class EngineTagScenarioScriptTypeDormant : EngineTagScenarioScriptTypeEnum 
+---@class EngineTagScenarioScriptTypeContinuous : EngineTagScenarioScriptTypeEnum 
+---@class EngineTagScenarioScriptTypeStatic : EngineTagScenarioScriptTypeEnum 
+---@class EngineTagScenarioScriptTypeStub : EngineTagScenarioScriptTypeEnum 
 
----@alias EngineTagDataScenarioScriptType 
----| EngineTagDataScenarioScriptTypeStartup
----| EngineTagDataScenarioScriptTypeDormant
----| EngineTagDataScenarioScriptTypeContinuous
----| EngineTagDataScenarioScriptTypeStatic
----| EngineTagDataScenarioScriptTypeStub
+---@alias EngineTagScenarioScriptType 
+---| EngineTagScenarioScriptTypeStartup
+---| EngineTagScenarioScriptTypeDormant
+---| EngineTagScenarioScriptTypeContinuous
+---| EngineTagScenarioScriptTypeStatic
+---| EngineTagScenarioScriptTypeStub
 
----@class EngineTagDataScenarioScriptTypeTable 
----@field eStartup EngineTagDataScenarioScriptTypeStartup
----@field eDormant EngineTagDataScenarioScriptTypeDormant
----@field eContinuous EngineTagDataScenarioScriptTypeContinuous
----@field eStatic EngineTagDataScenarioScriptTypeStatic
----@field eStub EngineTagDataScenarioScriptTypeStub
+---@class EngineTagScenarioScriptTypeTable 
+---@field eStartup EngineTagScenarioScriptTypeStartup
+---@field eDormant EngineTagScenarioScriptTypeDormant
+---@field eContinuous EngineTagScenarioScriptTypeContinuous
+---@field eStatic EngineTagScenarioScriptTypeStatic
+---@field eStub EngineTagScenarioScriptTypeStub
 Engine.tag.scenarioScriptType = {} 
 
----@class EngineTagDataScenarioScriptValueTypeEnum : Enum 
+---@class EngineTagScenarioScriptValueTypeEnum : Enum 
 
----@class EngineTagDataScenarioScriptValueTypeUnparsed : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeSpecialForm : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeFunctionName : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypePassthrough : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeVoid : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeBoolean : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeReal : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeShort : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeLong : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeString : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeScript : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeTriggerVolume : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeCutsceneFlag : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeCutsceneCameraPoint : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeCutsceneTitle : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeCutsceneRecording : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeDeviceGroup : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeAi : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeAiCommandList : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeStartingProfile : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeConversation : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeNavpoint : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeHudMessage : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeObjectList : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeSound : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeEffect : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeDamage : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeLoopingSound : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeAnimationGraph : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeActorVariant : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeDamageEffect : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeObjectDefinition : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeGameDifficulty : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeTeam : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeAiDefaultState : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeActorType : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeHudCorner : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeObject : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeUnit : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeVehicle : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeWeapon : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeDevice : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeScenery : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeObjectName : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeUnitName : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeVehicleName : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeWeaponName : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeDeviceName : EngineTagDataScenarioScriptValueTypeEnum 
----@class EngineTagDataScenarioScriptValueTypeSceneryName : EngineTagDataScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeUnparsed : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeSpecialForm : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeFunctionName : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypePassthrough : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeVoid : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeBoolean : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeReal : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeShort : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeLong : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeString : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeScript : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeTriggerVolume : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeCutsceneFlag : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeCutsceneCameraPoint : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeCutsceneTitle : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeCutsceneRecording : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeDeviceGroup : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeAi : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeAiCommandList : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeStartingProfile : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeConversation : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeNavpoint : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeHudMessage : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeObjectList : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeSound : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeEffect : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeDamage : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeLoopingSound : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeAnimationGraph : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeActorVariant : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeDamageEffect : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeObjectDefinition : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeGameDifficulty : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeTeam : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeAiDefaultState : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeActorType : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeHudCorner : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeObject : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeUnit : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeVehicle : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeWeapon : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeDevice : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeScenery : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeObjectName : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeUnitName : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeVehicleName : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeWeaponName : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeDeviceName : EngineTagScenarioScriptValueTypeEnum 
+---@class EngineTagScenarioScriptValueTypeSceneryName : EngineTagScenarioScriptValueTypeEnum 
 
----@alias EngineTagDataScenarioScriptValueType 
----| EngineTagDataScenarioScriptValueTypeUnparsed
----| EngineTagDataScenarioScriptValueTypeSpecialForm
----| EngineTagDataScenarioScriptValueTypeFunctionName
----| EngineTagDataScenarioScriptValueTypePassthrough
----| EngineTagDataScenarioScriptValueTypeVoid
----| EngineTagDataScenarioScriptValueTypeBoolean
----| EngineTagDataScenarioScriptValueTypeReal
----| EngineTagDataScenarioScriptValueTypeShort
----| EngineTagDataScenarioScriptValueTypeLong
----| EngineTagDataScenarioScriptValueTypeString
----| EngineTagDataScenarioScriptValueTypeScript
----| EngineTagDataScenarioScriptValueTypeTriggerVolume
----| EngineTagDataScenarioScriptValueTypeCutsceneFlag
----| EngineTagDataScenarioScriptValueTypeCutsceneCameraPoint
----| EngineTagDataScenarioScriptValueTypeCutsceneTitle
----| EngineTagDataScenarioScriptValueTypeCutsceneRecording
----| EngineTagDataScenarioScriptValueTypeDeviceGroup
----| EngineTagDataScenarioScriptValueTypeAi
----| EngineTagDataScenarioScriptValueTypeAiCommandList
----| EngineTagDataScenarioScriptValueTypeStartingProfile
----| EngineTagDataScenarioScriptValueTypeConversation
----| EngineTagDataScenarioScriptValueTypeNavpoint
----| EngineTagDataScenarioScriptValueTypeHudMessage
----| EngineTagDataScenarioScriptValueTypeObjectList
----| EngineTagDataScenarioScriptValueTypeSound
----| EngineTagDataScenarioScriptValueTypeEffect
----| EngineTagDataScenarioScriptValueTypeDamage
----| EngineTagDataScenarioScriptValueTypeLoopingSound
----| EngineTagDataScenarioScriptValueTypeAnimationGraph
----| EngineTagDataScenarioScriptValueTypeActorVariant
----| EngineTagDataScenarioScriptValueTypeDamageEffect
----| EngineTagDataScenarioScriptValueTypeObjectDefinition
----| EngineTagDataScenarioScriptValueTypeGameDifficulty
----| EngineTagDataScenarioScriptValueTypeTeam
----| EngineTagDataScenarioScriptValueTypeAiDefaultState
----| EngineTagDataScenarioScriptValueTypeActorType
----| EngineTagDataScenarioScriptValueTypeHudCorner
----| EngineTagDataScenarioScriptValueTypeObject
----| EngineTagDataScenarioScriptValueTypeUnit
----| EngineTagDataScenarioScriptValueTypeVehicle
----| EngineTagDataScenarioScriptValueTypeWeapon
----| EngineTagDataScenarioScriptValueTypeDevice
----| EngineTagDataScenarioScriptValueTypeScenery
----| EngineTagDataScenarioScriptValueTypeObjectName
----| EngineTagDataScenarioScriptValueTypeUnitName
----| EngineTagDataScenarioScriptValueTypeVehicleName
----| EngineTagDataScenarioScriptValueTypeWeaponName
----| EngineTagDataScenarioScriptValueTypeDeviceName
----| EngineTagDataScenarioScriptValueTypeSceneryName
+---@alias EngineTagScenarioScriptValueType 
+---| EngineTagScenarioScriptValueTypeUnparsed
+---| EngineTagScenarioScriptValueTypeSpecialForm
+---| EngineTagScenarioScriptValueTypeFunctionName
+---| EngineTagScenarioScriptValueTypePassthrough
+---| EngineTagScenarioScriptValueTypeVoid
+---| EngineTagScenarioScriptValueTypeBoolean
+---| EngineTagScenarioScriptValueTypeReal
+---| EngineTagScenarioScriptValueTypeShort
+---| EngineTagScenarioScriptValueTypeLong
+---| EngineTagScenarioScriptValueTypeString
+---| EngineTagScenarioScriptValueTypeScript
+---| EngineTagScenarioScriptValueTypeTriggerVolume
+---| EngineTagScenarioScriptValueTypeCutsceneFlag
+---| EngineTagScenarioScriptValueTypeCutsceneCameraPoint
+---| EngineTagScenarioScriptValueTypeCutsceneTitle
+---| EngineTagScenarioScriptValueTypeCutsceneRecording
+---| EngineTagScenarioScriptValueTypeDeviceGroup
+---| EngineTagScenarioScriptValueTypeAi
+---| EngineTagScenarioScriptValueTypeAiCommandList
+---| EngineTagScenarioScriptValueTypeStartingProfile
+---| EngineTagScenarioScriptValueTypeConversation
+---| EngineTagScenarioScriptValueTypeNavpoint
+---| EngineTagScenarioScriptValueTypeHudMessage
+---| EngineTagScenarioScriptValueTypeObjectList
+---| EngineTagScenarioScriptValueTypeSound
+---| EngineTagScenarioScriptValueTypeEffect
+---| EngineTagScenarioScriptValueTypeDamage
+---| EngineTagScenarioScriptValueTypeLoopingSound
+---| EngineTagScenarioScriptValueTypeAnimationGraph
+---| EngineTagScenarioScriptValueTypeActorVariant
+---| EngineTagScenarioScriptValueTypeDamageEffect
+---| EngineTagScenarioScriptValueTypeObjectDefinition
+---| EngineTagScenarioScriptValueTypeGameDifficulty
+---| EngineTagScenarioScriptValueTypeTeam
+---| EngineTagScenarioScriptValueTypeAiDefaultState
+---| EngineTagScenarioScriptValueTypeActorType
+---| EngineTagScenarioScriptValueTypeHudCorner
+---| EngineTagScenarioScriptValueTypeObject
+---| EngineTagScenarioScriptValueTypeUnit
+---| EngineTagScenarioScriptValueTypeVehicle
+---| EngineTagScenarioScriptValueTypeWeapon
+---| EngineTagScenarioScriptValueTypeDevice
+---| EngineTagScenarioScriptValueTypeScenery
+---| EngineTagScenarioScriptValueTypeObjectName
+---| EngineTagScenarioScriptValueTypeUnitName
+---| EngineTagScenarioScriptValueTypeVehicleName
+---| EngineTagScenarioScriptValueTypeWeaponName
+---| EngineTagScenarioScriptValueTypeDeviceName
+---| EngineTagScenarioScriptValueTypeSceneryName
 
----@class EngineTagDataScenarioScriptValueTypeTable 
----@field peUnparsed EngineTagDataScenarioScriptValueTypeUnparsed
----@field peSpecialForm EngineTagDataScenarioScriptValueTypeSpecialForm
----@field peFunctionName EngineTagDataScenarioScriptValueTypeFunctionName
----@field pePassthrough EngineTagDataScenarioScriptValueTypePassthrough
----@field peVoid EngineTagDataScenarioScriptValueTypeVoid
----@field peBoolean EngineTagDataScenarioScriptValueTypeBoolean
----@field peReal EngineTagDataScenarioScriptValueTypeReal
----@field peShort EngineTagDataScenarioScriptValueTypeShort
----@field peLong EngineTagDataScenarioScriptValueTypeLong
----@field peString EngineTagDataScenarioScriptValueTypeString
----@field peScript EngineTagDataScenarioScriptValueTypeScript
----@field peTriggerVolume EngineTagDataScenarioScriptValueTypeTriggerVolume
----@field peCutsceneFlag EngineTagDataScenarioScriptValueTypeCutsceneFlag
----@field peCutsceneCameraPoint EngineTagDataScenarioScriptValueTypeCutsceneCameraPoint
----@field peCutsceneTitle EngineTagDataScenarioScriptValueTypeCutsceneTitle
----@field peCutsceneRecording EngineTagDataScenarioScriptValueTypeCutsceneRecording
----@field peDeviceGroup EngineTagDataScenarioScriptValueTypeDeviceGroup
----@field peAi EngineTagDataScenarioScriptValueTypeAi
----@field peAiCommandList EngineTagDataScenarioScriptValueTypeAiCommandList
----@field peStartingProfile EngineTagDataScenarioScriptValueTypeStartingProfile
----@field peConversation EngineTagDataScenarioScriptValueTypeConversation
----@field peNavpoint EngineTagDataScenarioScriptValueTypeNavpoint
----@field peHudMessage EngineTagDataScenarioScriptValueTypeHudMessage
----@field peObjectList EngineTagDataScenarioScriptValueTypeObjectList
----@field peSound EngineTagDataScenarioScriptValueTypeSound
----@field peEffect EngineTagDataScenarioScriptValueTypeEffect
----@field peDamage EngineTagDataScenarioScriptValueTypeDamage
----@field peLoopingSound EngineTagDataScenarioScriptValueTypeLoopingSound
----@field peAnimationGraph EngineTagDataScenarioScriptValueTypeAnimationGraph
----@field peActorVariant EngineTagDataScenarioScriptValueTypeActorVariant
----@field peDamageEffect EngineTagDataScenarioScriptValueTypeDamageEffect
----@field peObjectDefinition EngineTagDataScenarioScriptValueTypeObjectDefinition
----@field peGameDifficulty EngineTagDataScenarioScriptValueTypeGameDifficulty
----@field peTeam EngineTagDataScenarioScriptValueTypeTeam
----@field peAiDefaultState EngineTagDataScenarioScriptValueTypeAiDefaultState
----@field peActorType EngineTagDataScenarioScriptValueTypeActorType
----@field peHudCorner EngineTagDataScenarioScriptValueTypeHudCorner
----@field peObject EngineTagDataScenarioScriptValueTypeObject
----@field peUnit EngineTagDataScenarioScriptValueTypeUnit
----@field peVehicle EngineTagDataScenarioScriptValueTypeVehicle
----@field peWeapon EngineTagDataScenarioScriptValueTypeWeapon
----@field peDevice EngineTagDataScenarioScriptValueTypeDevice
----@field peScenery EngineTagDataScenarioScriptValueTypeScenery
----@field peObjectName EngineTagDataScenarioScriptValueTypeObjectName
----@field peUnitName EngineTagDataScenarioScriptValueTypeUnitName
----@field peVehicleName EngineTagDataScenarioScriptValueTypeVehicleName
----@field peWeaponName EngineTagDataScenarioScriptValueTypeWeaponName
----@field peDeviceName EngineTagDataScenarioScriptValueTypeDeviceName
----@field peSceneryName EngineTagDataScenarioScriptValueTypeSceneryName
+---@class EngineTagScenarioScriptValueTypeTable 
+---@field peUnparsed EngineTagScenarioScriptValueTypeUnparsed
+---@field peSpecialForm EngineTagScenarioScriptValueTypeSpecialForm
+---@field peFunctionName EngineTagScenarioScriptValueTypeFunctionName
+---@field pePassthrough EngineTagScenarioScriptValueTypePassthrough
+---@field peVoid EngineTagScenarioScriptValueTypeVoid
+---@field peBoolean EngineTagScenarioScriptValueTypeBoolean
+---@field peReal EngineTagScenarioScriptValueTypeReal
+---@field peShort EngineTagScenarioScriptValueTypeShort
+---@field peLong EngineTagScenarioScriptValueTypeLong
+---@field peString EngineTagScenarioScriptValueTypeString
+---@field peScript EngineTagScenarioScriptValueTypeScript
+---@field peTriggerVolume EngineTagScenarioScriptValueTypeTriggerVolume
+---@field peCutsceneFlag EngineTagScenarioScriptValueTypeCutsceneFlag
+---@field peCutsceneCameraPoint EngineTagScenarioScriptValueTypeCutsceneCameraPoint
+---@field peCutsceneTitle EngineTagScenarioScriptValueTypeCutsceneTitle
+---@field peCutsceneRecording EngineTagScenarioScriptValueTypeCutsceneRecording
+---@field peDeviceGroup EngineTagScenarioScriptValueTypeDeviceGroup
+---@field peAi EngineTagScenarioScriptValueTypeAi
+---@field peAiCommandList EngineTagScenarioScriptValueTypeAiCommandList
+---@field peStartingProfile EngineTagScenarioScriptValueTypeStartingProfile
+---@field peConversation EngineTagScenarioScriptValueTypeConversation
+---@field peNavpoint EngineTagScenarioScriptValueTypeNavpoint
+---@field peHudMessage EngineTagScenarioScriptValueTypeHudMessage
+---@field peObjectList EngineTagScenarioScriptValueTypeObjectList
+---@field peSound EngineTagScenarioScriptValueTypeSound
+---@field peEffect EngineTagScenarioScriptValueTypeEffect
+---@field peDamage EngineTagScenarioScriptValueTypeDamage
+---@field peLoopingSound EngineTagScenarioScriptValueTypeLoopingSound
+---@field peAnimationGraph EngineTagScenarioScriptValueTypeAnimationGraph
+---@field peActorVariant EngineTagScenarioScriptValueTypeActorVariant
+---@field peDamageEffect EngineTagScenarioScriptValueTypeDamageEffect
+---@field peObjectDefinition EngineTagScenarioScriptValueTypeObjectDefinition
+---@field peGameDifficulty EngineTagScenarioScriptValueTypeGameDifficulty
+---@field peTeam EngineTagScenarioScriptValueTypeTeam
+---@field peAiDefaultState EngineTagScenarioScriptValueTypeAiDefaultState
+---@field peActorType EngineTagScenarioScriptValueTypeActorType
+---@field peHudCorner EngineTagScenarioScriptValueTypeHudCorner
+---@field peObject EngineTagScenarioScriptValueTypeObject
+---@field peUnit EngineTagScenarioScriptValueTypeUnit
+---@field peVehicle EngineTagScenarioScriptValueTypeVehicle
+---@field peWeapon EngineTagScenarioScriptValueTypeWeapon
+---@field peDevice EngineTagScenarioScriptValueTypeDevice
+---@field peScenery EngineTagScenarioScriptValueTypeScenery
+---@field peObjectName EngineTagScenarioScriptValueTypeObjectName
+---@field peUnitName EngineTagScenarioScriptValueTypeUnitName
+---@field peVehicleName EngineTagScenarioScriptValueTypeVehicleName
+---@field peWeaponName EngineTagScenarioScriptValueTypeWeaponName
+---@field peDeviceName EngineTagScenarioScriptValueTypeDeviceName
+---@field peSceneryName EngineTagScenarioScriptValueTypeSceneryName
 Engine.tag.scenarioScriptValueType = {} 
 
----@class EngineTagDataScenarioTextStyleEnum : Enum 
+---@class EngineTagScenarioTextStyleEnum : Enum 
 
----@class EngineTagDataScenarioTextStylePlain : EngineTagDataScenarioTextStyleEnum 
----@class EngineTagDataScenarioTextStyleBold : EngineTagDataScenarioTextStyleEnum 
----@class EngineTagDataScenarioTextStyleItalic : EngineTagDataScenarioTextStyleEnum 
----@class EngineTagDataScenarioTextStyleCondense : EngineTagDataScenarioTextStyleEnum 
----@class EngineTagDataScenarioTextStyleUnderline : EngineTagDataScenarioTextStyleEnum 
+---@class EngineTagScenarioTextStylePlain : EngineTagScenarioTextStyleEnum 
+---@class EngineTagScenarioTextStyleBold : EngineTagScenarioTextStyleEnum 
+---@class EngineTagScenarioTextStyleItalic : EngineTagScenarioTextStyleEnum 
+---@class EngineTagScenarioTextStyleCondense : EngineTagScenarioTextStyleEnum 
+---@class EngineTagScenarioTextStyleUnderline : EngineTagScenarioTextStyleEnum 
 
----@alias EngineTagDataScenarioTextStyle 
----| EngineTagDataScenarioTextStylePlain
----| EngineTagDataScenarioTextStyleBold
----| EngineTagDataScenarioTextStyleItalic
----| EngineTagDataScenarioTextStyleCondense
----| EngineTagDataScenarioTextStyleUnderline
+---@alias EngineTagScenarioTextStyle 
+---| EngineTagScenarioTextStylePlain
+---| EngineTagScenarioTextStyleBold
+---| EngineTagScenarioTextStyleItalic
+---| EngineTagScenarioTextStyleCondense
+---| EngineTagScenarioTextStyleUnderline
 
----@class EngineTagDataScenarioTextStyleTable 
----@field ePlain EngineTagDataScenarioTextStylePlain
----@field eBold EngineTagDataScenarioTextStyleBold
----@field eItalic EngineTagDataScenarioTextStyleItalic
----@field eCondense EngineTagDataScenarioTextStyleCondense
----@field eUnderline EngineTagDataScenarioTextStyleUnderline
+---@class EngineTagScenarioTextStyleTable 
+---@field ePlain EngineTagScenarioTextStylePlain
+---@field eBold EngineTagScenarioTextStyleBold
+---@field eItalic EngineTagScenarioTextStyleItalic
+---@field eCondense EngineTagScenarioTextStyleCondense
+---@field eUnderline EngineTagScenarioTextStyleUnderline
 Engine.tag.scenarioTextStyle = {} 
 
----@class EngineTagDataScenarioJustificationEnum : Enum 
+---@class EngineTagScenarioJustificationEnum : Enum 
 
----@class EngineTagDataScenarioJustificationLeft : EngineTagDataScenarioJustificationEnum 
----@class EngineTagDataScenarioJustificationRight : EngineTagDataScenarioJustificationEnum 
----@class EngineTagDataScenarioJustificationCenter : EngineTagDataScenarioJustificationEnum 
+---@class EngineTagScenarioJustificationLeft : EngineTagScenarioJustificationEnum 
+---@class EngineTagScenarioJustificationRight : EngineTagScenarioJustificationEnum 
+---@class EngineTagScenarioJustificationCenter : EngineTagScenarioJustificationEnum 
 
----@alias EngineTagDataScenarioJustification 
----| EngineTagDataScenarioJustificationLeft
----| EngineTagDataScenarioJustificationRight
----| EngineTagDataScenarioJustificationCenter
+---@alias EngineTagScenarioJustification 
+---| EngineTagScenarioJustificationLeft
+---| EngineTagScenarioJustificationRight
+---| EngineTagScenarioJustificationCenter
 
----@class EngineTagDataScenarioJustificationTable 
----@field left EngineTagDataScenarioJustificationLeft
----@field right EngineTagDataScenarioJustificationRight
----@field center EngineTagDataScenarioJustificationCenter
+---@class EngineTagScenarioJustificationTable 
+---@field left EngineTagScenarioJustificationLeft
+---@field right EngineTagScenarioJustificationRight
+---@field center EngineTagScenarioJustificationCenter
 Engine.tag.scenarioJustification = {} 
 
 ---@class MetaEngineTagDataScenarioTextFlags 

@@ -1,18 +1,18 @@
----@class EngineTagDataInputDeviceDefaultsDeviceTypeEnum : Enum 
+---@class EngineTagInputDeviceDefaultsDeviceTypeEnum : Enum 
 
----@class EngineTagDataInputDeviceDefaultsDeviceTypeMouseAndKeyboard : EngineTagDataInputDeviceDefaultsDeviceTypeEnum 
----@class EngineTagDataInputDeviceDefaultsDeviceTypeJoysticksGamepadsEtc : EngineTagDataInputDeviceDefaultsDeviceTypeEnum 
----@class EngineTagDataInputDeviceDefaultsDeviceTypeFullProfileDefinition : EngineTagDataInputDeviceDefaultsDeviceTypeEnum 
+---@class EngineTagInputDeviceDefaultsDeviceTypeMouseAndKeyboard : EngineTagInputDeviceDefaultsDeviceTypeEnum 
+---@class EngineTagInputDeviceDefaultsDeviceTypeJoysticksGamepadsEtc : EngineTagInputDeviceDefaultsDeviceTypeEnum 
+---@class EngineTagInputDeviceDefaultsDeviceTypeFullProfileDefinition : EngineTagInputDeviceDefaultsDeviceTypeEnum 
 
----@alias EngineTagDataInputDeviceDefaultsDeviceType 
----| EngineTagDataInputDeviceDefaultsDeviceTypeMouseAndKeyboard
----| EngineTagDataInputDeviceDefaultsDeviceTypeJoysticksGamepadsEtc
----| EngineTagDataInputDeviceDefaultsDeviceTypeFullProfileDefinition
+---@alias EngineTagInputDeviceDefaultsDeviceType 
+---| EngineTagInputDeviceDefaultsDeviceTypeMouseAndKeyboard
+---| EngineTagInputDeviceDefaultsDeviceTypeJoysticksGamepadsEtc
+---| EngineTagInputDeviceDefaultsDeviceTypeFullProfileDefinition
 
----@class EngineTagDataInputDeviceDefaultsDeviceTypeTable 
----@field ypeMouseAndKeyboard EngineTagDataInputDeviceDefaultsDeviceTypeMouseAndKeyboard
----@field ypeJoysticksGamepadsEtc EngineTagDataInputDeviceDefaultsDeviceTypeJoysticksGamepadsEtc
----@field ypeFullProfileDefinition EngineTagDataInputDeviceDefaultsDeviceTypeFullProfileDefinition
+---@class EngineTagInputDeviceDefaultsDeviceTypeTable 
+---@field ypeMouseAndKeyboard EngineTagInputDeviceDefaultsDeviceTypeMouseAndKeyboard
+---@field ypeJoysticksGamepadsEtc EngineTagInputDeviceDefaultsDeviceTypeJoysticksGamepadsEtc
+---@field ypeFullProfileDefinition EngineTagInputDeviceDefaultsDeviceTypeFullProfileDefinition
 Engine.tag.inputDeviceDefaultsDeviceType = {} 
 
 ---@class MetaEngineTagDataInputDeviceDefaultsFlags 

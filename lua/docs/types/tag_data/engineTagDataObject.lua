@@ -1,150 +1,150 @@
----@class EngineTagDataPredictedResourceTypeEnum : Enum 
+---@class EngineTagPredictedResourceTypeEnum : Enum 
 
----@class EngineTagDataPredictedResourceTypeBitmap : EngineTagDataPredictedResourceTypeEnum 
----@class EngineTagDataPredictedResourceTypeSound : EngineTagDataPredictedResourceTypeEnum 
+---@class EngineTagPredictedResourceTypeBitmap : EngineTagPredictedResourceTypeEnum 
+---@class EngineTagPredictedResourceTypeSound : EngineTagPredictedResourceTypeEnum 
 
----@alias EngineTagDataPredictedResourceType 
----| EngineTagDataPredictedResourceTypeBitmap
----| EngineTagDataPredictedResourceTypeSound
+---@alias EngineTagPredictedResourceType 
+---| EngineTagPredictedResourceTypeBitmap
+---| EngineTagPredictedResourceTypeSound
 
----@class EngineTagDataPredictedResourceTypeTable 
----@field eBitmap EngineTagDataPredictedResourceTypeBitmap
----@field eSound EngineTagDataPredictedResourceTypeSound
+---@class EngineTagPredictedResourceTypeTable 
+---@field eBitmap EngineTagPredictedResourceTypeBitmap
+---@field eSound EngineTagPredictedResourceTypeSound
 Engine.tag.predictedResourceType = {} 
 
----@class EngineTagDataObjectNoiseEnum : Enum 
+---@class EngineTagObjectNoiseEnum : Enum 
 
----@class EngineTagDataObjectNoiseSilent : EngineTagDataObjectNoiseEnum 
----@class EngineTagDataObjectNoiseMedium : EngineTagDataObjectNoiseEnum 
----@class EngineTagDataObjectNoiseLoud : EngineTagDataObjectNoiseEnum 
----@class EngineTagDataObjectNoiseShout : EngineTagDataObjectNoiseEnum 
----@class EngineTagDataObjectNoiseQuiet : EngineTagDataObjectNoiseEnum 
+---@class EngineTagObjectNoiseSilent : EngineTagObjectNoiseEnum 
+---@class EngineTagObjectNoiseMedium : EngineTagObjectNoiseEnum 
+---@class EngineTagObjectNoiseLoud : EngineTagObjectNoiseEnum 
+---@class EngineTagObjectNoiseShout : EngineTagObjectNoiseEnum 
+---@class EngineTagObjectNoiseQuiet : EngineTagObjectNoiseEnum 
 
----@alias EngineTagDataObjectNoise 
----| EngineTagDataObjectNoiseSilent
----| EngineTagDataObjectNoiseMedium
----| EngineTagDataObjectNoiseLoud
----| EngineTagDataObjectNoiseShout
----| EngineTagDataObjectNoiseQuiet
+---@alias EngineTagObjectNoise 
+---| EngineTagObjectNoiseSilent
+---| EngineTagObjectNoiseMedium
+---| EngineTagObjectNoiseLoud
+---| EngineTagObjectNoiseShout
+---| EngineTagObjectNoiseQuiet
 
----@class EngineTagDataObjectNoiseTable 
----@field silent EngineTagDataObjectNoiseSilent
----@field medium EngineTagDataObjectNoiseMedium
----@field loud EngineTagDataObjectNoiseLoud
----@field shout EngineTagDataObjectNoiseShout
----@field quiet EngineTagDataObjectNoiseQuiet
+---@class EngineTagObjectNoiseTable 
+---@field silent EngineTagObjectNoiseSilent
+---@field medium EngineTagObjectNoiseMedium
+---@field loud EngineTagObjectNoiseLoud
+---@field shout EngineTagObjectNoiseShout
+---@field quiet EngineTagObjectNoiseQuiet
 Engine.tag.objectNoise = {} 
 
----@class EngineTagDataObjectFunctionInEnum : Enum 
+---@class EngineTagObjectFunctionInEnum : Enum 
 
----@class EngineTagDataObjectFunctionInNone : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInBodyVitality : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInShieldVitality : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRecentBodyDamage : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRecentShieldDamage : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRandomConstant : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInUmbrellaShieldVitality : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInShieldStun : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRecentUmbrellaShieldVitality : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInUmbrellaShieldStun : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion1 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion2 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion3 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion4 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion5 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion6 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInRegion7 : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInAlive : EngineTagDataObjectFunctionInEnum 
----@class EngineTagDataObjectFunctionInCompass : EngineTagDataObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInNone : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInBodyVitality : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInShieldVitality : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRecentBodyDamage : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRecentShieldDamage : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRandomConstant : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInUmbrellaShieldVitality : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInShieldStun : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRecentUmbrellaShieldVitality : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInUmbrellaShieldStun : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRegion : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRegion1 : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRegion2 : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRegion3 : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRegion4 : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRegion5 : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRegion6 : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInRegion7 : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInAlive : EngineTagObjectFunctionInEnum 
+---@class EngineTagObjectFunctionInCompass : EngineTagObjectFunctionInEnum 
 
----@alias EngineTagDataObjectFunctionIn 
----| EngineTagDataObjectFunctionInNone
----| EngineTagDataObjectFunctionInBodyVitality
----| EngineTagDataObjectFunctionInShieldVitality
----| EngineTagDataObjectFunctionInRecentBodyDamage
----| EngineTagDataObjectFunctionInRecentShieldDamage
----| EngineTagDataObjectFunctionInRandomConstant
----| EngineTagDataObjectFunctionInUmbrellaShieldVitality
----| EngineTagDataObjectFunctionInShieldStun
----| EngineTagDataObjectFunctionInRecentUmbrellaShieldVitality
----| EngineTagDataObjectFunctionInUmbrellaShieldStun
----| EngineTagDataObjectFunctionInRegion
----| EngineTagDataObjectFunctionInRegion1
----| EngineTagDataObjectFunctionInRegion2
----| EngineTagDataObjectFunctionInRegion3
----| EngineTagDataObjectFunctionInRegion4
----| EngineTagDataObjectFunctionInRegion5
----| EngineTagDataObjectFunctionInRegion6
----| EngineTagDataObjectFunctionInRegion7
----| EngineTagDataObjectFunctionInAlive
----| EngineTagDataObjectFunctionInCompass
+---@alias EngineTagObjectFunctionIn 
+---| EngineTagObjectFunctionInNone
+---| EngineTagObjectFunctionInBodyVitality
+---| EngineTagObjectFunctionInShieldVitality
+---| EngineTagObjectFunctionInRecentBodyDamage
+---| EngineTagObjectFunctionInRecentShieldDamage
+---| EngineTagObjectFunctionInRandomConstant
+---| EngineTagObjectFunctionInUmbrellaShieldVitality
+---| EngineTagObjectFunctionInShieldStun
+---| EngineTagObjectFunctionInRecentUmbrellaShieldVitality
+---| EngineTagObjectFunctionInUmbrellaShieldStun
+---| EngineTagObjectFunctionInRegion
+---| EngineTagObjectFunctionInRegion1
+---| EngineTagObjectFunctionInRegion2
+---| EngineTagObjectFunctionInRegion3
+---| EngineTagObjectFunctionInRegion4
+---| EngineTagObjectFunctionInRegion5
+---| EngineTagObjectFunctionInRegion6
+---| EngineTagObjectFunctionInRegion7
+---| EngineTagObjectFunctionInAlive
+---| EngineTagObjectFunctionInCompass
 
----@class EngineTagDataObjectFunctionInTable 
----@field nNone EngineTagDataObjectFunctionInNone
----@field nBodyVitality EngineTagDataObjectFunctionInBodyVitality
----@field nShieldVitality EngineTagDataObjectFunctionInShieldVitality
----@field nRecentBodyDamage EngineTagDataObjectFunctionInRecentBodyDamage
----@field nRecentShieldDamage EngineTagDataObjectFunctionInRecentShieldDamage
----@field nRandomConstant EngineTagDataObjectFunctionInRandomConstant
----@field nUmbrellaShieldVitality EngineTagDataObjectFunctionInUmbrellaShieldVitality
----@field nShieldStun EngineTagDataObjectFunctionInShieldStun
----@field nRecentUmbrellaShieldVitality EngineTagDataObjectFunctionInRecentUmbrellaShieldVitality
----@field nUmbrellaShieldStun EngineTagDataObjectFunctionInUmbrellaShieldStun
----@field nRegion EngineTagDataObjectFunctionInRegion
----@field nRegion1 EngineTagDataObjectFunctionInRegion1
----@field nRegion2 EngineTagDataObjectFunctionInRegion2
----@field nRegion3 EngineTagDataObjectFunctionInRegion3
----@field nRegion4 EngineTagDataObjectFunctionInRegion4
----@field nRegion5 EngineTagDataObjectFunctionInRegion5
----@field nRegion6 EngineTagDataObjectFunctionInRegion6
----@field nRegion7 EngineTagDataObjectFunctionInRegion7
----@field nAlive EngineTagDataObjectFunctionInAlive
----@field nCompass EngineTagDataObjectFunctionInCompass
+---@class EngineTagObjectFunctionInTable 
+---@field nNone EngineTagObjectFunctionInNone
+---@field nBodyVitality EngineTagObjectFunctionInBodyVitality
+---@field nShieldVitality EngineTagObjectFunctionInShieldVitality
+---@field nRecentBodyDamage EngineTagObjectFunctionInRecentBodyDamage
+---@field nRecentShieldDamage EngineTagObjectFunctionInRecentShieldDamage
+---@field nRandomConstant EngineTagObjectFunctionInRandomConstant
+---@field nUmbrellaShieldVitality EngineTagObjectFunctionInUmbrellaShieldVitality
+---@field nShieldStun EngineTagObjectFunctionInShieldStun
+---@field nRecentUmbrellaShieldVitality EngineTagObjectFunctionInRecentUmbrellaShieldVitality
+---@field nUmbrellaShieldStun EngineTagObjectFunctionInUmbrellaShieldStun
+---@field nRegion EngineTagObjectFunctionInRegion
+---@field nRegion1 EngineTagObjectFunctionInRegion1
+---@field nRegion2 EngineTagObjectFunctionInRegion2
+---@field nRegion3 EngineTagObjectFunctionInRegion3
+---@field nRegion4 EngineTagObjectFunctionInRegion4
+---@field nRegion5 EngineTagObjectFunctionInRegion5
+---@field nRegion6 EngineTagObjectFunctionInRegion6
+---@field nRegion7 EngineTagObjectFunctionInRegion7
+---@field nAlive EngineTagObjectFunctionInAlive
+---@field nCompass EngineTagObjectFunctionInCompass
 Engine.tag.objectFunctionIn = {} 
 
----@class EngineTagDataObjectTypeEnum : Enum 
+---@class EngineTagObjectTypeEnum : Enum 
 
----@class EngineTagDataObjectTypeBiped : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeVehicle : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeWeapon : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeEquipment : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeGarbage : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeProjectile : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeScenery : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeDeviceMachine : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeDeviceControl : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeDeviceLightFixture : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypePlaceholder : EngineTagDataObjectTypeEnum 
----@class EngineTagDataObjectTypeSoundScenery : EngineTagDataObjectTypeEnum 
+---@class EngineTagObjectTypeBiped : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeVehicle : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeWeapon : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeEquipment : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeGarbage : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeProjectile : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeScenery : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeDeviceMachine : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeDeviceControl : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeDeviceLightFixture : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypePlaceholder : EngineTagObjectTypeEnum 
+---@class EngineTagObjectTypeSoundScenery : EngineTagObjectTypeEnum 
 
----@alias EngineTagDataObjectType 
----| EngineTagDataObjectTypeBiped
----| EngineTagDataObjectTypeVehicle
----| EngineTagDataObjectTypeWeapon
----| EngineTagDataObjectTypeEquipment
----| EngineTagDataObjectTypeGarbage
----| EngineTagDataObjectTypeProjectile
----| EngineTagDataObjectTypeScenery
----| EngineTagDataObjectTypeDeviceMachine
----| EngineTagDataObjectTypeDeviceControl
----| EngineTagDataObjectTypeDeviceLightFixture
----| EngineTagDataObjectTypePlaceholder
----| EngineTagDataObjectTypeSoundScenery
+---@alias EngineTagObjectType 
+---| EngineTagObjectTypeBiped
+---| EngineTagObjectTypeVehicle
+---| EngineTagObjectTypeWeapon
+---| EngineTagObjectTypeEquipment
+---| EngineTagObjectTypeGarbage
+---| EngineTagObjectTypeProjectile
+---| EngineTagObjectTypeScenery
+---| EngineTagObjectTypeDeviceMachine
+---| EngineTagObjectTypeDeviceControl
+---| EngineTagObjectTypeDeviceLightFixture
+---| EngineTagObjectTypePlaceholder
+---| EngineTagObjectTypeSoundScenery
 
----@class EngineTagDataObjectTypeTable 
----@field biped EngineTagDataObjectTypeBiped
----@field vehicle EngineTagDataObjectTypeVehicle
----@field weapon EngineTagDataObjectTypeWeapon
----@field equipment EngineTagDataObjectTypeEquipment
----@field garbage EngineTagDataObjectTypeGarbage
----@field projectile EngineTagDataObjectTypeProjectile
----@field scenery EngineTagDataObjectTypeScenery
----@field deviceMachine EngineTagDataObjectTypeDeviceMachine
----@field deviceControl EngineTagDataObjectTypeDeviceControl
----@field deviceLightFixture EngineTagDataObjectTypeDeviceLightFixture
----@field placeholder EngineTagDataObjectTypePlaceholder
----@field soundScenery EngineTagDataObjectTypeSoundScenery
+---@class EngineTagObjectTypeTable 
+---@field biped EngineTagObjectTypeBiped
+---@field vehicle EngineTagObjectTypeVehicle
+---@field weapon EngineTagObjectTypeWeapon
+---@field equipment EngineTagObjectTypeEquipment
+---@field garbage EngineTagObjectTypeGarbage
+---@field projectile EngineTagObjectTypeProjectile
+---@field scenery EngineTagObjectTypeScenery
+---@field deviceMachine EngineTagObjectTypeDeviceMachine
+---@field deviceControl EngineTagObjectTypeDeviceControl
+---@field deviceLightFixture EngineTagObjectTypeDeviceLightFixture
+---@field placeholder EngineTagObjectTypePlaceholder
+---@field soundScenery EngineTagObjectTypeSoundScenery
 Engine.tag.objectType = {} 
 
 ---@class MetaEngineTagDataObjectFunctionFlags 

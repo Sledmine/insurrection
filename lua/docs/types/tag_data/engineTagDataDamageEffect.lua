@@ -1,114 +1,114 @@
----@class EngineTagDataDamageEffectScreenFlashTypeEnum : Enum 
+---@class EngineTagDamageEffectScreenFlashTypeEnum : Enum 
 
----@class EngineTagDataDamageEffectScreenFlashTypeNone : EngineTagDataDamageEffectScreenFlashTypeEnum 
----@class EngineTagDataDamageEffectScreenFlashTypeLighten : EngineTagDataDamageEffectScreenFlashTypeEnum 
----@class EngineTagDataDamageEffectScreenFlashTypeDarken : EngineTagDataDamageEffectScreenFlashTypeEnum 
----@class EngineTagDataDamageEffectScreenFlashTypeMax : EngineTagDataDamageEffectScreenFlashTypeEnum 
----@class EngineTagDataDamageEffectScreenFlashTypeMin : EngineTagDataDamageEffectScreenFlashTypeEnum 
----@class EngineTagDataDamageEffectScreenFlashTypeInvert : EngineTagDataDamageEffectScreenFlashTypeEnum 
----@class EngineTagDataDamageEffectScreenFlashTypeTint : EngineTagDataDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDamageEffectScreenFlashTypeNone : EngineTagDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDamageEffectScreenFlashTypeLighten : EngineTagDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDamageEffectScreenFlashTypeDarken : EngineTagDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDamageEffectScreenFlashTypeMax : EngineTagDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDamageEffectScreenFlashTypeMin : EngineTagDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDamageEffectScreenFlashTypeInvert : EngineTagDamageEffectScreenFlashTypeEnum 
+---@class EngineTagDamageEffectScreenFlashTypeTint : EngineTagDamageEffectScreenFlashTypeEnum 
 
----@alias EngineTagDataDamageEffectScreenFlashType 
----| EngineTagDataDamageEffectScreenFlashTypeNone
----| EngineTagDataDamageEffectScreenFlashTypeLighten
----| EngineTagDataDamageEffectScreenFlashTypeDarken
----| EngineTagDataDamageEffectScreenFlashTypeMax
----| EngineTagDataDamageEffectScreenFlashTypeMin
----| EngineTagDataDamageEffectScreenFlashTypeInvert
----| EngineTagDataDamageEffectScreenFlashTypeTint
+---@alias EngineTagDamageEffectScreenFlashType 
+---| EngineTagDamageEffectScreenFlashTypeNone
+---| EngineTagDamageEffectScreenFlashTypeLighten
+---| EngineTagDamageEffectScreenFlashTypeDarken
+---| EngineTagDamageEffectScreenFlashTypeMax
+---| EngineTagDamageEffectScreenFlashTypeMin
+---| EngineTagDamageEffectScreenFlashTypeInvert
+---| EngineTagDamageEffectScreenFlashTypeTint
 
----@class EngineTagDataDamageEffectScreenFlashTypeTable 
----@field ypeNone EngineTagDataDamageEffectScreenFlashTypeNone
----@field ypeLighten EngineTagDataDamageEffectScreenFlashTypeLighten
----@field ypeDarken EngineTagDataDamageEffectScreenFlashTypeDarken
----@field ypeMax EngineTagDataDamageEffectScreenFlashTypeMax
----@field ypeMin EngineTagDataDamageEffectScreenFlashTypeMin
----@field ypeInvert EngineTagDataDamageEffectScreenFlashTypeInvert
----@field ypeTint EngineTagDataDamageEffectScreenFlashTypeTint
+---@class EngineTagDamageEffectScreenFlashTypeTable 
+---@field ypeNone EngineTagDamageEffectScreenFlashTypeNone
+---@field ypeLighten EngineTagDamageEffectScreenFlashTypeLighten
+---@field ypeDarken EngineTagDamageEffectScreenFlashTypeDarken
+---@field ypeMax EngineTagDamageEffectScreenFlashTypeMax
+---@field ypeMin EngineTagDamageEffectScreenFlashTypeMin
+---@field ypeInvert EngineTagDamageEffectScreenFlashTypeInvert
+---@field ypeTint EngineTagDamageEffectScreenFlashTypeTint
 Engine.tag.damageEffectScreenFlashType = {} 
 
----@class EngineTagDataDamageEffectScreenFlashPriorityEnum : Enum 
+---@class EngineTagDamageEffectScreenFlashPriorityEnum : Enum 
 
----@class EngineTagDataDamageEffectScreenFlashPriorityLow : EngineTagDataDamageEffectScreenFlashPriorityEnum 
----@class EngineTagDataDamageEffectScreenFlashPriorityMedium : EngineTagDataDamageEffectScreenFlashPriorityEnum 
----@class EngineTagDataDamageEffectScreenFlashPriorityHigh : EngineTagDataDamageEffectScreenFlashPriorityEnum 
+---@class EngineTagDamageEffectScreenFlashPriorityLow : EngineTagDamageEffectScreenFlashPriorityEnum 
+---@class EngineTagDamageEffectScreenFlashPriorityMedium : EngineTagDamageEffectScreenFlashPriorityEnum 
+---@class EngineTagDamageEffectScreenFlashPriorityHigh : EngineTagDamageEffectScreenFlashPriorityEnum 
 
----@alias EngineTagDataDamageEffectScreenFlashPriority 
----| EngineTagDataDamageEffectScreenFlashPriorityLow
----| EngineTagDataDamageEffectScreenFlashPriorityMedium
----| EngineTagDataDamageEffectScreenFlashPriorityHigh
+---@alias EngineTagDamageEffectScreenFlashPriority 
+---| EngineTagDamageEffectScreenFlashPriorityLow
+---| EngineTagDamageEffectScreenFlashPriorityMedium
+---| EngineTagDamageEffectScreenFlashPriorityHigh
 
----@class EngineTagDataDamageEffectScreenFlashPriorityTable 
----@field ityLow EngineTagDataDamageEffectScreenFlashPriorityLow
----@field ityMedium EngineTagDataDamageEffectScreenFlashPriorityMedium
----@field ityHigh EngineTagDataDamageEffectScreenFlashPriorityHigh
+---@class EngineTagDamageEffectScreenFlashPriorityTable 
+---@field ityLow EngineTagDamageEffectScreenFlashPriorityLow
+---@field ityMedium EngineTagDamageEffectScreenFlashPriorityMedium
+---@field ityHigh EngineTagDamageEffectScreenFlashPriorityHigh
 Engine.tag.damageEffectScreenFlashPriority = {} 
 
----@class EngineTagDataDamageEffectSideEffectEnum : Enum 
+---@class EngineTagDamageEffectSideEffectEnum : Enum 
 
----@class EngineTagDataDamageEffectSideEffectNone : EngineTagDataDamageEffectSideEffectEnum 
----@class EngineTagDataDamageEffectSideEffectHarmless : EngineTagDataDamageEffectSideEffectEnum 
----@class EngineTagDataDamageEffectSideEffectLethalToTheUnsuspecting : EngineTagDataDamageEffectSideEffectEnum 
----@class EngineTagDataDamageEffectSideEffectEmp : EngineTagDataDamageEffectSideEffectEnum 
+---@class EngineTagDamageEffectSideEffectNone : EngineTagDamageEffectSideEffectEnum 
+---@class EngineTagDamageEffectSideEffectHarmless : EngineTagDamageEffectSideEffectEnum 
+---@class EngineTagDamageEffectSideEffectLethalToTheUnsuspecting : EngineTagDamageEffectSideEffectEnum 
+---@class EngineTagDamageEffectSideEffectEmp : EngineTagDamageEffectSideEffectEnum 
 
----@alias EngineTagDataDamageEffectSideEffect 
----| EngineTagDataDamageEffectSideEffectNone
----| EngineTagDataDamageEffectSideEffectHarmless
----| EngineTagDataDamageEffectSideEffectLethalToTheUnsuspecting
----| EngineTagDataDamageEffectSideEffectEmp
+---@alias EngineTagDamageEffectSideEffect 
+---| EngineTagDamageEffectSideEffectNone
+---| EngineTagDamageEffectSideEffectHarmless
+---| EngineTagDamageEffectSideEffectLethalToTheUnsuspecting
+---| EngineTagDamageEffectSideEffectEmp
 
----@class EngineTagDataDamageEffectSideEffectTable 
----@field ctNone EngineTagDataDamageEffectSideEffectNone
----@field ctHarmless EngineTagDataDamageEffectSideEffectHarmless
----@field ctLethalToTheUnsuspecting EngineTagDataDamageEffectSideEffectLethalToTheUnsuspecting
----@field ctEmp EngineTagDataDamageEffectSideEffectEmp
+---@class EngineTagDamageEffectSideEffectTable 
+---@field ctNone EngineTagDamageEffectSideEffectNone
+---@field ctHarmless EngineTagDamageEffectSideEffectHarmless
+---@field ctLethalToTheUnsuspecting EngineTagDamageEffectSideEffectLethalToTheUnsuspecting
+---@field ctEmp EngineTagDamageEffectSideEffectEmp
 Engine.tag.damageEffectSideEffect = {} 
 
----@class EngineTagDataDamageEffectCategoryEnum : Enum 
+---@class EngineTagDamageEffectCategoryEnum : Enum 
 
----@class EngineTagDataDamageEffectCategoryNone : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryFalling : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryBullet : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryGrenade : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryHighExplosive : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategorySniper : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryMelee : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryFlame : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryMountedWeapon : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryVehicle : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryPlasma : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryNeedle : EngineTagDataDamageEffectCategoryEnum 
----@class EngineTagDataDamageEffectCategoryShotgun : EngineTagDataDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryNone : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryFalling : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryBullet : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryGrenade : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryHighExplosive : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategorySniper : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryMelee : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryFlame : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryMountedWeapon : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryVehicle : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryPlasma : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryNeedle : EngineTagDamageEffectCategoryEnum 
+---@class EngineTagDamageEffectCategoryShotgun : EngineTagDamageEffectCategoryEnum 
 
----@alias EngineTagDataDamageEffectCategory 
----| EngineTagDataDamageEffectCategoryNone
----| EngineTagDataDamageEffectCategoryFalling
----| EngineTagDataDamageEffectCategoryBullet
----| EngineTagDataDamageEffectCategoryGrenade
----| EngineTagDataDamageEffectCategoryHighExplosive
----| EngineTagDataDamageEffectCategorySniper
----| EngineTagDataDamageEffectCategoryMelee
----| EngineTagDataDamageEffectCategoryFlame
----| EngineTagDataDamageEffectCategoryMountedWeapon
----| EngineTagDataDamageEffectCategoryVehicle
----| EngineTagDataDamageEffectCategoryPlasma
----| EngineTagDataDamageEffectCategoryNeedle
----| EngineTagDataDamageEffectCategoryShotgun
+---@alias EngineTagDamageEffectCategory 
+---| EngineTagDamageEffectCategoryNone
+---| EngineTagDamageEffectCategoryFalling
+---| EngineTagDamageEffectCategoryBullet
+---| EngineTagDamageEffectCategoryGrenade
+---| EngineTagDamageEffectCategoryHighExplosive
+---| EngineTagDamageEffectCategorySniper
+---| EngineTagDamageEffectCategoryMelee
+---| EngineTagDamageEffectCategoryFlame
+---| EngineTagDamageEffectCategoryMountedWeapon
+---| EngineTagDamageEffectCategoryVehicle
+---| EngineTagDamageEffectCategoryPlasma
+---| EngineTagDamageEffectCategoryNeedle
+---| EngineTagDamageEffectCategoryShotgun
 
----@class EngineTagDataDamageEffectCategoryTable 
----@field yNone EngineTagDataDamageEffectCategoryNone
----@field yFalling EngineTagDataDamageEffectCategoryFalling
----@field yBullet EngineTagDataDamageEffectCategoryBullet
----@field yGrenade EngineTagDataDamageEffectCategoryGrenade
----@field yHighExplosive EngineTagDataDamageEffectCategoryHighExplosive
----@field ySniper EngineTagDataDamageEffectCategorySniper
----@field yMelee EngineTagDataDamageEffectCategoryMelee
----@field yFlame EngineTagDataDamageEffectCategoryFlame
----@field yMountedWeapon EngineTagDataDamageEffectCategoryMountedWeapon
----@field yVehicle EngineTagDataDamageEffectCategoryVehicle
----@field yPlasma EngineTagDataDamageEffectCategoryPlasma
----@field yNeedle EngineTagDataDamageEffectCategoryNeedle
----@field yShotgun EngineTagDataDamageEffectCategoryShotgun
+---@class EngineTagDamageEffectCategoryTable 
+---@field yNone EngineTagDamageEffectCategoryNone
+---@field yFalling EngineTagDamageEffectCategoryFalling
+---@field yBullet EngineTagDamageEffectCategoryBullet
+---@field yGrenade EngineTagDamageEffectCategoryGrenade
+---@field yHighExplosive EngineTagDamageEffectCategoryHighExplosive
+---@field ySniper EngineTagDamageEffectCategorySniper
+---@field yMelee EngineTagDamageEffectCategoryMelee
+---@field yFlame EngineTagDamageEffectCategoryFlame
+---@field yMountedWeapon EngineTagDamageEffectCategoryMountedWeapon
+---@field yVehicle EngineTagDamageEffectCategoryVehicle
+---@field yPlasma EngineTagDamageEffectCategoryPlasma
+---@field yNeedle EngineTagDamageEffectCategoryNeedle
+---@field yShotgun EngineTagDamageEffectCategoryShotgun
 Engine.tag.damageEffectCategory = {} 
 
 ---@class MetaEngineTagDataDamageEffectDamageFlags 

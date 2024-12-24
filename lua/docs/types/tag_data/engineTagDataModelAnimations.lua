@@ -1,72 +1,72 @@
----@class EngineTagDataAnimationFunctionEnum : Enum 
+---@class EngineTagAnimationFunctionEnum : Enum 
 
----@class EngineTagDataAnimationFunctionAOut : EngineTagDataAnimationFunctionEnum 
----@class EngineTagDataAnimationFunctionBOut : EngineTagDataAnimationFunctionEnum 
----@class EngineTagDataAnimationFunctionCOut : EngineTagDataAnimationFunctionEnum 
----@class EngineTagDataAnimationFunctionDOut : EngineTagDataAnimationFunctionEnum 
+---@class EngineTagAnimationFunctionAOut : EngineTagAnimationFunctionEnum 
+---@class EngineTagAnimationFunctionBOut : EngineTagAnimationFunctionEnum 
+---@class EngineTagAnimationFunctionCOut : EngineTagAnimationFunctionEnum 
+---@class EngineTagAnimationFunctionDOut : EngineTagAnimationFunctionEnum 
 
----@alias EngineTagDataAnimationFunction 
----| EngineTagDataAnimationFunctionAOut
----| EngineTagDataAnimationFunctionBOut
----| EngineTagDataAnimationFunctionCOut
----| EngineTagDataAnimationFunctionDOut
+---@alias EngineTagAnimationFunction 
+---| EngineTagAnimationFunctionAOut
+---| EngineTagAnimationFunctionBOut
+---| EngineTagAnimationFunctionCOut
+---| EngineTagAnimationFunctionDOut
 
----@class EngineTagDataAnimationFunctionTable 
----@field aOut EngineTagDataAnimationFunctionAOut
----@field bOut EngineTagDataAnimationFunctionBOut
----@field cOut EngineTagDataAnimationFunctionCOut
----@field dOut EngineTagDataAnimationFunctionDOut
+---@class EngineTagAnimationFunctionTable 
+---@field aOut EngineTagAnimationFunctionAOut
+---@field bOut EngineTagAnimationFunctionBOut
+---@field cOut EngineTagAnimationFunctionCOut
+---@field dOut EngineTagAnimationFunctionDOut
 Engine.tag.animationFunction = {} 
 
----@class EngineTagDataAnimationFunctionControlsEnum : Enum 
+---@class EngineTagAnimationFunctionControlsEnum : Enum 
 
----@class EngineTagDataAnimationFunctionControlsFrame : EngineTagDataAnimationFunctionControlsEnum 
----@class EngineTagDataAnimationFunctionControlsScale : EngineTagDataAnimationFunctionControlsEnum 
+---@class EngineTagAnimationFunctionControlsFrame : EngineTagAnimationFunctionControlsEnum 
+---@class EngineTagAnimationFunctionControlsScale : EngineTagAnimationFunctionControlsEnum 
 
----@alias EngineTagDataAnimationFunctionControls 
----| EngineTagDataAnimationFunctionControlsFrame
----| EngineTagDataAnimationFunctionControlsScale
+---@alias EngineTagAnimationFunctionControls 
+---| EngineTagAnimationFunctionControlsFrame
+---| EngineTagAnimationFunctionControlsScale
 
----@class EngineTagDataAnimationFunctionControlsTable 
----@field sFrame EngineTagDataAnimationFunctionControlsFrame
----@field sScale EngineTagDataAnimationFunctionControlsScale
+---@class EngineTagAnimationFunctionControlsTable 
+---@field sFrame EngineTagAnimationFunctionControlsFrame
+---@field sScale EngineTagAnimationFunctionControlsScale
 Engine.tag.animationFunctionControls = {} 
 
----@class EngineTagDataAnimationTypeEnum : Enum 
+---@class EngineTagAnimationTypeEnum : Enum 
 
----@class EngineTagDataAnimationTypeBase : EngineTagDataAnimationTypeEnum 
----@class EngineTagDataAnimationTypeOverlay : EngineTagDataAnimationTypeEnum 
----@class EngineTagDataAnimationTypeReplacement : EngineTagDataAnimationTypeEnum 
+---@class EngineTagAnimationTypeBase : EngineTagAnimationTypeEnum 
+---@class EngineTagAnimationTypeOverlay : EngineTagAnimationTypeEnum 
+---@class EngineTagAnimationTypeReplacement : EngineTagAnimationTypeEnum 
 
----@alias EngineTagDataAnimationType 
----| EngineTagDataAnimationTypeBase
----| EngineTagDataAnimationTypeOverlay
----| EngineTagDataAnimationTypeReplacement
+---@alias EngineTagAnimationType 
+---| EngineTagAnimationTypeBase
+---| EngineTagAnimationTypeOverlay
+---| EngineTagAnimationTypeReplacement
 
----@class EngineTagDataAnimationTypeTable 
----@field base EngineTagDataAnimationTypeBase
----@field overlay EngineTagDataAnimationTypeOverlay
----@field replacement EngineTagDataAnimationTypeReplacement
+---@class EngineTagAnimationTypeTable 
+---@field base EngineTagAnimationTypeBase
+---@field overlay EngineTagAnimationTypeOverlay
+---@field replacement EngineTagAnimationTypeReplacement
 Engine.tag.animationType = {} 
 
----@class EngineTagDataAnimationFrameInfoTypeEnum : Enum 
+---@class EngineTagAnimationFrameInfoTypeEnum : Enum 
 
----@class EngineTagDataAnimationFrameInfoTypeNone : EngineTagDataAnimationFrameInfoTypeEnum 
----@class EngineTagDataAnimationFrameInfoTypeDxDy : EngineTagDataAnimationFrameInfoTypeEnum 
----@class EngineTagDataAnimationFrameInfoTypeDxDyDyaw : EngineTagDataAnimationFrameInfoTypeEnum 
----@class EngineTagDataAnimationFrameInfoTypeDxDyDzDyaw : EngineTagDataAnimationFrameInfoTypeEnum 
+---@class EngineTagAnimationFrameInfoTypeNone : EngineTagAnimationFrameInfoTypeEnum 
+---@class EngineTagAnimationFrameInfoTypeDxDy : EngineTagAnimationFrameInfoTypeEnum 
+---@class EngineTagAnimationFrameInfoTypeDxDyDyaw : EngineTagAnimationFrameInfoTypeEnum 
+---@class EngineTagAnimationFrameInfoTypeDxDyDzDyaw : EngineTagAnimationFrameInfoTypeEnum 
 
----@alias EngineTagDataAnimationFrameInfoType 
----| EngineTagDataAnimationFrameInfoTypeNone
----| EngineTagDataAnimationFrameInfoTypeDxDy
----| EngineTagDataAnimationFrameInfoTypeDxDyDyaw
----| EngineTagDataAnimationFrameInfoTypeDxDyDzDyaw
+---@alias EngineTagAnimationFrameInfoType 
+---| EngineTagAnimationFrameInfoTypeNone
+---| EngineTagAnimationFrameInfoTypeDxDy
+---| EngineTagAnimationFrameInfoTypeDxDyDyaw
+---| EngineTagAnimationFrameInfoTypeDxDyDzDyaw
 
----@class EngineTagDataAnimationFrameInfoTypeTable 
----@field peNone EngineTagDataAnimationFrameInfoTypeNone
----@field peDxDy EngineTagDataAnimationFrameInfoTypeDxDy
----@field peDxDyDyaw EngineTagDataAnimationFrameInfoTypeDxDyDyaw
----@field peDxDyDzDyaw EngineTagDataAnimationFrameInfoTypeDxDyDzDyaw
+---@class EngineTagAnimationFrameInfoTypeTable 
+---@field peNone EngineTagAnimationFrameInfoTypeNone
+---@field peDxDy EngineTagAnimationFrameInfoTypeDxDy
+---@field peDxDyDyaw EngineTagAnimationFrameInfoTypeDxDyDyaw
+---@field peDxDyDzDyaw EngineTagAnimationFrameInfoTypeDxDyDzDyaw
 Engine.tag.animationFrameInfoType = {} 
 
 ---@class MetaEngineTagDataModelAnimationsAnimationGraphNodeFlags 

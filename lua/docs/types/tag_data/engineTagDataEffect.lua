@@ -1,84 +1,84 @@
----@class EngineTagDataEffectCreateInEnum : Enum 
+---@class EngineTagEffectCreateInEnum : Enum 
 
----@class EngineTagDataEffectCreateInAnyEnvironment : EngineTagDataEffectCreateInEnum 
----@class EngineTagDataEffectCreateInAirOnly : EngineTagDataEffectCreateInEnum 
----@class EngineTagDataEffectCreateInWaterOnly : EngineTagDataEffectCreateInEnum 
----@class EngineTagDataEffectCreateInSpaceOnly : EngineTagDataEffectCreateInEnum 
+---@class EngineTagEffectCreateInAnyEnvironment : EngineTagEffectCreateInEnum 
+---@class EngineTagEffectCreateInAirOnly : EngineTagEffectCreateInEnum 
+---@class EngineTagEffectCreateInWaterOnly : EngineTagEffectCreateInEnum 
+---@class EngineTagEffectCreateInSpaceOnly : EngineTagEffectCreateInEnum 
 
----@alias EngineTagDataEffectCreateIn 
----| EngineTagDataEffectCreateInAnyEnvironment
----| EngineTagDataEffectCreateInAirOnly
----| EngineTagDataEffectCreateInWaterOnly
----| EngineTagDataEffectCreateInSpaceOnly
+---@alias EngineTagEffectCreateIn 
+---| EngineTagEffectCreateInAnyEnvironment
+---| EngineTagEffectCreateInAirOnly
+---| EngineTagEffectCreateInWaterOnly
+---| EngineTagEffectCreateInSpaceOnly
 
----@class EngineTagDataEffectCreateInTable 
----@field nAnyEnvironment EngineTagDataEffectCreateInAnyEnvironment
----@field nAirOnly EngineTagDataEffectCreateInAirOnly
----@field nWaterOnly EngineTagDataEffectCreateInWaterOnly
----@field nSpaceOnly EngineTagDataEffectCreateInSpaceOnly
+---@class EngineTagEffectCreateInTable 
+---@field nAnyEnvironment EngineTagEffectCreateInAnyEnvironment
+---@field nAirOnly EngineTagEffectCreateInAirOnly
+---@field nWaterOnly EngineTagEffectCreateInWaterOnly
+---@field nSpaceOnly EngineTagEffectCreateInSpaceOnly
 Engine.tag.effectCreateIn = {} 
 
----@class EngineTagDataEffectViolenceModeEnum : Enum 
+---@class EngineTagEffectViolenceModeEnum : Enum 
 
----@class EngineTagDataEffectViolenceModeEitherMode : EngineTagDataEffectViolenceModeEnum 
----@class EngineTagDataEffectViolenceModeViolentModeOnly : EngineTagDataEffectViolenceModeEnum 
----@class EngineTagDataEffectViolenceModeNonviolentModeOnly : EngineTagDataEffectViolenceModeEnum 
+---@class EngineTagEffectViolenceModeEitherMode : EngineTagEffectViolenceModeEnum 
+---@class EngineTagEffectViolenceModeViolentModeOnly : EngineTagEffectViolenceModeEnum 
+---@class EngineTagEffectViolenceModeNonviolentModeOnly : EngineTagEffectViolenceModeEnum 
 
----@alias EngineTagDataEffectViolenceMode 
----| EngineTagDataEffectViolenceModeEitherMode
----| EngineTagDataEffectViolenceModeViolentModeOnly
----| EngineTagDataEffectViolenceModeNonviolentModeOnly
+---@alias EngineTagEffectViolenceMode 
+---| EngineTagEffectViolenceModeEitherMode
+---| EngineTagEffectViolenceModeViolentModeOnly
+---| EngineTagEffectViolenceModeNonviolentModeOnly
 
----@class EngineTagDataEffectViolenceModeTable 
----@field eEitherMode EngineTagDataEffectViolenceModeEitherMode
----@field eViolentModeOnly EngineTagDataEffectViolenceModeViolentModeOnly
----@field eNonviolentModeOnly EngineTagDataEffectViolenceModeNonviolentModeOnly
+---@class EngineTagEffectViolenceModeTable 
+---@field eEitherMode EngineTagEffectViolenceModeEitherMode
+---@field eViolentModeOnly EngineTagEffectViolenceModeViolentModeOnly
+---@field eNonviolentModeOnly EngineTagEffectViolenceModeNonviolentModeOnly
 Engine.tag.effectViolenceMode = {} 
 
----@class EngineTagDataEffectCreateEnum : Enum 
+---@class EngineTagEffectCreateEnum : Enum 
 
----@class EngineTagDataEffectCreateIndependentOfCameraMode : EngineTagDataEffectCreateEnum 
----@class EngineTagDataEffectCreateOnlyInFirstPerson : EngineTagDataEffectCreateEnum 
----@class EngineTagDataEffectCreateOnlyInThirdPerson : EngineTagDataEffectCreateEnum 
----@class EngineTagDataEffectCreateInFirstPersonIfPossible : EngineTagDataEffectCreateEnum 
+---@class EngineTagEffectCreateIndependentOfCameraMode : EngineTagEffectCreateEnum 
+---@class EngineTagEffectCreateOnlyInFirstPerson : EngineTagEffectCreateEnum 
+---@class EngineTagEffectCreateOnlyInThirdPerson : EngineTagEffectCreateEnum 
+---@class EngineTagEffectCreateInFirstPersonIfPossible : EngineTagEffectCreateEnum 
 
----@alias EngineTagDataEffectCreate 
----| EngineTagDataEffectCreateIndependentOfCameraMode
----| EngineTagDataEffectCreateOnlyInFirstPerson
----| EngineTagDataEffectCreateOnlyInThirdPerson
----| EngineTagDataEffectCreateInFirstPersonIfPossible
+---@alias EngineTagEffectCreate 
+---| EngineTagEffectCreateIndependentOfCameraMode
+---| EngineTagEffectCreateOnlyInFirstPerson
+---| EngineTagEffectCreateOnlyInThirdPerson
+---| EngineTagEffectCreateInFirstPersonIfPossible
 
----@class EngineTagDataEffectCreateTable 
----@field independentOfCameraMode EngineTagDataEffectCreateIndependentOfCameraMode
----@field onlyInFirstPerson EngineTagDataEffectCreateOnlyInFirstPerson
----@field onlyInThirdPerson EngineTagDataEffectCreateOnlyInThirdPerson
----@field inFirstPersonIfPossible EngineTagDataEffectCreateInFirstPersonIfPossible
+---@class EngineTagEffectCreateTable 
+---@field independentOfCameraMode EngineTagEffectCreateIndependentOfCameraMode
+---@field onlyInFirstPerson EngineTagEffectCreateOnlyInFirstPerson
+---@field onlyInThirdPerson EngineTagEffectCreateOnlyInThirdPerson
+---@field inFirstPersonIfPossible EngineTagEffectCreateInFirstPersonIfPossible
 Engine.tag.effectCreate = {} 
 
----@class EngineTagDataEffectDistributionFunctionEnum : Enum 
+---@class EngineTagEffectDistributionFunctionEnum : Enum 
 
----@class EngineTagDataEffectDistributionFunctionStart : EngineTagDataEffectDistributionFunctionEnum 
----@class EngineTagDataEffectDistributionFunctionEnd : EngineTagDataEffectDistributionFunctionEnum 
----@class EngineTagDataEffectDistributionFunctionConstant : EngineTagDataEffectDistributionFunctionEnum 
----@class EngineTagDataEffectDistributionFunctionBuildup : EngineTagDataEffectDistributionFunctionEnum 
----@class EngineTagDataEffectDistributionFunctionFalloff : EngineTagDataEffectDistributionFunctionEnum 
----@class EngineTagDataEffectDistributionFunctionBuildupAndFalloff : EngineTagDataEffectDistributionFunctionEnum 
+---@class EngineTagEffectDistributionFunctionStart : EngineTagEffectDistributionFunctionEnum 
+---@class EngineTagEffectDistributionFunctionEnd : EngineTagEffectDistributionFunctionEnum 
+---@class EngineTagEffectDistributionFunctionConstant : EngineTagEffectDistributionFunctionEnum 
+---@class EngineTagEffectDistributionFunctionBuildup : EngineTagEffectDistributionFunctionEnum 
+---@class EngineTagEffectDistributionFunctionFalloff : EngineTagEffectDistributionFunctionEnum 
+---@class EngineTagEffectDistributionFunctionBuildupAndFalloff : EngineTagEffectDistributionFunctionEnum 
 
----@alias EngineTagDataEffectDistributionFunction 
----| EngineTagDataEffectDistributionFunctionStart
----| EngineTagDataEffectDistributionFunctionEnd
----| EngineTagDataEffectDistributionFunctionConstant
----| EngineTagDataEffectDistributionFunctionBuildup
----| EngineTagDataEffectDistributionFunctionFalloff
----| EngineTagDataEffectDistributionFunctionBuildupAndFalloff
+---@alias EngineTagEffectDistributionFunction 
+---| EngineTagEffectDistributionFunctionStart
+---| EngineTagEffectDistributionFunctionEnd
+---| EngineTagEffectDistributionFunctionConstant
+---| EngineTagEffectDistributionFunctionBuildup
+---| EngineTagEffectDistributionFunctionFalloff
+---| EngineTagEffectDistributionFunctionBuildupAndFalloff
 
----@class EngineTagDataEffectDistributionFunctionTable 
----@field nStart EngineTagDataEffectDistributionFunctionStart
----@field nEnd EngineTagDataEffectDistributionFunctionEnd
----@field nConstant EngineTagDataEffectDistributionFunctionConstant
----@field nBuildup EngineTagDataEffectDistributionFunctionBuildup
----@field nFalloff EngineTagDataEffectDistributionFunctionFalloff
----@field nBuildupAndFalloff EngineTagDataEffectDistributionFunctionBuildupAndFalloff
+---@class EngineTagEffectDistributionFunctionTable 
+---@field nStart EngineTagEffectDistributionFunctionStart
+---@field nEnd EngineTagEffectDistributionFunctionEnd
+---@field nConstant EngineTagEffectDistributionFunctionConstant
+---@field nBuildup EngineTagEffectDistributionFunctionBuildup
+---@field nFalloff EngineTagEffectDistributionFunctionFalloff
+---@field nBuildupAndFalloff EngineTagEffectDistributionFunctionBuildupAndFalloff
 Engine.tag.effectDistributionFunction = {} 
 
 ---@class MetaEngineTagDataEffectPartFlags 

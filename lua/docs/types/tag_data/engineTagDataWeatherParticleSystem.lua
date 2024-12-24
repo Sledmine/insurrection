@@ -1,15 +1,15 @@
----@class EngineTagDataWeatherParticleSystemRenderDirectionSourceEnum : Enum 
+---@class EngineTagWeatherParticleSystemRenderDirectionSourceEnum : Enum 
 
----@class EngineTagDataWeatherParticleSystemRenderDirectionSourceFromVelocity : EngineTagDataWeatherParticleSystemRenderDirectionSourceEnum 
----@class EngineTagDataWeatherParticleSystemRenderDirectionSourceFromAcceleration : EngineTagDataWeatherParticleSystemRenderDirectionSourceEnum 
+---@class EngineTagWeatherParticleSystemRenderDirectionSourceFromVelocity : EngineTagWeatherParticleSystemRenderDirectionSourceEnum 
+---@class EngineTagWeatherParticleSystemRenderDirectionSourceFromAcceleration : EngineTagWeatherParticleSystemRenderDirectionSourceEnum 
 
----@alias EngineTagDataWeatherParticleSystemRenderDirectionSource 
----| EngineTagDataWeatherParticleSystemRenderDirectionSourceFromVelocity
----| EngineTagDataWeatherParticleSystemRenderDirectionSourceFromAcceleration
+---@alias EngineTagWeatherParticleSystemRenderDirectionSource 
+---| EngineTagWeatherParticleSystemRenderDirectionSourceFromVelocity
+---| EngineTagWeatherParticleSystemRenderDirectionSourceFromAcceleration
 
----@class EngineTagDataWeatherParticleSystemRenderDirectionSourceTable 
----@field urceFromVelocity EngineTagDataWeatherParticleSystemRenderDirectionSourceFromVelocity
----@field urceFromAcceleration EngineTagDataWeatherParticleSystemRenderDirectionSourceFromAcceleration
+---@class EngineTagWeatherParticleSystemRenderDirectionSourceTable 
+---@field urceFromVelocity EngineTagWeatherParticleSystemRenderDirectionSourceFromVelocity
+---@field urceFromAcceleration EngineTagWeatherParticleSystemRenderDirectionSourceFromAcceleration
 Engine.tag.weatherParticleSystemRenderDirectionSource = {} 
 
 ---@class MetaEngineTagDataWeatherParticleSystemParticleTypeFlags 

@@ -1,75 +1,75 @@
----@class EngineTagDataProjectileResponseEnum : Enum 
+---@class EngineTagProjectileResponseEnum : Enum 
 
----@class EngineTagDataProjectileResponseDisappear : EngineTagDataProjectileResponseEnum 
----@class EngineTagDataProjectileResponseDetonate : EngineTagDataProjectileResponseEnum 
----@class EngineTagDataProjectileResponseReflect : EngineTagDataProjectileResponseEnum 
----@class EngineTagDataProjectileResponseOverpenetrate : EngineTagDataProjectileResponseEnum 
----@class EngineTagDataProjectileResponseAttach : EngineTagDataProjectileResponseEnum 
+---@class EngineTagProjectileResponseDisappear : EngineTagProjectileResponseEnum 
+---@class EngineTagProjectileResponseDetonate : EngineTagProjectileResponseEnum 
+---@class EngineTagProjectileResponseReflect : EngineTagProjectileResponseEnum 
+---@class EngineTagProjectileResponseOverpenetrate : EngineTagProjectileResponseEnum 
+---@class EngineTagProjectileResponseAttach : EngineTagProjectileResponseEnum 
 
----@alias EngineTagDataProjectileResponse 
----| EngineTagDataProjectileResponseDisappear
----| EngineTagDataProjectileResponseDetonate
----| EngineTagDataProjectileResponseReflect
----| EngineTagDataProjectileResponseOverpenetrate
----| EngineTagDataProjectileResponseAttach
+---@alias EngineTagProjectileResponse 
+---| EngineTagProjectileResponseDisappear
+---| EngineTagProjectileResponseDetonate
+---| EngineTagProjectileResponseReflect
+---| EngineTagProjectileResponseOverpenetrate
+---| EngineTagProjectileResponseAttach
 
----@class EngineTagDataProjectileResponseTable 
----@field disappear EngineTagDataProjectileResponseDisappear
----@field detonate EngineTagDataProjectileResponseDetonate
----@field reflect EngineTagDataProjectileResponseReflect
----@field overpenetrate EngineTagDataProjectileResponseOverpenetrate
----@field attach EngineTagDataProjectileResponseAttach
+---@class EngineTagProjectileResponseTable 
+---@field disappear EngineTagProjectileResponseDisappear
+---@field detonate EngineTagProjectileResponseDetonate
+---@field reflect EngineTagProjectileResponseReflect
+---@field overpenetrate EngineTagProjectileResponseOverpenetrate
+---@field attach EngineTagProjectileResponseAttach
 Engine.tag.projectileResponse = {} 
 
----@class EngineTagDataProjectileScaleEffectsByEnum : Enum 
+---@class EngineTagProjectileScaleEffectsByEnum : Enum 
 
----@class EngineTagDataProjectileScaleEffectsByDamage : EngineTagDataProjectileScaleEffectsByEnum 
----@class EngineTagDataProjectileScaleEffectsByAngle : EngineTagDataProjectileScaleEffectsByEnum 
+---@class EngineTagProjectileScaleEffectsByDamage : EngineTagProjectileScaleEffectsByEnum 
+---@class EngineTagProjectileScaleEffectsByAngle : EngineTagProjectileScaleEffectsByEnum 
 
----@alias EngineTagDataProjectileScaleEffectsBy 
----| EngineTagDataProjectileScaleEffectsByDamage
----| EngineTagDataProjectileScaleEffectsByAngle
+---@alias EngineTagProjectileScaleEffectsBy 
+---| EngineTagProjectileScaleEffectsByDamage
+---| EngineTagProjectileScaleEffectsByAngle
 
----@class EngineTagDataProjectileScaleEffectsByTable 
----@field byDamage EngineTagDataProjectileScaleEffectsByDamage
----@field byAngle EngineTagDataProjectileScaleEffectsByAngle
+---@class EngineTagProjectileScaleEffectsByTable 
+---@field byDamage EngineTagProjectileScaleEffectsByDamage
+---@field byAngle EngineTagProjectileScaleEffectsByAngle
 Engine.tag.projectileScaleEffectsBy = {} 
 
----@class EngineTagDataProjectileDetonationTimerStartsEnum : Enum 
+---@class EngineTagProjectileDetonationTimerStartsEnum : Enum 
 
----@class EngineTagDataProjectileDetonationTimerStartsImmediately : EngineTagDataProjectileDetonationTimerStartsEnum 
----@class EngineTagDataProjectileDetonationTimerStartsAfterFirstBounce : EngineTagDataProjectileDetonationTimerStartsEnum 
----@class EngineTagDataProjectileDetonationTimerStartsWhenAtRest : EngineTagDataProjectileDetonationTimerStartsEnum 
+---@class EngineTagProjectileDetonationTimerStartsImmediately : EngineTagProjectileDetonationTimerStartsEnum 
+---@class EngineTagProjectileDetonationTimerStartsAfterFirstBounce : EngineTagProjectileDetonationTimerStartsEnum 
+---@class EngineTagProjectileDetonationTimerStartsWhenAtRest : EngineTagProjectileDetonationTimerStartsEnum 
 
----@alias EngineTagDataProjectileDetonationTimerStarts 
----| EngineTagDataProjectileDetonationTimerStartsImmediately
----| EngineTagDataProjectileDetonationTimerStartsAfterFirstBounce
----| EngineTagDataProjectileDetonationTimerStartsWhenAtRest
+---@alias EngineTagProjectileDetonationTimerStarts 
+---| EngineTagProjectileDetonationTimerStartsImmediately
+---| EngineTagProjectileDetonationTimerStartsAfterFirstBounce
+---| EngineTagProjectileDetonationTimerStartsWhenAtRest
 
----@class EngineTagDataProjectileDetonationTimerStartsTable 
----@field tsImmediately EngineTagDataProjectileDetonationTimerStartsImmediately
----@field tsAfterFirstBounce EngineTagDataProjectileDetonationTimerStartsAfterFirstBounce
----@field tsWhenAtRest EngineTagDataProjectileDetonationTimerStartsWhenAtRest
+---@class EngineTagProjectileDetonationTimerStartsTable 
+---@field tsImmediately EngineTagProjectileDetonationTimerStartsImmediately
+---@field tsAfterFirstBounce EngineTagProjectileDetonationTimerStartsAfterFirstBounce
+---@field tsWhenAtRest EngineTagProjectileDetonationTimerStartsWhenAtRest
 Engine.tag.projectileDetonationTimerStarts = {} 
 
----@class EngineTagDataProjectileFunctionInEnum : Enum 
+---@class EngineTagProjectileFunctionInEnum : Enum 
 
----@class EngineTagDataProjectileFunctionInNone : EngineTagDataProjectileFunctionInEnum 
----@class EngineTagDataProjectileFunctionInRangeRemaining : EngineTagDataProjectileFunctionInEnum 
----@class EngineTagDataProjectileFunctionInTimeRemaining : EngineTagDataProjectileFunctionInEnum 
----@class EngineTagDataProjectileFunctionInTracer : EngineTagDataProjectileFunctionInEnum 
+---@class EngineTagProjectileFunctionInNone : EngineTagProjectileFunctionInEnum 
+---@class EngineTagProjectileFunctionInRangeRemaining : EngineTagProjectileFunctionInEnum 
+---@class EngineTagProjectileFunctionInTimeRemaining : EngineTagProjectileFunctionInEnum 
+---@class EngineTagProjectileFunctionInTracer : EngineTagProjectileFunctionInEnum 
 
----@alias EngineTagDataProjectileFunctionIn 
----| EngineTagDataProjectileFunctionInNone
----| EngineTagDataProjectileFunctionInRangeRemaining
----| EngineTagDataProjectileFunctionInTimeRemaining
----| EngineTagDataProjectileFunctionInTracer
+---@alias EngineTagProjectileFunctionIn 
+---| EngineTagProjectileFunctionInNone
+---| EngineTagProjectileFunctionInRangeRemaining
+---| EngineTagProjectileFunctionInTimeRemaining
+---| EngineTagProjectileFunctionInTracer
 
----@class EngineTagDataProjectileFunctionInTable 
----@field nNone EngineTagDataProjectileFunctionInNone
----@field nRangeRemaining EngineTagDataProjectileFunctionInRangeRemaining
----@field nTimeRemaining EngineTagDataProjectileFunctionInTimeRemaining
----@field nTracer EngineTagDataProjectileFunctionInTracer
+---@class EngineTagProjectileFunctionInTable 
+---@field nNone EngineTagProjectileFunctionInNone
+---@field nRangeRemaining EngineTagProjectileFunctionInRangeRemaining
+---@field nTimeRemaining EngineTagProjectileFunctionInTimeRemaining
+---@field nTracer EngineTagProjectileFunctionInTracer
 Engine.tag.projectileFunctionIn = {} 
 
 ---@class MetaEngineTagDataProjectileFlags 

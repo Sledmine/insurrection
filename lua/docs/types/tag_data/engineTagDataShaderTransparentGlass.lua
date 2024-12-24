@@ -1,18 +1,18 @@
----@class EngineTagDataShaderTransparentGlassReflectionTypeEnum : Enum 
+---@class EngineTagShaderTransparentGlassReflectionTypeEnum : Enum 
 
----@class EngineTagDataShaderTransparentGlassReflectionTypeBumpedCubeMap : EngineTagDataShaderTransparentGlassReflectionTypeEnum 
----@class EngineTagDataShaderTransparentGlassReflectionTypeFlatCubeMap : EngineTagDataShaderTransparentGlassReflectionTypeEnum 
----@class EngineTagDataShaderTransparentGlassReflectionTypeDynamicMirror : EngineTagDataShaderTransparentGlassReflectionTypeEnum 
+---@class EngineTagShaderTransparentGlassReflectionTypeBumpedCubeMap : EngineTagShaderTransparentGlassReflectionTypeEnum 
+---@class EngineTagShaderTransparentGlassReflectionTypeFlatCubeMap : EngineTagShaderTransparentGlassReflectionTypeEnum 
+---@class EngineTagShaderTransparentGlassReflectionTypeDynamicMirror : EngineTagShaderTransparentGlassReflectionTypeEnum 
 
----@alias EngineTagDataShaderTransparentGlassReflectionType 
----| EngineTagDataShaderTransparentGlassReflectionTypeBumpedCubeMap
----| EngineTagDataShaderTransparentGlassReflectionTypeFlatCubeMap
----| EngineTagDataShaderTransparentGlassReflectionTypeDynamicMirror
+---@alias EngineTagShaderTransparentGlassReflectionType 
+---| EngineTagShaderTransparentGlassReflectionTypeBumpedCubeMap
+---| EngineTagShaderTransparentGlassReflectionTypeFlatCubeMap
+---| EngineTagShaderTransparentGlassReflectionTypeDynamicMirror
 
----@class EngineTagDataShaderTransparentGlassReflectionTypeTable 
----@field ypeBumpedCubeMap EngineTagDataShaderTransparentGlassReflectionTypeBumpedCubeMap
----@field ypeFlatCubeMap EngineTagDataShaderTransparentGlassReflectionTypeFlatCubeMap
----@field ypeDynamicMirror EngineTagDataShaderTransparentGlassReflectionTypeDynamicMirror
+---@class EngineTagShaderTransparentGlassReflectionTypeTable 
+---@field ypeBumpedCubeMap EngineTagShaderTransparentGlassReflectionTypeBumpedCubeMap
+---@field ypeFlatCubeMap EngineTagShaderTransparentGlassReflectionTypeFlatCubeMap
+---@field ypeDynamicMirror EngineTagShaderTransparentGlassReflectionTypeDynamicMirror
 Engine.tag.shaderTransparentGlassReflectionType = {} 
 
 ---@class MetaEngineTagDataShaderTransparentGlassFlags 

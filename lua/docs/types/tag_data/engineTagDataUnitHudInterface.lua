@@ -1,12 +1,12 @@
----@class EngineTagDataUnitHUDInterfacePanelTypeEnum : Enum 
+---@class EngineTagUnitHUDInterfacePanelTypeEnum : Enum 
 
----@class EngineTagDataUnitHUDInterfacePanelTypeIntegratedLight : EngineTagDataUnitHUDInterfacePanelTypeEnum 
+---@class EngineTagUnitHUDInterfacePanelTypeIntegratedLight : EngineTagUnitHUDInterfacePanelTypeEnum 
 
----@alias EngineTagDataUnitHUDInterfacePanelType 
----| EngineTagDataUnitHUDInterfacePanelTypeIntegratedLight
+---@alias EngineTagUnitHUDInterfacePanelType 
+---| EngineTagUnitHUDInterfacePanelTypeIntegratedLight
 
----@class EngineTagDataUnitHUDInterfacePanelTypeTable 
----@field typeIntegratedLight EngineTagDataUnitHUDInterfacePanelTypeIntegratedLight
+---@class EngineTagUnitHUDInterfacePanelTypeTable 
+---@field typeIntegratedLight EngineTagUnitHUDInterfacePanelTypeIntegratedLight
 Engine.tag.unitHUDInterfacePanelType = {} 
 
 ---@class MetaEngineTagDataUnitHUDInterfaceAuxiliaryOverlayFlags 

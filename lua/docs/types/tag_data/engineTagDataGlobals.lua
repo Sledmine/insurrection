@@ -1,141 +1,141 @@
----@class EngineTagDataMultiplayerInformationSoundEnum : Enum 
+---@class EngineTagMultiplayerInformationSoundEnum : Enum 
 
----@class EngineTagDataMultiplayerInformationSoundPlayBall : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundGameOver : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundOneMinuteToWin : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSound30SecondsToWin : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundRedTeamMinuteToWin : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundRedTeam30ToWin : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundBlueTeamMinuteToWin : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundBlueTeam30ToWin : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundBlueTeamHasTheFlag : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundBlueTeamFlagReturned : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundBlueTeamScore : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundRedTeamHasTheFlag : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundRedTeamFlagReturned : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundRedTeamScore : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundDoubleKill : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundTripleKill : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundKilltacular : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundRunningRiot : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundKillingSpree : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundOddball : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundRace : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundSlayer : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundCaptureTheFlag : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundWarthog : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundGhost : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundScorpion : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundCountdownTimer : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundTeleporterActivate : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundFlagFailure : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundCountdownForRespawn : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundHillMove : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundPlayerRespawn : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundTeamKingOfTheHill : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundTeamOddball : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundTeamRace : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundTeamSlayer : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundKingOfTheHill : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundBlueTeamCtf : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundRedTeamCtf : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundHillContested : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundHillControlled : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundHillOccupied : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundCountdownTimerEnd : EngineTagDataMultiplayerInformationSoundEnum 
----@class EngineTagDataMultiplayerInformationSoundTing : EngineTagDataMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundPlayBall : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundGameOver : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundOneMinuteToWin : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSound30SecondsToWin : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundRedTeamMinuteToWin : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundRedTeam30ToWin : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundBlueTeamMinuteToWin : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundBlueTeam30ToWin : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundBlueTeamHasTheFlag : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundBlueTeamFlagReturned : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundBlueTeamScore : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundRedTeamHasTheFlag : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundRedTeamFlagReturned : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundRedTeamScore : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundDoubleKill : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundTripleKill : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundKilltacular : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundRunningRiot : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundKillingSpree : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundOddball : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundRace : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundSlayer : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundCaptureTheFlag : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundWarthog : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundGhost : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundScorpion : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundCountdownTimer : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundTeleporterActivate : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundFlagFailure : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundCountdownForRespawn : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundHillMove : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundPlayerRespawn : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundTeamKingOfTheHill : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundTeamOddball : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundTeamRace : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundTeamSlayer : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundKingOfTheHill : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundBlueTeamCtf : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundRedTeamCtf : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundHillContested : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundHillControlled : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundHillOccupied : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundCountdownTimerEnd : EngineTagMultiplayerInformationSoundEnum 
+---@class EngineTagMultiplayerInformationSoundTing : EngineTagMultiplayerInformationSoundEnum 
 
----@alias EngineTagDataMultiplayerInformationSound 
----| EngineTagDataMultiplayerInformationSoundPlayBall
----| EngineTagDataMultiplayerInformationSoundGameOver
----| EngineTagDataMultiplayerInformationSoundOneMinuteToWin
----| EngineTagDataMultiplayerInformationSound30SecondsToWin
----| EngineTagDataMultiplayerInformationSoundRedTeamMinuteToWin
----| EngineTagDataMultiplayerInformationSoundRedTeam30ToWin
----| EngineTagDataMultiplayerInformationSoundBlueTeamMinuteToWin
----| EngineTagDataMultiplayerInformationSoundBlueTeam30ToWin
----| EngineTagDataMultiplayerInformationSoundBlueTeamHasTheFlag
----| EngineTagDataMultiplayerInformationSoundBlueTeamFlagReturned
----| EngineTagDataMultiplayerInformationSoundBlueTeamScore
----| EngineTagDataMultiplayerInformationSoundRedTeamHasTheFlag
----| EngineTagDataMultiplayerInformationSoundRedTeamFlagReturned
----| EngineTagDataMultiplayerInformationSoundRedTeamScore
----| EngineTagDataMultiplayerInformationSoundDoubleKill
----| EngineTagDataMultiplayerInformationSoundTripleKill
----| EngineTagDataMultiplayerInformationSoundKilltacular
----| EngineTagDataMultiplayerInformationSoundRunningRiot
----| EngineTagDataMultiplayerInformationSoundKillingSpree
----| EngineTagDataMultiplayerInformationSoundOddball
----| EngineTagDataMultiplayerInformationSoundRace
----| EngineTagDataMultiplayerInformationSoundSlayer
----| EngineTagDataMultiplayerInformationSoundCaptureTheFlag
----| EngineTagDataMultiplayerInformationSoundWarthog
----| EngineTagDataMultiplayerInformationSoundGhost
----| EngineTagDataMultiplayerInformationSoundScorpion
----| EngineTagDataMultiplayerInformationSoundCountdownTimer
----| EngineTagDataMultiplayerInformationSoundTeleporterActivate
----| EngineTagDataMultiplayerInformationSoundFlagFailure
----| EngineTagDataMultiplayerInformationSoundCountdownForRespawn
----| EngineTagDataMultiplayerInformationSoundHillMove
----| EngineTagDataMultiplayerInformationSoundPlayerRespawn
----| EngineTagDataMultiplayerInformationSoundTeamKingOfTheHill
----| EngineTagDataMultiplayerInformationSoundTeamOddball
----| EngineTagDataMultiplayerInformationSoundTeamRace
----| EngineTagDataMultiplayerInformationSoundTeamSlayer
----| EngineTagDataMultiplayerInformationSoundKingOfTheHill
----| EngineTagDataMultiplayerInformationSoundBlueTeamCtf
----| EngineTagDataMultiplayerInformationSoundRedTeamCtf
----| EngineTagDataMultiplayerInformationSoundHillContested
----| EngineTagDataMultiplayerInformationSoundHillControlled
----| EngineTagDataMultiplayerInformationSoundHillOccupied
----| EngineTagDataMultiplayerInformationSoundCountdownTimerEnd
----| EngineTagDataMultiplayerInformationSoundTing
+---@alias EngineTagMultiplayerInformationSound 
+---| EngineTagMultiplayerInformationSoundPlayBall
+---| EngineTagMultiplayerInformationSoundGameOver
+---| EngineTagMultiplayerInformationSoundOneMinuteToWin
+---| EngineTagMultiplayerInformationSound30SecondsToWin
+---| EngineTagMultiplayerInformationSoundRedTeamMinuteToWin
+---| EngineTagMultiplayerInformationSoundRedTeam30ToWin
+---| EngineTagMultiplayerInformationSoundBlueTeamMinuteToWin
+---| EngineTagMultiplayerInformationSoundBlueTeam30ToWin
+---| EngineTagMultiplayerInformationSoundBlueTeamHasTheFlag
+---| EngineTagMultiplayerInformationSoundBlueTeamFlagReturned
+---| EngineTagMultiplayerInformationSoundBlueTeamScore
+---| EngineTagMultiplayerInformationSoundRedTeamHasTheFlag
+---| EngineTagMultiplayerInformationSoundRedTeamFlagReturned
+---| EngineTagMultiplayerInformationSoundRedTeamScore
+---| EngineTagMultiplayerInformationSoundDoubleKill
+---| EngineTagMultiplayerInformationSoundTripleKill
+---| EngineTagMultiplayerInformationSoundKilltacular
+---| EngineTagMultiplayerInformationSoundRunningRiot
+---| EngineTagMultiplayerInformationSoundKillingSpree
+---| EngineTagMultiplayerInformationSoundOddball
+---| EngineTagMultiplayerInformationSoundRace
+---| EngineTagMultiplayerInformationSoundSlayer
+---| EngineTagMultiplayerInformationSoundCaptureTheFlag
+---| EngineTagMultiplayerInformationSoundWarthog
+---| EngineTagMultiplayerInformationSoundGhost
+---| EngineTagMultiplayerInformationSoundScorpion
+---| EngineTagMultiplayerInformationSoundCountdownTimer
+---| EngineTagMultiplayerInformationSoundTeleporterActivate
+---| EngineTagMultiplayerInformationSoundFlagFailure
+---| EngineTagMultiplayerInformationSoundCountdownForRespawn
+---| EngineTagMultiplayerInformationSoundHillMove
+---| EngineTagMultiplayerInformationSoundPlayerRespawn
+---| EngineTagMultiplayerInformationSoundTeamKingOfTheHill
+---| EngineTagMultiplayerInformationSoundTeamOddball
+---| EngineTagMultiplayerInformationSoundTeamRace
+---| EngineTagMultiplayerInformationSoundTeamSlayer
+---| EngineTagMultiplayerInformationSoundKingOfTheHill
+---| EngineTagMultiplayerInformationSoundBlueTeamCtf
+---| EngineTagMultiplayerInformationSoundRedTeamCtf
+---| EngineTagMultiplayerInformationSoundHillContested
+---| EngineTagMultiplayerInformationSoundHillControlled
+---| EngineTagMultiplayerInformationSoundHillOccupied
+---| EngineTagMultiplayerInformationSoundCountdownTimerEnd
+---| EngineTagMultiplayerInformationSoundTing
 
----@class EngineTagDataMultiplayerInformationSoundTable 
----@field dPlayBall EngineTagDataMultiplayerInformationSoundPlayBall
----@field dGameOver EngineTagDataMultiplayerInformationSoundGameOver
----@field dOneMinuteToWin EngineTagDataMultiplayerInformationSoundOneMinuteToWin
----@field d30SecondsToWin EngineTagDataMultiplayerInformationSound30SecondsToWin
----@field dRedTeamMinuteToWin EngineTagDataMultiplayerInformationSoundRedTeamMinuteToWin
----@field dRedTeam30ToWin EngineTagDataMultiplayerInformationSoundRedTeam30ToWin
----@field dBlueTeamMinuteToWin EngineTagDataMultiplayerInformationSoundBlueTeamMinuteToWin
----@field dBlueTeam30ToWin EngineTagDataMultiplayerInformationSoundBlueTeam30ToWin
----@field dBlueTeamHasTheFlag EngineTagDataMultiplayerInformationSoundBlueTeamHasTheFlag
----@field dBlueTeamFlagReturned EngineTagDataMultiplayerInformationSoundBlueTeamFlagReturned
----@field dBlueTeamScore EngineTagDataMultiplayerInformationSoundBlueTeamScore
----@field dRedTeamHasTheFlag EngineTagDataMultiplayerInformationSoundRedTeamHasTheFlag
----@field dRedTeamFlagReturned EngineTagDataMultiplayerInformationSoundRedTeamFlagReturned
----@field dRedTeamScore EngineTagDataMultiplayerInformationSoundRedTeamScore
----@field dDoubleKill EngineTagDataMultiplayerInformationSoundDoubleKill
----@field dTripleKill EngineTagDataMultiplayerInformationSoundTripleKill
----@field dKilltacular EngineTagDataMultiplayerInformationSoundKilltacular
----@field dRunningRiot EngineTagDataMultiplayerInformationSoundRunningRiot
----@field dKillingSpree EngineTagDataMultiplayerInformationSoundKillingSpree
----@field dOddball EngineTagDataMultiplayerInformationSoundOddball
----@field dRace EngineTagDataMultiplayerInformationSoundRace
----@field dSlayer EngineTagDataMultiplayerInformationSoundSlayer
----@field dCaptureTheFlag EngineTagDataMultiplayerInformationSoundCaptureTheFlag
----@field dWarthog EngineTagDataMultiplayerInformationSoundWarthog
----@field dGhost EngineTagDataMultiplayerInformationSoundGhost
----@field dScorpion EngineTagDataMultiplayerInformationSoundScorpion
----@field dCountdownTimer EngineTagDataMultiplayerInformationSoundCountdownTimer
----@field dTeleporterActivate EngineTagDataMultiplayerInformationSoundTeleporterActivate
----@field dFlagFailure EngineTagDataMultiplayerInformationSoundFlagFailure
----@field dCountdownForRespawn EngineTagDataMultiplayerInformationSoundCountdownForRespawn
----@field dHillMove EngineTagDataMultiplayerInformationSoundHillMove
----@field dPlayerRespawn EngineTagDataMultiplayerInformationSoundPlayerRespawn
----@field dTeamKingOfTheHill EngineTagDataMultiplayerInformationSoundTeamKingOfTheHill
----@field dTeamOddball EngineTagDataMultiplayerInformationSoundTeamOddball
----@field dTeamRace EngineTagDataMultiplayerInformationSoundTeamRace
----@field dTeamSlayer EngineTagDataMultiplayerInformationSoundTeamSlayer
----@field dKingOfTheHill EngineTagDataMultiplayerInformationSoundKingOfTheHill
----@field dBlueTeamCtf EngineTagDataMultiplayerInformationSoundBlueTeamCtf
----@field dRedTeamCtf EngineTagDataMultiplayerInformationSoundRedTeamCtf
----@field dHillContested EngineTagDataMultiplayerInformationSoundHillContested
----@field dHillControlled EngineTagDataMultiplayerInformationSoundHillControlled
----@field dHillOccupied EngineTagDataMultiplayerInformationSoundHillOccupied
----@field dCountdownTimerEnd EngineTagDataMultiplayerInformationSoundCountdownTimerEnd
----@field dTing EngineTagDataMultiplayerInformationSoundTing
+---@class EngineTagMultiplayerInformationSoundTable 
+---@field dPlayBall EngineTagMultiplayerInformationSoundPlayBall
+---@field dGameOver EngineTagMultiplayerInformationSoundGameOver
+---@field dOneMinuteToWin EngineTagMultiplayerInformationSoundOneMinuteToWin
+---@field d30SecondsToWin EngineTagMultiplayerInformationSound30SecondsToWin
+---@field dRedTeamMinuteToWin EngineTagMultiplayerInformationSoundRedTeamMinuteToWin
+---@field dRedTeam30ToWin EngineTagMultiplayerInformationSoundRedTeam30ToWin
+---@field dBlueTeamMinuteToWin EngineTagMultiplayerInformationSoundBlueTeamMinuteToWin
+---@field dBlueTeam30ToWin EngineTagMultiplayerInformationSoundBlueTeam30ToWin
+---@field dBlueTeamHasTheFlag EngineTagMultiplayerInformationSoundBlueTeamHasTheFlag
+---@field dBlueTeamFlagReturned EngineTagMultiplayerInformationSoundBlueTeamFlagReturned
+---@field dBlueTeamScore EngineTagMultiplayerInformationSoundBlueTeamScore
+---@field dRedTeamHasTheFlag EngineTagMultiplayerInformationSoundRedTeamHasTheFlag
+---@field dRedTeamFlagReturned EngineTagMultiplayerInformationSoundRedTeamFlagReturned
+---@field dRedTeamScore EngineTagMultiplayerInformationSoundRedTeamScore
+---@field dDoubleKill EngineTagMultiplayerInformationSoundDoubleKill
+---@field dTripleKill EngineTagMultiplayerInformationSoundTripleKill
+---@field dKilltacular EngineTagMultiplayerInformationSoundKilltacular
+---@field dRunningRiot EngineTagMultiplayerInformationSoundRunningRiot
+---@field dKillingSpree EngineTagMultiplayerInformationSoundKillingSpree
+---@field dOddball EngineTagMultiplayerInformationSoundOddball
+---@field dRace EngineTagMultiplayerInformationSoundRace
+---@field dSlayer EngineTagMultiplayerInformationSoundSlayer
+---@field dCaptureTheFlag EngineTagMultiplayerInformationSoundCaptureTheFlag
+---@field dWarthog EngineTagMultiplayerInformationSoundWarthog
+---@field dGhost EngineTagMultiplayerInformationSoundGhost
+---@field dScorpion EngineTagMultiplayerInformationSoundScorpion
+---@field dCountdownTimer EngineTagMultiplayerInformationSoundCountdownTimer
+---@field dTeleporterActivate EngineTagMultiplayerInformationSoundTeleporterActivate
+---@field dFlagFailure EngineTagMultiplayerInformationSoundFlagFailure
+---@field dCountdownForRespawn EngineTagMultiplayerInformationSoundCountdownForRespawn
+---@field dHillMove EngineTagMultiplayerInformationSoundHillMove
+---@field dPlayerRespawn EngineTagMultiplayerInformationSoundPlayerRespawn
+---@field dTeamKingOfTheHill EngineTagMultiplayerInformationSoundTeamKingOfTheHill
+---@field dTeamOddball EngineTagMultiplayerInformationSoundTeamOddball
+---@field dTeamRace EngineTagMultiplayerInformationSoundTeamRace
+---@field dTeamSlayer EngineTagMultiplayerInformationSoundTeamSlayer
+---@field dKingOfTheHill EngineTagMultiplayerInformationSoundKingOfTheHill
+---@field dBlueTeamCtf EngineTagMultiplayerInformationSoundBlueTeamCtf
+---@field dRedTeamCtf EngineTagMultiplayerInformationSoundRedTeamCtf
+---@field dHillContested EngineTagMultiplayerInformationSoundHillContested
+---@field dHillControlled EngineTagMultiplayerInformationSoundHillControlled
+---@field dHillOccupied EngineTagMultiplayerInformationSoundHillOccupied
+---@field dCountdownTimerEnd EngineTagMultiplayerInformationSoundCountdownTimerEnd
+---@field dTing EngineTagMultiplayerInformationSoundTing
 Engine.tag.multiplayerInformationSound = {} 
 
 ---@class MetaEngineTagDataGlobalsRasterizerDataFlags 
