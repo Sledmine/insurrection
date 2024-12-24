@@ -271,6 +271,10 @@ return function()
         log("Nameplate: {}", nameplate)
         log("Bipeds: {}", inspect(bipeds))
         log("Color: {}", inspect(color))
+        if IsDebugLocalCustomizationEnabled then
+            logger:warning("Local customization can not be saved")
+            bipeds = {}
+        end
         api.playerProfileEdit({
             nameplate = nameplate,
             bipeds = bipeds,
@@ -281,6 +285,13 @@ return function()
     customization:onClose(function()
         interface.fade("in", 30)
         interface.loadProfileNameplate()
+        if api.session.player.color then
+            LastColorCustomization.primary = core.getCustomizationColorByValue(api.session.player
+                                                                                   .color.primary)
+            LastColorCustomization.secondary = core.getCustomizationColorByValue(api.session.player
+                                                                                     .color
+                                                                                     .secondary)
+        end
     end)
 
     customization:onOpen(function(previousWidgetTag)

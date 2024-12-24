@@ -164,7 +164,7 @@ function api.login(username, password)
                                {username = username, password = password})
         log("onLoginResponse")
         loading(false)
-        if not response then 
+        if not response then
             logger:error("No response")
             showErrorDialog("No response")
             return
@@ -175,10 +175,12 @@ function api.login(username, password)
             api.session.player = jsonResponse.player
 
             if api.session.player.color then
-                local primaryColorIndex =
-                    core.getCustomizationColorByValue(api.session.player.color.primary)
-                local secondaryColorIndex =
-                    core.getCustomizationColorByValue(api.session.player.color.secondary)
+                local primaryColorIndex = core.getCustomizationColorByValue(api.session.player.color
+                                                                                .primary) or
+                                              LastColorCustomization.primary
+                local secondaryColorIndex = core.getCustomizationColorByValue(api.session.player
+                                                                                  .color.secondary) or
+                                                LastColorCustomization.secondary
                 LastColorCustomization.primary = primaryColorIndex
                 LastColorCustomization.secondary = secondaryColorIndex
             end

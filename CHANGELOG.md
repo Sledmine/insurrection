@@ -4,23 +4,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.8.0] - 2024-09-
+## [2.8.0] - 2024-12-24
 ### Fixed
 - Lobby map preview not being updated properly
 - Lobby gametypes bitmaps not being updated instantly after changing it
 - Issue that probably caused malformed credentials to be saved
 - Labels with height greater that 1 will now be properly displayed in menus
-- Color profile not being reflected in custom biped selection after changing it in the profile menu
 - Crashes when pressing keys in the loading screen
-
+- Issue with lists overriding other buttons behavior
+- Nameplate preview not being restored when going back in the customization menu
+- List elements not being properly erased when changing elements to a shorter list than what the list supports
 ### Added
 - Scroll bar for custom list menus
 - Custom menus now play open sound when opened as stock menus
 - Icons for template selection in lobby menu
-
+- Color primary and secondary menu customization for bipeds
+- Visor customization option for bipeds (just available for The Flood project at the moment)
+- Christmas special season event features (multiplayer trees will replaced by Christmas decorated trees, Christmas hats will be attached to all multiplayer bipeds during all December)
 ### Changed
 - Scroll trough mouse sound error will not play when reaching edges of a list
 - Lobby menu now displays map selection first instead of template
+- Color customization is no longer taken from player profile
+- Harmony is being deprecated in favor of Balltze
+### Known issues
+- Biped customization does not get reflected in game when player joins a lobby mid game
+- Clicking too fast or clicking many times on some buttons may launch menus and actions twice and cause crashes or unexpected behavior
+- 
 
 ## [2.7.0] - 2024-06-20
 ### Added
