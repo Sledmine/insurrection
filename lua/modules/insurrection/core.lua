@@ -112,15 +112,15 @@ function core.getRenderedUIWidgetTagId()
 end
 
 --- Get the tag widget of the current ui open in the game
----@return tag | nil
 function core.getCurrentUIWidgetTag()
     -- local widgetTagId = core.getRenderedUIWidgetTagId()
     local widget = engine.userInterface.getRootWidget()
     if widget then
-        local tag = engine.tag.getTag(widget.definitionTagHandle.value)
+        local tag = engine.tag.getTag(widget.definitionTagHandle.value, engine.tag.classes.uiWidgetDefinition)
         assert(tag, "No tag found for widget")
         -- TODO BALLTZE MIGRATE
         return {
+            data = tag.data,
             id = widget.definitionTagHandle.value,
             tagPath = tag.path,
             tagClass = tag.primaryClass,

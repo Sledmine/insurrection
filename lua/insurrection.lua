@@ -52,13 +52,13 @@ local customBipedPaths = {
 }
 CustomBipedPaths = customBipedPaths
 
-local customUiWidgetPaths = {
+local customExternalTags = {
     {constants.path.nameplateCollection, engine.tag.classes.tagCollection},
     {constants.path.pauseMenu, engine.tag.classes.uiWidgetDefinition},
     {constants.path.dialog, engine.tag.classes.uiWidgetDefinition},
     {constants.path.customSounds, engine.tag.classes.tagCollection},
-    {constants.path.christmasHat, engine.tag.classes.scenery}
-
+    {constants.path.christmasHat, engine.tag.classes.scenery},
+    {constants.path.xmasObjects, engine.tag.classes.tagCollection}
 }
 
 function log(...)
@@ -196,7 +196,7 @@ function PluginLoad()
                     -- elseif api.session.lobbyKey then
                 else
                     balltze.features.clearTagImports()
-                    for _, tagPath in pairs(customUiWidgetPaths) do
+                    for _, tagPath in pairs(customExternalTags) do
                         balltze.features.importTagFromMap("ui", tagPath[1], tagPath[2])
                     end
                 end
@@ -216,7 +216,9 @@ function PluginLoad()
                 end
                 if isChimeraLoaded then
                     if isNewMap then
+                        logger:debug("New map loaded, initializing Insurrection data...")
                         initialize()
+                        specialEvents.onPostMapLoad()
                         isNewMap = false
                     end
                     interface.onTick()

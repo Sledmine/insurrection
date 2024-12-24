@@ -378,10 +378,13 @@ function interface.onTick()
 end
 
 function interface.changeAspectRatio()
-    if core.getCurrentUIWidgetTag() then
-        -- Change UI aspect ratio
-        log("Setting UI aspect ratio to 16:9")
-        balltze.features.setUIAspectRatio(16, 9)
+    local widgetTag = core.getCurrentUIWidgetTag()
+    if widgetTag then
+        if widgetTag.data.bounds.right > 640 then
+            -- Change UI aspect ratio
+            log("Setting UI aspect ratio to 16:9")
+            balltze.features.setUIAspectRatio(16, 9)
+        end
         -- Enable menu blur
         execute_script("menu_blur_on")
 

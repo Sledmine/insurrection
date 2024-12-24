@@ -1,12 +1,15 @@
 local constants = {}
 
+local engine = Engine
+
 constants.path = {
     pauseMenu = [[insurrection\ui\menus\pause\pause_menu]],
     nameplateCollection = [[insurrection\ui\shared\nameplates]],
     dialog = [[insurrection\ui\menus\dialog\dialog_menu]],
     customSounds = [[insurrection\sound\custom_sounds]],
     tester = [[insurrection\ui\menus\tester\tester_menu]],
-    christmasHat = [[insurrection\hats\christmas\christmas_hat]]
+    christmasHat = [[insurrection\hats\christmas\christmas_hat]],
+    xmasObjects = [[insurrection\scenery\season\xmas\xmas_objects]]
 }
 
 constants.customColor = {
@@ -316,7 +319,8 @@ function constants.get()
     }
 
     constants.scenery = {
-        christmasHat = findTag(constants.path.christmasHat, tagClasses.scenery)
+        christmasHat = engine.tag.findTags(constants.path.christmasHat, engine.tag.classes.scenery)[1],
+        xmasObjects = engine.tag.findTags(constants.path.xmasObjects, engine.tag.classes.tagCollection)[1]
     }
     log("Loaded constants")
 end
