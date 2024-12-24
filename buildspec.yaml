@@ -7,9 +7,11 @@ commands:
   ui:
     - ./generate.sh
     - mercury build
-  version:
+  commit-hash:
     - NOMETADATA=$(cat "lua/modules/insurrection/version.lua" | grep -v "local metadata =") ; echo "local metadata = \"$(git rev-parse --short HEAD).\" .. os.date(\""%Y%m%d\"")\n$NOMETADATA" > "lua/modules/insurrection/version.lua"
     - NOVERSION=$(cat "lua/modules/insurrection/version.lua" | grep -v "local releaseVersion =") ; echo "local releaseVersion = \"$(git rev-parse --abbrev-ref HEAD)\"\n$NOVERSION" > "lua/modules/insurrection/version.lua"
+  version:
+    - mercury build commit-hash
     - mv package/manifest.json package/manifest.json.bak
     - jq --indent 4 ".version = \"$(luajit -e 'print(require("lua.modules.insurrection.version"))')\"" package/manifest.json.bak > package/manifest.json
     - rm package/manifest.json.bak

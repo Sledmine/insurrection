@@ -323,16 +323,7 @@ function core.getCustomizationObjectId()
         local object = blam.object(get_object(objectIndex))
         if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
             object.isNotCastingShadow = false
-            return objectId, {
-                object.regionPermutation1,
-                object.regionPermutation2,
-                object.regionPermutation3,
-                object.regionPermutation4,
-                object.regionPermutation5,
-                object.regionPermutation6,
-                object.regionPermutation7,
-                object.regionPermutation8
-            }
+            return objectId
         end
     end
 end
@@ -357,6 +348,7 @@ function core.getWidgetCursorPosition()
     end
 end
 
+LastColorCustomization = {primary = 1, secondary = 1}
 function core.getCustomizationObjectData()
     local customizationObjectId = core.getCustomizationObjectId()
     assert(customizationObjectId, "No customization biped found")
@@ -366,6 +358,16 @@ function core.getCustomizationObjectData()
     assert(customizationBipedTag, "No customization biped tag found")
     local customizationModel = blam.model(customizationBipedTag.model)
     assert(customizationModel, "No customization biped model found")
+
+    local primaryColor = color.decToHex(customizationBiped.colorCLowerRed,
+                                        customizationBiped.colorCLowerGreen,
+                                        customizationBiped.colorCLowerBlue)
+
+    local secondaryColor = color.decToHex(customizationBiped.colorDLowerRed,
+                                          customizationBiped.colorDLowerGreen,
+                                          customizationBiped.colorDLowerBlue)
+
+    local colors = table.flatten(constants.customColors)
     return {
         id = customizationObjectId,
         handle = customizationObjectId,
@@ -373,9 +375,25 @@ function core.getCustomizationObjectData()
         bipedTag = customizationBipedTag,
         tag = blam.getTag(customizationBiped.tagId),
         model = customizationModel,
+        regions = {
+            customizationBiped.regionPermutation1,
+            customizationBiped.regionPermutation2,
+            customizationBiped.regionPermutation3,
+            customizationBiped.regionPermutation4,
+            customizationBiped.regionPermutation5,
+            customizationBiped.regionPermutation6,
+            customizationBiped.regionPermutation7,
+            customizationBiped.regionPermutation8
+        },
         color = {
-            -- TODO Add color values
-        }
+            primary = primaryColor,
+            secondary = secondaryColor,
+            custom = {
+                primary = colors[LastColorCustomization.primary],
+                secondary = colors[LastColorCustomization.secondary]
+            }
+        },
+        visor = customizationBiped.shaderPermutationIndex
     }
 end
 
@@ -458,20 +476,29 @@ function core.setCustomizationBipedColor(primaryColorHex, secondaryColorHex)
 
     -- Set primary color
     if primaryColorHex then
+        LastColorCustomization.primary = table.indexof(table.flatten(constants.customColors),
+                                                      primaryColorHex)
         local r, g, b = color.hexToDec(primaryColorHex)
         customizationBiped.colorCLowerRed = r
         customizationBiped.colorCLowerGreen = g
         customizationBiped.colorCLowerBlue = b
     end
 
-
     -- Set secondary color
     if secondaryColorHex then
+        LastColorCustomization.secondary = table.indexof(table.flatten(constants.customColors),
+                                                        secondaryColorHex)
         r, g, b = color.hexToDec(secondaryColorHex)
         customizationBiped.colorDLowerRed = r
         customizationBiped.colorDLowerGreen = g
         customizationBiped.colorDLowerBlue = b
     end
+end
+
+function core.getCustomizationColorByValue(value)
+    local colorIndex = table.indexof(table.flatten(constants.customColors), value)
+    local colorName = table.keyof(constants.customColor, value)
+    return colorIndex, colorName
 end
 
 return core

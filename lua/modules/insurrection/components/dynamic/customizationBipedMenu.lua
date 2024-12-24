@@ -172,15 +172,19 @@ return function(props)
             }
         end)
 
-        table.insert(regions, 1, {
-            value = "visor",
-            label = t("visor"),
-            bitmap = function(uiComponent)
-                local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
-                icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
-                icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("visor")})
-            end
-        })
+        local isTheFloodProject = customizationObjectData.tag.path:includes("keymind")
+        if isTheFloodProject then
+            table.insert(regions, 1, {
+                value = "visor",
+                label = t("visor"),
+                bitmap = function(uiComponent)
+                    local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    icon.widgetDefinition.backgroundBitmap =
+                        constants.bitmaps.customization.regions.id
+                    icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("visor")})
+                end
+            })
+        end
         table.insert(regions, 1, {
             value = "color",
             label = t("color"),
@@ -370,6 +374,11 @@ return function(props)
     end)
 
     local function onClose()
+        local customizationBiped = core.getCustomizationObjectData().biped
+        if customizationBiped then
+            BipedRotation = constants.customization.rotation.default
+            blam.rotateObject(customizationBiped, BipedRotation, 0, 0)
+        end
         --- TODO Mix permutations and visor in one concept
         if editing == "permutations" or editing == "visor" then
             customization.events.onOpen()

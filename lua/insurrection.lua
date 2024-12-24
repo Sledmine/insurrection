@@ -15,6 +15,7 @@ execute_script = engine.hsc.executeScript
 ---@type Logger
 logger = nil
 DebugMode = false
+APILocalMode = false
 IsDebugCustomization = false
 IsDebugLocalCustomizationEnabled = false
 inspect = require "inspect"
@@ -62,7 +63,13 @@ local customUiWidgetPaths = {
 
 function log(...)
     if DebugMode then
-        logger:debug(...)
+        local args = {...}
+        for i = 1, #args do
+            if type(args[i]) == "string" then
+                args[i] = args[i]:replace("\n", " ")
+            end
+        end
+        logger:debug(table.unpack(args))
     end
 end
 

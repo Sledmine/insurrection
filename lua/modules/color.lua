@@ -50,7 +50,15 @@ end
 ---@param g number
 ---@param b number
 function color.decToHex(r, g, b)
-    return string.format("%02x%02x%02x", r * 255, g * 255, b * 255)
+    r = math.max(0, math.min(1, r))
+    g = math.max(0, math.min(1, g))
+    b = math.max(0, math.min(1, b))
+
+    r = math.ceil(r * 255)
+    g = math.ceil(g * 255)
+    b = math.ceil(b * 255)
+
+    return string.format("#%02X%02X%02X", r, g, b)
 end
 
 return color

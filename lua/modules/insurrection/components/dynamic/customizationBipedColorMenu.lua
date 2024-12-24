@@ -12,6 +12,10 @@ local l = function(str)
     return titleCase:upper()
 end
 
+local function getColorName(color)
+    return table.keyof(constants.customColor, color)
+end
+
 return function()
     local customizationColor = components.new(constants.widgets.bipedColor.id)
 
@@ -30,8 +34,7 @@ return function()
         local colorPrimaryColumnList = list.new(colorPrimaryColumnHandle)
         colorPrimaryColumnList:scrollable(false)
         colorPrimaryColumnList:onSelect(function(item)
-            local colorName = table.keyof(constants.customColor, item.value)
-            primaryColorLabel:setText(l(colorName))
+            primaryColorLabel:setText(l(getColorName(item.value)))
             core.setCustomizationBipedColor(item.value)
         end)
         colorPrimaryColumnList:setItems(table.map(
@@ -45,8 +48,7 @@ return function()
         local colorSecondaryColumnList = list.new(colorSecondaryColumnHandle)
         colorSecondaryColumnList:scrollable(false)
         colorSecondaryColumnList:onSelect(function(item)
-            local colorName = table.keyof(constants.customColor, item.value)
-            secondaryColorLabel:setText(l(colorName))
+            secondaryColorLabel:setText(l(getColorName(item.value)))
             core.setCustomizationBipedColor(nil, item.value)
         end)
         colorSecondaryColumnList:setItems(table.map(table.reverse(
@@ -58,7 +60,7 @@ return function()
     end
 
     customizationColor:onOpen(function()
-        BipedRotation = 118
+        BipedRotation = constants.customization.rotation.color
         local customizationBiped = core.getCustomizationObjectData().biped
         assert(customizationBiped, "No customization biped found")
         blam.rotateObject(customizationBiped, BipedRotation, 0 , 0)

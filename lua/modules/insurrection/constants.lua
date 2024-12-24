@@ -213,7 +213,7 @@ constants.colors = {
 }
 
 constants.customization = {
-    rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190, arms = 80, gear = 0}
+    rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190, arms = 80, gear = 0, color = 118},
 }
 
 constants.limits = {

@@ -41,6 +41,7 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 ---@field publicId string
 ---@field rank number
 ---@field bipeds table<string, string>
+---@field color {primary: string, secondary: string}
 
 ---@class loginResponse
 ---@field message string
@@ -91,7 +92,8 @@ local function connect(desiredMap, host, port, password)
         engine.core.consolePrint("Can't connect to a server while in-game.")
         return
     end
-    logger:debug("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " .. tostring(password))
+    logger:debug("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " ..
+                     tostring(password))
     local mapList = engine.map.getMapList()
     if table.indexof(mapList, desiredMap) then
         -- Force game profile name to be the same as the player's name
@@ -148,9 +150,9 @@ end
 function api.loadUrl(host)
     api.version = "v1"
     api.host = Balltze.filesystem.readFile("insurrection_host") or host or "http://localhost:4343/"
-    --if DebugMode then
-    --    api.host = "http://localhost:4343/"
-    --end
+    if APILocalMode then
+        api.host = "http://localhost:4343/"
+    end
     api.url = api.host .. api.version
 end
 
@@ -162,7 +164,7 @@ function api.login(username, password)
                                {username = username, password = password})
         log("onLoginResponse")
         loading(false)
-        if not response then
+        if not response then 
             logger:error("No response")
             showErrorDialog("No response")
             return
@@ -171,6 +173,16 @@ function api.login(username, password)
             local jsonResponse = response.json()
             api.session.token = jsonResponse.token
             api.session.player = jsonResponse.player
+
+            if api.session.player.color then
+                local primaryColorIndex =
+                    core.getCustomizationColorByValue(api.session.player.color.primary)
+                local secondaryColorIndex =
+                    core.getCustomizationColorByValue(api.session.player.color.secondary)
+                LastColorCustomization.primary = primaryColorIndex
+                LastColorCustomization.secondary = secondaryColorIndex
+            end
+
             requests.headers = {"Authorization: Bearer " .. api.session.token}
             -- Save last defined nameplate
             core.updateSettings({nameplate = jsonResponse.player.nameplate})
@@ -485,10 +497,7 @@ function api.playerProfileEdit(data)
             local bipedProjectName = table.keys(data.bipeds)[1]
             interface.dialog("INFORMATION", "CONGRATULATIONS", "Profile customized successfully.")
             interface.loadProfileNameplate(data.nameplate)
-            core.updateSettings({
-                nameplate = data.nameplate,
-                lastSavedProject = bipedProjectName
-            })
+            core.updateSettings({nameplate = data.nameplate, lastSavedProject = bipedProjectName})
             -- Refresh player data
             api.session.player.bipeds = table.merge(api.session.player.bipeds, data.bipeds)
             return
@@ -561,7 +570,8 @@ function api.getSavedBipeds()
             local elements = data:split("+")
             return {
                 path = elements[1],
-                regions = table.map(table.slice(elements, 2, #elements), tointeger)
+                regions = table.map(table.slice(elements, 2, 9), tointeger),
+                visor = tointeger(elements[10] or "0")
             }
         end)
     end

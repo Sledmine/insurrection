@@ -67,16 +67,17 @@ return function()
     ---Select a customization biped
     ---@param bipedPath string
     ---@param regions? number[]
-    local handleSelectBiped = function(bipedPath, regions)
-        log(bipedPath)
-        log(inspect(regions))
+    ---@param visor integer
+    local handleSelectBiped = function(bipedPath, regions, visor)
+        log("Selected biped path: {}", bipedPath)
+        log("Regions: {}", inspect(regions))
         selectedBiped = bipedPath
 
         execute_script("object_create customization_biped")
 
         local tagEntry = engine.tag.findTags(bipedPath, engine.tag.classes.biped)[1]
         if not tagEntry then
-            logger:error("Biped tag: {} not found", bipedPath)
+            logger:error("Custom external biped tag: {} not found", bipedPath)
             return
         end
 
@@ -126,15 +127,17 @@ return function()
 
         local bipedName = t(utils.path(bipedPath:replace("_mp", "")).name)
         currentBipedLabel:setText(bipedName)
-        --
-        local colorFromGame = constants.colors[profile.colorIndex]
-        logger:debug(colorFromGame)
-        local r, g, b = color.hexToDec(colorFromGame)
+
+        -- local colorFromGame = constants.colors[profile.colorIndex]
+        local colorFromInsurrection = core.getCustomizationObjectData().color.custom
+        log("Color from Insurrection: {}", colorFromInsurrection)
+
+        local r, g, b = color.hexToDec(colorFromInsurrection.primary)
         customizationBiped.colorCLowerRed = r
         customizationBiped.colorCLowerGreen = g
         customizationBiped.colorCLowerBlue = b
-        --
-        ---- TODO Change with secondary color later
+
+        local r, g, b = color.hexToDec(colorFromInsurrection.secondary)
         customizationBiped.colorDLowerRed = r
         customizationBiped.colorDLowerGreen = g
         customizationBiped.colorDLowerBlue = b
@@ -143,6 +146,10 @@ return function()
             for regionIndex, permutationIndex in pairs(regions) do
                 core.setObjectPermutationSafely(customizationBiped, regionIndex, permutationIndex)
             end
+        end
+
+        if visor then
+            customizationBiped.shaderPermutationIndex = visor
         end
     end
 
@@ -164,6 +171,7 @@ return function()
                                 table.keys(state.available.customization)[1]
         selectedProject = projectName
         local project = state.available.customization[projectName] or defaultProject
+        logger:debug("Selected project: {}", projectName)
         local bipeds = table.map(project.tags, function(bipedPath)
             return {label = "CUSTOMIZE", value = bipedPath:replace(".biped", "")}
         end)
@@ -172,15 +180,23 @@ return function()
         local regions
         local bipedPath = bipeds[1].value
         local savedBiped = savedBipeds[projectName]
+        local visor = 0
         if savedBiped then
-            bipedsList:setCurrentItemIndex(table.indexof(bipeds, table.find(bipeds, function(biped)
+            local bipedIsStillAvailable = table.find(bipeds, function(biped)
                 return biped.value == savedBiped.path
-            end)) or 1)
-            bipedPath = savedBiped.path
-            regions = savedBiped.regions
+            end)
+            if bipedIsStillAvailable then
+                bipedsList:setCurrentItemIndex(table.indexof(bipeds,
+                                                             table.find(bipeds, function(biped)
+                    return biped.value == savedBiped.path
+                end)) or 1)
+                bipedPath = savedBiped.path
+                regions = savedBiped.regions
+                visor = savedBiped.visor
+            end
         end
         -- log(savedBiped)
-        handleSelectBiped(bipedPath, regions)
+        handleSelectBiped(bipedPath, regions, visor)
     end
 
     ---@param openList boolean?
@@ -240,15 +256,26 @@ return function()
             nameplate = selectedNameplateItem.value
         end
         if selectedProject and selectedBiped then
-            local objectId, regions = core.getCustomizationObjectId()
+            local objectId = core.getCustomizationObjectId()
+            local objectData = core.getCustomizationObjectData()
+            local visor = objectData.visor
+            local regions = objectData.regions
             if objectId and regions then
                 local project = selectedProject
-                bipeds = {[project] = selectedBiped .. "+" .. table.concat(regions, "+")}
+                bipeds = {
+                    [project] = selectedBiped .. "+" .. table.concat(regions, "+") .. "+" .. visor
+                }
             end
         end
+        local color = core.getCustomizationObjectData().color.custom
         log("Nameplate: {}", nameplate)
         log("Bipeds: {}", inspect(bipeds))
-        api.playerProfileEdit({nameplate = nameplate, bipeds = bipeds})
+        log("Color: {}", inspect(color))
+        api.playerProfileEdit({
+            nameplate = nameplate,
+            bipeds = bipeds,
+            color = {primary = color.primary, secondary = color.secondary}
+        })
     end)
 
     customization:onClose(function()
