@@ -201,7 +201,7 @@ end
 
 function api.available()
     loading(true, "Loading available parameters...")
-    logger:info("Loading available parameters...")
+    logger:debug("Loading available parameters...")
     if IsDebugLocalCustomizationEnabled then
         local customization = {}
         for mapName, data in pairs(CustomBipedPaths) do
@@ -371,7 +371,7 @@ function api.refreshLobby()
     if not api.session.lobbyKey then
         return
     end
-    logger:info("Refreshing lobby data...", "info")
+    logger:debug("Refreshing lobby data...")
     loading(true, "Refreshing lobby...", false)
     local refresh = async(function(await)
         ---@type httpResponse<insurrectionLobby | requestResult>?

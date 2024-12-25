@@ -32,7 +32,7 @@ function menus.lobby(client)
         log("Rejoining lobby: {}", isRejoiningLobby)
     end
     if client then
-        logger:info("Opening lobby client")
+        logger:debug("Opening lobby client")
         openWidget(constants.widgets.lobbyClient.id, not isRejoiningLobby)
         return
     end
