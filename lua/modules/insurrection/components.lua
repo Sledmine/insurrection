@@ -102,7 +102,6 @@ function component.callbacks()
             if editableWidgetTagData and editableWidgetTagEntry then
                 if widgetTag.definitionTagHandle.value == editableWidgetTagEntry.handle.value then
                     if button == "right" then
-                        engine.core.consolePrint("Button: " .. button)
                         local inputString = core.getStringFromWidget(
                                                 editableWidgetTagEntry.handle.value)
                         local text = inputString .. core.getClipboard()
