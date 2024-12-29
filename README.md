@@ -18,12 +18,9 @@ with the following line on the terminal:
 ```
 mercury install insurrection
 ```
-**NOTE:** This project has [Harmony](https://github.com/JerryBrick/harmony) as a dependency, it is
-used to force a different aspect ratio for the UI, setting it to 16:9.
 
-It also uses [Chimera](https://github.com/SnowyMouse/chimera) as it is a loader for other 
-binary mods as [Harmony](https://github.com/JerryBrick/harmony), lua scripting is another function
-being used from this.
+This mod uses [Chimera](https://github.com/SnowyMouse/chimera) as it works as a loader for other 
+binary mods as [Balltze](https://github.com/MangoFizz/balltze).
 
 # Screenshots
 
@@ -35,7 +32,6 @@ Simply replace the font_override ini block on your config with one from this rep
 A high resolution mouse bitmap was added, more ui widget components were moved to support a real
 widescreen layout.
 
-![intro_menu](images/screenshots/intro_menu.png)
 ![main_menu](images/screenshots/main_menu.png)
-![multiplayer_menu](images/screenshots/multiplayer_menu.png)
-![legacy_servers_menu](images/screenshots/legacy_servers_menu.png)
+![customization_biped_menu](images/screenshots/customization_biped_menu.png)
+
