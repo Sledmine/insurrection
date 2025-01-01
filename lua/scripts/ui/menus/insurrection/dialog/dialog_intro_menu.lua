@@ -37,8 +37,7 @@ return container {
                 name = "dialog_intro_text",
                 text = "Insurrection menu has not loaded correctly.\r\nPlease check the integrity of the files or contact the developers on the Discord server:\r\nhttps://discord.shadowmods.net",
                 justify = "center",
-                size = 50,
-                width = 854
+                height = 50
             },
             0,
             220
