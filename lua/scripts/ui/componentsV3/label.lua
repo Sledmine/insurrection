@@ -40,14 +40,14 @@ return function(props)
     elseif props.variant == "focus" then
         textColor = constants.color.focus
     end
-    local bounds
+    local bounds = widget.bounds(0, 0, size, constants.screen.width)
     if props.width or props.height then
-        bounds = widget.bounds(0, 0, size or 20, props.width or 0)
+        bounds = widget.bounds(0, 0, props.height or size, props.width or constants.screen.width)
     end
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        bounds = bounds or widget.bounds(0, 0, size or 20, constants.screen.width),
+        bounds = bounds,
         flags = {pass_unhandled_events_to_focused_child = true},
         text_font = textFont,
         text_color = textColor,
