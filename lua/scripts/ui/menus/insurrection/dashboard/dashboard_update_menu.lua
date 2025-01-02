@@ -13,14 +13,15 @@ local container = require "lua.scripts.ui.componentsV3.container"
 local options = require "lua.scripts.ui.componentsV3.options"
 local button = require "lua.scripts.ui.componentsV3.button"
 local header = require "lua.scripts.ui.componentsV3.header"
+local label = require "lua.scripts.ui.componentsV3.label"
 
 widget.init [[insurrection/ui/menus/dashboard_updated/]]
 
 local borrowLayout = widget.layout {
     alignment = "horizontal",
     size = 24,
-    x = 61,
-    y = 310,
+    x = 20,
+    y = 344,
     margin = 2
 }
 
@@ -139,37 +140,81 @@ return container {
             621,
             410
         },
-        { ---Center Buttons
+        {---List Buttons
             options {
                 name = "dashboard_updated_buttons",
                 alignment = "vertical",
                 childs = {
-                    {
+                    { ---Browse Lobbies Button
                         buttonUpdatedDashboard {
                             name = "browse_prompt",
-                            text = "BROWSE LOBBIES",
-                            variant = "browse_lobbies"
+                            variant = "browse_lobbies",
+                            justification = "right_justify",
+                            childs = {
+                                {
+                                    label {---Browse Lobbies Text
+                                        name = "browse_lobbies",
+                                        text = "BROWSE LOBBIES",
+                                        variant = "title",
+                                        color = "cobalt",
+                                        justify = "right",
+                                        --isFlashingText = true,
+                                        width = 408 - 12
+                                    },
+                                    0,
+                                    56
+                                }
+                            }
                         },
                         14,
-                        52
+                        82
                     },
-                    {
+                    {---Create Lobby Button
                         buttonUpdatedDashboard {
                             name = "create_prompt",
-                            text = "CREATE LOBBY",
-                            variant = "create_lobby"
+                            variant = "create_lobby",
+                            justification = "right_justify",
+                            childs = {
+                                {
+                                    label {---Create Lobby Text
+                                        name = "create_lobby",
+                                        text = "CREATE LOBBY",
+                                        variant = "title",
+                                        color = "cobalt",
+                                        justify = "right",
+                                        --isFlashingText = true,
+                                        width = 408 - 12
+                                    },
+                                    0,
+                                    56
+                                }
+                            }
                         },
                         14,
-                        128
+                        160
                     },
-                    {
+                    {---Create Customization Button
                         buttonUpdatedDashboard {
-                            name = "join_key_prompt",
-                            text = "JOIN LOBBY BY KEY",
-                            variant = "join_lobby_by_key"
+                            name = "customization_prompt",
+                            variant = "customization",
+                            justification = "right_justify",
+                            childs = {
+                                {
+                                    label {---Customization Text
+                                        name = "customization",
+                                        text = "CUSTOMIZATION",
+                                        variant = "title",
+                                        color = "cobalt",
+                                        justify = "right",
+                                        width = 408 - 12
+                                    },
+                                    0,
+                                    56
+                                }
+                            }
                         },
                         14,
-                        204
+                        238
                     },
                     --{
                     --    buttonUpdatedDashboard {
