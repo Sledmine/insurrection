@@ -6,7 +6,8 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@class labelProps
 ---@field name string Name of the component
 ---@field text string | string[] Text to display
----@field variant? "title" | "subtitle" | "text" | "focus" | "error" | "warning"
+---@field variant? "title" | "subtitle" | "text" | "button" | "shadow"
+---@field color? "white" | "blue_yonder" | "gray" | "silver" | "blue_gray" | "cobalt" | "yellow" | "red"
 ---@field justify? "left" | "center" | "right"
 ---@field size? number
 ---@field width? number
@@ -14,6 +15,7 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@field [1]? invaderWidgetChildWidget[]
 ---@field childs? invaderWidgetChildWidget[]
 ---@field replace? invaderWidgetSearchAndReplaceFunctions[]
+---@field isFlashingText? boolean
 
 ---Label component
 ---@param props labelProps
@@ -22,6 +24,7 @@ return function(props)
     local name = props.name
     local text = props.text
     local size = props.size or 24
+    local isFlashingText = props.isFlashingText or false
 
     local widgetPath = widget.path .. name .. "_label.ui_widget_definition"
     local stringsPath = widget.path .. "strings/" .. name .. "_label.unicode_string_list"
@@ -30,24 +33,46 @@ return function(props)
     else
         ustr(stringsPath, text)
     end
+
     local textFont = constants.fonts.text
     local textColor = constants.color.text
+
+    ---Variant props
     if props.variant == "title" then
         textFont = constants.fonts.title
     elseif props.variant == "subtitle" then
         textFont = constants.fonts.subtitle
         textColor = constants.color.subtitle
-    elseif props.variant == "focus" then
-        textColor = constants.color.focus
-    elseif props.variant == "error" then
-        textColor = constants.color.error
-    elseif props.variant == "warning" then
-        textColor = constants.color.warning
+    elseif props.variant == "button" then
+        textFont = constants.fonts.button
+    elseif props.variant == "shadow" then
+        textFont = constants.fonts.shadow
     end
+
+    ---Color props
+    if props.color == "white" then
+        textColor = constants.color.title
+    elseif props.color == "blue_yonder" then
+        textColor = constants.color.subtitle
+    elseif props.color == "gray" then
+        textColor = constants.color.selected
+    elseif props.color == "silver" then
+        textColor = constants.color.nameplate
+    elseif props.color == "blue_gray" then
+        textColor = constants.color.info
+    elseif props.color == "cobalt" then
+        textColor = constants.color.focus
+    elseif props.color == "yellow" then
+        textColor = constants.color.warning
+    elseif props.color == "red" then
+        textColor = constants.color.error
+    end
+
     local bounds = widget.bounds(0, 0, size, constants.screen.width)
     if props.width or props.height then
         bounds = widget.bounds(0, 0, props.height or size, props.width or constants.screen.width)
     end
+
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
@@ -58,6 +83,9 @@ return function(props)
         justification = (props.justify or "left") .. "_justify",
         text_label_unicode_strings_list = stringsPath,
         string_list_index = 0,
+        flags_1 = {
+            flashing = isFlashingText
+        },
         --horiz_offset = 10,
         horiz_offset = 0,
         vert_offset = 5,
