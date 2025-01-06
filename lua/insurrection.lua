@@ -179,7 +179,10 @@ function PluginLoad()
     local function importCustomizableBipeds()
         for mapName, bipeds in pairs(customBipedPaths) do
             for _, bipedPath in pairs(bipeds) do
-                balltze.features.importTagFromMap(mapName, bipedPath, engine.tag.classes.biped)
+                local result = pcall(balltze.features.importTagFromMap, mapName, bipedPath, engine.tag.classes.biped)
+                if not result then
+                    logger:warning("Failed to import customizable biped {} from map {}", bipedPath, mapName)
+                end
             end
         end
     end
