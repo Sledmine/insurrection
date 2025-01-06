@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.2] - 2025-01-02
+### Fixed
+- LAN games being created in Internet instead of LAN
+- Insurrection not loading properly if Coop Evolved and The Flood MP were not installed
+
+## [2.8.1] - 2024-12-24
+### Fixed
+- Issue causing crashes do to missing core file
+
 ## [2.8.0] - 2024-12-24
 ### Fixed
 - Lobby map preview not being updated properly
