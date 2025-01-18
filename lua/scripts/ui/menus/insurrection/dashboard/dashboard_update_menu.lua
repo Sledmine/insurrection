@@ -149,7 +149,7 @@ return container {
                         buttonUpdatedDashboard {
                             name = "browse_prompt",
                             variant = "browse_lobbies",
-                            justification = "right_justify",
+                            --justification = "right_justify",
                             childs = {
                                 {
                                     label {---Browse Lobbies Text
