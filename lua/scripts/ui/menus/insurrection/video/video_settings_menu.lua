@@ -30,21 +30,30 @@ return container {
                 name = name,
                 alignment = "vertical",
                 childs = {
+                    --{
+                    --    spinner {
+                    --        name = "resolution",
+                    --        text = "RESOLUTION",
+                    --        variant = "large",
+                    --        value = strmem(16, "1920x1080"),
+                    --    },
+                    --    layout()
+                    --},
+                    --{
+                    --    spinner {
+                    --        name = "refresh_rate",
+                    --        text = "REFRESH RATE",
+                    --        variant = "large",
+                    --        value = strmem(10, "60Hz"),
+                    --    },
+                    --    layout()
+                    --},
                     {
                         spinner {
-                            name = "resolution",
-                            text = "RESOLUTION",
-                            variant = "large",
-                            value = strmem(16, "1920x1080"),
-                        },
-                        layout()
-                    },
-                    {
-                        spinner {
-                            name = "refresh_rate",
-                            text = "REFRESH RATE",
-                            variant = "large",
-                            value = strmem(10, "60Hz"),
+                            name = "texture_quality",
+                            text = "TEXTURE QUALITY",
+                            value = strmem(8, "HIGH"),
+                            variant = "large"
                         },
                         layout()
                     },
@@ -81,10 +90,58 @@ return container {
                         layout()
                     },
                     {
+                        checkbox {
+                            name = "use_vsync",
+                            text = "USE VSYNC",
+                            variant = "large",
+                        },
+                        layout()
+                    },
+                    --{
+                    --    checkbox {
+                    --        name = "show_fps",
+                    --        text = "SHOW FPS",
+                    --        variant = "large",
+                    --    },
+                    --    layout()
+                    --},
+                    {
+                        checkbox {
+                            name = "windowed_mode",
+                            text = "WINDOWED MODE",
+                            variant = "large",
+                        },
+                        layout()
+                    },
+                    {
+                        checkbox {
+                            name = "bordeless",
+                            text = "BORDERLESS WINDOW",
+                            variant = "large",
+                        },
+                        layout()
+                    },
+                    {
+                        checkbox {
+                            name = "anisotropic",
+                            text = "ANISOTROPIC FILTER",
+                            variant = "large",
+                        },
+                        layout()
+                    },
+                    {
+                        checkbox {
+                            name = "preload_textures",
+                            text = "PRELOAD MAP TEXTURES",
+                            variant = "large",
+                        },
+                        layout()
+                    },
+                    {
                         spinner {
-                            name = "texture_quality",
-                            text = "TEXTURE QUALITY",
-                            value = strmem(8, "HIGH"),
+                            name = "fov",
+                            text = "FIELD OF VIEW",
+                            value = strmem(8, "70"),
                             variant = "large"
                         },
                         layout()
