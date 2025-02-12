@@ -1,6 +1,6 @@
 -- Tag creator/editor module
 -- This module is a wrapper for invader-edit to create and edit tags
-local glue = require "lua.modules.glue"
+local luna = require "lua.modules.luna"
 local tag = {}
 
 local editCmd = [[invader-edit "%s"]]
@@ -101,8 +101,9 @@ end
 function tag.edit(tagPath, keys)
     print("Editing: " .. tagPath)
     local updateTagCmd = editCmd:format(tagPath)
-    glue.map(keys, function(property, value)
+    local t = table.map(keys, function(value, property)
         updateTagCmd = updateTagCmd .. writeMapFields(property, value)
+        return updateTagCmd
     end)
     if os.execute(updateTagCmd) then
         return true
@@ -126,13 +127,13 @@ function tag.get(tagPath, key, index, subkey)
     end
     local pipe = io.popen(cmd)
     assert(pipe, "Error at attempting to read: " .. tagPath .. " " .. key)
-    local value = pipe:read("*a")
+    local value = pipe:read("*a") --[[@as string]]
     if not pipe:close() then
         print("Attempting to read:")
         print(tagPath, key, index, subkey)
         error(value)
     end
-    return nulled(glue.string.trim(value))
+    return nulled(value:trim())
 end
 
 ---Count entries from a tag given key
@@ -181,8 +182,9 @@ function tag.create(tagPath, keys)
     print("Creating: " .. tagPath)
     -- Create widget from scratch
     local createTagCmd = createCmd:format(tagPath)
-    glue.map(keys, function(property, value)
+    local t = table.map(keys, function(value, property)
         createTagCmd = createTagCmd .. createKeys(property, value)
+        return createTagCmd
     end)
     if os.execute(createTagCmd) then
         return true
