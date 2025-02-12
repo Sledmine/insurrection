@@ -7,7 +7,7 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@field name string Name of the component
 ---@field text string | string[] Text to display
 ---@field variant? "title" | "subtitle" | "text" | "button" | "shadow"
----@field color? "white" | "blue_yonder" | "gray" | "silver" | "blue_gray" | "cobalt" | "yellow" | "red"
+---@field color? "white" | "blueYonder" | "gray" | "silver" | "blueGray" | "cobalt" | "yellow" | "red"
 ---@field justify? "left" | "center" | "right"
 ---@field size? number
 ---@field width? number
@@ -52,13 +52,13 @@ return function(props)
     ---Color props
     if props.color == "white" then
         textColor = constants.color.title
-    elseif props.color == "blue_yonder" then
+    elseif props.color == "blueYonder" then
         textColor = constants.color.subtitle
     elseif props.color == "gray" then
         textColor = constants.color.selected
     elseif props.color == "silver" then
         textColor = constants.color.nameplate
-    elseif props.color == "blue_gray" then
+    elseif props.color == "blueGray" then
         textColor = constants.color.info
     elseif props.color == "cobalt" then
         textColor = constants.color.focus

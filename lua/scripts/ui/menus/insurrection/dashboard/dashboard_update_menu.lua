@@ -1,4 +1,5 @@
 local widget = require "lua.scripts.widget"
+local strmem = widget.strmem
 local constants = require "lua.scripts.ui.components.constants"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local preview = require "lua.scripts.ui.componentsV3.preview"
@@ -14,6 +15,7 @@ local options = require "lua.scripts.ui.componentsV3.options"
 local button = require "lua.scripts.ui.componentsV3.button"
 local header = require "lua.scripts.ui.componentsV3.header"
 local label = require "lua.scripts.ui.componentsV3.label"
+local image = require "lua.scripts.ui.componentsV3.image"
 
 widget.init [[insurrection/ui/menus/dashboard_updated/]]
 
@@ -33,7 +35,7 @@ return container {
             header {
                 name = "dashboard_updated",
                 title = strmem(256, "INSURRECTION - DASHBOARD"),
-                subtitle = "PLAY WITH FRIENDS IN DIFFRENT GAME MODES"
+                subtitle = "PLAY ONLINE WITH FRIENDS IN DIFFRENT GAME MODES"
             },
             pos.header.x,
             pos.header.y
@@ -47,17 +49,22 @@ return container {
             borrowLayout()
         },
         {
-            rankDashboard {
+            image {
                 name = "rank_overlay_dashbard",
-                variant = "overlay",
+                width = 58,
+                height = 78,
+                image = [[insurrection/ui/bitmaps/rank_overlay.bitmap]]
             },
             775,
             358
         },
         {
-            rankDashboard {
+            image {
                 name = "rank_icon_dashbard",
-                variant = "icon",
+                width = 200,
+                height = 280,
+                image = [[insurrection/ui/bitmaps/player_ranks.bitmap]],
+                scale = 0.24
             },
             779,
             364
@@ -81,61 +88,43 @@ return container {
             409
         },
         {
-            rankLabel {
+            label {
                 name = "rank_name",
-                text = "$rankName",
-                variant = "name",
+                text = strmem(128, "RANK NAME"),
                 justify = "right",
-                width = 128,
-                height = 10
+                width = 132
             },
-            641,
+            637,
             360
         },
         {
-            rankLabel {
+            label {
                 name = "tier_name",
-                text = "$division, $grade",
-                variant = "tier",
+                text = strmem(128, "TIER NAME"),
+                color = "blueGray",
                 justify = "right",
-                width = 128,
-                height = 10
+                width = 132
             },
-            641,
+            637,
             373
         },
         {
-            rankLabel {
-                name = "exp_number",
-                text = "$expNumber",
-                variant = "exp",
-                justify = "right",
-                width = 128,
-                height = 10
-            },
-            575,
-            386
-        },
-        {
-            rankLabel {
+            label {
                 name = "exp_info",
-                text = "TO NEXT LEVEL",
-                variant = "exp",
+                text = strmem(128, "EXP TO NEXT RANK"),
+                color = "gray",
                 justify = "right",
-                width = 128,
-                height = 10
+                width = 132
             },
-            641,
+            637,
             386
         },
         {
-            rankLabel {
+            label {
                 name = "credits_number",
-                text = "$crNumber",
-                variant = "credits",
+                text = strmem(128, "CREDITS"),
                 justify = "right",
-                width = 128,
-                height = 10
+                width = 128
             },
             621,
             410
