@@ -24,15 +24,15 @@ return function()
     local footer = components.new(balltzeMod:findChildWidgetTag("footer").id)
     local description = components.new(footer:findChildWidgetTag("text").id)
 
-    local config = balltze.getConfiguration() or {}
+    local balltzeConfiguration = balltze.getConfiguration() or {}
 
     local elements = {}
     local elementsData = {
         ["LOADING SCREEN"] = {
             value = false,
             change = function(value)
-                config.loading_screen.enable = value
-                balltze.saveConfiguration(config)
+                balltzeConfiguration.loading_screen.enable = value
+                balltze.saveConfiguration(balltzeConfiguration)
             end,
             focus = function()
                 description:setText(loadingScreenDescription .. reminderDescription)
@@ -41,8 +41,8 @@ return function()
         ["PRELOAD MAP TEXTURES"] = {
             value = false,
             change = function(value)
-                config.preload_map_textures.enable = value
-                balltze.saveConfiguration(config)
+                balltzeConfiguration.preload_map_textures.enable = value
+                balltze.saveConfiguration(balltzeConfiguration)
             end,
             focus = function()
                 description:setText(preloadMapTexturesDescription .. reminderDescription)
@@ -51,8 +51,8 @@ return function()
         ["GAMEPAD PROFILE"] = {
             value = "xbox_360_windows",
             change = function(value)
-                config.gamepad = value
-                balltze.saveConfiguration(config)
+                balltzeConfiguration.gamepad = value
+                balltze.saveConfiguration(balltzeConfiguration)
             end,
             focus = function()
                 description:setText(gamepadProfileDescription .. reminderDescription)
@@ -104,7 +104,7 @@ return function()
                              "Please install it with Mercury and try again.")
             return
         end
-        config = balltze.getConfiguration() or {}
+        balltzeConfiguration = balltze.getConfiguration() or {}
 
         local gamepadProfiles = table.map(balltze.getGamepadProfiles(), function(profile)
             local title = utils.snakeCaseToTitleCase(profile)
@@ -113,9 +113,9 @@ return function()
 
         elements["GAMEPAD PROFILE"]:setValues(gamepadProfiles)
 
-        elementsData["LOADING SCREEN"].value = config.loading_screen.enable
-        elementsData["PRELOAD MAP TEXTURES"].value = config.preload_map_textures.enable
-        elementsData["GAMEPAD PROFILE"].value = utils.snakeCaseToTitleCase(config.gamepad)
+        elementsData["LOADING SCREEN"].value = balltzeConfiguration.loading_screen.enable
+        elementsData["PRELOAD MAP TEXTURES"].value = balltzeConfiguration.preload_map_textures.enable
+        elementsData["GAMEPAD PROFILE"].value = utils.snakeCaseToTitleCase(balltzeConfiguration.gamepad)
 
         for k, component in pairs(elements) do
             local data = elementsData[k]

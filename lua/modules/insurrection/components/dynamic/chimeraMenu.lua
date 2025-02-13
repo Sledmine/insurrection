@@ -11,8 +11,8 @@ return function()
     local chimeraMod = components.new(constants.widgets.chimera.id)
     local chimeraOptions = components.new(chimeraMod:findChildWidgetTag("chimera_mod_options").id)
 
-    local config = chimera.getConfiguration() or {}
-    local preferences = chimera.getPreferences() or {}
+    local chimeraConfig = chimera.getConfiguration() or {}
+    local chimeraPreferences = chimera.getPreferences() or {}
 
     local elements = {}
 
@@ -21,74 +21,74 @@ return function()
 
     local elementsData = {
         ["USE VSYNC"] = {
-            value = config.video_mode.vsync,
+            value = chimeraConfig.video_mode.vsync,
             change = function(value)
-                config.video_mode.vsync = value and 1 or 0
-                chimera.saveConfiguration(config)
+                chimeraConfig.video_mode.vsync = value and 1 or 0
+                chimera.saveConfiguration(chimeraConfig)
             end
         },
         ["SHOW FPS"] = {
-            value = preferences.chimera_show_fps,
+            value = chimeraPreferences.chimera_show_fps,
             change = function(value)
-                preferences.chimera_show_fps = value and 1 or 0
+                chimeraPreferences.chimera_show_fps = value and 1 or 0
                 chimera.executeCommand("chimera_show_fps " .. (value and 1 or 0))
             end
         },
         ["WINDOWED MODE"] = {
-            value = config.video_mode.windowed,
+            value = chimeraConfig.video_mode.windowed,
             change = function(value)
-                config.video_mode.windowed = value and 1 or 0
-                chimera.saveConfiguration(config)
+                chimeraConfig.video_mode.windowed = value and 1 or 0
+                chimera.saveConfiguration(chimeraConfig)
             end
         },
         ["BORDERLESS"] = {
-            value = config.video_mode.borderless,
+            value = chimeraConfig.video_mode.borderless,
             change = function(value)
-                config.video_mode.borderless = value and 1 or 0
-                chimera.saveConfiguration(config)
+                chimeraConfig.video_mode.borderless = value and 1 or 0
+                chimera.saveConfiguration(chimeraConfig)
             end
         },
         ["LOAD MAPS ON RAM"] = {
-            value = config.memory.enable_map_memory_buffer,
+            value = chimeraConfig.memory.enable_map_memory_buffer,
             change = function(value)
-                config.memory.enable_map_memory_buffer = value and 1 or 0
-                chimera.saveConfiguration(config)
+                chimeraConfig.memory.enable_map_memory_buffer = value and 1 or 0
+                chimera.saveConfiguration(chimeraConfig)
                 interface.dialog("INFORMATION", "You have changed a critical Chimera setting.",
                                  "You need to restart the game for the changes to take effect.")
             end
         },
         ["ANISOTROPIC FILTER"] = {
-            value = preferences.chimera_af,
+            value = chimeraPreferences.chimera_af,
             change = function(value)
-                preferences.chimera_af = value and 1 or 0
+                chimeraPreferences.chimera_af = value and 1 or 0
                 chimera.executeCommand("chimera_af " .. (value and 1 or 0))
             end
         },
         ["BLOCK BUFFERING"] = {
-            value = preferences.chimera_block_buffering,
+            value = chimeraPreferences.chimera_block_buffering,
             change = function(value)
-                preferences.chimera_block_buffering = value and 1 or 0
+                chimeraPreferences.chimera_block_buffering = value and 1 or 0
                 chimera.executeCommand("chimera_block_buffering " .. (value and 1 or 0))
             end
         },
         ["BLOCK HOLD F1 AT START"] = {
-            value = preferences.chimera_block_hold_f1,
+            value = chimeraPreferences.chimera_block_hold_f1,
             change = function(value)
-                preferences.chimera_block_hold_f1 = value and 1 or 0
+                chimeraPreferences.chimera_block_hold_f1 = value and 1 or 0
                 chimera.executeCommand("chimera_block_hold_f1 " .. (value and 1 or 0))
             end
         },
         ["BLOCK LOADING SCREEN"] = {
-            value = preferences.chimera_block_loading_screen,
+            value = chimeraPreferences.chimera_block_loading_screen,
             change = function(value)
-                preferences.chimera_block_loading_screen = value and 1 or 0
+                chimeraPreferences.chimera_block_loading_screen = value and 1 or 0
                 chimera.executeCommand("chimera_block_loading_screen " .. (value and 1 or 0))
             end
         },
         ["BLOCK ZOOM BLUR"] = {
-            value = preferences.chimera_block_zoom_blur,
+            value = chimeraPreferences.chimera_block_zoom_blur,
             change = function(value)
-                preferences.chimera_block_zoom_blur = value and 1 or 0
+                chimeraPreferences.chimera_block_zoom_blur = value and 1 or 0
                 chimera.executeCommand("chimera_block_zoom_blur " .. (value and 1 or 0))
             end
         },
@@ -97,23 +97,23 @@ return function()
         --    chimera.executeCommand("chimera_block_mouse_acceleration " .. (value and 1 or 0))
         -- end,
         ["DEVMODE"] = {
-            value = preferences.chimera_devmode,
+            value = chimeraPreferences.chimera_devmode,
             change = function(value)
-                preferences.chimera_devmode = value and 1 or 0
+                chimeraPreferences.chimera_devmode = value and 1 or 0
                 chimera.executeCommand("chimera_devmode " .. (value and 1 or 0))
             end
         },
         ["SHOW BUDGET"] = {
-            value = preferences.chimera_budget,
+            value = chimeraPreferences.chimera_budget,
             change = function(value)
-                preferences.chimera_budget = value and 1 or 0
+                chimeraPreferences.chimera_budget = value and 1 or 0
                 chimera.executeCommand("chimera_budget " .. (value and 1 or 0))
             end
         },
         ["FOV"] = {
-            value = preferences.chimera_fov,
+            value = chimeraPreferences.chimera_fov,
             change = function(value)
-                preferences.chimera_fov = value
+                chimeraPreferences.chimera_fov = value
                 chimera.executeCommand("chimera_fov " .. value)
                 log("Setting horizontal FOV")
             end
@@ -146,8 +146,8 @@ return function()
     end
     chimeraMod:onOpen(function()
         log("Aspect width: " .. aspectWidth)
-        config = chimera.getConfiguration() or {}
-        preferences = chimera.getPreferences() or {}
+        chimeraConfig = chimera.getConfiguration() or {}
+        chimeraPreferences = chimera.getPreferences() or {}
 
         -- Create fovs list with values from 60 to 120 in steps of 5
         --log(preferences.chimera_fov)
@@ -158,20 +158,20 @@ return function()
 
         elements["FOV"]:setValues(fovs)
 
-        elementsData["USE VSYNC"].value = config.video_mode.vsync
-        elementsData["SHOW FPS"].value = preferences.chimera_show_fps
-        elementsData["WINDOWED MODE"].value = config.video_mode.windowed
-        elementsData["BORDERLESS"].value = config.video_mode.borderless
-        elementsData["LOAD MAPS ON RAM"].value = config.memory.enable_map_memory_buffer
-        elementsData["ANISOTROPIC FILTER"].value = preferences.chimera_af
-        elementsData["BLOCK BUFFERING"].value = preferences.chimera_block_buffering
-        elementsData["BLOCK HOLD F1 AT START"].value = preferences.chimera_block_hold_f1
-        elementsData["BLOCK LOADING SCREEN"].value = preferences.chimera_block_loading_screen
-        elementsData["BLOCK ZOOM BLUR"].value = preferences.chimera_block_zoom_blur
+        elementsData["USE VSYNC"].value = chimeraConfig.video_mode.vsync
+        elementsData["SHOW FPS"].value = chimeraPreferences.chimera_show_fps
+        elementsData["WINDOWED MODE"].value = chimeraConfig.video_mode.windowed
+        elementsData["BORDERLESS"].value = chimeraConfig.video_mode.borderless
+        elementsData["LOAD MAPS ON RAM"].value = chimeraConfig.memory.enable_map_memory_buffer
+        elementsData["ANISOTROPIC FILTER"].value = chimeraPreferences.chimera_af
+        elementsData["BLOCK BUFFERING"].value = chimeraPreferences.chimera_block_buffering
+        elementsData["BLOCK HOLD F1 AT START"].value = chimeraPreferences.chimera_block_hold_f1
+        elementsData["BLOCK LOADING SCREEN"].value = chimeraPreferences.chimera_block_loading_screen
+        elementsData["BLOCK ZOOM BLUR"].value = chimeraPreferences.chimera_block_zoom_blur
         -- elementsData["BLOCK MOUSE ACCELERATION"].value = preferences.chimera_block_mouse_acceleration
-        elementsData["DEVMODE"].value = preferences.chimera_devmode
-        elementsData["SHOW BUDGET"].value = preferences.chimera_budget
-        elementsData["FOV"].value = preferences.chimera_fov
+        elementsData["DEVMODE"].value = chimeraPreferences.chimera_devmode
+        elementsData["SHOW BUDGET"].value = chimeraPreferences.chimera_budget
+        elementsData["FOV"].value = chimeraPreferences.chimera_fov
         for k, component in pairs(elements) do
             local data = elementsData[k]
             if data then

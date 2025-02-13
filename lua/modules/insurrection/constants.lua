@@ -263,6 +263,7 @@ function constants.get()
         balltze = findWidgetTag("balltze\\balltze_mod_menu"),
         -- TODO Rename colors to color
         bipedColor = findWidgetTag("customization_biped_colors_menu"),
+        videoSettings = findWidgetTag("video_settings_menu_custom"),
     }
 
     constants.sounds = {

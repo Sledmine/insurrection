@@ -97,14 +97,14 @@ return container {
                         },
                         layout()
                     },
-                    --{
-                    --    checkbox {
-                    --        name = "show_fps",
-                    --        text = "SHOW FPS",
-                    --        variant = "large",
-                    --    },
-                    --    layout()
-                    --},
+                    {
+                        checkbox {
+                            name = "show_fps",
+                            text = "SHOW FPS",
+                            variant = "large",
+                        },
+                        layout()
+                    },
                     {
                         checkbox {
                             name = "windowed_mode",
