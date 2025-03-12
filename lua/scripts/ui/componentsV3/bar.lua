@@ -37,11 +37,15 @@ return function(props)
         child_widgets = {
             {
                 widget_tag = widgetValuePath,
-                vertical_offset = orientation == "horizontal" and -1 or 0,
-                horizontal_offset = orientation == "vertical" and -1 or 0,
+                vertical_offset = 0,
+                horizontal_offset = 0,
             }
         }
     }
+    if type == "scroll" then
+        bar.child_widgets[1].vertical_offset = orientation == "horizontal" and -1 or 0
+        bar.child_widgets[1].horizontal_offset = orientation == "vertical" and -1 or 0
+    end
     if orientation == "vertical" then
         bar.bounds = widget.bounds(0, 0, size, type == "scroll" and 1 or 3)
     end
