@@ -83,6 +83,7 @@ function interface.load()
             require "insurrection.components.dynamic.balltzeMenu"()
         end
         require "insurrection.components.dynamic.videoMenuCustom"()
+        require "insurrection.components.dynamic.audioMenuCustom"()
 
         -- Insurrection is running outside the UI
         if constants.widgetCollections.multiplayer then

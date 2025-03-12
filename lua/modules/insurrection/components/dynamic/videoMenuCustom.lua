@@ -5,7 +5,9 @@ local checkbox = require "insurrection.components.checkbox"
 local blam = require "blam"
 local core = require "insurrection.core"
 local luna = require "luna"
+local button = require "insurrection.components.button"
 local tobit = luna.bit
+local tobool = luna.bool
 local chimera = require "insurrection.mods.chimera"
 local balltze = require "insurrection.mods.balltze"
 local interface = require "insurrection.interface"
@@ -16,6 +18,7 @@ return function()
     local options = components.new(settings:findChildWidgetTag("options").id)
     local footer = components.new(settings:findChildWidgetTag("footer").id)
     local description = components.new(footer:findChildWidgetTag("text").id)
+    local backButton = button.new(options:findChildWidgetTag("back").id)
 
     local availableResolutions = {
         "1280x720",
@@ -89,7 +92,8 @@ return function()
         ["TEXTURE QUALITY"] = {
             value = availableTextureQualities[3],
             change = function(value)
-                profile.videoSettings.textureQuality = (table.indexof(availableTextureQualities, value) or 3) - 1
+                profile.videoSettings.textureQuality =
+                    (table.indexof(availableTextureQualities, value) or 3) - 1
                 Engine.savedGames.reloadPlayerProfile()
             end,
             focus = function()
@@ -104,7 +108,7 @@ return function()
             end,
             focus = function()
                 description:setText("Render surfaces with specular reflections.")
-            end,
+            end
         },
         ["RENDER OBJECTS SHADOWS"] = {
             value = true,
@@ -123,7 +127,8 @@ return function()
                 Engine.savedGames.reloadPlayerProfile()
             end,
             focus = function()
-                description:setText("Render decals placed by effects, such as bullet holes and explosions in the map.")
+                description:setText(
+                    "Render decals placed by effects, such as bullet holes and explosions in the map.")
             end
         },
         ["RENDER EFFECTS PARTICLES"] = {
@@ -131,7 +136,6 @@ return function()
             change = function(value)
                 profile.videoSettings.particles = value == true and 2 or 0
                 Engine.savedGames.reloadPlayerProfile()
-                Engine.savedGames.savePlayerProfile()
             end,
             focus = function()
                 description:setText("Render particles effects in the game.")
@@ -195,7 +199,7 @@ return function()
                 log("Setting horizontal FOV")
             end,
             focus = function()
-                description:setText("Change the field of view of the game.")
+                description:setText("Change field of view of player first person camera.")
             end
         },
         ["PRELOAD MAP TEXTURES"] = {
@@ -205,10 +209,11 @@ return function()
                 balltze.saveConfiguration(config)
             end,
             focus = function()
-                description:setText("Preload map textures before loading a map to prevent stuttering while playing.\n" ..
-                                        "NOTE: You must restart the game to apply changes.")
-            end,
-        },
+                description:setText(
+                    "Preload map textures before loading a map to prevent stuttering while playing.\n" ..
+                        "NOTE: You must restart the game to apply changes.")
+            end
+        }
     }
 
     for i = 1, options.widgetDefinition.childWidgetsCount - 1 do
@@ -252,6 +257,11 @@ return function()
         if engine.map.getCurrentMapHeader().name ~= "ui" then
             interface.blur(true)
         end
+        Engine.savedGames.savePlayerProfile()
+    end)
+
+    backButton:onClick(function()
+        settings.events.onClose()
     end)
 
     settings:onOpen(function(previousWidgetTag)
@@ -259,24 +269,25 @@ return function()
             interface.blur(false)
         end
         local profile = Engine.savedGames.getPlayerProfile()
-        --local currentResolution = profile.videoSettings.resolutionWidth .. "x" ..
+        -- local currentResolution = profile.videoSettings.resolutionWidth .. "x" ..
         --                              profile.videoSettings.resolutionHeight
-        --local currentRefreshRate = table.find(availableRefreshRates, function(value)
+        -- local currentRefreshRate = table.find(availableRefreshRates, function(value)
         --    return value:includes(profile.videoSettings.refreshRate .. "Hz")
-        --end)
+        -- end)
 
-        --elements["RESOLUTION"]:setValues(availableResolutions)
-        --elementsData["RESOLUTION"].value = currentResolution
+        -- elements["RESOLUTION"]:setValues(availableResolutions)
+        -- elementsData["RESOLUTION"].value = currentResolution
 
-        --elements["REFRESH RATE"]:setValues(availableRefreshRates)
-        --elementsData["REFRESH RATE"].value = currentRefreshRate
+        -- elements["REFRESH RATE"]:setValues(availableRefreshRates)
+        -- elementsData["REFRESH RATE"].value = currentRefreshRate
 
         -- Native game values
         elements["TEXTURE QUALITY"]:setValues(availableTextureQualities)
-        elementsData["TEXTURE QUALITY"].value = availableTextureQualities[profile.videoSettings.textureQuality + 1]
-        elementsData["RENDER SPECULAR SURFACES"].value = profile.videoSettings.specular
-        elementsData["RENDER OBJECTS SHADOWS"].value = profile.videoSettings.shadows
-        elementsData["RENDER MAP DECALS"].value = profile.videoSettings.decals
+        elementsData["TEXTURE QUALITY"].value = availableTextureQualities[profile.videoSettings
+                                                    .textureQuality + 1]
+        elementsData["RENDER SPECULAR SURFACES"].value = tobool(profile.videoSettings.specular)
+        elementsData["RENDER OBJECTS SHADOWS"].value = tobool(profile.videoSettings.shadows)
+        elementsData["RENDER MAP DECALS"].value = tobool(profile.videoSettings.decals)
         elementsData["RENDER EFFECTS PARTICLES"].value = profile.videoSettings.particles == 2
         -- Chimera values
         elementsData["USE VSYNC"].value = chimeraConfig.video_mode.vsync == 1
@@ -291,7 +302,8 @@ return function()
         elements["FIELD OF VIEW"]:setValues(fovs)
         elementsData["FIELD OF VIEW"].value = chimeraPreferences.chimera_fov
         -- Balltze values
-        elementsData["PRELOAD MAP TEXTURES"].value = balltzeConfiguration.preload_map_textures.enable
+        elementsData["PRELOAD MAP TEXTURES"].value =
+            balltzeConfiguration.preload_map_textures.enable
 
         for k, component in pairs(elements) do
             local data = elementsData[k]

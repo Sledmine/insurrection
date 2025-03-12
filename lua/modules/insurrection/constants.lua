@@ -264,6 +264,7 @@ function constants.get()
         -- TODO Rename colors to color
         bipedColor = findWidgetTag("customization_biped_colors_menu"),
         videoSettings = findWidgetTag("video_settings_menu_custom"),
+        audioSettings = findWidgetTag("audio_settings_menu_custom"),
     }
 
     constants.sounds = {
@@ -271,7 +272,8 @@ function constants.get()
         back = findTag("back", tagClasses.sound),
         success = findTag("forward", tagClasses.sound),
         join = findTag("player_join", tagClasses.sound),
-        leave = findTag("player_leave", tagClasses.sound)
+        leave = findTag("player_leave", tagClasses.sound),
+        teleporter = findTag("teleporter_activate", tagClasses.sound),
     }
 
     constants.tagCollections = {
