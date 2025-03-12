@@ -58,10 +58,18 @@ return container {
                         layout()
                     },
                     {
-                        spinner {
+                        checkbox {
                             name = "hardware_acceleration",
                             text = "HARDWARE ACCELERATION",
-                            value = strmem(8, "YES"),
+                            variant = "large",
+                        },
+                        layout()
+                    },
+                    {
+                        checkbox {
+                            name = "environmental_sound",
+                            text = "ENVIRONMENTAL SOUND",
+                            --value = strmem(8, "EAX"),
                             variant = "large"
                         },
                         layout()
@@ -71,15 +79,6 @@ return container {
                             name = "sound_quality",
                             text = "SOUND QUALITY",
                             value = strmem(8, "HIGH"),
-                            variant = "large"
-                        },
-                        layout()
-                    },
-                    {
-                        spinner {
-                            name = "environmental_sound",
-                            text = "ENVIRONMENTAL SOUND",
-                            value = strmem(8, "EAX"),
                             variant = "large"
                         },
                         layout()
