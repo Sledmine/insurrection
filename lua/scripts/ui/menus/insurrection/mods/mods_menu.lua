@@ -44,6 +44,14 @@ return container {
                         },
                         layout()
                     },
+                    {
+                        button {
+                            name = "insurrection",
+                            text = "INSURRECTION",
+                            opens = [[insurrection/ui/menus/settings_custom/settings_menu_custom.ui_widget_definition]]
+                        },
+                        layout()
+                    },
                     {button {name = "back", text = "BACK", back = true}, pos.back.x, pos.back.y}
                 }
             }
