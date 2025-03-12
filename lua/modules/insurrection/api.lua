@@ -173,6 +173,9 @@ function api.login(username, password)
             local jsonResponse = response.json()
             api.session.token = jsonResponse.token
             api.session.player = jsonResponse.player
+            -- FIXME Remove this when the server has proper rank system
+            api.session.player.rank = math.random(1, 136)
+            api.session.player.exp = 0
 
             if api.session.player.color then
                 local primaryColorIndex = core.getCustomizationColorByValue(api.session.player.color

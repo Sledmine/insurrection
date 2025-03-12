@@ -5,14 +5,21 @@ local input = require "insurrection.components.input"
 local interface = require "insurrection.interface"
 local menus = require "insurrection.menus"
 local ranks = require "insurrection.constants.ranks"
+local bar = require "insurrection.components.bar"
 
 return function()
     local dashboard = components.new(constants.widgets.dashboard.id)
+    local footer = components.new(dashboard:findChildWidgetTag("footer").id)
+    local description = components.new(footer:findChildWidgetTag("text").id)
+    local rankProgressBar = bar.new(dashboard:findChildWidgetTag("rank_progress").id, "progress")
 
     local browseLobby =
         button.new(dashboard:findChildWidgetTag("browse_prompt_dashboard_button").id)
     browseLobby:onClick(function()
         menus.lobbies()
+    end)
+    browseLobby:onFocus(function()
+        description:setText("Browse and join lobbies created by other players.")
     end)
 
     local createLobbyButton = button.new(dashboard:findChildWidgetTag(
@@ -20,12 +27,18 @@ return function()
     createLobbyButton:onClick(function()
         api.lobby()
     end)
+    createLobbyButton:onFocus(function()
+        description:setText("Create a new lobby and invite your friends to play.")
+    end)
 
     local customizationButton = button.new(dashboard:findChildWidgetTag(
                                                "customization_prompt_dashboard_button").id)
     customizationButton:onClick(function()
         interface.fade("in", 60)
         menus.customization()
+    end)
+    customizationButton:onFocus(function()
+        description:setText("Customize your character and player service record.")
     end)
 
     local rankNameLabel = components.new(dashboard:findChildWidgetTag("rank_name_label").id)
@@ -55,27 +68,46 @@ return function()
             local classificationName = ranks[1].classification
             local rankName = ranks[1].ranks[1].name
             local rankGrade = ranks[1].ranks[1].grade
-            local expNumberToNextRank = ranks[1].ranks[1].experience
+            local expToNextRank = ranks[1].ranks[1].experience
             local currentRankIndex = 0
 
-            for i, rank in ipairs(ranks) do
-                for j, rankData in ipairs(rank.ranks) do
+            local flattenRanks = {}
+            for _, rank in ipairs(ranks) do
+                for _, rankData in ipairs(rank.ranks) do
+                    table.insert(flattenRanks, rankData)
+                end
+            end
+            logger:warning("Flatten ranks: " .. #flattenRanks)
+
+            for _, rank in ipairs(ranks) do
+                for _, rankData in ipairs(rank.ranks) do
                     currentRankIndex = currentRankIndex + 1
                     if api.session.player.rank == currentRankIndex then
                         classificationName = rank.classification
                         rankName = rankData.name
                         rankGrade = rankData.grade
-                        expNumberToNextRank = rankData.experience
+                        local nextRank = flattenRanks[currentRankIndex + 1]
+                        -- TODO This should be the player's current experience (api.session.player.exp)
+                        local currentExp = math.random(rankData.experience, nextRank.experience)
+                        expToNextRank = nextRank.experience - currentExp
 
-                        -- TODO Move this to another function so it does not depend on break
+                        local rankTierText = classificationName .. ", GRADE " .. rankGrade
                         rankNameLabel:setText(rankName:upper())
-                        rankTierLabel:setText(
-                            (classificationName .. ", GRADE " .. rankGrade):upper())
-                        -- TODO Check for next rank and substract current exp from next rank exp
-                        expLabel:setText(expNumberToNextRank .. " XP TO NEXT RANK")
+                        rankTierLabel:setText(rankTierText:upper())
+                        expLabel:setText(expToNextRank .. " XP TO NEXT RANK")
+
+                        local expDiff = nextRank.experience - rankData.experience
+                        logger:warning("Current exp: " .. currentExp)
+                        logger:warning("Next rank exp: " .. nextRank.experience)
+                        local progressValue = 1 - (nextRank.experience - currentExp) / expDiff
+                        logger:warning("Progress value: " .. progressValue)
+                        rankProgressBar:setValue(progressValue)
+
                         logger:warning("Current rank index: " .. currentRankIndex)
                         rankIcon:setBitmapIndex(currentRankIndex)
-                        creditsLabel:setText("000 CR")
+                        creditsLabel:setText(math.random(0, 1000) .. " CR")
+
+                        -- TODO Move this to another function so it does not depend on break
                         break
                     end
                 end
