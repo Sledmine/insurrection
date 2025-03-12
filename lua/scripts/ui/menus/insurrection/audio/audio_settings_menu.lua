@@ -21,7 +21,11 @@ return container {
     background = "transparent",
     childs = {
         {
-            header {name = name, title = "AUDIO SETTINGS", subtitle = "CHANGE YOUR AUDIO SETTINGS TO FIT YOUR SETUP"},
+            header {
+                name = name,
+                title = "AUDIO SETTINGS",
+                subtitle = "CHANGE YOUR AUDIO SETTINGS TO FIT YOUR SETUP"
+            },
             pos.header.x,
             pos.header.y
         },
@@ -61,7 +65,7 @@ return container {
                         checkbox {
                             name = "hardware_acceleration",
                             text = "HARDWARE ACCELERATION",
-                            variant = "large",
+                            variant = "large"
                         },
                         layout()
                     },
@@ -69,7 +73,6 @@ return container {
                         checkbox {
                             name = "environmental_sound",
                             text = "ENVIRONMENTAL SOUND",
-                            --value = strmem(8, "EAX"),
                             variant = "large"
                         },
                         layout()
@@ -100,7 +103,7 @@ return container {
             footer {
                 name = name,
                 title = "DESCRIPTION",
-                text = strmem(384, "Customize different audio settings."),
+                text = strmem(384, "Customize different audio settings.")
             },
             layout(8)
         },

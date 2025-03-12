@@ -44,7 +44,7 @@ return container {
             footer {
                 name = "dashboard_updated",
                 title = "DASHBOARD",
-                text = "Welcome to the dashboard!\r\nHere you can choose from different game modes from Insurrection services."
+                text = strmem(256, "Welcome to the dashboard!\r\nHere you can choose from different game modes from Insurrection services.")
             },
             borrowLayout()
         },

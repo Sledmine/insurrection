@@ -20,7 +20,7 @@ local containerLogin =  container {
         {
        header {
              name = "login",
-             title = "INSURRECTION LOGIN",
+             title = "INSURRECTION - LOGIN",
              subtitle = "LOG INTO YOUR INSURRECTION ACCOUNT, GET ACCESS TO DIFFERENT SERVICES"
         },
         pos.header.x,
