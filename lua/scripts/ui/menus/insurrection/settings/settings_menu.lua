@@ -48,6 +48,7 @@ return container {
                         button {
                             name = "video",
                             text = "VIDEO",
+                            opens = [[insurrection/ui/menus/video/video_settings_menu_custom.ui_widget_definition]],
                         },
                         layout()
                     },
@@ -55,6 +56,7 @@ return container {
                         button {
                             name = "audio",
                             text = "AUDIO",
+                            opens = [[insurrection/ui/menus/audio/audio_settings_menu_custom.ui_widget_definition]],
                         },
                         layout()
                     },
