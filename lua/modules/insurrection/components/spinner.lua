@@ -85,7 +85,10 @@ function spinner.setValue(self, value)
     if index then
         self.currentValueIndex = index
         setValueText(self, value)
+        return true
     end
+    error("Value " .. value .. " not found in spinner values for " .. self.tag.path)
+    return false
 end
 
 ---@param self uiComponentSpinner

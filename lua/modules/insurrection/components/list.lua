@@ -4,6 +4,7 @@ local components = require "insurrection.components"
 local button = require "insurrection.components.button"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
+local round = math.round
 
 ---@class uiComponentListClass : uiComponent
 local list = setmetatable({
@@ -94,12 +95,6 @@ function list.scroll(self, direction, isFromMouse)
         self.events.onScroll(self.items[itemIndex])
     end
     self:refresh()
-end
-
-local floor = math.floor
-local function round(x, p)
-    p = p or 1
-    return floor(x / p + .5) * p
 end
 
 ---@param self uiComponentList
