@@ -5,9 +5,13 @@ local core = require "insurrection.core"
 
 local menus = {}
 
-local function openWidget(...)
+-- Wrapper function for opening a widget, plays sound and does internal logic
+---@param widgetDefinition integer|string|EngineTagHandle @The handle or path of the widget definition
+---@param pushHistory? boolean @If the widget should be pushed to the history; false by default
+---@return MetaEngineWidget|nil @Created widget; nil if failed
+local function openWidget(widgetDefinition, pushHistory)
     playSound(constants.sounds.success.id)
-    engine.userInterface.openWidget(...)
+    return engine.userInterface.openWidget(widgetDefinition, pushHistory)
 end
 
 function menus.dashboard()

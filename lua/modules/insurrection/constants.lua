@@ -246,7 +246,6 @@ function constants.get()
         login = findWidgetTag("login_menu"),
         lobby = findWidgetTag("lobby_menu"),
         lobbyClient = findWidgetTag("lobby_client_menu"),
-        --dashboard = findWidgetTag("dashboard\\dashboard_menu"),
         dashboard = findWidgetTag("dashboard_updated\\dashboard_updated_menu"),
         customization = findWidgetTag("customization_menu"),
         pause = findWidgetTag("pause\\pause_menu"),
@@ -258,7 +257,7 @@ function constants.get()
         team = findWidgetTag("pause_choose_team_menu"),
         optic = findWidgetTag("optic\\optic_mod_menu"),
         biped = findWidgetTag("customization_biped\\customization_biped_menu"),
-        browser = findWidgetTag("lobby_browser_menu"),
+        browser = findWidgetTag("lobby_browser_table_menu"),
         legacyModalError = findWidgetTag("error_modal_fullscreen"),
         balltze = findWidgetTag("balltze\\balltze_mod_menu"),
         -- TODO Rename colors to color

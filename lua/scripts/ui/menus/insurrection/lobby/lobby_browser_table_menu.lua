@@ -2,7 +2,7 @@ local widget = require "lua.scripts.widget"
 local constants = require "lua.scripts.ui.components.constants"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local preview = require "lua.scripts.ui.componentsV3.preview"
-local bar     = require "lua.scripts.ui.componentsV3.bar"
+local bar = require "lua.scripts.ui.componentsV3.bar"
 local pos = constants.position
 local label = require "lua.scripts.ui.componentsV3.label"
 local strmem = widget.strmem
@@ -16,15 +16,29 @@ local complexButton = require "lua.scripts.ui.componentsV3.complexButton"
 widget.init [[insurrection/ui/menus/lobby_browser_table/]]
 
 local headersLayout = widget.align("horizontal", 104, 24, 125, 0)
-local tableRowLayout = widget.layout{alignment = "vertical", size = 19, x = 20, y = 155, margin = 1}
-local optionsLayout = widget.layout {alignment = "horizontal", size = 149, x = 20, y = 416, margin = 2}
+local tableRowLayout = widget.layout {
+    alignment = "vertical",
+    size = 19,
+    x = 20,
+    y = 155,
+    margin = 1
+}
+local optionsLayout = widget.layout {
+    alignment = "horizontal",
+    size = 149,
+    x = 20,
+    y = 416,
+    margin = 2
+}
 
 local rows = {}
 for i = 1, 8 do
     table.insert(rows, {
         buttonTable {
             name = "list_browser_row_button_" .. i,
-            variant = "row"
+            variant = "row",
+            --text = strmem(256, "Lobby " .. i),
+            childs = {{label {name = "owner_header_label", text = "OWNER"}}}
         },
         tableRowLayout()
     })
@@ -67,41 +81,11 @@ return container {
                 name = "lobby_browser_table_header_list",
                 alignment = "horizontal",
                 childs = {
-                    {
-                        buttonTable {
-                            name = "owner_header",
-                            text = "OWNER"
-                        },
-                        headersLayout()
-                    },
-                    {
-                        buttonTable {
-                            name = "map_header",
-                            text = "MAP"
-                        },
-                        headersLayout()
-                    },
-                    {
-                        buttonTable {
-                            name = "gametype_header",
-                            text = "GAMETYPE"
-                        },
-                        headersLayout()
-                    },
-                    {
-                        buttonTable {
-                            name = "players_header",
-                            text = "PLAYERS"
-                        },
-                        headersLayout()
-                    },
-                    {
-                        buttonTable {
-                            name = "ping_header",
-                            text = "PING"
-                        },
-                        headersLayout()
-                    },
+                    {buttonTable {name = "owner_header", text = "OWNER"}, headersLayout()},
+                    {buttonTable {name = "map_header", text = "MAP"}, headersLayout()},
+                    {buttonTable {name = "gametype_header", text = "GAMETYPE"}, headersLayout()},
+                    {buttonTable {name = "players_header", text = "PLAYERS"}, headersLayout()},
+                    {buttonTable {name = "ping_header", text = "PING"}, headersLayout()},
                     {
                         complexButton {
                             name = "host_game",
@@ -112,58 +96,31 @@ return container {
                         66
                     }
                 }
-            },
+            }
         },
-        {
-            options {
-                name = "lobby_browser_table_row_list",
-                alignment = "vertical",
-                childs = rows
-            },
-        },
+        {options {name = "lobby_browser_table_row_list", alignment = "vertical", childs = rows}},
         {
             options {
                 name = "lobby_browser_table_options_list",
                 alignment = "horizontal",
                 childs = {
                     {
-                        button {
-                            name = "back",
-                            text = "BACK",
-                            variant = "small",
-                            back = true
-                        },
+                        button {name = "back", text = "BACK", variant = "small", back = true},
                         optionsLayout()
                     },
                     {
-                        button {
-                            name = "refresh",
-                            text = "REFRESH",
-                            variant = "small"
-                        },
+                        button {name = "refresh", text = "REFRESH", variant = "small"},
                         optionsLayout()
                     },
                     {
-                        button {
-                            name = "filters",
-                            text = "FILTERS",
-                            variant = "small"
-                        },
+                        button {name = "filters", text = "FILTERS", variant = "small"},
                         optionsLayout()
                     },
-                    {
-                        button {
-                            name = "join_game",
-                            text = "JOIN GAME",
-                            variant = "small"
-                        },
-                        685,
-                        416
-                    },
+                    {button {name = "join_game", text = "JOIN GAME", variant = "small"}, 685, 416}
                 }
-            },
+            }
         },
         {constants.components.currentProfile.path, 641, 20},
-        {constants.components.version.path, 0, 460},
+        {constants.components.version.path, 0, 460}
     }
 }
