@@ -33,12 +33,13 @@ local optionsLayout = widget.layout {
 
 local rows = {}
 for i = 1, 8 do
+    local justify = "left"
     local tableRowLabelLayout = widget.layout {
         alignment = "horizontal",
         size = 104,
         horizontal = 24,
         margin = 0,
-        x = 4,
+        x = 6,
         y = -3
     }
     table.insert(rows, {
@@ -48,45 +49,45 @@ for i = 1, 8 do
             childs = {
                 {
                     label {
-                        name = "owner_header_label",
+                        name = "owner_header_label_" .. i,
                         text = strmem(11, "OWNER"),
-                        justify = "center",
+                        justify = justify,
                         width = 104
                     },
                     tableRowLabelLayout()
                 },
                 {
                     label {
-                        name = "map_header_label",
+                        name = "map_header_label_" .. i,
                         text = strmem(64, "MAP"),
-                        justify = "center",
+                        justify = justify,
                         width = 104
                     },
                     tableRowLabelLayout()
                 },
                 {
                     label {
-                        name = "gametype_header_label",
+                        name = "gametype_header_label_" .. i,
                         text = strmem(32, "GAMETYPE"),
-                        justify = "center",
+                        justify = justify,
                         width = 104
                     },
                     tableRowLabelLayout()
                 },
                 {
                     label {
-                        name = "players_header_label",
+                        name = "players_header_label_" .. i,
                         text = "000",
-                        justify = "center",
+                        justify = justify,
                         width = 104
                     },
                     tableRowLabelLayout()
                 },
                 {
                     label {
-                        name = "ping_header_label",
+                        name = "ping_header_label_" .. i,
                         text = "000",
-                        justify = "center",
+                        justify = justify,
                         width = 104
                     },
                     tableRowLabelLayout()
@@ -104,8 +105,8 @@ return container {
         {
             header {
                 name = "lobby_browser_table",
-                title = strmem(256, "$matchType - $projectName - LOBBY BROWSER"),
-                subtitle = "sub_string_test"
+                title = strmem(256, "INSURRECTION - LOBBY BROWSER"),
+                subtitle = "FIND A GAME TO JOIN"
             },
             pos.header.x,
             pos.header.y
