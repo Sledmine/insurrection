@@ -33,8 +33,8 @@ local optionsLayout = widget.layout {
 
 local rows = {}
 for i = 1, 8 do
-    local tableRowLabelLayout = widget.layout{
-        alignment ="horizontal",
+    local tableRowLabelLayout = widget.layout {
+        alignment = "horizontal",
         size = 104,
         horizontal = 24,
         margin = 0,
@@ -45,54 +45,53 @@ for i = 1, 8 do
         buttonTable {
             name = "list_browser_row_button_" .. i,
             variant = "row",
-            --text = strmem(256, "Lobby " .. i),
             childs = {
                 {
                     label {
                         name = "owner_header_label",
                         text = strmem(11, "OWNER"),
                         justify = "center",
-                        width = 104,
+                        width = 104
                     },
                     tableRowLabelLayout()
                 },
-                    {
-                        label{
-                            name = "map_header_label",
-                            text = strmem(64, "MAP"),
-                            justify = "center",
-                            width = 104,
-                            },
-                            tableRowLabelLayout()
+                {
+                    label {
+                        name = "map_header_label",
+                        text = strmem(64, "MAP"),
+                        justify = "center",
+                        width = 104
                     },
-                    {
-                        label{
-                            name = "gametype_header_label",
-                            text = strmem(32, "GAMETYPE"),
-                            justify = "center",
-                            width = 104,
-                            },
-                            tableRowLabelLayout()
-                    },
-                    {
-                        label{
-                            name = "players_header_label",
-                            text = "000",
-                            justify = "center",
-                            width = 104,
-                            },
-                            tableRowLabelLayout()
-                    },
-                    {
-                        label{
-                            name = "ping_header_label",
-                            text = "000",
-                            justify = "center",
-                            width = 104,
-                            },
-                            tableRowLabelLayout()
-                    },
+                    tableRowLabelLayout()
                 },
+                {
+                    label {
+                        name = "gametype_header_label",
+                        text = strmem(32, "GAMETYPE"),
+                        justify = "center",
+                        width = 104
+                    },
+                    tableRowLabelLayout()
+                },
+                {
+                    label {
+                        name = "players_header_label",
+                        text = "000",
+                        justify = "center",
+                        width = 104
+                    },
+                    tableRowLabelLayout()
+                },
+                {
+                    label {
+                        name = "ping_header_label",
+                        text = "000",
+                        justify = "center",
+                        width = 104
+                    },
+                    tableRowLabelLayout()
+                }
+            }
         },
         tableRowLayout()
     })
