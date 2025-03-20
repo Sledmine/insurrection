@@ -29,7 +29,7 @@ local list = setmetatable({
 }, {__index = components})
 
 ---@class uiComponentListItem
----@field label? string
+---@field label? string | fun(uiComponent: uiComponent)
 ---@field value string | boolean | number | any
 ---@field bitmap? number | fun(uiComponent: uiComponent)
 
@@ -107,39 +107,38 @@ function list.refresh(self)
     if self.isScrollable then
         firstWidgetIndex = firstWidgetIndex + 1
         lastWidgetIndex = lastWidgetIndex - 1
-
-        if self.scrollBar then
-            local scroll = self.scrollBar
-            local scrollBackground = scroll.widgetDefinition
-            local scrollBar = scroll:findChildWidgetDefinition("bar_value")
-            local elementsCount = #items
-            local visibleElementsCount = lastWidgetIndex - firstWidgetIndex + 1
-            local isHorizontal = self.widgetDefinition.dpadLeftRightTabsThruChildren
-            local size = scrollBackground.height
-            if isHorizontal then
-                size = scrollBackground.width
-            end
-            barSizePerElement = size / elementsCount
-            local isScrollBarVisible = elementsCount > visibleElementsCount
-            if isScrollBarVisible then
-                local scrollPosition = round((itemIndex - 1) * barSizePerElement)
-                if elementsCount > 0 then
-                    if isHorizontal then
-                        scrollBar.width = round(barSizePerElement * visibleElementsCount)
-                        scroll:setBarValues{position = {x = scrollPosition}}
-                    else
-                        scrollBar.height = round(barSizePerElement * visibleElementsCount)
-                        scroll:setBarValues{position = {y = scrollPosition}}
-                    end
-                end
-            else
+    end
+    if self.scrollBar then
+        local scroll = self.scrollBar
+        local scrollBackground = scroll.widgetDefinition
+        local scrollBar = scroll:findChildWidgetDefinition("bar_value")
+        local elementsCount = #items
+        local visibleElementsCount = lastWidgetIndex - firstWidgetIndex + 1
+        local isHorizontal = self.widgetDefinition.dpadLeftRightTabsThruChildren
+        local size = scrollBackground.height
+        if isHorizontal then
+            size = scrollBackground.width
+        end
+        barSizePerElement = size / elementsCount
+        local isScrollBarVisible = elementsCount > visibleElementsCount
+        if isScrollBarVisible then
+            local scrollPosition = round((itemIndex - 1) * barSizePerElement)
+            if elementsCount > 0 then
                 if isHorizontal then
-                    scrollBar.width = scrollBackground.width
-                    scroll:setBarValues{position = {x = 0}}
+                    scrollBar.width = round(barSizePerElement * visibleElementsCount)
+                    scroll:setBarValues{position = {x = scrollPosition}}
                 else
-                    scrollBar.height = scrollBackground.height
-                    scroll:setBarValues{position = {y = 0}}
+                    scrollBar.height = round(barSizePerElement * visibleElementsCount)
+                    scroll:setBarValues{position = {y = scrollPosition}}
                 end
+            end
+        else
+            if isHorizontal then
+                scrollBar.width = scrollBackground.width
+                scroll:setBarValues{position = {x = 0}}
+            else
+                scrollBar.height = scrollBackground.height
+                scroll:setBarValues{position = {y = 0}}
             end
         end
     end
@@ -151,7 +150,11 @@ function list.refresh(self)
             if childWidget and not isNull(childWidget.widgetTag) then
                 local listButton = button.new(childWidget.widgetTag)
                 if item.label then
-                    listButton:setText(item.label)
+                    if type(item.label) == "function" then
+                        item.label(listButton)
+                    else
+                        listButton:setText(tostring(item.label))
+                    end
                 end
                 local onSelect = self.events.onSelect
                 -- TODO Check if we need to apply a select event even if no onSelect callback is provided
