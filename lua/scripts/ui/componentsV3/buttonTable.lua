@@ -40,6 +40,7 @@ return function(props)
         text_color = constants.color.text,
         justification = justification,
         vert_offset = 2,
+        child_widgets = props.childs or {}
     }
     if variant == "row" then
         wid.background_bitmap = [[insurrection/ui/bitmaps/browser_table_button.bitmap]]
