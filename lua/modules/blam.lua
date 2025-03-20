@@ -16,7 +16,7 @@ local fmod = math.fmod
 local rad = math.rad
 local deg = math.deg
 
-local blam = {_VERSION = "1.14.0"}
+local blam = {_VERSION = "1.15.0"}
 
 ------------------------------------------------------------------------------
 -- Useful functions for internal usage
@@ -122,7 +122,8 @@ local addressList = {
     syncedNetworkObjects = 0x006226F0, -- pointer, from Vulpes
     screenResolution = 0x637CF0,
     currentWidgetIdAddress = 0x6B401C,
-    cinematicGlobals = 0x0068c83c
+    cinematicGlobals = 0x0068c83c,
+    hscGlobalsPointer = 0x0064bab0
 }
 
 -- Server side addresses adjustment
@@ -131,6 +132,7 @@ if blam.isGameSAPP() then
     addressList.objectTable = 0x4005062C
     addressList.syncedNetworkObjects = 0x00598020 -- not pointer cause cheat engine sucks
     addressList.cinematicGlobals = 0x005f506c
+    addressList.hscGlobalsPointer = 0x005bd890
 end
 
 -- Tag classes values
@@ -614,9 +616,8 @@ end
 ---@param red? number
 ---@param green? number
 ---@param blue? number
-function console_out(message, red, green, blue)
-    -- TODO Add color printing to this function on SAPP
-    cprint(message)
+function console_out(...)
+    cprint(...)
 end
 
 ---Output text to console as debug message.
@@ -637,10 +638,40 @@ end
 
 ---Get the value of a Halo scripting global.\
 ---An error will be triggered if the global is not found
----@param name string Name of the global variable to get from hsc
+---@param globalName string Name of the  global variable to get from hsc
 ---@return boolean | number
-function get_global(name)
-    error("SAPP can not retrieve global variables as Chimera does.. yet!")
+function get_global(globalName)
+    local scriptingGlobalsAddress = read_dword(sig_scan("05????????8B0D????????8B513425FFFF0000"))
+    if scriptingGlobalsAddress then
+        local hsGlobals = read_dword(read_byte(scriptingGlobalsAddress + 7))
+        local firstGlobal = read_dword(read_dword(hsGlobals + 1))
+        local hsGlobalsTable = read_dword(hsGlobals)
+        local hsTable = read_dword(hsGlobalsTable + 0x34)
+
+        local scenarioTag = get_tag(0)
+        local globalsCount = read_dword(scenarioTag + 0x4A8)
+        local globalsAddress = read_dword(scenarioTag + 0x4A8 + 4)
+
+        for i = 0, globalsCount - 1 do
+            local global = globalsAddress + i * 92
+            if read_string(global) == globalName then
+                local globalType = read_word(global + 0x20)
+                local location = hsTable + (i + firstGlobal) * 8
+                if globalType == 5 then
+                    return read_byte(location + 4) == 1
+                elseif globalType == 6 then
+                    return read_float(location + 4)
+                elseif globalType == 7 then
+                    return read_short(location + 4)
+                elseif globalType == 8 then
+                    return read_int(location + 4)
+                else
+                    return read_int(location + 4)
+                end
+            end
+        end
+    end
+    error("Global not found: " .. globalName)
 end
 
 ---Print message to player HUD.\
@@ -968,15 +999,17 @@ function blam.readUnicodeString(address, rawRead)
     else
         stringAddress = read_dword(address)
     end
-    local length = stringAddress / 2
     local output = ""
-    -- TODO Refactor this to support full unicode char size
-    for i = 1, length do
-        local char = read_string(stringAddress + (i - 1) * 0x2)
-        if char == "" then
+    local i = 0
+    -- TODO Refactor this to support reading ASCII and UTF16? strings
+    while true do
+        local char = read_string(stringAddress + i * 0x2)
+        --local _, char = pcall(string.char, read_byte(stringAddress + (i - 1) * 0x2))
+        if not char or char == "" then
             break
         end
         output = output .. char
+        i = i + 1
     end
     return output
 end
@@ -985,7 +1018,8 @@ end
 ---@param address number
 ---@param newString string
 ---@param rawWrite? boolean
-function blam.writeUnicodeString(address, newString, rawWrite)
+---@param noNullTerminator? boolean
+function blam.writeUnicodeString(address, newString, rawWrite, noNullTerminator)
     local stringAddress
     if rawWrite then
         stringAddress = address
@@ -997,15 +1031,18 @@ function blam.writeUnicodeString(address, newString, rawWrite)
         return
     end
     local newString = tostring(newString)
-    -- TODO Refactor this to support writing ASCII and Unicode strings
+    -- TODO Refactor this to support writing ASCII and UTF16? strings
     for i = 1, #newString do
-        write_string(stringAddress + (i - 1) * 0x2, newString:sub(i, i))
-        if i == #newString then
-            write_byte(stringAddress + #newString * 0x2, 0x0)
+        local char = newString:sub(i, i)
+        local byte = string.byte(char) or string.byte("?")
+        local currentCharAddress = stringAddress + (i - 1) * 0x2
+        write_dword(currentCharAddress, byte)
+        if i == #newString and not noNullTerminator then
+            write_dword(currentCharAddress + 0x2, 0x0)
         end
     end
     if #newString == 0 then
-        write_string(stringAddress, "")
+        write_dword(stringAddress, 0)
     end
 end
 
@@ -1126,11 +1163,16 @@ end
 
 local function safeWriteUnicodeString(address, propertyData, text)
     local size = read_dword(address)
-    local text = text
-    if #text > size then
-        text = text:sub(1, size)
+    local newText = text
+    local maximumStringSize = size - 2
+    if #text * 2 >= maximumStringSize then
+        newText = newText:sub(1, maximumStringSize / 2)
+        -- String is too long, truncate it and write it without null terminator
+        return blam.writeUnicodeString(address + 0xC, newText, false, true)
     end
-    return blam.writeUnicodeString(address + 0xC, text)
+    -- String is short enough, write it with null terminator
+    -- This will ignore rest of the string if it was longer than new string size
+    return blam.writeUnicodeString(address + 0xC, newText, false, false)
 end
 
 -- Data types operations references
@@ -3439,6 +3481,13 @@ end
 ---@return cinematicGlobals
 function blam.cinematicGlobals()
     return createBindTable(read_dword(addressList.cinematicGlobals), cinematicGlobalsStructure)
+end
+
+--- Returns current game difficulty index
+---@return number
+function blam.getGameDifficultyIndex()
+    local hscGlobals = read_dword(addressList.hscGlobalsPointer)
+    return read_byte(hscGlobals + 0xe)
 end
 
 return blam
