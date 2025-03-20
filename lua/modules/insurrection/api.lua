@@ -555,7 +555,7 @@ function api.getLobbies()
                     return
                 else
                     store:dispatch(actions.setLobbies(jsonResponse))
-                    react.render("lobbyBrowserMenu")
+                    --react.render("lobbyBrowserMenu")
                 end
                 return
             end
