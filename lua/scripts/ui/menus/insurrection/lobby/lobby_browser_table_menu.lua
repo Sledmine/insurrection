@@ -39,7 +39,7 @@ for i = 1, 8 do
         size = 104,
         horizontal = 24,
         margin = 0,
-        x = 6,
+        x = 8,
         y = -3
     }
     table.insert(rows, {
