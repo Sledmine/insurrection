@@ -2,6 +2,7 @@ local widget = require "lua.scripts.widget"
 local constants = require "lua.scripts.ui.components.constants"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local preview = require "lua.scripts.ui.componentsV3.preview"
+
 local bar = require "lua.scripts.ui.componentsV3.bar"
 local pos = constants.position
 local label = require "lua.scripts.ui.componentsV3.label"
@@ -46,6 +47,7 @@ for i = 1, 8 do
         buttonTable {
             name = "list_browser_row_button_" .. i,
             variant = "row",
+            isClickable = true,
             childs = {
                 {
                     label {
@@ -129,6 +131,14 @@ return container {
             },
             634,
             127
+        },
+        {
+            label {
+                name = "lobby_browser_table_map_name",
+                text = strmem(32, "GAMETYPE"),
+            },
+            634,
+            240
         },
         {
             options {
