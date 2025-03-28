@@ -16,7 +16,13 @@ local complexButton = require "lua.scripts.ui.componentsV3.complexButton"
 
 widget.init [[insurrection/ui/menus/lobby_browser_table/]]
 
-local headersLayout = widget.align("horizontal", 104, 24, 125, 0)
+local headersLayout = widget.layout {
+    alignment = "horizontal",
+    size = 104,
+    x = 24,
+    y = 125,
+    margin = 0
+}
 local tableRowLayout = widget.layout {
     alignment = "vertical",
     size = 19,
@@ -132,14 +138,7 @@ return container {
             634,
             127
         },
-        {
-            label {
-                name = "lobby_browser_table_map_name",
-                text = strmem(32, "GAMETYPE"),
-            },
-            634,
-            240
-        },
+        {label {name = "lobby_browser_table_map_name", text = strmem(32, "GAMETYPE")}, 634, 240},
         {
             options {
                 name = "lobby_browser_table_header_list",

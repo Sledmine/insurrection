@@ -1,4 +1,5 @@
 local widget = require "lua.scripts.widget"
+local strmem = widget.strmem
 local container = require "lua.scripts.ui.componentsV3.container"
 local options = require "lua.scripts.ui.componentsV3.options"
 local button = require "lua.scripts.ui.componentsV3.button"
@@ -11,35 +12,30 @@ widget.init [[insurrection/ui/menus/dialog/]]
 local layout = widget.align("vertical", 24, 336, 340, 2)
 
 local dialogMenu = container {
-    name ="dialog_menu",
-    background ="transparent",
+    name = "dialog_menu",
+    background = "transparent",
     childs = {
         {
             image {
                 name = "dialog_background",
-                image =  "insurrection/ui/bitmaps/dialog_menu_background.bitmap",
+                image = "insurrection/ui/bitmaps/dialog_menu_background.bitmap",
                 width = constants.screen.width,
-                height = constants.screen.height,
+                height = constants.screen.height
             },
             0,
             0
         },
         {
-            label {
-                name = "dialog_title",
-                text = string.rep(" ", 64),
-                variant ="title",
-                justify ="center",
-            },
+            label {name = "dialog_title", text = strmem(64), variant = "title", justify = "center"},
             0,
             104
         },
         {
             label {
                 name = "dialog_subtitle",
-                text = string.rep(" ", 128),
-                variant ="text",
-                justify ="center",
+                text = strmem(128),
+                variant = "text",
+                justify = "center"
             },
             0,
             154
@@ -47,30 +43,30 @@ local dialogMenu = container {
         {
             label {
                 name = "dialog_text",
-                text = string.rep(" ", 4096);
-                variant ="text",
-                justify ="center",
+                text = strmem(4096),
+                variant = "text",
+                justify = "center",
                 size = 60
             },
             0,
             210
         },
-         {
-           options  {
-             name = "dialog",
-             layout = "vertical",
-             childs = {
-                {
-                    button {
-                        name = "dialog_ok",
-                        text ="OK",
-                        back = true,
-                        justification = "center_justify",
-                    },
-                    layout()
+        {
+            options {
+                name = "dialog",
+                layout = "vertical",
+                childs = {
+                    {
+                        button {
+                            name = "dialog_ok",
+                            text = "OK",
+                            back = true,
+                            justification = "center_justify"
+                        },
+                        layout()
+                    }
                 }
-             }
-           }
+            }
         },
         {constants.components.version.path, 0, 460}
     }

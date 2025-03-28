@@ -30,11 +30,11 @@ return function()
         return constants.bitmaps.unknownMapPreview.id
     end
 
-        local function setMapBackgroundBitmap(mapName)
+    local function setMapBackgroundBitmap(mapName)
         mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
     end
 
-    lobbies:onSelect(function (item)
+    lobbies:onSelect(function(item)
         local lobby = state.lobbies[item.value]
         setMapBackgroundBitmap(lobby.map)
         mapName:setText(t(lobby.map))
@@ -43,7 +43,7 @@ return function()
     lobbies:scrollable(false)
 
     local loadLobbies = function()
-        lobbies:setItems(table.map((state.lobbies or {}), function(lobby,lobbyIndex)
+        lobbies:setItems(table.map((state.lobbies or {}), function(lobby, lobbyIndex)
             return {
                 value = lobbyIndex,
                 ---@param item uiComponent

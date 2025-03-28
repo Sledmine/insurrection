@@ -17,7 +17,7 @@ local positionX = pos.options.x + constants.components.button.normal.width + 8
 local positionY = pos.options.y
 local spinnersLayout = widget.align("vertical", 24, positionX, positionY, 2)
 
-local chimeraModMenu container {
+local chimeraModMenu = container {
     name = "chimera_mod_menu",
     background ="transparent",
     childs = {
