@@ -54,7 +54,7 @@ return function()
                                          item:findChildWidgetTag("gametype_header_label").id)
                     local players = components.new(
                                         item:findChildWidgetTag("players_header_label").id)
-                    local ping = components.new(item:findChildWidgetTag("ping_header_label").id)
+                    local template = components.new(item:findChildWidgetTag("template_header_label").id)
 
                     local ownerPlayer = table.find(lobby.players, function(player)
                         return player.publicId == lobby.owner
@@ -64,7 +64,7 @@ return function()
                     map:setText(t(lobby.map))
                     gameType:setText(t(lobby.gametype))
                     players:setText(tostring(#lobby.players))
-                    ping:setText(tostring(math.random(0, 100)))
+                    template:setText(t(lobby.template))
                 end
             }
         end))
