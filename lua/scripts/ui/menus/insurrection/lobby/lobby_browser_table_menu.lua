@@ -2,7 +2,7 @@ local widget = require "lua.scripts.widget"
 local constants = require "lua.scripts.ui.components.constants"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local preview = require "lua.scripts.ui.componentsV3.preview"
-
+local input = require "lua.scripts.ui.componentsV3.input"
 local bar = require "lua.scripts.ui.componentsV3.bar"
 local pos = constants.position
 local label = require "lua.scripts.ui.componentsV3.label"
@@ -84,8 +84,8 @@ for i = 1, 8 do
                 },
                 {
                     label {
-                        name = "players_header_label_" .. i,
-                        text = "000",
+                        name = "template_header_label_" .. i,
+                        text = strmem(32, "TEMPLATE"),
                         justify = justify,
                         width = 104
                     },
@@ -93,13 +93,13 @@ for i = 1, 8 do
                 },
                 {
                     label {
-                        name = "ping_header_label_" .. i,
+                        name = "players_header_label_" .. i,
                         text = "000",
                         justify = justify,
                         width = 104
                     },
                     tableRowLabelLayout()
-                }
+                },
             }
         },
         tableRowLayout()
@@ -138,7 +138,31 @@ return container {
             634,
             127
         },
-        {label {name = "lobby_browser_table_map_name", text = strmem(32, "GAMETYPE")}, 634, 240},
+        {
+            label {
+            name = "lobby_browser_table_map_name",
+            text = strmem(32, "MAP NAME")
+        },
+        634,
+        240
+    },
+        {
+            label {
+            name = "lobby_browser_table_author",
+            text = strmem(32, "AUTHOR"),
+            color = "blueYonder"
+        },
+        634,
+        252
+    },
+        {
+            label {
+                name = "lobby_browser_table_map_description",
+                text = strmem(256, "DESCRIPTION")
+            },
+            634,
+            264
+        },
         {
             options {
                 name = "lobby_browser_table_header_list",
@@ -147,16 +171,36 @@ return container {
                     {buttonTable {name = "owner_header", text = "OWNER"}, headersLayout()},
                     {buttonTable {name = "map_header", text = "MAP"}, headersLayout()},
                     {buttonTable {name = "gametype_header", text = "GAMETYPE"}, headersLayout()},
+                    {buttonTable {name = "template_header", text = "TEMPLATE"}, headersLayout()},
                     {buttonTable {name = "players_header", text = "PLAYERS"}, headersLayout()},
-                    {buttonTable {name = "ping_header", text = "PING"}, headersLayout()},
+                    -- {
+                    --    complexButton {
+                    --        name = "host_game",
+                    --        text = "HOST GAME",
+                    --        variant = "horizontal_c_text"
+                    --    },
+                    --    20,
+                    --    66
+                    -- }
                     {
-                        complexButton {
-                            name = "host_game",
-                            text = "HOST GAME",
-                            variant = "horizontal_c_text"
+                        input {
+                            name = "search_browser",
+                            text = strmem(32),
+                            variant = "small",
+                            icon = [[insurrection/ui/bitmaps/search_icon.bitmap]]
                         },
                         20,
-                        66
+                        85
+                    },
+                    {
+                        input {
+                            name = "lobby_browser_table_key",
+                            text = strmem(32, "Lobby Key"),
+                            variant = "small",
+                            icon = [[insurrection/ui/bitmaps/key_icon.bitmap]]
+                        },
+                        20,
+                        330
                     }
                 }
             }
@@ -171,14 +215,14 @@ return container {
                         button {name = "back", text = "BACK", variant = "small", back = true},
                         optionsLayout()
                     },
-                    {
-                        button {name = "refresh", text = "REFRESH", variant = "small"},
-                        optionsLayout()
-                    },
-                    {
-                        button {name = "filters", text = "FILTERS", variant = "small"},
-                        optionsLayout()
-                    },
+                    -- {
+                    --    button {name = "refresh", text = "REFRESH", variant = "small"},
+                    --    optionsLayout()
+                    -- },
+                    -- {
+                    --    button {name = "filters", text = "FILTERS", variant = "small"},
+                    --    optionsLayout()
+                    -- },
                     {button {name = "join_game", text = "JOIN GAME", variant = "small"}, 685, 416}
                 }
             }
