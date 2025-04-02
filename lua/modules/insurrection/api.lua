@@ -74,6 +74,7 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 ---@field template string
 ---@field server serverInstance
 ---@field isPublic boolean
+---@field key? string
 
 -- function async(func, callback, ...)
 --    if #Lanes == 0 then

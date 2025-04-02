@@ -497,8 +497,34 @@ function component.replace(self, newWidgetTagId)
     core.replaceWidgetInDom(self.tagId, newWidgetTagId)
 end
 
+
+-- TODO Discuss with Mango so we can have this class also available in Balltze API
+---@class MetaEngineWidgetParams
+---@field definitionTagHandle? EngineTagHandle
+---@field name? string
+---@field controllerIndex? boolean
+---@field position? EnginePoint2DInt
+---@field type? EngineTagDataUIWidgetType
+---@field visible? boolean
+---@field renderRegardlessOfControllerIndex? boolean
+---@field pausesGameTime? boolean
+---@field deleted? boolean
+---@field creationProcessStartTime? integer
+---@field msToClose? integer
+---@field msToCloseFadeTime? integer
+---@field opacity? number
+---@field previousWidget? MetaEngineWidget|nil
+---@field nextWidget? MetaEngineWidget|nil
+---@field parentWidget? MetaEngineWidget|nil
+---@field childWidget? MetaEngineWidget|nil
+---@field focusedChild? MetaEngineWidget|nil
+---@field textAddress? integer @The address of the text; nil if the widget is not a text widget, be careful!
+---@field cursorIndex? integer @Index of the last child widget focused by the mouse
+---@field extendedDescriptionWidget? EngineWidget
+---@field bitmapIndex? integer
+
 ---@param self uiComponent
----@return uiWidgetValues?
+---@return MetaEngineWidget?
 function component.getWidgetValues(self)
     if core.getWidgetHandle(self.tagId) then
         return core.getWidgetValues(self.tagId)
@@ -506,7 +532,7 @@ function component.getWidgetValues(self)
 end
 
 ---@param self uiComponent
----@param values uiWidgetValues
+---@param values MetaEngineWidgetParams
 function component.setWidgetValues(self, values)
     core.setWidgetValues(self.tagId, values)
 end
