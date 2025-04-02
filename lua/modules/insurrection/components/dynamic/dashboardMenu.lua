@@ -86,7 +86,7 @@ return function()
                         classificationName = rank.classification
                         rankName = rankData.name
                         rankGrade = rankData.grade
-                        local nextRank = flattenRanks[currentRankIndex + 1]
+                        local nextRank = flattenRanks[currentRankIndex + 1] or flattenRanks[#flattenRanks]
                         -- TODO This should be the player's current experience (api.session.player.exp)
                         local currentExp = math.random(rankData.experience, nextRank.experience)
                         expToNextRank = nextRank.experience - currentExp
