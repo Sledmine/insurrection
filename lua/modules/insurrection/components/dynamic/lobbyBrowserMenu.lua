@@ -2,10 +2,12 @@ local components = require "insurrection.components"
 local constants = require "insurrection.constants"
 local list = require "insurrection.components.list"
 local bar = require "insurrection.components.bar"
+local button = require "insurrection.components.button"
 local getState = require "insurrection.redux.getState"
 local blam = require "blam"
 local t = require"insurrection.utils".snakeCaseToTitleCase
 local core = require "insurrection.core"
+local interface = require "insurrection.interface"
 
 return function()
     local state = getState()
@@ -14,6 +16,8 @@ return function()
     local scrollBar = bar.new(browser:findChildWidgetTag("table_scroll").id, "scroll")
     local mapPreview = components.new(browser:findChildWidgetTag("table_preview").id)
     local mapName = components.new(browser:findChildWidgetTag("table_map_name").id)
+    local options = components.new(browser:findChildWidgetTag("lobby_browser_table_options_list").id)
+    local joinGame = button.new(options:findChildWidgetTag("join_game_button").id)
 
     local function getMapBackgroundBitmap(mapName)
         local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
@@ -34,13 +38,20 @@ return function()
         mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
     end
 
-    lobbies:onSelect(function(item)
+    lobbies:onFocus(function(item)
         local lobby = state.lobbies[item.value]
         setMapBackgroundBitmap(lobby.map)
         mapName:setText(t(lobby.map))
     end)
+    joinGame:onClick(function()
+        local lobby = state.lobbies[lobbies:getSelectedItem().value]
+        if lobby then
+            api.lobby(lobby.key)
+        end
+    end)
     lobbies:setScrollBar(scrollBar)
     lobbies:scrollable(false)
+    lobbies:selectable(true)
 
     local loadLobbies = function()
         lobbies:setItems(table.map((state.lobbies or {}), function(lobby, lobbyIndex)
