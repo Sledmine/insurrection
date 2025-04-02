@@ -24,6 +24,8 @@ local list = setmetatable({
     backupChildWidgets = {},
     ---@type boolean
     isScrollable = true,
+    ---@type boolean
+    isSelectable = false,
     ---@type uiComponentBar
     scrollBar = nil
 }, {__index = components})
@@ -34,7 +36,7 @@ local list = setmetatable({
 ---@field bitmap? number | fun(uiComponent: uiComponent)
 
 ---@class uiComponentListEvents : uiComponentEvents
----@field onSelect fun(item: uiComponentListItem)
+---@field onSelect fun(item: uiComponentListItem, button: uiComponentButton)
 ---@field onScroll fun(item: uiComponentListItem)
 
 ---@class uiComponentList : uiComponentListClass
@@ -52,7 +54,7 @@ function list.new(tagId, firstWidgetIndex, lastWidgetIndex)
 end
 
 ---@param self uiComponentList
----@param callback fun(item: uiComponentListItem)
+---@param callback fun(item: uiComponentListItem, button?: uiComponentButton)
 function list.onSelect(self, callback)
     self.events.onSelect = callback
 end
@@ -157,14 +159,50 @@ function list.refresh(self)
                     end
                 end
                 local onSelect = self.events.onSelect
-                -- TODO Check if we need to apply a select event even if no onSelect callback is provided
-                if onSelect then
-                    local lastSelectedItemIndex = itemIndex
-                    listButton:onClick(function()
-                        self.lastSelectedItemIndex = lastSelectedItemIndex
-                        onSelect(item)
-                    end)
-                end
+                local lastSelectedItemIndex = itemIndex
+                listButton:onClick(function()
+                    self.lastSelectedItemIndex = lastSelectedItemIndex
+                    if onSelect then
+                        onSelect(item, listButton)
+                    end
+                    if self.isSelectable then
+                        -- Set button bitmap state to selected index
+                        listButton:setWidgetValues{bitmapIndex = 2}
+                        for _, childWidget in ipairs(widgetDefinition.childWidgets) do
+                            if childWidget.widgetTag ~= listButton.tag.id then
+                                local component = components.widgets[childWidget.widgetTag]
+                                if component then
+                                    -- Restore all other buttons to their default state
+                                    component:setWidgetValues{bitmapIndex = 0}
+                                end
+                            end
+                        end
+                    end
+                end)
+
+                local onFocus = self.events.onFocus
+                listButton:onFocus(function()
+                    if onFocus then
+                        onFocus(item)
+                    end
+                    if self.isSelectable then
+
+                        local isButtonSelected = listButton:getWidgetValues().bitmapIndex == 2
+                        if not isButtonSelected then
+                            -- Set button bitmap state to focused index
+                            listButton:setWidgetValues{bitmapIndex = 1}
+                        end
+                        for _, childWidget in ipairs(widgetDefinition.childWidgets) do
+                            if childWidget.widgetTag ~= listButton.tag.id then
+                                local component = components.widgets[childWidget.widgetTag]
+                                if component and component:getWidgetValues().bitmapIndex == 1 then
+                                    -- Restore all other buttons to their default state
+                                    component:setWidgetValues{bitmapIndex = 0}
+                                end
+                            end
+                        end
+                    end
+                end)
                 if item.bitmap then
                     if type(item.bitmap) == "number" then
                         -- TODO We might need to animate bitmaps when selected by a function
@@ -235,10 +273,22 @@ function list.getSelectedItem(self)
     end
 end
 
+---Set the list to be scrollable or not.
+---
+---This will take first and last widget index as arrows that will scroll the list.
 ---@param self uiComponentList
 ---@param isScrollable boolean
 function list.scrollable(self, isScrollable)
     self.isScrollable = isScrollable
+end
+
+---Set the list to be selectable or not.
+---
+---This will allow the list elements to reflect a selected state if bitmap has multiple states.
+---@param self uiComponentList
+---@param isSelectable boolean
+function list.selectable(self, isSelectable)
+    self.isSelectable = isSelectable
 end
 
 ---@param self uiComponentList
