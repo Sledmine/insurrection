@@ -223,7 +223,11 @@ return container {
                     --    button {name = "filters", text = "FILTERS", variant = "small"},
                     --    optionsLayout()
                     -- },
-                    {button {name = "join_game", text = "JOIN GAME", variant = "small"}, 685, 416}
+                    {
+                        button {name = "join_game", text = "JOIN GAME", variant = "small"}, 
+                        optionsLayout()
+                        -- 685, 416
+                    }
                 }
             }
         },
