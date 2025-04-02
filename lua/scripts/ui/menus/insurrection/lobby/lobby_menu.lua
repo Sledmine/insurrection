@@ -29,10 +29,11 @@ local elementsLayout = widget.align("horizontal", constants.components.complexBu
 local elementsLayoutVertical = widget.align("vertical", constants.components.button.normal.height,
                                             0, 0, 2)
 
-local nameplatesLayout = widget.align("vertical", 26, 624, 12, 2)
+local nameplatesLayout = widget.align("vertical", 26, 641, 20, 2)
+
 
 local actionsLayout = widget.align("horizontal", constants.components.button.normal.width,
-                                   pos.options.x, 414, 6)
+                                   pos.options.x, 416, 6)
 
 return container("lobby_menu", {
     {
@@ -126,7 +127,7 @@ return container("lobby_menu", {
                     variant = "small",
                     icon = [[insurrection/ui/bitmaps/copy_icon.bitmap]]
                 },
-                pos.options.x + constants.components.button.normal.width + 8,
+                pos.options.x + constants.components.button.normal.width + 7,
                 371
             },
             {button("back", "BACK", {back = true}), actionsLayout()},
