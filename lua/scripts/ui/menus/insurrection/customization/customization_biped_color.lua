@@ -25,8 +25,8 @@ local barSize = 200
 local layout = widget.align("horizontal", constants.components.complexButton.normal.width, 59,
                             yPosList, 2)
 
-local primaryColorPosition = {x = -10, y = 130}
-local secondaryColorPosition = {x = -10, y = 285}
+local primaryColorPosition = {x = -10, y = 110}
+local secondaryColorPosition = {x = -10, y = 265}
 
 -- Reverse color order because of Mark doing Mark stuff
 local customColors = table.map(dynamicConstants.customColors, function(colors)
@@ -116,17 +116,18 @@ local customizationBipedColorMenuPath = container {
                 variant = "title"
             },
             20,
-            98
+            78
         },
         {
             label {
                 name = "primary_color_subtitle",
                 text = widget.strmem(32, "$colorName"),
                 justify = "left",
-                variant = "focus"
+                variant = "text",
+                color = "blueYonder"
             },
             20,
-            111
+            91
         },
         --{
         --    bar {
@@ -146,17 +147,18 @@ local customizationBipedColorMenuPath = container {
                 variant = "title"
             },
             20,
-            253
+            233
         },
         {
             label {
                 name = "secondary_color_subtitle",
                 text = widget.strmem(32, "$colorName"),
                 justify = "left",
-                variant = "focus"
+                variant = "text",
+                color = "blueYonder"
             },
             20,
-            266
+            246
         },
         --{
         --    bar {
@@ -174,15 +176,20 @@ local customizationBipedColorMenuPath = container {
                 layout = "vertical",
                 childs = table.extend(colorColumns, colorColumnsSecondary, {
                     {
-                        button {name = "back", text = "BACK", variant = "normal", back = true},
-                        pos.back.x,
-                        pos.back.y
+                        button {
+                            name = "back",
+                            text = "BACK",
+                            variant = "small",
+                            back = true
+                        },
+                        pos.back_left.x,
+                        pos.back_left.y
                     }
                 })
             }
         },
-        {constants.components.currentProfile.path, 624, 20},
-        {constants.components.version.path, 0, 460}
+        {constants.components.currentProfile.path, pos.nameplate.x, pos.nameplate.y},
+        {constants.components.version.path, pos.version.x, pos.version.y}
     }
 }
 
