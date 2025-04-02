@@ -215,14 +215,19 @@ return container {
                     --    280
                     --},
                     {
-                        button {name = "back", text = "BACK", variant = "normal", back = true},
-                        20,
-                        416
+                        button {
+                            name = "back",
+                            text = "BACK",
+                            variant = "small",
+                            back = true
+                        },
+                        pos.back_left.x,
+                        pos.back_left.y
                     }
                 }
             }
         },
-        {constants.components.currentProfile.path, 641, 20},
-        {constants.components.version.path, 0, 460}
+        {constants.components.currentProfile.path, pos.nameplate.x, pos.nameplate.y},
+        {constants.components.version.path, pos.version.x, pos.version.y}
     }
 }
