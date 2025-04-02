@@ -4,23 +4,32 @@ local bar   = require "lua.scripts.ui.componentsV3.bar"
 local strmem = widget.strmem
 local container = require "lua.scripts.ui.componentsV3.container"
 local options = require "lua.scripts.ui.componentsV3.options"
-local button = require "lua.scripts.ui.componentsV2.button"
+local button = require "lua.scripts.ui.componentsV3.button"
 local header = require "lua.scripts.ui.componentsV3.header"
 local constants = require "lua.scripts.ui.components.constants"
 local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
-local complexButton = require "lua.scripts.ui.componentsV2.complexButton"
+local complexButton = require "lua.scripts.ui.componentsV3.complexButton"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local slider = require "lua.scripts.ui.componentsV3.slider"
 local pos = constants.position
 
 widget.init [[insurrection/ui/menus/customization/]]
 
-local optionsLayout = widget.align("horizontal",
+local complexLayout = widget.align("horizontal",
                                    constants.components.complexButton.horizontal.width,
                                    pos.options.x, pos.options.y, 2)
-local nameplatesLayout = widget.align("vertical", 26, pos.options.x, 170, 3)
-local projectLayout = widget.align("vertical", 24, pos.options.x, 170, 2)
-local bipedsLayout = widget.align("horizontal", 260, 298, 410, 2)
+local nameplatesLayout = widget.align("vertical", 26, pos.options.x, 120, 2)
+local projectLayout = widget.align("vertical", 24, pos.options.x, 120, 2)
+-- local bipedsLayout = widget.align("horizontal", 260, 298, 410, 2)
+
+local optionsLayout = widget.layout {
+    alignment = "horizontal",
+    size = 149,
+    x = 20,
+    y = 416,
+    margin = 2
+}
+
 
 return container {
     name = "customization_menu",
@@ -36,17 +45,47 @@ return container {
                             alignment = "vertical",
                             childs = {
                                 {
-                                    button("scroll_project_list_up", nil, {arrow = "up"}),
+                                    button {
+                                        name = "scroll_project_list_up",
+                                        arrow = "up",
+                                    },
                                     projectLayout()
                                 },
-                                {button("project_1", strmem(64)), projectLayout()},
-                                {button("project_2", strmem(64)), projectLayout()},
-                                {button("project_3", strmem(64)), projectLayout()},
-                                {button("project_4", strmem(64)), projectLayout()},
                                 {
-                                    button("scroll_project_list_down", nil, {arrow = "down"}),
+                                    button {
+                                        name = "project_1",
+                                        text = strmem(64),
+                                    },
                                     projectLayout()
-                                }
+                                },
+                                {
+                                    button {
+                                        name = "project_2",
+                                        text = strmem(64),
+                                    },
+                                    projectLayout()
+                                },
+                                {
+                                    button {
+                                        name = "project_3",
+                                        text = strmem(64),
+                                    },
+                                    projectLayout()
+                                },
+                                {
+                                    button {
+                                        name = "project_4",
+                                        text = strmem(64),
+                                    },
+                                    projectLayout()
+                                },
+                                {
+                                    button {
+                                        name = "scroll_project_list_down",
+                                        arrow = "down",
+                                    },
+                                    projectLayout()
+                                },
                             }
                         }
                     },
@@ -65,8 +104,11 @@ return container {
                                     380
                                 },
                                 {
-                                    button("biped_1", strmem(64, "CUSTOMIZE"),
-                                           {justification = "center_justify"}),
+                                    button {
+                                        name = "biped_1",
+                                        text = strmem(64, "CUSTOMIZE"),
+                                        justification = "center_justify"
+                                    },
                                     336,
                                     pos.back.y
                                 },
@@ -100,10 +142,10 @@ return container {
                 name = "customization_scroll",
                 orientation = "vertical",
                 type = "scroll",
-                size = 200
+                size = 192
             },
             240,
-            199
+            149
         },
         {
             options {
@@ -114,18 +156,26 @@ return container {
                         options {
                             name = "types",
                             alignment = "horizontal",
-                            {
+                            childs = {
                                 {
-                                    complexButton("nameplates", "NAMEPLATES", "Select Nameplate",
-                                                  {variant = "horizontal"}),
-                                    optionsLayout()
+                                    complexButton {
+                                        name = "nameplates",
+                                        text = "NAMEPLATES",
+                                        label = "Select Nameplate",
+                                        variant = "horizontal"
+                                    },
+                                    complexLayout()
                                 },
                                 {
-                                    complexButton("bipeds", "BIPEDS", "Select Biped",
-                                                  {variant = "horizontal"}),
-                                    optionsLayout()
-                                }
-                            }
+                                    complexButton {
+                                        name = "bipeds",
+                                        text = "BIPEDS",
+                                        label = "Select Biped",
+                                        variant = "horizontal"
+                                    },
+                                    complexLayout()
+                                },
+                            },
                         }
                     },
                     {
@@ -134,7 +184,10 @@ return container {
                             alignment = "vertical",
                             childs = {
                                 {
-                                    button("scroll_nameplates_list_up", nil, {arrow = "up"}),
+                                    button {
+                                        name = "scroll_nameplates_list_up",
+                                        arrow = "up",
+                                    },
                                     nameplatesLayout()
                                 },
                                 {nameplate("1"), nameplatesLayout()},
@@ -145,14 +198,34 @@ return container {
                                 {nameplate("6"), nameplatesLayout()},
                                 {nameplate("7"), nameplatesLayout()},
                                 {
-                                    button("scroll_nameplates_list_down", nil, {arrow = "down"}),
+                                    button {
+                                        name = "scroll_nameplates_list_down",
+                                        arrow = "down",
+                                    },
                                     nameplatesLayout()
-                                }
+                                },
                             }
                         }
                     },
-                    {button("save_customization", "SAVE"), pos.back.x, pos.back.y - 26},
-                    {button("back", "BACK", {back = true}), pos.back.x, pos.back.y}
+                    {
+                        button {
+                            name = "back",
+                            text = "BACK",
+                            variant = "small",
+                            back = true
+                        },
+                        optionsLayout()
+                    },
+                    {
+                        button {
+                            name = "save_customization",
+                            text = "SAVE",
+                            variant = "small",
+                            back = true
+                        },
+                        pos.back_left.x,
+                        pos.back_left.y - 26
+                    },
                 }
             }
         },
@@ -167,7 +240,7 @@ return container {
             0,
             380
         },
-        {constants.components.currentProfile.path, 624, 20},
-        {constants.components.version.path, 0, 460}
+        {constants.components.currentProfile.path, pos.nameplate.x, pos.nameplate.y},
+        {constants.components.version.path, pos.version.x, pos.version.y}
     }
 }
