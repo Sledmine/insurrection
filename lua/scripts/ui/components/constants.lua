@@ -39,11 +39,12 @@ return {
     position = {
         header = {x = 20, y = 20},
         options = {x = 20, y = 60},
-        back = {x = 630, y = 415},
-        action = {x = 444, y = 415},
+        back = {x = 685, y = 416},
+        back_left = {x = 20, y = 416},
+        action = {x = 444, y = 416},
         footer = {x = 20, y = 330},
         logo = {x = 202, y = 105},
-        nameplate = {x = 624, y = 20},
+        nameplate = {x = 641, y = 20},
         version = {x = 0, y = 460},
     },
     components = {
