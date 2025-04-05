@@ -14,29 +14,22 @@ return function()
     local state = getState()
     local browser = components.new(constants.widgets.browser.id)
     local lobbies = list.new(browser:findChildWidgetTag("table_row_list").id)
-    local scrollBar = bar.new(browser:findChildWidgetTag("table_scroll").id,
-                              "scroll")
-    local mapPreview = components.new(
-                           browser:findChildWidgetTag("table_preview").id)
-    local mapName = components.new(
-                        browser:findChildWidgetTag("table_map_name").id)
-    local options = components.new(browser:findChildWidgetTag(
-                                       "lobby_browser_table_options_list").id)
-    local joinGame = button.new(
-                         options:findChildWidgetTag("join_game_button").id)
-    local searchInput = input.new(
-                            browser:findChildWidgetTag("search_browser").id)
+    local scrollBar = bar.new(browser:findChildWidgetTag("table_scroll").id, "scroll")
+    local mapPreview = components.new(browser:findChildWidgetTag("table_preview").id)
+    local mapName = components.new(browser:findChildWidgetTag("table_map_name").id)
+    local options =
+        components.new(browser:findChildWidgetTag("lobby_browser_table_options_list").id)
+    local joinGame = button.new(options:findChildWidgetTag("join_game_button").id)
+    local searchInput = input.new(browser:findChildWidgetTag("search_browser").id)
 
     local function getMapBackgroundBitmap(mapName)
-        local mapCollection = blam.tagCollection(
-                                  constants.tagCollections.maps.id)
+        local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
         assert(mapCollection, "No map preview collection found")
         for k, v in pairs(mapCollection.tagList) do
             local bitmapTag = blam.getTag(v) --[[@as tag]]
-            -- bitmapTag.
-            local mapBitmaName = core.getTagName(bitmapTag.path):lower()
+            local mapBitmapName = core.getTagName(bitmapTag.path):lower()
 
-            if mapBitmaName == mapName:lower() then
+            if mapBitmapName == mapName:lower() then
                 return bitmapTag.id
             end
         end
@@ -44,8 +37,7 @@ return function()
     end
 
     local function setMapBackgroundBitmap(mapName)
-        mapPreview.widgetDefinition.backgroundBitmap =
-            getMapBackgroundBitmap(mapName)
+        mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
     end
 
     lobbies:onFocus(function(item)
@@ -55,7 +47,9 @@ return function()
     end)
     joinGame:onClick(function()
         local lobby = state.lobbies[lobbies:getSelectedItem().value]
-        if lobby then api.lobby(lobby.key) end
+        if lobby then
+            api.lobby(lobby.key)
+        end
     end)
     lobbies:setScrollBar(scrollBar)
     lobbies:scrollable(false)
@@ -66,33 +60,27 @@ return function()
             return player.publicId == owner
         end)
 
-        if ownerPlayer == nil then return nil end
+        if not ownerPlayer then
+            return nil
+        end
         return ownerPlayer.name:lower():find(query)
     end
 
     local function renderLobbies(lobbiesTable)
-        lobbies:setItems(table.map((lobbiesTable or {}),
-                                   function(lobby, lobbyIndex)
+        lobbies:setItems(table.map((lobbiesTable or {}), function(lobby, lobbyIndex)
             return {
                 value = lobbyIndex,
                 label = function(item)
-                    local owner = components.new(
-                                      item:findChildWidgetTag(
-                                          "owner_header_label").id)
-                    local map = components.new(
-                                    item:findChildWidgetTag("map_header_label").id)
+                    local owner = components.new(item:findChildWidgetTag("owner_header_label").id)
+                    local map = components.new(item:findChildWidgetTag("map_header_label").id)
                     local gameType = components.new(
-                                         item:findChildWidgetTag(
-                                             "gametype_header_label").id)
+                                         item:findChildWidgetTag("gametype_header_label").id)
                     local players = components.new(
-                                        item:findChildWidgetTag(
-                                            "players_header_label").id)
+                                        item:findChildWidgetTag("players_header_label").id)
                     local template = components.new(
-                                         item:findChildWidgetTag(
-                                             "template_header_label").id)
+                                         item:findChildWidgetTag("template_header_label").id)
 
-                    local ownerPlayer = table.find(lobby.players, function(
-                        player)
+                    local ownerPlayer = table.find(lobby.players, function(player)
                         return player.publicId == lobby.owner
                     end)
                     assert(ownerPlayer, "No owner found")
@@ -106,24 +94,25 @@ return function()
         end))
     end
 
-    local loadLobbies = function() renderLobbies(state.lobbies or {}) end
+    local loadLobbies = function()
+        renderLobbies(state.lobbies or {})
+    end
     searchInput:onInputText(function(data)
         local query = data:lower()
 
-        local filteredLobbies = table.filter(state.lobbies or {},
-                                             function(lobby)
+        local filteredLobbies = table.filter(state.lobbies or {}, function(lobby)
             return searchOwnerPlayer(query, lobby.players, lobby.owner) or
-                       (lobby.map:lower():find(query) ~= nil) or
-                       (lobby.template:lower():find(query) ~= nil) or
-                       (lobby.gametype:lower():find(query) ~= nil)
+                       lobby.map:lower():includes(query) or lobby.template:lower():includes(query) or
+                       lobby.gametype:lower():includes(query)
         end)
 
         renderLobbies(filteredLobbies)
     end)
 
     browser:onOpen(function(previousWidgetTag)
-        if previousWidgetTag and previousWidgetTag.handle.value ==
-            constants.widgets.dashboard.id then api.getLobbies() end
+        if previousWidgetTag and previousWidgetTag.handle.value == constants.widgets.dashboard.id then
+            api.getLobbies()
+        end
         api.stopRefreshLobby()
         loadLobbies()
     end)
