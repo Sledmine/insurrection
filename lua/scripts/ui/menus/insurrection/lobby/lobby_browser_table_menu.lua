@@ -124,7 +124,7 @@ return container {
                 name = "lobby_browser_table_scroll",
                 orientation = "vertical",
                 type = "scroll",
-                size = 185
+                size = 160
             },
             587,
             155
