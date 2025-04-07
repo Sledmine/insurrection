@@ -216,14 +216,33 @@ constants.colors = {
 }
 
 constants.customization = {
-    rotation = {default = 133.144, left_shoulder = 80, right_shoulder = 190, arms = 80, gear = 0, color = 118},
+    rotation = {
+        default = 133.144,
+        left_shoulder = 80,
+        right_shoulder = 190,
+        arms = 80,
+        gear = 0,
+        color = 118
+    }
 }
 
-constants.limits = {
-    maximumPlayers = 15,
-}
+constants.limits = {maximumPlayers = 15}
 
 constants.widgets = {}
+
+constants.maps = {
+    {
+        name = "beavercreek",
+        title = "Battle Creek",
+        description = "Splash Splash, Bang Bang (2-8 players)",
+        author = "Bungie"
+    },
+    {
+        name = "a30_coop_evolved",
+        description = "Cooperative adaptation of Mission \"Halo\"\n(2-4 players)",
+        author = "Insurrection Team"
+    }
+}
 
 function constants.get()
     local blam = require "blam"
@@ -264,7 +283,7 @@ function constants.get()
         bipedColor = findWidgetTag("customization_biped_colors_menu"),
         videoSettings = findWidgetTag("video_settings_menu_custom"),
         audioSettings = findWidgetTag("audio_settings_menu_custom"),
-        version = findWidgetTag("insurrection_version_footer"),
+        version = findWidgetTag("insurrection_version_footer")
     }
 
     constants.sounds = {
@@ -273,7 +292,7 @@ function constants.get()
         success = findTag("forward", tagClasses.sound),
         join = findTag("player_join", tagClasses.sound),
         leave = findTag("player_leave", tagClasses.sound),
-        teleporter = findTag("teleporter_activate", tagClasses.sound),
+        teleporter = findTag("teleporter_activate", tagClasses.sound)
     }
 
     constants.tagCollections = {
@@ -324,7 +343,8 @@ function constants.get()
 
     constants.scenery = {
         christmasHat = engine.tag.findTags(constants.path.christmasHat, engine.tag.classes.scenery)[1],
-        xmasObjects = engine.tag.findTags(constants.path.xmasObjects, engine.tag.classes.tagCollection)[1]
+        xmasObjects = engine.tag.findTags(constants.path.xmasObjects,
+                                          engine.tag.classes.tagCollection)[1]
     }
     log("Loaded constants")
 end

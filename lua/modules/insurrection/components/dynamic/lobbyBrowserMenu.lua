@@ -17,6 +17,8 @@ return function()
     local scrollBar = bar.new(browser:findChildWidgetTag("table_scroll").id, "scroll")
     local mapPreview = components.new(browser:findChildWidgetTag("table_preview").id)
     local mapName = components.new(browser:findChildWidgetTag("table_map_name").id)
+    local author = components.new(browser:findChildWidgetTag("table_author").id)
+    local description = components.new(browser:findChildWidgetTag("table_map_description").id)
     local options =
         components.new(browser:findChildWidgetTag("lobby_browser_table_options_list").id)
     local joinGame = button.new(options:findChildWidgetTag("join_game_button").id)
@@ -44,6 +46,16 @@ return function()
         local lobby = state.lobbies[item.value]
         setMapBackgroundBitmap(lobby.map)
         mapName:setText(t(lobby.map))
+        local mapMetadata = table.find(constants.maps, function(map)
+            return map.name == lobby.map
+        end)
+        if mapMetadata then
+            author:setText(mapMetadata.author)
+            description:setText(mapMetadata.description)
+        else
+            author:setText("Unknown")
+            description:setText("No description available")
+        end
     end)
     joinGame:onClick(function()
         local lobby = state.lobbies[lobbies:getSelectedItem().value]
