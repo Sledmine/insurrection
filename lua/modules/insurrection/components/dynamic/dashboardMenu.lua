@@ -59,12 +59,20 @@ return function()
     -- end)
 
     dashboard:onOpen(function()
+        rankNameLabel:setText("NO RANK (Coming soon!)")
+        rankTierLabel:setText("NO TIER")
+        expLabel:setText("0 XP TO NEXT RANK")
+        rankIcon:setBitmapIndex(0)
+        creditsLabel:setText("0 CR")
+        rankProgressBar:setValue(0.01)
+
         execute_script("set_ui_background")
         api.stopRefreshLobby()
         discord.clearParty()
         discord.setState("Playing Insurrection", "In the dashboard")
 
-        if api.session and api.session.player then
+        --- TODO Remove false when player progression system is implemented
+        if api.session and api.session.player and false then
             local classificationName = ranks[1].classification
             local rankName = ranks[1].ranks[1].name
             local rankGrade = ranks[1].ranks[1].grade
