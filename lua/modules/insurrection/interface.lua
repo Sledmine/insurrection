@@ -219,6 +219,9 @@ end
 ---@param widgetTagHandleValue number
 ---@param willRepeat? boolean
 function interface.animateUIWidgetBackground(widgetTagHandleValue, willRepeat)
+    if not core.getCurrentUIWidgetTag() then
+        return
+    end
     -- local willRepeat = willRepeat or true
     local widget = engine.userInterface.findWidget(widgetTagHandleValue)
     if widget then
