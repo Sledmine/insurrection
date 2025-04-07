@@ -7,6 +7,7 @@ local core = require "insurrection.core"
 local blam = require "blam"
 local getState = require "insurrection.redux.getState"
 local checkbox = require "insurrection.components.checkbox"
+local t = require"insurrection.utils".snakeCaseToTitleCase
 
 local gametypeIcons = {
     "unknown",
@@ -22,10 +23,7 @@ local gametypeIcons = {
     "team_slayer"
 }
 
-local templateIcons = {
-    "stock",
-    "fiesta"
-}
+local templateIcons = {"stock", "fiesta"}
 
 local bitmaps = {
     gametypeIcons = blam.findTag("lobby_gametype_icon", blam.tagClasses.bitmap),
@@ -48,8 +46,8 @@ return function()
     local options = component.new(lobbyMenu:findChildWidgetTag("options").id)
 
     local definitionList = component.new(options:findChildWidgetTag("definitions").id)
-    local template = button.new(definitionList:findChildWidgetTag("template").id)
 
+    local template = button.new(definitionList:findChildWidgetTag("template").id)
     local map = button.new(definitionList:findChildWidgetTag("map").id)
     local gametype = button.new(definitionList:findChildWidgetTag("gametype").id)
 
@@ -69,6 +67,7 @@ return function()
     local back = button.new(options:findChildWidgetTag("back").id)
     local makePublic = checkbox.new(options:findChildWidgetTag("make_public").id)
     local key = input.new(options:findChildWidgetTag("lobby_key").id)
+
     key:onFocus(function()
         key:setText(api.session.lobbyKey)
     end)
@@ -89,8 +88,8 @@ return function()
         assert(mapCollection, "No map preview collection found")
         for k, v in pairs(mapCollection.tagList) do
             local bitmapTag = blam.getTag(v) --[[@as tag]]
-            local mapBitmaName = core.getTagName(bitmapTag.path):lower()
-            if mapBitmaName == mapName:lower() then
+            local mapBitmapName = core.getTagName(bitmapTag.path):lower()
+            if mapBitmapName == mapName:lower() then
                 return bitmapTag.id
             end
         end
@@ -101,43 +100,72 @@ return function()
         mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
     end
 
+    local function editLobbyData()
+        local template = template:getValue()
+        local map = map:getValue()
+        local gametype = gametype:getValue()
+        -- Just send the data we want to change
+        api.editLobby(api.session.lobbyKey, {
+            template = template and template:lower() or nil,
+            map = map,
+            gametype = gametype and gametype:lower() or nil
+        })
+    end
+
+    local function setDefinitionList()
+
+    end
+
     if lobby and isPlayerLobbyOwner then
         elementsList:onSelect(function(item)
-            item.value:setText(item.label)
-            api.editLobby(api.session.lobbyKey, {
-                template = template:getText(),
-                map = map:getText(),
-                gametype = gametype:getText()
-            })
+            local defComponent = item.value.component
+            local value = item.value.text
+            defComponent:setText(item.label)
+            defComponent:setValue(value)
+            editLobbyData()
         end)
         mapsList:onSelect(function(item)
-            item.value:setText(item.label)
-            api.editLobby(api.session.lobbyKey, {
-                template = template:getText(),
-                map = map:getText(),
-                gametype = gametype:getText()
-            })
-            setMapBackgroundBitmap(item.label)
+            local defComponent = item.value.component
+            local value = item.value.text
+            defComponent:setText(item.label)
+            defComponent:setValue(value)
+            editLobbyData()
+            setMapBackgroundBitmap(value)
         end)
 
-        local handleDefinition = function(lobbyDef, newDefinition)
-            log("Changing definition to " .. newDefinition)
-            search:setText("")
+        ---Change current definition of data in lobby
+        ---@param lobbyDefComponent uiComponentButton
+        ---@param newDefinition string
+        ---@param filter string?
+        local handleDefinition = function(lobbyDefComponent, newDefinition, filter)
             local component = elementsList
             if newDefinition == "map" then
                 component = mapsList
             end
-            component:setItems(table.map(state.available[newDefinition .. "s"], function(element)
+            local elements = state.available[newDefinition .. "s"]
+            if filter then
+                elements = table.filter(elements, function(element)
+                    return element:lower():includes(filter:lower())
+                end)
+            end
+            if not filter then
+                search:setText("")
+            end
+            component:setItems(table.map(elements, function(element)
                 ---@type uiComponentListItem
-                local item = {label = element, value = lobbyDef}
+                local item = {
+                    label = t(element),
+                    value = {component = lobbyDefComponent, text = element}
+                }
                 if newDefinition == "template" or newDefinition == "gametype" then
                     item.bitmap = function(uiComponent)
                         local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
                         local iconBitmaps = newDefinition == "template" and bitmaps.templateIcons or
-                                                   bitmaps.gametypeIcons
+                                                bitmaps.gametypeIcons
                         assert(iconBitmaps, "No icon bitmaps found")
                         icon.widgetDefinition.backgroundBitmap = iconBitmaps.id
-                        local iconsToUse = newDefinition == "template" and templateIcons or gametypeIcons
+                        local iconsToUse = newDefinition == "template" and templateIcons or
+                                               gametypeIcons
                         local iconToUse = table.find(iconsToUse, function(icon)
                             return element:includes(icon)
                         end)
@@ -152,6 +180,11 @@ return function()
             end))
             definition = newDefinition
         end
+
+        local definitionsToComponent = {template = template, map = map, gametype = gametype}
+        search:onInputText(function(text)
+            handleDefinition(definitionsToComponent[definition], definition, text)
+        end)
 
         template:onClick(function()
             fullMapList:replace(elementsList.tagId)
@@ -184,9 +217,9 @@ return function()
 
         play:onClick(function()
             if isPlayerLobbyOwner then
-                local template = template:getText()
-                local map = map:getText()
-                local gametype = gametype:getText()
+                local template = template:getValue()
+                local map = map:getValue()
+                local gametype = gametype:getValue()
                 api.borrow(template:lower(), map, gametype:lower())
             else
                 interface.dialog("WARNING", "", "You are not the owner of the lobby.")
@@ -194,36 +227,6 @@ return function()
         end)
 
     end
-
-    local definitionsToComponent = {template = template, map = map, gametype = gametype}
-    search:onInputText(function(text)
-        local elements = state.available[definition .. "s"] --[=[@as string[]]=]
-        elements = table.filter(elements, function(element)
-            return element:lower():includes(text:lower())
-        end)
-        local component = elementsList
-        if definition == "map" then
-            component = mapsList
-        end
-
-        component:setItems(table.map(elements, function(element)
-            ---@type uiComponentListItem
-            local item = {label = element, value = definitionsToComponent[definition]}
-            if definition ~= "map" then
-                item.bitmap = function(uiComponent)
-                    local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
-                    local iconToUse = table.find(gametypeIcons, function(icon)
-                        return element:includes(icon)
-                    end)
-                    local backgroundBitmapIndex = (table.indexof(gametypeIcons, iconToUse) or 1) - 1
-                    if backgroundBitmapIndex then
-                        icon:setWidgetValues({bitmapIndex = backgroundBitmapIndex})
-                    end
-                end
-            end
-            return item
-        end))
-    end)
 
     lobbyMenu:onOpen(function()
         if map.events.onClick then
@@ -241,9 +244,15 @@ return function()
     end)
 
     return function()
-        template:setText(state.lobby.template)
-        map:setText(state.lobby.map)
-        gametype:setText(state.lobby.gametype)
+        template:setText(t(state.lobby.template))
+        template:setValue(state.lobby.template)
+
+        map:setText(t(state.lobby.map))
+        map:setValue(state.lobby.map)
+
+        gametype:setText(t(state.lobby.gametype))
+        gametype:setValue(state.lobby.gametype)
+
         makePublic:setValue(state.lobby.isPublic)
         if api.session.lobbyKey then
             key:setText(string.rep("*", #api.session.lobbyKey))
