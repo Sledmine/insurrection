@@ -117,10 +117,13 @@ end
 ---@param map? string
 ---@param isLobbyOpen? boolean
 function discord.setParty(partyId, partySize, partyMax, map, isLobbyOpen)
+    logger:debug("discord.setParty")
+    logger:debug("partyId: {}", partyId)
+    logger:debug("partySize: {}", partySize)
+    logger:debug("partyMax: {}", partyMax)
+    logger:debug("map: {}", map)
+    logger:debug("isLobbyOpen: {}", isLobbyOpen)
     -- Party ID sometines is nil, so we need to check for it
-    log(
-        "discord.setParty: " .. partyId .. ", " .. partySize .. ", " .. partyMax .. ", " .. map ..
-            ", " .. tostring(isLobbyOpen))
     if partyId then
         -- TODO Replace with a proper party unique ID
         discord.presence.partyId = partyId .. partyId:reverse()
