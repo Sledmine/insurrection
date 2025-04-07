@@ -127,7 +127,7 @@ return container {
                 size = 185
             },
             587,
-            127
+            155
         },
         {
             preview {
@@ -154,11 +154,12 @@ return container {
         },
         634,
         252
-    },
+    }, 
         {
             label {
                 name = "lobby_browser_table_map_description",
-                text = strmem(256, "DESCRIPTION")
+                text = strmem(256, "DESCRIPTION"),
+                height = 200
             },
             634,
             264
