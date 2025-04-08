@@ -9,6 +9,7 @@ local t = require"insurrection.utils".snakeCaseToTitleCase
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 local input = require("insurrection.components.input")
+local interface = require "insurrection.interface"
 
 return function()
     local state = getState()
@@ -23,6 +24,7 @@ return function()
         components.new(browser:findChildWidgetTag("lobby_browser_table_options_list").id)
     local joinGame = button.new(options:findChildWidgetTag("join_game_button").id)
     local searchInput = input.new(browser:findChildWidgetTag("search_browser").id)
+    local lobbyKeyInput = input.new(browser:findChildWidgetTag("table_key").id)
 
     local function getMapBackgroundBitmap(mapName)
         local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
@@ -38,17 +40,31 @@ return function()
         return constants.bitmaps.unknownMapPreview.id
     end
 
+    local function resetUnmount()
+        mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
+        mapName:setText("MAP NAME")
+        author:setText("Unknown")
+        description:setText("No description available")
+        lobbyKeyInput:setValue("")
+        lobbyKeyInput:setText("")
+        searchInput:setValue("")
+        searchInput:setText("")
+    end
+
     local function setMapBackgroundBitmap(mapName)
         mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
     end
 
-    lobbies:onFocus(function(item)
+    lobbies:onSelect(function(item)
+
         local lobby = state.lobbies[item.value]
         setMapBackgroundBitmap(lobby.map)
         mapName:setText(t(lobby.map))
         local mapMetadata = table.find(constants.maps, function(map)
             return map.name == lobby.map
         end)
+        lobbyKeyInput:setValue(lobby.key)
+        lobbyKeyInput:setText(lobby.key)
         if mapMetadata then
             author:setText(mapMetadata.author)
             description:setText(mapMetadata.description)
@@ -57,11 +73,25 @@ return function()
             description:setText("No description available")
         end
     end)
+
+    local function trim(s)
+        return s:match("^%s*(.-)%s*$")
+    end
     joinGame:onClick(function()
-        local lobby = state.lobbies[lobbies:getSelectedItem().value]
-        if lobby then
+        local selectedItem = lobbies:getSelectedItem()
+        if selectedItem and selectedItem.value then
+            local lobby = state.lobbies[selectedItem.value]
+            print(lobby.key)
             api.lobby(lobby.key)
+        else
+            local lobbyKey = trim(lobbyKeyInput:getText())
+            if lobbyKey and lobbyKey ~= "" then
+                api.lobby(lobbyKey)
+            else
+                interface.dialog("ATTENTION", "ERROR", "Please select a lobby or enter a lobby key.")
+            end
         end
+
     end)
     lobbies:setScrollBar(scrollBar)
     lobbies:scrollable(false)
@@ -120,8 +150,11 @@ return function()
 
         renderLobbies(filteredLobbies)
     end)
-
+    browser:onClose(function()
+        resetUnmount()
+    end)
     browser:onOpen(function(previousWidgetTag)
+        resetUnmount()
         if previousWidgetTag and previousWidgetTag.handle.value == constants.widgets.dashboard.id then
             api.getLobbies()
         end
