@@ -40,16 +40,27 @@ return function()
         return constants.bitmaps.unknownMapPreview.id
     end
 
-    local function resetUnmount()
+    local function resetSelectLobby()
         mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
         mapName:setText("MAP NAME")
         author:setText("Unknown")
         description:setText("No description available")
+        state.lobby = nil
+    end
+
+    local function resetUnmount()
+        resetSelectLobby()
         lobbyKeyInput:setValue("")
         lobbyKeyInput:setText("")
         searchInput:setValue("")
         searchInput:setText("")
     end
+    lobbyKeyInput:onClick(function()
+        resetSelectLobby()
+    end)
+    lobbyKeyInput:onInputText(function()
+        resetSelectLobby()
+    end)
 
     local function setMapBackgroundBitmap(mapName)
         mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
@@ -63,8 +74,8 @@ return function()
         local mapMetadata = table.find(constants.maps, function(map)
             return map.name == lobby.map
         end)
-        lobbyKeyInput:setValue(lobby.key)
-        lobbyKeyInput:setText(lobby.key)
+        lobbyKeyInput:setValue("")
+        lobbyKeyInput:setText("")
         if mapMetadata then
             author:setText(mapMetadata.author)
             description:setText(mapMetadata.description)
@@ -81,7 +92,6 @@ return function()
         local selectedItem = lobbies:getSelectedItem()
         if selectedItem and selectedItem.value then
             local lobby = state.lobbies[selectedItem.value]
-            print(lobby.key)
             api.lobby(lobby.key)
         else
             local lobbyKey = trim(lobbyKeyInput:getText())
