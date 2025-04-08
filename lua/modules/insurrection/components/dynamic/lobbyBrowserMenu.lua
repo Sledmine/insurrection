@@ -45,7 +45,7 @@ return function()
         mapName:setText("MAP NAME")
         author:setText("Unknown")
         description:setText("No description available")
-        state.lobby = nil
+        lobbies:clearSelectedItem()
     end
 
     local function resetUnmount()

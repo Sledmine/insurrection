@@ -272,6 +272,10 @@ function list.getSelectedItem(self)
         return self.items[self.lastSelectedItemIndex]
     end
 end
+---@param self uiComponentList
+function list.clearSelectedItem(self)
+    self.lastSelectedItemIndex = nil
+end
 
 ---Set the list to be scrollable or not.
 ---
