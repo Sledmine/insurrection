@@ -38,6 +38,7 @@ local list = setmetatable({
 ---@class uiComponentListEvents : uiComponentEvents
 ---@field onSelect fun(item: uiComponentListItem, button: uiComponentButton)
 ---@field onScroll fun(item: uiComponentListItem)
+---@field onFocus fun(item: uiComponentListItem)
 
 ---@class uiComponentList : uiComponentListClass
 ---@field events uiComponentListEvents
@@ -63,6 +64,12 @@ end
 ---@param callback fun(item: uiComponentListItem)
 function list.onScroll(self, callback)
     self.events.onScroll = callback
+end
+
+---@param self uiComponentList
+---@param callback fun(item: uiComponentListItem)
+function list.onFocus(self, callback)
+    self.events.onFocus = callback
 end
 
 ---@param self uiComponentList
@@ -305,6 +312,12 @@ end
 function list.setCurrentItemIndex(self, itemIndex)
     self.currentItemIndex = itemIndex
     self:refresh()
+end
+
+---@param self uiComponentList
+---@return number itemIndex
+function list.getCurrentItemIndex(self)
+    return self.currentItemIndex
 end
 
 ---@param self uiComponentList
