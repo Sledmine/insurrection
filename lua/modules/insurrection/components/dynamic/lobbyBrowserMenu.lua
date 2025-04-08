@@ -42,20 +42,21 @@ return function()
 
     local function resetSelectLobby()
         mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
-        mapName:setText("MAP NAME")
+        mapName:setText("Map Name")
         author:setText("Unknown")
         description:setText("No description available")
         lobbies:clearSelectedItem()
     end
 
-    local function resetUnmount()
+    local function resetState()
+        state.lobbies = {}
         resetSelectLobby()
         lobbyKeyInput:setValue("")
         lobbyKeyInput:setText("")
         searchInput:setValue("")
         searchInput:setText("")
     end
-    lobbyKeyInput:onClick(function()
+    lobbyKeyInput:onFocus(function()
         resetSelectLobby()
     end)
     lobbyKeyInput:onInputText(function()
@@ -66,16 +67,14 @@ return function()
         mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
     end
 
-    lobbies:onSelect(function(item)
-
+    lobbies:onFocus(function (item)
         local lobby = state.lobbies[item.value]
+        assert(lobby, "No lobby found")
         setMapBackgroundBitmap(lobby.map)
         mapName:setText(t(lobby.map))
         local mapMetadata = table.find(constants.maps, function(map)
             return map.name == lobby.map
         end)
-        lobbyKeyInput:setValue("")
-        lobbyKeyInput:setText("")
         if mapMetadata then
             author:setText(mapMetadata.author)
             description:setText(mapMetadata.description)
@@ -85,16 +84,18 @@ return function()
         end
     end)
 
-    local function trim(s)
-        return s:match("^%s*(.-)%s*$")
-    end
+    lobbies:onSelect(function(item)
+        lobbyKeyInput:setValue("")
+        lobbyKeyInput:setText("")
+    end)
+
     joinGame:onClick(function()
         local selectedItem = lobbies:getSelectedItem()
         if selectedItem and selectedItem.value then
             local lobby = state.lobbies[selectedItem.value]
             api.lobby(lobby.key)
         else
-            local lobbyKey = trim(lobbyKeyInput:getText())
+            local lobbyKey = lobbyKeyInput:getText():trim()
             if lobbyKey and lobbyKey ~= "" then
                 api.lobby(lobbyKey)
             else
@@ -160,15 +161,16 @@ return function()
 
         renderLobbies(filteredLobbies)
     end)
-    browser:onClose(function()
-        resetUnmount()
-    end)
     browser:onOpen(function(previousWidgetTag)
-        resetUnmount()
         if previousWidgetTag and previousWidgetTag.handle.value == constants.widgets.dashboard.id then
+            resetState()
             api.getLobbies()
         end
         api.stopRefreshLobby()
         loadLobbies()
     end)
+
+    return function ()
+        loadLobbies()
+    end
 end

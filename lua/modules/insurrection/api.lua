@@ -16,6 +16,7 @@ local constants = require "insurrection.constants"
 local loading = core.loading
 local luna = require "luna"
 local utils = require "insurrection.utils"
+local mock = require "insurrection.api.mock"
 
 local api = {}
 
@@ -115,6 +116,10 @@ local function showErrorDialog(logs)
             logger:error("Unknown error: " .. logs, "error")
         end
     end
+    local traceback = debug.traceback()
+    if DebugMode then
+        logger:error("{}", traceback)
+    end
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please check logs and try again later.")
     if logs then
@@ -123,7 +128,7 @@ local function showErrorDialog(logs)
         if #log > 100000 then
             log = ""
         end
-        log = log .. "\n" .. debug.traceback()
+        log = log .. "\n" .. traceback
         log = log .. "\n" .. logs
         Balltze.filesystem.writeFile("insurrection.log", log)
     end
@@ -161,8 +166,13 @@ function api.login(username, password)
     local login = async(function(await)
         loading(true, "Logging in...")
         ---@type httpResponse<loginResponse>?
-        local response = await(requests.postform, api.url .. "/login",
-                               {username = username, password = password})
+        local response
+        if IsAPIMockEnabled then
+            response = mock.response.login
+        else
+            local data = {username = username, password = password}
+            response = await(requests.postform, api.url .. "/login", data)
+        end
         log("onLoginResponse")
         loading(false)
         if not response then
@@ -206,27 +216,14 @@ end
 function api.available()
     loading(true, "Loading available parameters...")
     logger:debug("Loading available parameters...")
-    if IsDebugLocalCustomizationEnabled then
-        local customization = {}
-        for mapName, data in pairs(CustomBipedPaths) do
-            customization[mapName] = {
-                maps = {mapName},
-                tags = table.map(data, function(tagPath)
-                    return tagPath .. ".biped"
-                end)
-            }
-        end
-        store:dispatch(actions.setAvailableResources({
-            maps = {"bloodgulch", "beavercreek", "dangercanyon", "deathisland", "icefields"},
-            gametypes = {"slayer", "ctf", "oddball"},
-            templates = {"default"},
-            customization = customization
-        }))
-        return
-    end
     local available = async(function(await)
         ---@type httpResponse<availableParameters>?
-        local response = await(requests.get, api.url .. "/available")
+        local response
+        if IsAPIMockEnabled then
+            response = mock.response.available
+        else
+            response = await(requests.get, api.url .. "/available")
+        end
         if not response then
             showErrorDialog("No response")
             return
@@ -248,7 +245,6 @@ end
 ---@param lobbyKey? string
 function api.lobby(lobbyKey)
     if not lobbyKey then
-        log("Creating lobby")
         local lobby = async(function(await)
             loading(true, "Creating lobby...")
             ---@type httpResponse<lobbyResponse>?
@@ -305,14 +301,13 @@ function api.lobby(lobbyKey)
                 local jsonResponse = response.json()
                 if jsonResponse and jsonResponse.key then
                     api.lobby(jsonResponse.key)
+                    return
                 end
-                return
-            else
-                api.session.lobbyKey = nil
-                local jsonResponse = response.json()
-                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
-                return
             end
+            api.session.lobbyKey = nil
+            local jsonResponse = response.json()
+            interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
+            return
         end)
         lobby()
         return
@@ -542,7 +537,12 @@ function api.getLobbies()
     loading(true, "Loading lobbies...", false)
     local get = async(function(await)
         ---@type httpResponse<insurrectionLobby[] | requestResult>?
-        local response = await(requests.get, api.url .. "/lobbies")
+        local response
+        if IsAPIMockEnabled then
+            response = mock.response.lobbies
+        else
+            response = await(requests.get, api.url .. "/lobbies")
+        end
         if not response then
             showErrorDialog("No lobbies server response")
             return
@@ -556,7 +556,7 @@ function api.getLobbies()
                     return
                 else
                     store:dispatch(actions.setLobbies(jsonResponse))
-                    --react.render("lobbyBrowserMenu")
+                    react.render("lobbyBrowserMenu")
                 end
                 return
             end

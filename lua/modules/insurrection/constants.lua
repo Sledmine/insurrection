@@ -1,3 +1,5 @@
+local maps = require "insurrection.constants.maps"
+
 local constants = {}
 
 local engine = Engine
@@ -10,6 +12,17 @@ constants.path = {
     tester = [[insurrection\ui\menus\tester\tester_menu]],
     christmasHat = [[insurrection\hats\christmas\christmas_hat]],
     xmasObjects = [[insurrection\scenery\season\xmas\xmas_objects]]
+}
+
+constants.customBipedPaths = {
+    bleed_it_out = {[[keymind\the_flood\characters\unsc\gridharvolur\gridharvolur_mk_ii_[b]_mp]]},
+    b30_coop_evolved = {
+        [[[shm]\halo_1\characters\mjolnir_gen_1\mjolnir_gen_1_mp]],
+        [[[shm]\halo_1\characters\marine\marine_mp]],
+        [[[shm]\halo_1\characters\elite\elite_mp]],
+        [[[shm]\halo_1\characters\grunt\grunt_mp]]
+    }
+    -- forge_island_dev = {[ze[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
 }
 
 constants.customColor = {
@@ -230,19 +243,7 @@ constants.limits = {maximumPlayers = 15}
 
 constants.widgets = {}
 
-constants.maps = {
-    {
-        name = "beavercreek",
-        title = "Battle Creek",
-        description = "Splash Splash, Bang Bang (2-8 players)",
-        author = "Bungie"
-    },
-    {
-        name = "a30_coop_evolved",
-        description = "Cooperative adaptation of Mission \"Halo\"\n(2-4 players)",
-        author = "Insurrection Team"
-    }
-}
+constants.maps = maps
 
 function constants.get()
     local blam = require "blam"

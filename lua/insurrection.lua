@@ -1,10 +1,11 @@
+package.preload["luna"] = nil
+package.loaded["luna"] = nil
+local luna = require "luna"
+inspect = require "inspect"
 local components = require "insurrection.components"
 local specialEvents = require "insurrection.specialEvents"
 local balltze = Balltze
 local engine = Engine
-package.preload["luna"] = nil
-package.loaded["luna"] = nil
-local luna = require "luna"
 local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
 async = require"async".async
@@ -16,9 +17,9 @@ execute_script = engine.hsc.executeScript
 logger = nil
 DebugMode = false
 APILocalMode = false
+IsAPIMockEnabled = false
 IsDebugCustomization = false
 IsDebugLocalCustomizationEnabled = false
-inspect = require "inspect"
 constants = require "insurrection.constants"
 api = require "insurrection.api"
 discord = require "insurrection.discord"
@@ -39,18 +40,6 @@ local lastListFocusedWidgetTag
 local lastFocusedWidgetTagEntry
 -- Multithread lanes
 Lanes = {}
-
-local customBipedPaths = {
-    bleed_it_out = {[[keymind\the_flood\characters\unsc\gridharvolur\gridharvolur_mk_ii_[b]_mp]]},
-    b30_coop_evolved = {
-        [[[shm]\halo_1\characters\mjolnir_gen_1\mjolnir_gen_1_mp]],
-        [[[shm]\halo_1\characters\marine\marine_mp]],
-        [[[shm]\halo_1\characters\elite\elite_mp]],
-        [[[shm]\halo_1\characters\grunt\grunt_mp]]
-    }
-    -- forge_island_dev = {[ze[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
-}
-CustomBipedPaths = customBipedPaths
 
 local customExternalTags = {
     {constants.path.nameplateCollection, engine.tag.classes.tagCollection},
@@ -77,14 +66,14 @@ function PluginMetadata()
     return {
         name = "Insurrection",
         author = "Shadowmods Team",
-        version = "2.6.0",
+        version = "2.9.0",
         targetApi = "1.0.0-rc.1",
         reloadable = true
     }
 end
 
 local function initialize()
-    log("Initializing Insurrection")
+    logger:info("Initializing Insurrection!...")
     api.loadUrl()
     components.free()
     constants.get()
@@ -177,11 +166,13 @@ function PluginLoad()
     logger:muteDebug(not DebugMode)
 
     local function importCustomizableBipeds()
-        for mapName, bipeds in pairs(customBipedPaths) do
+        for mapName, bipeds in pairs(constants.customBipedPaths) do
             for _, bipedPath in pairs(bipeds) do
-                local result = pcall(balltze.features.importTagFromMap, mapName, bipedPath, engine.tag.classes.biped)
+                local result = pcall(balltze.features.importTagFromMap, mapName, bipedPath,
+                                     engine.tag.classes.biped)
                 if not result then
-                    logger:warning("Failed to import customizable biped {} from map {}", bipedPath, mapName)
+                    logger:warning("Failed to import customizable biped {} from map {}", bipedPath,
+                                   mapName)
                 end
             end
         end

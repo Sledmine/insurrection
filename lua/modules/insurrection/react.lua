@@ -2,20 +2,25 @@ local react = {}
 
 local mounted = {}
 
-function react.mount(component)
-    log("Mounting component " .. component)
-    if not mounted[component] then
-        mounted[component] = require("insurrection.components.dynamic." .. component)()
+function react.mount(componentName)
+    logger:debug("Mounting component " .. componentName)
+    if not mounted[componentName] then
+        logger:debug("Component " .. componentName .. " was not mounted, mounting it now")
+        local component = require("insurrection.components.dynamic." .. componentName)
+        if not component then
+            error("Component " .. componentName .. " not found")
+        end
+        mounted[componentName] = component()
     end
-    if not mounted[component] then
-        error("Failed to mount component " .. component)
+    if not mounted[componentName] then
+        error("Failed to mount component " .. componentName)
     end
-    return mounted[component]
+    return mounted[componentName]
 end
 
-function react.render(component)
-    log("Rendering component " .. component)
-    local render = react.mount(component)
+function react.render(componentName)
+    local render = react.mount(componentName)
+    logger:debug("Rendering component " .. componentName)
     return render()
 end
 
