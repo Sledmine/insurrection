@@ -13,93 +13,96 @@ widget.init [[insurrection/ui/menus/login/]]
 local layout = widget.align("vertical", 33, 328, 180, 14)
 local layout2 = widget.align("vertical", 24, 328, 310, 2)
 
-local containerLogin =  container {
-    name ="login_menu",
-    background ="transparent",
+local containerLogin = container {
+    name = "login_menu",
+    background = "transparent",
     childs = {
         {
-       header {
-             name = "login",
-             title = "INSURRECTION - LOGIN",
-             subtitle = "LOG INTO YOUR INSURRECTION ACCOUNT, GET ACCESS TO DIFFERENT SERVICES"
+            header {
+                name = "login",
+                title = "INSURRECTION - LOGIN",
+                subtitle = "LOG INTO YOUR INSURRECTION ACCOUNT, GET ACCESS TO DIFFERENT SERVICES"
+            },
+            pos.header.x,
+            pos.header.y
         },
-        pos.header.x,
-        pos.header.y
-    },
-    {
-        image {
-            name = "dialog_background",
-            width= 334,
-            height = 345,
-            image = [[insurrection/ui/bitmaps/login_dialog_background.bitmap]]
-        },
+        {
+            image {
+                name = "dialog_background",
+                width = 334,
+                height = 345,
+                image = [[insurrection/ui/bitmaps/login_dialog_background.bitmap]]
+            },
 
-        253,
-        78
-    },
-    {
-        image {
-            name = "insurrection_logo",
-            width = 1280,
-            height = 225,
-            image =  [[insurrection/ui/bitmaps/insurrection_logo.bitmap]],
-            scale  = 0.15
+            253,
+            78
         },
-        322,
-        113
-    },
-    {
-     options {
-        name = "login_options",
-        layout ="vertical",
-        childs = {
-            {
-                input {
-                   name = "username",
-                  text = string.rep(" ", 23),
-                   icon =  "insurrection/ui/bitmaps/user_icon.bitmap",
-                 },
-                  layout()
+        {
+            image {
+                name = "insurrection_logo",
+                width = 1280,
+                height = 225,
+                image = [[insurrection/ui/bitmaps/insurrection_logo.bitmap]],
+                scale = 0.15
             },
-            {
-                input {
-                    name ="password",
-                    text =  string.rep(" ", 23),
-                    icon = [[insurrection/ui/bitmaps/lock_icon.bitmap]],
-                    password = true
-                },
-                 layout()
-            },
-            {
-                button {
-                    name ="login",
-                   text = "LOGIN",
-                   justification ="center_justify",
-                },
-                layout2(-12)
-            },
-             {
-                button {
-                    name = "register",
-                    text ="REGISTER",
-                    justification = "center_justify",
+            322,
+            113
+        },
+        {
+            options {
+                name = "login_options",
+                layout = "vertical",
+                childs = {
+                    {
+                        input {
+                            name = "username",
+                            text = string.rep(" ", 23),
+                            icon = [[insurrection/ui/bitmaps/user_icon.bitmap]]
+                        },
+                        layout()
+                    },
+                    {
+                        input {
+                            name = "userpswrd",
+                            text = string.rep(" ", 23),
+                            icon = [[insurrection/ui/bitmaps/lock_icon.bitmap]]
+                        },
+                        layout()
+                    },
+                    {
+                        button {
+                            name = "showpasswrd",
+                            text = "SHOW PASSWORD",
+                            justification = "center_justify"
+                        },
+                        layout2(-14)
+                    },
+                    {
+                        button {name = "login", text = "LOGIN", justification = "center_justify"},
+                        layout2(-12)
+                    },
+                    {
+                        button {
+                            name = "register",
+                            text = "REGISTER",
+                            justification = "center_justify"
 
-                },
-                 layout2()
-             },
-             {
-                button {
-                    name ="back",
-                    text ="BACK",
-                    justification = "center_justify",
-                    back = true
-                },
-                layout2()
-             }
-         }
-        }
-     },
-      {constants.components.version.path, 0, 460}
+                        },
+                        layout2()
+                    },
+                    {
+                        button {
+                            name = "back",
+                            text = "BACK",
+                            justification = "center_justify",
+                            back = true
+                        },
+                        layout2()
+                    }
+                }
+            }
+        },
+        {constants.components.version.path, 0, 460}
     }
 }
 

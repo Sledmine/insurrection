@@ -116,7 +116,8 @@ function core.getCurrentUIWidgetTag()
     -- local widgetTagId = core.getRenderedUIWidgetTagId()
     local widget = engine.userInterface.getRootWidget()
     if widget then
-        local tag = engine.tag.getTag(widget.definitionTagHandle.value, engine.tag.classes.uiWidgetDefinition)
+        local tag = engine.tag.getTag(widget.definitionTagHandle.value,
+                                      engine.tag.classes.uiWidgetDefinition)
         assert(tag, "No tag found for widget")
         -- TODO BALLTZE MIGRATE
         return {
@@ -193,6 +194,8 @@ function core.setStringToWidget(text, widgetTagId, mask)
                 newStrings[stringListIndex + 1] = string.rep(mask, #text)
             else
                 newStrings[stringListIndex + 1] = text
+                VirtualInputValue[widgetTagId] = nil
+
             end
             unicodeStrings.strings = newStrings
         end
@@ -477,7 +480,7 @@ function core.setCustomizationBipedColor(primaryColorHex, secondaryColorHex)
     -- Set primary color
     if primaryColorHex then
         LastColorCustomization.primary = table.indexof(table.flatten(constants.customColors),
-                                                      primaryColorHex)
+                                                       primaryColorHex)
         local r, g, b = color.hexToDec(primaryColorHex)
         customizationBiped.colorCLowerRed = r
         customizationBiped.colorCLowerGreen = g
@@ -487,7 +490,7 @@ function core.setCustomizationBipedColor(primaryColorHex, secondaryColorHex)
     -- Set secondary color
     if secondaryColorHex then
         LastColorCustomization.secondary = table.indexof(table.flatten(constants.customColors),
-                                                        secondaryColorHex)
+                                                         secondaryColorHex)
         r, g, b = color.hexToDec(secondaryColorHex)
         customizationBiped.colorDLowerRed = r
         customizationBiped.colorDLowerGreen = g
