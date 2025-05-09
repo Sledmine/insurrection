@@ -15,6 +15,7 @@ local menus = require "insurrection.menus"
 local core = require "insurrection.core"
 local getState = require "insurrection.redux.getState"
 local t = utils.snakeCaseToUpperTitleCase
+local executeScript = execute_script
 
 return function()
     local selectedProject
@@ -66,95 +67,18 @@ return function()
 
     ---Select a customization biped
     ---@param bipedPath string
-    ---@param regions? number[]
-    ---@param visor integer
-    local handleSelectBiped = function(bipedPath, regions, visor)
-        log("Selected biped path: {}", bipedPath)
-        log("Regions: {}", inspect(regions))
+    local handleSelectBiped = function(bipedPath)
+        logger:debug("Selected biped path: {}", bipedPath)
         selectedBiped = bipedPath
-
-        execute_script("object_create customization_biped")
-
-        local tagEntry = engine.tag.findTags(bipedPath, engine.tag.classes.biped)[1]
-        if not tagEntry then
-            logger:error("Custom external biped tag: {} not found", bipedPath)
-            return
-        end
-
-        local bipedData = tagEntry.data
-        if not bipedData then
-            logger:error("Biped tag: {} has no data", bipedPath)
-            return
-        end
-
-        local bipedTag = engine.tag.getTag(tagEntry.handle.value, engine.tag.classes.biped)
-        assert(bipedTag, "Biped tag data not found")
-        -- TODO Check if this is the right way to remove creation effect
-        bipedTag.data.creationEffect.tagHandle.value = 0xFFFFFFFF
-        -- TODO Remove this when biped animations are fixed in coop evolved
-        if not (tagEntry.path:includes "marine" or tagEntry.path:includes "grunt") then
-            -- FIXME This does not work with Balltze as weapons count is read only
-            -- bipedTag.data.weapons.count = 0
-
-            -- TODO Try to use unit remove weapon function or something similar
-            local bipedTag = blam.bipedTag(tagEntry.handle.value)
-            bipedTag.weaponCount = 0
-        end
-
-        local scenario = blam.scenario(0)
-        assert(scenario)
-        -- Respawn biped object from scenario as it is safer than doing it from lua
-        for _, biped in pairs(scenario.bipeds) do
-            local sceneryName = scenario.objectNames[biped.nameIndex + 1]
-            if sceneryName == "customization_biped" then
-                local newPaletteList = scenario.bipedPaletteList
-                -- Replace scenario biped tag with custom biped tag
-                if newPaletteList[biped.typeIndex + 1] ~= tagEntry.handle.value then
-                    newPaletteList[biped.typeIndex + 1] = tagEntry.handle.value
-                    scenario.bipedPaletteList = newPaletteList
-                    execute_script "object_destroy customization_biped"
-                    execute_script "object_create customization_biped"
-                    execute_script "fade_screen_in"
-                    logger:debug("Biped tag replaced")
-                end
-                break
-            end
-        end
-
-        local customizationObjectData = core.getCustomizationObjectData()
-        local customizationBiped = customizationObjectData.biped
-        assert(customizationBiped, "No customization biped found")
+        core.loadCustomizationBiped(selectedProject, selectedBiped)
 
         local bipedName = t(utils.path(bipedPath:replace("_mp", "")).name)
         currentBipedLabel:setText(bipedName)
-
-        -- local colorFromGame = constants.colors[profile.colorIndex]
-        local colorFromInsurrection = core.getCustomizationObjectData().color.custom
-        log("Color from Insurrection: {}", colorFromInsurrection)
-
-        local r, g, b = color.hexToDec(colorFromInsurrection.primary)
-        customizationBiped.colorCLowerRed = r
-        customizationBiped.colorCLowerGreen = g
-        customizationBiped.colorCLowerBlue = b
-
-        local r, g, b = color.hexToDec(colorFromInsurrection.secondary)
-        customizationBiped.colorDLowerRed = r
-        customizationBiped.colorDLowerGreen = g
-        customizationBiped.colorDLowerBlue = b
-        if regions then
-            logger:debug("Setting regions")
-            for regionIndex, permutationIndex in pairs(regions) do
-                core.setObjectPermutationSafely(customizationBiped, regionIndex, permutationIndex)
-            end
-        end
-
-        if visor then
-            customizationBiped.shaderPermutationIndex = visor
-        end
     end
 
     local function handleLoadNameplates()
-        execute_script("set_customization_background")
+        interface.camera("customization_lobby", 30)
+        core.rotateCustomizationBiped(constants.customization.rotation.default)
         nameplatesList:refresh()
         currentBipedLabel:setText("")
         selectBipedsWrapper:replace(nameplatesList.tagId)
@@ -162,41 +86,28 @@ return function()
 
     ---@param projectName? string
     local function handleLoadProject(projectName)
-        local savedBipeds = api.getSavedBipeds()
-        local lastSavedProject = (core.loadSettings() or {}).lastSavedProject
-        local defaultProject = state.available.customization[table.keys(state.available
-                                                                            .customization)[1]]
-        -- TODO Load last selected project
-        local projectName = projectName or lastSavedProject or
-                                table.keys(state.available.customization)[1]
+        local state = getState()
+        logger:debug("Selected project: {}", projectName)
+        local projectName, bipedPath = core.loadCustomizationBiped(projectName)
         selectedProject = projectName
         local project = state.available.customization[projectName] or defaultProject
-        logger:debug("Selected project: {}", projectName)
         local bipeds = table.map(project.tags, function(bipedPath)
             return {label = "CUSTOMIZE", value = bipedPath:replace(".biped", "")}
         end)
         bipeds = utils.sortTableAlphabetically(bipeds)
         bipedsList:setItems(bipeds)
-        local regions
-        local bipedPath = bipeds[1].value
-        local savedBiped = savedBipeds[projectName]
-        local visor = 0
-        if savedBiped then
+        if bipedPath then
             local bipedIsStillAvailable = table.find(bipeds, function(biped)
-                return biped.value == savedBiped.path
+                return biped.value == bipedPath
             end)
             if bipedIsStillAvailable then
                 bipedsList:setCurrentItemIndex(table.indexof(bipeds,
                                                              table.find(bipeds, function(biped)
-                    return biped.value == savedBiped.path
+                    return biped.value == bipedPath
                 end)) or 1)
-                bipedPath = savedBiped.path
-                regions = savedBiped.regions
-                visor = savedBiped.visor
             end
+            handleSelectBiped(bipedPath)
         end
-        -- log(savedBiped)
-        handleSelectBiped(bipedPath, regions, visor)
     end
 
     ---@param openList boolean?
@@ -209,13 +120,13 @@ return function()
         local projects = table.keys(state.available.customization)
         table.sort(projects)
 
-        selectProjectsList:onSelect(function(item)
-            handleLoadProject(item.value)
-        end)
-
         selectProjectsList:setItems(table.map(projects, function(project)
             return {label = utils.snakeCaseToTitleCase(project), value = project}
         end))
+
+        selectProjectsList:onSelect(function(item)
+            handleLoadProject(item.value)
+        end)
 
         bipedsList:onScroll(function(item)
             handleSelectBiped(item.value)
@@ -283,7 +194,6 @@ return function()
     end)
 
     customization:onClose(function()
-        interface.fade("in", 30)
         interface.loadProfileNameplate()
         if api.session.player.color then
             LastColorCustomization.primary = core.getCustomizationColorByValue(api.session.player
@@ -295,7 +205,6 @@ return function()
     end)
 
     customization:onOpen(function(previousWidgetTag)
-        log("Customization menu opened")
         discord.setState("Playing Insurrection", "In the customization menu")
         profile = core.getPlayerProfile()
         if previousWidgetTag then

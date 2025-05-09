@@ -30,25 +30,13 @@ return container {
                 name = name,
                 alignment = "vertical",
                 childs = {
-                    {
-                        button {
-                            name = "controller",
-                            text = "CONTROLLER",
-                        },
-                        layout()
-                    },
-                    {
-                        button {
-                            name = "keyboard_mouse",
-                            text = "KEYBOARD / MOUSE",
-                        },
-                        layout()
-                    },
+                    --{button {name = "controller", text = "CONTROLLER"}, layout()},
+                    --{button {name = "keyboard_mouse", text = "KEYBOARD / MOUSE"}, layout()},
                     {
                         button {
                             name = "video",
                             text = "VIDEO",
-                            opens = [[insurrection/ui/menus/video/video_settings_menu_custom.ui_widget_definition]],
+                            opens = [[insurrection/ui/menus/video/video_settings_menu_custom.ui_widget_definition]]
                         },
                         layout()
                     },
@@ -56,24 +44,22 @@ return container {
                         button {
                             name = "audio",
                             text = "AUDIO",
-                            opens = [[insurrection/ui/menus/audio/audio_settings_menu_custom.ui_widget_definition]],
+                            opens = [[insurrection/ui/menus/audio/audio_settings_menu_custom.ui_widget_definition]]
                         },
                         layout()
                     },
+                    --{button {name = "network", text = "NETWORK"}, layout()},
                     {
-                        button{
-                            name = "network",
-                            text = "NETWORK",
+                        button {
+                            name = "legacy",
+                            text = "MORE LEGACY OPTIONS",
+                            opens = [[insurrection/ui/menus/settings/settings_menu.ui_widget_definition]],
+                            func = "profile_set_edit_begin",
+                            branch = true
                         },
                         layout()
                     },
-                    {
-                        button{
-                            name = "about",
-                            text = "ABOUT INSURRECTION",
-                        },
-                        layout()
-                    },
+                    --{button {name = "about", text = "ABOUT INSURRECTION"}, layout()},
                     {button {name = "back", text = "BACK", back = true}, pos.back.x, pos.back.y}
                 }
             }
@@ -82,7 +68,8 @@ return container {
             footer {
                 name = name,
                 title = "GAME SETTINGS DESCRIPTION",
-                text = strmem(384, "Set your game settings to your liking. You can change your controller, keyboard, video, audio, and\r\nnetwork settings. You can also learn more about Insurrection."),
+                text = strmem(384,
+                              "Set your game settings to your liking. You can change your controller, keyboard, video, audio, and\r\nnetwork settings. You can also learn more about Insurrection.")
             },
             layout(8)
         },

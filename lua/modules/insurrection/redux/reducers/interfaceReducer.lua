@@ -1,7 +1,5 @@
 local redux = require "redux"
 local actions = require "insurrection.redux.actions"
-local glue = require "glue"
-local chunks = glue.chunks
 
 ---@class interfaceState
 ---@field isLoading boolean

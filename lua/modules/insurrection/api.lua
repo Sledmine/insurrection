@@ -203,7 +203,31 @@ function api.login(username, password)
             -- Save last defined nameplate
             core.updateSettings({nameplate = jsonResponse.player.nameplate})
             interface.loadProfileNameplate()
-            api.available()
+            -- TODO Make a better implementation of async await that allows awaiting other functions
+            -- that also use invoke other async functions
+
+            loading(true, "Loading available parameters...")
+            ---@type httpResponse<availableParameters>?
+            local response
+            if IsAPIMockEnabled then
+                response = mock.response.available
+            else
+                response = await(requests.get, api.url .. "/available")
+            end
+            if not response then
+                showErrorDialog("No response")
+                return
+            end
+            loading(false)
+            if response then
+                if response.code == 200 then
+                    local jsonResponse = response.json()
+                    store:dispatch(actions.setAvailableResources(jsonResponse))
+                else
+                    showErrorDialog(response)
+                end
+            end
+
             menus.dashboard()
         elseif response.code == 401 then
             local jsonResponse = response.json()
@@ -211,34 +235,6 @@ function api.login(username, password)
         end
     end)
     login()
-end
-
-function api.available()
-    loading(true, "Loading available parameters...")
-    logger:debug("Loading available parameters...")
-    local available = async(function(await)
-        ---@type httpResponse<availableParameters>?
-        local response
-        if IsAPIMockEnabled then
-            response = mock.response.available
-        else
-            response = await(requests.get, api.url .. "/available")
-        end
-        if not response then
-            showErrorDialog("No response")
-            return
-        end
-        loading(false)
-        if response then
-            if response.code == 200 then
-                local jsonResponse = response.json()
-                store:dispatch(actions.setAvailableResources(jsonResponse))
-                return
-            end
-        end
-        showErrorDialog(response)
-    end)
-    available()
 end
 
 ---Create or join a lobby
@@ -575,9 +571,12 @@ function api.getSavedBipeds()
         return table.map(api.session.player.bipeds, function(data)
             local elements = data:split("+")
             return {
-                path = elements[1],
-                regions = table.map(table.slice(elements, 2, 9), tointeger),
-                visor = tointeger(elements[10] or "0")
+                path = elements[constants.parser.customization.bipedPathIndex],
+                regions = table.map(table.slice(elements,
+                                                constants.parser.customization.firstRegionIndex,
+                                                constants.parser.customization.lastRegionIndex),
+                                    tointeger),
+                visor = tointeger(elements[constants.parser.customization.visorIndex] or "0")
             }
         end)
     end

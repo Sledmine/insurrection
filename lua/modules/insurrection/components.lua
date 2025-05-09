@@ -52,7 +52,7 @@ function component.callbacks()
 
     balltze.event.uiWidgetAccept.subscribe(function(event)
         if event.time == "before" then
-            log("Accepting widget: {}", event.context.widget.definitionTagHandle.value)
+            --logger:debug("Accepting widget: {}", event.context.widget.definitionTagHandle.value)
             local isCanceled = false
             local instance = component.widgets[event.context.widget.definitionTagHandle.value]
             if instance then

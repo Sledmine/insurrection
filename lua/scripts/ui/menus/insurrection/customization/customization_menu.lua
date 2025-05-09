@@ -132,7 +132,7 @@ return container {
         {
             header {
                 name = "header",
-                title = "INSURRECTION CUSTOMIZATION",
+                title = "INSURRECTION - CUSTOMIZATION",
                 subtitle = "CUSTOMIZE DIFFERENT ASPECTS FROM YOUR INSURRECTION ACCOUNT"
             },
             pos.header.x,

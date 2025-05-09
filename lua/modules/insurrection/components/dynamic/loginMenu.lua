@@ -72,6 +72,8 @@ return function()
     end)
 
     login:onOpen(function(previousWidget)
+        interface.blur(true)
+        interface.setBackground("halo")
         if engine.map.getCurrentMapHeader().name == "ui" and
             (previousWidget and previousWidget.handle.value == constants.widgets.main.id) then
             if not discord.ready then

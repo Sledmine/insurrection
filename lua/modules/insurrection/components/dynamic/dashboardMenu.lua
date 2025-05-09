@@ -6,6 +6,10 @@ local interface = require "insurrection.interface"
 local menus = require "insurrection.menus"
 local ranks = require "insurrection.constants.ranks"
 local bar = require "insurrection.components.bar"
+local core = require "insurrection.core"
+local blam = require "blam"
+local engine = Engine
+local executeScript = engine.hsc.executeScript
 
 return function()
     local dashboard = components.new(constants.widgets.dashboard.id)
@@ -16,6 +20,8 @@ return function()
     local browseLobby =
         button.new(dashboard:findChildWidgetTag("browse_prompt_dashboard_button").id)
     browseLobby:onClick(function()
+        interface.blur(true)
+        interface.setBackground("halo")
         menus.lobbies()
     end)
     browseLobby:onFocus(function()
@@ -26,6 +32,8 @@ return function()
                                              "create_prompt_dashboard_button").id)
     createLobbyButton:onClick(function()
         api.lobby()
+        interface.blur(true)
+        interface.setBackground("halo")
     end)
     createLobbyButton:onFocus(function()
         description:setText("Create a new lobby and invite your friends to play.")
@@ -34,7 +42,6 @@ return function()
     local customizationButton = button.new(dashboard:findChildWidgetTag(
                                                "customization_prompt_dashboard_button").id)
     customizationButton:onClick(function()
-        interface.fade("in", 60)
         menus.customization()
     end)
     customizationButton:onFocus(function()
@@ -58,7 +65,7 @@ return function()
     --    end
     -- end)
 
-    dashboard:onOpen(function()
+    dashboard:onOpen(function(previousWidgetTag)
         rankNameLabel:setText("NO RANK (Coming soon!)")
         rankTierLabel:setText("NO TIER")
         expLabel:setText("0 XP TO NEXT RANK")
@@ -66,7 +73,20 @@ return function()
         creditsLabel:setText("0 CR")
         rankProgressBar:setValue(0.01)
 
-        execute_script("set_ui_background")
+        core.loadCustomizationBiped()
+        core.rotateCustomizationBiped(constants.customization.rotation.dashboard)
+        interface.blur(false)
+        interface.bsp(1)
+        local cameraTicks = 0
+        if previousWidgetTag and previousWidgetTag.handle.value ==
+            constants.widgets.customization.id then
+            cameraTicks = 30
+        else
+            interface.fade("in", 30)
+        end
+        executeScript "object_create_containing prop"
+        interface.camera("customization_color", cameraTicks)
+
         api.stopRefreshLobby()
         discord.clearParty()
         discord.setState("Playing Insurrection", "In the dashboard")
@@ -94,7 +114,8 @@ return function()
                         classificationName = rank.classification
                         rankName = rankData.name
                         rankGrade = rankData.grade
-                        local nextRank = flattenRanks[currentRankIndex + 1] or flattenRanks[#flattenRanks]
+                        local nextRank = flattenRanks[currentRankIndex + 1] or
+                                             flattenRanks[#flattenRanks]
                         -- TODO This should be the player's current experience (api.session.player.exp)
                         local currentExp = math.random(rankData.experience, nextRank.experience)
                         expToNextRank = nextRank.experience - currentExp
@@ -120,7 +141,6 @@ return function()
                     end
                 end
             end
-
         end
     end)
     dashboard:onClose(function()

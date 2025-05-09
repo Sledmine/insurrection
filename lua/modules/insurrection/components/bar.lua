@@ -38,7 +38,6 @@ end
 function bar.setValue(self, value)
     local isHorizontal = self.orientation == "horizontal"
     local barPosition = round(value * (isHorizontal and self.widgetDefinition.width or self.widgetDefinition.height))
-    logger:warning("Bar position: " .. barPosition)
     local barValueDefinition = self:findChildWidgetDefinition("bar_value")
     if isHorizontal then
         barValueDefinition.width = barPosition

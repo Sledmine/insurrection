@@ -52,9 +52,7 @@ return container("main_menu", {
             },
             {
                 button("settings", "SETTINGS", {
-                    opens = [[insurrection/ui/menus/settings/settings_menu.ui_widget_definition]],
-                    func = "profile_set_edit_begin",
-                    branch = true
+                    opens = [[insurrection/ui/menus/settings_custom/settings_menu_custom.ui_widget_definition]]
                 }),
                 layout()
             },

@@ -12,6 +12,7 @@ local uiWidgetTag = blam.uiWidgetDefinition
 local uiWidgetCollection = blam.uiWidgetCollection
 local constants = require "insurrection.constants"
 local chimera = require "insurrection.mods.chimera"
+local executeScript = engine.hsc.executeScript
 
 local interface = {}
 interface.shared = {}
@@ -172,7 +173,7 @@ function interface.load()
                     preferences.chimera_block_server_ip = 1
                     chimera.savePreferences(preferences)
                     if not chimera.executeCommand("chimera_block_server_ip 1") then
-                        execute_script("quit")
+                        executeScript("quit")
                     end
                 end)
                 interface.dialog("WARNING", translations.eng.block_server_ips_subtitle,
@@ -303,14 +304,14 @@ end
 ---@param enable boolean
 function interface.blur(enable)
     if enable then
-        execute_script([[(begin
+        executeScript([[(begin
         (show_hud false)
         (cinematic_screen_effect_start true)
-        (cinematic_screen_effect_set_convolution 3 1 1 2 0)
+        (cinematic_screen_effect_set_convolution 2 2 1 2 0)
         (cinematic_screen_effect_start false)
     )]])
     else
-        execute_script([[(begin
+        executeScript([[(begin
             (show_hud true)
             (cinematic_stop)
         )]])
@@ -391,11 +392,11 @@ function interface.changeAspectRatio()
             balltze.features.setUIAspectRatio(16, 9)
         end
         -- Enable menu blur
-        execute_script("menu_blur_on")
+        executeScript("menu_blur_on")
 
         -- Set network timeout to 5 seconds (keeps connection alive at loading huge maps)
         -- NOTE! This is meant to help server side loading time, not client side
-        execute_script("network_connect_timeout 15000")
+        executeScript("network_connect_timeout 15000")
     else
         balltze.features.setUIAspectRatio(4, 3)
     end
@@ -406,7 +407,43 @@ end
 ---@param duration number
 function interface.fade(type, duration)
     local type = type == "in" and "in" or "out"
-    execute_script("fade_" .. type .. " 0 0 0 " .. duration)
+    executeScript("fade_" .. type .. " 0 0 0 " .. duration)
+end
+
+---Set camera to a specific name
+---@param cameraName string | "ui_camera" | "customization_lobby"
+---@param ticks? number
+function interface.camera(cameraName, ticks)
+    local ticks = ticks or 0
+    executeScript "camera_control 1"
+    executeScript("camera_set " .. cameraName .. " " .. ticks)
+end
+
+---Set game bsp to a specific index
+---@param bspIndex number
+function interface.bsp(bspIndex)
+    executeScript("switch_bsp " .. tostring(bspIndex))
+end
+
+---Set UI background to customization
+---@param background "halo" | "multiplayer" | "customization"
+function interface.setBackground(background)
+    executeScript("object_destroy_containing customization")
+    executeScript("object_destroy_containing prop")
+    if background == "halo" then
+        interface.bsp(0)
+        interface.camera("ui_camera")
+    elseif background == "multiplayer" then
+        interface.camera("multiplayer")
+        executeScript("object_destroy_containing customization")
+        executeScript("object_destroy_containing prop")
+    elseif background == "customization" then
+        interface.bsp(1)
+        interface.camera("customization_lobby")
+        executeScript("object_create_containing prop")
+    else
+        logger:error("Error, invalid background: {}", background)
+    end
 end
 
 return interface

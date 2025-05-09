@@ -235,7 +235,8 @@ constants.customization = {
         right_shoulder = 190,
         arms = 80,
         gear = 0,
-        color = 118
+        color = 118,
+        dashboard = 100
     }
 }
 
@@ -244,6 +245,15 @@ constants.limits = {maximumPlayers = 15}
 constants.widgets = {}
 
 constants.maps = maps
+
+constants.parser = {
+    customization = {
+        bipedPathIndex = 1,
+        firstRegionIndex = 2,
+        lastRegionIndex = 9,
+        visorIndex = 10
+    }
+}
 
 function constants.get()
     local blam = require "blam"

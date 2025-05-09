@@ -6,9 +6,11 @@ local base64 = require "base64"
 local color = require "color"
 local balltze = Balltze
 local engine = Engine
+local executeScript = engine.hsc.executeScript
 
 local mercury = require "insurrection.mercury"
 local utils = require "insurrection.utils"
+local getState = require "insurrection.redux.getState"
 
 local currentWidgetIdAddress = 0x6B401C
 local keyboardInputAddress = 0x64C550
@@ -370,7 +372,7 @@ function core.getCustomizationObjectData()
                                           customizationBiped.colorDLowerGreen,
                                           customizationBiped.colorDLowerBlue)
 
-    local colors = table.flatten(constants.customColors)
+    local colors = table.flatten(constants.customColors) --[[@as table<number, string>]]
     return {
         id = customizationObjectId,
         handle = customizationObjectId,
@@ -392,8 +394,8 @@ function core.getCustomizationObjectData()
             primary = primaryColor,
             secondary = secondaryColor,
             custom = {
-                primary = colors[LastColorCustomization.primary],
-                secondary = colors[LastColorCustomization.secondary]
+                primary = colors[LastColorCustomization.primary or 1],
+                secondary = colors[LastColorCustomization.secondary or 1]
             }
         },
         visor = customizationBiped.shaderPermutationIndex
@@ -415,15 +417,14 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
     -- This one does not need to be substracted by 1 because property name is Lua 1-based
     local maximumRegionIndex = objectModel.regionCount
     if regionIndex > maximumRegionIndex then
-        console_debug("Region index " .. regionIndex .. " out of range, maximum is " ..
-                          maximumRegionIndex)
+        --logger:warning("Region index {} out of range, maximum is {}", regionIndex,  maximumRegionIndex)
         return
     end
 
     local maximumPermutationIndex = objectModel.regionList[regionIndex].permutationCount - 1
     if permutationIndex > maximumPermutationIndex then
-        console_debug("Permutation index " .. permutationIndex .. " for region " .. regionIndex ..
-                          " out of range, setting to 0")
+        logger:warning("Permutation index {} for region {} out of range, setting to 0", permutationIndex,
+                     regionIndex)
         permutationIndex = 0
     end
     object["regionPermutation" .. regionIndex] = permutationIndex
@@ -502,6 +503,126 @@ function core.getCustomizationColorByValue(value)
     local colorIndex = table.indexof(table.flatten(constants.customColors), value)
     local colorName = table.keyof(constants.customColor, value)
     return colorIndex, colorName
+end
+
+function core.rotateCustomizationBiped(rotation)
+    local customizationObjectId = core.getCustomizationObjectId()
+    assert(customizationObjectId, "No customization biped found")
+    local object = blam.getObject(customizationObjectId)
+    if object then
+        blam.rotateObject(object, rotation, 0, 0)
+    end
+end
+
+function core.createCustomizationBiped()
+    execute_script "object_create customization_biped"
+    local colorFromInsurrection = core.getCustomizationObjectData().color.custom
+    core.setCustomizationBipedColor(colorFromInsurrection.primary, colorFromInsurrection.secondary)
+end
+
+function core.getLastSavedProject()
+    local lastSavedProject = (core.loadSettings() or {}).lastSavedProject
+    return lastSavedProject
+end
+
+function core.loadCustomizationBiped(projectName, customBipedPath)
+    core.createCustomizationBiped()
+    local state = getState()
+    local savedBipeds = api.getSavedBipeds()
+    local lastSavedProject = core.getLastSavedProject()
+    local defaultProject =
+        state.available.customization[table.keys(state.available.customization)[1]]
+    local projectName = projectName or lastSavedProject or
+                            table.keys(state.available.customization)[1]
+    local project = state.available.customization[projectName] or defaultProject
+    local regions
+    local bipedPaths = table.map(project.tags, function(tagPath)
+        return tagPath:replace(".biped", "")
+    end)
+    local bipedPath = customBipedPath or bipedPaths[1]
+    logger:debug("Trying to load biped with path: {}", bipedPath)
+    local savedBiped = savedBipeds[projectName]
+    local visor = 0
+    if savedBiped then
+        local bipedIsStillAvailable = table.find(bipedPaths, function(bipedPath)
+            return bipedPath == savedBiped.path
+        end)
+        if bipedIsStillAvailable then
+            logger:debug("Save biped is still available")
+            if not customBipedPath then
+                bipedPath = savedBiped.path
+                regions = savedBiped.regions
+                visor = savedBiped.visor or visor
+            elseif customBipedPath == savedBiped.path then
+                regions = savedBiped.regions
+                visor = savedBiped.visor or visor
+            end
+        end
+    end
+
+    local tagEntry = engine.tag.findTags(bipedPath, engine.tag.classes.biped)[1]
+    if not tagEntry then
+        logger:error("Custom external biped tag: {} not found", bipedPath)
+        return
+    end
+
+    local bipedData = tagEntry.data
+    if not bipedData then
+        logger:error("Biped tag: {} has no data", bipedPath)
+        return
+    end
+
+    local bipedTag = engine.tag.getTag(tagEntry.handle.value, engine.tag.classes.biped)
+    assert(bipedTag, "Biped tag data not found")
+    -- TODO Check if this is the right way to remove creation effect
+    bipedTag.data.creationEffect.tagHandle.value = 0xFFFFFFFF
+    -- TODO Remove this when biped animations are fixed in coop evolved
+    if not (tagEntry.path:includes "marine" or tagEntry.path:includes "grunt") then
+        -- FIXME This does not work with Balltze as weapons count is read only
+        -- bipedTag.data.weapons.count = 0
+
+        -- TODO Try to use unit remove weapon function or something similar
+        local bipedTag = blam.bipedTag(tagEntry.handle.value)
+        bipedTag.weaponCount = 0
+    end
+
+    local scenario = blam.scenario(0)
+    assert(scenario)
+    -- Respawn biped object from scenario as it is safer than doing it from lua
+    for _, biped in pairs(scenario.bipeds) do
+        local sceneryName = scenario.objectNames[biped.nameIndex + 1]
+        if sceneryName == "customization_biped" then
+            local newPaletteList = scenario.bipedPaletteList
+            -- Replace scenario biped tag with custom biped tag
+            if newPaletteList[biped.typeIndex + 1] ~= tagEntry.handle.value then
+                newPaletteList[biped.typeIndex + 1] = tagEntry.handle.value
+                scenario.bipedPaletteList = newPaletteList
+                executeScript "object_destroy customization_biped"
+                core.createCustomizationBiped()
+                executeScript "fade_screen_in"
+                logger:debug("Biped tag replaced")
+            end
+            break
+        end
+    end
+
+    local customizationObjectData = core.getCustomizationObjectData()
+    local customizationBiped = customizationObjectData.biped
+    assert(customizationBiped, "No customization biped found")
+
+    if regions then
+        for regionIndex, permutationIndex in pairs(regions) do
+            core.setObjectPermutationSafely(customizationBiped, regionIndex, permutationIndex)
+        end
+    end
+
+    if visor then
+        customizationBiped.shaderPermutationIndex = visor
+    end
+
+    logger:debug("Loading biped from project: {}", projectName)
+    logger:debug("Loading biped with path: {}", bipedPath)
+    return projectName, bipedPath, regions, visor
 end
 
 return core

@@ -210,6 +210,7 @@ function PluginLoad()
                 end
                 if isChimeraLoaded then
                     if isNewMap then
+                        isNewMap = false
                         logger:debug("New map loaded, initializing Insurrection data...")
                         initialize()
                         specialEvents.onPostMapLoad()
