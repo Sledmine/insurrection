@@ -66,7 +66,7 @@ local stock = {
         author = "Bungie"
     },
     {
-        name = "chirontl34",
+        name = "putput",
         title = "Chiron TL34",
         description = "Spartan Clone Training Complex\n(2-16 players)",
         author = "Bungie"
@@ -168,4 +168,37 @@ local coop = {
     }
 }
 
-return table.extend(stock, coop)
+local helljumper = {
+    {
+        name = "aqueduct",
+        title = "Aqueduct",
+        description = "The resting place of countless warriors from an\never fleeting distant past.\n(2-8 players)",
+        author = "Keymind Studios"
+    },
+        {
+        name = "bleed_it_out",
+        title = "Bleed It Out",
+        description = "Yeah, here we go for a hundred time...\n(4-16 players, supports vehicles)",
+        author = "Keymind Studios"
+    },
+        {
+        name = "impasse",
+        title = "Impasse",
+        description = "These telescopes once were used for looking at\na message from the stars. Now, these silos\ncontain our prepared response.\n(4-16 players, supports vehicles)",
+        author = "Keymind Studios"
+    },
+        {
+        name = "last_voyage",
+        title = "Last Voyage",
+        description = "Though you leave this world, you will come on\nthe Great Journey, when the time comes...\n(2-8 players)",
+        author = "Keymind Studios"
+    },
+        {
+        name = "treason",
+        title = "Treason",
+        description = "The Office of Naval Inteligence leaves no\nloose knots behind...\n(4-16 players)",
+        author = "Keymind Studios"
+    },
+}
+
+return table.extend(stock, coop, helljumper)
