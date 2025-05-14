@@ -3,7 +3,7 @@ local floor = math.floor
 
 ---@class imageProps
 ---@field name string Name of the image component
----@field image string Image to display
+---@field bitmap string Same as image but referencing a bitmap path
 ---@field width number Width of the image component
 ---@field height number Height of the image component
 ---@field scale? number Scale of the image component
@@ -13,7 +13,7 @@ local floor = math.floor
 ---@return string
 return function(props)
     local name = props.name
-    local image = props.image
+    local bitmap = props.bitmap
     local scale = props.scale or 1
     local originalWidth = props.width
     local originalHeight = props.height
@@ -30,7 +30,7 @@ return function(props)
     local wid = {
         widget_type = "container",
         bounds = top .. ", " .. left .. ", " .. height .. ", " .. width,
-        background_bitmap = image
+        background_bitmap = bitmap
     }
     widget.createV2(widgetPath, wid)
     return widgetPath

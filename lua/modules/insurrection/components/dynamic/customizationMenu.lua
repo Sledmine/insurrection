@@ -90,8 +90,8 @@ return function()
         logger:debug("Selected project: {}", projectName)
         local projectName, bipedPath = core.loadCustomizationBiped(projectName)
         selectedProject = projectName
-        local project = state.available.customization[projectName] or defaultProject
-        local bipeds = table.map(project.tags, function(bipedPath)
+        local project = state.available.customization[projectName] or {}
+        local bipeds = table.map(project.tags or {}, function(bipedPath)
             return {label = "CUSTOMIZE", value = bipedPath:replace(".biped", "")}
         end)
         bipeds = utils.sortTableAlphabetically(bipeds)

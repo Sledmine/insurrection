@@ -26,6 +26,10 @@ return function()
     local searchInput = input.new(browser:findChildWidgetTag("search_browser_input").id)
     local lobbyKeyInput = input.new(browser:findChildWidgetTag("table_key_input").id)
 
+    lobbies:setScrollBar(scrollBar)
+    lobbies:scrollable(false)
+    lobbies:selectable(true)
+
     local function getMapBackgroundBitmap(mapName)
         local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
         assert(mapCollection, "No map preview collection found")
@@ -56,10 +60,8 @@ return function()
         searchInput:setValue("")
         searchInput:setText("")
     end
-    lobbyKeyInput:onFocus(function()
-        resetSelectLobby()
-    end)
     lobbyKeyInput:onInputText(function()
+        lobbies:clearSelectedItem()
         resetSelectLobby()
     end)
 
@@ -104,9 +106,6 @@ return function()
         end
 
     end)
-    lobbies:setScrollBar(scrollBar)
-    lobbies:scrollable(false)
-    lobbies:selectable(true)
 
     local searchOwnerPlayer = function(query, players, owner)
         local ownerPlayer = table.find(players, function(player)
@@ -151,6 +150,7 @@ return function()
         renderLobbies(state.lobbies or {})
     end
     searchInput:onInputText(function(data)
+        resetSelectLobby()
         local query = data:lower()
 
         local filteredLobbies = table.filter(state.lobbies or {}, function(lobby)

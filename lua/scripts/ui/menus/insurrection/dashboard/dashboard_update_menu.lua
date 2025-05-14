@@ -53,7 +53,7 @@ return container {
                 name = "rank_overlay_dashbard",
                 width = 58,
                 height = 78,
-                image = [[insurrection/ui/bitmaps/rank_overlay.bitmap]]
+                bitmap = [[insurrection/ui/bitmaps/rank_overlay.bitmap]]
             },
             775,
             358
@@ -63,7 +63,7 @@ return container {
                 name = "rank_icon_dashbard",
                 width = 200,
                 height = 280,
-                image = [[insurrection/ui/bitmaps/player_ranks.bitmap]],
+                bitmap = [[insurrection/ui/bitmaps/player_ranks.bitmap]],
                 scale = 0.24
             },
             779,

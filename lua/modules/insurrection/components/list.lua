@@ -123,7 +123,7 @@ function list.refresh(self)
         local scrollBar = scroll:findChildWidgetDefinition("bar_value")
         local elementsCount = #items
         local visibleElementsCount = lastWidgetIndex - firstWidgetIndex + 1
-        local isHorizontal = self.widgetDefinition.dpadLeftRightTabsThruChildren
+        local isHorizontal = self:isHorizontal()
         local size = scrollBackground.height
         if isHorizontal then
             size = scrollBackground.width
@@ -282,6 +282,15 @@ end
 ---@param self uiComponentList
 function list.clearSelectedItem(self)
     self.lastSelectedItemIndex = nil
+    if self.isSelectable then
+        for _, childWidget in ipairs(self.widgetDefinition.childWidgets) do
+            local component = components.widgets[childWidget.widgetTag]
+            if component then
+                -- Restore all buttons to their default state
+                component:setWidgetValues{bitmapIndex = 0}
+            end
+        end
+    end
 end
 
 ---Set the list to be scrollable or not.

@@ -31,9 +31,8 @@ local containerLogin = container {
                 name = "dialog_background",
                 width = 334,
                 height = 345,
-                image = [[insurrection/ui/bitmaps/login_dialog_background.bitmap]]
+                bitmap = [[insurrection/ui/bitmaps/login_dialog_background.bitmap]]
             },
-
             253,
             78
         },
@@ -42,7 +41,7 @@ local containerLogin = container {
                 name = "insurrection_logo",
                 width = 1280,
                 height = 225,
-                image = [[insurrection/ui/bitmaps/insurrection_logo.bitmap]],
+                bitmap = [[insurrection/ui/bitmaps/insurrection_logo.bitmap]],
                 scale = 0.15
             },
             322,

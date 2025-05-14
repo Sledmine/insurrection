@@ -5,6 +5,7 @@ return {
     color = {
         text = "1, 1, 1, 1",
         title = "1, 1, 1, 1",
+        placeholder = "1, 0.5, 0.5, 0.5",
         subtitle = "1, 0.301961, 0.454902, 0.623529",
         selected = "1, 0.55, 0.55, 0.55",
         nameplate = "1, 0.8, 0.8, 0.8",

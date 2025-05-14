@@ -240,6 +240,7 @@ end
 ---Create or join a lobby
 ---@param lobbyKey? string
 function api.lobby(lobbyKey)
+    -- We are requesting a new lobby, cause no lobby key was provided
     if not lobbyKey then
         local lobby = async(function(await)
             loading(true, "Creating lobby...")
@@ -309,8 +310,8 @@ function api.lobby(lobbyKey)
         return
     end
 
-    log("Joining lobby with key: " .. lobbyKey)
-    api.session.lobbyKey = lobbyKey
+    -- A specific lobby key was provided, we need to join it
+    logger:debug("Joining lobby with key: {}", lobbyKey)
     async(function(await)
         ---@type httpResponse<insurrectionLobby>?
         local response = await(requests.get, api.url .. "/lobby/" .. lobbyKey)
@@ -319,6 +320,7 @@ function api.lobby(lobbyKey)
             return
         end
         if response.code == requests.codes.ok then
+            api.session.lobbyKey = lobbyKey
             local lobby = response.json()
             if lobby then
                 store:dispatch(actions.setLobby(lobbyKey, lobby))
@@ -343,6 +345,12 @@ function api.lobby(lobbyKey)
                             lobby.server.password)
                     preventStuckLobby()
                 end
+            end
+        else
+            api.session.lobbyKey = nil
+            local jsonResponse = response.json()
+            if jsonResponse then
+                interface.dialog("ATTENTION", "ERROR " .. response.code, jsonResponse.message)
             end
         end
     end)()

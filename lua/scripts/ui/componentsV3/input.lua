@@ -1,7 +1,7 @@
 local widget = require "lua.scripts.widget"
 local ustr = require "lua.scripts.modules.ustr"
 local constants = require "lua.scripts.ui.components.constants"
-local image = require "lua.scripts.ui.componentsV2.image"
+local image = require "lua.scripts.ui.componentsV3.image"
 
 ---@class inputProps
 ---@field name string
@@ -10,6 +10,7 @@ local image = require "lua.scripts.ui.componentsV2.image"
 ---@field editable? boolean
 ---@field icon? string
 ---@field variant? '"small"' | '"normal"'
+---@field placeholder? string
 
 ---Input text component with optional icon
 ---@param props inputProps
@@ -18,11 +19,14 @@ return function(props)
     local name = props.name
     local text = props.text
     local variant = props.variant or "normal"
+    local placeholder = props.placeholder
+    local icon = props.icon
+
     local stringsTagPath
     if text then
         -- Generate strings tag
         stringsTagPath = widget.path .. "strings/" .. name .. "_input.unicode_string_list"
-        ustr(stringsTagPath, {text})
+        ustr(stringsTagPath, {text, placeholder})
     end
     local widgetPath = widget.path .. "buttons/" .. name .. "_input.ui_widget_definition"
     local width, height = constants.components.input[variant].width,
@@ -49,18 +53,43 @@ return function(props)
         flags_1 = {password = props.password or false, editable = props.editable or true},
         string_list_index = 0,
         horiz_offset = 40,
-        vert_offset = 9
+        vert_offset = 9,
+        child_widgets = {}
     }
-    if props.icon then
-        if props.variant == "small" then
-            wid.child_widgets = {{image(name .. "_icon", props.icon, 64, 64, 0.28), 3, 3}}
-        else
-            wid.child_widgets = {{image(name .. "_icon", props.icon, 64, 64, 0.34), 6, 6}}
-        end
-    end
-    if props.variant == "small" then
+    if variant == "small" then
         wid.horiz_offset = 30
         wid.vert_offset = 4
+    end
+    if placeholder then
+        local widgetPath = widget.path .. "buttons/" .. name ..
+                               "_input_placeholder.ui_widget_definition"
+        local placeholderWid = {
+            widget_type = "text_box",
+            bounds = widget.bounds(0, 0, height, width),
+            text_label_unicode_strings_list = stringsTagPath,
+            text_font = constants.fonts.button,
+            text_color = constants.color.placeholder,
+            justification = wid.justification,
+            string_list_index = 1,
+            horiz_offset = wid.horiz_offset,
+            vert_offset = wid.vert_offset,
+        }
+        widget.createV2(widgetPath, placeholderWid)
+        table.insert(wid.child_widgets, {widgetPath, 0, 0})
+    end
+    if icon then
+        local offset = variant == "small" and 3 or 6
+        table.insert(wid.child_widgets, {
+            image {
+                name = name .. "_icon",
+                bitmap = icon,
+                width = 64,
+                height = 64,
+                scale = variant == "small" and 0.28 or 0.34
+            },
+            offset,
+            offset
+        })
     end
     widget.createV2(widgetPath, wid)
     return widgetPath

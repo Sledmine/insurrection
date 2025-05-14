@@ -198,6 +198,7 @@ return container {
                         input {
                             name = "search_browser",
                             text = strmem(32),
+                            placeholder = strmem(32, "Search"),
                             variant = "small",
                             icon = [[insurrection/ui/bitmaps/search_icon.bitmap]]
                         },

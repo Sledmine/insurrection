@@ -91,6 +91,7 @@ local commands = {
         execute = function(enable)
             DebugMode = luna.bool(enable)
             engine.core.consolePrint("Debug mode: " .. tostring(DebugMode))
+            logger:muteDebug(not DebugMode)
         end
     },
     setup_fonts = {
@@ -214,7 +215,6 @@ function PluginLoad()
                         logger:debug("New map loaded, initializing Insurrection data...")
                         initialize()
                         specialEvents.onPostMapLoad()
-                        isNewMap = false
                     end
                     interface.onTick()
                     specialEvents.onTick()

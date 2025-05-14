@@ -106,7 +106,7 @@ function component.callbacks()
                                                 editableWidgetTagEntry.handle.value)
                         local text = inputString .. core.getClipboard()
                         core.setStringToWidget(text, editableWidgetTagEntry.handle.value)
-                        local component = component.widgets[editableWidgetTagEntry.handle.value]
+                        local component = component.widgets[editableWidgetTagEntry.handle.value] --[[@as uiComponentInput]]
                         if component and component.events.onInputText then
                             component.events.onInputText(text)
                         end
@@ -152,11 +152,20 @@ function component.callbacks()
         if event.time == "after" then
             local tagHandle = event.context.definitionTagHandle.value
             local widget = engine.userInterface.findWidget(tagHandle)
-            if widget then
-                local widgetTag = engine.tag
-                                      .getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
+            if not widget then
+                local widgetTag = engine.tag.getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
                 assert(widgetTag, "Invalid widget tag")
-                log("Opening tag: {}", widgetTag.path)
+                --logger:debug("Creating widget: {}", widgetTag.path)
+                local componentInstance = component.widgets[tagHandle]
+                    -- TODO Add a new event for this called onCreate
+                if componentInstance and componentInstance.events.onOpen then
+                    componentInstance.events.onOpen()
+                end
+            end
+            if widget then
+                local widgetTag = engine.tag.getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
+                assert(widgetTag, "Invalid widget tag")
+                logger:debug("Opening tag: {}", widgetTag.path)
                 local componentInstance = component.widgets[tagHandle]
                 if componentInstance and componentInstance.events.onOpen then
                     componentInstance.events.onOpen(previousWidgetTag)
@@ -427,6 +436,7 @@ end
 
 function component.free()
     component.widgets = {}
+    collectgarbage("collect")
 end
 
 ---@param self uiComponent

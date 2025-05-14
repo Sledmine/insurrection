@@ -218,12 +218,18 @@ function core.getMyGamesHaloCEPath()
     return myGamesPath
 end
 
+---Get values of a widget in the DOM
+---@param widgetTagId any
+---@return MetaEngineWidget|nil
 function core.getWidgetValues(widgetTagId)
     if core.getCurrentUIWidgetTag() then
         return engine.userInterface.findWidget(widgetTagId)
     end
 end
 
+---Set the values of a widget in the DOM
+---@param widgetTagId number
+---@param values MetaEngineWidgetParams
 function core.setWidgetValues(widgetTagId, values)
     local function setValuesDOMSafe()
         -- Verify there is a widget loaded in the DOM
