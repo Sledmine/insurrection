@@ -172,7 +172,7 @@ local helljumper = {
     {
         name = "aqueduct",
         title = "Aqueduct",
-        description = "The resting place of countless warriors from an\never fleeting distant past.\n(2-8 players)",
+        description = "The resting place of countless warriors\nfrom an ever fleeting distant past.\n(2-8 players)",
         author = "Keymind Studios"
     },
         {
@@ -184,13 +184,13 @@ local helljumper = {
         {
         name = "impasse",
         title = "Impasse",
-        description = "These telescopes once were used for looking at\na message from the stars. Now, these silos\ncontain our prepared response.\n(4-16 players, supports vehicles)",
+        description = "Once, nearby telescopes listened for a\nmessage from the stars. Now these silos\ncontain our prepared response.\n(4-16 players, supports vehicles)",
         author = "Keymind Studios"
     },
         {
         name = "last_voyage",
         title = "Last Voyage",
-        description = "Though you leave this world, you will come on\nthe Great Journey, when the time comes...\n(2-8 players)",
+        description = "Though you leave this world, you will come\non the Great Journey. Or not?\n(2-8 players)",
         author = "Keymind Studios"
     },
         {
