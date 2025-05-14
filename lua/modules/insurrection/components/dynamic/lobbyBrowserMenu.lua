@@ -23,8 +23,8 @@ return function()
     local options =
         components.new(browser:findChildWidgetTag("lobby_browser_table_options_list").id)
     local joinGame = button.new(options:findChildWidgetTag("join_game_button").id)
-    local searchInput = input.new(browser:findChildWidgetTag("search_browser").id)
-    local lobbyKeyInput = input.new(browser:findChildWidgetTag("table_key").id)
+    local searchInput = input.new(browser:findChildWidgetTag("search_browser_input").id)
+    local lobbyKeyInput = input.new(browser:findChildWidgetTag("table_key_input").id)
 
     local function getMapBackgroundBitmap(mapName)
         local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
