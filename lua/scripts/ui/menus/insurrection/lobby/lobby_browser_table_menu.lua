@@ -99,7 +99,7 @@ for i = 1, 8 do
                         width = 104
                     },
                     tableRowLabelLayout()
-                },
+                }
             }
         },
         tableRowLayout()
@@ -138,23 +138,16 @@ return container {
             634,
             127
         },
+        {label {name = "lobby_browser_table_map_name", text = strmem(32, "MAP NAME")}, 634, 240},
         {
             label {
-            name = "lobby_browser_table_map_name",
-            text = strmem(32, "MAP NAME")
+                name = "lobby_browser_table_author",
+                text = strmem(32, "AUTHOR"),
+                color = "blueYonder"
+            },
+            634,
+            252
         },
-        634,
-        240
-    },
-        {
-            label {
-            name = "lobby_browser_table_author",
-            text = strmem(32, "AUTHOR"),
-            color = "blueYonder"
-        },
-        634,
-        252
-    }, 
         {
             label {
                 name = "lobby_browser_table_map_description",
@@ -163,6 +156,24 @@ return container {
             },
             634,
             264
+        },
+        {
+            label {
+                name = "search_browser",
+                text = strmem(256, "SEARCH LOBBY BY KEYWORDS"),
+                variant = "subtitle"
+            },
+            20,
+            68
+        },
+        {
+            label {
+                name = "table_key",
+                text = strmem(256, "ENTER WITH A LOBBY KEY"),
+                variant = "subtitle"
+            },
+            20,
+            323
         },
         {
             options {
@@ -195,13 +206,13 @@ return container {
                     },
                     {
                         input {
-                            name = "lobby_browser_table_key",
+                            name = "table_key",
                             text = strmem(32, "Lobby Key"),
                             variant = "small",
                             icon = [[insurrection/ui/bitmaps/key_icon.bitmap]]
                         },
                         20,
-                        330
+                        340
                     }
                 }
             }
@@ -220,12 +231,12 @@ return container {
                     --    button {name = "refresh", text = "REFRESH", variant = "small"},
                     --    optionsLayout()
                     -- },
-                    -- {
-                    --    button {name = "filters", text = "FILTERS", variant = "small"},
-                    --    optionsLayout()
-                    -- },
                     {
-                        button {name = "join_game", text = "JOIN GAME", variant = "small"}, 
+                        button {name = "refresh", text = "REFRESH", variant = "small"},
+                        optionsLayout()
+                    },
+                    {
+                        button {name = "join_game", text = "JOIN GAME", variant = "small"},
                         optionsLayout()
                         -- 685, 416
                     }
