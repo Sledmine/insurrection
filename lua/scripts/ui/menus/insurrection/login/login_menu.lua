@@ -6,12 +6,13 @@ local header = require "lua.scripts.ui.componentsV3.header"
 local input = require "lua.scripts.ui.componentsV3.input"
 local constants = require "lua.scripts.ui.components.constants"
 local image = require "lua.scripts.ui.componentsV3.image"
+local checkbox = require "lua.scripts.ui.componentsV3.checkbox"
 local pos = constants.position
 
 widget.init [[insurrection/ui/menus/login/]]
 
-local layout = widget.align("vertical", 33, 328, 180, 14)
-local layout2 = widget.align("vertical", 24, 328, 310, 2)
+local layout = widget.align("vertical", 33, 328, 180, 6)
+local layout2 = widget.align("vertical", 24, 328, 284, 2)
 
 local containerLogin = container {
     name = "login_menu",
@@ -69,12 +70,13 @@ local containerLogin = container {
                         layout()
                     },
                     {
-                        button {
-                            name = "showpasswrd",
+                        checkbox {
+                            name = "show_pasword",
                             text = "SHOW PASSWORD",
-                            justification = "center_justify"
+                            transparent = true,
+                            align = "left"
                         },
-                        layout2(-14)
+                        layout2(-30)
                     },
                     {
                         button {name = "login", text = "LOGIN", justification = "center_justify"},

@@ -1,6 +1,7 @@
 local components = require "insurrection.components"
 local constants = require "insurrection.constants"
 local button = require "insurrection.components.button"
+local checkbox = require "insurrection.components.checkbox"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 local input = require "insurrection.components.input"
@@ -11,7 +12,7 @@ return function()
     local login = components.new(constants.widgets.login.id)
     local usernameInput = input.new(login:findChildWidgetTag("username_input").id)
     local passwordInput = input.new(login:findChildWidgetTag("userpswrd_input").id)
-    local showPasswordButton = button.new(login:findChildWidgetTag("showpasswrd_button").id)
+    local showPasswordButton = checkbox.new(login:findChildWidgetTag("show_pasword").id)
     local isShowPassword = false
 
     local savedUserName, savedPassword = core.loadCredentials()
@@ -28,7 +29,6 @@ return function()
         isShowPassword = false
         showPasswordButton:setText(LABEL_SHOW_PASSWORD)
     end
-
     passwordInput:onInputText(function(newValue)
         if isShowPassword then
             updatePasswordDisplay(newValue)
@@ -37,7 +37,7 @@ return function()
         end
     end)
 
-    showPasswordButton:onClick(function()
+    showPasswordButton:onToggle(function()
         if isShowPassword then
             updatePasswordDisplay(passwordInput:getText(), "*")
             isShowPassword = false
