@@ -18,6 +18,8 @@ local floor = math.floor
 ---@field close? boolean
 ---@field arrow? "up" | "down"
 ---@field variant? "small" | "normal" | "large"
+---@field transparent? boolean
+---@field textOffset? number
 ---@field childs? invaderWidgetChildWidget[]
 
 ---Generic button component, recycled in multiple components
@@ -27,7 +29,9 @@ return function(props)
     local name = props.name
     local text = props.text
     local variant = props.variant or "normal"
-
+    local transparent = props.transparent
+    local textOffset = props.textOffset
+    
     local stringsTagPath
     if text then
         -- Generate strings tag
@@ -65,6 +69,10 @@ return function(props)
         vert_offset = 5,
         child_widgets = props.childs or {}
     }
+    if transparent then
+        wid.background_bitmap = nil
+    end
+
     if props.justification == "center_justify" then
         -- Because of rescale stuff
         wid.horiz_offset = 0
@@ -149,6 +157,9 @@ return function(props)
             arrowX,
             arrowY
         }
+    end
+    if textOffset then
+        wid.horiz_offset = textOffset
     end
     widget.createV2(widgetPath, wid)
     return widgetPath

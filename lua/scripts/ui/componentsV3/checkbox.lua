@@ -5,6 +5,8 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@class checkboxProps
 ---@field name string
 ---@field text string
+---@field align? "left" | "right"
+---@field transparent? boolean
 ---@field variant? "large"
 
 ---Checkbox component
@@ -14,6 +16,8 @@ return function(props)
     local name = props.name
     local text = props.text
     local variant = props.variant or "normal"
+    local align = props.align or "right"
+    local transparent = props.transparent
 
     local widgetPath = widget.path .. name .. "_checkbox.ui_widget_definition"
     ---@type invaderWidget
@@ -25,26 +29,27 @@ return function(props)
         event_handlers = {{event_type = "a_button"}}
     }
     widget.createV2(widgetPath, checkbox)
+    local posX = constants.components.button[variant].width - 14 - 5
+    
+    if align == "right" then
+        posX = constants.components.button[variant].width - 14 - 5
+    elseif align == "left" then
+        posX = 5
+    end
+
     return button {
         name = name .. "_checkbox",
         text = text,
         variant = variant,
+        justification = "left_justify",
+        transparent = transparent,
+        textOffset = align == "left" and 25 or nil,
         childs = {
             {
                 widget_tag = widgetPath,
-                horizontal_offset = constants.components.button[variant].width - 14 - 5,
+                horizontal_offset = posX,
                 vertical_offset = 5
             }
         }
     }
-    --return button(name .. "_checkbox", text, {
-    --    variant = variant,
-    --    childs = {
-    --        {
-    --            widget_tag = widgetPath,
-    --            horizontal_offset = constants.components.button[variant].width - 14 - 5,
-    --            vertical_offset = 5
-    --        }
-    --    }
-    --})
 end
