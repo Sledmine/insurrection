@@ -25,6 +25,7 @@ return function()
     local joinGame = button.new(options:findChildWidgetTag("join_game_button").id)
     local searchInput = input.new(browser:findChildWidgetTag("search_browser_input").id)
     local lobbyKeyInput = input.new(browser:findChildWidgetTag("table_key_input").id)
+    local refreshButton = button.new(options:findChildWidgetTag("refresh_button").id)
 
     lobbies:setScrollBar(scrollBar)
     lobbies:scrollable(false)
@@ -69,7 +70,7 @@ return function()
         mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
     end
 
-    lobbies:onFocus(function (item)
+    lobbies:onFocus(function(item)
         local lobby = state.lobbies[item.value]
         assert(lobby, "No lobby found")
         setMapBackgroundBitmap(lobby.map)
@@ -88,6 +89,8 @@ return function()
 
     lobbies:onSelect(function(item)
         lobbyKeyInput:setValue("")
+        -- TODO Review input bevahiour for input change, as we might onChange and onInputText
+        -- being triggered depending of setText or when user types
         lobbyKeyInput:setText("")
     end)
 
@@ -118,8 +121,8 @@ return function()
         return ownerPlayer.name:lower():find(query)
     end
 
-    local function renderLobbies(lobbiesTable)
-        lobbies:setItems(table.map((lobbiesTable or {}), function(lobby, lobbyIndex)
+    local function renderLobbies(lobbyList)
+        lobbies:setItems(table.map((lobbyList or {}), function(lobby, lobbyIndex)
             return {
                 value = lobbyIndex,
                 label = function(item)
@@ -170,7 +173,12 @@ return function()
         loadLobbies()
     end)
 
-    return function ()
+    refreshButton:onClick(function()
+        resetSelectLobby()
+        api.getLobbies()
+    end)
+
+    return function()
         loadLobbies()
     end
 end
