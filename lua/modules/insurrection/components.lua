@@ -309,7 +309,7 @@ function component.callbacks()
                         else
                             core.setStringToWidget(text, editableWidgetTagEntry.handle.value)
                         end
-                        component = component.widgets[editableWidgetTagEntry.handle.value]
+                        local component = component.widgets[editableWidgetTagEntry.handle.value]
                         if component and component.events.onInputText then
                             component.events.onInputText(text)
                         end

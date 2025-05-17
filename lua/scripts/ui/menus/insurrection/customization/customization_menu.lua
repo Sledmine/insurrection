@@ -81,6 +81,27 @@ return container {
                                 },
                                 {
                                     button {
+                                        name = "project_5",
+                                        text = strmem(64),
+                                    },
+                                    projectLayout()
+                                },
+                                {
+                                    button {
+                                        name = "project_6",
+                                        text = strmem(64),
+                                    },
+                                    projectLayout()
+                                },
+                                {
+                                    button {
+                                        name = "project_7",
+                                        text = strmem(64),
+                                    },
+                                    projectLayout()
+                                },
+                                {
+                                    button {
                                         name = "scroll_project_list_down",
                                         arrow = "down",
                                     },

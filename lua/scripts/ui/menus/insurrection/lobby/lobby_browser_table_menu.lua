@@ -198,9 +198,9 @@ return container {
                         input {
                             name = "search_browser",
                             text = strmem(32),
-                            placeholder = strmem(32, "Search"),
+                            placeholder = strmem(32, "Search..."),
                             variant = "small",
-                            icon = [[insurrection/ui/bitmaps/search_icon.bitmap]]
+                            icon = "insurrection/ui/bitmaps/search_icon.bitmap"
                         },
                         20,
                         85
@@ -210,7 +210,8 @@ return container {
                             name = "table_key",
                             text = strmem(32, "Lobby Key"),
                             variant = "small",
-                            icon = [[insurrection/ui/bitmaps/key_icon.bitmap]]
+                            icon = "insurrection/ui/bitmaps/key_icon.bitmap",
+                            placeholder = strmem(32, "Paste key here...")
                         },
                         20,
                         340
@@ -228,10 +229,6 @@ return container {
                         button {name = "back", text = "BACK", variant = "small", back = true},
                         optionsLayout()
                     },
-                    -- {
-                    --    button {name = "refresh", text = "REFRESH", variant = "small"},
-                    --    optionsLayout()
-                    -- },
                     {
                         button {name = "refresh", text = "REFRESH", variant = "small"},
                         optionsLayout()
