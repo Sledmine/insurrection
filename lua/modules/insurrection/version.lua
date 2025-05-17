@@ -1,5 +1,5 @@
-local releaseVersion = "2.8.1"
-local metadata = "5f1165a." .. os.date("%Y%m%d")
+local releaseVersion = "2.9.0"
+local metadata = "e9098ad." .. os.date("%Y%m%d")
 local version = releaseVersion
 if DebugMode then
     return releaseVersion .. "-dev+" .. metadata
