@@ -13,40 +13,27 @@ return function()
     local usernameInput = input.new(login:findChildWidgetTag("username_input").id)
     local passwordInput = input.new(login:findChildWidgetTag("userpswrd_input").id)
     local showPasswordButton = checkbox.new(login:findChildWidgetTag("show_pasword").id)
-    local isShowPassword = false
 
     local savedUserName, savedPassword = core.loadCredentials()
-
-    local LABEL_SHOW_PASSWORD = "SHOW PASSWORD"
-    local LABEL_HIDE_PASSWORD = "HIDE PASSWORD"
 
     local function updatePasswordDisplay(value, mask)
         passwordInput:setText(value, mask or nil)
         passwordInput:setValue(value)
     end
 
-    local function resetState()
-        isShowPassword = false
-        showPasswordButton:setText(LABEL_SHOW_PASSWORD)
-    end
     passwordInput:onInputText(function(newValue)
-        if isShowPassword then
+        if showPasswordButton:getValue() then
             updatePasswordDisplay(newValue)
         else
             updatePasswordDisplay(passwordInput:getText(), "*")
         end
     end)
 
-    showPasswordButton:onToggle(function()
-        if isShowPassword then
+    showPasswordButton:onToggle(function(isShowPassword)
+        if not isShowPassword then
             updatePasswordDisplay(passwordInput:getText(), "*")
-            isShowPassword = false
-            showPasswordButton:setText(LABEL_SHOW_PASSWORD)
-
         else
             updatePasswordDisplay(passwordInput:getText())
-            isShowPassword = true
-            showPasswordButton:setText(LABEL_HIDE_PASSWORD)
         end
     end)
 
@@ -57,8 +44,6 @@ return function()
             core.saveCredentials(username, password)
 
             api.login(username, password)
-            resetState()
-
         else
             interface.dialog("WARNING", "", "Please enter a username and password.")
         end
@@ -85,8 +70,5 @@ return function()
             usernameInput:setText(savedUserName)
             updatePasswordDisplay(savedPassword, "*")
         end
-    end)
-    login:onClose(function()
-        resetState()
     end)
 end
