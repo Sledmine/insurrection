@@ -54,14 +54,6 @@ function interface.load()
             require "insurrection.components.dynamic.lobbyBrowserMenu"()
             require "insurrection.components.dynamic.customizationBipedColorMenu"()
 
-            local errorModalLegacy = components.new(constants.widgets.legacyModalError.id)
-            errorModalLegacy:onOpen(function()
-                log("Checking if lobby is active...")
-                if api.session.lobbyKey and engine.map.getCurrentMapHeader().name == "ui" then
-                    api.lobby(api.session.lobbyKey)
-                end
-            end)
-
             local pause = components.new(constants.widgets.pause.id)
             pause:onClose(function()
                 interface.blur(false)
@@ -72,6 +64,20 @@ function interface.load()
             local testerAnimTest = components.new(tester:findChildWidgetTag("anim_test").id)
             testerAnimTest:animate()
             -- testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
+
+            -- Most likely this means we are getting back from the map itself
+            -- Rejoin previous lobby if it exists
+            if api.session.lobbyKey and engine.map.getCurrentMapHeader().name == "ui" then
+                api.lobby(api.session.lobbyKey)
+            end
+
+            -- local errorModalLegacy = components.new(constants.widgets.legacyModalError.id)
+            -- errorModalLegacy:onOpen(function()
+            --    logger:warning("Checking if lobby is active {}", api.session.lobbyKey)
+            --    if api.session.lobbyKey and engine.map.getCurrentMapHeader().name == "ui" then
+            --        api.lobby(api.session.lobbyKey)
+            --    end
+            -- end)
         end
 
         if constants.widgets.chimera then

@@ -89,13 +89,11 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 
 local function connect(desiredMap, host, port, password)
     api.stopRefreshLobby()
-    api.session.lobbyKey = nil
     if not engine.map.getCurrentMapHeader().name == "ui" then
         engine.core.consolePrint("Can't connect to a server while in-game.")
         return
     end
-    logger:debug("Connecting to " .. tostring(host) .. ":" .. tostring(port) .. " with password " ..
-                     tostring(password))
+    --logger:debug("Connecting to {}:{} with password {}", host, port, password)
     local mapList = engine.map.getMapList()
     if table.indexof(mapList, desiredMap) then
         -- Force game profile name to be the same as the player's name
