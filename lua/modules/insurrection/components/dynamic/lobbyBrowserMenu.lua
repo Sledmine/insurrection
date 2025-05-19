@@ -71,7 +71,9 @@ return function()
     end
 
     lobbies:onFocus(function(item)
-        local lobby = state.lobbies[item.value]
+        local lobby = table.find(state.lobbies, function(lobby)
+            return lobby.key == item.value
+        end)
         assert(lobby, "No lobby found")
         setMapBackgroundBitmap(lobby.map)
         mapName:setText(t(lobby.map))
@@ -97,7 +99,10 @@ return function()
     joinGame:onClick(function()
         local selectedItem = lobbies:getSelectedItem()
         if selectedItem and selectedItem.value then
-            local lobby = state.lobbies[selectedItem.value]
+            local lobby = table.find(state.lobbies, function(lobby)
+                return lobby.key == selectedItem.value
+            end)
+            assert(lobby, "No lobby data found for selected item")
             api.lobby(lobby.key)
         else
             local lobbyKey = lobbyKeyInput:getText():trim()
@@ -124,7 +129,7 @@ return function()
     local function renderLobbies(lobbyList)
         lobbies:setItems(table.map((lobbyList or {}), function(lobby, lobbyIndex)
             return {
-                value = lobbyIndex,
+                value = lobby.key,
                 label = function(item)
                     local owner = components.new(item:findChildWidgetTag("owner_header_label").id)
                     local map = components.new(item:findChildWidgetTag("map_header_label").id)
