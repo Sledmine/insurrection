@@ -140,6 +140,13 @@ return function(props)
                                      "scroll")
     options:setScrollBar(scrollOptionsBar)
     local back = button.new(options:findChildWidgetTag("back").id)
+    local itemCounter = components.new(customization:findChildWidgetTag("item_counter").id)
+    itemCounter:setText("00/00")
+
+    local function updateItemCounter()
+        --itemCounter:setText(string.format("%s/%s", options:getCurrentItemIndex() + options.lastWidgetIndex - 3, #options.items))
+        itemCounter:setText(string.format("%s/%s", options:getCurrentItemIndex() + 1, #options.items))
+    end
 
     local function loadRegions()
         local customizationObjectData = getCustomizationObjectData()
@@ -197,7 +204,12 @@ return function(props)
 
         editing = "regions"
         options:setItems(regions)
+        updateItemCounter()
     end
+
+    options:onScroll(function()
+        updateItemCounter()
+    end)
 
     local function loadPermutations(region)
         geometryName:setText(t(region))
@@ -219,6 +231,7 @@ return function(props)
             end
             editing = "visor"
             options:setItems(visors)
+            updateItemCounter()
             return
         end
         if region == "color" then
@@ -263,6 +276,7 @@ return function(props)
         end
         editing = "permutations"
         options:setItems(permutations)
+        updateItemCounter()
     end
 
     local function setPermutation(permutationIndex)
