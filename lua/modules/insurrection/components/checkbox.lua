@@ -37,8 +37,7 @@ end
 
 ---@param self uiComponentCheckbox
 function checkbox.setValue(self, value)
-    local value = value and 1 or 0
-    core.setWidgetValues(self.checkboxTagId, {bitmapIndex = value})
+    core.setWidgetValues(self.checkboxTagId, {bitmapIndex = value and 1 or 0})
 end
 
 ---@param self uiComponentCheckbox
