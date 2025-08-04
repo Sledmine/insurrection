@@ -30,7 +30,7 @@
     "dependencies": [
         {
             "label": "chimera",
-            "version": "1.0.0-r969"
+            "version": "1.0.0-r1042"
         },
         {
             "label": "balltze",
