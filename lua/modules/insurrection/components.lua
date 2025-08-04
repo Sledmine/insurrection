@@ -7,6 +7,8 @@ local unicodeStringList = blam.unicodeStringList
 local isNull = blam.isNull
 local core = require "insurrection.core"
 
+---@alias uiComponentType "generic" | "list" | "button" | "checkbox" | "slider" | "dropdown" | "text" | "image" | "spinner" | "progress"
+
 ---@class uiComponent
 local component = {
     ---@type number
@@ -21,7 +23,7 @@ local component = {
     isBackgroundAnimated = false,
     ---@type boolean
     isBackgroundLooped = false,
-    ---@type "generic" | "list" | "button" | "checkbox" | "slider" | "dropdown" | "text" | "image" | "spinner" | "progress"
+    ---@type uiComponentType
     type = "generic"
     -- @type table<string, widgetAnimation>
     -- animations = {}
@@ -318,13 +320,6 @@ function component.callbacks()
             end
         end
     end)
-
-    -- harmony.set_callback("widget list tab", "OnMenuListTab")
-    -- harmony.set_callback("widget mouse focus", "OnMouseFocus")
-    -- harmony.set_callback("widget mouse button press", "OnMouseButtonPress")
-    -- harmony.set_callback("widget close", "OnWidgetClose")
-    -- harmony.set_callback("widget open", "OnWidgetOpen")
-    -- harmony.set_callback("key press", "OnKeypress")
 end
 
 function component.cleanAllEditableWidgets()

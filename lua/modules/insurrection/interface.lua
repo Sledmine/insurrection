@@ -20,6 +20,13 @@ interface.shared = {}
 shared = interface.shared
 
 function interface.load()
+    -- Unload all required packages from Lua modules
+    for moduleName in pairs(package.loaded or {}) do
+        if moduleName:startswith("insurrection.components.dynamic") then
+            print("Unloading module: " .. moduleName)
+            package.loaded[moduleName] = nil
+        end
+    end
     components.free()
     -- constants.get()
     IsUICompatible = true
