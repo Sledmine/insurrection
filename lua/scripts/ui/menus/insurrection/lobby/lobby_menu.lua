@@ -1,6 +1,6 @@
 local widget = require "lua.scripts.widget"
-local pos = constants.position
 local constants = require "lua.scripts.ui.components.constants"
+local pos = constants.position
 local strmem = widget.strmem
 local container = require "lua.scripts.ui.componentsV3.container"
 local options = require "lua.scripts.ui.componentsV3.options"
