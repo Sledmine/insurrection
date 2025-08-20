@@ -102,6 +102,11 @@ return {
                 width = 149,
                 height = 36,
                 bitmap = [[insurrection/ui/bitmaps/horizontal_complex_button.bitmap]]
+            },
+            horizontal_small = {
+                width = 149,
+                height = 36,
+                bitmap = [[insurrection/ui/bitmaps/horizontal_complex_small_button.bitmap]]
             }
         },
         input = {
