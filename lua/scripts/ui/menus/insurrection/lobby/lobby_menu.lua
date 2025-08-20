@@ -1,214 +1,291 @@
 local widget = require "lua.scripts.widget"
-local strmem = widget.strmem
-local container = require "lua.scripts.ui.componentsV2.container"
-local optionsV2 = require "lua.scripts.ui.componentsV2.options"
-local options = require "lua.scripts.ui.componentsV3.options"
-local button = require "lua.scripts.ui.componentsV2.button"
-local header = require "lua.scripts.ui.componentsV2.header"
-local input = require "lua.scripts.ui.componentsV3.input"
-local constants = require "lua.scripts.ui.components.constants"
-local image = require "lua.scripts.ui.componentsV2.image"
-local footer = require "lua.scripts.ui.componentsV2.footer"
-local complexButton = require "lua.scripts.ui.componentsV2.complexButton"
-local slider = require "lua.scripts.ui.componentsV2.slider"
-local nameplate = require "lua.scripts.ui.componentsV2.nameplate"
-local box = require "lua.scripts.ui.componentsV2.box"
-local preview = require "lua.scripts.ui.componentsV2.preview"
-local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local pos = constants.position
+local constants = require "lua.scripts.ui.components.constants"
+local strmem = widget.strmem
+local container = require "lua.scripts.ui.componentsV3.container"
+local options = require "lua.scripts.ui.componentsV3.options"
+local button = require "lua.scripts.ui.componentsV3.button"
+local header = require "lua.scripts.ui.componentsV3.header"
+local input = require "lua.scripts.ui.componentsV3.input"
+local footer = require "lua.scripts.ui.componentsV3.footer"
+local complexButton = require "lua.scripts.ui.componentsV3.complexButton"
+local slider = require "lua.scripts.ui.componentsV3.slider"
+local nameplate = require "lua.scripts.ui.componentsV3.nameplate"
+local box = require "lua.scripts.ui.componentsV3.box"
+local preview = require "lua.scripts.ui.componentsV3.preview"
+local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local checkbox = require "lua.scripts.ui.componentsV3.checkbox"
-local label = require "lua.scripts.ui.componentsV3.label"
+local bar = require "lua.scripts.ui.componentsV3.bar"
 
 widget.init [[insurrection/ui/menus/lobby/]]
 
-local defsLayout = widget.align("horizontal", constants.components.complexButton.horizontal.width,
-                                pos.options.x, pos.options.y, 2)
+local defsLayout = widget.layout {alignment = "horizontal", size = 149, x = 20, y = 60, margin = 2}
 
-local elementsLayout = widget.align("horizontal", constants.components.complexButton.normal.width,
-                                    19, 0, 2)
-local elementsLayoutVertical = widget.align("vertical", constants.components.button.normal.height,
-                                            0, 0, 2)
+local elementsLayout = widget.layout {
+    alignment = "horizontal",
+    size = 120,
+    x = 19,
+    y = 0,
+    margin = 2
+}
 
-local nameplatesLayout = widget.align("vertical", 26, 641, 20, 2)
+local elementsLayoutVertical = widget.layout {
+    alignment = "vertical",
+    size = 144,
+    x = 0,
+    y = 0,
+    margin = 2
+}
 
+local nameplatesLayout = widget.layout {
+    alignment = "vertical",
+    size = 28,
+    x = 641,
+    y = 20,
+    margin = 2
+}
 
-local actionsLayout = widget.align("horizontal", constants.components.button.normal.width,
-                                   pos.options.x, 416, 6)
+local actionsLayout = widget.layout {
+    alignment = "horizontal",
+    size = 184,
+    x = 20,
+    y = 416,
+    margin = 6
+}
 
-return container("lobby_menu", {
-    {
-        header("lobby_menu", "MY LOBBY",
-               "INVITE FRIENDS TO YOUR LOBBY, CHOOSE YOUR SERVER TYPE, SET YOUR RULES AND HAVE FUN!"),
-        pos.header.x,
-        pos.header.y
-    },
-    {
-        optionsV2("lobby", "vertical", {
-            {
-                optionsV2("definitions", "horizontal", {
-                    {
-                        complexButton("definition_map", string.rep(" ", 32), "MAP",
-                                      {variant = "horizontal"}),
-                        defsLayout()
-                    },
-                    {
-                        complexButton("definition_gametype", string.rep(" ", 32), "GAMETYPE",
-                                      {variant = "horizontal"}),
-                        defsLayout()
-                    },
-                    {
-                        complexButton("definition_template", string.rep(" ", 32), "TEMPLATE",
-                                      {variant = "horizontal"}),
-                        defsLayout()
-                    }
-                    -- {
-                    --    complexButton("settings", "SETTINGS", nil, {variant = "horizontal"}),
-                    --    defsLayout()
-                    -- }
-                })
-            },
-            {
-                input {
-                    name = "search",
-                    text = strmem(32),
-                    variant = "small",
-                    icon = [[insurrection/ui/bitmaps/search_icon.bitmap]]
-                },
-                pos.options.x,
-                140
-            },
-            {
-                options {
-                    name = "elements",
-                    alignment = "horizontal",
-                    width = 530,
-                    height = 110,
-                    {
-                        {slider("elements_left", "left")},
-                        {
-                            complexButton("element_1", string.rep(" ", 32), nil, {
-                                variant = "normal",
-                                icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
-                            }),
-                            elementsLayout()
-                        },
-                        {
-                            complexButton("element_2", string.rep(" ", 32), nil, {
-                                variant = "normal",
-                                icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
-                            }),
-                            elementsLayout()
-                        },
-                        {
-                            complexButton("element_3", string.rep(" ", 32), nil, {
-                                variant = "normal",
-                                icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
-                            }),
-                            elementsLayout()
-                        },
-                        {
-                            complexButton("element_4", string.rep(" ", 32), nil, {
-                                variant = "normal",
-                                icon = [[insurrection/ui/bitmaps/lobby_gametype_icon.bitmap]]
-                            }),
-                            elementsLayout()
-                        },
-                        {slider("elements_right", "right"), elementsLayout(2)}
-                    }
-                },
-                pos.options.x,
-                170
-            },
-            {checkbox {name = "make_public", text = "Public Lobby"}, pos.options.x, 371},
-            {
-                input {
-                    name = "lobby_key",
-                    text = strmem(512, "Lobby Key"),
-                    variant = "small",
-                    icon = [[insurrection/ui/bitmaps/copy_icon.bitmap]]
-                },
-                pos.options.x + constants.components.button.normal.width + 7,
-                371
-            },
-            {button("back", "BACK", {back = true}), actionsLayout()},
-            {button("play", "PLAY"), actionsLayout()}
-        })
-    },
-    {footer("summary", "SUMMARY", string.rep(" ", 256)), pos.footer.x, 335},
-    {
-        box("players", {
-            {nameplate("nameplate_1", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_2", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_3", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_4", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_5", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_6", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_7", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_8", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_9", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_10", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_11", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_12", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_13", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_14", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_15", string.rep(" ", 64)), nameplatesLayout()},
-            {nameplate("nameplate_16", string.rep(" ", 64)), nameplatesLayout()}
-        })
-    },
-    {constants.components.version.path, 0, 460}
-}, {
-    conditionalWidgets = {
+return container {
+    name = "lobby_menu",
+    background = "transparent",
+    childs = {
         {
-            widget_tag = wrapper {
-                name = "lobby_maps",
-                width = 465,
-                height = 160,
-                {
+            header {
+                name = "lobby_menu",
+                title = strmem(256, " MY LOBBY"),
+                subtitle = "INVITE FRIENDS TO YOUR LOBBY, CHOOSE YOUR SERVER TYPE, SET YOUR RULES AND HAVE FUN!"
+            },
+            pos.header.x,
+            pos.header.y
+        },
+        {
+            options {
+                name = "lobby",
+                alignment = "vertical",
+                childs = {
                     {
                         options {
-                            name = "lobby_maps",
-                            alignment = "vertical",
-                            width = 465,
-                            height = 160,
-                            {
+                            name = "definitions",
+                            alignment = "horizontal",
+                            childs = {
                                 {
-                                    button("scroll_map_list_up", nil, {arrow = "up"}),
-                                    elementsLayoutVertical()
+                                    complexButton {
+                                        name = "definition_map",
+                                        variant = "horizontal",
+                                        text = strmem(257, "MAP")
+                                    },
+                                    defsLayout()
                                 },
                                 {
-                                    button("element_map_1", string.rep(" ", 32),
-                                           {variant = "normal"}),
-                                    elementsLayoutVertical()
+                                    complexButton {
+                                        name = "definition_gametype",
+                                        variant = "horizontal",
+                                        text = strmem(257, "GAMETYPE")
+                                    },
+                                    defsLayout()
                                 },
                                 {
-                                    button("element_map_2", string.rep(" ", 32),
-                                           {variant = "normal"}),
-                                    elementsLayoutVertical()
+                                    complexButton {
+                                        name = "definition_template",
+                                        variant = "horizontal",
+                                        text = strmem(257, "TEMPLATE")
+                                    },
+                                    defsLayout()
                                 },
                                 {
-                                    button("element_map_3", string.rep(" ", 32),
-                                           {variant = "normal"}),
-                                    elementsLayoutVertical()
-                                },
-                                {
-                                    button("element_map_4", string.rep(" ", 32),
-                                           {variant = "normal"}),
-                                    elementsLayoutVertical()
-                                },
-                                {
-                                    button("scroll_map_list_down", nil, {arrow = "down"}),
-                                    elementsLayoutVertical()
+                                    complexButton {
+                                        name = "definition_skulls",
+                                        variant = "horizontal_small",
+                                        text = strmem(257, "SKULLS")
+                                    },
+                                    defsLayout()
                                 }
                             }
                         }
                     },
                     {
-                        preview("map_small", [[insurrection/ui/bitmaps/unknown_map_preview.bitmap]]),
-                        190,
-                        1
+                        input {
+                            name = "search",
+                            text = strmem(32),
+                            placeholder = strmem(32, "Search..."),
+                            variant = "small",
+                            icon = "insurrection/ui/bitmaps/search_icon.bitmap"
+                        },
+                        pos.options.x,
+                        140
+                    },
+                    {
+                        options {
+                            name = "elements",
+                            alignment = "horizontal",
+                            width = 530,
+                            height = 110,
+                            childs = {
+                                {slider {name = "elements_left", direction = "left"}},
+                                {
+                                    complexButton {
+                                        name = "element_1",
+                                        text = strmem(32),
+                                        variant = "normal",
+                                        icon = "insurrection/ui/bitmaps/lobby_gametype_icon.bitmap"
+                                    },
+                                    elementsLayout()
+                                },
+                                {
+                                    complexButton {
+                                        name = "element_2",
+                                        text = strmem(32),
+                                        variant = "normal",
+                                        icon = "insurrection/ui/bitmaps/lobby_gametype_icon.bitmap"
+                                    },
+                                    elementsLayout()
+                                },
+                                {
+                                    complexButton {
+                                        name = "element_3",
+                                        text = strmem(32),
+                                        variant = "normal",
+                                        icon = "insurrection/ui/bitmaps/lobby_gametype_icon.bitmap"
+                                    },
+                                    elementsLayout()
+                                },
+                                {
+                                    complexButton {
+                                        name = "element_4",
+                                        text = strmem(32),
+                                        variant = "normal",
+                                        icon = "insurrection/ui/bitmaps/lobby_gametype_icon.bitmap"
+                                    },
+                                    elementsLayout()
+                                },
+                                {slider {name = "elements_right", direction = "right"}}
+                            }
+                        },
+                        pos.options.x,
+                        170
+                    },
+                    {checkbox {name = "make_public", text = "Public Lobby"}, pos.options.x, 371},
+                    {
+                        input {
+                            name = "lobby_key",
+                            text = strmem(512, "Lobby Key"),
+                            variant = "small",
+                            icon = "insurrection/ui/bitmaps/copy_icon.bitmap"
+                        },
+                        pos.options.x + constants.components.button.normal.width + 7,
+                        371
+                    },
+                    {
+                        button {name = "back", text = "BACK", variant = "small", back = true},
+                        actionsLayout()
+                    },
+                    {button {name = "play", text = "PLAY", variant = "small"}, actionsLayout()}
+                }
+            },
+            {footer {name = "summary", title = "SUMMARY", text = strmem(256)}, pos.footer.x, 335},
+            {
+                box {
+                    name = "players",
+                    childs = {
+                        {nameplate {name = "nameplate_1", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_2", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_3", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_4", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_5", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_6", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_7", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_8", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_9", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_10", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_11", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_12", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_13", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_14", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_15", text = strmem(64)}, nameplatesLayout()},
+                        {nameplate {name = "nameplate_16", text = strmem(64)}, nameplatesLayout()}
+                    }
+                }
+            },
+            {constants.components.version.path, 0, 460}
+        }
+    },
+    {
+        conditionalWidgets = {
+            {
+                widget_tag = wrapper {
+                    name = "lobby_maps",
+                    width = 465,
+                    height = 160,
+                    childs = {
+                        {
+                            options {
+                                name = "lobby_maps",
+                                alignment = "vertical",
+                                width = 465,
+                                height = 160,
+                                childs = {
+                                    {
+                                        button {name = "scroll_map_list_up", arrow = "up"},
+                                        elementsLayoutVertical()
+                                    },
+                                    {
+                                        button {
+                                            name = "element_map_1",
+                                            text = strmem(32),
+                                            variant = "normal"
+                                        },
+                                        elementsLayoutVertical()
+                                    },
+                                    {
+                                        button {
+                                            name = "element_map_2",
+                                            text = strmem(32),
+                                            variant = "normal"
+                                        },
+                                        elementsLayoutVertical()
+                                    },
+                                    {
+                                        button {
+                                            name = "element_map_3",
+                                            text = strmem(32),
+                                            variant = "normal"
+                                        },
+                                        elementsLayoutVertical()
+                                    },
+                                    {
+                                        button {
+                                            name = "element_map_4",
+                                            text = strmem(32),
+                                            variant = "normal"
+                                        },
+                                        elementsLayoutVertical()
+                                    },
+                                    {
+                                        button {name = "scroll_map_list_down", arrow = "down"},
+                                        elementsLayoutVertical()
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            preview {
+                                name = "map_small",
+                                bitmap = "insurrection/ui/bitmaps/unknown_map_preview.bitmap"
+                            },
+                            190,
+                            1
+                        }
                     }
                 }
             }
         }
     }
-})
+}
