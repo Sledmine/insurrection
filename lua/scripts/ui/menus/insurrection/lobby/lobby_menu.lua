@@ -166,7 +166,10 @@ return container {
                                     },
                                     elementsLayout()
                                 },
-                                {slider {name = "elements_right", direction = "right"}}
+                                {
+                                    slider {name = "elements_right", direction = "right"},
+                                    elementsLayout(2)
+                                }
                             }
                         },
                         pos.options.x,
@@ -217,72 +220,70 @@ return container {
             {constants.components.version.path, 0, 460}
         }
     },
-    {
-        conditionalWidgets = {
-            {
-                widget_tag = wrapper {
-                    name = "lobby_maps",
-                    width = 465,
-                    height = 160,
-                    childs = {
-                        {
-                            options {
-                                name = "lobby_maps",
-                                alignment = "vertical",
-                                width = 465,
-                                height = 160,
-                                childs = {
-                                    {
-                                        button {name = "scroll_map_list_up", arrow = "up"},
-                                        elementsLayoutVertical()
+    conditionalWidgets = {
+        {
+            widget_tag = wrapper {
+                name = "lobby_maps",
+                width = 465,
+                height = 160,
+                childs = {
+                    {
+                        options {
+                            name = "lobby_maps",
+                            alignment = "vertical",
+                            width = 465,
+                            height = 160,
+                            childs = {
+                                {
+                                    button {name = "scroll_map_list_up", arrow = "up"},
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button {
+                                        name = "element_map_1",
+                                        text = strmem(32),
+                                        variant = "normal"
                                     },
-                                    {
-                                        button {
-                                            name = "element_map_1",
-                                            text = strmem(32),
-                                            variant = "normal"
-                                        },
-                                        elementsLayoutVertical()
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button {
+                                        name = "element_map_2",
+                                        text = strmem(32),
+                                        variant = "normal"
                                     },
-                                    {
-                                        button {
-                                            name = "element_map_2",
-                                            text = strmem(32),
-                                            variant = "normal"
-                                        },
-                                        elementsLayoutVertical()
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button {
+                                        name = "element_map_3",
+                                        text = strmem(32),
+                                        variant = "normal"
                                     },
-                                    {
-                                        button {
-                                            name = "element_map_3",
-                                            text = strmem(32),
-                                            variant = "normal"
-                                        },
-                                        elementsLayoutVertical()
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button {
+                                        name = "element_map_4",
+                                        text = strmem(32),
+                                        variant = "normal"
                                     },
-                                    {
-                                        button {
-                                            name = "element_map_4",
-                                            text = strmem(32),
-                                            variant = "normal"
-                                        },
-                                        elementsLayoutVertical()
-                                    },
-                                    {
-                                        button {name = "scroll_map_list_down", arrow = "down"},
-                                        elementsLayoutVertical()
-                                    }
+                                    elementsLayoutVertical()
+                                },
+                                {
+                                    button {name = "scroll_map_list_down", arrow = "down"},
+                                    elementsLayoutVertical()
                                 }
                             }
                         },
-                        {
-                            preview {
-                                name = "map_small",
-                                bitmap = "insurrection/ui/bitmaps/unknown_map_preview.bitmap"
-                            },
-                            190,
-                            1
-                        }
+                    },
+                    {
+                        preview {
+                            name = "map_small",
+                            bitmap = "insurrection/ui/bitmaps/unknown_map_preview.bitmap"
+                        },
+                        190,
+                        1
                     }
                 }
             }
