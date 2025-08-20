@@ -13,7 +13,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@field branch? boolean
 ---@field func? string
 ---@field close? boolean
----@field variant? "normal" | "vertical" | "horizontal" | "horizontal_c_text"
+---@field variant? "normal" | "vertical" | "horizontal" | "horizontal_c_text" | "horizontal_small"
 ---@field icon? string
 ---@field legacy? boolean
 
@@ -73,6 +73,12 @@ return function(props)
     if variant == "horizontal_c_text" then
         wid.vert_offset = 11
     end
+
+    if variant == "horizontal_small" then
+        wid.background_bitmap = [[insurrection/ui/bitmaps/horizontal_complex_small_button.bitmap]]
+        wid.bounds = widget.bounds(0, 0, 36, 103)
+    end
+
     if props.legacy then
         local textPath = widget.path .. "buttons/" .. name .. "_button_text.ui_widget_definition"
         widget.createV2(textPath, {
