@@ -30,7 +30,7 @@ return function(props)
     local overlaySize = {
         width = 267,
         height = 150,
-        scale = 0.5
+        scale = 1
     }
 
     if variant == "small" then

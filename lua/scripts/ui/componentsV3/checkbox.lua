@@ -4,7 +4,7 @@ local constants = require "lua.scripts.ui.components.constants"
 
 ---@class checkboxProps
 ---@field name string
----@field text string
+---@field text? string
 ---@field align? "left" | "right"
 ---@field transparent? boolean
 ---@field variant? "large"
