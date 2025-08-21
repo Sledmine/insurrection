@@ -39,6 +39,12 @@ return container("main_menu", {
                 layout()
             },
             {
+                button("settings", "SETTINGS", {
+                    opens = [[insurrection/ui/menus/settings_custom/settings_menu_custom.ui_widget_definition]]
+                }),
+                layout()
+            },
+            {
                 button("mods", "MODS",
                        {opens = [[insurrection/ui/menus/mods/mods_menu.ui_widget_definition]]}),
                 layout()
@@ -47,12 +53,6 @@ return container("main_menu", {
                 button("profiles", "PROFILES", {
                     opens = [[ui/shell/main_menu/profile_manager/player_profile_manager.ui_widget_definition]],
                     func = "new_game_if_no_plyr_profiles"
-                }),
-                layout()
-            },
-            {
-                button("settings", "SETTINGS", {
-                    opens = [[insurrection/ui/menus/settings_custom/settings_menu_custom.ui_widget_definition]]
                 }),
                 layout()
             },
