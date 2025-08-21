@@ -24,14 +24,51 @@ widget.init [[insurrection/ui/menus/lobby_skulls/]]
 
 local defsLayout = widget.layout {alignment = "horizontal", size = 149, x = 20, y = 60, margin = 2}
 
+local buttonSquareMargin = 4
+local buttonSquareSize = 80 - buttonSquareMargin
+local rowsCount = 3
+local columnsCount = 5
+local skullsCount = rowsCount * columnsCount
+local skullsPositions = {}
 
-local skullsLayoutA = widget.layout {
-    alignment = "horizontal",
-    size = 80,
-    x = 15,
-    y = 136,
-    margin = -4
-}
+for rowIndex = 1, rowsCount do
+    for columnIndex = 1, columnsCount do
+        local colLayout = widget.layout {
+            alignment = "horizontal",
+            size = buttonSquareSize,
+            x = 15 + (columnIndex - 1) * buttonSquareSize,
+            y = 136 + (rowIndex - 1) * buttonSquareSize,
+            margin = 0
+        }
+        table.insert(skullsPositions, {colLayout()})
+    end
+end
+
+local skullElements = {}
+for i = 1, skullsCount do
+    table.insert(skullElements, {
+        buttonSquare {
+            name = "skull_" .. i,
+            justification = "center_justify",
+            variant = "small",
+            childs = {
+                {
+                    image {
+                        name = "skull_" .. i,
+                        bitmap = "insurrection/ui/bitmaps/skull_button_icons.bitmap",
+                        width = 128,
+                        height = 128,
+                        scale = 0.375
+                    },
+                    16,
+                    16
+                },
+                {checkbox {name = "skull_" .. i, align = "left", transparent = true}, 4, 52}
+            }
+        },
+        table.unpack(skullsPositions[i])
+    })
+end
 
 return container {
     name = "lobby_skulls_menu",
@@ -102,58 +139,7 @@ return container {
             options {
                 name = "skull_grid",
                 alignment = "horizontal",
-                childs = {
-                    {
-                        buttonSquare {
-                            name = "skull_1",
-                            justification = "center_justify",
-                            variant = "small",
-                            childs = {
-                                {
-                                    image {
-                                        name = "skull_1",
-                                        bitmap = "insurrection/ui/bitmaps/skull_button_icons.bitmap",
-                                        width = 128,
-                                        height = 128,
-                                        scale = 0.375
-                                    },
-                                    16,
-                                    16
-                                },
-                                {checkbox {name = "skull_1", align = "left", transparent = true}, 4
-                                
-                                
-                                
-                                
-                                
-                                , 52}
-                            }
-                        },
-                        skullsLayoutA()
-                    },
-                    {
-                        buttonSquare {
-                            name = "skull_2",
-                            justification = "center_justify",
-                            variant = "small",
-                            childs = {
-                                {
-                                    image {
-                                        name = "skull_2",
-                                        bitmap = "insurrection/ui/bitmaps/skull_button_icons.bitmap",
-                                        width = 128,
-                                        height = 128,
-                                        scale = 0.375
-                                    },
-                                    16,
-                                    16
-                                },
-                                {checkbox {name = "skull_2", align = "left", transparent = true}, 4, 52 }
-                            }
-                        },
-                        skullsLayoutA()
-                    }
-                }
+                childs = skullElements
             }
         },
         {constants.components.version.path, 0, 460}
