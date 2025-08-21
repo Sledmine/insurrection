@@ -120,7 +120,13 @@ return container {
                                     16,
                                     16
                                 },
-                                {checkbox {name = "skull_1", align = "left", transparent = true}, 4, 52}
+                                {checkbox {name = "skull_1", align = "left", transparent = true}, 4
+                                
+                                
+                                
+                                
+                                
+                                , 52}
                             }
                         },
                         skullsLayoutA()
