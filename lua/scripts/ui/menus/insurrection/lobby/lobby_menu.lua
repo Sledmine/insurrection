@@ -16,6 +16,7 @@ local preview = require "lua.scripts.ui.componentsV3.preview"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local checkbox = require "lua.scripts.ui.componentsV3.checkbox"
 local bar = require "lua.scripts.ui.componentsV3.bar"
+local label = require "lua.scripts.ui.componentsV3.label"
 
 widget.init [[insurrection/ui/menus/lobby/]]
 
@@ -31,7 +32,7 @@ local elementsLayout = widget.layout {
 
 local elementsLayoutVertical = widget.layout {
     alignment = "vertical",
-    size = 144,
+    size = 24,
     x = 0,
     y = 0,
     margin = 2
@@ -80,7 +81,8 @@ return container {
                                     complexButton {
                                         name = "definition_map",
                                         variant = "horizontal",
-                                        text = strmem(257, "MAP")
+                                        label = "MAP",
+                                        text = strmem(128)
                                     },
                                     defsLayout()
                                 },
@@ -88,7 +90,8 @@ return container {
                                     complexButton {
                                         name = "definition_gametype",
                                         variant = "horizontal",
-                                        text = strmem(257, "GAMETYPE")
+                                        label = "GAMETYPE",
+                                        text = strmem(64)
                                     },
                                     defsLayout()
                                 },
@@ -96,7 +99,8 @@ return container {
                                     complexButton {
                                         name = "definition_template",
                                         variant = "horizontal",
-                                        text = strmem(257, "TEMPLATE")
+                                        label = "TEMPLATE",
+                                        text = strmem(64)
                                     },
                                     defsLayout()
                                 },
@@ -104,7 +108,8 @@ return container {
                                     complexButton {
                                         name = "definition_skulls",
                                         variant = "horizontal_small",
-                                        text = strmem(257, "SKULLS")
+                                        label = "SKULLS",
+                                        text = strmem(64)
                                     },
                                     defsLayout()
                                 }
@@ -192,33 +197,33 @@ return container {
                     },
                     {button {name = "play", text = "PLAY", variant = "small"}, actionsLayout()}
                 }
-            },
-            {footer {name = "summary", title = "SUMMARY", text = strmem(256)}, pos.footer.x, 335},
-            {
-                box {
-                    name = "players",
-                    childs = {
-                        {nameplate {name = "nameplate_1", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_2", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_3", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_4", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_5", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_6", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_7", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_8", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_9", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_10", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_11", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_12", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_13", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_14", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_15", text = strmem(64)}, nameplatesLayout()},
-                        {nameplate {name = "nameplate_16", text = strmem(64)}, nameplatesLayout()}
-                    }
+            }
+        },
+        {footer {name = "summary", title = "SUMMARY", text = strmem(256)}, pos.footer.x, 335},
+        {
+            box {
+                name = "players",
+                childs = {
+                    {nameplate {name = "nameplate_1", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_2", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_3", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_4", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_5", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_6", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_7", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_8", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_9", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_10", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_11", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_12", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_13", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_14", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_15", text = strmem(64)}, nameplatesLayout()},
+                    {nameplate {name = "nameplate_16", text = strmem(64)}, nameplatesLayout()}
                 }
-            },
-            {constants.components.version.path, 0, 460}
-        }
+            }
+        },
+        {constants.components.version.path, 0, 460}
     },
     conditionalWidgets = {
         {
@@ -275,15 +280,35 @@ return container {
                                     elementsLayoutVertical()
                                 }
                             }
-                        },
+                        }
                     },
                     {
                         preview {
                             name = "map_small",
-                            bitmap = "insurrection/ui/bitmaps/unknown_map_preview.bitmap"
+                            bitmap = "insurrection/ui/bitmaps/unknown_map_preview.bitmap",
+                            variant = "small"
                         },
-                        190,
+                        240,
                         1
+                    },
+                    {label {name = "map_name", text = strmem(32, "MAP NAME")}, 240, 113},
+                    {
+                        label {
+                            name = "map_author",
+                            text = strmem(32, "AUTHOR"),
+                            color = "blueYonder"
+                        },
+                        240,
+                        125
+                    },
+                    {
+                        label {
+                            name = "map_description",
+                            text = strmem(64, "MAP DESCRIPTION"),
+                            height = 200
+                        },
+                        240,
+                        137
                     }
                 }
             }
