@@ -79,7 +79,8 @@ _ALIGNMENTS = {}
 ---@field widget_type? '"container"' | '"text_box"' | '"spinner_list"' | '"column_list"'
 ---@field bounds? string
 ---@field flags? invaderWidgetFlags
----@field milliseconds_to_auto_close_fade_time? number
+---@field milliseconds_to_auto_close? number
+---@field milliseconds_auto_close_fade_time? number
 ---@field background_bitmap? string
 ---@field game_data_inputs? invaderWidgetGameDataInput[]
 ---@field search_and_replace_functions? invaderWidgetSearchAndReplaceFunctions[]
