@@ -33,14 +33,14 @@ local skullsPositions = {}
 
 for rowIndex = 1, rowsCount do
     for columnIndex = 1, columnsCount do
-        local colLayout = widget.layout {
+        local layout = widget.layout {
             alignment = "horizontal",
             size = buttonSquareSize,
             x = 15 + (columnIndex - 1) * buttonSquareSize,
             y = 136 + (rowIndex - 1) * buttonSquareSize,
             margin = 0
         }
-        table.insert(skullsPositions, {colLayout()})
+        table.insert(skullsPositions, {layout()})
     end
 end
 
