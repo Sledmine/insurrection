@@ -228,7 +228,6 @@ function component.callbacks()
     balltze.event.uiWidgetListTab.subscribe(function(event)
         if event.time == "before" then
             local pressedKey = event.context.tab
-            log("Pressed key: {}", pressedKey)
 
             local listWidgetTagId = event.context.widgetList.definitionTagHandle.value
             local previousFocusedWidgetId = event.context.widgetList.focusedChild

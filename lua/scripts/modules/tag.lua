@@ -10,7 +10,7 @@ local insertCmd = [[invader-edit "%s" -n -I %s %s %s]]
 local createCmd = [[invader-edit "%s" -n -N]]
 local eraseCmd = [[invader-edit "%s" -n -E %s]]
 
-local _, windows = pcall(require, "lua.modules.fckwindows")
+local _, windows = pcall(require, "lua.scripts.modules.fckwindows")
 local function executeCommand(cmd)
     if jit.os and jit.os:lower() == "windows" then
         -- Windows command execution
