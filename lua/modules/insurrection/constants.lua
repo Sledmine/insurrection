@@ -1,8 +1,11 @@
 local maps = require "insurrection.constants.maps"
+local utils= require "insurrection.utils"
 
 local constants = {}
 
 local engine = Engine
+
+constants.maximumTicksForDOMRenderTime = utils.secondsToTicks(3)
 
 constants.path = {
     pauseMenu = [[insurrection\ui\menus\pause\pause_menu]],

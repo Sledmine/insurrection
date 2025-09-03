@@ -305,12 +305,15 @@ function component.callbacks()
                     if text then
                         -- TODO Use widget text flags from widget tag instead (add support for that in lua-blam)
                         -- if editableWidgetTagData.name:find "password" then
+                        local component = component.widgets[editableWidgetTagEntry.handle.value]
                         if editableWidgetTagData.name:find "password" then
                             core.setStringToWidget(text, editableWidgetTagEntry.handle.value, "*")
                         else
+                            if component and not component.allowEmptyChars then
+                                text = text:trim()
+                            end
                             core.setStringToWidget(text, editableWidgetTagEntry.handle.value)
                         end
-                        local component = component.widgets[editableWidgetTagEntry.handle.value]
                         if component and component.events.onInputText then
                             component.events.onInputText(text)
                         end

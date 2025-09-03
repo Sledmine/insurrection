@@ -1,5 +1,6 @@
 local inspect = require "inspect"
 local blam = require "blam"
+local script = require "script"
 local tagClasses = blam.tagClasses
 local json = require "json"
 local base64 = require "base64"
@@ -228,12 +229,12 @@ function core.getWidgetValues(widgetTagId)
 end
 
 ---Set the values of a widget in the DOM
----@param widgetTagId number
+---@param widgetTagHandle number
 ---@param values MetaEngineWidgetParams
-function core.setWidgetValues(widgetTagId, values)
+function core.setWidgetValues(widgetTagHandle, values)
     local function setValuesDOMSafe()
         -- Verify there is a widget loaded in the DOM
-        local widget = engine.userInterface.findWidget(widgetTagId)
+        local widget = engine.userInterface.findWidget(widgetTagHandle)
         if widget then
             for key, value in pairs(values) do
                 if type(value) == "table" then
@@ -248,12 +249,13 @@ function core.setWidgetValues(widgetTagId, values)
         end
     end
     if not setValuesDOMSafe() then
-        -- If there is no widget loaded in the DOM, wait 33ms and try again
-        -- (this is a workaround for the DOM not being loaded yet)
-        -- TODO BALLTZE MIGRATE
-        -- utils.delay(33, function()
-        --    setValuesDOMSafe()
-        -- end)
+        script.thread(function(_, sleep)
+            -- Wait until the menu is loaded
+            sleep(function ()
+                return engine.userInterface.findWidget(widgetTagHandle) ~= nil
+            end, constants.maximumTicksForDOMRenderTime)
+            setValuesDOMSafe()
+        end)()
     end
 end
 

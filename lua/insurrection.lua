@@ -12,10 +12,11 @@ async = require"async".async
 local dispatch = require"async".dispatch
 require"async".configure("base, table, package, string")
 execute_script = engine.hsc.executeScript
+local script = require "script"
 
 ---@type Logger
 logger = nil
-DebugMode = false
+DebugMode = true
 APILocalMode = false
 IsAPIMockEnabled = false
 IsDebugCustomization = false
@@ -218,6 +219,7 @@ function PluginLoad()
                     end
                     interface.onTick()
                     specialEvents.onTick()
+                    script.poll()
                     -- Multithread callback resolve
                     local success, message = pcall(dispatch)
                     if not success then

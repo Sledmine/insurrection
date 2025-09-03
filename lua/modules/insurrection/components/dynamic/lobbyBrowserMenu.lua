@@ -27,6 +27,8 @@ return function()
     local lobbyKeyInput = input.new(browser:findChildWidgetTag("table_key_input").id)
     local refreshButton = button.new(options:findChildWidgetTag("refresh_button").id)
 
+    searchInput:setAllowEmptyCharacters(false)
+    lobbyKeyInput:setAllowEmptyCharacters(false)
     lobbies:setScrollBar(scrollBar)
     lobbies:scrollable(false)
     lobbies:selectable(true)
@@ -115,7 +117,7 @@ return function()
 
     end)
 
-    local searchOwnerPlayer = function(query, players, owner)
+    local findOwnerInLobby = function(query, players, owner)
         local ownerPlayer = table.find(players, function(player)
             return player.publicId == owner
         end)
@@ -154,26 +156,27 @@ return function()
         end))
     end
 
-    local loadLobbies = function()
-        renderLobbies(state.lobbies or {})
-    end
-    searchInput:onInputText(function(data)
-        resetSelectLobby()
-        local query = data:lower()
-
-        local filteredLobbies = table.filter(state.lobbies or {}, function(lobby)
-            return searchOwnerPlayer(query, lobby.players, lobby.owner) or
+    local filterLobbies = function(query)
+        return table.filter(state.lobbies or {}, function(lobby)
+            return findOwnerInLobby(query, lobby.players, lobby.owner) or
                        lobby.map:lower():includes(query) or lobby.template:lower():includes(query) or
                        lobby.gametype:lower():includes(query)
         end)
+    end
 
-        renderLobbies(filteredLobbies)
+    local loadLobbies = function()
+        renderLobbies(filterLobbies(searchInput:getText():lower()))
+    end
+    searchInput:onInputText(function(data)
+        resetSelectLobby()
+        renderLobbies(filterLobbies(data:lower():trim()))
     end)
     browser:onOpen(function(previousWidgetTag)
         if previousWidgetTag and previousWidgetTag.handle.value == constants.widgets.dashboard.id then
             resetState()
             api.getLobbies()
         end
+        resetSelectLobby()
         api.stopRefreshLobby()
         loadLobbies()
     end)

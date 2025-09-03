@@ -2,7 +2,7 @@ local button = require "insurrection.components.button"
 local core = require "insurrection.core"
 
 ---@class uiComponentInputClass : uiComponentButton
-local input = setmetatable({type = "input", hasPlaceholder = false}, {__index = button})
+local input = setmetatable({type = "input", hasPlaceholder = false, allowEmptyChars = true}, {__index = button})
 
 ---@class uiComponentInputEvents : uiComponentEvents
 ---@field onInputText fun(text: string) | nil
@@ -24,13 +24,20 @@ local function handlePlaceHolder(self)
     end
 end
 
----@param tagId number
+---@param tagHandle number
 ---@return uiComponentInput
-function input.new(tagId)
-    local instance = setmetatable(button.new(tagId), {__index = input}) --[[@as uiComponentInput]]
+function input.new(tagHandle)
+    local instance = setmetatable(button.new(tagHandle), {__index = input}) --[[@as uiComponentInput]]
     instance.hasPlaceholder = instance:findChildWidgetTag("placeholder") ~= nil
     instance:onOpen(function()
         handlePlaceHolder(instance)
+        --if instance.events.onInputText then
+        --    local text = instance:getText()
+        --    if text and text ~= "" then
+        --        logger:debug("Calling onInputText for existing text onOpen: {}", text)
+        --        instance.events.onInputText(text)
+        --    end
+        --end
     end)
     return instance
 end
@@ -55,6 +62,12 @@ end
 function input.setText(self, text, mask)
     button.setText(self, text, mask)
     handlePlaceHolder(self)
+end
+
+---@param self uiComponentInput
+---@param allow boolean
+function input.setAllowEmptyCharacters(self, allow)
+    self.allowEmptyChars = allow == true
 end
 
 return input
