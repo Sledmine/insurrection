@@ -8,7 +8,7 @@ local blam = require "blam"
 local t = require"insurrection.utils".snakeCaseToTitleCase
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
-local input = require("insurrection.components.input")
+local input = require "insurrection.components.input"
 local interface = require "insurrection.interface"
 
 return function()
