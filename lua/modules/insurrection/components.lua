@@ -54,7 +54,7 @@ function component.callbacks()
 
     balltze.event.uiWidgetAccept.subscribe(function(event)
         if event.time == "before" then
-            --logger:debug("Accepting widget: {}", event.context.widget.definitionTagHandle.value)
+            -- logger:debug("Accepting widget: {}", event.context.widget.definitionTagHandle.value)
             local isCanceled = false
             local instance = component.widgets[event.context.widget.definitionTagHandle.value]
             if instance then
@@ -155,17 +155,19 @@ function component.callbacks()
             local tagHandle = event.context.definitionTagHandle.value
             local widget = engine.userInterface.findWidget(tagHandle)
             if not widget then
-                local widgetTag = engine.tag.getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
+                local widgetTag = engine.tag
+                                      .getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
                 assert(widgetTag, "Invalid widget tag")
-                --logger:debug("Creating widget: {}", widgetTag.path)
+                -- logger:debug("Creating widget: {}", widgetTag.path)
                 local componentInstance = component.widgets[tagHandle]
-                    -- TODO Add a new event for this called onCreate
+                -- TODO Add a new event for this called onCreate
                 if componentInstance and componentInstance.events.onOpen then
                     componentInstance.events.onOpen()
                 end
             end
             if widget then
-                local widgetTag = engine.tag.getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
+                local widgetTag = engine.tag
+                                      .getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
                 assert(widgetTag, "Invalid widget tag")
                 logger:debug("Opening tag: {}", widgetTag.path)
                 local componentInstance = component.widgets[tagHandle]
@@ -173,9 +175,10 @@ function component.callbacks()
                     componentInstance.events.onOpen(previousWidgetTag)
                 end
                 if previousWidgetTag then
-                    local previousComponentInstance = component.widgets[previousWidgetTag.handle.value]
+                    local previousComponentInstance =
+                        component.widgets[previousWidgetTag.handle.value]
                     if previousComponentInstance and previousComponentInstance.events.onClose then
-                        --previousComponentInstance.events.onClose()
+                        -- previousComponentInstance.events.onClose()
                     end
                 end
                 if previousWidgetTag ~= widgetTag then
@@ -205,11 +208,11 @@ function component.callbacks()
     end)
 
     -- We might be able to use this in the future to play custom sounds or something
-    --balltze.event.uiWidgetSound.subscribe(function(event)
+    -- balltze.event.uiWidgetSound.subscribe(function(event)
     --    if event.time == "before" then
     --        local sound = event.context.sound
     --    end
-    --end)
+    -- end)
 
     balltze.event.uiWidgetBack.subscribe(function(event)
         if event.time == "before" then
@@ -502,8 +505,8 @@ end
 ---@param newWidgetTagId number
 function component.replace(self, newWidgetTagId)
     core.replaceWidgetInDom(self.tagId, newWidgetTagId)
+    core.setWidgetValues(newWidgetTagId, {neverReceiveEvents = false, visible = true}, false)
 end
-
 
 -- TODO Discuss with Mango so we can have this class also available in Balltze API
 ---@class MetaEngineWidgetParams
@@ -547,6 +550,20 @@ end
 ---@param self uiComponent
 function component.setBitmapIndex(self, index)
     core.setWidgetValues(self.tagId, {bitmapIndex = index - 1})
+end
+
+---@param self uiComponent
+function component.hide(self, isHidden)
+    local isHidden = isHidden or true
+    core.setWidgetValues(self.tagId,
+                         {visible = not isHidden, neverReceiveEvents = isHidden == true}, false)
+end
+
+---@param self uiComponent
+function component.show(self, isVisible)
+    local isVisible = isVisible or true
+    core.setWidgetValues(self.tagId, {visible = isVisible, neverReceiveEvents = isVisible == false},
+                         false)
 end
 
 return component

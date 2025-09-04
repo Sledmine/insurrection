@@ -249,7 +249,9 @@ end
 ---Set the values of a widget in the DOM
 ---@param widgetTagHandleValue number
 ---@param values MetaEngineWidgetParams
-function core.setWidgetValues(widgetTagHandleValue, values)
+---@param isAsync? boolean Control if the function should try to set values async if it fails
+function core.setWidgetValues(widgetTagHandleValue, values, isAsync)
+    local isAsync = isAsync == nil and true or isAsync
     if not setWidgetValuesDOMSafe(widgetTagHandleValue, values) then
         -- If it fails, try again in a script thread until it works or times out after N ticks
         -- This will prevent crashes and ensure widget gets updated if it takes a while to
@@ -257,6 +259,9 @@ function core.setWidgetValues(widgetTagHandleValue, values)
 
         -- Useful for allowing async updates to widgets that are not yet loaded, or running
         -- updates in events such as onOpen that are called before the widget is loaded
+        if not isAsync then
+            return
+        end
         script.thread(function(_, sleep)
             -- Wait until desired widget is loaded in the DOM
             sleep(function ()
@@ -277,8 +282,8 @@ function core.getWidgetHandle(widgetTagId)
 end
 
 function core.replaceWidgetInDom(widgetTagHandleValue, newWidgetTagHandleValue)
-    local replaced, widget = pcall(engine.userInterface.findWidget, widgetTagHandleValue)
-    if replaced and widget then
+    local isWidgetInDom, widget = pcall(engine.userInterface.findWidget, widgetTagHandleValue)
+    if isWidgetInDom and widget then
         engine.userInterface.replaceWidget(widget, newWidgetTagHandleValue)
     end
 end
