@@ -228,33 +228,40 @@ function core.getWidgetValues(widgetTagId)
     end
 end
 
----Set the values of a widget in the DOM
----@param widgetTagHandle number
----@param values MetaEngineWidgetParams
-function core.setWidgetValues(widgetTagHandle, values)
-    local function setValuesDOMSafe()
-        -- Verify there is a widget loaded in the DOM
-        local widget = engine.userInterface.findWidget(widgetTagHandle)
-        if widget then
-            for key, value in pairs(values) do
-                if type(value) == "table" then
-                    for subKey, subValue in pairs(value) do
-                        widget[key][subKey] = subValue
-                    end
-                else
-                    widget[key] = value
+local function setWidgetValuesDOMSafe(widgetTagHandle, values)
+    -- Verify there is a widget loaded in the DOM
+    local widget = engine.userInterface.findWidget(widgetTagHandle)
+    if widget then
+        for key, value in pairs(values) do
+            if type(value) == "table" then
+                for subKey, subValue in pairs(value) do
+                    widget[key][subKey] = subValue
                 end
+            else
+                widget[key] = value
             end
-            return true
         end
+        return true
     end
-    if not setValuesDOMSafe() then
+    return false
+end
+
+---Set the values of a widget in the DOM
+---@param widgetTagHandleValue number
+---@param values MetaEngineWidgetParams
+function core.setWidgetValues(widgetTagHandleValue, values)
+    if not setWidgetValuesDOMSafe(widgetTagHandleValue, values) then
+        -- If it fails, try again in a script thread until it works or times out after N ticks
+        -- This will prevent crashes and ensure widget gets updated if it takes a while to
+        -- render in game DOM, despite update being called prior to rendering the widget
+
+        -- Useful for allowing async updates to widgets that are not yet loaded, or running
+        -- updates in events such as onOpen that are called before the widget is loaded
         script.thread(function(_, sleep)
-            -- Wait until the menu is loaded
+            -- Wait until desired widget is loaded in the DOM
             sleep(function ()
-                return engine.userInterface.findWidget(widgetTagHandle) ~= nil
+                return setWidgetValuesDOMSafe(widgetTagHandleValue, values)
             end, constants.maximumTicksForDOMRenderTime)
-            setValuesDOMSafe()
         end)()
     end
 end
@@ -438,10 +445,14 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
     object["regionPermutation" .. regionIndex] = permutationIndex
 end
 
+---Copy text to user clipboard
+---@param text string
 function core.copyToClipboard(text)
     return balltze.misc.setClipboard(text)
 end
 
+---Get text from user clipboard
+---@return string | nil
 function core.getClipboard()
     return balltze.misc.getClipboard()
 end
