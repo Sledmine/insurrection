@@ -143,9 +143,11 @@ return function(props)
     local itemCounter = components.new(customization:findChildWidgetTag("item_counter").id)
     itemCounter:setText("00/00")
 
-    local function updateItemCounter()
-        --itemCounter:setText(string.format("%s/%s", options:getCurrentItemIndex() + options.lastWidgetIndex - 3, #options.items))
-        itemCounter:setText(string.format("%s/%s", options:getCurrentItemIndex() + 1, #options.items))
+    local function updateItemCounter(currentIndex)
+        local currentIndex = currentIndex or 1
+        local totalItems = #options.items
+        local currentItem = math.min(currentIndex + options.lastWidgetIndex - 3, totalItems)
+        itemCounter:setText(string.format("%02d/%02d", currentItem, totalItems))
     end
 
     local function loadRegions()
@@ -208,7 +210,7 @@ return function(props)
     end
 
     options:onScroll(function()
-        updateItemCounter()
+        --updateItemCounter()
     end)
 
     local function loadPermutations(region)
@@ -385,6 +387,10 @@ return function(props)
         else
             menus.bipedColor()
         end
+    end)
+
+    options:onFocus(function(item)
+        updateItemCounter(table.indexof(options.items, item) - options.lastWidgetIndex + 3)
     end)
 
     local function onClose()

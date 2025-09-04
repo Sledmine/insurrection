@@ -29,7 +29,7 @@ local borrowLayout = widget.layout {
 
 return container {
     name = "dashboard_updated_menu",
-    background = "transparent",
+    background = "fade",
     childs = {
         {
             header {
