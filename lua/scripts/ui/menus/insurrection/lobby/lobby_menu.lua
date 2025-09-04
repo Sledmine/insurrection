@@ -17,6 +17,8 @@ local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local checkbox = require "lua.scripts.ui.componentsV3.checkbox"
 local bar = require "lua.scripts.ui.componentsV3.bar"
 local label = require "lua.scripts.ui.componentsV3.label"
+local buttonSquare = require "lua.scripts.ui.componentsV3.buttonSquare"
+local image = require "lua.scripts.ui.componentsV3.image"
 
 widget.init [[insurrection/ui/menus/lobby/]]
 
@@ -54,7 +56,7 @@ local actionsLayout = widget.layout {
     margin = 6
 }
 
-return container {
+local lobbyMenuPath = container {
     name = "lobby_menu",
     background = "transparent",
     childs = {
@@ -125,7 +127,7 @@ return container {
                             icon = "insurrection/ui/bitmaps/search_icon.bitmap"
                         },
                         pos.options.x,
-                        140
+                        110
                     },
                     {
                         options {
@@ -178,7 +180,7 @@ return container {
                             }
                         },
                         pos.options.x,
-                        170
+                        140
                     },
                     {checkbox {name = "make_public", text = "Public Lobby"}, pos.options.x, 371},
                     {
@@ -315,3 +317,175 @@ return container {
         }
     }
 }
+
+local wrapperWidth = 570
+local wrapperHeight = 247
+local startingX = 0
+local startingY = 20
+local buttonSquareMargin = 4
+local buttonSquareSize = 80 - buttonSquareMargin
+local rowsCount = 3
+local columnsCount = 5
+local skullsCount = rowsCount * columnsCount
+local skullsPositions = {}
+
+for rowIndex = 1, rowsCount do
+    for columnIndex = 1, columnsCount do
+        local layout = widget.layout {
+            alignment = "horizontal",
+            size = buttonSquareSize,
+            x = startingX + (columnIndex - 1) * buttonSquareSize,
+            y = startingY + (rowIndex - 1) * buttonSquareSize,
+            margin = 0
+        }
+        table.insert(skullsPositions, {layout()})
+    end
+end
+
+local skullElements = {}
+for i = 1, skullsCount do
+    table.insert(skullElements, {
+        buttonSquare {
+            name = "skull_" .. i,
+            justification = "center_justify",
+            variant = "small",
+            childs = {
+                {
+                    image {
+                        name = "skull_" .. i,
+                        bitmap = "insurrection/ui/bitmaps/skull_button_icons.bitmap",
+                        width = 128,
+                        height = 128,
+                        scale = 0.375
+                    },
+                    16,
+                    16
+                },
+                {checkbox {name = "skull_" .. i, align = "left", transparent = true}, 4, 52}
+            }
+        },
+        table.unpack(skullsPositions[i])
+    })
+end
+
+local skullsWrapperPath = wrapper {
+    name = "skulls_panel",
+    width = wrapperWidth,
+    height = wrapperHeight,
+    childs = {
+        {
+            options {
+                name = "skull_all",
+                alignment = "vertical",
+                childs = {
+                    {
+                        options {
+                            name = "skull_grid",
+                            alignment = "horizontal",
+                            childs = skullElements
+                        }
+                    },
+                    {
+                        options {
+                            name = "skull_action",
+                            alignment = "horizontal",
+                            childs = {
+                                {
+                                    button {
+                                        name = "skull_settings",
+                                        text = "SKULL SETTINGS",
+                                        variant = "small"
+                                    },
+                                    410,
+                                    startingY + 195
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            bar {name = "skull_bar", orientation = "vertical", type = "scroll", size = 222},
+            390,
+            startingY
+        },
+        {
+            image {
+                name = "skull_preview_background",
+                bitmap = "insurrection/ui/bitmaps/skull_overlay.bitmap",
+                width = 149,
+                height = 144
+            },
+            410,
+            startingY
+        },
+        {
+            image {
+                name = "skull_preview_icon",
+                bitmap = "insurrection/ui/bitmaps/skull_preview_icons.bitmap",
+                width = 136,
+                height = 178,
+                scale = 0.45
+            },
+            453,
+            startingY + 10
+        },
+        {
+            label {
+                name = "skull_title",
+                variant = "title",
+                text = "CHOOSE SKULLS",
+                justify = "left",
+                width = 145,
+                isFocuseable = false
+            },
+            4,
+            0
+        },
+        {
+            label {
+                name = "skull_name",
+                variant = "title",
+                text = strmem(128, "SKULL NAME"),
+                justify = "left",
+                width = 145,
+                isFocuseable = false
+            },
+            414,
+            startingY + 120
+        },
+        {
+            label {
+                name = "skull_motto",
+                variant = "button",
+                text = strmem(256, "SKULL MOTTO"),
+                color = "blueYonder",
+                justify = "left",
+                width = 145,
+                isFocuseable = false
+            },
+            414,
+            startingY + 140
+        },
+        {
+            label {
+                name = "skull_description",
+                variant = "subtitle",
+                text = strmem(256, "SKULL DESCRIPTION"),
+                color = "gray",
+                justify = "left",
+                width = 145,
+                height = 35,
+                isFocuseable = false
+            },
+            414,
+            180
+        },
+        {constants.components.version.path, 0, 460}
+    }
+}
+
+widget.global(skullsWrapperPath, "insurrection/ui/custom_menus.tag_collection")
+
+return lobbyMenuPath

@@ -39,9 +39,8 @@ return function()
                                    state.lobby.owner
 
     local lobbyMenu = component.new(constants.widgets.lobby.id)
-    local summary = component.new(
-                        component.new(lobbyMenu:findChildWidgetTag("summary").id):findChildWidgetTag(
-                            "text").id)
+    local summary = component.new(lobbyMenu:findChildWidgetTag("summary").id)
+    local description = component.new(summary:findChildWidgetTag("text").id)
 
     local options = component.new(lobbyMenu:findChildWidgetTag("options").id)
 
@@ -50,8 +49,11 @@ return function()
     local template = button.new(definitionList:findChildWidgetTag("template").id)
     local map = button.new(definitionList:findChildWidgetTag("map").id)
     local gametype = button.new(definitionList:findChildWidgetTag("gametype").id)
+    local skulls = button.new(definitionList:findChildWidgetTag("skulls").id)
 
     -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
+    local skullsPanel = component.new(blam.findTag("skulls_panel",
+                                                   blam.tagClasses.uiWidgetDefinition).id)
 
     local elementsList = list.new(options:findChildWidgetTag("elements").id)
     local mapsList = list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition)
@@ -82,7 +84,7 @@ return function()
     local playersList = list.new(lobbyMenu:findChildWidgetTag("players").id)
     playersList:scrollable(false)
 
-    summary:setText("Play with your friends, define your rules and enjoy.")
+    description:setText("Play with your friends, define your rules and enjoy.")
 
     local function getMapBackgroundBitmap(mapName)
         local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
@@ -182,38 +184,72 @@ return function()
             definition = newDefinition
         end
 
+        local function showMapsListPanel()
+            skullsPanel:replace(search.tagId)
+            elementsList:replace(fullMapList.tagId)
+            summary:show()
+            description:show()
+            makePublic:show()
+            key:show()
+        end
+
+        local function showElementsListPanel()
+            skullsPanel:replace(search.tagId)
+            fullMapList:replace(elementsList.tagId)
+            summary:show()
+            description:show()
+            makePublic:show()
+            key:show()
+        end
+
+        local function showSkullsPanel()
+            elementsList:replace(fullMapList.tagId)
+            fullMapList:replace(elementsList.tagId)
+            fullMapList:hide()
+            elementsList:hide()
+            summary:hide()
+            description:hide()
+            search:replace(skullsPanel.tagId)
+            makePublic:hide()
+            key:hide()
+        end
+
         local definitionsToComponent = {template = template, map = map, gametype = gametype}
         search:onInputText(function(text)
             handleDefinition(definitionsToComponent[definition], definition, text)
         end)
 
-        template:onClick(function()
-            fullMapList:replace(elementsList.tagId)
-            handleDefinition(template, "template")
-        end)
-        template:onFocus(function()
-            summary:setText(
-                "Template defines a set of changes to the base server that will be applied when the lobby is created.")
-        end)
-
         -- Force selection of map definition when opening the lobby menu
         map:onClick(function()
-            elementsList:replace(fullMapList.tagId)
+            showMapsListPanel()
             handleDefinition(map, "map")
         end)
         map:onFocus(function()
-            summary:setText(
+            description:setText(
                 "Choose a map from the available list to play on, you need to have the map installed.")
         end)
         map.events.onClick()
 
         gametype:onClick(function()
-            fullMapList:replace(elementsList.tagId)
+            showElementsListPanel()
             handleDefinition(gametype, "gametype")
         end)
         gametype:onFocus(function()
-            summary:setText(
+            description:setText(
                 "Game type defines the rules of the game, defines team play, scoring, etc.")
+        end)
+
+        template:onClick(function()
+            showElementsListPanel()
+            handleDefinition(template, "template")
+        end)
+        template:onFocus(function()
+            description:setText(
+                "Template defines a set of changes to the base server that will be applied when the lobby is created.")
+        end)
+
+        skulls:onClick(function()
+            showSkullsPanel()
         end)
 
         play:onClick(function()

@@ -13,7 +13,7 @@ local layout = widget.align("vertical", 24, 336, 340, 2)
 
 local dialogMenu = container {
     name = "dialog_menu",
-    background = "transparent",
+    background = "dialog",
     childs = {
         {
             image {
