@@ -16,7 +16,7 @@ local script = require "script"
 
 ---@type Logger
 logger = nil
-DebugMode = true
+DebugMode = false
 APILocalMode = false
 IsAPIMockEnabled = false
 IsDebugCustomization = false
