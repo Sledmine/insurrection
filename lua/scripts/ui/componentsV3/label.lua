@@ -16,6 +16,7 @@ local ustr = require "lua.scripts.modules.ustr"
 ---@field childs? invaderWidgetChildWidget[]
 ---@field replace? invaderWidgetSearchAndReplaceFunctions[]
 ---@field isFlashingText? boolean
+---@field isFocuseable? boolean
 
 ---Label component
 ---@param props labelProps
@@ -24,7 +25,8 @@ return function(props)
     local name = props.name
     local text = props.text
     local size = props.size or 24
-    local isFlashingText = props.isFlashingText or false
+    local isFlashingText = props.isFlashingText == nil and false or props.isFlashingText
+    local isFocuseable = props.isFocuseable == nil and true or props.isFocuseable
 
     local widgetPath = widget.path .. name .. "_label.ui_widget_definition"
     local stringsPath = widget.path .. "strings/" .. name .. "_label.unicode_string_list"
@@ -84,7 +86,8 @@ return function(props)
         text_label_unicode_strings_list = stringsPath,
         string_list_index = 0,
         flags_1 = {
-            flashing = isFlashingText
+            flashing = isFlashingText,
+            dont_do_that_weird_focus_test = not isFocuseable
         },
         --horiz_offset = 10,
         horiz_offset = 0,

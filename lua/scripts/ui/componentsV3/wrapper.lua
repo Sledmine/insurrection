@@ -8,6 +8,7 @@ local widget = require "lua.scripts.widget"
 ---@field childs? invaderWidgetChildWidget[]
 ---@field background? string
 ---@field isClickable? boolean
+---@field isDebug? boolean
 
 ---Wrapper component serves the purpose of wrapping widgets as a container given size
 ---@param props wrapperProps
@@ -19,13 +20,14 @@ return function(props)
     local height = props.height or constants.screen.height
     local path = widget.path .. name .. "_wrapper.ui_widget_definition"
     local background = props.background
-    local isClickable = props.isClickable
+    local isClickable = props.isClickable == nil and false or props.isClickable
+    local isDebug = props.isDebug == nil and false or props.isDebug
 
     ---@type invaderWidget
     local wid = {
         widget_type = isClickable and "text_box" or "container",
         bounds = widget.bounds(0, 0, height, width),
-        background_bitmap = background,
+        background_bitmap = isDebug and "insurrection/ui/bitmaps/solid_green.bitmap" or background,
         flags = {pass_unhandled_events_to_focused_child = true},
         child_widgets = childWidgets or {}
     }
