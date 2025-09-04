@@ -50,10 +50,10 @@ local nameplatesLayout = widget.layout {
 
 local actionsLayout = widget.layout {
     alignment = "horizontal",
-    size = 184,
+    size = 149,
     x = 20,
     y = 416,
-    margin = 6
+    margin = 2
 }
 
 local lobbyMenuPath = container {
@@ -437,8 +437,7 @@ local skullsWrapperPath = wrapper {
                 variant = "title",
                 text = "CHOOSE SKULLS",
                 justify = "left",
-                width = 145,
-                isFocuseable = false
+                width = 145
             },
             4,
             0
@@ -449,8 +448,7 @@ local skullsWrapperPath = wrapper {
                 variant = "title",
                 text = strmem(128, "SKULL NAME"),
                 justify = "left",
-                width = 145,
-                isFocuseable = false
+                width = 145
             },
             414,
             startingY + 120
@@ -462,8 +460,7 @@ local skullsWrapperPath = wrapper {
                 text = strmem(256, "SKULL MOTTO"),
                 color = "blueYonder",
                 justify = "left",
-                width = 145,
-                isFocuseable = false
+                width = 145
             },
             414,
             startingY + 140
@@ -476,8 +473,7 @@ local skullsWrapperPath = wrapper {
                 color = "gray",
                 justify = "left",
                 width = 145,
-                height = 35,
-                isFocuseable = false
+                height = 35
             },
             414,
             180

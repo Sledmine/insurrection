@@ -26,7 +26,7 @@ return function(props)
     local text = props.text
     local size = props.size or 24
     local isFlashingText = props.isFlashingText == nil and false or props.isFlashingText
-    local isFocuseable = props.isFocuseable == nil and true or props.isFocuseable
+    local isFocuseable = props.isFocuseable == nil and false or props.isFocuseable
 
     local widgetPath = widget.path .. name .. "_label.ui_widget_definition"
     local stringsPath = widget.path .. "strings/" .. name .. "_label.unicode_string_list"
