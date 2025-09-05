@@ -230,8 +230,8 @@ end
 
 local function setWidgetValuesDOMSafe(widgetTagHandle, values)
     -- Verify there is a widget loaded in the DOM
-    local widget = engine.userInterface.findWidget(widgetTagHandle)
-    if widget then
+    local isWidgetPresent, widget = pcall(engine.userInterface.findWidget, widgetTagHandle)
+    if isWidgetPresent and widget then
         for key, value in pairs(values) do
             if type(value) == "table" then
                 for subKey, subValue in pairs(value) do
