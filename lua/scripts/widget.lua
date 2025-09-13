@@ -338,7 +338,9 @@ function widget.global(widgetPath, tagCollectionPath)
     end
 
     if not table.find(widgets, function(v, k)
-        return v.reference == widgetPath
+        local normalizedReferencePath = v.reference:replace("\\", "/")
+        local normalizedWidgetPath = widgetPath:replace("\\", "/")
+        return normalizedReferencePath == normalizedWidgetPath
     end) then
         table.insert(widgets, {reference = widgetPath})
         widget.create(tagCollectionPath, {tags = widgets})
