@@ -87,7 +87,7 @@ return function(props)
         text_color = constants.color.text,
         text_font = constants.fonts.button,
         vert_offset = 5,
-        horiz_offset = valueX,
+        horiz_offset = valueX -4,
     }
     widget.createV2(labelPath, labelWidget)
     table.insert(spinnerWidget.child_widgets, {labelPath})
