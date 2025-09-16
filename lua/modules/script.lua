@@ -54,7 +54,7 @@ end
 ---@param ticks number
 local function sleepThreadFor(ticks)
     if ticks == -1 then
-        -- logger:debug("Sleeping until woken up")
+        --logger:debug("Sleeping until woken up")
     else
         -- logger:debug("Sleeping for " .. ticks .. " ticks")
     end
@@ -106,7 +106,10 @@ local function handleScriptThread(scriptThread, result)
         else
             removeThreadFromTrace(scriptThread)
             if scriptThread.parent then
-                handleScriptThread(scriptThread.parent, threadResult)
+                local result = pcall(handleScriptThread, scriptThread.parent, threadResult)
+                if not result then
+                    logger:warning(debug.traceback(scriptThread.parent.thread))
+                end
             end
         end
     end
@@ -206,7 +209,7 @@ function script.thread(func, metadata)
         local ok, result = coroutine.resume(scriptThread.thread, call, sleep,
                                             table.unpack(parentScriptThread.args or {}))
         if not ok then
-            error(result, 2)
+            error(debug.traceback(scriptThread.thread, result), 2)
         end
         return result
     end
