@@ -4,12 +4,10 @@ local list = require "insurrection.components.list"
 local bar = require "insurrection.components.bar"
 local button = require "insurrection.components.button"
 local getState = require "insurrection.redux.getState"
-local blam = require "blam"
 local t = require"insurrection.utils".snakeCaseToTitleCase
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 local input = require "insurrection.components.input"
-local interface = require "insurrection.interface"
 
 return function()
     local state = getState()
@@ -34,20 +32,6 @@ return function()
     lobbies:scrollable(false)
     lobbies:selectable(true)
 
-    local function getMapBackgroundBitmap(mapName)
-        local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
-        assert(mapCollection, "No map preview collection found")
-        for k, v in pairs(mapCollection.tagList) do
-            local bitmapTag = blam.getTag(v) --[[@as tag]]
-            local mapBitmapName = core.getTagName(bitmapTag.path):lower()
-
-            if mapBitmapName == mapName:lower() then
-                return bitmapTag.id
-            end
-        end
-        return constants.bitmaps.unknownMapPreview.id
-    end
-
     local function resetSelectLobby()
         mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
         mapName:setText("Map Name")
@@ -70,7 +54,7 @@ return function()
     end)
 
     local function setMapBackgroundBitmap(mapName)
-        mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
+        mapPreview.widgetDefinition.backgroundBitmap = core.getMapBackgroundBitmap(mapName)
     end
 
     lobbies:onFocus(function(item)

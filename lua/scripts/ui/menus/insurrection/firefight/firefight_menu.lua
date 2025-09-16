@@ -168,7 +168,7 @@ local firefightMenuPath = container {
         {label {name = "map_name", text = strmem(32, "MAP NAME")}, 226, 273},
         {label {name = "map_author", text = strmem(32, "AUTHOR"), color = "blueYonder"}, 226, 285},
         {
-            label {name = "map_description", text = strmem(64, "MAP DESCRIPTION"), height = 200},
+            label {name = "map_description", text = strmem(128, "MAP DESCRIPTION"), height = 200},
             226,
             297
         },

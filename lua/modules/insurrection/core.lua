@@ -264,7 +264,7 @@ function core.setWidgetValues(widgetTagHandleValue, values, isAsync)
         end
         script.thread(function(_, sleep)
             -- Wait until desired widget is loaded in the DOM
-            sleep(function ()
+            sleep(function()
                 return setWidgetValuesDOMSafe(widgetTagHandleValue, values)
             end, constants.maximumTicksForDOMRenderTime)
         end)()
@@ -437,14 +437,14 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
     -- This one does not need to be substracted by 1 because property name is Lua 1-based
     local maximumRegionIndex = objectModel.regionCount
     if regionIndex > maximumRegionIndex then
-        --logger:warning("Region index {} out of range, maximum is {}", regionIndex,  maximumRegionIndex)
+        -- logger:warning("Region index {} out of range, maximum is {}", regionIndex,  maximumRegionIndex)
         return
     end
 
     local maximumPermutationIndex = objectModel.regionList[regionIndex].permutationCount - 1
     if permutationIndex > maximumPermutationIndex then
-        logger:warning("Permutation index {} for region {} out of range, setting to 0", permutationIndex,
-                     regionIndex)
+        logger:warning("Permutation index {} for region {} out of range, setting to 0",
+                       permutationIndex, regionIndex)
         permutationIndex = 0
     end
     object["regionPermutation" .. regionIndex] = permutationIndex
@@ -647,6 +647,20 @@ function core.loadCustomizationBiped(projectName, customBipedPath)
     logger:debug("Loading biped from project: {}", projectName)
     logger:debug("Loading biped with path: {}", bipedPath)
     return projectName, bipedPath, regions, visor
+end
+
+function core.getMapBackgroundBitmap(mapName)
+    local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
+    assert(mapCollection, "No map preview collection found")
+    for k, v in pairs(mapCollection.tagList) do
+        local bitmapTag = blam.getTag(v) --[[@as tag]]
+        local mapBitmapName = core.getTagName(bitmapTag.path):lower()
+
+        if mapBitmapName == mapName:lower() then
+            return bitmapTag.id
+        end
+    end
+    return constants.bitmaps.unknownMapPreview.id
 end
 
 return core
