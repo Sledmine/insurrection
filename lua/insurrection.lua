@@ -79,7 +79,7 @@ local function initialize()
     components.free()
     constants.get()
     interface.load()
-    interface.changeAspectRatio()
+    interface.setup()
     chimera.fontOverride()
 end
 
