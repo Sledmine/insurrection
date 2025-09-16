@@ -1,5 +1,5 @@
 local maps = require "insurrection.constants.maps"
-local utils= require "insurrection.utils"
+local utils = require "insurrection.utils"
 
 local constants = {}
 
@@ -250,12 +250,7 @@ constants.widgets = {}
 constants.maps = maps
 
 constants.parser = {
-    customization = {
-        bipedPathIndex = 1,
-        firstRegionIndex = 2,
-        lastRegionIndex = 9,
-        visorIndex = 10
-    }
+    customization = {bipedPathIndex = 1, firstRegionIndex = 2, lastRegionIndex = 9, visorIndex = 10}
 }
 
 function constants.get()
@@ -298,7 +293,7 @@ function constants.get()
         videoSettings = findWidgetTag("video_settings_menu_custom"),
         audioSettings = findWidgetTag("audio_settings_menu_custom"),
         version = findWidgetTag("insurrection_version_footer"),
-        firefight = findWidgetTag("firefight\\firefight_menu"),
+        firefight = findWidgetTag("firefight\\firefight_menu")
     }
 
     constants.sounds = {
