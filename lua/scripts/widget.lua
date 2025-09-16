@@ -325,28 +325,50 @@ function widget.color(color, name)
     return bitmapPath .. ".bitmap"
 end
 
---- Save widget path into a global tag collection reference
----@param widgetPath string
+--- Save tag path into a global tag collection reference
+---@param tagPath string
 ---@param tagCollectionPath string
-function widget.global(widgetPath, tagCollectionPath)
-    local widgetCount = widget.count(tagCollectionPath, "tags")
+function widget.global(tagPath, tagCollectionPath)
+    local tagCount = widget.count(tagCollectionPath, "tags")
+    local tagPath = tagPath:replace("\\", "/")
 
-    local widgets = {}
-    for i = 0, widgetCount - 1 do
-        local widget = widget.get(tagCollectionPath, "tags", i, "reference")
-        table.insert(widgets, {reference = widget})
+    local tagCollection = {}
+    for i = 0, tagCount - 1 do
+        local reference = widget.get(tagCollectionPath, "tags", i, "reference") --[[@as string]]
+        if reference then
+            local normalizedReferencePath = reference:replace("\\", "/")
+            table.insert(tagCollection, {reference = normalizedReferencePath})
+        end
     end
 
-    if not table.find(widgets, function(v, k)
-        local normalizedReferencePath = v.reference:replace("\\", "/")
-        local normalizedWidgetPath = widgetPath:replace("\\", "/")
-        return normalizedReferencePath == normalizedWidgetPath
-    end) then
-        table.insert(widgets, {reference = widgetPath})
-        widget.create(tagCollectionPath, {tags = widgets})
+    -- Filter duplicate widgets (keep first occurrence)
+    local existingEntry = {}
+    tagCollection = table.filter(tagCollection, function(v, k)
+        if existingEntry[v.reference] then
+            return false
+        end
+        existingEntry[v.reference] = true
+        return true
+    end)
+
+    -- Filter tags not present in file system anymore
+    tagCollection = table.filter(tagCollection, function(v, k)
+        local exists = fs.is("tags/" .. v.reference) == true
+        return exists
+    end)
+
+    -- Check if tag already exists in tag collection
+    local isAlreadyInCollection = table.find(tagCollection, function(v, k)
+        return tagPath == v.reference
+    end)
+
+    if not isAlreadyInCollection then
+        table.insert(tagCollection, {reference = tagPath})
+        widget.create(tagCollectionPath, {tags = tagCollection})
+        print("Added widget to tag collection: " .. tagPath)
         return
     end
-    print("Widget already exists in tag collection.")
+    print("Tag already exists in tag collection.")
 end
 
 return widget
