@@ -9,28 +9,16 @@ local header = require "lua.scripts.ui.componentsV3.header"
 local input = require "lua.scripts.ui.componentsV3.input"
 local footer = require "lua.scripts.ui.componentsV3.footer"
 local complexButton = require "lua.scripts.ui.componentsV3.complexButton"
-local slider = require "lua.scripts.ui.componentsV3.slider"
-local nameplate = require "lua.scripts.ui.componentsV3.nameplate"
-local box = require "lua.scripts.ui.componentsV3.box"
 local preview = require "lua.scripts.ui.componentsV3.preview"
 local wrapper = require "lua.scripts.ui.componentsV3.wrapper"
 local checkbox = require "lua.scripts.ui.componentsV3.checkbox"
 local bar = require "lua.scripts.ui.componentsV3.bar"
 local label = require "lua.scripts.ui.componentsV3.label"
-local buttonSquare = require "lua.scripts.ui.componentsV3.buttonSquare"
-local image = require "lua.scripts.ui.componentsV3.image"
+local spinner = require "lua.scripts.ui.componentsV3.spinner"
 
 widget.init [[insurrection/ui/menus/firefight/]]
 
 local defsLayout = widget.layout {alignment = "horizontal", size = 149, x = 20, y = 60, margin = 2}
-
-local elementsLayout = widget.layout {
-    alignment = "horizontal",
-    size = 120,
-    x = 19,
-    y = 0,
-    margin = 2
-}
 
 local elementsLayoutVertical = widget.layout {
     alignment = "vertical",
@@ -39,16 +27,6 @@ local elementsLayoutVertical = widget.layout {
     y = 160,
     margin = 2
 }
-
-local optionsLayout = widget.align("vertical", 24, pos.options.x, 140, 2)
-
--- local nameplatesLayout = widget.layout {
---    alignment = "vertical",
---    size = 28,
---    x = 641,
---    y = 20,
---    margin = 2
--- }
 
 local actionsLayout = widget.layout {
     alignment = "horizontal",
@@ -162,44 +140,6 @@ local firefightMenuPath = container {
                         }
                     },
                     {
-                        preview {
-                            name = "map_small",
-                            bitmap = "insurrection/ui/bitmaps/unknown_map_preview.bitmap",
-                            variant = "small"
-                        },
-                        226,
-                        160
-                    },
-                    {label {name = "map_name", text = strmem(32, "MAP NAME")}, 226, 273},
-                    {
-                        label {
-                            name = "map_author",
-                            text = strmem(32, "AUTHOR"),
-                            color = "blueYonder"
-                        },
-                        226,
-                        285
-                    },
-                    {
-                        label {
-                            name = "map_description",
-                            text = strmem(64, "MAP DESCRIPTION"),
-                            height = 200
-                        },
-                        226,
-                        297
-                    },
-                    {
-                        bar {
-                            name = "maps_bar_scroll",
-                            orientation = "vertical",
-                            type = "scroll",
-                            size = 154
-                        },
-                        215,
-                        160
-                    },
-                    {
                         button {name = "back", text = "BACK", variant = "small", back = true},
                         actionsLayout()
                     },
@@ -209,69 +149,195 @@ local firefightMenuPath = container {
         },
         {
             label {
-                name = "search_browser",
+                name = "search",
                 text = strmem(256, "SEARCH MAP BY KEYWORDS"),
                 variant = "subtitle"
             },
             20,
             105
         },
-        {footer {name = "summary", title = "SUMMARY", text = strmem(256)}, pos.footer.x, 365},
+        {
+            preview {
+                name = "map",
+                bitmap = "insurrection/ui/bitmaps/unknown_map_preview.bitmap",
+                variant = "small"
+            },
+            226,
+            160
+        },
+        {label {name = "map_name", text = strmem(32, "MAP NAME")}, 226, 273},
+        {label {name = "map_author", text = strmem(32, "AUTHOR"), color = "blueYonder"}, 226, 285},
+        {
+            label {name = "map_description", text = strmem(64, "MAP DESCRIPTION"), height = 200},
+            226,
+            297
+        },
+        {
+            bar {name = "maps_scroll", orientation = "vertical", type = "scroll", size = 154},
+            215,
+            160
+        },
+        {footer {name = "summary", title = "SUMMARY", text = strmem(256)}, pos.footer.x, 380},
         {constants.components.version.path, 0, 460}
     }
-    -- conditionalWidgets = {
-    --    {
-    --        widget_tag = wrapper {
-    --            name = "firefight_maps",
-    --            width = 465,
-    --            height = 160,
-    --            childs = {
-    --                {
-    --                    options {
-    --                        name = "elements",
-    --                        alignment = "vertical",
-    --                        childs = {
-    --                            {
-    --                                button {
-    --                                    name = "firefight_option_1",
-    --                                    text = strmem(32, "OPTION 1"),
-    --                                    variant = "large"
-    --                                },
-    --                                optionsLayout()
-    --                            },
-    --                            {
-    --                                button {
-    --                                    name = "firefight_option_2",
-    --                                    text = strmem(32, "OPTION 2"),
-    --                                    variant = "large"
-    --                                },
-    --                                optionsLayout()
-    --                            },
-    --                            {
-    --                                button {
-    --                                    name = "firefight_option_3",
-    --                                    text = strmem(32, "OPTION 3"),
-    --                                    variant = "large"
-    --                                },
-    --                                optionsLayout()
-    --                            },
-    --                            {
-    --                                button {
-    --                                    name = "firefight_option_4",
-    --                                    text = strmem(32, "OPTION 4"),
-    --                                    variant = "large"
-    --                                },
-    --                                optionsLayout()
-    --                            }
-    --                        }
-    --                    }
-    --                }
-    --            }
-    --        }
-    --    }
-    -- }
 }
 
-widget.global(firefightMenuPath, "insurrection/ui/custom_menus.tag_collection")
+local posY = 116
+local settingsLayout = widget.layout {
+    alignment = "vertical",
+    size = 24,
+    x = pos.options.x,
+    y = posY,
+    margin = 2
+}
+
+local lengthArrowforText = 2
+local lengthArrowforNumbers = -30
+local positionX = pos.options.x + constants.components.button.normal.width + 8
+local positionY = posY
+local settings2Layout = widget.layout {
+    alignment = "vertical",
+    size = 24,
+    x = positionX,
+    y = positionY,
+    margin = 2
+}
+
+local firefightSettingsMenuPath = wrapper {
+    name = "firefight_settings_panel",
+    width = 581,
+    height = 258,
+    isDebug = true,
+    childs = {
+        {
+            options {
+                name = "firefight_config",
+                alignment = "vertical",
+                childs = {
+                    {
+                        spinner {
+                            name = "player_initial_lives",
+                            text = "PLAYER INITIAL LIVES",
+                            value = strmem(2, "10"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "extra_lives_gained",
+                            text = "EXTRA LIVES GAINED",
+                            value = strmem(2, "1"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "lives_lost_per_dead",
+                            text = "LIVES LOST PER DEAD",
+                            value = strmem(2, "1"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "waves_per_round",
+                            text = "WAVES PER ROUND",
+                            value = strmem(2, "5"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "rounds_per_set",
+                            text = "ROUNDS PER SET",
+                            value = strmem(2, "3"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "sets_per_game",
+                            text = "SETS PER GAME",
+                            value = strmem(2, "3"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "boss_wave_frequency",
+                            text = "BOSS WAVE FREQUENCY",
+                            value = strmem(2, "0"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "enemies_left_before_next_wave",
+                            text = "ENEMIES LEFT",
+                            value = strmem(2, "4"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "boss_enemies_left_before_next_wave",
+                            text = "BOSS ENEMIES LEFT",
+                            value = strmem(2, "0"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "wave_timer",
+                            text = "WAVE TIMER",
+                            value = strmem(2, "9"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "temporal_skull_frequency",
+                            text = "TEMPORAL SKULL FREQUENCY",
+                            value = strmem(14, "Each Round"),
+                            length = lengthArrowforText,
+                            variant = "large"
+                        },
+                        settings2Layout()
+                    },
+                    {
+                        spinner {
+                            name = "permanent_skull_frequency",
+                            text = "PERMANENT SKULL FREQUENCY",
+                            value = strmem(14, "Each Set"),
+                            length = lengthArrowforText,
+                            variant = "large"
+                        },
+                        settings2Layout()
+                    },
+                    {
+                        checkbox {
+                            name = "random_permanent_skulls",
+                            text = "ALLOW RANDOM PERMANENT SKULLS",
+                            variant = "large"
+                        },
+                        settings2Layout()
+                    }
+                }
+            }
+        }
+    }
+}
+
+widget.global(firefightSettingsMenuPath, "insurrection/ui/custom_menus.tag_collection")
 
 return firefightMenuPath
