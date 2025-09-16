@@ -44,7 +44,7 @@ local firefightMenuPath = container {
             header {
                 name = "firefight_menu",
                 title = strmem(256, "FIREFIGHT"),
-                subtitle = strmem(256, "SELECT A MAP AND OPTIONS TO PLAY FIREFIGHT.")
+                subtitle = strmem(256, "SELECT A MAP AND OPTIONS TO PLAY FIREFIGHT")
             },
             pos.header.x,
             pos.header.y
