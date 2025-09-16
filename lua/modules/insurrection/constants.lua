@@ -297,7 +297,8 @@ function constants.get()
         bipedColor = findWidgetTag("customization_biped_colors_menu"),
         videoSettings = findWidgetTag("video_settings_menu_custom"),
         audioSettings = findWidgetTag("audio_settings_menu_custom"),
-        version = findWidgetTag("insurrection_version_footer")
+        version = findWidgetTag("insurrection_version_footer"),
+        firefight = findWidgetTag("firefight\\firefight_menu"),
     }
 
     constants.sounds = {
