@@ -169,6 +169,7 @@ function component.callbacks()
                 local widgetTag = engine.tag
                                       .getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
                 assert(widgetTag, "Invalid widget tag")
+                local widgetTagData = widgetTag.data
                 logger:debug("Opening tag: {}", widgetTag.path)
                 local componentInstance = component.widgets[tagHandle]
                 if componentInstance and componentInstance.events.onOpen then
@@ -185,23 +186,41 @@ function component.callbacks()
                     previousWidgetTag = widgetTag
                 end
 
-                if widgetTag then
-                    assert(widgetTag, "Invalid widget tag")
-                    local widgetTagData = widgetTag.data
-                    local widgetCount = widgetTagData.childWidgets.count
-                    if widgetTagData and widgetCount > 0 then
-                        local optionWidget = widgetTagData.childWidgets.elements[widgetCount]
-                        -- log("Option widget: {}", inspect(table.keys(optionWidget.widgetTag)))
-                        local optionsWidgetTag = engine.tag.getTag(
-                                                     optionWidget.widgetTag.tagHandle.value,
-                                                     engine.tag.classes.uiWidgetDefinition)
-                        assert(optionsWidgetTag, "Invalid options widget tag")
-                        local optionsWidgetTagData = optionsWidgetTag.data
-                        -- Auto focus on the first editable widget
-                        if optionsWidgetTagData and optionsWidgetTagData.childWidgets[1] then
-                            onWidgetFocus(optionsWidget.childWidgets[1].widgetTag)
-                        end
+                local widgetCount = widgetTagData.childWidgets.count
+                if widgetTagData and widgetCount > 0 then
+                    local optionWidget = widgetTagData.childWidgets.elements[widgetCount]
+                    -- log("Option widget: {}", inspect(table.keys(optionWidget.widgetTag)))
+                    local optionsWidgetTag = engine.tag.getTag(
+                                                 optionWidget.widgetTag.tagHandle.value,
+                                                 engine.tag.classes.uiWidgetDefinition)
+                    assert(optionsWidgetTag, "Invalid options widget tag")
+                    local optionsWidgetTagData = optionsWidgetTag.data
+                    -- Auto focus on the first editable widget
+                    if optionsWidgetTagData and optionsWidgetTagData.childWidgets[1] then
+                        onWidgetFocus(optionsWidget.childWidgets[1].widgetTag)
                     end
+                end
+            end
+        elseif event.time == "before" then
+            local tagHandle = event.context.definitionTagHandle.value
+            local widgetTag = engine.tag.getTag(tagHandle, engine.tag.classes.uiWidgetDefinition)
+            assert(widgetTag, "Invalid widget tag")
+            local widgetTagData = widgetTag.data
+            -- Dynamically set aspect ratio based on widget bounds
+            local rootWidget = core.getRenderedUIWidgetTagHandle()
+            local isRootWidget = rootWidget and rootWidget == tagHandle
+            local isWidgetWidescreen = widgetTagData.bounds.right > 640
+            if isRootWidget then
+                logger:debug("isRootWidget: {}, isWidgetWidescreen: {}", tostring(isRootWidget),
+                             tostring(isWidgetWidescreen))
+            end
+            if isRootWidget then
+                if isWidgetWidescreen then
+                    --logger:debug("Setting aspect ratio to 16:9")
+                    balltze.features.setUIAspectRatio(16, 9)
+                else
+                    --logger:debug("Setting aspect ratio to 4:3")
+                    balltze.features.setUIAspectRatio(4, 3)
                 end
             end
         end
@@ -330,14 +349,13 @@ end
 function component.cleanAllEditableWidgets()
     local editableWidgets = blam.findTagsList("input", blam.tagClasses.uiWidgetDefinition) or {}
     for _, widgetTag in pairs(editableWidgets) do
-        -- log("Cleaning widget " .. widgetTag.path)
         local widget = blam.uiWidgetDefinition(widgetTag.id)
         assert(widget, "No widget found with tag id " .. widgetTag.id)
         local widgetStrings = blam.unicodeStringList(widget.unicodeStringListTag)
         if widgetStrings then
             local strings = widgetStrings.strings
             strings[1] = ""
-            log("Cleaned widget " .. widgetTag.path)
+            --logger:debug("Cleaned widget " .. widgetTag.path)
             widgetStrings.strings = strings
         end
     end

@@ -33,7 +33,7 @@ function menus.lobby(client)
         -- Game throws a legacy message saying "The game has closed down" when rejoining the lobby
         -- Because the normal game ended, we need to rejoin the lobby and get rid of this message
         isRejoiningLobby = currentWidgetTag.id == constants.widgets.legacyModalError.id
-        log("Rejoining lobby: {}", isRejoiningLobby)
+        logger:debug("Rejoining lobby: {}", isRejoiningLobby)
     end
     if client then
         logger:debug("Opening lobby client")

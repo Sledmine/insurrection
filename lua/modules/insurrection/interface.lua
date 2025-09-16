@@ -60,6 +60,7 @@ function interface.load()
             }
             require "insurrection.components.dynamic.lobbyBrowserMenu"()
             require "insurrection.components.dynamic.customizationBipedColorMenu"()
+            require "insurrection.components.dynamic.firefightMenu"()
 
             local pause = components.new(constants.widgets.pause.id)
             pause:onClose(function()
@@ -152,14 +153,11 @@ function interface.load()
                                     balltze.features.setUIAspectRatio(16, 9)
                                     menus.pause()
                                 end
-                            else
-                                balltze.features.setUIAspectRatio(4, 3)
                             end
                             InvalidatePauseOverride = false
                         end)
                         insurrectionPause:onClose(function()
                             interface.blur(false)
-                            balltze.features.setUIAspectRatio(4, 3)
                         end)
                         local openMapPauseButton = button.new(
                                                        insurrectionPause:findChildWidgetTag(
@@ -396,22 +394,15 @@ function interface.onTick()
     -- end
 end
 
-function interface.changeAspectRatio()
+function interface.setup()
     local widgetTag = core.getCurrentUIWidgetTag()
-    if widgetTag then
-        if widgetTag.data.bounds.right > 640 then
-            -- Change UI aspect ratio
-            log("Setting UI aspect ratio to 16:9")
-            balltze.features.setUIAspectRatio(16, 9)
-        end
+    if widgetTag and engine.map.getCurrentMapHeader().name == "ui" then
         -- Enable menu blur
         executeScript("menu_blur_on")
 
         -- Set network timeout to 5 seconds (keeps connection alive at loading huge maps)
         -- NOTE! This is meant to help server side loading time, not client side
         executeScript("network_connect_timeout 15000")
-    else
-        balltze.features.setUIAspectRatio(4, 3)
     end
 end
 

@@ -105,7 +105,7 @@ function core.saveSettings(settings)
     Balltze.filesystem.writeFile("settings.json", json.encode(settings))
 end
 
-function core.getRenderedUIWidgetTagId()
+function core.getRenderedUIWidgetTagHandle()
     -- TODO BALLTZE MIGRATE Ensure this works when the menu is not OPEN and does not crash
     local rootWidget = engine.userInterface.getRootWidget()
     local isPlayerOnMenu = rootWidget ~= nil
