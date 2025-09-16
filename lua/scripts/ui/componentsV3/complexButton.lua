@@ -47,12 +47,13 @@ return function(props)
                     open_widget = true,
                     run_function = props.func ~= nil,
                     go_back_to_previous_widget = props.back or false,
-                    close_all_widgets = props.close or false
+                    close_all_widgets = props.close or false,
+                    run_scenario_script = props.script ~= nil
                 },
                 event_type = "a_button",
                 widget_tag = openTag or ".ui_widget_definition",
                 ["function"] = props.func,
-                script = script or ""
+                script = props.script or ""
             },
             {
                 flags = {run_function = true},
