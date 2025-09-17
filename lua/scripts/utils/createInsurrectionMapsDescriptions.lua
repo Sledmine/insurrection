@@ -98,6 +98,12 @@ local maps = {
     "d40_coop_evolved"
 }
 
+package.path = package.path .. ";lua/modules/?.lua;lua/scripts/modules/?.lua"
+maps = require "lua.modules.insurrection.constants.maps"
+maps = table.map(maps, function(map)
+    return map.name
+end)
+
 local existingImages = {}
 
 local descriptionsPath = [[data/insurrection/ui/bitmaps/descriptions]]
@@ -274,6 +280,7 @@ local bitmapsTagCollection = {tags = {}}
 for _, image in ipairs(existingImages) do
     local image = image:lower()
     local tagPath = [[insurrection/ui/bitmaps/insurrection_maps/]] .. image .. [[.bitmap]]
+    printd("Adding tag to collection: " .. tagPath)
     if fs.is("tags/" .. tagPath) then
         bitmapsTagCollection.tags[#bitmapsTagCollection.tags + 1] = {reference = tagPath}
     end
