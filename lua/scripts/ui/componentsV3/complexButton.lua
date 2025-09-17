@@ -13,7 +13,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@field branch? boolean
 ---@field func? string
 ---@field close? boolean
----@field variant? "normal" | "vertical" | "horizontal" | "horizontal_c_text" | "horizontal_small"
+---@field variant? "normal" | "vertical" | "horizontal" | "horizontal_small"
 ---@field icon? string
 ---@field legacy? boolean
 
@@ -71,13 +71,8 @@ return function(props)
         vert_offset = height - 34,
         child_widgets = {}
     }
-    if variant == "horizontal_c_text" then
-        wid.vert_offset = 11
-    end
-
     if variant == "horizontal_small" then
         wid.background_bitmap = [[insurrection/ui/bitmaps/horizontal_complex_small_button.bitmap]]
-        wid.bounds = widget.bounds(0, 0, 36, 103)
     end
 
     if props.legacy then
@@ -125,7 +120,7 @@ return function(props)
         wid.vert_offset = height - 25
         if variant == "vertical" then
             wid.vert_offset = wid.vert_offset - 10
-        elseif variant == "horizontal" then
+        elseif variant == "horizontal" or variant == "horizontal_small" then
             wid.vert_offset = wid.vert_offset - 6
         else
             wid.vert_offset = wid.vert_offset - 18
@@ -136,7 +131,7 @@ return function(props)
             bounds = wid.bounds,
             text_label_unicode_strings_list = stringsTagPath,
             string_list_index = 1,
-            text_font = constants.fonts.text,
+            text_font = constants.fonts.subtitle,
             text_color = constants.color.selected,
             justification = "left_justify",
             horiz_offset = wid.horiz_offset,

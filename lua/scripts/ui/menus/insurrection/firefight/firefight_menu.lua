@@ -72,8 +72,8 @@ local firefightMenuPath = container {
                                     complexButton {
                                         name = "definition_options",
                                         variant = "horizontal_small",
-                                        label = "OPTIONS",
-                                        text = strmem(64)
+                                        label = "CUSTOMIZE FIREFIGHT",
+                                        text = "SETTINGS"
                                     },
                                     defsLayout()
                                 }
@@ -165,12 +165,18 @@ local firefightMenuPath = container {
             226,
             160
         },
-        {label {name = "map_name", text = strmem(32, "MAP NAME")}, 226, 273},
-        {label {name = "map_author", text = strmem(32, "AUTHOR"), color = "blueYonder"}, 226, 285},
+        {label {name = "map_name", text = strmem(32, "MAP NAME")}, 226, 270},
+        {label {name = "map_author", text = strmem(64, "AUTHOR"), color = "blueYonder"}, 226, 282},
         {
-            label {name = "map_description", text = strmem(128, "MAP DESCRIPTION"), height = 200},
-            226,
-            297
+            label {
+                name = "map_description",
+                text = strmem(128, "MAP DESCRIPTION"),
+                height = 200,
+                variant = "subtitle",
+                color = "white"
+            },
+            227,
+            298,
         },
         {
             bar {name = "maps_scroll", orientation = "vertical", type = "scroll", size = 154},

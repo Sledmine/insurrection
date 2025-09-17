@@ -185,15 +185,6 @@ return container {
                     {buttonTable {name = "gametype_header", text = "GAMETYPE"}, headersLayout()},
                     {buttonTable {name = "template_header", text = "TEMPLATE"}, headersLayout()},
                     {buttonTable {name = "players_header", text = "PLAYERS"}, headersLayout()},
-                    -- {
-                    --    complexButton {
-                    --        name = "host_game",
-                    --        text = "HOST GAME",
-                    --        variant = "horizontal_c_text"
-                    --    },
-                    --    20,
-                    --    66
-                    -- }
                     {
                         input {
                             name = "search_browser",

@@ -649,14 +649,17 @@ function core.loadCustomizationBiped(projectName, customBipedPath)
     return projectName, bipedPath, regions, visor
 end
 
+---Get the bitmap tag id for a map preview, or return unknown map preview if not found
+---@param mapName string
 function core.getMapBackgroundBitmap(mapName)
     local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
     assert(mapCollection, "No map preview collection found")
     for k, v in pairs(mapCollection.tagList) do
         local bitmapTag = blam.getTag(v) --[[@as tag]]
         local mapBitmapName = core.getTagName(bitmapTag.path):lower()
-
-        if mapBitmapName == mapName:lower() then
+        --local mapName = mapName:replace("_dev", ""):lower()
+        local mapName = mapName:lower()
+        if mapBitmapName == mapName then
             return bitmapTag.id
         end
     end

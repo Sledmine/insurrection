@@ -89,10 +89,11 @@ local commands = {
         help = "<boolean>",
         minArgs = 1,
         maxArgs = 1,
-        execute = function(enable)
-            DebugMode = luna.bool(enable)
+        execute = function(isEnabled)
+            DebugMode = luna.bool(isEnabled)
             engine.core.consolePrint("Debug mode: " .. tostring(DebugMode))
             logger:muteDebug(not DebugMode)
+            logger:muteIngame(not DebugMode)
         end
     },
     setup_fonts = {
@@ -233,8 +234,8 @@ function PluginLoad()
     for command, data in pairs(commands) do
         balltze.command.registerCommand(command, command, data.description, data.help, false,
                                         data.minArgs or 0, data.maxArgs or 0, false, true,
-                                        function(...)
-            local success, result = pcall(data.execute, table.unpack(...))
+                                        function(args)
+            local success, result = pcall(data.execute, table.unpack(args or {}))
             if not success then
                 logger:error("Error executing command '{}': {}", command, result)
                 return false
