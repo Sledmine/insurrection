@@ -183,7 +183,7 @@ local firefightMenuPath = container {
             215,
             160
         },
-        {footer {name = "summary", title = "SUMMARY", text = strmem(256)}, pos.footer.x, 380},
+        {footer {name = "description", title = "DESCRIPTION", text = strmem(256)}, pos.footer.x, 380},
         {constants.components.version.path, 0, 460}
     }
 }

@@ -71,12 +71,12 @@ function component.callbacks()
     ---@type BalltzeUIWidgetFocusEventCallback
     local function onWidgetFocus(event)
         if event.time == "before" then
-            local definitionTagHandleValue = event.context.widget.definitionTagHandle.value
-            local component = component.widgets[definitionTagHandleValue]
+            local tagHandleValue = event.context.widget.definitionTagHandle.value
+            local component = component.widgets[tagHandleValue]
             if component and component.events.onFocus then
                 component.events.onFocus()
             end
-            local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue,
+            local focusedWidgetTag = engine.tag.getTag(tagHandleValue,
                                                        engine.tag.classes.uiWidgetDefinition)
             -- local focusedWidgetTag = engine.tag.getTag(definitionTagHandleValue)
             if focusedWidgetTag then
