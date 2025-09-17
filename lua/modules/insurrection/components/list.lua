@@ -69,7 +69,7 @@ end
 ---@param self uiComponentList
 ---@param callback fun(item: uiComponentListItem)
 function list.onFocus(self, callback)
-    self.events.onFocus = callback
+    self.events.onFocusItem = callback
 end
 
 ---@param self uiComponentList
@@ -187,7 +187,8 @@ function list.refresh(self)
                     end
                 end)
 
-                local onFocus = self.events.onFocus
+                ---@diagnostic disable-next-line: undefined-field
+                local onFocus = self.events.onFocusItem
                 listButton:onFocus(function()
                     if onFocus then
                         onFocus(item)

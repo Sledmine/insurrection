@@ -123,14 +123,23 @@ function component.callbacks()
         if not widget then
             return
         end
-        local parentWidget = widget.parentWidget
-        if not parentWidget then
-            return
+        local uiComponent = component.widgets[widgetTagHandle] --[[@as uiComponentSpinner|uiComponentList]]
+        if uiComponent and not uiComponent.events.onScroll then
+            -- If the widget doesn't have scroll event, try to get the parent widget's component
+            local parentWidget = widget.parentWidget
+            if parentWidget then
+                local parentWidgetTag = engine.tag.getTag(parentWidget.definitionTagHandle.value,
+                                                             engine.tag.classes.uiWidgetDefinition)
+                assert(parentWidgetTag, "Invalid parent widget tag")
+                uiComponent = component.widgets[parentWidget.definitionTagHandle.value] --[[@as uiComponentSpinner|uiComponentList]]
+            end
         end
-        local component = component.widgets[parentWidget.definitionTagHandle.value] --[[@as uiComponentList]]
-        if component and component.type == "list" and component.onScroll then
-            local mouse = core.getMouseState()
-            component:scroll(mouse.scroll, true)
+        if uiComponent then
+            -- If the component has onScroll event or is a list, scroll it
+            if uiComponent.events.onScroll or uiComponent.type == "list" then
+                local mouse = core.getMouseState()
+                uiComponent:scroll(mouse.scroll, true)
+            end
         end
     end
     balltze.event.frame.subscribe(function(event)
@@ -216,10 +225,10 @@ function component.callbacks()
             end
             if isRootWidget then
                 if isWidgetWidescreen then
-                    --logger:debug("Setting aspect ratio to 16:9")
+                    -- logger:debug("Setting aspect ratio to 16:9")
                     balltze.features.setUIAspectRatio(16, 9)
                 else
-                    --logger:debug("Setting aspect ratio to 4:3")
+                    -- logger:debug("Setting aspect ratio to 4:3")
                     balltze.features.setUIAspectRatio(4, 3)
                 end
             end
@@ -355,7 +364,7 @@ function component.cleanAllEditableWidgets()
         if widgetStrings then
             local strings = widgetStrings.strings
             strings[1] = ""
-            --logger:debug("Cleaned widget " .. widgetTag.path)
+            -- logger:debug("Cleaned widget " .. widgetTag.path)
             widgetStrings.strings = strings
         end
     end

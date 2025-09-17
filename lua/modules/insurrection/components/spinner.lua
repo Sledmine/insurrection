@@ -101,7 +101,8 @@ end
 
 ---@param self uiComponentSpinner
 ---@param direction number
-function spinner.scroll(self, direction)
+---@param isFromMouse? boolean
+function spinner.scroll(self, direction, isFromMouse)
     local itemIndex = self.currentValueIndex + direction
     -- TODO Add flag to define if the spinner should loop or not
     if itemIndex < 1 then
