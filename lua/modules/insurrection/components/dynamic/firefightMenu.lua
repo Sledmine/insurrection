@@ -395,7 +395,7 @@ return function()
     local function values(from, to)
         local t = {}
         for i = from, to do
-            table.insert(t, tostring(i))
+            table.insert(t, i)
         end
         return t
     end

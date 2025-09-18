@@ -50,8 +50,6 @@ end
 ---@param self uiComponentSpinner
 ---@param text string
 local function setValueText(self, text)
-    local childUnicodeStrings
-    local childWidgetDefinition
     local labelTagId = self:findChildWidgetTag("label").id
     local widgetDefinition = uiWidgetDefinition(labelTagId)
     assert(widgetDefinition, "Invalid widgetDefinition")
@@ -61,7 +59,7 @@ local function setValueText(self, text)
     end
     local stringListIndex = widgetDefinition.stringListIndex
     local newStrings = unicodeStrings.strings
-    newStrings[stringListIndex + 1] = text
+    newStrings[stringListIndex + 1] = tostring(text)
     unicodeStrings.strings = newStrings
 end
 
@@ -80,7 +78,6 @@ end
 ---@param self uiComponentSpinner
 ---@param value string
 function spinner.setValue(self, value)
-    local value = tostring(value)
     local index = table.indexof(self.values, value)
     if index then
         self.currentValueIndex = index
