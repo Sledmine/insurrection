@@ -122,12 +122,6 @@ local commands = {
             -- execute_script("set_customization_background 1")
             -- execute_script("object_create customization_biped")
         end
-    },
-    test = {
-        description = "Test command",
-        execute = function()
-            interface.dialog("SUCCESS", "Test command", "This is a test command")
-        end
     }
 }
 

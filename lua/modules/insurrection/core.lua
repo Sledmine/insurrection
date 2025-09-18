@@ -666,4 +666,13 @@ function core.getMapBackgroundBitmap(mapName)
     return constants.bitmaps.unknownMapPreview.id
 end
 
+--- Save Firefight settings to plugin path
+---@param settings table
+function core.saveFirefightSettings(settings)
+    logger:debug("Firefight settings path: {}", Balltze.filesystem.getPluginPath())
+    logger:debug("Saving Firefight settings: {}", inspect(settings))
+    local settingsPath = Balltze.filesystem.getPluginPath() .. "\\firefight_settings.json"
+    Balltze.filesystem.writeFile(settingsPath, json.encode(settings))
+end
+
 return core

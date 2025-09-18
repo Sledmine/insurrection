@@ -18,7 +18,13 @@ local spinner = require "lua.scripts.ui.componentsV3.spinner"
 
 widget.init [[insurrection/ui/menus/firefight/]]
 
-local defsLayout = widget.layout {alignment = "horizontal", size = 149, x = 20, y = 60, margin = 2}
+local defsLayout = widget.layout {
+    alignment = "horizontal",
+    size = constants.components.complexButton.horizontal_small.width,
+    x = 171,
+    y = 60,
+    margin = 2
+}
 
 local elementsLayoutVertical = widget.layout {
     alignment = "vertical",
@@ -66,7 +72,8 @@ local firefightMenuPath = container {
                                         label = "MAP",
                                         text = strmem(128)
                                     },
-                                    defsLayout()
+                                    20,
+                                    60
                                 },
                                 {
                                     complexButton {
@@ -74,6 +81,15 @@ local firefightMenuPath = container {
                                         variant = "horizontal_small",
                                         label = "CUSTOMIZE FIREFIGHT",
                                         text = "SETTINGS"
+                                    },
+                                    defsLayout()
+                                },
+                                {
+                                    complexButton {
+                                        name = "definitions_skulls",
+                                        variant = "horizontal_small",
+                                        label = "PRESET SKULLS",
+                                        text = "SKULLS"
                                     },
                                     defsLayout()
                                 }
@@ -176,14 +192,18 @@ local firefightMenuPath = container {
                 color = "white"
             },
             227,
-            298,
+            298
         },
         {
             bar {name = "maps_scroll", orientation = "vertical", type = "scroll", size = 154},
             215,
             160
         },
-        {footer {name = "description", title = "DESCRIPTION", text = strmem(256)}, pos.footer.x, 380},
+        {
+            footer {name = "description", title = "DESCRIPTION", text = strmem(256)},
+            pos.footer.x,
+            380
+        },
         {constants.components.version.path, 0, 460}
     }
 }
@@ -312,9 +332,9 @@ local firefightSettingsMenuPath = wrapper {
                     },
                     {
                         spinner {
-                            name = "temporal_skull_frequency",
-                            text = "TEMPORAL SKULL FREQUENCY",
-                            value = strmem(14, "Each Round"),
+                            name = "activate_temporal_skull_each",
+                            text = "ACTIVATE TEMPORAL SKULL EACH",
+                            value = strmem(16, "Round"),
                             length = lengthArrowforText,
                             variant = "large"
                         },
@@ -322,9 +342,9 @@ local firefightSettingsMenuPath = wrapper {
                     },
                     {
                         spinner {
-                            name = "permanent_skull_frequency",
-                            text = "PERMANENT SKULL FREQUENCY",
-                            value = strmem(14, "Each Set"),
+                            name = "activate_permanent_skull_each",
+                            text = "ACTIVATE PERMANENT SKULL EACH",
+                            value = strmem(16, "Set"),
                             length = lengthArrowforText,
                             variant = "large"
                         },

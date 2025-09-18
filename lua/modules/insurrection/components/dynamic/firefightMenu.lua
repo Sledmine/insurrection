@@ -93,48 +93,6 @@ return function()
         end
         setCurrentMapPreview("")
     end)
-    play:onFocus(function()
-        local currentMapName = map:getValue()
-        if currentMapName and currentMapName ~= "" then
-            logger:debug("Focusing play button with map: " .. currentMapName)
-            local mapData = table.find(firefightMaps, function(map)
-                return map.name == currentMapName
-            end)
-            if mapData then
-                logger:debug("Setting current map: " .. mapData.name)
-                setCurrentMapPreview(mapData.name)
-                return
-            end
-        end
-        setCurrentMapPreview("") 
-    end)
-    play:onClick(function()
-        local currentMapName = map:getValue()
-        if currentMapName ~= "" then
-            local mapData = table.find(firefightMaps, function(map)
-                return map.name == currentMapName
-            end)
-            if not mapData then
-                logger:error("Map not found: " .. currentMapName)
-                return
-            end
-            local isSinglePlayer = table.find(firefight.maps.singleplayer, function(map)
-                return map.name == currentMapName
-            end) ~= nil
-            -- Access developer maps if in debug mode
-            if DebugMode then
-                currentMapName = currentMapName .. "_dev"
-            end
-            logger:debug("Loading Firefight map: " .. currentMapName)
-            disableCheats({"deathless_player", "infinite_ammo", "super_jump"})
-            if isSinglePlayer then
-                executeScript("map_name " .. currentMapName)
-                return
-            end
-            executeScript("sv_timelimit 0")
-            executeScript("sv_map " .. currentMapName .. " slayer")
-        end
-    end)
 
     local gameMapsList = engine.map.getMapList()
     logger:debug("{}", inspect(gameMapsList))
@@ -197,29 +155,78 @@ return function()
         displayMapsPanel(true)
     end)
 
+    local eventNames = {never = 1, eachWave = 2, eachRound = 3, eachSet = 4, eachBossWave = 5}
+
     local settings = {
+        _version = 1,
         playerInitialLives = 7,
         extraLivesGained = 1,
         livesLostPerDead = 1,
-
+        -- Waves, Rounds, Sets and Game properties
         bossWaveFrequency = 0,
         wavesPerRound = 5,
         roundsPerSet = 3,
         setsPerGame = 3,
-
         waveLivingMin = 4,
         bossWaveLivingMin = 0,
-
-        waveCooldown = 9, -- utils.secondsToTicks(9),
-        roundCooldown = 10, -- utils.secondsToTicks(10),
-        setCooldown = 1, -- utils.secondsToTicks(1),
-        gameCooldown = 1, -- utils.secondsToTicks(1)
-
+        -- Time properties
+        waveCooldownSeconds = 9,
+        roundCooldownSeconds = 10,
+        setCooldownSeconds = 1,
+        gameCooldownSeconds = 1,
+        -- Game settings
         startingEnemyTeam = 1, -- 1 = Covenant, 2 = Flood, 3 = Random
-        permanentSkullsCanBeRandom = true
+        permanentSkullsCanBeRandom = true,
+        -- Event properties
+        activateTemporalSkullEach = eventNames.eachRound,
+        activatePermanentSkullEach = eventNames.eachSet
     }
     -- By default, boss waves are the last wave of each round.
     settings.bossWaveFrequency = settings.wavesPerRound
+
+    play:onFocus(function()
+        local currentMapName = map:getValue()
+        if currentMapName and currentMapName ~= "" then
+            logger:debug("Focusing play button with map: " .. currentMapName)
+            local mapData = table.find(firefightMaps, function(map)
+                return map.name == currentMapName
+            end)
+            if mapData then
+                logger:debug("Setting current map: " .. mapData.name)
+                setCurrentMapPreview(mapData.name)
+                return
+            end
+        end
+        setCurrentMapPreview("")
+    end)
+    play:onClick(function()
+        local currentMapName = map:getValue()
+        if currentMapName ~= "" then
+            local mapData = table.find(firefightMaps, function(map)
+                return map.name == currentMapName
+            end)
+            if not mapData then
+                logger:error("Map not found: " .. currentMapName)
+                return
+            end
+            local isSinglePlayer = table.find(firefight.maps.singleplayer, function(map)
+                return map.name == currentMapName
+            end) ~= nil
+            -- Access developer maps if in debug mode
+            if DebugMode then
+                currentMapName = currentMapName .. "_dev"
+            end
+            logger:debug("Loading Firefight map: " .. currentMapName)
+            disableCheats({"deathless_player", "infinite_ammo", "super_jump"})
+            if isSinglePlayer then
+                executeScript("map_name " .. currentMapName)
+                return
+            end
+            core.saveFirefightSettings(settings)
+            executeScript("sv_timelimit 0")
+            executeScript("sv_map " .. currentMapName .. " slayer")
+        end
+    end)
 
     local elements = {}
     local elementsData = {
@@ -280,7 +287,7 @@ return function()
         ["BOSS WAVE FREQUENCY"] = {
             value = 0,
             change = function(value)
-                settings.bossWaveFrequency = value
+                settings.bossWaveFrequency = tointeger(value)
             end,
             focus = function()
                 description:setText(
@@ -309,26 +316,26 @@ return function()
         ["WAVE TIMER"] = {
             value = 9,
             change = function(value)
-                settings.waveCooldown = value
+                settings.waveCooldownSeconds = value
             end,
             focus = function()
                 description:setText(
-                    "Set the time limit (in minutes) for each wave. Set to 0 to disable the timer.")
+                    "Set the time (in seconds) to wait between waves.")
             end
         },
-        ["TEMPORAL SKULL FREQUENCY"] = {
-            value = "Each Round",
-            change = function(value)
-                settings.temporalSkullFrequency = value
+        ["ACTIVATE TEMPORAL SKULL EACH"] = {
+            value = "Round",
+            change = function(value, index)
+                settings.activateTemporalSkullEach = index
             end,
             focus = function()
                 description:setText("Set how often temporal skulls are enabled.")
             end
         },
-        ["PERMANENT SKULL FREQUENCY"] = {
-            value = "Each Set",
-            change = function(value)
-                settings.permanentSkullFrequency = value
+        ["ACTIVATE PERMANENT SKULL EACH"] = {
+            value = "Set",
+            change = function(value, index)
+                settings.activatePermanentSkullEach = index
             end,
             focus = function()
                 description:setText("Set how often permanent skulls are enabled.")
@@ -373,7 +380,7 @@ return function()
             spin:onScroll(function(value, index)
                 local optionName = spin:getText()
                 if elementsData[optionName] then
-                    elementsData[optionName].change(value)
+                    elementsData[optionName].change(value, index)
                 end
             end)
             spin:onFocus(function()
@@ -393,7 +400,7 @@ return function()
         return t
     end
 
-    local events = {"Each Wave", "Each Round", "Each Set", "Each Boss Wave", "Never"}
+    local events = {"Never", "Wave", "Round", "Set", "Boss Wave"}
 
     settingsList:onOpen(function()
         logger:debug("Opening settings list")
@@ -406,9 +413,9 @@ return function()
         elements["BOSS WAVE FREQUENCY"]:setValues(values(0, 10))
         elements["ENEMIES LEFT"]:setValues(values(1, 10))
         elements["BOSS ENEMIES LEFT"]:setValues(values(0, 10))
-        elements["WAVE TIMER"]:setValues(values(0, 30))
-        elements["TEMPORAL SKULL FREQUENCY"]:setValues(events)
-        elements["PERMANENT SKULL FREQUENCY"]:setValues(events)
+        elements["WAVE TIMER"]:setValues(values(1, 15))
+        elements["ACTIVATE TEMPORAL SKULL EACH"]:setValues(events)
+        elements["ACTIVATE PERMANENT SKULL EACH"]:setValues(events)
         elementsData["PLAYER INITIAL LIVES"].value = settings.playerInitialLives
         elementsData["EXTRA LIVES GAINED"].value = settings.extraLivesGained
         elementsData["LIVES LOST PER DEAD"].value = settings.livesLostPerDead
@@ -418,9 +425,11 @@ return function()
         elementsData["BOSS WAVE FREQUENCY"].value = settings.bossWaveFrequency
         elementsData["ENEMIES LEFT"].value = settings.enemiesLeftBeforeNextWave or 4
         elementsData["BOSS ENEMIES LEFT"].value = settings.bossEnemiesLeftBeforeNextWave or 0
-        elementsData["WAVE TIMER"].value = settings.waveCooldown
-        elementsData["TEMPORAL SKULL FREQUENCY"].value = "Each Round"
-        elementsData["PERMANENT SKULL FREQUENCY"].value = "Each Set"
+        elementsData["WAVE TIMER"].value = settings.waveCooldownSeconds
+        elementsData["ACTIVATE TEMPORAL SKULL EACH"].value =
+            events[settings.activateTemporalSkullEach or 2]
+        elementsData["ACTIVATE PERMANENT SKULL EACH"].value =
+            events[settings.activatePermanentSkullEach or 3]
         elementsData["ALLOW RANDOM PERMANENT SKULLS"].value = tobool(
                                                                   settings.permanentSkullsCanBeRandom)
 
