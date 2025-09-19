@@ -94,6 +94,15 @@ local firefightMenuPath = container {
                                         text = "PRESET SKULLS"
                                     },
                                     defsLayout()
+                                },
+                                {
+                                    complexButton {
+                                        name = "definitions_difficulty",
+                                        variant = "horizontal_small",
+                                        label = "DIFFICULTY",
+                                        text = strmem(128, "")
+                                    },
+                                    defsLayout()
                                 }
                             }
                         }
@@ -578,7 +587,6 @@ local firefightDifficultyMenuPath = wrapper {
         }
     }
 }
-
 
 widget.global(firefightDifficultyMenuPath, "insurrection/ui/custom_menus.tag_collection")
 widget.global(firefightSettingsMenuPath, "insurrection/ui/custom_menus.tag_collection")
