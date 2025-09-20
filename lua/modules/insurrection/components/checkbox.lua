@@ -6,9 +6,10 @@ local checkbox = setmetatable({
     ---@type string
     type = "checkbox",
     ---@type number
-    checkboxTagId = nil,
+    boxTagId = nil,
     ---@type boolean
-    value = false
+    value = false,
+    onToggleCallback = nil
 }, {__index = components})
 
 ---@class uiComponentCheckboxEvents : uiComponentEvents
@@ -21,23 +22,34 @@ local checkbox = setmetatable({
 ---@return uiComponentCheckbox
 function checkbox.new(tagId)
     local instance = setmetatable(components.new(tagId), {__index = checkbox}) --[[@as uiComponentCheckbox]]
-    assert(instance.tag.path:find("checkbox", 1, true),
-           "Tag " .. instance.tag.path .. " is not a checkbox")
-    instance.checkboxTagId = instance:findChildWidgetTag("checkbox").id
+    local boxTag = instance:findChildWidgetTag("checkbox")
+    instance.boxTagId = boxTag.id
+    assert(boxTag and boxTag.path:find("checkbox", 1, true),
+    "Tag " .. instance.tag.path .. " is not a checkbox")
     return instance
 end
 
 ---@param self uiComponentCheckbox
 ---@return boolean
 function checkbox.getValue(self)
-    local widgetValues = core.getWidgetValues(self.checkboxTagId)
-    assert(widgetValues, "Checkbox " .. self.tag.path .. " does not exist in DOM tree")
+    local widgetValues = core.getWidgetValues(self.boxTagId)
+    if not widgetValues then
+        return false
+    end
     return widgetValues.bitmapIndex == 1
+end
+
+local function setValue(self, value)
+    core.setWidgetValues(self.boxTagId, {bitmapIndex = value and 1 or 0})
 end
 
 ---@param self uiComponentCheckbox
 function checkbox.setValue(self, value)
-    core.setWidgetValues(self.checkboxTagId, {bitmapIndex = value and 1 or 0})
+    assert(type(value) == "boolean", "Value must be a boolean")
+    setValue(self, value)
+    if self.onToggleCallback then
+        self.onToggleCallback(value)
+    end
 end
 
 ---@param self uiComponentCheckbox
@@ -48,10 +60,17 @@ end
 
 ---@param self uiComponentCheckbox
 function checkbox.onToggle(self, callback)
+    self.onToggleCallback = callback
     self.events.onClick = function()
         local value = self:getValue()
-        self:toggle()
-        return callback(not value)
+        local isCanceled
+        if callback then
+           isCanceled = callback(value) == false
+        end
+        if not isCanceled then
+            self:toggle()
+        end
+        return isCanceled
     end
 end
 
