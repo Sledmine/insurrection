@@ -19,6 +19,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@field colorPicker? boolean
 ---@field width? number
 ---@field height? number
+---@field isDebug? boolean
 
 ---Options list component, scroll trough elements using dpad, etc
 ---@param props optionsProps
@@ -28,6 +29,7 @@ return function(props)
     local alignment = props.alignment or "vertical"
     local childWidgets = props[1] or props.childs
     local description = props.description
+    local isDebug = props.isDebug == nil and false or props.isDebug
 
     local widgetPath = widget.path .. name .. "_options.ui_widget_definition"
     local bounds
@@ -39,7 +41,7 @@ return function(props)
     local wid = {
         widget_type = "column_list",
         -- For debug purposes
-        --background_bitmap = [[insurrection/ui/bitmaps/solid_green.bitmap]],
+        background_bitmap = isDebug and "insurrection/ui/bitmaps/solid_green.bitmap" or nil,
         bounds = bounds or constants.getScreenBounds(),
         flags = {
             pass_unhandled_events_to_focused_child = true,

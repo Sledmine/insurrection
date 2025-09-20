@@ -24,9 +24,7 @@ return function(props)
     local checkbox = {
         widget_type = "text_box",
         bounds = "0, 0, 14, 14",
-        flags = {pass_unhandled_events_to_focused_child = true},
-        background_bitmap = "insurrection/ui/bitmaps/checkbox.bitmap",
-        event_handlers = {{event_type = "a_button"}}
+        background_bitmap = "insurrection/ui/bitmaps/checkbox.bitmap"
     }
     widget.createV2(widgetPath, checkbox)
     local posX = constants.components.button[variant].width - 14 - 5

@@ -20,6 +20,9 @@ local image = require "lua.scripts.ui.componentsV3.image"
 
 widget.init [[insurrection/ui/menus/firefight/]]
 
+local panelWidth = 581
+local panelHeight = 258
+
 local defsLayout = widget.layout {
     alignment = "horizontal",
     size = constants.components.complexButton.horizontal_small.width,
@@ -31,8 +34,8 @@ local defsLayout = widget.layout {
 local elementsLayoutVertical = widget.layout {
     alignment = "vertical",
     size = 24,
-    x = pos.options.x,
-    y = 160,
+    x = 0,
+    y = 55,
     margin = 2
 }
 
@@ -71,8 +74,8 @@ local firefightMenuPath = container {
                                     complexButton {
                                         name = "definition_map",
                                         variant = "horizontal",
-                                        label = strmem(128, "MAP"),
-                                        text = "MAP"
+                                        label = "MAP",
+                                        text = strmem(128, "MAP")
                                     },
                                     20,
                                     60
@@ -122,6 +125,8 @@ local firefightMenuPath = container {
                         options {
                             name = "firefight_maps",
                             alignment = "vertical",
+                            width = panelWidth,
+                            height = panelHeight,
                             childs = {
                                 {
                                     button {name = "scroll_map_list_up", arrow = "up"},
@@ -164,7 +169,9 @@ local firefightMenuPath = container {
                                     elementsLayoutVertical()
                                 }
                             }
-                        }
+                        },
+                        20,
+                        105
                     },
                     {
                         button {name = "back", text = "BACK", variant = "small", back = true},
@@ -211,7 +218,11 @@ local firefightMenuPath = container {
             160
         },
         {
-            footer {name = "description", title = "DESCRIPTION", text = strmem(256)},
+            footer {
+                name = "description",
+                title = "DESCRIPTION",
+                text = strmem(256, "This area will show the description of the selected map.")
+            },
             pos.footer.x,
             380
         },
@@ -219,32 +230,23 @@ local firefightMenuPath = container {
     }
 }
 
-local posY = 116
-local settingsLayout = widget.layout {
-    alignment = "vertical",
-    size = 24,
-    x = pos.options.x,
-    y = posY,
-    margin = 2
-}
+local settingsLayout = widget.layout {alignment = "vertical", size = 24, x = 0, y = 0, margin = 2}
 
 local lengthArrowforText = 2
 local lengthArrowforNumbers = -30
-local positionX = pos.options.x + constants.components.button.normal.width + 8
-local positionY = posY
+local positionX = constants.components.button.normal.width + 8
 local settings2Layout = widget.layout {
     alignment = "vertical",
     size = 24,
     x = positionX,
-    y = positionY,
+    y = 0,
     margin = 2
 }
 
 local firefightSettingsMenuPath = wrapper {
     name = "firefight_settings_panel",
-    width = 581,
-    height = 258,
-    isDebug = true,
+    width = panelWidth,
+    height = panelHeight,
     childs = {
         {
             options {
@@ -375,10 +377,7 @@ local firefightSettingsMenuPath = wrapper {
     }
 }
 
-local wrapperWidth = 470
-local wrapperHeight = 115
-local startingX = 15
-local startingY = wrapperHeight - 8
+local startingY = 15
 local buttonSquareMargin = 4
 local buttonSquareSize = 80 - buttonSquareMargin
 local backgroundX = 340
@@ -386,149 +385,140 @@ local backgroundX = 340
 local difficultyLayout = widget.layout {
     alignment = "horizontal",
     size = buttonSquareSize,
-    x = startingX,
-    y = startingY,
-    margin = buttonSquareMargin
+    x = -5,
+    y = startingY - 3,
+    margin = 0
 }
 
 local firefightDifficultyMenuPath = wrapper {
     name = "firefight_difficulty_panel",
-    width = wrapperWidth,
-    height = wrapperHeight,
-    isDebug = true,
+    width = 581,
+    height = 258,
     childs = {
         {
             options {
                 name = "difficulty_all",
-                alignment = "vertical",
+                alignment = "horizontal",
                 childs = {
                     {
-                        options {
-                            name = "difficulty_grid",
-                            alignment = "horizontal",
+                        buttonSquare {
+                            name = "difficulty_easy",
+                            justification = "center_justify",
+                            variant = "small",
                             childs = {
                                 {
-                                    buttonSquare {
+                                    checkbox {
                                         name = "difficulty_easy",
-                                        justification = "center_justify",
-                                        variant = "small",
-                                        childs = {
-                                            {
-                                                image {
-                                                    name = "difficulty_easy",
-                                                    bitmap = "insurrection/ui/bitmaps/difficulty_icons.bitmap",
-                                                    width = 270,
-                                                    height = 270,
-                                                    scale = 0.2
-                                                },
-                                                13,
-                                                10
-                                            },
-                                            {
-                                                checkbox {
-                                                    name = "difficulty_easy",
-                                                    align = "left",
-                                                    transparent = true
-                                                },
-                                                4,
-                                                52
-                                            }
-                                        }
+                                        align = "left",
+                                        transparent = true
                                     },
-                                    difficultyLayout()
+                                    4,
+                                    52
                                 },
                                 {
-                                    buttonSquare {
-                                        name = "difficulty_normal",
-                                        justification = "center_justify",
-                                        variant = "small",
-                                        childs = {
-                                            {
-                                                image {
-                                                    name = "difficulty_normal",
-                                                    bitmap = "insurrection/ui/bitmaps/difficulty_icons.bitmap",
-                                                    width = 270,
-                                                    height = 270,
-                                                    scale = 0.2
-                                                },
-                                                13,
-                                                10
-                                            },
-                                            {
-                                                checkbox {
-                                                    name = "difficulty_normal",
-                                                    align = "left",
-                                                    transparent = true
-                                                },
-                                                4,
-                                                52
-                                            }
-                                        }
+                                    image {
+                                        name = "difficulty_easy",
+                                        bitmap = "insurrection/ui/bitmaps/difficulty_icons.bitmap",
+                                        width = 270,
+                                        height = 270,
+                                        scale = 0.2
                                     },
-                                    difficultyLayout()
-                                },
-                                {
-                                    buttonSquare {
-                                        name = "difficulty_hard",
-                                        justification = "center_justify",
-                                        variant = "small",
-                                        childs = {
-                                            {
-                                                image {
-                                                    name = "difficulty_hard",
-                                                    bitmap = "insurrection/ui/bitmaps/difficulty_icons.bitmap",
-                                                    width = 270,
-                                                    height = 270,
-                                                    scale = 0.2
-                                                },
-                                                13,
-                                                10
-                                            },
-                                            {
-                                                checkbox {
-                                                    name = "difficulty_hard",
-                                                    align = "left",
-                                                    transparent = true
-                                                },
-                                                4,
-                                                52
-                                            }
-                                        }
-                                    },
-                                    difficultyLayout()
-                                },
-                                {
-                                    buttonSquare {
-                                        name = "difficulty_impossible",
-                                        justification = "center_justify",
-                                        variant = "small",
-                                        childs = {
-                                            {
-                                                image {
-                                                    name = "difficulty_impossible",
-                                                    bitmap = "insurrection/ui/bitmaps/difficulty_icons.bitmap",
-                                                    width = 270,
-                                                    height = 270,
-                                                    scale = 0.2
-                                                },
-                                                13,
-                                                10
-                                            },
-                                            {
-                                                checkbox {
-                                                    name = "difficulty_legendary",
-                                                    align = "left",
-                                                    transparent = true
-                                                },
-                                                4,
-                                                52
-                                            }
-                                        }
-                                    },
-                                    difficultyLayout()
+                                    13,
+                                    10
                                 }
                             }
-                        }
+                        },
+                        difficultyLayout()
+                    },
+                    {
+                        buttonSquare {
+                            name = "difficulty_normal",
+                            justification = "center_justify",
+                            variant = "small",
+                            childs = {
+                                {
+                                    image {
+                                        name = "difficulty_normal",
+                                        bitmap = "insurrection/ui/bitmaps/difficulty_icons.bitmap",
+                                        width = 270,
+                                        height = 270,
+                                        scale = 0.2
+                                    },
+                                    13,
+                                    10
+                                },
+                                {
+                                    checkbox {
+                                        name = "difficulty_normal",
+                                        align = "left",
+                                        transparent = true
+                                    },
+                                    4,
+                                    52
+                                }
+                            }
+                        },
+                        difficultyLayout()
+                    },
+                    {
+                        buttonSquare {
+                            name = "difficulty_hard",
+                            justification = "center_justify",
+                            variant = "small",
+                            childs = {
+                                {
+                                    image {
+                                        name = "difficulty_hard",
+                                        bitmap = "insurrection/ui/bitmaps/difficulty_icons.bitmap",
+                                        width = 270,
+                                        height = 270,
+                                        scale = 0.2
+                                    },
+                                    13,
+                                    10
+                                },
+                                {
+                                    checkbox {
+                                        name = "difficulty_hard",
+                                        align = "left",
+                                        transparent = true
+                                    },
+                                    4,
+                                    52
+                                }
+                            }
+                        },
+                        difficultyLayout()
+                    },
+                    {
+                        buttonSquare {
+                            name = "difficulty_impossible",
+                            justification = "center_justify",
+                            variant = "small",
+                            childs = {
+                                {
+                                    image {
+                                        name = "difficulty_impossible",
+                                        bitmap = "insurrection/ui/bitmaps/difficulty_impossible_icon.bitmap",
+                                        width = 270,
+                                        height = 270,
+                                        scale = 0.2
+                                    },
+                                    13,
+                                    10
+                                },
+                                {
+                                    checkbox {
+                                        name = "difficulty_legendary",
+                                        align = "left",
+                                        transparent = true
+                                    },
+                                    4,
+                                    52
+                                }
+                            }
+                        },
+                        difficultyLayout()
                     }
                 }
             }
@@ -562,8 +552,8 @@ local firefightDifficultyMenuPath = wrapper {
                 justify = "left",
                 width = 145
             },
-            20,
-            wrapperHeight - 25
+            0,
+            -6
         },
         {
             label {
@@ -578,12 +568,12 @@ local firefightDifficultyMenuPath = wrapper {
         },
         {
             footer {
-                name = "description",
+                name = "difficulty_description",
                 title = "DESCRIPTION",
                 text = strmem(256, "This is the description area for the selected difficulty.")
             },
-            pos.footer.x,
-            229
+            0,
+            124
         }
     }
 }

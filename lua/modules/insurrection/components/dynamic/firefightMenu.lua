@@ -1,5 +1,5 @@
-local component = require "insurrection.components"
 local constants = require "insurrection.constants"
+local component = require "insurrection.components"
 local button = require "insurrection.components.button"
 local list = require "insurrection.components.list"
 local bar = require "insurrection.components.bar"
@@ -42,25 +42,79 @@ return function()
     local search = input.new(options:findChildWidgetTag("search").id)
     search:setAllowEmptyCharacters(false)
 
-    local map = button.new(definitions:findChildWidgetTag("definition_map").id)
+    local mapButton = button.new(definitions:findChildWidgetTag("definition_map").id)
     local settingsButton = button.new(definitions:findChildWidgetTag("definition_options").id)
+    local skullsButton = button.new(definitions:findChildWidgetTag("definitions_skulls").id)
+    local difficultyButton = button.new(definitions:findChildWidgetTag("definitions_difficulty").id)
 
-    local settingsList = component.new(blam.findTag("firefight_config",
-                                                    blam.tagClasses.uiWidgetDefinition).id)
     local play = button.new(options:findChildWidgetTag("play").id)
+
+    local firefightSettingsPanel = component.new(blam.findTag("firefight_settings_panel",
+                                                              blam.tagClasses.uiWidgetDefinition).id)
+    local settingsList = component.new(
+                             firefightSettingsPanel:findChildWidgetTag("firefight_config").id)
+    local skullsSettingsPanel = component.new(blam.findTag("skulls_panel",
+                                                           blam.tagClasses.uiWidgetDefinition).id)
+    local difficultySettingsPanel = component.new(blam.findTag("firefight_difficulty_panel",
+                                                               blam.tagClasses.uiWidgetDefinition)
+                                                      .id)
+    local difficultyList = list.new(difficultySettingsPanel:findChildWidgetTag(
+                                        "difficulty_all_options").id)
+    difficultyList:scrollable(false)
+    local difficultyFooter = component.new(difficultySettingsPanel:findChildWidgetTag("footer").id)
+    local difficultyDescription = component.new(difficultyFooter:findChildWidgetTag("text").id)
+    local difficultyLabel = component.new(difficultySettingsPanel:findChildWidgetTag(
+                                              "difficulty_name").id)
+    local difficultyImagePreview = component.new(difficultySettingsPanel:findChildWidgetTag(
+                                                     "difficulty_preview_icon").id)
+    local difficultyIcons = blam.findTag("difficulty_icons", blam.tagClasses.bitmap)
+    assert(difficultyIcons, "Difficulty icons bitmap not found")
+    local legendaryIconImage = blam.findTag("difficulty_impossible_icon", blam.tagClasses.bitmap)
+    assert(legendaryIconImage, "Legendary icon bitmap not found")
 
     local setMapBackgroundBitmap = function(mapName)
         mapPreview.widgetDefinition.backgroundBitmap = core.getMapBackgroundBitmap(mapName)
     end
 
-    mapsList:onSelect(function(item)
-        local mapName = item.value
-        if DebugMode then
-            mapName = mapName .. "_dev"
+    local currentDisplayedPanel = mapsList
+
+    local function displayPanel(component)
+        footer:hide()
+        description:hide()
+        if currentDisplayedPanel == component then
+            logger:debug("Panel {} is already displayed", component.tag.path)
+            return
         end
-        map:setText(item.label --[[@as string]] )
-        map:setValue(item.value)
-    end)
+        logger:debug("Displaying panel: {}", component.tag.path)
+        currentDisplayedPanel:replace(component.tag.id)
+        currentDisplayedPanel = component
+        component:show()
+    end
+
+    local function displayMapsPanel(isVisible)
+        if isVisible then
+            displayPanel(mapsList)
+            mapsList:show()
+            mapsListScroll:show()
+            mapPreview:show()
+            search:show()
+            searchLabel:show()
+            mapName:show()
+            mapAuthor:show()
+            mapDescription:show()
+            footer:hide()
+            description:hide()
+            return
+        end
+        mapsList:hide()
+        mapsListScroll:hide()
+        mapPreview:hide()
+        search:hide()
+        searchLabel:hide()
+        mapName:hide()
+        mapAuthor:hide()
+        mapDescription:hide()
+    end
 
     local function setCurrentMapPreview(currentMapName)
         local mapData = table.find(firefightMaps, function(map)
@@ -83,24 +137,15 @@ return function()
         end
     end
 
-    mapsList:onFocus(function(item)
-        local mapData = table.find(firefightMaps, function(map)
-            return map.name == item.value
-        end)
-        if mapData then
-            setCurrentMapPreview(mapData.name)
-            return
-        end
-        setCurrentMapPreview("")
-    end)
-
     local gameMapsList = engine.map.getMapList()
-    logger:debug("{}", inspect(gameMapsList))
     local function loadMaps()
         firefightMaps = table.filter(firefightMaps, function(map)
             return table.find(gameMapsList, function(mapName)
                 return mapName == map.name or mapName == (map.name .. "_dev")
             end) ~= nil
+        end)
+        table.sort(firefightMaps, function(a, b)
+            return (a.title or t(a.name)) < (b.title or t(b.name))
         end)
         mapsList:setItems(table.map(firefightMaps, function(map)
             local mapData = table.find(firefightMaps, function(m)
@@ -113,46 +158,137 @@ return function()
         end))
     end
 
-    local function displayMapsPanel(isVisible)
-        if isVisible then
-            mapsList:show()
-            mapsListScroll:show()
-            mapPreview:show()
-            search:show()
-            searchLabel:show()
-            mapName:show()
-            mapAuthor:show()
-            mapDescription:show()
-            footer:hide()
-            description:hide()
-            loadMaps()
+    mapsList:onSelect(function(item)
+        local mapName = item.value
+        if DebugMode then
+            mapName = mapName .. "_dev"
+        end
+        mapButton:setText(item.label --[[@as string]] )
+        mapButton:setValue(item.value)
+    end)
+
+    mapsList:onFocus(function(item)
+        local mapData = table.find(firefightMaps, function(map)
+            return map.name == item.value
+        end)
+        if mapData then
+            setCurrentMapPreview(mapData.name)
             return
         end
-        mapsList:hide()
-        mapsListScroll:hide()
-        mapPreview:hide()
-        search:hide()
-        searchLabel:hide()
-        mapName:hide()
-        mapAuthor:hide()
-        mapDescription:hide()
-        footer:show()
-        description:show()
-    end
+        setCurrentMapPreview("")
+    end)
 
-    map:onClick(function()
-        settingsList:replace(mapsList.tag.id)
+    mapButton:onClick(function()
         displayMapsPanel(true)
+        loadMaps()
     end)
 
     settingsButton:onClick(function()
-        mapsList:replace(settingsList.tag.id)
         displayMapsPanel(false)
+        displayPanel(firefightSettingsPanel)
+        footer:show()
+        description:show()
+        description:setText("Configure various settings for your Firefight game.")
+    end)
+
+    skullsButton:onClick(function()
+        displayMapsPanel(false)
+        displayPanel(skullsSettingsPanel)
+        footer:show()
+        description:show()
+        description:setText("Enable or disable skulls for your Firefight game.")
+    end)
+
+    difficultyButton:onClick(function()
+        displayMapsPanel(false)
+        displayPanel(difficultySettingsPanel)
+    end)
+
+    local difficulties = {
+        {
+            name = "Easy",
+            description = "Your foes cower and fall before your unstoppable onslaught, yet final victory will leave you\n wanting more.",
+            value = "easy"
+        },
+        {
+            name = "Normal",
+            description = "Hordes of aliens vie to destroy you, but nerves of steel and a quick trigger\nfinger give you a solid chance to prevail.",
+            value = "normal"
+        },
+        {
+            name = "Heroic",
+            description = "Your enemies are as numerous as they are ferocious; their attacks are devastating.\nSurvival is not guaranteed.",
+            value = "hard"
+        },
+        {
+            name = "Legendary",
+            description = "You face opponents who have never known defeat, who laugh in alien tongues at your efforts\nto survive. This is legendary.",
+            value = "impossible"
+        }
+    }
+
+    local defaultDifficultyIndex = 2
+
+    difficultySettingsPanel:onOpen(function(previousWidgetTag)
+        local difficultyCheckboxes
+        difficultyCheckboxes = table.map(difficultyList.widgetDefinition.childWidgets,
+                                         function(child, index)
+            local tag = blam.getTag(child.widgetTag)
+            assert(tag)
+            local buttonSquare = component.new(tag.id)
+            local difficultyImage = component.new(buttonSquare:findChildWidgetTag("image").id)
+            -- Last bitmap is animated (impossible aka legendary)
+            if index ~= #difficulties then
+                difficultyImage:setAnimated(false)
+                difficultyImage.widgetDefinition.backgroundBitmap = difficultyIcons.id
+                difficultyImage:setBitmapIndex(index)
+            else
+                difficultyImage.widgetDefinition.backgroundBitmap = legendaryIconImage.id
+                difficultyImage:animate()
+            end
+            local difficultyCheckbox = checkbox.new(buttonSquare:findChildWidgetTag("checkbox").id)
+            difficultyCheckbox:onToggle(function(isChecked)
+                if isChecked then
+                    for _, otherBox in pairs(difficultyCheckboxes) do
+                        if otherBox ~= difficultyCheckbox then
+                            otherBox:setValue(false)
+                        end
+                    end
+                    difficultyButton:setText(difficulties[index].name)
+                    difficultyButton:setValue(index - 1)
+                    buttonSquare.events.onFocus()
+                    return false
+                end
+            end)
+            buttonSquare:onFocus(function()
+                difficultyDescription:setText(difficulties[index].description)
+                difficultyLabel:setText(difficulties[index].name:upper())
+                if index == #difficulties then
+                    difficultyImagePreview.widgetDefinition.backgroundBitmap = legendaryIconImage.id
+                    difficultyImagePreview:animate()
+                else
+                    difficultyImagePreview:setAnimated(false)
+                    difficultyImagePreview.widgetDefinition.backgroundBitmap = difficultyIcons.id
+                    difficultyImagePreview:setBitmapIndex(index)
+                end
+            end)
+            -- TODO Make component base to support "pass_handled_events_to_all_children" so it
+            -- propagates the onFocus event to childs if widget is a component
+            difficultyCheckbox.events.onFocus = buttonSquare.events.onFocus
+            return difficultyCheckbox
+        end)
+        if not difficultyButton:getValue() then
+            difficultyCheckboxes[defaultDifficultyIndex]:setValue(true)
+        else
+            difficultyCheckboxes[difficultyButton:getValue() + 1]:setValue(true)
+        end
     end)
 
     firefightMenu:onOpen(function()
         loadMaps()
         displayMapsPanel(true)
+        difficultyButton:setText(difficulties[defaultDifficultyIndex].name)
+        difficultyButton:setValue(defaultDifficultyIndex - 1)
     end)
 
     local eventNames = {never = 1, eachWave = 2, eachRound = 3, eachSet = 4, eachBossWave = 5}
@@ -185,7 +321,7 @@ return function()
     settings.bossWaveFrequency = settings.wavesPerRound
 
     play:onFocus(function()
-        local currentMapName = map:getValue()
+        local currentMapName = mapButton:getValue()
         if currentMapName and currentMapName ~= "" then
             logger:debug("Focusing play button with map: " .. currentMapName)
             local mapData = table.find(firefightMaps, function(map)
@@ -200,7 +336,7 @@ return function()
         setCurrentMapPreview("")
     end)
     play:onClick(function()
-        local currentMapName = map:getValue()
+        local currentMapName = mapButton:getValue()
         if currentMapName ~= "" then
             local mapData = table.find(firefightMaps, function(map)
                 return map.name == currentMapName
@@ -223,6 +359,13 @@ return function()
                 return
             end
             core.saveFirefightSettings(settings)
+            local difficultyGameIndex = difficultyButton:getValue()
+            logger:debug("Setting difficulty: " .. difficulties[difficultyGameIndex + 1].value)
+            logger:debug("Difficulty index: " .. tostring(difficultyGameIndex))
+            -- This garbage does not work for some reason (there was a way to make it work but I forgot, fuck)
+            executeScript("game_difficulty_set " .. difficulties[difficultyGameIndex + 1].value)
+            -- Define game difficulty ourselves to reflect change as soon as possible
+            blam.setGameDifficultyIndex(difficultyGameIndex)
             executeScript("sv_timelimit 0")
             executeScript("sv_map " .. currentMapName .. " slayer")
         end
@@ -319,8 +462,7 @@ return function()
                 settings.waveCooldownSeconds = value
             end,
             focus = function()
-                description:setText(
-                    "Set the time (in seconds) to wait between waves.")
+                description:setText("Set the time (in seconds) to wait between waves.")
             end
         },
         ["ACTIVATE TEMPORAL SKULL EACH"] = {
@@ -402,7 +544,7 @@ return function()
 
     local events = {"Never", "Wave", "Round", "Set", "Boss Wave"}
 
-    settingsList:onOpen(function()
+    firefightSettingsPanel:onOpen(function()
         logger:debug("Opening settings list")
         elements["PLAYER INITIAL LIVES"]:setValues(values(1, 30))
         elements["EXTRA LIVES GAINED"]:setValues(values(1, 30))

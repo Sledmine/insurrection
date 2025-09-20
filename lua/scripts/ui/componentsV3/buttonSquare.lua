@@ -8,7 +8,6 @@ local floor = math.floor
 ---@field name string
 ---@field text? string
 ---@field justification? "left_justify" | "center_justify" | "right_justify"
----@field variant? "small" | "large"
 ---@field childs? invaderWidgetChildWidget[]
 
 ---Square Button for skulls
@@ -17,15 +16,10 @@ local floor = math.floor
 return function(props)
     local name = props.name
     local text = props.text
-    local variant = props.variant or "small"
     local justification = props.justification or "left_justify"
     local widgetPath = widget.path .. "buttons/" .. name .. "_square_button.ui_widget_definition"
 
-    local size = {
-        width = 80,
-        height = 80,
-        scale = 1
-    }
+    local size = {width = 80, height = 80, scale = 1}
 
     local stringsTagPath
     if text then
@@ -39,7 +33,19 @@ return function(props)
         widget_type = "text_box",
         bounds = widget.scale(size.width, size.height, size.scale),
         background_bitmap = [[insurrection/ui/bitmaps/square_button.bitmap]],
-        flags = {pass_unhandled_events_to_focused_child = true},
+        event_handlers = {
+            {event_type = "a_button"},
+            {
+                flags = {run_function = true},
+                event_type = "left_mouse",
+                ["function"] = "mouse_emit_accept_event"
+            }
+        },
+        flags = {
+            pass_handled_events_to_all_children = true,
+            pass_unhandled_events_to_all_children = true,
+            dont_focus_a_specific_child_widget = true
+        },
         text_label_unicode_strings_list = stringsTagPath,
         string_list_index = 0,
         text_font = constants.fonts.title,
@@ -49,14 +55,6 @@ return function(props)
         vert_offset = 16,
         child_widgets = props.childs or {}
     }
-
-    --if variant == "coop" then
-    --    wid.background_bitmap = [[insurrection/ui/bitmaps/dashboard_coop_button.bitmap]]
-    --elseif variant == "forge" then
-    --    wid.background_bitmap = [[insurrection/ui/bitmaps/dashboard_forge_button.bitmap]]
-    --elseif variant == "firefight" then
-    --    wid.background_bitmap = [[insurrection/ui/bitmaps/dashboard_firefight_button.bitmap]]
-    --end
 
     widget.createV2(widgetPath, wid)
     return widgetPath
