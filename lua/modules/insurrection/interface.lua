@@ -45,6 +45,8 @@ function interface.load()
         components.cleanAllEditableWidgets()
 
         -- interface.animate()
+
+        -- If Insurrection has been loaded (check for a widget that only exists in Insurrection)
         if constants.widgets.login then
             require "insurrection.components.dynamic.dialog"()
             require "insurrection.components.dynamic.customizationColorMenu"()

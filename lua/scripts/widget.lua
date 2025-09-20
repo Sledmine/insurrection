@@ -56,6 +56,9 @@ _ALIGNMENTS = {}
 
 ---@class invaderWidgetFlags
 ---@field pass_unhandled_events_to_focused_child? boolean
+---@field dont_focus_a_specific_child_widget? boolean
+---@field pass_unhandled_events_to_all_children? boolean
+---@field pass_handled_events_to_all_children? boolean
 ---@field pause_game_time? boolean
 ---@field flash_background_bitmap? boolean
 ---@field dpad_up_down_tabs_thru_children? boolean

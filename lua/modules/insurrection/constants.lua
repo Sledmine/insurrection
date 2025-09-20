@@ -5,7 +5,7 @@ local constants = {}
 
 local engine = Engine
 
-constants.maximumTicksForDOMRenderTime = utils.secondsToTicks(2)
+constants.maximumTicksForDOMRenderTime = utils.secondsToTicks(3)
 
 constants.path = {
     pauseMenu = [[insurrection\ui\menus\pause\pause_menu]],

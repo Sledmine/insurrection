@@ -266,7 +266,7 @@ function core.setWidgetValues(widgetTagHandleValue, values, isAsync)
             -- Wait until desired widget is loaded in the DOM
             sleep(function()
                 return setWidgetValuesDOMSafe(widgetTagHandleValue, values)
-            end, constants.maximumTicksForDOMRenderTime)
+            end, 1, constants.maximumTicksForDOMRenderTime)
         end)()
     end
 end
@@ -657,7 +657,7 @@ function core.getMapBackgroundBitmap(mapName)
     for k, v in pairs(mapCollection.tagList) do
         local bitmapTag = blam.getTag(v) --[[@as tag]]
         local mapBitmapName = core.getTagName(bitmapTag.path):lower()
-        --local mapName = mapName:replace("_dev", ""):lower()
+        -- local mapName = mapName:replace("_dev", ""):lower()
         local mapName = mapName:lower()
         if mapBitmapName == mapName then
             return bitmapTag.id

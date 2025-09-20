@@ -233,7 +233,7 @@ end
 function list.setItems(self, items)
     local widgetDefinition = self.widgetDefinition
     if not widgetDefinition.type == 3 then
-        log("Widget: " .. self.tag.path .. " is being used as a list but is not a column_list")
+        logger:debug("Widget: " .. self.tag.path .. " is being used as a list but is not a column_list")
     end
     -- if not (#items > 0) then
     --    error("setItems requires at least one item")
