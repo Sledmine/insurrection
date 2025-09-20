@@ -1269,7 +1269,7 @@ end
 ---@return table
 local function dumpObject(object)
     local dump = {}
-    for k, v in pairs(object.structure) do
+    for k, v in pairs(object.definition) do
         dump[k] = object[k]
     end
     return dump
