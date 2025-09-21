@@ -146,7 +146,7 @@ return function()
         -- Native game values
         local volumeLevels = {}
         for i = 0, 10, 1 do
-            table.insert(volumeLevels, tostring(i))
+            table.insert(volumeLevels, i)
         end
 
         elements["MASTER VOLUME"]:setValues(volumeLevels)
