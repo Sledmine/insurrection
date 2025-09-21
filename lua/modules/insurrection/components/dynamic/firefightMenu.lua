@@ -14,7 +14,6 @@ local t = require"insurrection.utils".snakeCaseToTitleCase
 local executeScript = Engine.hsc.executeScript
 local engine = Engine
 local luna = require "luna"
-local tobit = luna.bit
 local tobool = luna.bool
 
 local function disableCheats(cheats)
@@ -430,7 +429,7 @@ return function()
         ["BOSS WAVE FREQUENCY"] = {
             value = 0,
             change = function(value)
-                settings.bossWaveFrequency = tointeger(value)
+                settings.bossWaveFrequency = value
             end,
             focus = function()
                 description:setText(
