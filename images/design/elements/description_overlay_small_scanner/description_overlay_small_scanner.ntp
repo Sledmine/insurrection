@@ -103,7 +103,7 @@
 				<item>
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>[Project]/square_grid.png</Value>
+					<Value>square_grid.png</Value>
 					<Default></Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -324,7 +324,7 @@
 				<count>0</count>
 				<item_version>0</item_version>
 			</Inputs_map>
-			<KnobsAge>3</KnobsAge>
+			<KnobsAge>11</KnobsAge>
 			<MasterNode></MasterNode>
 			<HasRotoContext>0</HasRotoContext>
 			<HasTrackerContext>0</HasTrackerContext>
@@ -477,7 +477,7 @@
 				<item>
 					<Enabled>0</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>[Project]/square_grid.png</Value>
+					<Value>square_grid.png</Value>
 					<Default></Default>
 					<HasMaster>1</HasMaster>
 					<Master>
@@ -1515,7 +1515,7 @@
 				<count>0</count>
 				<item_version>0</item_version>
 			</Inputs_map>
-			<KnobsAge>5</KnobsAge>
+			<KnobsAge>13</KnobsAge>
 			<MasterNode>Read1</MasterNode>
 			<HasRotoContext>0</HasRotoContext>
 			<HasTrackerContext>0</HasTrackerContext>
@@ -2435,7 +2435,7 @@
 							</item>
 						</KeyFrameSet>
 					</Curve>
-					<Value>4.40800000000000036e+00</Value>
+					<Value>6.11111111111111072e+00</Value>
 					<Default>1.00000000000000000e+00</Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -2562,7 +2562,7 @@
 				<item>
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>&lt;font size=&quot;6&quot; color=&quot;#000000&quot; face=&quot;Droid Sans&quot;&gt;&lt;Natron&gt;(spawn#.png)&lt;/Natron&gt;&lt;/font&gt;</Value>
+					<Value>&lt;font size=&quot;6&quot; color=&quot;#000000&quot; face=&quot;Droid Sans&quot;&gt;&lt;Natron&gt;(frame#.png)&lt;/Natron&gt;&lt;/font&gt;</Value>
 					<Default></Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -2583,7 +2583,7 @@
 				<item>
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>/home/sledmine/test2/spawn#.png</Value>
+					<Value>seq/frame#.png</Value>
 					<Default></Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -2706,7 +2706,7 @@
 				<count>0</count>
 				<item_version>0</item_version>
 			</Inputs_map>
-			<KnobsAge>33</KnobsAge>
+			<KnobsAge>37</KnobsAge>
 			<MasterNode></MasterNode>
 			<HasRotoContext>0</HasRotoContext>
 			<HasTrackerContext>0</HasTrackerContext>
@@ -8890,7 +8890,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<item>
 			<Enabled>1</Enabled>
 			<HasAnimation>0</HasAnimation>
-			<Value>&lt;Name&gt;OCIO&lt;/Name&gt;&lt;Value&gt;/home/sledmine/Natron-2.5.0/Resources/OpenColorIO-Configs/blender&lt;/Value&gt;&lt;Name&gt;Project&lt;/Name&gt;&lt;Value&gt;/storage/developing/halo-ce/insurrection/images/design/elements/description_overlay_small/animated&lt;/Value&gt;</Value>
+			<Value>&lt;Name&gt;OCIO&lt;/Name&gt;&lt;Value&gt;/home/sledmine/Natron-2.5.0/Resources/OpenColorIO-Configs/blender&lt;/Value&gt;&lt;Name&gt;Project&lt;/Name&gt;&lt;Value&gt;/storage/developing/halo-ce/insurrection/images/design/elements/description_overlay_small_scanner&lt;/Value&gt;</Value>
 			<Default></Default>
 			<HasMaster>0</HasMaster>
 			<Expression></Expression>
@@ -8968,7 +8968,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<item>
 			<Enabled>0</Enabled>
 			<HasAnimation>0</HasAnimation>
-			<Value>Tue Aug 15 23:23:09 2023</Value>
+			<Value>Mon Sep 22 16:40:57 2025</Value>
 			<Default></Default>
 			<HasMaster>0</HasMaster>
 			<Expression></Expression>
@@ -8994,7 +8994,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 			<Name></Name>
 		</item>
 	</AdditionalFormats>
-	<Timeline_current_time>24</Timeline_current_time>
+	<Timeline_current_time>20</Timeline_current_time>
 	<CreationDate>1683682322482</CreationDate>
 </Project>
 <ProjectGui class_id="19" tracking_level="0" version="12">
@@ -9018,7 +9018,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<item>
 			<Name>Read1</Name>
 			<X_position>1.17850032392927073e+03</X_position>
-			<Y_position>2.06820921686545631e+01</Y_position>
+			<Y_position>1.96668728010383305e+01</Y_position>
 			<Preview_enabled>1</Preview_enabled>
 			<r>6.999923587e-01</r>
 			<g>6.999923587e-01</g>
@@ -9143,8 +9143,8 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		</item>
 		<item>
 			<Name>Write1</Name>
-			<X_position>8.04159827747282407e+02</X_position>
-			<Y_position>3.34682092168654549e+02</Y_position>
+			<X_position>1.40651294416484325e+03</X_position>
+			<Y_position>4.12739485957565478e+02</Y_position>
 			<Preview_enabled>0</Preview_enabled>
 			<r>7.499961853e-01</r>
 			<g>7.499961853e-01</g>
@@ -9805,11 +9805,11 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<Window class_id="23" tracking_level="0" version="1">
 			<ChildType>0</ChildType>
 			<Child class_id="24" tracking_level="1" version="1" object_id="_0">
-				<Sizes>1620 872</Sizes>
+				<Sizes>1625 875</Sizes>
 				<Orientation>1</Orientation>
 				<ChildIsSplitter>1</ChildIsSplitter>
 				<Child object_id="_1">
-					<Sizes>478 478</Sizes>
+					<Sizes>489 488</Sizes>
 					<Orientation>2</Orientation>
 					<ChildIsSplitter>0</ChildIsSplitter>
 					<Child class_id="25" tracking_level="1" version="5" object_id="_2">
@@ -9849,10 +9849,10 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 				</Child>
 			</Child>
 			<MainWindow>1</MainWindow>
-			<x>1086</x>
-			<y>69</y>
-			<w>2528</w>
-			<h>987</h>
+			<x>1091</x>
+			<y>22</y>
+			<w>2536</w>
+			<h>1008</h>
 		</Window>
 	</Gui_Layout>
 	<ViewersData class_id="27" tracking_level="0" version="0">
@@ -9907,13 +9907,10 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<item_version>0</item_version>
 	</Histograms>
 	<OpenedPanels>
-		<count>6</count>
+		<count>3</count>
 		<item_version>0</item_version>
-		<item>Read1</item>
-		<item>Write1</item>
-		<item>Glow1</item>
 		<item>Natron_Project_Settings_Panel</item>
-		<item>LensDistortion1</item>
+		<item>Write1</item>
 		<item>Transform2</item>
 	</OpenedPanels>
 	<ScriptEditorInput></ScriptEditorInput>

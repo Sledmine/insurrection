@@ -8513,7 +8513,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 				<item>
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>5.55000000000000000e+01</Value>
+					<Value>3.38000000000000043e+01</Value>
 					<Default>0.00000000000000000e+00</Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -8522,7 +8522,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 				<item>
 					<Enabled>1</Enabled>
 					<HasAnimation>0</HasAnimation>
-					<Value>-6.81000000000000085e+01</Value>
+					<Value>-6.77000000000000028e+01</Value>
 					<Default>0.00000000000000000e+00</Default>
 					<HasMaster>0</HasMaster>
 					<Expression></Expression>
@@ -8654,7 +8654,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 					<second>Keyer1_3</second>
 				</item>
 			</Inputs_map>
-			<KnobsAge>1478</KnobsAge>
+			<KnobsAge>1498</KnobsAge>
 			<MasterNode></MasterNode>
 			<HasRotoContext>0</HasRotoContext>
 			<HasTrackerContext>0</HasTrackerContext>
@@ -14668,7 +14668,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<item>
 			<Enabled>0</Enabled>
 			<HasAnimation>0</HasAnimation>
-			<Value>Sat Sep 20 17:40:32 2025</Value>
+			<Value>Mon Sep 22 16:20:44 2025</Value>
 			<Default></Default>
 			<HasMaster>0</HasMaster>
 			<Expression></Expression>
@@ -14784,7 +14784,7 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 			<Name></Name>
 		</item>
 	</AdditionalFormats>
-	<Timeline_current_time>46</Timeline_current_time>
+	<Timeline_current_time>14</Timeline_current_time>
 	<CreationDate>1667684338347</CreationDate>
 </Project>
 <ProjectGui class_id="19" tracking_level="0" version="12">
@@ -16393,11 +16393,11 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<Window class_id="23" tracking_level="0" version="1">
 			<ChildType>0</ChildType>
 			<Child class_id="24" tracking_level="1" version="1" object_id="_0">
-				<Sizes>1641 883</Sizes>
+				<Sizes>1625 875</Sizes>
 				<Orientation>1</Orientation>
 				<ChildIsSplitter>1</ChildIsSplitter>
 				<Child object_id="_1">
-					<Sizes>513 512</Sizes>
+					<Sizes>482 482</Sizes>
 					<Orientation>2</Orientation>
 					<ChildIsSplitter>0</ChildIsSplitter>
 					<Child class_id="25" tracking_level="1" version="5" object_id="_2">
@@ -16438,10 +16438,10 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 				</Child>
 			</Child>
 			<MainWindow>1</MainWindow>
-			<x>1079</x>
-			<y>-14</y>
-			<w>2560</w>
-			<h>1056</h>
+			<x>1082</x>
+			<y>28</y>
+			<w>2536</w>
+			<h>995</h>
 		</Window>
 	</Gui_Layout>
 	<ViewersData class_id="27" tracking_level="0" version="0">
@@ -16450,8 +16450,8 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<item class_id="28" tracking_level="0" version="0">
 			<first>Viewer1</first>
 			<second class_id="29" tracking_level="0" version="14">
-				<zoomLeft>-5.20454238832024203e+02</zoomLeft>
-				<zoomBottom>-3.11825293474335297e+00</zoomBottom>
+				<zoomLeft>-6.75101208661779992e+02</zoomLeft>
+				<zoomBottom>-3.97393828830072948e+00</zoomBottom>
 				<zoomFactor>1.08618233618233595e+00</zoomFactor>
 				<UserRoIEnabled>0</UserRoIEnabled>
 				<UserRoI class_id="30" tracking_level="0" version="0">
@@ -16496,9 +16496,10 @@ As the blur sizes of the bloom node can get very big, this may lead to a very bi
 		<item_version>0</item_version>
 	</Histograms>
 	<OpenedPanels>
-		<count>1</count>
+		<count>2</count>
 		<item_version>0</item_version>
 		<item>Write1</item>
+		<item>Natron_Project_Settings_Panel</item>
 	</OpenedPanels>
 	<ScriptEditorInput></ScriptEditorInput>
 	<NumPyPanels>0</NumPyPanels>
