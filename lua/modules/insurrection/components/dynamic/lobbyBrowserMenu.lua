@@ -25,7 +25,7 @@ return function()
     local lobbyKeyInput = input.new(browser:findChildWidgetTag("table_key_input").id)
     local refreshButton = button.new(options:findChildWidgetTag("refresh_button").id)
 
-    components.new(mapPreview:findChildWidgetTag("overlay_scanner").id):animate()
+    components.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3, 1)
     searchInput:setAllowEmptyCharacters(false)
     lobbyKeyInput:setAllowEmptyCharacters(false)
     lobbies:setScrollBar(scrollBar)

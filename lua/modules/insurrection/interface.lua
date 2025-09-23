@@ -229,32 +229,71 @@ function interface.loadProfileNameplate(nameplateId)
     end
 end
 
+local widgetAnimationTimers = {}
+
 ---Animates UI elements by animating background bitmap
----@param widgetTagHandleValue number
+---@param widgetComponent uiComponent
 ---@param willRepeat? boolean
-function interface.animateUIWidgetBackground(widgetTagHandleValue, willRepeat)
+function interface.animateUIWidgetBackground(widgetComponent, willRepeat)
+    if not widgetComponent.isBackgroundAnimated then
+        return
+    end
+
     if not core.getCurrentUIWidgetTag() then
         return
     end
-    -- local willRepeat = willRepeat or true
+
+    local widgetTagHandleValue = widgetComponent.tagId
     local widget = engine.userInterface.findWidget(widgetTagHandleValue)
-    if widget then
-        local widgetTag = engine.tag.getTag(widgetTagHandleValue,
-                                            engine.tag.classes.uiWidgetDefinition)
-        -- TODO Change balltze to catch exceptions in timer as they propagate and crash the game
-        assert(widgetTag, "Error, widget tag not found")
-        -- print("Animating widget {}", widgetTag.path)
-        local bitmapTag = engine.tag.getTag(widgetTag.data.backgroundBitmap.tagHandle.value,
-                                            engine.tag.classes.bitmap)
-        if bitmapTag then
-            local bitmapTagData = bitmapTag.data
-            if bitmapTagData.bitmapData.count > 1 then
-                if widget.bitmapIndex < bitmapTagData.bitmapData.count then
-                    widget.bitmapIndex = widget.bitmapIndex + 1
-                else
-                    widget.bitmapIndex = 0
-                end
+    if not widget then
+        return
+    end
+
+    local widgetTag = engine.tag.getTag(widgetTagHandleValue, engine.tag.classes.uiWidgetDefinition)
+    assert(widgetTag, "Error, widget tag not found")
+
+    local bitmapTag = engine.tag.getTag(widgetTag.data.backgroundBitmap.tagHandle.value,
+                                        engine.tag.classes.bitmap)
+    if not bitmapTag then
+        return
+    end
+
+    local bitmapTagData = bitmapTag.data
+    if bitmapTagData.bitmapData.count <= 1 then
+        return
+    end
+
+    -- Init timer state for this widget
+    widgetAnimationTimers[widgetTagHandleValue] = widgetAnimationTimers[widgetTagHandleValue] or
+                                                      {frame = 0, loop = 0}
+
+    local timers = widgetAnimationTimers[widgetTagHandleValue]
+
+    local frameDelay = widgetComponent.delayAnimationTicks or 0 -- ticks between frames
+    local loopDelay = widgetComponent.animationWaitTicks or 0 -- ticks after full loop
+
+    -- Handle per-frame delay
+    if timers.frame < frameDelay then
+        timers.frame = timers.frame + 1
+        return
+    end
+
+    -- Reset frame timer when moving forward
+    timers.frame = 0
+
+    if widget.bitmapIndex < bitmapTagData.bitmapData.count - 1 then
+        -- Normal frame advance
+        widget.bitmapIndex = widget.bitmapIndex + 1
+    else
+        -- Last frame reached
+        if widgetComponent.isBackgroundLooped then
+            -- Apply loop delay separately
+            if timers.loop < loopDelay then
+                timers.loop = timers.loop + 1
+                return
             end
+            timers.loop = 0
+            widget.bitmapIndex = 0
         end
     end
 end
@@ -376,24 +415,18 @@ function interface.onTick()
         end
     end
     -- Animate UI widgets
-    -- TODO Try to animate only widgets that are visible
     for tagId, component in pairs(components.widgets) do
-        if component.isBackgroundAnimated then
-            interface.animateUIWidgetBackground(tagId)
+        -- Try to animate only widgets that are visible
+        local widgetHandle = engine.userInterface.findWidget(tagId)
+        if widgetHandle and widgetHandle.visible and component.isBackgroundAnimated then
+            interface.animateUIWidgetBackground(component)
         end
+        -- if component.isBackgroundAnimated then
+        --    interface.animateUIWidgetBackground(tagId)
+        -- end
     end
-    -- Inventory protptype code
-    -- if core.getMouseState().scrollClick > 0 then
-    --    if focusedWidgetTagId then
-    --        local widget = blam.uiWidgetDefinition(focusedWidgetTagId)
-    --        console_out(widget.width .. " " .. widget.height)
-    --        local x, y = core.getWidgetCursorPosition()
-    --        -- console_out("X: " .. x .. " Y: " .. y)
-    --        local props = core.getWidgetValues(focusedWidgetTagId)
-    --        -- console_out("Focused widget: " .. focusedWidgetTagId .. " X: " .. props.left_bound .. " Y: " .. props.top_bound)
-    --        core.setWidgetValues(focusedWidgetTagId, {left_bound = x - (widget.width / 2), top_bound = y - (widget.height / 2)})
-    --    end
-    -- end
+
+    collectgarbage()
 end
 
 function interface.setup()

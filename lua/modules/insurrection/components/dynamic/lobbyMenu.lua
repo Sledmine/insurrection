@@ -63,7 +63,7 @@ return function()
     local mapDescription = component.new(blam.findTag("map_small",
                                                       blam.tagClasses.uiWidgetDefinition).id)
     -- Add scanner animation to map preview
-    component.new(mapDescription:findChildWidgetTag("overlay_scanner").id):animate()
+    component.new(mapDescription:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3, 1)
 
     local search = input.new(options:findChildWidgetTag("search").id)
     local play = button.new(options:findChildWidgetTag("play").id)

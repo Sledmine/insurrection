@@ -23,6 +23,10 @@ local component = {
     isBackgroundAnimated = false,
     ---@type boolean
     isBackgroundLooped = false,
+    ---@type number?
+    animationWaitTicks = nil,
+    ---@type number?
+    delayAnimationTicks = nil,
     ---@type uiComponentType
     type = "generic"
     -- @type table<string, widgetAnimation>
@@ -43,14 +47,21 @@ component.widgets = {}
 VirtualInputValue = {}
 ---@type MetaEngineTag
 local previousWidgetTag
+---@type MetaEngineTag?
+local lastFocusedWidgetTagEntry
+
+function component.getLastFocusedWidgetHandle()
+    if lastFocusedWidgetTagEntry then
+        return lastFocusedWidgetTagEntry.handle.value
+    end
+end
 
 function component.callbacks()
     ---@type MetaEngineTagDataUiWidgetDefinition?
     local editableWidgetTagData
     ---@type MetaEngineTag?
     local editableWidgetTagEntry
-    ---@type MetaEngineTag?
-    local lastFocusedWidgetTagEntry
+    lastFocusedWidgetTagEntry = nil
 
     balltze.event.uiWidgetAccept.subscribe(function(event)
         if event.time == "before" then
@@ -75,7 +86,7 @@ function component.callbacks()
             local focusedWidgetTag = engine.tag.getTag(tagHandleValue,
                                                        engine.tag.classes.uiWidgetDefinition)
             assert(focusedWidgetTag, "Invalid widget tag")
-            --logger:debug("Focusing widget: {}", focusedWidgetTag.path)
+            -- logger:debug("Focusing widget: {}", focusedWidgetTag.path)
 
             local component = component.widgets[tagHandleValue]
             if component and component.events.onFocus and component:isVisible() then
@@ -154,6 +165,26 @@ function component.callbacks()
                     end
                     if mouse.rightClick > 0 then
                         -- TODO BALLTZE MIGRATE
+                    end
+                end
+            end
+
+            -- Draggable prototype code
+            if false then
+                if core.getMouseState().leftClick > 0 then
+                    local lastFocusedWidget = component.getLastFocusedWidgetHandle()
+                    if lastFocusedWidget then
+                        local widget = blam.uiWidgetDefinition(lastFocusedWidget)
+                        assert(widget, "Error, no focused widget found")
+                        logger:debug(widget.width .. " " .. widget.height)
+                        local x, y = core.getWidgetCursorPosition()
+                        logger:debug("X: " .. x .. " Y: " .. y)
+                        local props = core.getWidgetValues(lastFocusedWidget)
+                        -- console_out("Focused widget: " .. focusedWidgetTagId .. " X: " .. props.left_bound .. " Y: " .. props.top_bound)
+                        core.setWidgetValues(lastFocusedWidget, {
+                            position = {x = x - (widget.width / 2), y = y - (widget.height / 2)}
+                            -- position = {x = x, y = y}
+                        })
                     end
                 end
             end
@@ -264,20 +295,20 @@ function component.callbacks()
             local listWidgetTag = engine.tag.getTag(listWidgetTagHandle,
                                                     engine.tag.classes.uiWidgetDefinition)
             assert(listWidgetTag, "Invalid widget tag")
-            --logger:debug("List widget: {}", listWidgetTag.path)
+            -- logger:debug("List widget: {}", listWidgetTag.path)
             local previousWidgetHandle = event.context.widgetList.focusedChild.definitionTagHandle
                                              .value
             local previousFocusedWidgetTag = engine.tag.getTag(previousWidgetHandle, engine.tag
                                                                    .classes.uiWidgetDefinition)
             assert(previousFocusedWidgetTag, "Invalid previous focused widget tag")
-            --logger:debug("Previous widget: {}", previousFocusedWidgetTag.path)
-            --if previousFocusedWidgetTag.path:endswith("wrapper") then
+            -- logger:debug("Previous widget: {}", previousFocusedWidgetTag.path)
+            -- if previousFocusedWidgetTag.path:endswith("wrapper") then
             --    local widgetTagHandle = previousFocusedWidgetTag.data.childWidgets.elements[1]
             --                                .widgetTag.tagHandle.value
             --    local widgetTag = engine.tag.getTag(widgetTagHandle,
             --                                        engine.tag.classes.uiWidgetDefinition)
             --    assert(widgetTag, "Invalid wrapped widget tag")
---
+            --
             --    local childListWidgetHandle = widgetTag.data.childWidgets.elements[1].widgetTag
             --                                      .tagHandle.value
             --    local childListWidgetTag = engine.tag.getTag(childListWidgetHandle,
@@ -288,11 +319,11 @@ function component.callbacks()
             --    Engine.userInterface.focusWidget(widgetHandle)
             --    event:cancel()
             --    return
-            --end
+            -- end
             local widgetList = blam.uiWidgetDefinition(listWidgetTagHandle)
             assert(widgetList, "Invalid widget list tag id")
             -- Handle component spinner scrolling
-            --logger:debug("Pressed key: {}", tostring(pressedKey))
+            -- logger:debug("Pressed key: {}", tostring(pressedKey))
             if pressedKey == Balltze.event.uiWidgetListTabTypes.tabThruChildrenNextHorizontal or
                 pressedKey == Balltze.event.uiWidgetListTabTypes.tabThruChildrenPrev then
                 local component = component.widgets[listWidgetTagHandle] --[[@as uiComponentSpinner]]
@@ -339,11 +370,11 @@ function component.callbacks()
             end
             local widgetTag = findNextWidget()
             if not widgetTag then
-                --logger:debug("Widget is not visible, skipping focus")
+                -- logger:debug("Widget is not visible, skipping focus")
                 event:cancel()
                 return
             end
-            --logger:debug("Focusing widget from tab: {}", widgetTag.path)
+            -- logger:debug("Focusing widget from tab: {}", widgetTag.path)
             onWidgetFocus({
                 context = {widget = {definitionTagHandle = {value = widgetTag.handle.value}}},
                 time = "before"
@@ -505,10 +536,16 @@ end
 ---@param self uiComponent
 ---@param isAnimated boolean
 ---@param isLooped? boolean
-function component.setAnimated(self, isAnimated, isLooped)
+---@param animationWaitTime? number Time in seconds to wait before animating the next frame
+---@param delayAnimationTicks? number Time in ticks to wait between frames
+function component.setAnimated(self, isAnimated, isLooped, animationWaitTime, delayAnimationTicks)
     local isLooped = isLooped or false
+    local animationWaitTime = animationWaitTime or 0
+    local delayAnimationTicks = delayAnimationTicks or 0
     self.isBackgroundAnimated = isAnimated
     self.isBackgroundLooped = isLooped
+    self.animationWaitTicks = math.floor(animationWaitTime * 30)
+    self.delayAnimationTicks = delayAnimationTicks
 end
 
 function component.free()
