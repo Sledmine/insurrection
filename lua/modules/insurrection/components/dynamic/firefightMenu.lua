@@ -29,7 +29,8 @@ return function()
     local mapsListScroll = bar.new(firefightMenu:findChildWidgetTag("maps_scroll").id)
     mapsList:setScrollBar(mapsListScroll)
     local mapPreview = component.new(firefightMenu:findChildWidgetTag("preview").id)
-    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3, 1)
+    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3,
+                                                                                   1)
     local mapName = component.new(firefightMenu:findChildWidgetTag("map_name").id)
     local mapAuthor = component.new(firefightMenu:findChildWidgetTag("map_author").id)
     local mapDescription = component.new(firefightMenu:findChildWidgetTag("map_description").id)
@@ -291,6 +292,7 @@ return function()
     end)
 
     local eventNames = {never = 1, eachWave = 2, eachRound = 3, eachSet = 4, eachBossWave = 5}
+    local enemyTeams = {covenant = 1, flood = 2, random = 3}
 
     local settings = {
         _version = 1,
@@ -304,17 +306,20 @@ return function()
         setsPerGame = 3,
         waveLivingMin = 4,
         bossWaveLivingMin = 0,
+        roundEndingBoss = true,
         -- Time properties
         waveCooldownSeconds = 9,
         roundCooldownSeconds = 10,
         setCooldownSeconds = 1,
         gameCooldownSeconds = 1,
         -- Game settings
-        startingEnemyTeam = 1, -- 1 = Covenant, 2 = Flood, 3 = Random
+        startingEnemyTeam = enemyTeams.covenant,
         permanentSkullsCanBeRandom = true,
         -- Event properties
         activateTemporalSkullEach = eventNames.eachRound,
-        activatePermanentSkullEach = eventNames.eachSet
+        resetTemporalSkullEach = eventNames.eachSet,
+        activatePermanentSkullEach = eventNames.eachSet,
+        deployAlliesEach = eventNames.eachBossWave
     }
     -- By default, boss waves are the last wave of each round.
     settings.bossWaveFrequency = settings.wavesPerRound
@@ -455,6 +460,24 @@ return function()
                     "Set the number of boss enemies left before the next wave spawns. Set to 0 to disable this feature.")
             end
         },
+        ["ROUND ENDING BOSS"] = {
+            value = false,
+            change = function(value)
+                settings.roundEndingBoss = tobool(value)
+            end,
+            focus = function()
+                description:setText("Allow a boss wave to spawn at the end of each round.")
+            end
+        },
+        ["GAME TIMER"] = {
+            value = 1,
+            change = function(value)
+                settings.gameCooldownSeconds = value
+            end,
+            focus = function()
+                description:setText("Set the time (in seconds) to wait to start a new game.")
+            end
+        },
         ["WAVE TIMER"] = {
             value = 9,
             change = function(value)
@@ -464,6 +487,33 @@ return function()
                 description:setText("Set the time (in seconds) to wait between waves.")
             end
         },
+        ["ROUND TIMER"] = {
+            value = 10,
+            change = function(value)
+                settings.roundCooldownSeconds = value
+            end,
+            focus = function()
+                description:setText("Set the time (in seconds) to wait to start a new round.")
+            end
+        },
+        ["SET TIMER"] = {
+            value = 1,
+            change = function(value)
+                settings.setCooldownSeconds = value
+            end,
+            focus = function()
+                description:setText("Set the time (in seconds) to wait to start a new set.")
+            end
+        },
+        --["STARTING ENEMY TEAM"] = {
+        --    value = "Covenant",
+        --    change = function(value, index)
+        --        settings.startingEnemyTeam = index
+        --    end,
+        --    focus = function()
+        --        description:setText("Set the starting enemy team.")
+        --    end
+        --},
         ["ACTIVATE TEMPORAL SKULL EACH"] = {
             value = "Round",
             change = function(value, index)
@@ -471,6 +521,16 @@ return function()
             end,
             focus = function()
                 description:setText("Set how often temporal skulls are enabled.")
+            end
+        },
+        ["RESET TEMPORAL SKULL EACH"] = {
+            value = "Set",
+            change = function(value, index)
+                settings.resetTemporalSkullEach = index
+            end,
+            focus = function()
+                description:setText(
+                    "Set how often temporal skulls are reset, (don't use the same value as activate temporal skull each)")
             end
         },
         ["ACTIVATE PERMANENT SKULL EACH"] = {
@@ -490,6 +550,15 @@ return function()
             focus = function()
                 description:setText(
                     "Allow permanent skulls to be randomly enabled troughout the game.")
+            end
+        },
+        ["DEPLOY ALLIES EACH"] = {
+            value = "Boss Wave",
+            change = function(value, index)
+                settings.deployAlliesEach = index
+            end,
+            focus = function()
+                description:setText("Set how often allies are deployed.")
             end
         }
     }
@@ -546,17 +615,22 @@ return function()
     firefightSettingsPanel:onOpen(function()
         logger:debug("Opening settings list")
         elements["PLAYER INITIAL LIVES"]:setValues(values(1, 30))
-        elements["EXTRA LIVES GAINED"]:setValues(values(1, 30))
+        elements["EXTRA LIVES GAINED"]:setValues(values(0, 30))
         elements["LIVES LOST PER DEAD"]:setValues(values(1, 3))
         elements["WAVES PER ROUND"]:setValues(values(1, 20))
         elements["ROUNDS PER SET"]:setValues(values(1, 10))
-        elements["SETS PER GAME"]:setValues(values(1, 10))
+        elements["SETS PER GAME"]:setValues(values(1, 5))
         elements["BOSS WAVE FREQUENCY"]:setValues(values(0, 10))
-        elements["ENEMIES LEFT"]:setValues(values(1, 10))
-        elements["BOSS ENEMIES LEFT"]:setValues(values(0, 10))
+        elements["ENEMIES LEFT"]:setValues(values(0, 4))
+        elements["BOSS ENEMIES LEFT"]:setValues(values(0, 4))
+        elements["GAME TIMER"]:setValues(values(1, 15))
         elements["WAVE TIMER"]:setValues(values(1, 15))
+        elements["ROUND TIMER"]:setValues(values(1, 15))
+        elements["SET TIMER"]:setValues(values(1, 15))
         elements["ACTIVATE TEMPORAL SKULL EACH"]:setValues(events)
+        elements["RESET TEMPORAL SKULL EACH"]:setValues(events)
         elements["ACTIVATE PERMANENT SKULL EACH"]:setValues(events)
+        elements["DEPLOY ALLIES EACH"]:setValues(events)
         elementsData["PLAYER INITIAL LIVES"].value = settings.playerInitialLives
         elementsData["EXTRA LIVES GAINED"].value = settings.extraLivesGained
         elementsData["LIVES LOST PER DEAD"].value = settings.livesLostPerDead
@@ -566,13 +640,21 @@ return function()
         elementsData["BOSS WAVE FREQUENCY"].value = settings.bossWaveFrequency
         elementsData["ENEMIES LEFT"].value = settings.enemiesLeftBeforeNextWave or 4
         elementsData["BOSS ENEMIES LEFT"].value = settings.bossEnemiesLeftBeforeNextWave or 0
-        elementsData["WAVE TIMER"].value = settings.waveCooldownSeconds
+        elementsData["ROUND ENDING BOSS"].value = tobool(settings.roundEndingBoss)
+        elementsData["GAME TIMER"].value = settings.gameCooldownSeconds or 1
+        elementsData["WAVE TIMER"].value = settings.waveCooldownSeconds or 9
+        elementsData["ROUND TIMER"].value = settings.roundCooldownSeconds or 10
+        elementsData["SET TIMER"].value = settings.setCooldownSeconds or 1
+        --elementsData["STARTING ENEMY TEAM"].value = settings.startingEnemyTeam or 1
         elementsData["ACTIVATE TEMPORAL SKULL EACH"].value =
             events[settings.activateTemporalSkullEach or 2]
+        elementsData["RESET TEMPORAL SKULL EACH"].value =
+            events[settings.resetTemporalSkullEach or 3]
         elementsData["ACTIVATE PERMANENT SKULL EACH"].value =
             events[settings.activatePermanentSkullEach or 3]
         elementsData["ALLOW RANDOM PERMANENT SKULLS"].value = tobool(
                                                                   settings.permanentSkullsCanBeRandom)
+        elementsData["DEPLOY ALLIES EACH"].value = events[settings.deployAlliesEach or 5]
 
         for optionName, element in pairs(elements) do
             local data = elementsData[optionName]
