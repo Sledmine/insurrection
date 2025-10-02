@@ -50,6 +50,10 @@ end
 ---@param self uiComponentSpinner
 ---@param text string
 local function setValueText(self, text)
+    if text == nil then
+        logger:warning("Tried to set nil text on spinner " .. self.tag.path)
+        return
+    end
     local labelTagId = self:findChildWidgetTag("label").id
     local widgetDefinition = uiWidgetDefinition(labelTagId)
     assert(widgetDefinition, "Invalid widgetDefinition")

@@ -43,10 +43,10 @@ return container {
         {
             image {
                 name = "anim_test",
-                bitmap = "insurrection/ui/bitmaps/anim_test.bitmap",
-                width = 123,
-                height = 135,
-                scale = 0.5
+                bitmap = "insurrection/ui/bitmaps/difficulty_impossible_icon.bitmap",
+                width = 270,
+                height = 270,
+                scale = 0.4
             },
             300,
             60
