@@ -335,19 +335,77 @@ local firefightSettingsMenuPath = wrapper {
                         settingsLayout()
                     },
                     {
-                        spinner {
-                            name = "wave_timer",
-                            text = "WAVE TIMER",
-                            value = strmem(2, "9"),
-                            length = lengthArrowforNumbers
+                        checkbox {
+                            name = "round_ending_boss",
+                            text = "ROUND ENDING BOSS",
                         },
                         settingsLayout()
                     },
                     {
                         spinner {
+                            name = "game_timer",
+                            text = "GAME TIMER",
+                            value = strmem(2, "1"),
+                            length = lengthArrowforNumbers,
+                            variant = "large"
+                        },
+                        settings2Layout()
+                    },
+                    {
+                        spinner {
+                            name = "wave_timer",
+                            text = "WAVE TIMER",
+                            value = strmem(2, "9"),
+                            length = lengthArrowforNumbers,
+                            variant = "large"
+                        },
+                        settings2Layout()
+                    },
+                    {
+                        spinner {
+                            name = "round_timer",
+                            text = "ROUND TIMER",
+                            value = strmem(2, "10"),
+                            length = lengthArrowforNumbers,
+                            variant = "large"
+                        },
+                        settings2Layout()
+                    },
+                    {
+                        spinner {
+                            name = "set_timer",
+                            text = "SET TIMER",
+                            value = strmem(2, "1"),
+                            length = lengthArrowforNumbers,
+                            variant = "large"
+                        },
+                        settings2Layout()
+                    },
+                    --{
+                    --    spinner {
+                    --        name = "starting_enemy_team",
+                    --        text = "STARTING ENEMY TEAM",
+                    --        value = strmem(16, "Covenant"),
+                    --        length = lengthArrowforText,
+                    --        variant = "large"
+                    --    },
+                    --    settings2Layout()
+                    --},
+                    {
+                        spinner {
                             name = "activate_temporal_skull_each",
                             text = "ACTIVATE TEMPORAL SKULL EACH",
                             value = strmem(16, "Round"),
+                            length = lengthArrowforText,
+                            variant = "large"
+                        },
+                        settings2Layout()
+                    },
+                    {
+                        spinner {
+                            name = "reset_temporal_skull_each",
+                            text = "RESET TEMPORAL SKULL EACH",
+                            value = strmem(16, "Set"),
                             length = lengthArrowforText,
                             variant = "large"
                         },
@@ -367,6 +425,16 @@ local firefightSettingsMenuPath = wrapper {
                         checkbox {
                             name = "random_permanent_skulls",
                             text = "ALLOW RANDOM PERMANENT SKULLS",
+                            variant = "large"
+                        },
+                        settings2Layout()
+                    },
+                    {
+                        spinner {
+                            name = "deploy_allies",
+                            text = "DEPLOY ALLIES EACH",
+                            value = strmem(16, "Boss Wave"),
+                            length = lengthArrowforText,
                             variant = "large"
                         },
                         settings2Layout()
