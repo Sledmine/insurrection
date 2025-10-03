@@ -310,7 +310,7 @@ local firefightSettingsMenuPath = wrapper {
                     {
                         spinner {
                             name = "boss_wave_frequency",
-                            text = "BOSS WAVE FREQUENCY",
+                            text = "EXTRA BOSS WAVE FREQ",
                             value = strmem(2, "0"),
                             length = lengthArrowforNumbers
                         },
@@ -335,10 +335,7 @@ local firefightSettingsMenuPath = wrapper {
                         settingsLayout()
                     },
                     {
-                        checkbox {
-                            name = "round_ending_boss",
-                            text = "ROUND ENDING BOSS",
-                        },
+                        checkbox {name = "round_ending_boss", text = "ALLOW ROUND ENDING BOSS"},
                         settingsLayout()
                     },
                     {
@@ -381,7 +378,7 @@ local firefightSettingsMenuPath = wrapper {
                         },
                         settings2Layout()
                     },
-                    --{
+                    -- {
                     --    spinner {
                     --        name = "starting_enemy_team",
                     --        text = "STARTING ENEMY TEAM",
@@ -390,11 +387,11 @@ local firefightSettingsMenuPath = wrapper {
                     --        variant = "large"
                     --    },
                     --    settings2Layout()
-                    --},
+                    -- },
                     {
                         spinner {
                             name = "activate_temporal_skull_each",
-                            text = "ACTIVATE TEMPORAL SKULL EACH",
+                            text = "ACTIVATE TEMPORAL SKULL EVERY",
                             value = strmem(16, "Round"),
                             length = lengthArrowforText,
                             variant = "large"
@@ -404,7 +401,7 @@ local firefightSettingsMenuPath = wrapper {
                     {
                         spinner {
                             name = "reset_temporal_skull_each",
-                            text = "RESET TEMPORAL SKULL EACH",
+                            text = "RESET TEMPORAL SKULL EVERY",
                             value = strmem(16, "Set"),
                             length = lengthArrowforText,
                             variant = "large"
@@ -414,7 +411,7 @@ local firefightSettingsMenuPath = wrapper {
                     {
                         spinner {
                             name = "activate_permanent_skull_each",
-                            text = "ACTIVATE PERMANENT SKULL EACH",
+                            text = "ACTIVATE PERMANENT SKULL EVERY",
                             value = strmem(16, "Set"),
                             length = lengthArrowforText,
                             variant = "large"
@@ -432,7 +429,7 @@ local firefightSettingsMenuPath = wrapper {
                     {
                         spinner {
                             name = "deploy_allies",
-                            text = "DEPLOY ALLIES EACH",
+                            text = "DEPLOY ALLIES EVERY",
                             value = strmem(16, "Boss Wave"),
                             length = lengthArrowforText,
                             variant = "large"
@@ -445,15 +442,16 @@ local firefightSettingsMenuPath = wrapper {
     }
 }
 
+local startingX = -5
 local startingY = 15
 local buttonSquareMargin = 4
 local buttonSquareSize = 80 - buttonSquareMargin
-local backgroundX = 340
+local backgroundX = 314
 
 local difficultyLayout = widget.layout {
     alignment = "horizontal",
     size = buttonSquareSize,
-    x = -5,
+    x = startingX,
     y = startingY - 3,
     margin = 0
 }
@@ -599,7 +597,7 @@ local firefightDifficultyMenuPath = wrapper {
                 height = 144
             },
             backgroundX,
-            startingY
+            startingY + 2
         },
         {
             image {
@@ -610,7 +608,7 @@ local firefightDifficultyMenuPath = wrapper {
                 scale = 0.4
             },
             backgroundX + 20,
-            startingY + 10
+            startingY + 12
         },
         {
             label {
@@ -632,7 +630,7 @@ local firefightDifficultyMenuPath = wrapper {
                 width = 145
             },
             backgroundX + 4,
-            startingY + 120
+            startingY + 124
         },
         {
             footer {
