@@ -19,6 +19,7 @@ local bar = require "lua.scripts.ui.componentsV3.bar"
 local label = require "lua.scripts.ui.componentsV3.label"
 local buttonSquare = require "lua.scripts.ui.componentsV3.buttonSquare"
 local image = require "lua.scripts.ui.componentsV3.image"
+local spinner = require "lua.scripts.ui.componentsV3.spinner"
 
 widget.init [[insurrection/ui/menus/lobby/]]
 
@@ -318,12 +319,15 @@ local lobbyMenuPath = container {
     }
 }
 
-local wrapperWidth = 570
-local wrapperHeight = 247
-local startingX = 0
-local startingY = 20
+local wrapperWidth = 581
+local wrapperHeight = 258
+
+local startingX = -5
+local startingY = 12
 local buttonSquareMargin = 4
 local buttonSquareSize = 80 - buttonSquareMargin
+local backgroundX = 406
+
 local rowsCount = 3
 local columnsCount = 5
 local skullsCount = rowsCount * columnsCount
@@ -334,8 +338,10 @@ for rowIndex = 1, rowsCount do
         local layout = widget.layout {
             alignment = "horizontal",
             size = buttonSquareSize,
-            x = startingX + (columnIndex - 1) * buttonSquareSize,
-            y = startingY + (rowIndex - 1) * buttonSquareSize,
+            x = (startingX - buttonSquareSize) + columnIndex * buttonSquareSize,
+            -- x = startingX + (columnIndex - 1) * buttonSquareSize,
+            y = (startingY - buttonSquareSize) + rowIndex * buttonSquareSize,
+            -- y = startingY + (rowIndex - 1) * buttonSquareSize,
             margin = 0
         }
         table.insert(skullsPositions, {layout()})
@@ -356,12 +362,58 @@ for i = 1, skullsCount do
                         bitmap = "insurrection/ui/bitmaps/skull_button_icons.bitmap",
                         width = 128,
                         height = 128,
-                        scale = 0.375
+                        scale = 0.28
                     },
-                    16,
-                    16
+                    22,
+                    22
                 },
-                {checkbox {name = "skull_" .. i, align = "left", transparent = true}, 4, 52}
+                {
+                    image {
+                        name = "skull_stack_icon" .. i,
+                        bitmap = "insurrection/ui/bitmaps/replay_icon.bitmap",
+                        width = 128,
+                        height = 128,
+                        scale = 0.08
+                    },
+                    62,
+                    8
+                },
+                --{
+                --    image {
+                --        name = "skull_perma_icon" .. i,
+                --        bitmap = "insurrection/ui/bitmaps/perma_icon.bitmap",
+                --        width = 64,
+                --        height = 32,
+                --        scale = 0.25
+                --    },
+                --    8,
+                --    8
+                --},
+                {checkbox {name = "skull_" .. i, align = "left", transparent = true}, 4, 52},
+                {
+                    label {
+                        name = "skull_multiplier" .. i,
+                        variant = "button",
+                        color = "cobalt",
+                        text = strmem(3, "X" .. "1"),
+                        justify = "right",
+                        width = 16
+                    },
+                    55,
+                    55
+                },
+                {
+                    label {
+                        name = "skull_stacked" .. i,
+                        variant = "subtitle",
+                        color = "white",
+                        text = strmem(3, "1"),
+                        justify = "right",
+                        width = 16
+                    },
+                    45,
+                    3
+                }
             }
         },
         table.unpack(skullsPositions[i])
@@ -370,6 +422,7 @@ end
 
 local skullsWrapperPath = wrapper {
     name = "skulls_panel",
+    isDebug = false,
     width = wrapperWidth,
     height = wrapperHeight,
     childs = {
@@ -396,8 +449,8 @@ local skullsWrapperPath = wrapper {
                                         text = "SKULL SETTINGS",
                                         variant = "small"
                                     },
-                                    410,
-                                    startingY + 195
+                                    backgroundX,
+                                    startingY + 203
                                 }
                             }
                         }
@@ -408,7 +461,7 @@ local skullsWrapperPath = wrapper {
         {
             bar {name = "skull_bar", orientation = "vertical", type = "scroll", size = 222},
             390,
-            startingY
+            startingY + 5
         },
         {
             image {
@@ -417,8 +470,8 @@ local skullsWrapperPath = wrapper {
                 width = 149,
                 height = 144
             },
-            410,
-            startingY
+            backgroundX,
+            startingY + 5
         },
         {
             image {
@@ -428,8 +481,8 @@ local skullsWrapperPath = wrapper {
                 height = 178,
                 scale = 0.45
             },
-            453,
-            startingY + 10
+            backgroundX + 44,
+            startingY + 15
         },
         {
             label {
@@ -439,8 +492,8 @@ local skullsWrapperPath = wrapper {
                 justify = "left",
                 width = 145
             },
-            4,
-            0
+            0,
+            -6
         },
         {
             label {
@@ -450,8 +503,8 @@ local skullsWrapperPath = wrapper {
                 justify = "left",
                 width = 145
             },
-            414,
-            startingY + 120
+            backgroundX + 4,
+            startingY + 127
         },
         {
             label {
@@ -462,8 +515,8 @@ local skullsWrapperPath = wrapper {
                 justify = "left",
                 width = 145
             },
-            414,
-            startingY + 140
+            backgroundX + 4,
+            startingY + 143
         },
         {
             label {
@@ -475,13 +528,57 @@ local skullsWrapperPath = wrapper {
                 width = 145,
                 height = 35
             },
-            414,
-            180
+            backgroundX + 4,
+            176
         },
         {constants.components.version.path, 0, 460}
     }
 }
 
+local settingsLayout = widget.layout {alignment = "vertical", size = 24, x = 0, y = 0, margin = 2}
+local lengthArrowforNumbers = -30
+
+local skullsSettingsWrapperPath = wrapper {
+    name = "skulls_settings_panel",
+    isDebug = false,
+    width = wrapperWidth,
+    height = wrapperHeight,
+    childs = {
+        {
+            options {
+                name = "skulls_config",
+                alignment = "vertical",
+                childs = {
+                    {checkbox {name = "ban_skull", text = "BAN SKULL"}, settingsLayout()},
+                    {
+                        checkbox {name = "permanent_skull", text = "PERMANENT SKULL"},
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "skull_multiplier",
+                            text = "SKULL MULTIPLIER",
+                            value = strmem(3, "X" .. "1"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    },
+                    {
+                        spinner {
+                            name = "max_skull_stacks",
+                            text = "MAX SKULL STACKS",
+                            value = strmem(3, "1"),
+                            length = lengthArrowforNumbers
+                        },
+                        settingsLayout()
+                    }
+                }
+            }
+        }
+    }
+}
+
 widget.global(skullsWrapperPath, "insurrection/ui/custom_menus.tag_collection")
+widget.global(skullsSettingsWrapperPath, "insurrection/ui/custom_menus.tag_collection")
 
 return lobbyMenuPath
