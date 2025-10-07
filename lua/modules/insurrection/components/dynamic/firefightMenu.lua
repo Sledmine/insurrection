@@ -672,6 +672,186 @@ return function()
             end
         end
     end)
+
+    local skulls = {
+        -- Golden Skulls
+        famine = {
+            name = "Famine",
+            motto = "Trust us, bring a magazine.",
+            description = "Enemies dropped weapons with half ammo.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        mythic = {
+            name = "Mythic",
+            motto = "Coverage under the Covenant Health Plan!",
+            description = " Enemies have double health and shields, and player gets a x1.5 bonus of it.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        blind = {
+            name = "Blind",
+            motto = "Shoot from the hip.",
+            description = "Players have the HUD disabled.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false,
+            onTick = function()
+            end
+        },
+        catch = {
+            name = "Catch",
+            motto = "Pull pin. Count to three. Throw.",
+            description = "Enemies launch grenades with more frequency, and throwing speed increases a little.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        -- Silver Skulls
+        berserk = {
+            name = "Berserk",
+            motto = "Reckless rage, poisonous pride.",
+            description = "Enemies are in a berserker state.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        toughluck = {
+            name = "Tough Luck",
+            motto = "Your foes always make every saving throw.",
+            description = "Enemies always evade danger",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        fog = {
+            name = "Fog",
+            motto = "You will miss those eyes in the back of your head.",
+            description = "Motion tracker is hidden.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false,
+            onTick = function()
+            end
+        },
+        knucklehead = {
+            name = "Knucklehead",
+            motto = "All brawn and no brain...",
+            description = "Body damage gets reduced to 1/5th, and head damage gets a 500% bonus.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        cowbell = {
+            name = "Cowbell",
+            motto = "More bang for your buck.",
+            description = "Acceleration effects are duplicated.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        havok = {
+            name = "Havok",
+            motto = "Deliver hope... and tactical warheads.",
+            description = "Doubles explosions radius effect.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            enabledFromTheStart = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        newton = {
+            name = "Newton",
+            motto = "That is... not how the 3rd law works.",
+            description = "Melee hits now inflict knockback... To both ends.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            enabledFromTheStart = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        tilt = {
+            name = "Tilt",
+            motto = "What was once resistance is now immunity.",
+            description = "Material resistances and weakness are doubled.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        banger = {
+            name = "Banger",
+            motto = "Send me out, with a bang.",
+            description = "Some enemies drop live grenades at death.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        doubledown = {
+            name = "Double Down",
+            motto = "Do I feel lucky?",
+            description = "Doubles your shield... As well as the stun and recovering time.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        eyepatch = {
+            name = "Eye Patch",
+            motto = "Like a mad dog.",
+            description = "Aim assistance gets reduced to 0, but so is initial error for all weapons.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        triggerswitch = {
+            name = "Trigger Switch",
+            motto = "A change of pace.",
+            description = "Full auto weapons become semi-auto and vice versa.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        slayer = {
+            name = "Slayer",
+            motto = "Double every shot by sheer will of rip and tear.",
+            description = "Doubles projectiles per shot and spread cone size.",
+            state = {count = 0, max = 2, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        assassin = {
+            name = "Assassin",
+            motto = "Your armor's system is not as... new as ours.",
+            description = "Everyone gets active cammo... But yours fail from time to time.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false,
+            onTick = function()
+            end
+        }
+    }
+
+    skullsSettingsPanel:onOpen(function()
+        logger:debug("Opening skulls panel")
+    end)
+
     return function()
         loadMaps()
     end
