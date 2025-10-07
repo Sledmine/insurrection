@@ -205,7 +205,7 @@ return function()
         ["PRELOAD MAP TEXTURES"] = {
             value = false,
             change = function(value)
-                config.preload_map_textures.enable = value
+                balltzeConfiguration.preload_map_textures.enable = value
                 balltze.saveConfiguration(config)
             end,
             focus = function()
