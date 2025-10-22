@@ -15,6 +15,8 @@ local executeScript = Engine.hsc.executeScript
 local engine = Engine
 local luna = require "luna"
 local tobool = luna.bool
+local findTag = blam.findTag
+local tagClasses = blam.tagClasses
 
 local function disableCheats(cheats)
     for _, cheat in pairs(cheats) do
@@ -22,52 +24,90 @@ local function disableCheats(cheats)
     end
 end
 
+local skullsIcons = {
+    "assassin",
+    "bandana",
+    "banger",
+    "berserk",
+    "blind",
+    "catch",
+    "cowbell",
+    "doubledown",
+    "eyepatch",
+    "famine",
+    "fog",
+    "gruntbirthday",
+    "havok",
+    "knucklehead",
+    "mythic",
+    "newton",
+    "slayer",
+    "tilt",
+    "toughluck",
+    "triggerswitch"
+}
+
+local function getBitmapIndexForSkull(skullName)
+    return (table.indexof(skullsIcons, skullName) or #skullsIcons)
+end
+
 return function()
     local firefightMenu = component.new(constants.widgets.firefight.id)
-    local options = component.new(firefightMenu:findChildWidgetTag("options").id)
-    local mapsList = list.new(options:findChildWidgetTag("firefight_maps").id)
-    local mapsListScroll = bar.new(firefightMenu:findChildWidgetTag("maps_scroll").id)
+    local options = component.new(firefightMenu:get("options"))
+    local mapsList = list.new(options:get("firefight_maps"))
+    local mapsListScroll = bar.new(firefightMenu:get("maps_scroll"))
     mapsList:setScrollBar(mapsListScroll)
-    local mapPreview = component.new(firefightMenu:findChildWidgetTag("preview").id)
-    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3,
-                                                                                   1)
-    local mapName = component.new(firefightMenu:findChildWidgetTag("map_name").id)
-    local mapAuthor = component.new(firefightMenu:findChildWidgetTag("map_author").id)
-    local mapDescription = component.new(firefightMenu:findChildWidgetTag("map_description").id)
+    local mapPreview = component.new(firefightMenu:get("preview"))
+    component.new(mapPreview:get("overlay_scanner")):setAnimated(true, true, 2.3, 1)
+    local mapName = component.new(firefightMenu:get("map_name"))
+    local mapAuthor = component.new(firefightMenu:get("map_author"))
+    local mapDescription = component.new(firefightMenu:get("map_description"))
 
-    local definitions = component.new(options:findChildWidgetTag("definitions").id)
-    local footer = component.new(firefightMenu:findChildWidgetTag("footer").id)
-    local description = component.new(footer:findChildWidgetTag("text").id)
-    local searchLabel = component.new(firefightMenu:findChildWidgetTag("search_label").id)
-    local search = input.new(options:findChildWidgetTag("search").id)
+    local definitions = component.new(options:get("definitions"))
+    local footer = component.new(firefightMenu:get("footer"))
+    local description = component.new(footer:get("text"))
+    local searchLabel = component.new(firefightMenu:get("search_label"))
+    local search = input.new(options:get("search"))
     search:setAllowEmptyCharacters(false)
 
-    local mapButton = button.new(definitions:findChildWidgetTag("definition_map").id)
-    local settingsButton = button.new(definitions:findChildWidgetTag("definition_options").id)
-    local skullsButton = button.new(definitions:findChildWidgetTag("definitions_skulls").id)
-    local difficultyButton = button.new(definitions:findChildWidgetTag("definitions_difficulty").id)
+    local mapButton = button.new(definitions:get("definition_map"))
+    local settingsButton = button.new(definitions:get("definition_options"))
+    local skullsButton = button.new(definitions:get("definitions_skulls"))
+    local difficultyButton = button.new(definitions:get("definitions_difficulty"))
 
-    local play = button.new(options:findChildWidgetTag("play").id)
-    local back = button.new(options:findChildWidgetTag("back").id)
+    local play = button.new(options:get("play"))
+    local back = button.new(options:get("back"))
 
-    local firefightSettingsPanel = component.new(blam.findTag("firefight_settings_panel",
-                                                              blam.tagClasses.uiWidgetDefinition).id)
-    local settingsList = component.new(
-                             firefightSettingsPanel:findChildWidgetTag("firefight_config").id)
-    local skullsSettingsPanel = component.new(blam.findTag("skulls_panel",
-                                                           blam.tagClasses.uiWidgetDefinition).id)
+    -- Firefight Panel
+    local firefightSettingsPanel = component.new(findTag("firefight_settings_panel",
+                                                         tagClasses.uiWidgetDefinition).id)
+    local firefightSettingsList = component.new(firefightSettingsPanel:get("firefight_config"))
+
+    -- Skulls Panel
+    local skullsSettingsPanel = component.new(
+                                    findTag("skulls_panel", tagClasses.uiWidgetDefinition).id)
+    local skullPreviewIcon = component.new(skullsSettingsPanel:get("skull_preview_icon"))
+    local skullName = component.new(skullsSettingsPanel:get("skull_name"))
+    local skullMotto = component.new(skullsSettingsPanel:get("skull_motto"))
+    local skullDescription = component.new(skullsSettingsPanel:get("skull_description"))
+    local skullAllOptions = component.new(skullsSettingsPanel:get("skull_all_options"))
+    local skullListScrollBar = bar.new(skullsSettingsPanel:get("skull_bar"), "scroll")
+    local skullsListOptions = list.new(skullAllOptions:get("skull_grid"))
+    skullsListOptions.scrollAmount = 5
+    skullsListOptions:setScrollBar(skullListScrollBar)
+    skullsListOptions:scrollable(false)
+
+    -- Difficulty Panel
     local difficultySettingsPanel = component.new(blam.findTag("firefight_difficulty_panel",
                                                                blam.tagClasses.uiWidgetDefinition)
                                                       .id)
-    local difficultyList = list.new(difficultySettingsPanel:findChildWidgetTag(
-                                        "difficulty_all_options").id)
+    local difficultyList = list.new(difficultySettingsPanel:get("difficulty_all_options"))
     difficultyList:scrollable(false)
-    local difficultyFooter = component.new(difficultySettingsPanel:findChildWidgetTag("footer").id)
-    local difficultyDescription = component.new(difficultyFooter:findChildWidgetTag("text").id)
-    local difficultyLabel = component.new(difficultySettingsPanel:findChildWidgetTag(
-                                              "difficulty_name").id)
-    local difficultyImagePreview = component.new(difficultySettingsPanel:findChildWidgetTag(
-                                                     "difficulty_preview_icon").id)
+    local difficultyFooter = component.new(difficultySettingsPanel:get("footer"))
+    local difficultyDescription = component.new(difficultyFooter:get("text"))
+    local difficultyLabel = component.new(difficultySettingsPanel:get("difficulty_name"))
+    local difficultyImagePreview = component.new(difficultySettingsPanel:get(
+                                                     "difficulty_preview_icon"))
     local difficultyIcons = blam.findTag("difficulty_icons", blam.tagClasses.bitmap)
     assert(difficultyIcons, "Difficulty icons bitmap not found")
     local legendaryIconImage = blam.findTag("difficulty_impossible_icon", blam.tagClasses.bitmap)
@@ -201,7 +241,8 @@ return function()
         displayPanel(skullsSettingsPanel)
         footer:show()
         description:show()
-        description:setText("Enable skulls to have them active from the start of your Firefight game and set custom configurations\nfor each one.")
+        description:setText(
+            "Enable skulls to have them active from the start of your Firefight game and set custom configurations\nfor each one.")
         play:hide()
         back:hide()
     end)
@@ -245,7 +286,7 @@ return function()
             local tag = blam.getTag(child.widgetTag)
             assert(tag)
             local buttonSquare = component.new(tag.id)
-            local difficultyImage = component.new(buttonSquare:findChildWidgetTag("image").id)
+            local difficultyImage = component.new(buttonSquare:get("image"))
             -- Last bitmap is animated (impossible aka legendary)
             if index ~= #difficulties then
                 difficultyImage:setAnimated(false)
@@ -255,7 +296,7 @@ return function()
                 difficultyImage.widgetDefinition.backgroundBitmap = legendaryIconImage.id
                 difficultyImage:animate()
             end
-            local difficultyCheckbox = checkbox.new(buttonSquare:findChildWidgetTag("checkbox").id)
+            local difficultyCheckbox = checkbox.new(buttonSquare:get("checkbox"))
             difficultyCheckbox:onToggle(function(isChecked)
                 if isChecked then
                     for _, otherBox in pairs(difficultyCheckboxes) do
@@ -514,7 +555,7 @@ return function()
                 description:setText("Set the time (in seconds) to wait to start a new set.")
             end
         },
-        --["STARTING ENEMY TEAM"] = {
+        -- ["STARTING ENEMY TEAM"] = {
         --    value = "Covenant",
         --    change = function(value, index)
         --        settings.startingEnemyTeam = index
@@ -522,7 +563,7 @@ return function()
         --    focus = function()
         --        description:setText("Set the starting enemy team.")
         --    end
-        --},
+        -- },
         ["ACTIVATE TEMPORAL SKULL EVERY"] = {
             value = "Round",
             change = function(value, index)
@@ -572,8 +613,8 @@ return function()
         }
     }
 
-    for i = 1, settingsList.widgetDefinition.childWidgetsCount do
-        local childWidget = settingsList.widgetDefinition.childWidgets[i]
+    for i = 1, firefightSettingsList.widgetDefinition.childWidgetsCount do
+        local childWidget = firefightSettingsList.widgetDefinition.childWidgets[i]
         local tag = blam.getTag(childWidget.widgetTag)
         assert(tag)
         if tag.path:includes "checkbox" then
@@ -654,7 +695,7 @@ return function()
         elementsData["WAVE TIMER"].value = settings.waveCooldownSeconds or 9
         elementsData["ROUND TIMER"].value = settings.roundCooldownSeconds or 10
         elementsData["SET TIMER"].value = settings.setCooldownSeconds or 1
-        --elementsData["STARTING ENEMY TEAM"].value = settings.startingEnemyTeam or 1
+        -- elementsData["STARTING ENEMY TEAM"].value = settings.startingEnemyTeam or 1
         elementsData["ACTIVATE TEMPORAL SKULL EVERY"].value =
             events[settings.activateTemporalSkullEach or 2]
         elementsData["RESET TEMPORAL SKULL EVERY"].value =
@@ -850,6 +891,50 @@ return function()
 
     skullsSettingsPanel:onOpen(function()
         logger:debug("Opening skulls panel")
+
+        local skullList = table.map(skullsIcons, function(skullKey)
+            return {value = skullKey}
+        end)
+
+        skullsListOptions:onSelect(function(item, button)
+            logger:debug("Selected skull: {}", item.value)
+
+            local skullData = skulls[item.value]
+            if not skullData then
+                logger:error("Skull data not found for: {}", item.value)
+                return
+            end
+
+            skullData.isEnabled = not skullData.isEnabled
+            local skullCheckbox = checkbox.new(button:get("checkbox"))
+            skullCheckbox:setValue(skullData.isEnabled)
+        end)
+
+        skullsListOptions:onFocus(function(item)
+            skullPreviewIcon:setBitmapIndex(getBitmapIndexForSkull(item.value))
+            local skullData = skulls[item.value]
+            if not skullData then
+                logger:error("Skull data not found for: {}", item.value)
+                return
+            end
+            skullName:setText(skullData.name:upper())
+            skullMotto:setText(skullData.motto)
+            skullDescription:setText(skullData.description)
+        end)
+
+        skullsListOptions:setItems(table.map(skullList, function(item)
+            local skullData = skulls[item.value] or {}
+
+            return {
+                value = item.value,
+                bitmap = function(uiComponent)
+                    local icon = component.new(uiComponent:get("skull_"))
+                    icon:setBitmapIndex(getBitmapIndexForSkull(item.value))
+                    local skullCheckbox = checkbox.new(uiComponent:get("checkbox"))
+                    skullCheckbox:setValue(skullData.isEnabled or false)
+                end
+            }
+        end))
     end)
 
     return function()
