@@ -459,7 +459,7 @@ end
 
 ---@param tagId number
 ---@return uiComponent
-function component.get(tagId)
+function component.getComponent(tagId)
     return component.widgets[tagId]
 end
 
@@ -500,6 +500,7 @@ function component.setText(self, text, mask)
         widgetDefinition = childWidgetDefinition --[[@as uiWidgetDefinition]]
     end
     if not (unicodeStrings and not isNull(unicodeStrings)) then
+        print(debug.traceback())
         error("No unicodeStringList found for widgetDefinition " .. self.tag.path)
     end
     local stringListIndex = widgetDefinition.stringListIndex
@@ -607,6 +608,17 @@ function component.findChildWidgetDefinition(self, name)
                 end
             end
         end
+    end
+end
+
+---Get a child widget tag handle by name
+---Shorter and handier version of findChildWidgetTag
+---@param self uiComponent
+---@param name string
+function component.get(self, name)
+    local childWidgetTag = self:findChildWidgetTag(name)
+    if childWidgetTag then
+        return childWidgetTag.id
     end
 end
 

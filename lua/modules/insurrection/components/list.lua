@@ -27,7 +27,9 @@ local list = setmetatable({
     ---@type boolean
     isSelectable = false,
     ---@type uiComponentBar
-    scrollBar = nil
+    scrollBar = nil,
+    ---@type number
+    scrollAmount = 1
 }, {__index = components})
 
 ---@class uiComponentListItem
@@ -74,7 +76,7 @@ end
 
 ---@param self uiComponentList
 function list.scroll(self, direction, isFromMouse)
-    local itemIndex = self.currentItemIndex + direction
+    local itemIndex = self.currentItemIndex + (self.scrollAmount * direction)
     if itemIndex < 1 then
         if not isFromMouse then
             interface.sound("error")
@@ -123,7 +125,7 @@ function list.refresh(self)
         local scrollBar = scroll:findChildWidgetDefinition("bar_value")
         local elementsCount = #items
         local visibleElementsCount = lastWidgetIndex - firstWidgetIndex + 1
-        local isHorizontal = self:isHorizontal()
+        local isHorizontal = scrollBackground.height < scrollBackground.width
         local size = scrollBackground.height
         if isHorizontal then
             size = scrollBackground.width
