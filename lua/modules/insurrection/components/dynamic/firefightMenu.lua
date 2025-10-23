@@ -886,6 +886,26 @@ return function()
             isPermanent = false,
             onTick = function()
             end
+        },
+        bandana = {
+            name = "Bandana",
+            motto = "Never run out of ammo again.",
+            description = "Player has infinite ammo.",
+            effect = bandana.skullEffect,
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        gruntBirthday = {
+            name = "Grunt Birthday Party",
+            motto = "Make every grunt's day special.",
+            description = "Grunts explode into confetti with a headshot.",
+            effect = gruntBirthday.skullEffect,
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
         }
     }
 
