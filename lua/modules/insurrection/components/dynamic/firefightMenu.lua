@@ -890,18 +890,16 @@ return function()
         bandana = {
             name = "Bandana",
             motto = "Never run out of ammo again.",
-            description = "Player has infinite ammo.",
-            effect = bandana.skullEffect,
+            description = "Gives the player unlimited ammunition and grenades, but realoading is needed.",
             state = {count = 0, max = 1, multiplier = 1},
             allowedInRandom = true,
             isEnabled = false,
             isPermanent = false
         },
-        gruntBirthday = {
+        gruntbirthday = {
             name = "Grunt Birthday Party",
             motto = "Make every grunt's day special.",
-            description = "Grunts explode into confetti with a headshot.",
-            effect = gruntBirthday.skullEffect,
+            description = "Killing grunts with a headshot causes a harmless explosion of confetti.",
             state = {count = 0, max = 1, multiplier = 1},
             allowedInRandom = true,
             isEnabled = false,
