@@ -367,18 +367,18 @@ for i = 1, skullsCount do
                     22,
                     22
                 },
-                {
-                    image {
-                        name = "skull_stack_icon" .. i,
-                        bitmap = "insurrection/ui/bitmaps/replay_icon.bitmap",
-                        width = 128,
-                        height = 128,
-                        scale = 0.08
-                    },
-                    62,
-                    8
-                },
-                --{
+                -- {
+                --    image {
+                --        name = "skull_stack_icon" .. i,
+                --        bitmap = "insurrection/ui/bitmaps/replay_icon.bitmap",
+                --        width = 128,
+                --        height = 128,
+                --        scale = 0.08
+                --    },
+                --    62,
+                --    8
+                -- },
+                -- {
                 --    image {
                 --        name = "skull_perma_icon" .. i,
                 --        bitmap = "insurrection/ui/bitmaps/perma_icon.bitmap",
@@ -388,31 +388,39 @@ for i = 1, skullsCount do
                 --    },
                 --    8,
                 --    8
-                --},
-                {checkbox {name = "skull_" .. i, align = "left", transparent = true}, 4, 52},
+                -- },
+                -- {
+                --    label {
+                --        name = "skull_stacked" .. i,
+                --        variant = "subtitle",
+                --        color = "white",
+                --        text = strmem(3, "1"),
+                --        justify = "right",
+                --        width = 16
+                --    },
+                --    45,
+                --    3
+                -- },
+                {
+                    checkbox {
+                        name = "skull_" .. i,
+                        align = "left",
+                        transparent = true
+                    },
+                    9,
+                    57
+                },
                 {
                     label {
                         name = "skull_multiplier" .. i,
                         variant = "button",
                         color = "cobalt",
-                        text = strmem(3, "X" .. "1"),
+                        text = strmem(3, "x" .. "1"),
                         justify = "right",
                         width = 16
                     },
                     55,
                     55
-                },
-                {
-                    label {
-                        name = "skull_stacked" .. i,
-                        variant = "subtitle",
-                        color = "white",
-                        text = strmem(3, "1"),
-                        justify = "right",
-                        width = 16
-                    },
-                    45,
-                    3
                 }
             }
         },
@@ -513,7 +521,8 @@ local skullsWrapperPath = wrapper {
                 text = strmem(256, "SKULL MOTTO"),
                 color = "blueYonder",
                 justify = "left",
-                width = 145
+                width = 145,
+                height = 30
             },
             backgroundX + 4,
             startingY + 143
@@ -529,7 +538,7 @@ local skullsWrapperPath = wrapper {
                 height = 35
             },
             backgroundX + 4,
-            176
+            startingY + 174
         },
         {constants.components.version.path, 0, 460}
     }

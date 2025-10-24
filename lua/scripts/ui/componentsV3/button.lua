@@ -21,6 +21,8 @@ local floor = math.floor
 ---@field transparent? boolean
 ---@field textOffset? number
 ---@field childs? invaderWidgetChildWidget[]
+---@field width? number
+---@field height? number
 
 ---Generic button component, recycled in multiple components
 ---@param props buttonProps
@@ -39,11 +41,24 @@ return function(props)
         ustr(stringsTagPath, {text})
     end
     local widgetPath = widget.path .. "buttons/" .. name .. "_button.ui_widget_definition"
+
+    local size = {
+        width = constants.components.button[variant].width,
+        height = constants.components.button[variant].height,
+        scale = 1
+    }
+
+    if props.width then
+        size.width = props.width
+    end
+    if props.height then
+        size.height = props.height
+    end
+
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
-        bounds = widget.bounds(0, 0, constants.components.button[variant].height,
-                               constants.components.button[variant].width),
+        bounds = widget.scale(size.width, size.height, size.scale),
         background_bitmap = constants.components.button[variant].bitmap,
         event_handlers = {
             {

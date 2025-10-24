@@ -478,8 +478,8 @@ local firefightDifficultyMenuPath = wrapper {
                                         align = "left",
                                         transparent = true
                                     },
-                                    4,
-                                    52
+                                    9,
+                                    57
                                 },
                                 {
                                     image {
@@ -519,8 +519,8 @@ local firefightDifficultyMenuPath = wrapper {
                                         align = "left",
                                         transparent = true
                                     },
-                                    4,
-                                    52
+                                    9,
+                                    57
                                 }
                             }
                         },
@@ -549,8 +549,8 @@ local firefightDifficultyMenuPath = wrapper {
                                         align = "left",
                                         transparent = true
                                     },
-                                    4,
-                                    52
+                                    9,
+                                    57
                                 }
                             }
                         },
@@ -579,8 +579,8 @@ local firefightDifficultyMenuPath = wrapper {
                                         align = "left",
                                         transparent = true
                                     },
-                                    4,
-                                    52
+                                    9,
+                                    57
                                 }
                             }
                         },
