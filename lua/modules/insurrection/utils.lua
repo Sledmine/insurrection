@@ -94,4 +94,37 @@ function utils.secondsToMillisecs(seconds)
     return seconds * 1000
 end
 
+--- Break a long string into multiple lines of a maximum length
+---@param str string
+---@param maxLength number
+---@return string
+function utils.breakStringIntoLines(str, maxLength)
+    local result = ""
+    local currentLine = ""
+
+    for word in str:gmatch("%S+") do
+        if #currentLine + #word + 1 <= maxLength then
+            if currentLine ~= "" then
+                currentLine = currentLine .. " "
+            end
+            currentLine = currentLine .. word
+        else
+            if result ~= "" then
+                result = result .. "\n"
+            end
+            result = result .. currentLine
+            currentLine = word
+        end
+    end
+
+    if currentLine ~= "" then
+        if result ~= "" then
+            result = result .. "\n"
+        end
+        result = result .. currentLine
+    end
+
+    return result
+end
+
 return utils

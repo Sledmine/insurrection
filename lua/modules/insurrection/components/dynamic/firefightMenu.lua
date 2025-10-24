@@ -17,6 +17,7 @@ local luna = require "luna"
 local tobool = luna.bool
 local findTag = blam.findTag
 local tagClasses = blam.tagClasses
+local breakLine = require "insurrection.utils".breakStringIntoLines
 
 local function disableCheats(cheats)
     for _, cheat in pairs(cheats) do
@@ -48,7 +49,7 @@ local skullsIcons = {
 }
 
 local function getBitmapIndexForSkull(skullName)
-    return (table.indexof(skullsIcons, skullName) or #skullsIcons)
+    return (table.indexof(skullsIcons, skullName) or #skullsIcons + 1)
 end
 
 return function()
@@ -618,7 +619,6 @@ return function()
         local tag = blam.getTag(childWidget.widgetTag)
         assert(tag)
         if tag.path:includes "checkbox" then
-            logger:debug("Found checkbox: {}", tag.path)
             local check = checkbox.new(tag.id)
             elements[check:getText()] = check
             check:onToggle(function(value)
@@ -748,7 +748,7 @@ return function()
         catch = {
             name = "Catch",
             motto = "Pull pin. Count to three. Throw.",
-            description = "Enemies launch grenades with more frequency, and throwing speed increases a little.",
+            description = "Enemies launch grenades more frequently, throwing speed increases.",
             state = {count = 0, max = 2, multiplier = 1},
             allowedInRandom = true,
             isEnabled = false,
@@ -936,8 +936,8 @@ return function()
                 return
             end
             skullName:setText(skullData.name:upper())
-            skullMotto:setText(skullData.motto)
-            skullDescription:setText(skullData.description)
+            skullMotto:setText(breakLine(skullData.motto, 32))
+            skullDescription:setText(breakLine(skullData.description, 40))
         end)
 
         skullsListOptions:setItems(table.map(skullList, function(item)
