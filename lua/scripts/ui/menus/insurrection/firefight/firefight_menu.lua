@@ -75,7 +75,7 @@ local firefightMenuPath = container {
                                         name = "definition_map",
                                         variant = "horizontal",
                                         label = "MAP",
-                                        text = strmem(128, "MAP")
+                                        text = strmem(128, "Map")
                                     },
                                     20,
                                     60
@@ -85,7 +85,7 @@ local firefightMenuPath = container {
                                         name = "definition_options",
                                         variant = "horizontal_small",
                                         label = "SETTINGS",
-                                        text = "CUSTOMIZE FIREFIGHT"
+                                        text = "Customize Firefight"
                                     },
                                     defsLayout()
                                 },
@@ -94,7 +94,7 @@ local firefightMenuPath = container {
                                         name = "definitions_skulls",
                                         variant = "horizontal_small",
                                         label = "SKULLS",
-                                        text = "PRESET SKULLS"
+                                        text = "Preset Skulls"
                                     },
                                     defsLayout()
                                 },
@@ -103,7 +103,7 @@ local firefightMenuPath = container {
                                         name = "definitions_difficulty",
                                         variant = "horizontal_small",
                                         label = "DIFFICULTY",
-                                        text = strmem(128, "")
+                                        text = strmem(128, "Normal")
                                     },
                                     defsLayout()
                                 }

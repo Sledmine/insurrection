@@ -675,4 +675,53 @@ function core.saveFirefightSettings(settings)
     Balltze.filesystem.writeFile(settingsPath, json.encode(settings))
 end
 
+--- Load Firefight settings from plugin path
+---@return table | nil
+function core.loadFirefightSettings()
+    local settingsPath = Balltze.filesystem.getPluginPath() .. "\\firefight_settings.json"
+    logger:debug("Firefight settings path: {}", settingsPath)
+    local settingsFile = Balltze.filesystem.readFile(settingsPath)
+    if settingsFile then
+        local success, settings = pcall(json.decode, settingsFile)
+        if success and settings then
+            logger:debug("Loaded Firefight settings: {}", inspect(settings))
+            return settings
+        end
+    end
+end
+
+--- Save firefight skulls settings to plugin path
+---@param settings table
+function core.saveFirefightSkullsSettings(settings)
+    for _, skullData in pairs(settings) do
+        -- Clean up settings from invalid vaues
+        for key, value in pairs(skullData) do
+            if type(value) == "function" then
+                logger:warning("Removing invalid skull setting key: {} with function value", key)
+                skullData[key] = nil
+            end
+        end
+    end
+
+    logger:debug("Firefight skulls settings path: {}", Balltze.filesystem.getPluginPath())
+    logger:debug("Saving Firefight skulls settings: {}", inspect(settings))
+    local settingsPath = Balltze.filesystem.getPluginPath() .. "\\firefight_skulls_settings.json"
+    Balltze.filesystem.writeFile(settingsPath, json.encode(settings))
+end
+
+--- Load firefight skulls settings from plugin path
+---@return table | nil
+function core.loadFirefightSkullsSettings()
+    local settingsPath = Balltze.filesystem.getPluginPath() .. "\\firefight_skulls_settings.json"
+    logger:debug("Firefight skulls settings path: {}", settingsPath)
+    local settingsFile = Balltze.filesystem.readFile(settingsPath)
+    if settingsFile then
+        local success, settings = pcall(json.decode, settingsFile)
+        if success and settings then
+            logger:debug("Loaded Firefight skulls settings: {}", inspect(settings))
+            return settings
+        end
+    end
+end
+
 return core

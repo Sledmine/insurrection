@@ -410,18 +410,18 @@ for i = 1, skullsCount do
                     9,
                     57
                 },
-                {
-                    label {
-                        name = "skull_multiplier" .. i,
-                        variant = "button",
-                        color = "cobalt",
-                        text = strmem(3, "x" .. "1"),
-                        justify = "right",
-                        width = 16
-                    },
-                    55,
-                    55
-                }
+                --{
+                --    label {
+                --        name = "skull_multiplier" .. i,
+                --        variant = "button",
+                --        color = "cobalt",
+                --        text = strmem(3, "x" .. "1"),
+                --        justify = "right",
+                --        width = 16
+                --    },
+                --    55,
+                --    55
+                --}
             }
         },
         table.unpack(skullsPositions[i])
@@ -446,23 +446,23 @@ local skullsWrapperPath = wrapper {
                             childs = skullElements
                         }
                     },
-                    {
-                        options {
-                            name = "skull_action",
-                            alignment = "horizontal",
-                            childs = {
-                                {
-                                    button {
-                                        name = "skull_settings",
-                                        text = "SKULL SETTINGS",
-                                        variant = "small"
-                                    },
-                                    backgroundX,
-                                    startingY + 203
-                                }
-                            }
-                        }
-                    }
+                    --{
+                    --    options {
+                    --        name = "skull_action",
+                    --        alignment = "horizontal",
+                    --        childs = {
+                    --            {
+                    --                button {
+                    --                    name = "skull_settings",
+                    --                    text = "SKULL SETTINGS",
+                    --                    variant = "small"
+                    --                },
+                    --                backgroundX,
+                    --                startingY + 203
+                    --            }
+                    --        }
+                    --    }
+                    --}
                 }
             }
         },
@@ -525,7 +525,7 @@ local skullsWrapperPath = wrapper {
                 height = 30
             },
             backgroundX + 4,
-            startingY + 143
+            startingY + 145
         },
         {
             label {
@@ -538,7 +538,7 @@ local skullsWrapperPath = wrapper {
                 height = 35
             },
             backgroundX + 4,
-            startingY + 174
+            startingY + 176
         },
         {constants.components.version.path, 0, 460}
     }
