@@ -923,6 +923,7 @@ return function()
             end
 
             skullData.isEnabled = not skullData.isEnabled
+            skullData.isPermanent = not skullData.isPermanent
             local skullCheckbox = checkbox.new(button:get("checkbox"))
             skullCheckbox:setValue(skullData.isEnabled)
         end)
