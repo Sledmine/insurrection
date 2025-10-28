@@ -9,6 +9,7 @@ local core = require "insurrection.core"
 local blam = require "blam"
 local checkbox = require "insurrection.components.checkbox"
 local firefight = require "insurrection.constants.projects.firefight"
+local interface = require "insurrection.interface"
 local firefightMaps = table.extend(firefight.maps.multiplayer, firefight.maps.singleplayer)
 local t = require"insurrection.utils".snakeCaseToTitleCase
 local executeScript = Engine.hsc.executeScript
@@ -17,7 +18,7 @@ local luna = require "luna"
 local tobool = luna.bool
 local findTag = blam.findTag
 local tagClasses = blam.tagClasses
-local breakLine = require "insurrection.utils".breakStringIntoLines
+local breakLine = require"insurrection.utils".breakStringIntoLines
 
 local function disableCheats(cheats)
     for _, cheat in pairs(cheats) do
@@ -200,6 +201,27 @@ return function()
         end))
     end
 
+    local function checkMapFirefightCompatibility()
+        local currentMapName = mapButton:getValue()
+        if not currentMapName or currentMapName == "" then
+            return
+        end
+        local mapData = table.find(firefightMaps, function(map)
+            return map.name == currentMapName
+        end)
+        local isFirefight3Supported = mapData and table.find(mapData.features or {}, function(map)
+            return map == "firefight3.0"
+        end) ~= nil
+        if not isFirefight3Supported then
+            interface.dialog {
+                title = "WARNING",
+                subtitle = "The selected map does not not support Firefight 3.0 features.",
+                body = "You still can select difficulty and play... but skulls and custom settings will not be available.\r\nShow your support on our Discord server for more compatible maps.",
+                button = "SIR YES SIR!"
+            }
+        end
+    end
+
     mapsList:onSelect(function(item)
         local mapName = item.value
         if DebugMode then
@@ -235,6 +257,7 @@ return function()
         description:setText("Configure various settings for your Firefight game.")
         play:hide()
         back:hide()
+        checkMapFirefightCompatibility()
     end)
 
     skullsButton:onClick(function()
@@ -242,10 +265,12 @@ return function()
         displayPanel(skullsSettingsPanel)
         footer:show()
         description:show()
-        --description:setText("Enable skulls to have them active from the start of your Firefight game and set custom configurations\nfor each one.")
-        description:setText("Enable skulls to have them active from the start of your Firefight game.")
+        -- description:setText("Enable skulls to have them active from the start of your Firefight game and set custom configurations\nfor each one.")
+        description:setText(
+            "Enable skulls to have them active from the start of your Firefight game.")
         play:hide()
         back:hide()
+        checkMapFirefightCompatibility()
     end)
 
     difficultyButton:onClick(function()

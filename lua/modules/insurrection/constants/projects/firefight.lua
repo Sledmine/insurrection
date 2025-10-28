@@ -34,7 +34,10 @@ return {
                 name = "alpha_halo",
                 title = "Alpha Halo",
                 description = "The first Halo ring discovered by humanity.\nFight for survival on sacred ground.",
-                author = "Insurrection Team"
+                author = "Insurrection Team",
+                features = {
+                    "firefight3.0"
+                }
             }
         }
     }
