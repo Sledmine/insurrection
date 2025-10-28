@@ -54,14 +54,14 @@ local containerPauseMenu  container {
                         },
                         layout()
                     },
-                    {
-                        button {
-                            name = "mods",
-                            text = "MODS",
-                            opens = [[insurrection/ui/menus/mods/mods_menu.ui_widget_definition]]
-                        },
-                        layout()
-                    },
+                    --{
+                    --    button {
+                    --        name = "mods",
+                    --        text = "MODS",
+                    --        opens = [[insurrection/ui/menus/mods/mods_menu.ui_widget_definition]]
+                    --    },
+                    --    layout()
+                    --},
                     {
                         button {
                             name = "open_map_pause",

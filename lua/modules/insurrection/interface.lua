@@ -89,16 +89,6 @@ function interface.load()
             --    end
             -- end)
         end
-
-        if constants.widgets.chimera then
-            require "insurrection.components.dynamic.chimeraMenu"()
-        end
-        if constants.widgets.optic then
-            require "insurrection.components.dynamic.opticMenu"()
-        end
-        if constants.widgets.balltze then
-            require "insurrection.components.dynamic.balltzeMenu"()
-        end
         require "insurrection.components.dynamic.videoMenuCustom"()
         require "insurrection.components.dynamic.audioMenuCustom"()
 

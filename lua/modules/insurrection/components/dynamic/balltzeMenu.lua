@@ -98,7 +98,6 @@ return function()
         end
     end
     balltzeMod:onOpen(function()
-        log("balltzeMod:onOpen")
         if not balltze.isInstalled() then
             interface.dialog("ERROR", "Balltze mod is not installed.",
                              "Please install it with Mercury and try again.")
