@@ -49,6 +49,14 @@ return function()
 
     local balltzeConfiguration = balltze.getConfiguration() or {}
 
+    local function saveBalltzeConfig()
+        balltze.saveConfiguration(balltzeConfiguration)
+    end
+
+    local function saveChimeraConfig()
+        chimera.saveConfiguration(chimeraConfig)
+    end
+    
     local elements = {}
     local elementsData = {
         ["RESOLUTION"] = {
@@ -145,7 +153,7 @@ return function()
             value = chimeraConfig.video_mode.vsync == 1,
             change = function(value)
                 chimeraConfig.video_mode.vsync = value and 1 or 0
-                chimera.saveConfiguration(chimeraConfig)
+                saveChimeraConfig()
             end,
             focus = function()
                 description:setText("Enable vertical synchronization to prevent screen tearing.")
@@ -165,7 +173,7 @@ return function()
             value = chimeraConfig.video_mode.windowed == 1,
             change = function(value)
                 chimeraConfig.video_mode.windowed = value and 1 or 0
-                chimera.saveConfiguration(chimeraConfig)
+                saveChimeraConfig()
             end,
             focus = function()
                 description:setText("Enable game to run in windowed mode.")
@@ -175,7 +183,7 @@ return function()
             value = chimeraConfig.video_mode.borderless == 1,
             change = function(value)
                 chimeraConfig.video_mode.borderless = value and 1 or 0
-                chimera.saveConfiguration(chimeraConfig)
+                saveChimeraConfig()
             end,
             focus = function()
                 description:setText("Enable borderless windowed mode.")
@@ -206,7 +214,7 @@ return function()
             value = false,
             change = function(value)
                 balltzeConfiguration.preload_map_textures.enable = value
-                balltze.saveConfiguration(config)
+                saveBalltzeConfig()
             end,
             focus = function()
                 description:setText(
