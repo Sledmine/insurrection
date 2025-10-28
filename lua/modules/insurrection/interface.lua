@@ -289,10 +289,17 @@ function interface.animateUIWidgetBackground(widgetComponent, willRepeat)
 end
 
 ---Show a dialog message on the screen
----@param titleText "WARNING" | "INFORMATION" | "ERROR" | string
----@param subtitleText string
----@param bodyText string
-function interface.dialog(titleText, subtitleText, bodyText)
+---@overload fun(props: {title: "WARNING" | "INFORMATION" | "ERROR" | string, subtitleText: string, body: string, button?: string})
+---@overload fun(titleText: "WARNING" | "INFORMATION" | "ERROR" | string, subtitleText: string, bodyText: string)
+function interface.dialog(...)
+    local args = {...}
+    local titleText, subtitleText, bodyText, actionText = args[1], args[2], args[3], "OK"
+    if type(args[1]) == "table" then
+        titleText = args[1].title
+        subtitleText = args[1].subtitle
+        bodyText = args[1].body
+        actionText = args[1].button or "OK"
+    end
     if constants.sounds then
         if titleText == "WARNING" or titleText == "ERROR" then
             log(constants.sounds.error.path)
@@ -303,14 +310,18 @@ function interface.dialog(titleText, subtitleText, bodyText)
     end
     local dialog = shared.dialog
 
-    local title = components.new(dialog:findChildWidgetTag("title").id)
+    local title = components.new(dialog:get("title"))
     title:setText(titleText)
 
-    local subtitle = components.new(dialog:findChildWidgetTag("subtitle").id)
+    local subtitle = components.new(dialog:get("subtitle"))
     subtitle:setText(subtitleText)
 
-    local body = components.new(dialog:findChildWidgetTag("text").id)
+    local body = components.new(dialog:get("text"))
     body:setText(bodyText)
+
+    local options = components.new(dialog:get("options"))
+    local actionButton = components.new(options:get("ok"))
+    actionButton:setText(actionText)
 
     if titleText == "ERROR" then
         openWidget(constants.widgets.dialog.id, false)

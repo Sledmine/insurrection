@@ -18,7 +18,7 @@ local dialogMenu = container {
         {
             image {
                 name = "dialog_background",
-                image = "insurrection/ui/bitmaps/dialog_menu_background.bitmap",
+                bitmap = "insurrection/ui/bitmaps/dialog_menu_background.bitmap",
                 width = constants.screen.width,
                 height = constants.screen.height
             },
@@ -59,7 +59,7 @@ local dialogMenu = container {
                     {
                         button {
                             name = "dialog_ok",
-                            text = "OK",
+                            text = strmem(32, "OK"),
                             back = true,
                             justification = "center_justify"
                         },
