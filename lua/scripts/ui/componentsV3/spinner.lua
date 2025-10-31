@@ -19,7 +19,9 @@ return function(props)
     local variant = props.variant or "normal"
     local width, height = constants.components.button[variant].width,
                           constants.components.button[variant].height
-    local length = props.length or #value * 4
+    --local sizeFactor = variant == "large" and 4 or 3
+    local sizeFactor = 4
+    local length = props.length or #value * sizeFactor
 
     local arrowLeftPath = widget.path .. "buttons/" .. name ..
                               "_spinner_arrow_left.ui_widget_definition"

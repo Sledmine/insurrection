@@ -30,29 +30,47 @@ return container {
                 name = name,
                 alignment = "vertical",
                 childs = {
-                    --{
-                    --    spinner {
-                    --        name = "resolution",
-                    --        text = "RESOLUTION",
-                    --        variant = "large",
-                    --        value = strmem(16, "1920x1080"),
-                    --    },
-                    --    layout()
-                    --},
-                    --{
-                    --    spinner {
-                    --        name = "refresh_rate",
-                    --        text = "REFRESH RATE",
-                    --        variant = "large",
-                    --        value = strmem(10, "60Hz"),
-                    --    },
-                    --    layout()
-                    --},
+                    {
+                        spinner {
+                            name = "adapter",
+                            text = "DISPLAY ADAPTER",
+                            variant = "large",
+                            value = strmem(32, "NVIDIA GeForce GTX 1080"),
+                        },
+                        layout()
+                    },
+                    {
+                        spinner {
+                            name = "resolution",
+                            text = "RESOLUTION",
+                            variant = "large",
+                            value = strmem(10, "1920x1080"),
+                        },
+                        layout()
+                    },
+                    {
+                        spinner {
+                            name = "refresh_rate",
+                            text = "REFRESH RATE",
+                            variant = "large",
+                            value = strmem(6, "60Hz"),
+                        },
+                        layout()
+                    },
                     {
                         spinner {
                             name = "texture_quality",
                             text = "TEXTURE QUALITY",
-                            value = strmem(8, "HIGH"),
+                            value = strmem(6, "HIGH"),
+                            variant = "large"
+                        },
+                        layout()
+                    },
+                    {
+                        spinner {
+                            name = "fov",
+                            text = "FIELD OF VIEW",
+                            value = strmem(3, "70"),
                             variant = "large"
                         },
                         layout()
@@ -134,15 +152,6 @@ return container {
                             name = "preload_textures",
                             text = "PRELOAD MAP TEXTURES",
                             variant = "large",
-                        },
-                        layout()
-                    },
-                    {
-                        spinner {
-                            name = "fov",
-                            text = "FIELD OF VIEW",
-                            value = strmem(8, "70"),
-                            variant = "large"
                         },
                         layout()
                     },

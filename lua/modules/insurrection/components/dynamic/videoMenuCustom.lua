@@ -12,6 +12,7 @@ local chimera = require "insurrection.mods.chimera"
 local balltze = require "insurrection.mods.balltze"
 local interface = require "insurrection.interface"
 local engine = Engine
+local monitors = require "insurrection.monitors"
 
 return function()
     local settings = components.new(constants.widgets.videoSettings.id)
@@ -20,25 +21,42 @@ return function()
     local description = components.new(footer:findChildWidgetTag("text").id)
     local backButton = button.new(options:findChildWidgetTag("back").id)
 
+    local monitors = monitors.getAll(true)
+    --print(inspect(monitors))
+
     local availableResolutions = {
         "1280x720",
-        -- "1366x768",
-        -- "1600x900",
-        -- "1680x1050",
+        "1366x768",
         "1920x1080",
-        -- "1920x1200",
         "2560x1080"
-        -- "2560x1440",
-        -- "3440x1440",
-        -- "3840x2160"
     }
+
+    local availableResolutions = table.map(monitors, function(monitor)
+        return table.map(monitor.resolutions, function(resolution)
+            return string.format("%dx%d", resolution.width, resolution.height)
+        end)
+    end)[1] or availableResolutions
+    availableResolutions = table.filter(availableResolutions, function(value, index)
+        return table.indexof(availableResolutions, value) == index
+    end)
+    print(inspect(availableResolutions))
 
     local availableTextureQualities = {"LOW", "MEDIUM", "HIGH"}
 
-    local availableRefreshRates = {"60", "75", "120", "144", "240"}
+    local availableRefreshRates = {}
+    availableRefreshRates = table.map(monitors, function(monitor)
+        return table.map(monitor.resolutions, function(resolution)
+            return resolution.refresh
+        end)
+    end)[1] or {60, 75, 120}
+    availableRefreshRates = table.filter(availableRefreshRates, function(value, index)
+        return table.indexof(availableRefreshRates, value) == index
+    end)
+    table.sort(availableRefreshRates)
     availableRefreshRates = table.map(availableRefreshRates, function(value)
         return value .. "Hz"
     end)
+    print(inspect(availableRefreshRates))
 
     local profile = Engine.savedGames.getPlayerProfile()
 
@@ -59,6 +77,15 @@ return function()
     
     local elements = {}
     local elementsData = {
+        ["DISPLAY ADAPTER"] = {
+            value = monitors[1] and monitors[1].label or "NVIDIA GeForce GTX 1080",
+            change = function(value)
+                --logger:info("Selected display adapter: " .. value)
+            end,
+            focus = function()
+                description:setText("Select the display adapter to use for rendering the game.")
+            end
+        },
         ["RESOLUTION"] = {
             value = availableResolutions[#availableResolutions],
             change = function(value)
@@ -277,17 +304,26 @@ return function()
             interface.blur(false)
         end
         local profile = Engine.savedGames.getPlayerProfile()
-        -- local currentResolution = profile.videoSettings.resolutionWidth .. "x" ..
-        --                              profile.videoSettings.resolutionHeight
-        -- local currentRefreshRate = table.find(availableRefreshRates, function(value)
-        --    return value:includes(profile.videoSettings.refreshRate .. "Hz")
-        -- end)
+        local currentResolution = profile.videoSettings.resolutionWidth .. "x" ..
+                                     profile.videoSettings.resolutionHeight
 
-        -- elements["RESOLUTION"]:setValues(availableResolutions)
-        -- elementsData["RESOLUTION"].value = currentResolution
+        local currentRefreshRate = table.find(availableRefreshRates, function(value)
+           return value:includes(profile.videoSettings.refreshRate .. "Hz")
+        end) or availableRefreshRates[#availableRefreshRates]
 
-        -- elements["REFRESH RATE"]:setValues(availableRefreshRates)
-        -- elementsData["REFRESH RATE"].value = currentRefreshRate
+        elements["DISPLAY ADAPTER"]:setValues(table.map(monitors, function(monitor)
+            -- Keep only index (keep last char)
+            local index = string.sub(monitor.name, -1)
+            return monitor.label .. " (" .. index .. ")"
+        end))
+        elementsData["DISPLAY ADAPTER"].value = monitors[1] and monitors[1].label or
+                                                    "NVIDIA GeForce GTX 1080"
+
+        elements["RESOLUTION"]:setValues(availableResolutions)
+        elementsData["RESOLUTION"].value = currentResolution
+
+        elements["REFRESH RATE"]:setValues(availableRefreshRates)
+        elementsData["REFRESH RATE"].value = currentRefreshRate
 
         -- Native game values
         elements["TEXTURE QUALITY"]:setValues(availableTextureQualities)

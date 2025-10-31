@@ -88,7 +88,8 @@ function spinner.setValue(self, value)
         setValueText(self, value)
         return true
     end
-    logger:error("Value " .. value .. " not found in spinner values for " .. self.tag.path)
+    logger:error(debug.traceback())
+    logger:error("Value " .. tostring(value) .. " not found in spinner values for " .. self.tag.path)
     return false
 end
 
