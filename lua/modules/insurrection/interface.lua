@@ -63,6 +63,7 @@ function interface.load()
             require "insurrection.components.dynamic.lobbyBrowserMenu"()
             require "insurrection.components.dynamic.customizationBipedColorMenu"()
             require "insurrection.components.dynamic.firefightMenu"()
+            require "insurrection.components.dynamic.mainMenu"()
 
             local pause = components.new(constants.widgets.pause.id)
             pause:onClose(function()
@@ -289,16 +290,20 @@ function interface.animateUIWidgetBackground(widgetComponent, willRepeat)
 end
 
 ---Show a dialog message on the screen
----@overload fun(props: {title: "WARNING" | "INFORMATION" | "ERROR" | string, subtitleText: string, body: string, button?: string})
+---@overload fun(props: {title: "WARNING" | "INFORMATION" | "ERROR" | string, subtitle: string, body: string, button?: string, cancel?: boolean, onConfirm?: function})
 ---@overload fun(titleText: "WARNING" | "INFORMATION" | "ERROR" | string, subtitleText: string, bodyText: string)
 function interface.dialog(...)
     local args = {...}
+    local cancel = false
     local titleText, subtitleText, bodyText, actionText = args[1], args[2], args[3], "OK"
+    local onConfirm = nil
     if type(args[1]) == "table" then
         titleText = args[1].title
         subtitleText = args[1].subtitle
         bodyText = args[1].body
         actionText = args[1].button or "OK"
+        cancel = args[1].cancel or false
+        onConfirm = args[1].onConfirm
     end
     if constants.sounds then
         if titleText == "WARNING" or titleText == "ERROR" then
@@ -320,10 +325,16 @@ function interface.dialog(...)
     body:setText(bodyText)
 
     local options = components.new(dialog:get("options"))
-    local actionButton = components.new(options:get("ok"))
+    local actionButton = button.new(options:get("ok"))
     actionButton:setText(actionText)
 
-    if titleText == "ERROR" then
+    if onConfirm then
+        actionButton:onClick(function()
+            return onConfirm()
+        end)
+    end
+
+    if titleText == "ERROR" or cancel then
         openWidget(constants.widgets.dialog.id, false)
     else
         openWidget(constants.widgets.dialog.id, true)

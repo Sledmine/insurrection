@@ -55,17 +55,17 @@ return container {
                     },
                     {
                         button {
-                            name = "multiplayer",
-                            text = "MULTIPLAYER",
-                            opens = [[insurrection/ui/menus/multiplayer/multiplayer_menu.ui_widget_definition]]
+                            name = "insurrection",
+                            text = "INSURRECTION",
+                            opens = [[insurrection/ui/menus/login/login_menu.ui_widget_definition]]
                         },
                         layout()
                     },
                     {
                         button {
-                            name = "insurrection",
-                            text = "INSURRECTION",
-                            opens = [[insurrection/ui/menus/login/login_menu.ui_widget_definition]]
+                            name = "multiplayer",
+                            text = "LEGACY MULTIPLAYER",
+                            opens = [[insurrection/ui/menus/multiplayer/multiplayer_menu.ui_widget_definition]]
                         },
                         layout()
                     },

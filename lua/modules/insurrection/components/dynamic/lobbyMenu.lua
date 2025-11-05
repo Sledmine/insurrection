@@ -49,21 +49,23 @@ return function()
     local template = button.new(definitionList:findChildWidgetTag("template").id)
     local map = button.new(definitionList:findChildWidgetTag("map").id)
     local gametype = button.new(definitionList:findChildWidgetTag("gametype").id)
-    local skulls = button.new(definitionList:findChildWidgetTag("skulls").id)
+    -- local skulls = button.new(definitionList:findChildWidgetTag("skulls").id)
 
     -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
-    local skullsPanel = component.new(blam.findTag("skulls_panel",
-                                                   blam.tagClasses.uiWidgetDefinition).id)
+    -- local skullsPanel = component.new(blam.findTag("skulls_panel", blam.tagClasses.uiWidgetDefinition).id)
 
     local elementsList = list.new(options:findChildWidgetTag("elements").id)
     local mapsList = list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition)
                                   .id)
-    local fullMapList = component.new(blam.findTag("lobby_maps_wrapper",
+    local fullMapListWrapper  = component.new(blam.findTag("lobby_maps_wrapper",
                                                    blam.tagClasses.uiWidgetDefinition).id)
-    local mapDescription = component.new(blam.findTag("map_small",
-                                                      blam.tagClasses.uiWidgetDefinition).id)
+    local mapPreview = component.new(fullMapListWrapper:get("map_small_preview"))
+    local mapName = component.new(fullMapListWrapper:get("map_name"))
+    local mapAuthor = component.new(fullMapListWrapper:get("map_author"))
+    local mapDescription = component.new(fullMapListWrapper:get("map_description"))
     -- Add scanner animation to map preview
-    component.new(mapDescription:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3, 1)
+    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true,
+                                                                                       2.3, 1)
 
     local search = input.new(options:findChildWidgetTag("search").id)
     local play = button.new(options:findChildWidgetTag("play").id)
@@ -86,21 +88,8 @@ return function()
 
     description:setText("Play with your friends, define your rules and enjoy.")
 
-    local function getMapBackgroundBitmap(mapName)
-        local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
-        assert(mapCollection, "No map preview collection found")
-        for k, v in pairs(mapCollection.tagList) do
-            local bitmapTag = blam.getTag(v) --[[@as tag]]
-            local mapBitmapName = core.getTagName(bitmapTag.path):lower()
-            if mapBitmapName == mapName:lower() then
-                return bitmapTag.id
-            end
-        end
-        return constants.bitmaps.unknownMapPreview.id
-    end
-
     local function setMapBackgroundBitmap(mapName)
-        mapPreview.widgetDefinition.backgroundBitmap = getMapBackgroundBitmap(mapName)
+        mapPreview.widgetDefinition.backgroundBitmap = core.getMapBackgroundBitmap(mapName)
     end
 
     local function editLobbyData()
@@ -115,8 +104,19 @@ return function()
         })
     end
 
-    local function setDefinitionList()
-
+    local function setMapData(selectedMapName)
+        setMapBackgroundBitmap(selectedMapName)
+        mapName:setText(t(selectedMapName))
+        local mapMetadata = table.find(constants.maps, function(map)
+            return map.name == selectedMapName
+        end)
+        if mapMetadata then
+            mapAuthor:setText(mapMetadata.author)
+            mapDescription:setText(mapMetadata.description)
+        else
+            mapAuthor:setText("Unknown")
+            mapDescription:setText("No description available")
+        end
     end
 
     if lobby and isPlayerLobbyOwner then
@@ -133,7 +133,11 @@ return function()
             defComponent:setText(item.label)
             defComponent:setValue(value)
             editLobbyData()
-            setMapBackgroundBitmap(value)
+            setMapData(value)
+        end)
+        mapsList:onFocus(function(item)
+            --local selectedMapName = item.value.text
+            --setMapData(selectedMapName)
         end)
 
         ---Change current definition of data in lobby
@@ -185,8 +189,8 @@ return function()
         end
 
         local function showMapsListPanel()
-            skullsPanel:replace(search.tagId)
-            elementsList:replace(fullMapList.tagId)
+            -- skullsPanel:replace(search.tagId)
+            elementsList:replace(fullMapListWrapper .tagId)
             summary:show()
             description:show()
             makePublic:show()
@@ -194,8 +198,8 @@ return function()
         end
 
         local function showElementsListPanel()
-            skullsPanel:replace(search.tagId)
-            fullMapList:replace(elementsList.tagId)
+            -- skullsPanel:replace(search.tagId)
+            fullMapListWrapper :replace(elementsList.tagId)
             summary:show()
             description:show()
             makePublic:show()
@@ -203,13 +207,13 @@ return function()
         end
 
         local function showSkullsPanel()
-            elementsList:replace(fullMapList.tagId)
-            fullMapList:replace(elementsList.tagId)
-            fullMapList:hide()
+            elementsList:replace(fullMapListWrapper .tagId)
+            fullMapListWrapper :replace(elementsList.tagId)
+            fullMapListWrapper :hide()
             elementsList:hide()
             summary:hide()
             description:hide()
-            search:replace(skullsPanel.tagId)
+            -- search:replace(skullsPanel.tagId)
             makePublic:hide()
             key:hide()
         end
@@ -248,9 +252,9 @@ return function()
                 "Template defines a set of changes to the base server that will be applied when the lobby is created.")
         end)
 
-        skulls:onClick(function()
-            showSkullsPanel()
-        end)
+        -- skulls:onClick(function()
+        --    showSkullsPanel()
+        -- end)
 
         play:onClick(function()
             if isPlayerLobbyOwner then
@@ -294,7 +298,7 @@ return function()
         if api.session.lobbyKey then
             key:setText(string.rep("*", #api.session.lobbyKey))
         end
-        setMapBackgroundBitmap(state.lobby.map)
+        setMapData(state.lobby.map)
 
         playersList:setItems(table.map(state.lobby.players, function(player)
             local nameplateTag = constants.nameplates[player.nameplate] or {}

@@ -35,6 +35,9 @@ end
 ---Save balltze configuration
 ---@param configuration balltzeConfiguration
 function balltze.saveConfiguration(configuration)
+    if not configuration then
+        return false
+    end
     local configJson = json.encode(configuration)
     return luna.file.write(getMyGamesHaloCEPath() .. configPath, configJson)
 end

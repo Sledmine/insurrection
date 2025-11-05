@@ -93,7 +93,7 @@ local function connect(desiredMap, host, port, password)
         engine.core.consolePrint("Can't connect to a server while in-game.")
         return
     end
-    --logger:debug("Connecting to {}:{} with password {}", host, port, password)
+    -- logger:debug("Connecting to {}:{} with password {}", host, port, password)
     local mapList = engine.map.getMapList()
     if table.indexof(mapList, desiredMap) then
         -- Force game profile name to be the same as the player's name
@@ -553,8 +553,13 @@ function api.getLobbies()
             local jsonResponse = response.json()
             if jsonResponse then
                 if #jsonResponse == 0 then
-                    interface.dialog("ERROR", "NO LOBBIES FOUND",
-                                     "There are no lobbies available at the moment.")
+                    interface.dialog {
+                        title = "INFORMATION",
+                        subtitle = "NO LOBBIES AVAILABLE",
+                        body = "There are no other player lobbies available at the moment.\nTry creating one!",
+                        button = "RIGHT ON!",
+                        cancel = true
+                    }
                     return
                 else
                     store:dispatch(actions.setLobbies(jsonResponse))

@@ -407,6 +407,9 @@ function chimera.getPreferences()
 end
 
 function chimera.savePreferences(preferences)
+    if not preferences then
+        return false
+    end
     local preferencesTxt = ""
     for key, value in pairs(preferences) do
         preferencesTxt = preferencesTxt .. key .. " " .. value .. "\n"

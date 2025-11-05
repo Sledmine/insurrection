@@ -697,7 +697,7 @@ function core.saveFirefightSkullsSettings(settings)
         -- Clean up settings from invalid vaues
         for key, value in pairs(skullData) do
             if type(value) == "function" then
-                logger:warning("Removing invalid skull setting key: {} with function value", key)
+                logger:debug("Removing invalid skull setting key: {} with function value", key)
                 skullData[key] = nil
             end
         end

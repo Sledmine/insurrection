@@ -24,13 +24,7 @@ return function()
     local monitors = monitors.getAll(true)
     --print(inspect(monitors))
 
-    local availableResolutions = {
-        "1280x720",
-        "1366x768",
-        "1920x1080",
-        "2560x1080"
-    }
-
+    local availableResolutions = {}
     local availableResolutions = table.map(monitors, function(monitor)
         return table.map(monitor.resolutions, function(resolution)
             return string.format("%dx%d", resolution.width, resolution.height)
