@@ -27,12 +27,15 @@ local function disableCheats(cheats)
 end
 
 local skullsIcons = {
+    "acrophobia",
     "assassin",
     "bandana",
     "banger",
     "berserk",
     "blind",
+    --"bloodlust",
     "catch",
+    "cliffhanger",
     "cowbell",
     "doubledown",
     "eyepatch",
@@ -44,9 +47,12 @@ local skullsIcons = {
     "mythic",
     "newton",
     "slayer",
+    "sputnik",
+    "tarkov",
+    "thunderstorm",
     "tilt",
     "toughluck",
-    "triggerswitch"
+    "triggerswitch",
 }
 
 local function getBitmapIndexForSkull(skullName)
@@ -575,7 +581,7 @@ return function()
         },
         bandana = {
             name = "Bandana",
-            motto = "Never run out of ammo again.",
+            motto = "Infinite Ammo.",
             description = "Gives the player unlimited ammunition and grenades, but realoading is needed.",
             state = {count = 0, max = 1, multiplier = 1},
             allowedInRandom = true,
@@ -586,6 +592,51 @@ return function()
             name = "Grunt Birthday Party",
             motto = "Make every grunt's day special.",
             description = "Killing grunts with a headshot causes a harmless explosion of confetti.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        cliffhanger = {
+            name = "Cliffhanger",
+            motto = "Hold your breath...",
+            description = "Randomizes the detonation delay for all explosives.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        tarkov = {
+            name = "Tarkov",
+            motto = "You'll learn to control that mania.",
+            description = "Discards remaining rounds when reloading, but doubles magazine capacity!",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        thunderstorm = {
+            name = "Thunderstorm",
+            motto = "Field promotions for everyone!",
+            description = "Every character advances to it's major variant if available.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        sputnik = {
+            name = "Sputnik",
+            motto = "Pigs might fly.",
+            description = "Gravity is reduced by half. Shooting causes a small pushback.",
+            state = {count = 0, max = 1, multiplier = 1},
+            allowedInRandom = true,
+            isEnabled = false,
+            isPermanent = false
+        },
+        acrophobia = {
+            name = "Acrophobia",
+            motto = "L1-L2-R1-R2-UP-DOWN-LEFT-\nRIGHT-L1-L2-R1-R2-UP-DOWN...",
+            description = "Gives player a jetpack. (Hold jump to ascend, crouch to descend).",
             state = {count = 0, max = 1, multiplier = 1},
             allowedInRandom = true,
             isEnabled = false,
