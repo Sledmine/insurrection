@@ -401,7 +401,8 @@ return function()
         activateTemporalSkullEach = eventNames.eachRound,
         resetTemporalSkullEach = eventNames.eachSet,
         activatePermanentSkullEach = eventNames.eachSet,
-        deployAlliesEach = eventNames.eachBossWave
+        deployAlliesEach = eventNames.eachBossWave,
+        playerAssistancesEach = eventNames.eachRound
     }
     -- By default, boss waves are the last wave of each round.
     settings.bossWaveFrequency = settings.wavesPerRound
@@ -881,6 +882,15 @@ return function()
             focus = function()
                 description:setText("Set how often allies are deployed.")
             end
+        },
+        ["PLAYER ASSISTANCES EVERY"] = {
+            value = "Round",
+            change = function(value, index)
+                settings.playerAssistancesEach = index
+            end,
+            focus = function()
+                description:setText("Set how often player assistances are granted. (Deploy vehicles, special weapons, etc.)")
+            end
         }
     }
 
@@ -951,6 +961,7 @@ return function()
         elements["RESET TEMPORAL SKULL EVERY"]:setValues(events)
         elements["ACTIVATE PERMANENT SKULL EVERY"]:setValues(events)
         elements["DEPLOY ALLIES EVERY"]:setValues(events)
+        elements["PLAYER ASSISTANCES EVERY"]:setValues(events)
         elementsData["PLAYER INITIAL LIVES"].value = settings.playerInitialLives
         elementsData["EXTRA LIVES GAINED"].value = settings.extraLivesGained
         elementsData["LIVES LOST PER DEAD"].value = settings.livesLostPerDead
@@ -975,6 +986,7 @@ return function()
         elementsData["ALLOW RANDOM PERMANENT SKULLS"].value = tobool(
                                                                   settings.permanentSkullsCanBeRandom)
         elementsData["DEPLOY ALLIES EVERY"].value = events[settings.deployAlliesEach or 5]
+        elementsData["PLAYER ASSISTANCES EVERY"].value = events[settings.playerAssistancesEach or 3]
 
         for optionName, element in pairs(elements) do
             local data = elementsData[optionName]

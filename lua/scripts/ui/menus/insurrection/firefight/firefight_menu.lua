@@ -435,6 +435,16 @@ local firefightSettingsMenuPath = wrapper {
                             variant = "large"
                         },
                         settings2Layout()
+                    },
+                    {
+                        spinner {
+                            name = "player_assistances",
+                            text = "PLAYER ASSISTANCES EVERY",
+                            value = strmem(16, "Round"),
+                            length = lengthArrowforText,
+                            variant = "large"
+                        },
+                        settings2Layout()
                     }
                 }
             }
