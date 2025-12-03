@@ -29,3 +29,4 @@ lcurl.dll
 discord-rpc.dll
 package/balltze-plugins/insurrection.lua
 package/game-maps/ui.map
+tmp/
