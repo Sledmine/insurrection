@@ -1,4 +1,5 @@
 local ffi = require "cffi"
+local bit = require "bit"
 
 ffi.cdef[[
 typedef int BOOL;
@@ -80,6 +81,17 @@ local monitors = {}
 
 local EDS_ENUM_CURRENT_SETTINGS = 0x00000001
 
+local getFlags = function(stateFlags)
+    return {
+        DISPLAY_DEVICE_ACTIVE = bit.band(stateFlags, 0x1) ~= 0,
+        DISPLAY_DEVICE_MIRRORING_DRIVER = bit.band(stateFlags, 0x8) ~= 0,
+        DISPLAY_DEVICE_MODESPRUNED = bit.band(stateFlags, 0x8000000) ~= 0,
+        DISPLAY_DEVICE_PRIMARY_DEVICE = bit.band(stateFlags, 0x4) ~= 0,
+        DISPLAY_DEVICE_REMOVABLE = bit.band(stateFlags, 0x20) ~= 0,
+        DISPLAY_DEVICE_VGA_COMPATIBLE = bit.band(stateFlags, 0x10) ~= 0,
+    }
+end
+
 function monitors.getAll(activeOnly)
     local result = {}
     local DISPLAY_DEVICE = ffi.new("DISPLAY_DEVICEA")
@@ -92,28 +104,51 @@ function monitors.getAll(activeOnly)
         end
 
         local stateFlags = tonumber(DISPLAY_DEVICE.StateFlags)
-        if (not activeOnly) or (stateFlags & 0x1 ~= 0) then
+        local flags = getFlags(stateFlags)
+
+        if (not activeOnly) or flags.DISPLAY_DEVICE_ACTIVE then
             local adapterName  = ffi.string(DISPLAY_DEVICE.DeviceName)
             local adapterLabel = ffi.string(DISPLAY_DEVICE.DeviceString)
 
-            -- SECOND-LEVEL ENUM TO GET MONITOR NAME
-            local MONITOR_DEVICE = ffi.new("DISPLAY_DEVICEA")
-            MONITOR_DEVICE.cb = ffi.sizeof(MONITOR_DEVICE)
-
+            -------------------------------------------------------
+            -- SECOND-LEVEL ENUM TO GET REAL EDID MONITOR NAME
+            -------------------------------------------------------
             local monitorName = "Unknown Monitor"
-            if user32.EnumDisplayDevicesA(adapterName, 0, MONITOR_DEVICE, 0) ~= 0 then
-                monitorName = ffi.string(MONITOR_DEVICE.DeviceString)
+            local MONITOR_DEVICE = ffi.new("DISPLAY_DEVICEA")
+
+            local subIndex = 0
+            while true do
+                MONITOR_DEVICE.cb = ffi.sizeof(MONITOR_DEVICE)
+
+                if user32.EnumDisplayDevicesA(adapterName, subIndex, MONITOR_DEVICE, 0) == 0 then
+                    break
+                end
+
+                local devId = ffi.string(MONITOR_DEVICE.DeviceID)
+                local flags = getFlags(tonumber(MONITOR_DEVICE.StateFlags))
+                --print(tonumber(MONITOR_DEVICE.StateFlags))
+                --print(inspect(flags))
+
+                -- Real hardware monitors show up as: MONITOR\ABC1234
+                if devId:match("^MONITOR\\") and flags.DISPLAY_DEVICE_ACTIVE then
+                    monitorName = ffi.string(MONITOR_DEVICE.DeviceString)
+                    break
+                end
+
+                subIndex = subIndex + 1
             end
 
             local monitor = {
-                adapterName = adapterName,       -- GPU display output
-                adapterLabel = adapterLabel,     -- GPU model name
-                monitorName = monitorName,       -- Human readable monitor name (EDID)
-                resolutions = {},
-                stateFlags = stateFlags
+                adapterName   = adapterName,
+                adapterLabel  = adapterLabel,
+                monitorName   = monitorName,
+                resolutions   = {},
+                stateFlags    = stateFlags
             }
 
-            -- ENUMERATE VALID RESOLUTIONS
+            -------------------------------------------------------
+            -- ENUMERATE RESOLUTIONS
+            -------------------------------------------------------
             local seen = {}
             local modeIndex = 0
             local DEVMODE = ffi.new("DEVMODEA")
@@ -125,10 +160,14 @@ function monitors.getAll(activeOnly)
                 local hz = tonumber(DEVMODE.dmDisplayFrequency)
 
                 if w > 0 and h > 0 then
-                    local key = string.format("%dx%d@%d", w, h, hz)
+                    local key = ("%dx%d@%d"):format(w, h, hz)
                     if not seen[key] then
                         seen[key] = true
-                        table.insert(monitor.resolutions, {width=w, height=h, refresh=hz})
+                        table.insert(monitor.resolutions, {
+                            width  = w,
+                            height = h,
+                            refresh = hz
+                        })
                     end
                 end
 
@@ -140,6 +179,10 @@ function monitors.getAll(activeOnly)
 
         devIndex = devIndex + 1
     end
+
+    -- Destroy FFI objects to free memory
+    DISPLAY_DEVICE = nil
+    collectgarbage()
 
     return result
 end

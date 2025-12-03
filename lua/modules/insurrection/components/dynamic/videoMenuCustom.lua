@@ -22,35 +22,54 @@ return function()
     local backButton = button.new(options:findChildWidgetTag("back").id)
 
     local monitors = monitors.getAll(true)
-    --print(inspect(monitors))
 
-    local availableResolutions = {}
-    local availableResolutions = table.map(monitors, function(monitor)
-        return table.map(monitor.resolutions, function(resolution)
-            return string.format("%dx%d", resolution.width, resolution.height)
+    local resolutionsMap = {}
+    for _, monitor in ipairs(monitors) do
+        for _, resolution in ipairs(monitor.resolutions) do
+            local resKey = string.format("%dx%d", resolution.width, resolution.height)
+            resolutionsMap[resKey] = resolutionsMap[resKey] or {}
+            table.insert(resolutionsMap[resKey], resolution.refresh)
+        end
+    end
+    for _, refreshRates in pairs(resolutionsMap) do
+        table.sort(refreshRates, function(a, b)
+            return a < b
         end)
-    end)[1] or availableResolutions
-    availableResolutions = table.filter(availableResolutions, function(value, index)
-        return table.indexof(availableResolutions, value) == index
+    end
+
+    local availableResolutions = table.map(resolutionsMap, function(_, key)
+        return key
     end)
-    print(inspect(availableResolutions))
+    -- Keep only widescreen resolutions
+    availableResolutions = table.filter(availableResolutions, function(value, index)
+        local w, h = value:match("(%d+)x(%d+)")
+        w = tonumber(w)
+        h = tonumber(h)
+        local aspectRatio = w / h
+        return aspectRatio >= 16 / 10
+    end)
+    -- Sort resolutions by largest widescreen
+    table.sort(availableResolutions, function(previous, current)
+        local widthPrev = previous:match("(%d+)x")
+        local widthCurr = current:match("(%d+)x")
+        widthPrev = tonumber(widthPrev)
+        widthCurr = tonumber(widthCurr)
+        return widthPrev < widthCurr
+    end)
+
+    local width, height = core.getScreenResolution()
+    local currentRefreshRates = resolutionsMap[string.format("%dx%d", width, height)]
+    if not currentRefreshRates then
+        local defaultResKey = availableResolutions[#availableResolutions]
+        currentRefreshRates = resolutionsMap[defaultResKey]
+    end
 
     local availableTextureQualities = {"LOW", "MEDIUM", "HIGH"}
 
     local availableRefreshRates = {}
-    availableRefreshRates = table.map(monitors, function(monitor)
-        return table.map(monitor.resolutions, function(resolution)
-            return resolution.refresh
-        end)
-    end)[1] or {60, 75, 120}
-    availableRefreshRates = table.filter(availableRefreshRates, function(value, index)
-        return table.indexof(availableRefreshRates, value) == index
+    availableRefreshRates = table.map(currentRefreshRates or {}, function(refresh)
+        return tostring(refresh) .. "Hz"
     end)
-    table.sort(availableRefreshRates)
-    availableRefreshRates = table.map(availableRefreshRates, function(value)
-        return value .. "Hz"
-    end)
-    print(inspect(availableRefreshRates))
 
     local profile = Engine.savedGames.getPlayerProfile()
 
@@ -68,13 +87,13 @@ return function()
     local function saveChimeraConfig()
         chimera.saveConfiguration(chimeraConfig)
     end
-    
+
     local elements = {}
-    local elementsData = {
+    local elementsData = {}
+    elementsData = {
         ["DISPLAY ADAPTER"] = {
-            value = monitors[1] and monitors[1].label or "NVIDIA GeForce GTX 1080",
+            value = monitors[1] and monitors[1].adapterLabel or "Default GPU Adapter",
             change = function(value)
-                --logger:info("Selected display adapter: " .. value)
             end,
             focus = function()
                 description:setText("Select the display adapter to use for rendering the game.")
@@ -86,8 +105,7 @@ return function()
                 local resolution = value:split("x")
                 local newWidth = tonumber(resolution[1])
                 local newHeight = tonumber(resolution[2])
-                logger:debug("Current resolution: {} x {}", profile.videoSettings.resolutionWidth,
-                             profile.videoSettings.resolutionHeight)
+
                 local witdh = profile.videoSettings.resolutionWidth
                 local height = profile.videoSettings.resolutionHeight
                 if newWidth == witdh and newHeight == height then
@@ -97,22 +115,45 @@ return function()
 
                 profile.videoSettings.resolutionWidth = newWidth
                 profile.videoSettings.resolutionHeight = newHeight
+
+                availableRefreshRates = table.map(resolutionsMap[value] or {}, function(refresh)
+                    return tostring(refresh) .. "Hz"
+                end)
+                local highestResfreshRate = availableRefreshRates[#availableRefreshRates]
+                elements["REFRESH RATE"]:setValues(availableRefreshRates)
+                elements["REFRESH RATE"]:setValue(highestResfreshRate)
+
+                -- Save Chimera config as well (Chimera leads the video mode settings for now)
+                chimeraConfig.video_mode.width = tostring(newWidth)
+                chimeraConfig.video_mode.height = tostring(newHeight)
+                saveChimeraConfig()
+
+                -- Reload legacy game profile settings to apply changes
+                -- Will require a game restart to take effect until Chimera gets removed
                 Engine.savedGames.reloadPlayerProfile()
             end,
             focus = function()
-                description:setText("Change the resolution of the game.")
+                description:setText(
+                    "Change the resolution of the game. NOTE: Changing resolution requires a game restart to take effect.")
             end
         },
         ["REFRESH RATE"] = {
             value = availableRefreshRates[#availableRefreshRates],
             change = function(value)
-                local refreshRate = tonumber(value:replace("Hz", ""))
+                local refreshRate = tonumber(value:replace("Hz", "")) or 0
                 if profile.videoSettings.refreshRate == refreshRate then
                     logger:debug("Refresh rate is the same, skipping")
                     return
                 end
 
                 profile.videoSettings.refreshRate = refreshRate
+                -- Save Chimera config as well (Chimera leads the video mode settings for now)
+                chimeraConfig.video_mode.refresh_rate = refreshRate
+                saveChimeraConfig()
+
+                -- Reload legacy game profile settings to apply changes
+                -- Will require a game restart to take effect until Chimera gets removed
+                Engine.savedGames.reloadPlayerProfile()
             end,
             focus = function()
                 description:setText("Change the refresh rate of the game.")
@@ -175,6 +216,7 @@ return function()
             change = function(value)
                 chimeraConfig.video_mode.vsync = value and 1 or 0
                 saveChimeraConfig()
+                -- TODO Apply vsync data to game profile
             end,
             focus = function()
                 description:setText("Enable vertical synchronization to prevent screen tearing.")
@@ -298,20 +340,23 @@ return function()
             interface.blur(false)
         end
         local profile = Engine.savedGames.getPlayerProfile()
-        local currentResolution = profile.videoSettings.resolutionWidth .. "x" ..
-                                     profile.videoSettings.resolutionHeight
+        local resolutionKey = profile.videoSettings.resolutionWidth .. "x" ..
+                                  profile.videoSettings.resolutionHeight
+        local currentResolution = table.find(availableResolutions, function(value)
+            return value == resolutionKey
+        end) or availableResolutions[#availableResolutions]
 
         local currentRefreshRate = table.find(availableRefreshRates, function(value)
-           return value:includes(profile.videoSettings.refreshRate .. "Hz")
+            return value:includes(profile.videoSettings.refreshRate .. "Hz")
         end) or availableRefreshRates[#availableRefreshRates]
 
-        elements["DISPLAY ADAPTER"]:setValues(table.map(monitors, function(monitor)
-            -- Keep only index (keep last char)
-            local index = string.sub(monitor.name, -1)
-            return monitor.label .. " (" .. index .. ")"
-        end))
-        elementsData["DISPLAY ADAPTER"].value = monitors[1] and monitors[1].label or
-                                                    "NVIDIA GeForce GTX 1080"
+        -- elements["DISPLAY ADAPTER"]:setValues(table.map(monitors, function(monitor)
+        --    -- Keep only index (keep last char)
+        --    local index = string.sub(monitor.adapterName, -1)
+        --    return monitor.adapterLabel .. " (" .. index .. ")"
+        -- end))
+        -- elementsData["DISPLAY ADAPTER"].value = monitors[1] and monitors[1].adapterLabel or "Default GPU Adapter"
+        -- elementsData["DISPLAY ADAPTER"].value = monitors[1] and monitors[1].adapterLabel
 
         elements["RESOLUTION"]:setValues(availableResolutions)
         elementsData["RESOLUTION"].value = currentResolution
@@ -338,7 +383,11 @@ return function()
             table.insert(fovs, tostring(fov) .. (isUltraWide and "v" or ""))
         end
         elements["FIELD OF VIEW"]:setValues(fovs)
-        elementsData["FIELD OF VIEW"].value = chimeraPreferences.chimera_fov
+        local chimeraFov = tostring(chimeraPreferences.chimera_fov)
+        local currentFov = table.find(fovs, function(value)
+            return value == chimeraFov or value == chimeraFov .. "v"
+        end) or fovs[1]
+        elementsData["FIELD OF VIEW"].value = currentFov
         -- Balltze values
         elementsData["PRELOAD MAP TEXTURES"].value =
             balltzeConfiguration.preload_map_textures.enable

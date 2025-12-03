@@ -396,12 +396,12 @@ return function()
         gameCooldownSeconds = 1,
         -- Game settings
         startingEnemyTeam = enemyTeams.covenant,
-        permanentSkullsCanBeRandom = true,
+        permanentSkullsCanBeRandom = false,
         -- Event properties
         activateTemporalSkullEach = eventNames.eachRound,
         resetTemporalSkullEach = eventNames.eachSet,
         activatePermanentSkullEach = eventNames.eachSet,
-        deployAlliesEach = eventNames.eachBossWave,
+        deployAlliesEach = eventNames.eachRound,
         playerAssistancesEach = eventNames.eachRound
     }
     -- By default, boss waves are the last wave of each round.
@@ -693,6 +693,7 @@ return function()
             -- Define game difficulty ourselves to reflect change as soon as possible
             blam.setGameDifficultyIndex(difficultyGameIndex)
             executeScript("sv_timelimit 0")
+            executeScript("sv_public 0")
             executeScript("sv_map " .. currentMapName .. " slayer")
         end
     end)

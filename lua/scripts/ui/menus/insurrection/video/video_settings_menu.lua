@@ -12,16 +12,35 @@ local pos = constants.position
 
 widget.init [[insurrection/ui/menus/video/]]
 
-local layout = widget.align("vertical", 24, pos.options.x, pos.options.y, 2)
-
 local name = "video_settings_menu_custom"
+
+local variant = "large"
+
+local layout = widget.layout {
+    alignment = "vertical",
+    size = 24,
+    x = pos.options.x,
+    y = pos.options.y,
+    margin = 2
+}
+local layout2 = widget.layout {
+    alignment = "vertical",
+    size = 24,
+    x = pos.options.x + constants.components.button[variant].width + 8,
+    y = pos.options.y,
+    margin = 2
+}
 
 return container {
     name = name,
     background = "transparent",
     childs = {
         {
-            header {name = name, title = "VIDEO SETTINGS", subtitle = "CHANGE YOUR VIDEO SETTINGS TO FIT YOUR SETUP"},
+            header {
+                name = name,
+                title = "VIDEO SETTINGS",
+                subtitle = "CHANGE YOUR VIDEO SETTINGS TO FIT YOUR SETUP"
+            },
             pos.header.x,
             pos.header.y
         },
@@ -30,21 +49,21 @@ return container {
                 name = name,
                 alignment = "vertical",
                 childs = {
-                    {
-                        spinner {
-                            name = "adapter",
-                            text = "DISPLAY ADAPTER",
-                            variant = "large",
-                            value = strmem(32, "NVIDIA GeForce GTX 1080"),
-                        },
-                        layout()
-                    },
+                    -- {
+                    --    spinner {
+                    --        name = "adapter",
+                    --        text = "DISPLAY ADAPTER",
+                    --        variant = variant,
+                    --        value = strmem(32, "NVIDIA GeForce GTX 1080"),
+                    --    },
+                    --    layout()
+                    -- },
                     {
                         spinner {
                             name = "resolution",
                             text = "RESOLUTION",
-                            variant = "large",
-                            value = strmem(10, "1920x1080"),
+                            variant = variant,
+                            value = strmem(10, "1920x1080")
                         },
                         layout()
                     },
@@ -52,8 +71,8 @@ return container {
                         spinner {
                             name = "refresh_rate",
                             text = "REFRESH RATE",
-                            variant = "large",
-                            value = strmem(6, "60Hz"),
+                            variant = variant,
+                            value = strmem(6, "60Hz")
                         },
                         layout()
                     },
@@ -62,7 +81,7 @@ return container {
                             name = "texture_quality",
                             text = "TEXTURE QUALITY",
                             value = strmem(6, "HIGH"),
-                            variant = "large"
+                            variant = variant
                         },
                         layout()
                     },
@@ -70,8 +89,8 @@ return container {
                         spinner {
                             name = "fov",
                             text = "FIELD OF VIEW",
-                            value = strmem(3, "70"),
-                            variant = "large"
+                            value = strmem(4, "70"),
+                            variant = variant
                         },
                         layout()
                     },
@@ -79,7 +98,7 @@ return container {
                         checkbox {
                             name = "specular",
                             text = "RENDER SPECULAR SURFACES",
-                            variant = "large",
+                            variant = variant
                         },
                         layout()
                     },
@@ -87,63 +106,37 @@ return container {
                         checkbox {
                             name = "shadows",
                             text = "RENDER OBJECTS SHADOWS",
-                            variant = "large",
+                            variant = variant
                         },
                         layout()
                     },
                     {
-                        checkbox {
-                            name = "decals",
-                            text = "RENDER MAP DECALS",
-                            variant = "large",
-                        },
+                        checkbox {name = "decals", text = "RENDER MAP DECALS", variant = variant},
                         layout()
                     },
                     {
                         checkbox {
                             name = "particles",
                             text = "RENDER EFFECTS PARTICLES",
-                            variant = "large",
+                            variant = variant
                         },
                         layout()
                     },
+                    {checkbox {name = "use_vsync", text = "USE VSYNC", variant = variant}, layout()},
+                    {checkbox {name = "show_fps", text = "SHOW FPS", variant = variant}, layout()},
                     {
-                        checkbox {
-                            name = "use_vsync",
-                            text = "USE VSYNC",
-                            variant = "large",
-                        },
+                        checkbox {name = "windowed_mode", text = "WINDOWED MODE", variant = variant},
                         layout()
                     },
                     {
-                        checkbox {
-                            name = "show_fps",
-                            text = "SHOW FPS",
-                            variant = "large",
-                        },
-                        layout()
-                    },
-                    {
-                        checkbox {
-                            name = "windowed_mode",
-                            text = "WINDOWED MODE",
-                            variant = "large",
-                        },
-                        layout()
-                    },
-                    {
-                        checkbox {
-                            name = "bordeless",
-                            text = "BORDERLESS WINDOW",
-                            variant = "large",
-                        },
+                        checkbox {name = "bordeless", text = "BORDERLESS WINDOW", variant = variant},
                         layout()
                     },
                     {
                         checkbox {
                             name = "anisotropic",
                             text = "ANISOTROPIC FILTER",
-                            variant = "large",
+                            variant = variant
                         },
                         layout()
                     },
@@ -151,9 +144,9 @@ return container {
                         checkbox {
                             name = "preload_textures",
                             text = "PRELOAD MAP TEXTURES",
-                            variant = "large",
+                            variant = variant
                         },
-                        layout()
+                        layout2()
                     },
                     {button {name = "back", text = "BACK", back = true}, pos.back.x, pos.back.y}
                 }
@@ -163,7 +156,7 @@ return container {
             footer {
                 name = name,
                 title = "DESCRIPTION",
-                text = strmem(384, "Customize different video settings."),
+                text = strmem(384, "Customize different video settings.")
             },
             layout(8)
         },
