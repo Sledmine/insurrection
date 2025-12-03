@@ -71,41 +71,57 @@ typedef struct _devicemodeA {
 } DEVMODEA, *PDEVMODEA;
 
 BOOL EnumDisplayDevicesA(LPCSTR lpDevice, DWORD iDevNum, PDISPLAY_DEVICEA lpDisplayDevice, DWORD dwFlags);
-BOOL EnumDisplaySettingsA(LPCSTR lpszDeviceName, DWORD iModeNum, PDEVMODEA lpDevMode);
-
+BOOL EnumDisplaySettingsExA(LPCSTR lpszDeviceName, DWORD iModeNum, PDEVMODEA lpDevMode, DWORD dwFlags);
 ]]
 
 local user32 = ffi.load("user32")
 
 local monitors = {}
 
--- Fetch all monitors with their resolutions
+local EDS_ENUM_CURRENT_SETTINGS = 0x00000001
+
 function monitors.getAll(activeOnly)
     local result = {}
     local DISPLAY_DEVICE = ffi.new("DISPLAY_DEVICEA")
-    local DEVMODE = ffi.new("DEVMODEA")
-    DISPLAY_DEVICE.cb = ffi.sizeof(DISPLAY_DEVICE)
-    DEVMODE.dmSize = ffi.sizeof(DEVMODE)
-
     local devIndex = 0
-    while user32.EnumDisplayDevicesA(nil, devIndex, DISPLAY_DEVICE, 0) ~= 0 do
+
+    while true do
+        DISPLAY_DEVICE.cb = ffi.sizeof(DISPLAY_DEVICE)
+        if user32.EnumDisplayDevicesA(nil, devIndex, DISPLAY_DEVICE, 0) == 0 then
+            break
+        end
+
         local stateFlags = tonumber(DISPLAY_DEVICE.StateFlags)
-        if (not activeOnly) or (activeOnly and (stateFlags & 0x1) ~= 0) then -- DISPLAY_DEVICE_ACTIVE = 0x1
-            local name = ffi.string(DISPLAY_DEVICE.DeviceName)
-            local label = ffi.string(DISPLAY_DEVICE.DeviceString)
+        if (not activeOnly) or (stateFlags & 0x1 ~= 0) then
+            local adapterName  = ffi.string(DISPLAY_DEVICE.DeviceName)
+            local adapterLabel = ffi.string(DISPLAY_DEVICE.DeviceString)
+
+            -- SECOND-LEVEL ENUM TO GET MONITOR NAME
+            local MONITOR_DEVICE = ffi.new("DISPLAY_DEVICEA")
+            MONITOR_DEVICE.cb = ffi.sizeof(MONITOR_DEVICE)
+
+            local monitorName = "Unknown Monitor"
+            if user32.EnumDisplayDevicesA(adapterName, 0, MONITOR_DEVICE, 0) ~= 0 then
+                monitorName = ffi.string(MONITOR_DEVICE.DeviceString)
+            end
 
             local monitor = {
-                name = name,
-                label = label,
+                adapterName = adapterName,       -- GPU display output
+                adapterLabel = adapterLabel,     -- GPU model name
+                monitorName = monitorName,       -- Human readable monitor name (EDID)
                 resolutions = {},
                 stateFlags = stateFlags
             }
 
+            -- ENUMERATE VALID RESOLUTIONS
             local seen = {}
             local modeIndex = 0
-            while user32.EnumDisplaySettingsA(name, modeIndex, DEVMODE) ~= 0 do
-                local w = tonumber(DEVMODE.dmPelsWidth)
-                local h = tonumber(DEVMODE.dmPelsHeight)
+            local DEVMODE = ffi.new("DEVMODEA")
+            DEVMODE.dmSize = ffi.sizeof(DEVMODE)
+
+            while user32.EnumDisplaySettingsExA(adapterName, modeIndex, DEVMODE, EDS_ENUM_CURRENT_SETTINGS) ~= 0 do
+                local w  = tonumber(DEVMODE.dmPelsWidth)
+                local h  = tonumber(DEVMODE.dmPelsHeight)
                 local hz = tonumber(DEVMODE.dmDisplayFrequency)
 
                 if w > 0 and h > 0 then
@@ -121,6 +137,7 @@ function monitors.getAll(activeOnly)
 
             table.insert(result, monitor)
         end
+
         devIndex = devIndex + 1
     end
 
