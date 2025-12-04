@@ -6,6 +6,7 @@ local button = require "lua.scripts.ui.componentsV3.button"
 local label = require "lua.scripts.ui.componentsV3.label"
 local image = require "lua.scripts.ui.componentsV3.image"
 local constants = require "lua.scripts.ui.components.constants"
+local pos = constants.position
 
 widget.init [[insurrection/ui/menus/dialog/]]
 

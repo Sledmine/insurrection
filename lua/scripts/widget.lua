@@ -371,7 +371,7 @@ function widget.global(tagPath, tagCollectionPath)
         print("Added widget to tag collection: " .. tagPath)
         return
     end
-    print("Tag already exists in tag collection.")
+    print("Tag \"" .. tagPath .. "\" is already in tag \"" .. tagCollectionPath .. "\".")
 end
 
 return widget

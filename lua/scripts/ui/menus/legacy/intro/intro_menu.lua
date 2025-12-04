@@ -2,6 +2,8 @@ local widget = require "lua.scripts.widget"
 local intro = require "lua.scripts.ui.componentsV2.intro"
 local flashbar = require "lua.scripts.ui.componentsV2.flashbar"
 local versionFooter = require "lua.scripts.ui.componentsV2.versionFooter"
+local constants = require "lua.scripts.ui.components.constants"
+local pos = constants.position
 
 widget.init [[insurrection/ui/shared/version/]]
 local versionPath = versionFooter("insurrection", string.rep(" ", 512))

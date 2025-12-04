@@ -4,6 +4,7 @@ local options = require "lua.scripts.ui.componentsV2.options"
 local button = require "lua.scripts.ui.componentsV2.button"
 local image = require "lua.scripts.ui.componentsV2.image"
 local constants = require "lua.scripts.ui.components.constants"
+local pos = constants.position
 
 widget.init([[insurrection/ui/menus/classic_campaign/]])
 local layout = widget.align("vertical", 24, 335, 312, 2)

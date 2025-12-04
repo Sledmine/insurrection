@@ -19,10 +19,12 @@ $LUA_WRAPPER"/legacy/singleplayer/classic_campaign_difficulty_select_menu.lua"
 $LUA_WRAPPER"/legacy/singleplayer/classic_campaign_level_select_menu.lua"
 $LUA_WRAPPER"/legacy/customization_color/customization_color_menu.lua"
 $LUA_WRAPPER"/legacy/multiplayer/multiplayer_menu.lua"
-$LUA_WRAPPER"/legacy/multiplayer/lan_map_select_menu.lua"
-$LUA_WRAPPER"/legacy/multiplayer/lan_gametype_select_menu.lua"
-$LUA_WRAPPER"/legacy/multiplayer/lan_server_settings_menu.lua"
+#$LUA_WRAPPER"/legacy/multiplayer/lan_map_select_menu.lua"
+#$LUA_WRAPPER"/legacy/multiplayer/lan_gametype_select_menu.lua"
+#$LUA_WRAPPER"/legacy/multiplayer/lan_server_settings_menu.lua"
 $LUA_WRAPPER"/legacy/settings/settings_menu.lua"
+
+$LUA_WRAPPER"/insurrection/dialog/dialog_menu.lua"
 
 $LUA_WRAPPER"/insurrection/pause/pause_menu.lua"
 $LUA_WRAPPER"/insurrection/pause/pause_game_options_menu.lua"
@@ -33,19 +35,18 @@ $LUA_WRAPPER"/insurrection/tester/tester_menu.lua"
 $LUA_WRAPPER"/insurrection/login/login_menu.lua"
 
 $LUA_WRAPPER"/insurrection/dashboard/dashboard_menu.lua"
+#$LUA_WRAPPER"/insurrection/dashboard/dashboard_new_menu.lua"
+#$LUA_WRAPPER"/insurrection/dashboard/games_menu.lua"
 
 $LUA_WRAPPER"/insurrection/lobby/lobby_menu.lua"
 $LUA_WRAPPER"/insurrection/lobby/lobby_client_menu.lua"
+$LUA_WRAPPER"/insurrection/lobby/lobby_browser_menu.lua"
 
 $LUA_WRAPPER"/insurrection/customization/customization_menu.lua"
 $LUA_WRAPPER"/insurrection/customization/customization_biped.lua"
 
-$LUA_WRAPPER"/insurrection/mods/mods_menu.lua"
-$LUA_WRAPPER"/insurrection/mods/chimera_mod_menu.lua"
-$LUA_WRAPPER"/insurrection/mods/balltze_mod_menu.lua"
+$LUA_WRAPPER"/insurrection/settings/settings_menu.lua"
+$LUA_WRAPPER"/insurrection/video/video_settings_menu.lua"
+$LUA_WRAPPER"/insurrection/audio/audio_settings_menu.lua"
 
-$LUA_WRAPPER"/insurrection/lobby/lobby_browser_table_menu.lua"
-$LUA_WRAPPER"/insurrection/dashboard/dashboard_new_menu.lua"
-$LUA_WRAPPER"/insurrection/dashboard/games_menu.lua"
-
-$LUA_WRAPPER"/insurrection/dialog/dialog_menu.lua"
+$LUA_WRAPPER"/insurrection/firefight/firefight_menu.lua"
