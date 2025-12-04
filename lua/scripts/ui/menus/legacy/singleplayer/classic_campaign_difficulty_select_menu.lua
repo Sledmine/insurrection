@@ -48,6 +48,6 @@ container("classic_campaign_difficulty_select_menu", {
         pos.header.x,
         pos.header.y
     },
-    {constants.components.currentProfile.path, 624, 20},
-    {constants.components.version.path, 0, 460}
+    {constants.components.currentProfile.path, pos.nameplate.x, pos.nameplate.y},
+    {constants.components.version.path, pos.version.x, pos.version.y}
 }, {dataInput = "warn_if_diff_will_nuke_saved_game"})

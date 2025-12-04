@@ -137,8 +137,8 @@ return container {
                 }
             }), {colorPicker = true, dataInput = "color_picker_update"})
         },
-        {constants.components.currentProfile.path, 624, 20},
-        {constants.components.version.path, 0, 460}
+        {constants.components.currentProfile.path, pos.nameplate.x, pos.nameplate.y},
+        {constants.components.version.path, pos.version.x, pos.version.y}
     }
 }
 

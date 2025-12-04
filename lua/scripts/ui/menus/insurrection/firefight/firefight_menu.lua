@@ -226,7 +226,7 @@ local firefightMenuPath = container {
             pos.footer.x,
             380
         },
-        {constants.components.version.path, 0, 460}
+        {constants.components.version.path, pos.version.x, pos.version.y}
     }
 }
 
@@ -674,7 +674,7 @@ local skullsWrapperPath = wrapper {
             backgroundX + 4,
             startingY + 176
         },
-        {constants.components.version.path, 0, 460}
+        {constants.components.version.path, pos.version.x, pos.version.y}
     }
 }
 

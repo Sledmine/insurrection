@@ -74,5 +74,5 @@ return container("lobby_client_menu", {
             {nameplate("nameplate_16", string.rep(" ", 64)), nameplatesLayout()}
         })
     },
-    {constants.components.version.path, 0, 460}
+    {constants.components.version.path, pos.version.x, pos.version.y}
 })

@@ -111,8 +111,8 @@ local widgetPath = container("lan_map_select_menu", {
             dataInput = "mp_map_list_update"
         })
     },
-    {constants.components.currentProfile.path, 624, 20},
-    {constants.components.version.path, 0, 460}
+    {constants.components.currentProfile.path, pos.nameplate.x, pos.nameplate.y},
+    {constants.components.version.path, pos.version.x, pos.version.y}
 }, {func = "net_server_defer_start"})
 
 widget.init([[ui\shell\main_menu\multiplayer_type_select\connected\]])

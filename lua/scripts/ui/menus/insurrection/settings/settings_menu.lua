@@ -78,6 +78,6 @@ return container {
             },
             layout(8)
         },
-        {constants.components.version.path, 0, 460}
+        {constants.components.version.path, pos.version.x, pos.version.y}
     }
 }

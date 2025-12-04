@@ -72,6 +72,6 @@ local widgetPath = container("multiplayer_menu", {
             "multiplayer"),
         {dataInput = "multiplayer_type_menu_update_desc"})
     },
-    {constants.components.currentProfile.path, 624, 20},
-    {constants.components.version.path, 0, 460}
+    {constants.components.currentProfile.path, pos.nameplate.x, pos.nameplate.y},
+    {constants.components.version.path, pos.version.x, pos.version.y}
 }, {func = "mp_type_menu_initialize", script = "set_multiplayer_background"})

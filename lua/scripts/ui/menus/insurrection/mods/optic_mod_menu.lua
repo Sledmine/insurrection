@@ -41,6 +41,6 @@ return container("optic_mod_menu", {
                "Choose settings for the Optic mod.\r\nSome settings might require a restart to take effect."),
         layout(4)
     },
-    {constants.components.currentProfile.path, 624, 20},
-    {constants.components.version.path, 0, 460}
+    {constants.components.currentProfile.path, pos.nameplate.x, pos.nameplate.y},
+    {constants.components.version.path, pos.version.x, pos.version.y}
 })

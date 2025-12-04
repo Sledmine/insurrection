@@ -146,8 +146,8 @@ local widgetPath = container("lan_gametype_select_menu", {
             dataInput = "gt_select_list_update"
         })
     },
-    {constants.components.currentProfile.path, 624, 20},
-    {constants.components.version.path, 0, 460}
+    {constants.components.currentProfile.path, pos.nameplate.x, pos.nameplate.y},
+    {constants.components.version.path, pos.version.x, pos.version.y}
 }, {func = "net_server_defer_start"})
 
 -- ui/shell/strings/game_variant_descriptions.unicode_string_list
