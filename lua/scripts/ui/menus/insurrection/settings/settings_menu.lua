@@ -71,9 +71,10 @@ return container {
         {
             footer {
                 name = name,
-                title = "GAME SETTINGS DESCRIPTION",
+                title = "DESCRIPTION",
+                -- text = strmem(384, "Set your game settings to your liking. You can change your controller, keyboard, video, audio, and\r\nnetwork settings. You can also learn more about Insurrection.")
                 text = strmem(384,
-                              "Set your game settings to your liking. You can change your controller, keyboard, video, audio, and\r\nnetwork settings. You can also learn more about Insurrection.")
+                "Set your game settings to your liking, video, audio, and more.")
             },
             layout(8)
         },

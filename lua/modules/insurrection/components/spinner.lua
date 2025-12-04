@@ -38,11 +38,11 @@ function spinner.new(tagId)
     instance.rightArrowTagId = instance:findChildWidgetTag("arrow_right").id
     local leftArrow = button.new(instance.leftArrowTagId)
     leftArrow:onClick(function()
-        instance:scroll(-1)
+        instance:scroll(1)
     end)
     local rightArrow = button.new(instance.rightArrowTagId)
     rightArrow:onClick(function()
-        instance:scroll(1)
+        instance:scroll(-1)
     end)
     return instance
 end
