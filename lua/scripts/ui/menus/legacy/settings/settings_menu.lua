@@ -96,6 +96,6 @@ return container("settings_menu", {
         }, [[insurrection/ui/bitmaps/settings_description.bitmap]], "settings"),
                 {dataInput = "plyr_prof_edit_select_menu_upd8"})
     },
-    {constants.components.currentProfile.path, 624, 20},
+    --{constants.components.currentProfile.path, 624, 20},
     {constants.components.version.path, 0, 460}
 }, {variant = "settings", func = "close_if_not_editing_profile", script = "set_ui_background"})

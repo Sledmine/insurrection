@@ -150,7 +150,7 @@ function component.callbacks()
             -- If the component has onScroll event or is a list, scroll it
             if uiComponent.events.onScroll or uiComponent.type == "list" then
                 local mouse = core.getMouseState()
-                uiComponent:scroll(-mouse.scroll, true)
+                uiComponent:scroll(mouse.scroll, true)
             end
         end
     end

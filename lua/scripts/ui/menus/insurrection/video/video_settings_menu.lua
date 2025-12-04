@@ -148,7 +148,11 @@ return container {
                         },
                         layout2()
                     },
-                    {button {name = "back", text = "BACK", back = true}, pos.back.x, pos.back.y}
+                    {
+                        button {name = "back", text = "BACK", back = true, variant = "small"},
+                        pos.back.x,
+                        pos.back.y
+                    }
                 }
             }
         },

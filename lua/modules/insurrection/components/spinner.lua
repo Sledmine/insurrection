@@ -105,7 +105,7 @@ end
 ---@param direction number
 ---@param isFromMouse? boolean
 function spinner.scroll(self, direction, isFromMouse)
-    local itemIndex = self.currentValueIndex + direction
+    local itemIndex = self.currentValueIndex + -direction
     -- TODO Add flag to define if the spinner should loop or not
     if itemIndex < 1 then
         itemIndex = #self.values

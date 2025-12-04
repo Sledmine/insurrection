@@ -30,8 +30,8 @@ return container {
                 name = name,
                 alignment = "vertical",
                 childs = {
-                    --{button {name = "controller", text = "CONTROLLER"}, layout()},
-                    --{button {name = "keyboard_mouse", text = "KEYBOARD / MOUSE"}, layout()},
+                    -- {button {name = "controller", text = "CONTROLLER"}, layout()},
+                    -- {button {name = "keyboard_mouse", text = "KEYBOARD / MOUSE"}, layout()},
                     {
                         button {
                             name = "video",
@@ -48,7 +48,7 @@ return container {
                         },
                         layout()
                     },
-                    --{button {name = "network", text = "NETWORK"}, layout()},
+                    -- {button {name = "network", text = "NETWORK"}, layout()},
                     {
                         button {
                             name = "legacy",
@@ -59,8 +59,12 @@ return container {
                         },
                         layout()
                     },
-                    --{button {name = "about", text = "ABOUT INSURRECTION"}, layout()},
-                    {button {name = "back", text = "BACK", back = true}, pos.back.x, pos.back.y}
+                    -- {button {name = "about", text = "ABOUT INSURRECTION"}, layout()},
+                    {
+                        button {name = "back", text = "BACK", back = true, variant = "small"},
+                        pos.back.x,
+                        pos.back.y
+                    }
                 }
             }
         },
