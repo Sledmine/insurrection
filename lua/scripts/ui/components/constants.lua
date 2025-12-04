@@ -41,7 +41,7 @@ return {
         header = {x = 20, y = 20},
         options = {x = 20, y = 60},
         back = {x = 685, y = 416},
-        back_left = {x = 20, y = 416},
+        backLeft = {x = 20, y = 416},
         action = {x = 444, y = 416},
         footer = {x = 20, y = 330},
         logo = {x = 202, y = 105},
