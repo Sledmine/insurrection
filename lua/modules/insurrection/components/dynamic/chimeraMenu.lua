@@ -115,7 +115,7 @@ return function()
             change = function(value)
                 chimeraPreferences.chimera_fov = value
                 chimera.executeCommand("chimera_fov " .. value)
-                log("Setting horizontal FOV")
+                logger:debug("Setting horizontal FOV")
             end
         }
     }
@@ -145,12 +145,11 @@ return function()
         end
     end
     chimeraMod:onOpen(function()
-        log("Aspect width: " .. aspectWidth)
+        logger:debug("Aspect width: " .. aspectWidth)
         chimeraConfig = chimera.getConfiguration() or {}
         chimeraPreferences = chimera.getPreferences() or {}
 
         -- Create fovs list with values from 60 to 120 in steps of 5
-        --log(preferences.chimera_fov)
         local fovs = {}
         for fov = 60, 120, 1 do
             table.insert(fovs, tostring(fov) .. (isUltraWide and "v" or ""))
@@ -184,6 +183,6 @@ return function()
                 -- error("Element from list not found: " .. k)
             end
         end
-        log("chimeraMod:onOpen")
+        logger:debug("chimeraMod:onOpen")
     end)
 end

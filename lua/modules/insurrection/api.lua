@@ -77,16 +77,6 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 ---@field isPublic boolean
 ---@field key? string
 
--- function async(func, callback, ...)
---    if #Lanes == 0 then
---        Lanes[#Lanes + 1] = {thread = lanes.gen(asyncLibs, func)(...), callback = callback}
---    else
---        log("Warning! An async function is trying to add another thread!")
---    end
--- end
-
--- @param inputFunction fun(await: fun(callback: fun(...): (T), ...): T)
-
 local function connect(desiredMap, host, port, password)
     api.stopRefreshLobby()
     if not engine.map.getCurrentMapHeader().name == "ui" then
@@ -171,7 +161,7 @@ function api.login(username, password)
             local data = {username = username, password = password}
             response = await(requests.postform, api.url .. "/login", data)
         end
-        log("onLoginResponse")
+        logger:debug("onLoginResponse")
         loading(false)
         if not response then
             logger:error("No response")
@@ -341,7 +331,7 @@ function api.lobby(lobbyKey)
                 api.startLobbyRefresh()
                 -- Lobby already has a server running, connect to it
                 if lobby.server and engine.netgame.getServerType() ~= "dedicated" then
-                    log("Connecting to lobby server...")
+                    logger:debug("Connecting to lobby server...")
                     api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,
                             lobby.server.password)
@@ -431,7 +421,7 @@ function api.stopRefreshLobby()
 end
 function api.deleteLobby()
     if api.session.lobbyKey then
-        log("DELETING lobby")
+        logger:debug("DELETING lobby")
         if api.variables.refreshTimer then
             api.variables.refreshTimer.stop()
         end

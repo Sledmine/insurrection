@@ -29,23 +29,23 @@ discord.attempted = false
 discord.ready = false
 
 function discordRPC.ready(userId, username, discriminator, avatar)
-    log(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
+    logger:debug(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
     core.loading(false)
     discord.ready = true
 end
 
 function discordRPC.disconnected(errorCode, message)
-    log(string.format("Discord: disconnected (%d: %s)", errorCode, message))
+    logger:debug(string.format("Discord: disconnected (%d: %s)", errorCode, message))
     discord.ready = false
 end
 
 function discordRPC.joinGame(joinSecret)
-    log("Discord: join game (" .. joinSecret .. ")")
+    logger:debug("Discord: join game (" .. joinSecret .. ")")
     api.lobby(joinSecret)
 end
 
 function discordRPC.joinRequest(userId, username, discriminator, avatar)
-    log(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator,
+    logger:debug(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator,
                          avatar))
     discordRPC.respond(userId, "yes")
 end
@@ -68,7 +68,7 @@ function discord.startPresence()
 
     -- Routines to handle Discord presence
     function DiscordUpdate()
-        --log("DiscordUpdate")
+        --logger:debug("DiscordUpdate")
         discordRPC.runCallbacks()
         if discord.ready then
             if DiscordCheckTimer then
@@ -98,7 +98,7 @@ end
 ---@param details? string
 ---@param image? string
 function discord.setState(state, details, image)
-    log("discord.setState: " .. state .. ", " .. details)
+    logger:debug("discord.setState: " .. state .. ", " .. details)
     if not discord.ready then
         return
     end
@@ -143,7 +143,7 @@ function discord.setParty(partyId, partySize, partyMax, map, isLobbyOpen)
 end
 
 function discord.clearParty()
-    log("discord.clearParty")
+    logger:debug("discord.clearParty")
 
     discord.presence.partyId = nil
     discord.presence.joinSecret = nil
@@ -153,7 +153,7 @@ end
 
 --- Clear the presence info
 function discord.clearPresence()
-    log("discord.clearPresence")
+    logger:debug("discord.clearPresence")
 
     discord.presence.state = nil
     discord.presence.details = nil

@@ -36,11 +36,11 @@ function interface.load()
     if IsUICompatible then
 
         -- Load Insurrection features
-        log("Loading Insurrection patches...")
+        logger:debug("Loading Insurrection patches...")
         core.loadInsurrectionPatches()
 
         -- Components initialization
-        log("Initializing components...")
+        logger:debug("Initializing components...")
         interface.loadProfileNameplate()
         components.cleanAllEditableWidgets()
 
@@ -100,9 +100,9 @@ function interface.load()
             if multiplayerWidgetsCollection then
                 local pause = components.new(multiplayerWidgetsCollection.tagList[1])
                 if pause then
-                    log(multiplayerWidgetsCollection.tagList[1])
+                    logger:debug(multiplayerWidgetsCollection.tagList[1])
                     if constants.widgets.pause then
-                        log("Insurrection may load in external map...")
+                        logger:debug("Insurrection may load in external map...")
                         require "insurrection.components.dynamic.dialog"()
                         local insurrectionPause = components.new(constants.widgets.pause.id)
                         local resumeButton = button.new(
@@ -112,12 +112,12 @@ function interface.load()
                         local exitButton = button.new(
                                                insurrectionPause:findChildWidgetTag("exit_button").id)
                         resumeButton:onClick(function()
-                            log("Resume button clicked")
+                            logger:debug("Resume button clicked")
                             interface.blur(false)
                             interface.sound("back")
                         end)
                         stockResumeButton:onClick(function()
-                            log("Stock resume button clicked")
+                            logger:debug("Stock resume button clicked")
                             interface.sound("back")
                         end)
                         exitButton:onClick(function()
@@ -137,11 +137,11 @@ function interface.load()
                             interface.blur(false)
                         end)
                         pause:onOpen(function()
-                            log("Opening stock pause menu...")
+                            logger:debug("Opening stock pause menu...")
                             if not InvalidatePauseOverride then
                                 -- if engine.map.getCurrentMapHeader().name ~= "ui" and (engine.netgame.getServerType() == "dedicated" or DebugMode) then
                                 if engine.map.getCurrentMapHeader().name ~= "ui" then
-                                    log("Opening Insurrection pause menu...")
+                                    logger:debug("Opening Insurrection pause menu...")
                                     interface.blur(true)
                                     balltze.features.setUIAspectRatio(16, 9)
                                     menus.pause()
@@ -189,7 +189,7 @@ end
 
 function interface.loadProfileNameplate(nameplateId)
     if not constants.tagCollections.nameplates then
-        log("Error, no nameplates collection found")
+        logger:debug("Error, no nameplates collection found")
         return
     end
     local nameplate = components.new(constants.widgets.nameplate.id)
@@ -206,13 +206,13 @@ function interface.loadProfileNameplate(nameplateId)
         nameplate:animate()
         if nameplateId then
             if not nameplateBitmapTags[nameplateId] then
-                log("Invalid nameplate id: " .. nameplateId)
+                logger:debug("Invalid nameplate id: " .. nameplateId)
                 return
             end
             nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[nameplateId].id
             return
         end
-        log("Loading nameplate from settings...")
+        logger:debug("Loading nameplate from settings...")
         local settings = core.loadSettings()
         if settings and settings.nameplate and nameplateBitmapTags[settings.nameplate] then
             nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].id
@@ -307,7 +307,7 @@ function interface.dialog(...)
     end
     if constants.sounds then
         if titleText == "WARNING" or titleText == "ERROR" then
-            log(constants.sounds.error.path)
+            logger:debug(constants.sounds.error.path)
             playSound(constants.sounds.error.id)
         else
             playSound(constants.sounds.success.id)
@@ -346,7 +346,7 @@ end
 function interface.sound(sound)
     if not (constants.sounds.error and constants.sounds.success and constants.sounds.back and
         constants.sounds.join and constants.sounds.leave) then
-        log("Error, no custom sounds found", "error")
+        logger:debug("Error, no custom sounds found", "error")
         return
     end
     if sound == "error" then
@@ -360,7 +360,7 @@ function interface.sound(sound)
     elseif sound == "leave" then
         playSound(constants.sounds.leave.id)
     else
-        log("Invalid sound: " .. sound, "error")
+        logger:debug("Invalid sound: " .. sound, "error")
     end
 end
 

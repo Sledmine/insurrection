@@ -267,7 +267,7 @@ return function()
             change = function(value)
                 chimeraPreferences.chimera_fov = value
                 chimera.executeCommand("chimera_fov " .. value)
-                log("Setting horizontal FOV")
+                logger:debug("Setting horizontal FOV")
             end,
             focus = function()
                 description:setText("Change field of view of player first person camera.")

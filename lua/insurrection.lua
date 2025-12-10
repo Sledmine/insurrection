@@ -53,18 +53,6 @@ local customExternalTags = {
     {constants.path.xmasObjects, engine.tag.classes.tagCollection}
 }
 
-function log(...)
-    if DebugMode then
-        local args = {...}
-        for i = 1, #args do
-            if type(args[i]) == "string" then
-                args[i] = args[i]:replace("\n", " ")
-            end
-        end
-        logger:debug(table.unpack(args))
-    end
-end
-
 function PluginMetadata()
     return {
         name = "Insurrection",
@@ -76,7 +64,7 @@ function PluginMetadata()
 end
 
 local function initialize()
-    logger:info("Initializing Insurrection!...")
+    logger:debug("Initializing Insurrection!...")
     api.loadUrl()
     store:dispatch(actions.reset())
     react.unmountAll()

@@ -39,14 +39,14 @@ return function()
         end)
     end
     opticMod:onOpen(function()
-        log("opticMod:onOpen")
+        logger:debug("opticMod:onOpen")
         if not optic.isInstalled() then
             interface.dialog("ERROR", "Optic mod is not installed.",
                              "Please install it with Mercury and try again.")
             return
         end
         config = optic.getConfiguration() or {}
-        log(config)
+        logger:debug("{}", inspect(config))
         local optionsMapping = {
             ["ENABLE SOUND"] = config.enableSound,
             ["HITMARKER"] = config.hitmarker,

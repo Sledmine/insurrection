@@ -229,7 +229,6 @@ function component.callbacks()
                 local widgetCount = widgetTagData.childWidgets.count
                 if widgetTagData and widgetCount > 0 then
                     local optionWidget = widgetTagData.childWidgets.elements[widgetCount]
-                    -- log("Option widget: {}", inspect(table.keys(optionWidget.widgetTag)))
                     local optionsWidgetTag = engine.tag.getTag(
                                                  optionWidget.widgetTag.tagHandle.value,
                                                  engine.tag.classes.uiWidgetDefinition)
@@ -276,7 +275,7 @@ function component.callbacks()
 
     balltze.event.uiWidgetBack.subscribe(function(event)
         if event.time == "before" then
-            log("Closing tag: {}", event.context.widget.definitionTagHandle.value)
+            --logger:debug("Closing tag: {}", event.context.widget.definitionTagHandle.value)
             local widgetTagHandleValue = event.context.widget.definitionTagHandle.value
             local component = component.widgets[widgetTagHandleValue]
             if component and component.events.onClose then
@@ -452,7 +451,6 @@ function component.new(tagId)
     instance.widgetDefinition = uiWidgetDefinition(tagId) or error("Invalid tagId") --[[@as uiWidgetDefinition]]
     instance.events = {}
     instance.isBackgroundAnimated = false
-    -- log("Created component: " .. instance.tag.path, "info")
     component.widgets[tagId] = instance
     return instance
 end

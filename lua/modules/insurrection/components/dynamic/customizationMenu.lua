@@ -54,7 +54,6 @@ return function()
                                         customization:findChildWidgetTag("save_customization").id)
 
     nameplatesList:onSelect(function(item)
-        log(item.value)
         interface.loadProfileNameplate(item.value)
         -- nameplatePreview.widgetDefinition.backgroundBitmap = item.bitmap --[[@as number]]
     end)
@@ -137,7 +136,6 @@ return function()
             -- Due to current implementation, setItems is not executed when coming back from another
             -- widget, so we need to reset the state manually or prevent scenarios where we get
             -- and invalid state
-            log(item.value)
             if core.getCustomizationObjectId() then
                 menus.biped()
             end
@@ -179,9 +177,9 @@ return function()
             end
         end
         local color = core.getCustomizationObjectData().color.custom
-        log("Nameplate: {}", nameplate)
-        log("Bipeds: {}", inspect(bipeds))
-        log("Color: {}", inspect(color))
+        logger:debug("Nameplate: {}", nameplate)
+        logger:debug("Bipeds: {}", inspect(bipeds))
+        logger:debug("Color: {}", inspect(color))
         if IsDebugLocalCustomizationEnabled then
             logger:warning("Local customization can not be saved")
             bipeds = {}

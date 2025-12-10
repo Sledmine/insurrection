@@ -299,8 +299,7 @@ return function(props)
 
     local function generateBipedPreviews()
         IsUIPhotoSessionRunning = true
-        log("object_create green_screen")
-        log("Generating biped previews")
+        logger:debug("Generating biped previews")
         execute_script("cls")
         -- core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 0.04})
         core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 0})
@@ -349,7 +348,6 @@ return function(props)
                     setEditingGeometry(currentRegionName, 1)
                     core.setObjectPermutationSafely(customizationBiped, regionIndex,
                                                     permutationIndex - 1)
-                    -- log("Generating biped preview for " .. regionName .. " " .. permutation.name)
                     customizationBiped.animationFrame = 0
                     local screenShotName = region.name .. "+" ..
                                                string.format("%02d", permutationIndex) .. ".png"
@@ -363,7 +361,7 @@ return function(props)
         end
 
         utils.delay(delay, function()
-            log("Finished generating biped previews")
+            logger:debug("Finished generating biped previews")
             execute_script("object_destroy green_screen")
             IsUIPhotoSessionRunning = false
             core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 1})

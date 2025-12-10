@@ -24,7 +24,7 @@ local defaultState = {
 ---@return interfaceState
 local function interfaceReducer(state, action)
     if logger then
-        log(action.type)
+        logger:debug(action.type)
     end
     if action.type == redux.actionTypes.INIT then
         return table.copy(defaultState)
