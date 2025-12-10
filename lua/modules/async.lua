@@ -20,9 +20,9 @@ function async.async(inputFunction)
         table.insert(THREAD_LANES, {
             thread = lanes.gen(asyncLibs, asyncCallback)(...),
             callback = function(ret)
-                local ok = coroutine.resume(co, ret)
+                local ok, message = coroutine.resume(co, ret)
                 if not ok then
-                    error(debug.traceback(co), 0)
+                    error(debug.traceback(co, message), 0)
                 end
             end,
             co = co
