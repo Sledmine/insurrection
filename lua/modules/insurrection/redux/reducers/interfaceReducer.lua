@@ -40,6 +40,8 @@ local function interfaceReducer(state, action)
     elseif action.type == actions.types.SET_LOBBIES then
         state.lobbies = action.payload
         return state
+    elseif action.type == actions.types.RESET then
+        return table.copy(defaultState)
     else
         error("Undefined redux action type!")
     end

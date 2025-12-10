@@ -357,7 +357,7 @@ function constants.get()
         xmasObjects = engine.tag.findTags(constants.path.xmasObjects,
                                           engine.tag.classes.tagCollection)[1]
     }
-    log("Loaded constants")
+    logger:debug("Loaded constants")
 end
 
 return constants

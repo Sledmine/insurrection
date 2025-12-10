@@ -13,6 +13,8 @@ local dispatch = require"async".dispatch
 require"async".configure("base, table, package, string")
 execute_script = engine.hsc.executeScript
 local script = require "script"
+local actions = require "insurrection.redux.actions"
+local react = require "insurrection.react"
 
 ---@type Logger
 logger = nil
@@ -76,6 +78,8 @@ end
 local function initialize()
     logger:info("Initializing Insurrection!...")
     api.loadUrl()
+    store:dispatch(actions.reset())
+    react.unmountAll()
     components.free()
     constants.get()
     interface.load()

@@ -283,10 +283,12 @@ function api.lobby(lobbyKey)
                                                    state.lobby.owner
                     if isPlayerLobbyOwner then
                         menus.lobby()
-                        react.render("lobbyMenu")
+                        react.mount("lobbyMenu", constants.widgets.lobby.id)
+                        react.render(constants.widgets.lobby.id)
                     else
                         menus.lobby(true)
-                        react.render("lobbyMenuClient")
+                        react.mount("lobbyMenuClient", constants.widgets.lobbyClient.id)
+                        react.render(constants.widgets.lobbyClient.id)
                     end
                     discord.setParty(api.session.lobbyKey, #state.lobby.players, 16,
                                      state.lobby.map, isPlayerLobbyOwner)
@@ -327,10 +329,12 @@ function api.lobby(lobbyKey)
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     menus.lobby()
-                    react.render("lobbyMenu")
+                    react.mount("lobbyMenu", constants.widgets.lobby.id)
+                    react.render(constants.widgets.lobby.id)
                 else
                     menus.lobby(true)
-                    react.render("lobbyMenuClient")
+                    react.mount("lobbyMenuClient", constants.widgets.lobbyClient.id)
+                    react.render(constants.widgets.lobbyClient.id)
                 end
                 discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
                                  isPlayerLobbyOwner)
@@ -392,9 +396,11 @@ function api.refreshLobby()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
-                    react.render("lobbyMenu")
+                    react.mount("lobbyMenu", constants.widgets.lobby.id)
+                    react.render(constants.widgets.lobby.id)
                 else
-                    react.render("lobbyMenuClient")
+                    react.mount("lobbyMenuClient", constants.widgets.lobbyClient.id)
+                    react.render(constants.widgets.lobbyClient.id)
                 end
                 discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
                                  isPlayerLobbyOwner)
@@ -563,7 +569,8 @@ function api.getLobbies()
                     return
                 else
                     store:dispatch(actions.setLobbies(jsonResponse))
-                    react.render("lobbyBrowserMenu")
+                    react.mount("lobbyBrowserMenu", constants.widgets.browser.id)
+                    react.render(constants.widgets.browser.id)
                 end
                 return
             end
