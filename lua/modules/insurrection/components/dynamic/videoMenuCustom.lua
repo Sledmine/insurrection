@@ -113,19 +113,22 @@ return function()
                     return
                 end
 
-                profile.videoSettings.resolutionWidth = newWidth
-                profile.videoSettings.resolutionHeight = newHeight
-
                 availableRefreshRates = table.map(resolutionsMap[value] or {}, function(refresh)
                     return tostring(refresh) .. "Hz"
                 end)
                 local highestResfreshRate = availableRefreshRates[#availableRefreshRates]
                 elements["REFRESH RATE"]:setValues(availableRefreshRates)
                 elements["REFRESH RATE"]:setValue(highestResfreshRate)
+                local newRefreshRate = tonumber(highestResfreshRate:replace("Hz", ""))
+
+                profile.videoSettings.resolutionWidth = newWidth
+                profile.videoSettings.resolutionHeight = newHeight
+                profile.videoSettings.refreshRate = newRefreshRate or 60
 
                 -- Save Chimera config as well (Chimera leads the video mode settings for now)
                 chimeraConfig.video_mode.width = tostring(newWidth)
                 chimeraConfig.video_mode.height = tostring(newHeight)
+                chimeraConfig.video_mode.refresh_rate = newRefreshRate or 0
                 saveChimeraConfig()
 
                 -- Reload legacy game profile settings to apply changes
