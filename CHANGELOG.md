@@ -4,10 +4,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.8.2] - 2025-01-02
+## [2.9.0] - 2025-12-09
+### Added
+- New Firefight menu for loading old Firefight and custom Firefight 3.0 maps
+- Customization options for Firefight 3.0 maps, choose wave duration, difficulty, skulls and more
+- New functional custom Video and Audio settings menus with more options and better usability
+- Experimental video resolutions and refresh rate options in Video Settings menu, these resolutions represent all monitor resolutions detected by the game, carefully choose the one that fits best your monitor
+- New lobby browser menu with friendlier design and better usability (more in line with modern games but keeping familiarity with classic Halo CE style)
+- New dashboard menu design with a more arcade style and better usability, includes teasing for upcoming progression system
+- Added checkbox option to show/hide user password in the login menu
+
 ### Fixed
 - LAN games being created in Internet instead of LAN
-- Insurrection not loading properly if Coop Evolved and The Flood MP were not installed
+- Insurrection not loading properly if Coop Evolved and The Flood MP maps were not installed
+- Insurrection not rejoining a lobby after finishing a game session
+- Multiple issues with dynamic components behaviour (lists, buttons, etc)
+- Missed widget renders for async operations causing crashes or menus to not load properly
+- Optimized some animated bitmaps to reduce map size
+- Better aspect ratio handling for stock and custom menus
+- Better integration for custom settings such as video and audio settings
+- Issue causing lobby menu to fail loading elements right after rejoining a lobby
+
+### Changed
+- New Insurrection dashboard background, now shows armory background with latest customized biped at the side
+- Profile selector menu has been removed, will be replaced and accessible trough the nameplate widget in the future
+- Legacy Multiplayer menu now displays a dialog message advertising missing features and suggesting to use Insurrection Lobbies instead
+- Removed mods menu, settings for Chimera and Balltze are now distributed across Video and Audio menus
+- Layout and design of some buttons and menus, updated for better usability and consistency
 
 ## [2.8.1] - 2024-12-24
 ### Fixed
