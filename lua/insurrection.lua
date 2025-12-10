@@ -66,7 +66,9 @@ end
 local function initialize()
     logger:debug("Initializing Insurrection!...")
     api.loadUrl()
-    store:dispatch(actions.reset())
+    -- We might not want to reset the store on every map load
+    -- Helps to preserve data after game lobby changes
+    --store:dispatch(actions.reset())
     react.unmountAll()
     components.free()
     constants.get()
