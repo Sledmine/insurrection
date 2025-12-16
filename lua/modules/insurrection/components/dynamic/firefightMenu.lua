@@ -33,7 +33,7 @@ local skullsIcons = {
     "banger",
     "berserk",
     "blind",
-    --"bloodlust",
+    -- "bloodlust",
     "catch",
     "cliffhanger",
     "cowbell",
@@ -52,7 +52,7 @@ local skullsIcons = {
     "thunderstorm",
     "tilt",
     "toughluck",
-    "triggerswitch",
+    "triggerswitch"
 }
 
 local function getBitmapIndexForSkull(skullName)
@@ -678,7 +678,17 @@ return function()
                 currentMapName = currentMapName .. "_dev"
             end
             logger:debug("Loading Firefight map: " .. currentMapName)
-            disableCheats({"deathless_player", "infinite_ammo", "super_jump"})
+            disableCheats({
+                "deathless_player",
+                "infinite_ammo",
+                "super_jump",
+                "medusa",
+                "infinite_ammo",
+                "bottomless_clip",
+                "jetpack",
+                "reflexive_damage_effects",
+                "bump_possession"
+            })
             if isSinglePlayer then
                 executeScript("map_name " .. currentMapName)
                 return
@@ -890,7 +900,8 @@ return function()
                 settings.playerAssistancesEach = index
             end,
             focus = function()
-                description:setText("Set how often player assistances are granted. (Deploy vehicles, special weapons, etc.)")
+                description:setText(
+                    "Set how often player assistances are granted. (Deploy vehicles, special weapons, etc.)")
             end
         }
     }
