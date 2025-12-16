@@ -162,7 +162,7 @@ function PluginLoad()
                 local result = pcall(balltze.features.importTagFromMap, mapName, bipedPath,
                                      engine.tag.classes.biped)
                 if not result then
-                    logger:warning("Failed to import customizable biped {} from map {}", bipedPath,
+                    logger:debug("Failed to import customizable biped {} from map {}", bipedPath,
                                    mapName)
                 end
             end

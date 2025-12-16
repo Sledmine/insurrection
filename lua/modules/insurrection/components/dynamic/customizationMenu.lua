@@ -181,7 +181,7 @@ return function()
         logger:debug("Bipeds: {}", inspect(bipeds))
         logger:debug("Color: {}", inspect(color))
         if IsDebugLocalCustomizationEnabled then
-            logger:warning("Local customization can not be saved")
+            logger:warning("Local customization saving is enabled, not saving to profile.")
             bipeds = {}
         end
         api.playerProfileEdit({

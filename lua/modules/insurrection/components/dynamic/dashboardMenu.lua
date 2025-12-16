@@ -105,7 +105,7 @@ return function()
                     table.insert(flattenRanks, rankData)
                 end
             end
-            logger:warning("Flatten ranks: " .. #flattenRanks)
+            logger:debug("Flatten ranks: " .. #flattenRanks)
 
             for _, rank in ipairs(ranks) do
                 for _, rankData in ipairs(rank.ranks) do
@@ -126,13 +126,13 @@ return function()
                         expLabel:setText(expToNextRank .. " XP TO NEXT RANK")
 
                         local expDiff = nextRank.experience - rankData.experience
-                        logger:warning("Current exp: " .. currentExp)
-                        logger:warning("Next rank exp: " .. nextRank.experience)
+                        logger:debug("Current exp: " .. currentExp)
+                        logger:debug("Next rank exp: " .. nextRank.experience)
                         local progressValue = 1 - (nextRank.experience - currentExp) / expDiff
-                        logger:warning("Progress value: " .. progressValue)
+                        logger:debug("Progress value: " .. progressValue)
                         rankProgressBar:setValue(progressValue)
 
-                        logger:warning("Current rank index: " .. currentRankIndex)
+                        logger:debug("Current rank index: " .. currentRankIndex)
                         rankIcon:setBitmapIndex(currentRankIndex)
                         creditsLabel:setText(math.random(0, 1000) .. " CR")
 

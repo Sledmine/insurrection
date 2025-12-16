@@ -37,9 +37,7 @@ function specialEvents.onPostMapLoad()
     --    return {path = tag.reference.path, handle = tag/.reference.tagHandle}
     -- end)
 
-    --- TODO Add support to read "dynamic arrays" in Luna, so we can use tags property instead of
-    --- elements
-    ---@type MetaEngineTagDataTagCollectionTag[]
+    ---@type MetaEngineTagCollectionTag[]
     local xmasTreeCollection = {}
     for i = 1, constants.scenery.xmasObjects.data.tags.count do
         local tag = constants.scenery.xmasObjects.data.tags.elements[i]

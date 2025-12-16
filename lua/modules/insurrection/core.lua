@@ -444,8 +444,7 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
 
     local maximumPermutationIndex = objectModel.regionList[regionIndex].permutationCount - 1
     if permutationIndex > maximumPermutationIndex then
-        logger:warning("Permutation index {} for region {} out of range, setting to 0",
-                       permutationIndex, regionIndex)
+        -- logger:warning("Permutation index {} for region {} out of range, setting to 0", permutationIndex, regionIndex)
         permutationIndex = 0
     end
     object["regionPermutation" .. regionIndex] = permutationIndex
