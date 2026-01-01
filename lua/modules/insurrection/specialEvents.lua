@@ -15,6 +15,8 @@ local isDecember = function()
 end
 
 function specialEvents.onPostMapLoad()
+    -- Reset hats
+    christmasHats = {}
     if engine.map.getCurrentMapHeader().name == "ui" then
         return
     end
