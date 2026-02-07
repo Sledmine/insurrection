@@ -15,6 +15,15 @@ execute_script = engine.hsc.executeScript
 local script = require "script"
 local actions = require "insurrection.redux.actions"
 local react = require "insurrection.react"
+local originalReadFile = balltze.filesystem.readFile
+Balltze.filesystem.readFile = function(path)
+    -- Prevent Balltze from crashing until fixed
+    if balltze.filesystem.fileExists(path) then
+        return originalReadFile(path)
+    end
+    logger:debug("File not found: " .. path)
+    return nil
+end
 
 ---@type Logger
 logger = nil

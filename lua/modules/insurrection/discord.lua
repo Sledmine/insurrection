@@ -1,7 +1,8 @@
 local base64 = require "base64"
 local discordRPC = require "discordRPC"
-local utils = require "insurrection.utils"
+local balltze = Balltze
 
+local utils = require "insurrection.utils"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
 local getState = require "insurrection.redux.getState"
@@ -51,7 +52,12 @@ function discordRPC.joinRequest(userId, username, discriminator, avatar)
 end
 
 function discord.initialize()
-    discordRPC.initialize(base64.decode(Balltze.filesystem.readFile("micro")), true)
+    local micro = base64.decode(balltze.filesystem.readFile("micro") or ""):trim()
+    if not micro or micro == "" then
+        logger:error("Failed to load Discord RPC micro executable")
+        return
+    end
+    discordRPC.initialize(micro, true)
 end
 
 function discord.startPresence()
@@ -89,8 +95,8 @@ function discord.startPresence()
         end
         return false
     end
-    DiscordPresenceTimer = Balltze.misc.setTimer(120, DiscordUpdate)
-    DiscordCheckTimer = Balltze.misc.setTimer(5000, DiscordCheck)
+    DiscordPresenceTimer = balltze.misc.setTimer(120, DiscordUpdate)
+    DiscordCheckTimer = balltze.misc.setTimer(5000, DiscordCheck)
 end
 
 ---Set presence state and details
