@@ -1,6 +1,10 @@
 local lanes = require "lanes"
 
-local async = {}
+local async = {
+    onError = function(threadError)
+        error(threadError)
+    end
+}
 
 async._VERSION = "1.0.2"
 
@@ -49,14 +53,14 @@ end
 ---Dispatches the async functions and returns the number of async functions still running
 function async.dispatch()
     for index, lane in ipairs(THREAD_LANES) do
-        --print(lane.thread.status)
+        -- print(lane.thread.status)
         if lane.thread.status == "done" then
             table.remove(THREAD_LANES, index)
             lane.callback(lane.thread[1])
         elseif lane.thread.status == "error" then
             local threadError = lane.thread[1]
             table.remove(THREAD_LANES, index)
-            error(threadError)
+            async.onError()
         end
     end
     return #THREAD_LANES

@@ -8,7 +8,13 @@ local balltze = Balltze
 local engine = Engine
 local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
-async = require"async".async
+local protothread = require "async"
+protothread.onError = function(threadError)
+    --logger:error(threadError)
+    interface.loading(false)
+    error(threadError)
+end
+async = protothread.async
 local dispatch = require"async".dispatch
 require"async".configure("base, table, package, string")
 execute_script = engine.hsc.executeScript
@@ -77,7 +83,7 @@ local function initialize()
     api.loadUrl()
     -- We might not want to reset the store on every map load
     -- Helps to preserve data after game lobby changes
-    --store:dispatch(actions.reset())
+    -- store:dispatch(actions.reset())
     react.unmountAll()
     components.free()
     constants.get()
@@ -172,7 +178,7 @@ function PluginLoad()
                                      engine.tag.classes.biped)
                 if not result then
                     logger:debug("Failed to import customizable biped {} from map {}", bipedPath,
-                                   mapName)
+                                 mapName)
                 end
             end
         end

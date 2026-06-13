@@ -497,4 +497,38 @@ function interface.setBackground(background)
     end
 end
 
+---Set game in loading state
+---@param isLoading boolean
+---@param text? string
+---@param blockInput? boolean
+function interface.loading(isLoading, text, blockInput)
+    local overlay = components.new(constants.widgets.overlay.id)
+    local loadingMenu = components.new(constants.widgets.loadingMenu.id)
+    local loadingLabel = components.new(loadingMenu:findChildWidgetTag("label").id)
+    local loadingSpinner = components.new(loadingMenu:findChildWidgetTag("orb").id)
+    loadingSpinner:animate()
+    local loadingText = text or "Loading..."
+    if isLoading then
+        -- There is already another thread running, do not modify loading status
+        if core.isThreadRunning() then
+            return
+        end
+        components.blockInput(true)
+        logger:debug("!!!LOADING!!!: {}", loadingText)
+        if blockInput == false then
+            -- TODO Show simpler loading text non overlay blocking
+            components.blockInput(false)
+            return
+        end
+        -- TODO Throw an error message if the overlay menu does not exist in current context
+        loadingLabel:setText(loadingText)
+        overlay:replace(constants.widgets.loadingMenu.id)
+        return
+    else
+        loadingMenu:replace(overlay.tagId)
+    end
+    logger:debug("Restoring components input...")
+    components.blockInput(false)
+end
+
 return interface

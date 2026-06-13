@@ -295,6 +295,8 @@ function constants.get()
         version = findWidgetTag("insurrection_version_footer"),
         firefight = findWidgetTag("firefight\\firefight_menu"),
         multiplayer = findWidgetTag("multiplayer\\multiplayer_menu"),
+        overlay = findWidgetTag("overlay\\overlay_graft"),
+        loadingMenu = findWidgetTag("loading\\loading_menu")
     }
 
     constants.sounds = {
