@@ -91,8 +91,7 @@ return function()
         discord.clearParty()
         discord.setState("Playing Insurrection", "In the dashboard")
 
-        --- TODO Remove false when player progression system is implemented
-        if api.session and api.session.player and false then
+        if api.session and api.session.player then
             local classificationName = ranks[1].classification
             local rankName = ranks[1].ranks[1].name
             local rankGrade = ranks[1].ranks[1].grade
