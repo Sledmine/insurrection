@@ -7,6 +7,8 @@ local unicodeStringList = blam.unicodeStringList
 local isNull = blam.isNull
 local core = require "insurrection.core"
 
+local isBlockingInputEnabled = false
+
 ---@alias uiComponentType "generic" | "list" | "button" | "checkbox" | "slider" | "dropdown" | "text" | "image" | "spinner" | "progress"
 
 ---@class uiComponent
@@ -65,6 +67,10 @@ function component.callbacks()
 
     balltze.event.uiWidgetAccept.subscribe(function(event)
         if event.time == "before" then
+            if isBlockingInputEnabled then
+                event:cancel()
+                return
+            end
             -- logger:debug("Accepting widget: {}", event.context.widget.definitionTagHandle.value)
             local isCanceled = false
             local instance = component.widgets[event.context.widget.definitionTagHandle.value]
@@ -82,6 +88,10 @@ function component.callbacks()
     ---@type BalltzeUIWidgetFocusEventCallback
     local function onWidgetFocus(event)
         if event.time == "before" then
+            if isBlockingInputEnabled then
+                event:cancel()
+                return
+            end
             local tagHandleValue = event.context.widget.definitionTagHandle.value
             local focusedWidgetTag = engine.tag.getTag(tagHandleValue,
                                                        engine.tag.classes.uiWidgetDefinition)
@@ -109,6 +119,10 @@ function component.callbacks()
 
     balltze.event.uiWidgetMouseButtonPress.subscribe(function(event)
         if event.time == "before" then
+            if isBlockingInputEnabled then
+                event:cancel()
+                return
+            end
             local button = event.context.button:label()
             local widgetTag = engine.userInterface.findWidget(event.context.widget
                                                                   .definitionTagHandle.value)
@@ -275,7 +289,11 @@ function component.callbacks()
 
     balltze.event.uiWidgetBack.subscribe(function(event)
         if event.time == "before" then
-            --logger:debug("Closing tag: {}", event.context.widget.definitionTagHandle.value)
+            if isBlockingInputEnabled then
+                event:cancel()
+                return
+            end
+            -- logger:debug("Closing tag: {}", event.context.widget.definitionTagHandle.value)
             local widgetTagHandleValue = event.context.widget.definitionTagHandle.value
             local component = component.widgets[widgetTagHandleValue]
             if component and component.events.onClose then
@@ -289,6 +307,10 @@ function component.callbacks()
 
     balltze.event.uiWidgetListTab.subscribe(function(event)
         if event.time == "before" then
+            if isBlockingInputEnabled then
+                event:cancel()
+                return
+            end
             local pressedKey = event.context.tab
             local listWidgetTagHandle = event.context.widgetList.definitionTagHandle.value
             local listWidgetTag = engine.tag.getTag(listWidgetTagHandle,
@@ -699,6 +721,11 @@ function component.isVisible(self)
         return false
     end
     return widgetValues.visible == true
+end
+
+---@param blockInput boolean
+function component.blockInput(blockInput)
+    isBlockingInputEnabled = blockInput == true
 end
 
 return component
