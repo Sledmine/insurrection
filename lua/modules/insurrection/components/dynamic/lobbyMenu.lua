@@ -273,6 +273,7 @@ return function()
         if map.events.onClick then
             map.events.onClick()
         end
+        makePublic:setValue(state.lobby.isPublic)
     end)
     lobbyMenu:onClose(function()
         api.deleteLobby()
@@ -294,7 +295,6 @@ return function()
         gametype:setText(t(state.lobby.gametype))
         gametype:setValue(state.lobby.gametype)
 
-        makePublic:setValue(state.lobby.isPublic)
         if api.session.lobbyKey then
             key:setText(string.rep("*", #api.session.lobbyKey))
         end
