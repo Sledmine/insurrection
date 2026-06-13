@@ -226,7 +226,8 @@ local lobbyMenuPath = container {
                 }
             }
         },
-        {constants.components.version.path, pos.version.x, pos.version.y}
+        {constants.components.version.path, pos.version.x, pos.version.y},
+        {constants.components.overlay.path, 0, 0}
     },
     conditionalWidgets = {
         {

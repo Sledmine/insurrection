@@ -111,6 +111,9 @@ return {
                 bitmap = [[insurrection/ui/bitmaps/input_small.bitmap]]
             },
             normal = {width = 187, height = 34, bitmap = [[insurrection/ui/bitmaps/input.bitmap]]}
+        },
+        overlay = {
+            path = [[insurrection/ui/menus/overlay/overlay_graft.ui_widget_definition]]
         }
     }
 }

@@ -31,7 +31,7 @@ local loadingMenuPath = container {
                 height = 256,
                 scale = 0.25
             },
-            395,
+            (constants.screen.width / 2) - 32,
             220
         }
     }
