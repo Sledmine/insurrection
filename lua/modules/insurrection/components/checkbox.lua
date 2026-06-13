@@ -25,7 +25,7 @@ function checkbox.new(tagId)
     local boxTag = instance:findChildWidgetTag("checkbox")
     instance.boxTagId = boxTag.id
     assert(boxTag and boxTag.path:find("checkbox", 1, true),
-    "Tag " .. instance.tag.path .. " is not a checkbox")
+           "Tag " .. instance.tag.path .. " is not a checkbox")
     return instance
 end
 
@@ -46,31 +46,26 @@ end
 ---@param self uiComponentCheckbox
 function checkbox.setValue(self, value)
     assert(type(value) == "boolean", "Value must be a boolean")
-    setValue(self, value)
     if self.onToggleCallback then
-        self.onToggleCallback(value)
+        if self.onToggleCallback(value) == false then
+            -- Event has been cancelled
+            return true
+        end
     end
+    setValue(self, value)
 end
 
 ---@param self uiComponentCheckbox
 function checkbox.toggle(self)
     local value = self:getValue()
-    self:setValue(not value)
+    return self:setValue(not value)
 end
 
 ---@param self uiComponentCheckbox
 function checkbox.onToggle(self, callback)
     self.onToggleCallback = callback
     self.events.onClick = function()
-        local value = self:getValue()
-        local isCanceled
-        if callback then
-           isCanceled = callback(value) == false
-        end
-        if not isCanceled then
-            self:toggle()
-        end
-        return isCanceled
+        return self:toggle()
     end
 end
 
