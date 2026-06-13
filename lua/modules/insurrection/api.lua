@@ -13,7 +13,6 @@ local core = require "insurrection.core"
 local menus = require "insurrection.menus"
 local shared = interface.shared
 local constants = require "insurrection.constants"
-local loading = core.loading
 local luna = require "luna"
 local utils = require "insurrection.utils"
 local mock = require "insurrection.api.mock"
@@ -152,7 +151,7 @@ end
 
 function api.login(username, password)
     local login = async(function(await)
-        loading(true, "Logging in...")
+        interface.loading(true, "Logging in...")
         ---@type httpResponse<loginResponse>?
         local response
         if IsAPIMockEnabled then
@@ -162,7 +161,7 @@ function api.login(username, password)
             response = await(requests.postform, api.url .. "/login", data)
         end
         logger:debug("onLoginResponse")
-        loading(false)
+        interface.loading(false)
         if not response then
             logger:error("No response")
             showErrorDialog("No response")
@@ -194,7 +193,7 @@ function api.login(username, password)
             -- TODO Make a better implementation of async await that allows awaiting other functions
             -- that also use invoke other async functions
 
-            loading(true, "Loading available parameters...")
+            interface.loading(true, "Loading available parameters...")
             ---@type httpResponse<availableParameters>?
             local response
             if IsAPIMockEnabled then
@@ -206,7 +205,7 @@ function api.login(username, password)
                 showErrorDialog("No response")
                 return
             end
-            loading(false)
+            interface.loading(false)
             if response then
                 if response.code == 200 then
                     local jsonResponse = response.json()
@@ -231,9 +230,10 @@ function api.lobby(lobbyKey)
     -- We are requesting a new lobby, cause no lobby key was provided
     if not lobbyKey then
         local lobby = async(function(await)
-            loading(true, "Creating lobby...")
+            interface.loading(true, "Creating lobby...")
             ---@type httpResponse<lobbyResponse>?
             local response = await(requests.get, api.url .. "/lobby")
+            interface.loading(false)
             if not response then
                 showErrorDialog("No response")
                 return
@@ -363,15 +363,15 @@ function api.startLobbyRefresh()
 end
 
 function api.refreshLobby()
-    if not api.session.lobbyKey then
+    if not api.session.lobbyKey or console_is_open() then
         return
     end
     logger:debug("Refreshing lobby data...")
-    loading(true, "Refreshing lobby...", false)
+    interface.loading(true, "Refreshing lobby...", false)
     local refresh = async(function(await)
         ---@type httpResponse<insurrectionLobby | requestResult>?
         local response = await(requests.get, api.url .. "/lobby/" .. api.session.lobbyKey)
-        loading(false)
+        interface.loading(false)
         if not response then
             api.stopRefreshLobby()
             showErrorDialog("No response")
@@ -433,7 +433,7 @@ end
 
 function api.borrow(template, map, gametype)
     local borrow = async(function(await)
-        loading(true, "Borrowing game server...", false)
+        interface.loading(true, "Borrowing game server...")
         ---@type httpResponse<serverBorrowResponse>?
         local response = await(requests.get,
                                api.url .. "/borrow/" .. template .. "/" .. map .. "/" .. gametype ..
@@ -482,7 +482,7 @@ end
 ---Edit player nameplate
 ---@param data {nameplate: string, bipeds: table<string, string>}
 function api.playerProfileEdit(data)
-    loading(true, "Editing profile...", false)
+    interface.loading(true, "Editing profile...", false)
     local edit = async(function(await)
         ---@type httpResponse<any>?
         local response = await(requests.patch, api.url .. "/players", data)
@@ -490,7 +490,7 @@ function api.playerProfileEdit(data)
             showErrorDialog("No response")
             return
         end
-        loading(false)
+        interface.loading(false)
 
         if response.code == 200 then
             local bipedProjectName = table.keys(data.bipeds)[1]
@@ -512,7 +512,7 @@ function api.playerProfileEdit(data)
 end
 
 function api.editLobby(lobbyKey, data)
-    loading(true, "Editing lobby...", false)
+    interface.loading(true, "Editing lobby...", false)
     local edit = async(function(await)
         ---@type httpResponse<any>?
         local response = await(requests.patch, api.url .. "/lobby/" .. lobbyKey, data)
@@ -532,7 +532,7 @@ function api.editLobby(lobbyKey, data)
 end
 
 function api.getLobbies()
-    loading(true, "Loading lobbies...", false)
+    interface.loading(true, "Loading lobbies...", false)
     local get = async(function(await)
         ---@type httpResponse<insurrectionLobby[] | requestResult>?
         local response
