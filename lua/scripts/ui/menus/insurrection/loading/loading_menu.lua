@@ -18,24 +18,22 @@ local loadingMenuPath = container {
                 name = "loading_label",
                 text = strmem(256, "LOADING GAME..."),
                 justify = "center",
-                variant = "title",
-                childs = {
-                    {
-                        image {
-                            name = "loading_orb",
-                            bitmap = "insurrection/ui/bitmaps/loading_orb.bitmap",
-                            width = 256,
-                            height = 256,
-                            scale = 0.5
-                        },
-                        360,
-                        10
-                    }
-                }
+                variant = "title"
             },
             0,
             200
         },
+        {
+            image {
+                name = "loading_orb",
+                bitmap = "insurrection/ui/bitmaps/loading_orb.bitmap",
+                width = 256,
+                height = 256,
+                scale = 0.25
+            },
+            395,
+            220
+        }
     }
 }
 
