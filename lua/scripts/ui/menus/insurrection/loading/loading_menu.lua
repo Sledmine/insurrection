@@ -11,7 +11,7 @@ local name = "loading_menu"
 
 local loadingMenuPath = container {
     name = name,
-    background = "transparent",
+    background = "overlay",
     childs = {
         {
             label {
