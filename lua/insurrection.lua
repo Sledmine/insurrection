@@ -10,12 +10,12 @@ local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
 local protothread = require "async"
 protothread.onError = function(threadError)
-    --logger:error(threadError)
+    -- logger:error(threadError)
     interface.loading(false)
     error(threadError)
 end
 async = protothread.async
-local dispatch = require"async".dispatch
+local dispatch = protothread.dispatch
 require"async".configure("base, table, package, string")
 execute_script = engine.hsc.executeScript
 local script = require "script"
@@ -206,6 +206,8 @@ function PluginLoad()
         end, "lowest")
     end
 
+    local currentMapName
+
     if not onTickEvent then
         onTickEvent = balltze.event.tick.subscribe(function(event)
             if event.time == "before" then
@@ -220,14 +222,20 @@ function PluginLoad()
                         logger:debug("New map loaded, initializing Insurrection data...")
                         initialize()
                         specialEvents.onPostMapLoad()
+                        currentMapName = engine.map.getCurrentMapHeader().name
                     end
                     interface.onTick()
                     specialEvents.onTick()
                     script.poll()
-                    -- Multithread callback resolve
-                    local success, message = pcall(dispatch)
-                    if not success then
-                        logger:error(tostring(message))
+                    -- TODO This might prevent us from using async calls inside non ui maps
+                    -- Expected as of now but if we want to perform network requests later on
+                    -- this will be a stopper
+                    if currentMapName == "ui" then
+                        -- Multithread callback resolve
+                        local success, message = pcall(dispatch)
+                        if not success then
+                            logger:error(tostring(message))
+                        end
                     end
                 end
             end
