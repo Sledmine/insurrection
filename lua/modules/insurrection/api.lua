@@ -384,6 +384,7 @@ function api.refreshLobby()
             local lobby = response.json()
             if lobby then
                 -- Update previously joined lobby data
+                logger:debug("lobbyRefreshData: {}", tostring(inspect(lobby)):replace("\n", ""))
                 store:dispatch(actions.setLobby(api.session.lobbyKey, lobby))
                 local state = getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
@@ -544,17 +545,20 @@ function api.getLobbies()
         else
             response = await(requests.get, api.url .. "/lobbies")
         end
+        interface.loading(false)
         if not response then
             showErrorDialog("No lobbies server response")
             return
         end
         if response.code == 200 then
             local lobbies = response.json()
-            if lobbies and #lobbies > 0 then
-                store:dispatch(actions.setLobbies(lobbies or {}))
-                react.mount("lobbyBrowserMenu", constants.widgets.browser.id)
-                react.render(constants.widgets.browser.id)
+            if not lobbies then
+                interface.dialog("ATTENTION", "ERROR", "An error ocurred getting lobby data...")
+                return
             end
+            store:dispatch(actions.setLobbies(lobbies or {}))
+            react.mount("lobbyBrowserMenu", constants.widgets.browser.id)
+            react.render(constants.widgets.browser.id)
         else
             local jsonResponse = response.json()
             if jsonResponse then

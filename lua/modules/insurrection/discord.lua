@@ -121,20 +121,20 @@ end
 ---@param partySize number?
 ---@param partyMax number?
 ---@param map? string
----@param isLobbyOpen? boolean
-function discord.setParty(partyId, partySize, partyMax, map, isLobbyOpen)
+---@param isPartyOpen? boolean
+function discord.setParty(partyId, partySize, partyMax, map, isPartyOpen)
     logger:debug("discord.setParty")
     logger:debug("partyId: {}", partyId)
     logger:debug("partySize: {}", partySize)
     logger:debug("partyMax: {}", partyMax)
-    logger:debug("map: {}", map)
-    logger:debug("isLobbyOpen: {}", isLobbyOpen)
+    logger:debug("partyMap: {}", map)
+    logger:debug("isPartyOpen: {}", isPartyOpen)
     -- Party ID sometines is nil, so we need to check for it
     if partyId then
         -- TODO Replace with a proper party unique ID
         discord.presence.partyId = partyId .. partyId:reverse()
         discord.presence.joinSecret = nil
-        if isLobbyOpen then
+        if isPartyOpen then
             discord.presence.joinSecret = partyId
         end
     end
