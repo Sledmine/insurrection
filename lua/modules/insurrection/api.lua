@@ -42,6 +42,8 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 ---@field rank number
 ---@field bipeds table<string, string>
 ---@field color {primary: string, secondary: string}
+---@field credits number
+---@field experience number
 
 ---@class loginResponse
 ---@field message string
@@ -171,8 +173,9 @@ function api.login(username, password)
             local jsonResponse = response.json()
             api.session.token = jsonResponse.token
             api.session.player = jsonResponse.player
-            -- FIXME Remove this when the server has proper rank system
-            api.session.player.rank = math.random(1, 136)
+            if DebugMode and not api.session.player.rank then
+                api.session.player.rank = math.random(1, 136)
+            end
             api.session.player.exp = 0
 
             if api.session.player.color then
@@ -546,23 +549,11 @@ function api.getLobbies()
             return
         end
         if response.code == 200 then
-            local jsonResponse = response.json()
-            if jsonResponse then
-                if #jsonResponse == 0 then
-                    interface.dialog {
-                        title = "INFORMATION",
-                        subtitle = "NO LOBBIES AVAILABLE",
-                        body = "There are no other player lobbies available at the moment.\nTry creating one!",
-                        button = "RIGHT ON!",
-                        cancel = true
-                    }
-                    return
-                else
-                    store:dispatch(actions.setLobbies(jsonResponse))
-                    react.mount("lobbyBrowserMenu", constants.widgets.browser.id)
-                    react.render(constants.widgets.browser.id)
-                end
-                return
+            local lobbies = response.json()
+            if lobbies and #lobbies > 0 then
+                store:dispatch(actions.setLobbies(lobbies or {}))
+                react.mount("lobbyBrowserMenu", constants.widgets.browser.id)
+                react.render(constants.widgets.browser.id)
             end
         else
             local jsonResponse = response.json()
