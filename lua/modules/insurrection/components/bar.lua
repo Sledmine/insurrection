@@ -36,6 +36,10 @@ end
 ---@param self uiComponentBar
 ---@param value number
 function bar.setValue(self, value)
+    local value = value
+    if value < 0 then
+        value = 0
+    end
     local isHorizontal = self.orientation == "horizontal"
     local barPosition = round(value * (isHorizontal and self.widgetDefinition.width or self.widgetDefinition.height))
     local barValueDefinition = self:findChildWidgetDefinition("bar_value")

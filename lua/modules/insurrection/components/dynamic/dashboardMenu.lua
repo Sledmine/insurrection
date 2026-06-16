@@ -110,14 +110,22 @@ return function()
                 for _, rankData in ipairs(rank.ranks) do
                     currentRankIndex = currentRankIndex + 1
                     if api.session.player.rank == currentRankIndex then
+                        logger:debug("Current Rank: {}", api.session.player.rank)
                         classificationName = rank.classification
                         rankName = rankData.name
                         rankGrade = rankData.grade
                         local nextRank = flattenRanks[currentRankIndex + 1] or
                                              flattenRanks[#flattenRanks]
                         -- TODO This should be the player's current experience (api.session.player.exp)
-                        local currentExp = math.random(rankData.experience, nextRank.experience)
+                        local currentExp = api.session.player.exp or 0
+                        if DebugMode and not currentExp then
+                            currentExp = math.random(rankData.experience, nextRank.experience)
+                        end
                         expToNextRank = nextRank.experience - currentExp
+                        local currentCredits = api.session.player.credits or 0
+                        if DebugMode and not currentCredits then
+                            currentCredits = math.random(0, 1000)
+                        end
 
                         local rankTierText = classificationName .. ", GRADE " .. rankGrade
                         rankNameLabel:setText(rankName:upper())
@@ -127,13 +135,19 @@ return function()
                         local expDiff = nextRank.experience - rankData.experience
                         logger:debug("Current exp: " .. currentExp)
                         logger:debug("Next rank exp: " .. nextRank.experience)
-                        local progressValue = 1 - (nextRank.experience - currentExp) / expDiff
+                        local progressValue = 0
+                        if expDiff > 0 then
+                            progressValue = (currentExp - rankData.experience) / expDiff
+
+                            -- Clamp to [0, 1]
+                            progressValue = math.max(0, math.min(1, progressValue))
+                        end
                         logger:debug("Progress value: " .. progressValue)
                         rankProgressBar:setValue(progressValue)
 
                         logger:debug("Current rank index: " .. currentRankIndex)
                         rankIcon:setBitmapIndex(currentRankIndex)
-                        creditsLabel:setText(math.random(0, 1000) .. " CR")
+                        creditsLabel:setText(currentCredits .. " CR")
 
                         -- TODO Move this to another function so it does not depend on break
                         break
