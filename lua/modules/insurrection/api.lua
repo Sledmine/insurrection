@@ -176,7 +176,8 @@ function api.login(username, password)
             if DebugMode and not api.session.player.rank then
                 api.session.player.rank = math.random(1, 136)
             end
-            api.session.player.exp = 0
+            api.session.player.rank = api.session.player.rank or 0
+            api.session.player.exp = api.session.player.exp or 0
 
             if api.session.player.color then
                 local primaryColorIndex = core.getCustomizationColorByValue(api.session.player.color
