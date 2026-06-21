@@ -4,29 +4,27 @@ local constants = require "lua.scripts.ui.components.constants"
 local image = require "lua.scripts.ui.componentsV2.image"
 local floor = math.floor
 
----@class buttonSquareProps
+---@class buttonLoginProps
 ---@field name string
 ---@field text? string
 ---@field justification? "left_justify" | "center_justify" | "right_justify"
----@field variant? "skull" | "show_hide"
 ---@field childs? invaderWidgetChildWidget[]
 
----Square Button for skulls
----@param props buttonSquareProps
+---Login Button
+---@param props buttonLoginProps
 ---@return string
 return function(props)
     local name = props.name
     local text = props.text
     local justification = props.justification or "left_justify"
-    local variant = props.variant or "skull"
-    local widgetPath = widget.path .. "buttons/" .. name .. "_square_button.ui_widget_definition"
+    local widgetPath = widget.path .. "buttons/" .. name .. "_login_button.ui_widget_definition"
 
-    local size = {width = 80, height = 80, scale = 1}
+    local size = {width = 132, height = 18, scale = 1}
 
     local stringsTagPath
     if text then
         -- Generate strings tag
-        stringsTagPath = widget.path .. "strings/" .. name .. "_square_button.unicode_string_list"
+        stringsTagPath = widget.path .. "strings/" .. name .. "_login_button.unicode_string_list"
         ustr(stringsTagPath, {text})
     end
 
@@ -34,7 +32,7 @@ return function(props)
     local wid = {
         widget_type = "text_box",
         bounds = widget.scale(size.width, size.height, size.scale),
-        background_bitmap = [[insurrection/ui/bitmaps/square_button.bitmap]],
+        background_bitmap = [[insurrection/ui/redesign/bitmaps/login_button.bitmap]],
         event_handlers = {
             {event_type = "a_button"},
             {
@@ -53,16 +51,10 @@ return function(props)
         text_font = constants.fonts.title,
         text_color = constants.color.text,
         justification = justification,
-        variant = variant,
-        horiz_offset = 16,
-        vert_offset = 16,
+        horiz_offset = 0,
+        vert_offset = 0,
         child_widgets = props.childs or {}
     }
-    if props.variant == "show_hide" then
-        size.width = 20
-        size.height = 20
-        size.scale = 1
-    end
 
     widget.createV2(widgetPath, wid)
     return widgetPath

@@ -9,7 +9,7 @@ local image = require "lua.scripts.ui.componentsV3.image"
 ---@field password? boolean
 ---@field editable? boolean
 ---@field icon? string
----@field variant? '"small"' | '"normal"'
+---@field variant? "small" | "normal" | "login"
 ---@field placeholder? string
 
 ---Input text component with optional icon
@@ -31,6 +31,7 @@ return function(props)
     local widgetPath = widget.path .. "buttons/" .. name .. "_input.ui_widget_definition"
     local width, height = constants.components.input[variant].width,
                           constants.components.input[variant].height
+
     ---@type invaderWidget
     local wid = {
         widget_type = "text_box",
@@ -59,6 +60,10 @@ return function(props)
     if variant == "small" then
         wid.horiz_offset = 30
         wid.vert_offset = 4
+    end
+    if variant == "login" then
+        wid.horiz_offset = 2
+        wid.vert_offset = 2
     end
     if placeholder then
         local widgetPath = widget.path .. "buttons/" .. name ..

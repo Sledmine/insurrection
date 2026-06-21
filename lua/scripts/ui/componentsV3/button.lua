@@ -17,7 +17,7 @@ local floor = math.floor
 ---@field legacy? boolean
 ---@field close? boolean
 ---@field arrow? "up" | "down"
----@field variant? "small" | "normal" | "large"
+---@field variant? "small" | "normal" | "large" | "show_hide" | "slider"
 ---@field transparent? boolean
 ---@field textOffset? number
 ---@field childs? invaderWidgetChildWidget[]

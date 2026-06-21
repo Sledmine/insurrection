@@ -488,7 +488,7 @@ for i = 1, skullsCount do
         buttonSquare {
             name = "skull_" .. i,
             justification = "center_justify",
-            variant = "small",
+            variant ="skull",
             childs = {
                 {
                     image {

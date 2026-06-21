@@ -7,7 +7,7 @@ local constants = require "lua.scripts.ui.components.constants"
 ---@field text? string
 ---@field align? "left" | "right"
 ---@field transparent? boolean
----@field variant? "normal" | "large"
+---@field variant? "normal" | "large" | "show_hide" | "slider"
 
 ---Checkbox component
 ---@param props checkboxProps
@@ -21,14 +21,24 @@ return function(props)
     local standalone = not props.text and transparent == true
 
     local size = {width = 14, height = 14, scale = 1}
+    local sizeVariant = {width = 128, height = 128, scale = 0.16}
+    local slider = {width = 128, height = 128, scale = 0.15}
 
     local widgetPath = widget.path .. name .. "_checkbox.ui_widget_definition"
     ---@type invaderWidget
     local checkbox = {
         widget_type = "container",
         bounds = widget.scale(size.width, size.height, size.scale),
-        background_bitmap = "insurrection/ui/bitmaps/checkbox.bitmap"
+        background_bitmap = "insurrection/ui/bitmaps/checkbox.bitmap",
     }
+    if variant == "show_hide" then
+        checkbox.background_bitmap = "insurrection/ui/redesign/bitmaps/login_show_hide_checkbox.bitmap"
+        checkbox.bounds = widget.scale(sizeVariant.width, sizeVariant.height, sizeVariant.scale)
+    elseif variant == "slider" then
+        checkbox.background_bitmap = "insurrection/ui/redesign/bitmaps/slider_checkbox.bitmap"
+        checkbox.bounds = widget.scale(slider.width, slider.height, slider.scale)
+    end
+
     widget.createV2(widgetPath, checkbox)
     local posX = constants.components.button[variant].width - 14 - 5
 

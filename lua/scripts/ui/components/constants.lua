@@ -70,6 +70,16 @@ return {
                 width = 389,
                 height = 24,
                 bitmap = [[insurrection/ui/bitmaps/large_button.bitmap]]
+            },
+            show_hide = {
+                width = 20,
+                height = 20,
+                bitmap = [[insurrection/ui/redesign/bitmaps/void_20x20.bitmap]]
+            },
+            slider = {
+                width = 149,
+                height = 24,
+                bitmap = [[insurrection/ui/bitmaps/small_button.bitmap]]
             }
         },
         arrow = {
@@ -110,7 +120,16 @@ return {
                 height = 23,
                 bitmap = [[insurrection/ui/bitmaps/input_small.bitmap]]
             },
-            normal = {width = 187, height = 34, bitmap = [[insurrection/ui/bitmaps/input.bitmap]]}
+            normal = {
+                width = 187,
+                height = 34,
+                bitmap = [[insurrection/ui/bitmaps/input.bitmap]]
+            },
+            login = {
+                width = 132,
+                height = 18,
+                bitmap = [[insurrection/ui/redesign/bitmaps/login_input_textbox.bitmap]]
+            }
         },
         overlay = {
             path = [[insurrection/ui/menus/overlay/overlay_graft.ui_widget_definition]]
