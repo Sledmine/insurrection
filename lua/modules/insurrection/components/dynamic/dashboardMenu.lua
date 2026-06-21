@@ -66,7 +66,7 @@ return function()
     -- end)
 
     dashboard:onOpen(function(previousWidgetTag)
-        rankNameLabel:setText("NO RANK (Coming soon!)")
+        rankNameLabel:setText("NO RANK")
         rankTierLabel:setText("NO TIER")
         expLabel:setText("0 XP TO NEXT RANK")
         rankIcon:setBitmapIndex(0)
@@ -104,7 +104,6 @@ return function()
                     table.insert(flattenRanks, rankData)
                 end
             end
-            logger:debug("Flatten ranks: " .. #flattenRanks)
 
             for _, rank in ipairs(ranks) do
                 for _, rankData in ipairs(rank.ranks) do
@@ -116,8 +115,7 @@ return function()
                         rankGrade = rankData.grade
                         local nextRank = flattenRanks[currentRankIndex + 1] or
                                              flattenRanks[#flattenRanks]
-                        -- TODO This should be the player's current experience (api.session.player.exp)
-                        local currentExp = api.session.player.exp or 0
+                        local currentExp = api.session.player.experience or 0
                         if DebugMode and not currentExp then
                             currentExp = math.random(rankData.experience, nextRank.experience)
                         end

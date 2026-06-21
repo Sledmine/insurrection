@@ -89,12 +89,14 @@ local maps = {
     "aqueduct",
     "penance",
     -- Coop Evolved maps
+    "a10_coop_evolved",
     "a30_coop_evolved",
     "a50_coop_evolved",
     "b30_coop_evolved",
     "b40_coop_evolved",
     "c10_coop_evolved",
     "c20_coop_evolved",
+    "c40_coop_evolved",
     "d40_coop_evolved"
 }
 

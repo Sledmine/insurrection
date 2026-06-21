@@ -177,7 +177,7 @@ function api.login(username, password)
                 api.session.player.rank = math.random(1, 136)
             end
             api.session.player.rank = api.session.player.rank or 0
-            api.session.player.exp = api.session.player.exp or 0
+            api.session.player.experience = api.session.player.experience or 0
 
             if api.session.player.color then
                 local primaryColorIndex = core.getCustomizationColorByValue(api.session.player.color
