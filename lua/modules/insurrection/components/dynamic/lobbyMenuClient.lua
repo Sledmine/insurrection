@@ -10,6 +10,7 @@ local blam = require "blam"
 local findTag = blam.findTag
 local tagClasses = blam.tagClasses
 local s = require"insurrection.utils".snakeCaseToUpperTitleCase
+local getMapMetadata = core.getMapMetadata
 
 local gametypeIcons = {
     "unknown",
@@ -60,7 +61,12 @@ local function lobbyMenuClient()
             gametypeIcon:setWidgetValues({bitmapIndex = backgroundBitmapIndex})
         end
 
-        description:setText(s(state.lobby.gametype:upper()) .. " on " .. s(state.lobby.map))
+        local mapMeta = getMapMetadata(state.lobby.map)
+        local mapName = s(state.lobby.map)
+        if mapMeta then
+            mapName = mapMeta.title or mapName
+        end
+        description:setText(state.lobby.gametype:upper() .. " on " .. mapName)
 
         playersList:setItems(table.map(state.lobby.players, function(player)
             local nameplateTag = constants.nameplates[player.nameplate] or {}

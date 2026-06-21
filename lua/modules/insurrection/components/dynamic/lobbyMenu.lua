@@ -8,6 +8,7 @@ local blam = require "blam"
 local getState = require "insurrection.redux.getState"
 local checkbox = require "insurrection.components.checkbox"
 local t = require"insurrection.utils".snakeCaseToTitleCase
+local getMapMetadata = core.getMapMetadata
 
 local gametypeIcons = {
     "unknown",
@@ -57,15 +58,15 @@ return function()
     local elementsList = list.new(options:findChildWidgetTag("elements").id)
     local mapsList = list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition)
                                   .id)
-    local fullMapListWrapper  = component.new(blam.findTag("lobby_maps_wrapper",
-                                                   blam.tagClasses.uiWidgetDefinition).id)
+    local fullMapListWrapper = component.new(blam.findTag("lobby_maps_wrapper",
+                                                          blam.tagClasses.uiWidgetDefinition).id)
     local mapPreview = component.new(fullMapListWrapper:get("map_small_preview"))
     local mapName = component.new(fullMapListWrapper:get("map_name"))
     local mapAuthor = component.new(fullMapListWrapper:get("map_author"))
     local mapDescription = component.new(fullMapListWrapper:get("map_description"))
     -- Add scanner animation to map preview
-    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true,
-                                                                                       2.3, 1)
+    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3,
+                                                                                   1)
 
     local search = input.new(options:findChildWidgetTag("search").id)
     local play = button.new(options:findChildWidgetTag("play").id)
@@ -106,17 +107,21 @@ return function()
 
     local function setMapData(selectedMapName)
         setMapBackgroundBitmap(selectedMapName)
-        mapName:setText(t(selectedMapName))
-        local mapMetadata = table.find(constants.maps, function(map)
-            return map.name == selectedMapName
-        end)
-        if mapMetadata then
-            mapAuthor:setText(mapMetadata.author)
-            mapDescription:setText(mapMetadata.description)
-        else
+        local mapMetadata = getMapMetadata(selectedMapName)
+        if not mapMetadata then
+            mapName:setText(t(selectedMapName))
             mapAuthor:setText("Unknown")
             mapDescription:setText("No description available")
+            return
         end
+        -- local displayName = mapMetadata.name
+        -- if mapMetadata.title then
+        --    displayName = mapMetadata.title .. " (" .. mapMetadata.name .. ")"
+        -- end
+        -- mapName:setText(displayName)
+        mapName:setText(mapMetadata.title or t(mapMetadata.name))
+        mapAuthor:setText(mapMetadata.author)
+        mapDescription:setText(mapMetadata.description)
     end
 
     if lobby and isPlayerLobbyOwner then
@@ -136,8 +141,8 @@ return function()
             setMapData(value)
         end)
         mapsList:onFocus(function(item)
-            --local selectedMapName = item.value.text
-            --setMapData(selectedMapName)
+            -- local selectedMapName = item.value.text
+            -- setMapData(selectedMapName)
         end)
 
         ---Change current definition of data in lobby
@@ -146,24 +151,23 @@ return function()
         ---@param filter string?
         local handleDefinition = function(lobbyDefComponent, newDefinition, filter)
             local component = elementsList
-            if newDefinition == "map" then
+            local isMapDefinition = newDefinition == "map"
+            if isMapDefinition then
                 component = mapsList
             end
             local elements = state.available[newDefinition .. "s"]
-            if filter then
-                elements = table.filter(elements, function(element)
-                    return element:lower():includes(filter:lower())
-                end)
-            end
-            if not filter then
-                search:setText("")
-            end
-            component:setItems(table.map(elements, function(element)
+            local itemsList = table.map(elements, function(element)
                 ---@type uiComponentListItem
                 local item = {
                     label = t(element),
                     value = {component = lobbyDefComponent, text = element}
                 }
+                if isMapDefinition then
+                    local mapMetadata = getMapMetadata(element)
+                    if mapMetadata then
+                        item.label = mapMetadata.title
+                    end
+                end
                 if newDefinition == "template" or newDefinition == "gametype" then
                     item.bitmap = function(uiComponent)
                         local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
@@ -184,13 +188,26 @@ return function()
                     end
                 end
                 return item
-            end))
+            end)
+            if filter then
+                logger:debug("FILTERING!!!")
+                itemsList = table.filter(itemsList, function(item)
+                    local byValue = item.value.text:lower():includes(filter:lower())
+                    local isLabelText = type(item.label) == "string"
+                    local byLabel = isLabelText and item.label:lower():includes(filter:lower())
+                    return byValue or byLabel
+                end)
+            end
+            if not filter then
+                search:setText("")
+            end
+            component:setItems(itemsList)
             definition = newDefinition
         end
 
         local function showMapsListPanel()
             -- skullsPanel:replace(search.tagId)
-            elementsList:replace(fullMapListWrapper .tagId)
+            elementsList:replace(fullMapListWrapper.tagId)
             summary:show()
             description:show()
             makePublic:show()
@@ -199,7 +216,7 @@ return function()
 
         local function showElementsListPanel()
             -- skullsPanel:replace(search.tagId)
-            fullMapListWrapper :replace(elementsList.tagId)
+            fullMapListWrapper:replace(elementsList.tagId)
             summary:show()
             description:show()
             makePublic:show()
@@ -207,9 +224,9 @@ return function()
         end
 
         local function showSkullsPanel()
-            elementsList:replace(fullMapListWrapper .tagId)
-            fullMapListWrapper :replace(elementsList.tagId)
-            fullMapListWrapper :hide()
+            elementsList:replace(fullMapListWrapper.tagId)
+            fullMapListWrapper:replace(elementsList.tagId)
+            fullMapListWrapper:hide()
             elementsList:hide()
             summary:hide()
             description:hide()
@@ -289,7 +306,12 @@ return function()
         template:setText(t(state.lobby.template))
         template:setValue(state.lobby.template)
 
-        map:setText(t(state.lobby.map))
+        local mapMeta = getMapMetadata(state.lobby.map)
+        if not mapMeta then
+            mapMetamap:setText(t(state.lobby.map))
+        else
+            map:setText(mapMeta.title or t(state.lobby.map))
+        end
         map:setValue(state.lobby.map)
 
         gametype:setText(t(state.lobby.gametype))

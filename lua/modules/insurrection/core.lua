@@ -700,4 +700,13 @@ function core.loadFirefightSkullsSettings()
     end
 end
 
+---Get available metadata from the list of constant maps
+---@param mapName string
+---@return table?
+function core.getMapMetadata(mapName)
+    return table.find(constants.maps, function(map)
+        return map.name == mapName
+    end)
+end
+
 return core
