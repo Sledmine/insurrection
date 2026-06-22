@@ -7,8 +7,10 @@ local core = require "insurrection.core"
 local blam = require "blam"
 local getState = require "insurrection.redux.getState"
 local checkbox = require "insurrection.components.checkbox"
+local bar = require "insurrection.components.bar"
 local t = require"insurrection.utils".snakeCaseToTitleCase
 local getMapMetadata = core.getMapMetadata
+local lobbyData = require "insurrection.constants.lobbyData"
 
 local gametypeIcons = {
     "unknown",
@@ -50,23 +52,24 @@ return function()
     local template = button.new(definitionList:findChildWidgetTag("template").id)
     local map = button.new(definitionList:findChildWidgetTag("map").id)
     local gametype = button.new(definitionList:findChildWidgetTag("gametype").id)
-    -- local skulls = button.new(definitionList:findChildWidgetTag("skulls").id)
 
+    -- local skulls = button.new(definitionList:findChildWidgetTag("skulls").id)
     -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
     -- local skullsPanel = component.new(blam.findTag("skulls_panel", blam.tagClasses.uiWidgetDefinition).id)
 
     local elementsList = list.new(options:findChildWidgetTag("elements").id)
-    local mapsList = list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition)
-                                  .id)
-    local fullMapListWrapper = component.new(blam.findTag("lobby_maps_wrapper",
-                                                          blam.tagClasses.uiWidgetDefinition).id)
+    local mapsList = list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition).id)
+
+    local fullMapListWrapper = component.new(blam.findTag("lobby_maps_panel", blam.tagClasses.uiWidgetDefinition).id)
+
+    local mapsListScroll = bar.new(fullMapListWrapper:get("maps_scroll"),"scroll")
+    mapsList:setScrollBar(mapsListScroll)
+
     local mapPreview = component.new(fullMapListWrapper:get("map_small_preview"))
     local mapName = component.new(fullMapListWrapper:get("map_name"))
     local mapAuthor = component.new(fullMapListWrapper:get("map_author"))
     local mapDescription = component.new(fullMapListWrapper:get("map_description"))
-    -- Add scanner animation to map preview
-    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3,
-                                                                                   1)
+    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3,1)
 
     local search = input.new(options:findChildWidgetTag("search").id)
     local play = button.new(options:findChildWidgetTag("play").id)
@@ -76,6 +79,8 @@ return function()
 
     key:onFocus(function()
         key:setText(api.session.lobbyKey)
+        description:setText(
+                "Click to copy the lobby key.")
     end)
     key:onClick(function()
         core.copyToClipboard(api.session.lobbyKey)
@@ -103,6 +108,16 @@ return function()
             map = map,
             gametype = gametype and gametype:lower() or nil
         })
+        local gametypeDescription = lobbyData.gametypes[gametype]
+        local templateDescription = lobbyData.templates[template]
+
+        if gametypeDescription then
+            description:setText(gametypeDescription.description)
+        end
+
+        --if templateDescription then
+        --    description:setText(templateDescription.description)
+        --end
     end
 
     local function setMapData(selectedMapName)
@@ -208,8 +223,8 @@ return function()
         local function showMapsListPanel()
             -- skullsPanel:replace(search.tagId)
             elementsList:replace(fullMapListWrapper.tagId)
-            summary:show()
-            description:show()
+            summary:hide()
+            description:hide()
             makePublic:show()
             key:show()
         end
@@ -219,8 +234,8 @@ return function()
             fullMapListWrapper:replace(elementsList.tagId)
             summary:show()
             description:show()
-            makePublic:show()
-            key:show()
+            makePublic:hide()
+            key:hide()
         end
 
         local function showSkullsPanel()
@@ -228,8 +243,8 @@ return function()
             fullMapListWrapper:replace(elementsList.tagId)
             fullMapListWrapper:hide()
             elementsList:hide()
-            summary:hide()
-            description:hide()
+            --summary:hide()
+            --description:hide()
             -- search:replace(skullsPanel.tagId)
             makePublic:hide()
             key:hide()
@@ -247,7 +262,7 @@ return function()
         end)
         map:onFocus(function()
             description:setText(
-                "Choose a map from the available list to play on, you need to have the map installed.")
+                "Choose a map from the available list to play on, you need\nto have the map installed.")
         end)
         map.events.onClick()
 
@@ -257,7 +272,7 @@ return function()
         end)
         gametype:onFocus(function()
             description:setText(
-                "Game type defines the rules of the game, defines team play, scoring, etc.")
+                "Game type defines the rules of the game, defines team\nplay, scoring, etc.")
         end)
 
         template:onClick(function()
@@ -266,7 +281,7 @@ return function()
         end)
         template:onFocus(function()
             description:setText(
-                "Template defines a set of changes to the base server that will be applied when the lobby is created.")
+                "Template defines a set of changes to the base server\nthat will be applied when the lobby is created.")
         end)
 
         -- skulls:onClick(function()
@@ -301,6 +316,9 @@ return function()
     makePublic:onToggle(function(value)
         api.editLobby(api.session.lobbyKey, {isPublic = value})
     end)
+    makePublic:onFocus(function()
+        --description:setText("Toggle whether the lobby is public or private. Public lobbies can be joined by anyone,\n private lobbies require an invite or the lobby key.")
+    end)
 
     return function()
         template:setText(t(state.lobby.template))
@@ -316,6 +334,7 @@ return function()
 
         gametype:setText(t(state.lobby.gametype))
         gametype:setValue(state.lobby.gametype)
+
 
         if api.session.lobbyKey then
             key:setText(string.rep("*", #api.session.lobbyKey))
