@@ -29,7 +29,7 @@ local elementsLayout = widget.layout {
     alignment = "horizontal",
     size = 120,
     x = 19,
-    y = 0,
+    y = 20,
     margin = 2
 }
 
@@ -37,7 +37,7 @@ local elementsLayoutVertical = widget.layout {
     alignment = "vertical",
     size = 24,
     x = 0,
-    y = 0,
+    y = 20,
     margin = 2
 }
 
@@ -64,7 +64,7 @@ local lobbyMenuPath = container {
         {
             header {
                 name = "lobby_menu",
-                title = strmem(256, " MY LOBBY"),
+                title = strmem(256, "MY LOBBY"),
                 subtitle = "INVITE FRIENDS TO YOUR LOBBY, CHOOSE YOUR SERVER TYPE, SET YOUR RULES AND HAVE FUN!"
             },
             pos.header.x,
@@ -128,7 +128,7 @@ local lobbyMenuPath = container {
                             icon = "insurrection/ui/bitmaps/search_icon.bitmap"
                         },
                         pos.options.x,
-                        110
+                        122
                     },
                     {
                         options {
@@ -137,7 +137,13 @@ local lobbyMenuPath = container {
                             width = 530,
                             height = 110,
                             childs = {
-                                {slider {name = "elements_left", direction = "left"}},
+                                {slider {
+                                        name = "elements_left",
+                                        direction = "left"
+                                    },
+                                    0,
+                                    20
+                                },
                                 {
                                     complexButton {
                                         name = "element_1",
@@ -202,7 +208,16 @@ local lobbyMenuPath = container {
                 }
             }
         },
-        {footer {name = "summary", title = "SUMMARY", text = strmem(256)}, pos.footer.x, 335},
+        {
+            label {
+                name = "search",
+                text = strmem(256, "SEARCH BY KEYWORDS"),
+                variant = "subtitle"
+            },
+            20,
+            105
+        },
+        {footer {name = "summary", title = "DESCRIPTION", text = strmem(512)}, pos.footer.x, 335},
         {
             box {
                 name = "players",
@@ -232,16 +247,17 @@ local lobbyMenuPath = container {
     conditionalWidgets = {
         {
             widget_tag = wrapper {
-                name = "lobby_maps",
+                name = "lobby_maps_panel",
+                isDebug = false,
                 width = 465,
-                height = 160,
+                height = 200,
                 childs = {
                     {
                         options {
                             name = "lobby_maps",
                             alignment = "vertical",
                             width = 465,
-                            height = 160,
+                            height = 200,
                             childs = {
                                 {
                                     button {name = "scroll_map_list_up", arrow = "up"},
@@ -292,18 +308,18 @@ local lobbyMenuPath = container {
                             bitmap = "insurrection/ui/bitmaps/unknown_map_preview.bitmap",
                             variant = "small"
                         },
-                        240,
-                        1
+                        206,
+                        20
                     },
-                    {label {name = "map_name", text = strmem(32, "MAP NAME")}, 240, 113},
+                    {label {name = "map_name", text = strmem(32, "MAP NAME")}, 206, 130},
                     {
                         label {
                             name = "map_author",
                             text = strmem(32, "AUTHOR"),
                             color = "blueYonder"
                         },
-                        240,
-                        125
+                        206,
+                        142
                     },
                     {
                         label {
@@ -313,8 +329,18 @@ local lobbyMenuPath = container {
                             color = "white",
                             height = 200
                         },
-                        240,
-                        137
+                        207,
+                        160
+                    },
+                    {
+                        bar {
+                            name = "maps_scroll",
+                            orientation = "vertical",
+                            type = "scroll",
+                            size = 154
+                        },
+                        195,
+                        20
                     }
                 }
             }
