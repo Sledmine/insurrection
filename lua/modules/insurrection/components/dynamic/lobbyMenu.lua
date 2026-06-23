@@ -58,18 +58,21 @@ return function()
     -- local skullsPanel = component.new(blam.findTag("skulls_panel", blam.tagClasses.uiWidgetDefinition).id)
 
     local elementsList = list.new(options:findChildWidgetTag("elements").id)
-    local mapsList = list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition).id)
+    local mapsList = list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition)
+                                  .id)
 
-    local fullMapListWrapper = component.new(blam.findTag("lobby_maps_panel", blam.tagClasses.uiWidgetDefinition).id)
+    local fullMapListWrapper = component.new(blam.findTag("lobby_maps_panel",
+                                                          blam.tagClasses.uiWidgetDefinition).id)
 
-    local mapsListScroll = bar.new(fullMapListWrapper:get("maps_scroll"),"scroll")
+    local mapsListScroll = bar.new(fullMapListWrapper:get("maps_scroll"), "scroll")
     mapsList:setScrollBar(mapsListScroll)
 
     local mapPreview = component.new(fullMapListWrapper:get("map_small_preview"))
     local mapName = component.new(fullMapListWrapper:get("map_name"))
     local mapAuthor = component.new(fullMapListWrapper:get("map_author"))
     local mapDescription = component.new(fullMapListWrapper:get("map_description"))
-    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3,1)
+    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3,
+                                                                                   1)
 
     local search = input.new(options:findChildWidgetTag("search").id)
     local play = button.new(options:findChildWidgetTag("play").id)
@@ -79,8 +82,7 @@ return function()
 
     key:onFocus(function()
         key:setText(api.session.lobbyKey)
-        description:setText(
-                "Click to copy the lobby key.")
+        description:setText("Click to copy the lobby key.")
     end)
     key:onClick(function()
         core.copyToClipboard(api.session.lobbyKey)
@@ -108,16 +110,6 @@ return function()
             map = map,
             gametype = gametype and gametype:lower() or nil
         })
-        local gametypeDescription = lobbyData.gametypes[gametype]
-        local templateDescription = lobbyData.templates[template]
-
-        if gametypeDescription then
-            description:setText(gametypeDescription.description)
-        end
-
-        --if templateDescription then
-        --    description:setText(templateDescription.description)
-        --end
     end
 
     local function setMapData(selectedMapName)
@@ -154,10 +146,6 @@ return function()
             defComponent:setValue(value)
             editLobbyData()
             setMapData(value)
-        end)
-        mapsList:onFocus(function(item)
-            -- local selectedMapName = item.value.text
-            -- setMapData(selectedMapName)
         end)
 
         ---Change current definition of data in lobby
@@ -205,7 +193,6 @@ return function()
                 return item
             end)
             if filter then
-                logger:debug("FILTERING!!!")
                 itemsList = table.filter(itemsList, function(item)
                     local byValue = item.value.text:lower():includes(filter:lower())
                     local isLabelText = type(item.label) == "string"
@@ -215,6 +202,18 @@ return function()
             end
             if not filter then
                 search:setText("")
+            end
+            if newDefinition == "gametype" or newDefinition == "template" then
+                component:onFocus(function(item)
+                    local definitionData = lobbyData[newDefinition .. "s"][item.value.text]
+                    if definitionData then
+                        description:setText(definitionData.description)
+                    end
+                end)
+            else
+                mapsList:onFocus(function(item)
+                    -- setMapData(item.value.text)
+                end)
             end
             component:setItems(itemsList)
             definition = newDefinition
@@ -243,8 +242,8 @@ return function()
             fullMapListWrapper:replace(elementsList.tagId)
             fullMapListWrapper:hide()
             elementsList:hide()
-            --summary:hide()
-            --description:hide()
+            -- summary:hide()
+            -- description:hide()
             -- search:replace(skullsPanel.tagId)
             makePublic:hide()
             key:hide()
@@ -317,7 +316,7 @@ return function()
         api.editLobby(api.session.lobbyKey, {isPublic = value})
     end)
     makePublic:onFocus(function()
-        --description:setText("Toggle whether the lobby is public or private. Public lobbies can be joined by anyone,\n private lobbies require an invite or the lobby key.")
+        -- description:setText("Toggle whether the lobby is public or private. Public lobbies can be joined by anyone,\n private lobbies require an invite or the lobby key.")
     end)
 
     return function()
@@ -334,7 +333,6 @@ return function()
 
         gametype:setText(t(state.lobby.gametype))
         gametype:setValue(state.lobby.gametype)
-
 
         if api.session.lobbyKey then
             key:setText(string.rep("*", #api.session.lobbyKey))

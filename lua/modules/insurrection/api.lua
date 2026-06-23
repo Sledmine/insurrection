@@ -97,7 +97,7 @@ local function connect(desiredMap, host, port, password)
 end
 
 local function showErrorDialog(logs)
-    if type(logs) ~= "string" then
+    if logs and type(logs) ~= "string" then
         if type(logs) == "table" and logs.json then
             logs = tostring(inspect(logs)) .. "\n" .. tostring(inspect(logs.json()))
         else
@@ -370,7 +370,6 @@ function api.refreshLobby()
     if not api.session.lobbyKey or console_is_open() then
         return
     end
-    logger:debug("Refreshing lobby data...")
     interface.loading(true, "Refreshing lobby...", false)
     local refresh = async(function(await)
         ---@type httpResponse<insurrectionLobby | requestResult>?
@@ -385,7 +384,6 @@ function api.refreshLobby()
             local lobby = response.json()
             if lobby then
                 -- Update previously joined lobby data
-                logger:debug("lobbyRefreshData: {}", tostring(inspect(lobby)):replace("\n", ""))
                 store:dispatch(actions.setLobby(api.session.lobbyKey, lobby))
                 local state = getState()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==

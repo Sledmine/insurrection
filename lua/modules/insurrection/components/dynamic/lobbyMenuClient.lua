@@ -66,7 +66,7 @@ local function lobbyMenuClient()
         if mapMeta then
             mapName = mapMeta.title or mapName
         end
-        description:setText(state.lobby.gametype:upper() .. " on " .. mapName)
+        description:setText(s(state.lobby.gametype:upper()) .. " on " .. mapName)
 
         playersList:setItems(table.map(state.lobby.players, function(player)
             local nameplateTag = constants.nameplates[player.nameplate] or {}

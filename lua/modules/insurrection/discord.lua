@@ -123,12 +123,12 @@ end
 ---@param map? string
 ---@param isPartyOpen? boolean
 function discord.setParty(partyId, partySize, partyMax, map, isPartyOpen)
-    logger:debug("discord.setParty")
-    logger:debug("partyId: {}", partyId)
-    logger:debug("partySize: {}", partySize)
-    logger:debug("partyMax: {}", partyMax)
-    logger:debug("partyMap: {}", map)
-    logger:debug("isPartyOpen: {}", isPartyOpen)
+    --logger:debug("discord.setParty")
+    --logger:debug("partyId: {}", partyId)
+    --logger:debug("partySize: {}", partySize)
+    --logger:debug("partyMax: {}", partyMax)
+    --logger:debug("partyMap: {}", map)
+    --logger:debug("isPartyOpen: {}", isPartyOpen)
     -- Party ID sometines is nil, so we need to check for it
     if partyId then
         -- TODO Replace with a proper party unique ID
