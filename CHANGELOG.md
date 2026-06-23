@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.1] - 2026-06-23
+### Fixed
+- Christmas hats not resetting when applied to a biped and then changed to another map (only replicable on Christmas, duh)
+- Insurrection will no longer crash the game if the RPC Discord files are missing at runtime
+- Race conditions attempting to make a public lobby and then an update from the server replaced it back to previous state
+- Dumb scenario case where players were not allowed to join private lobbies by key as the lobby browser menu did not allow to open it due to not having public lobbies available (you had to enter the menu to enter a private lobby key)
+- Lobby browser refresh button did not use to refresh the lobby list due to an internal data bug that prevented this
+- Maps that hold by the internal game map name such as Coop Evolved ones like: a10, b30, etc. Are now displaying their "level" title name for simplicity
+- Layout and missing scrollbar in the lobby menu
+
+### Added
+- Loading native backpdrop overlay for when the game is busy fetching data in the background (prevents opening menus twice and ending in glitched scenarios, also gives user feedback when the UI is busy)
+- Experimental support for displaying player progression from the backend services (yet to be implemented, still not active, hold your horses)
+- Ranks classification up to Halo Infinite levels parity (yet again still to be implemented, just taste the idea for a second ok)
+- Missing map previews for Coop Evolved 1.10.0+
+- Gametypes and templates will now show their description while focusing them in the lobby menu
+
 ## [2.9.0] - 2025-12-09
 ### Added
 - New Firefight menu for loading old Firefight and custom Firefight 3.0 maps
