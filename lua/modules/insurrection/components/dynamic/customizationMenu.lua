@@ -1,15 +1,12 @@
 local balltze = Balltze
 local engine = Engine
-local blam = require "blam"
-local bar = require "insurrection.components.bar"
+local bar = require "ui.bar"
 local interface = require "insurrection.interface"
-local tagClasses = blam.tagClasses
-local findTag = blam.findTag
 local color = require "color"
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local button = require "insurrection.components.button"
-local list = require "insurrection.components.list"
+local button = require "ui.button"
+local list = require "ui.list"
 local utils = require "insurrection.utils"
 local menus = require "insurrection.menus"
 local core = require "insurrection.core"
@@ -24,34 +21,35 @@ return function()
     local state = getState()
 
     -- Get customization widget menu
-    local customization = components.new(constants.widgets.customization.id)
+    local customization = component.new(constants.widgets.customization.handle.value)
 
-    local scrollBar = bar.new(customization:findChildWidgetTag("customization_scroll").id, "scroll")
+    local scrollBar = bar.new(customization:findChildWidgetTag("customization_scroll").handle.value, "scroll")
     -- Get nameplate list widget
-    local nameplatesList = list.new(customization:findChildWidgetTag("nameplates_options").id, 1, 9)
+    local nameplatesList = list.new(customization:findChildWidgetTag("nameplates_options").handle.value, 1, 9)
     nameplatesList:setScrollBar(scrollBar)
 
     -- Get select bipeds widget
-    local selectBipedsWrapper = components.new(findTag("select_bipeds",
-                                                       tagClasses.uiWidgetDefinition).id)
-    local selectProjectsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project").id)
+    local selectBipedsTag = engine.tag.filterTags("ui_widget_definition", "select_bipeds")[1]
+    assert(selectBipedsTag, "Could not locate select_bipeds ui widget definition")
+    local selectBipedsWrapper = component.new(selectBipedsTag.handle.value)
+    local selectProjectsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project").handle.value)
     selectProjectsList:setScrollBar(scrollBar)
-    local bipedsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project_biped").id)
+    local bipedsList = list.new(selectBipedsWrapper:findChildWidgetTag("select_project_biped").handle.value)
 
-    local customizationOptions = components.new(customization:findChildWidgetTag(
-                                                    "customization_options").id)
-    local backButton = button.new(customizationOptions:findChildWidgetTag("back").id)
-    local customizationTypesList = components.new(customization:findChildWidgetTag("types").id)
+    local customizationOptions = component.new(customization:findChildWidgetTag(
+                                                    "customization_options").handle.value)
+    local backButton = button.new(customizationOptions:findChildWidgetTag("back").handle.value)
+    local customizationTypesList = component.new(customization:findChildWidgetTag("types").handle.value)
     local selectNameplateButton = button.new(
-                                      customizationTypesList:findChildWidgetTag("nameplates").id)
+                                      customizationTypesList:findChildWidgetTag("nameplates").handle.value)
 
-    local selectBipedButton = button.new(customizationTypesList:findChildWidgetTag("bipeds").id)
+    local selectBipedButton = button.new(customizationTypesList:findChildWidgetTag("bipeds").handle.value)
 
-    local currentBipedLabel = components.new(
-                                  customization:findChildWidgetTag("current_biped_label").id)
+    local currentBipedLabel = component.new(
+                                  customization:findChildWidgetTag("current_biped_label").handle.value)
     -- Get save customization button
     local saveCustomizationButton = button.new(
-                                        customization:findChildWidgetTag("save_customization").id)
+                                        customization:findChildWidgetTag("save_customization").handle.value)
 
     nameplatesList:onSelect(function(item)
         interface.loadProfileNameplate(item.value)
@@ -60,14 +58,14 @@ return function()
     local sortedNameplates = table.keys(constants.nameplates)
     table.sort(sortedNameplates)
     sortedNameplates = table.map(sortedNameplates, function(nameplateId)
-        return {value = nameplateId, bitmap = constants.nameplates[nameplateId].id}
+        return {value = nameplateId, bitmap = constants.nameplates[nameplateId].handle.value}
     end)
     nameplatesList:setItems(sortedNameplates)
 
     ---Select a customization biped
     ---@param bipedPath string
     local handleSelectBiped = function(bipedPath)
-        logger:debug("Selected biped path: {}", bipedPath)
+        logger.debug("Selected biped path: {}", bipedPath)
         selectedBiped = bipedPath
         core.loadCustomizationBiped(selectedProject, selectedBiped)
 
@@ -86,7 +84,7 @@ return function()
     ---@param projectName? string
     local function handleLoadProject(projectName)
         local state = getState()
-        logger:debug("Selected project: {}", projectName)
+        logger.debug("Selected project: {}", projectName)
         local projectName, bipedPath = core.loadCustomizationBiped(projectName)
         selectedProject = projectName
         local project = state.available.customization[projectName] or {}
@@ -177,11 +175,11 @@ return function()
             end
         end
         local color = core.getCustomizationObjectData().color.custom
-        logger:debug("Nameplate: {}", nameplate)
-        logger:debug("Bipeds: {}", inspect(bipeds))
-        logger:debug("Color: {}", inspect(color))
+        logger.debug("Nameplate: {}", nameplate)
+        logger.debug("Bipeds: {}", inspect(bipeds))
+        logger.debug("Color: {}", inspect(color))
         if IsDebugLocalCustomizationEnabled then
-            logger:warning("Local customization saving is enabled, not saving to profile.")
+            logger.warning("Local customization saving is enabled, not saving to profile.")
             bipeds = {}
         end
         api.playerProfileEdit({
@@ -206,7 +204,7 @@ return function()
         discord.setState("Playing Insurrection", "In the customization menu")
         profile = core.getPlayerProfile()
         if previousWidgetTag then
-            if previousWidgetTag.handle.value == constants.widgets.biped.id then
+            if previousWidgetTag.handle.value == constants.widgets.biped.handle.value then
                 handleLoadBipeds(true)
                 return
             end

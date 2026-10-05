@@ -1,16 +1,17 @@
-local component = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local button = require "insurrection.components.button"
-local list = require "insurrection.components.list"
-local input = require "insurrection.components.input"
+local button = require "ui.button"
+local list = require "ui.list"
+local input = require "ui.input"
 local core = require "insurrection.core"
 local blam = require "blam"
 local getState = require "insurrection.redux.getState"
-local checkbox = require "insurrection.components.checkbox"
-local bar = require "insurrection.components.bar"
+local checkbox = require "ui.checkbox"
+local bar = require "ui.bar"
 local t = require"insurrection.utils".snakeCaseToTitleCase
 local getMapMetadata = core.getMapMetadata
 local lobbyData = require "insurrection.constants.lobbyData"
+local engine = Engine
 
 local gametypeIcons = {
     "unknown",
@@ -29,8 +30,8 @@ local gametypeIcons = {
 local templateIcons = {"stock", "fiesta"}
 
 local bitmaps = {
-    gametypeIcons = blam.findTag("lobby_gametype_icon", blam.tagClasses.bitmap),
-    templateIcons = blam.findTag("lobby_template_icon", blam.tagClasses.bitmap)
+    gametypeIcons = engine.tag.filterTags("bitmap", "lobby_gametype_icon")[1],
+    templateIcons = engine.tag.filterTags("bitmap", "lobby_template_icon")[1]
 }
 
 return function()
@@ -41,28 +42,28 @@ return function()
     local isPlayerLobbyOwner = api.session.player and state.lobby and api.session.player.publicId ==
                                    state.lobby.owner
 
-    local lobbyMenu = component.new(constants.widgets.lobby.id)
-    local summary = component.new(lobbyMenu:findChildWidgetTag("summary").id)
-    local description = component.new(summary:findChildWidgetTag("text").id)
+    local lobbyMenu = component.new(constants.widgets.lobby.handle.value)
+    local summary = component.new(lobbyMenu:findChildWidgetTag("summary").handle.value)
+    local description = component.new(summary:findChildWidgetTag("text").handle.value)
 
-    local options = component.new(lobbyMenu:findChildWidgetTag("options").id)
+    local options = component.new(lobbyMenu:findChildWidgetTag("options").handle.value)
 
-    local definitionList = component.new(options:findChildWidgetTag("definitions").id)
+    local definitionList = component.new(options:findChildWidgetTag("definitions").handle.value)
 
-    local template = button.new(definitionList:findChildWidgetTag("template").id)
-    local map = button.new(definitionList:findChildWidgetTag("map").id)
-    local gametype = button.new(definitionList:findChildWidgetTag("gametype").id)
+    local template = button.new(definitionList:findChildWidgetTag("template").handle.value)
+    local map = button.new(definitionList:findChildWidgetTag("map").handle.value)
+    local gametype = button.new(definitionList:findChildWidgetTag("gametype").handle.value)
 
-    -- local skulls = button.new(definitionList:findChildWidgetTag("skulls").id)
-    -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").id)
-    -- local skullsPanel = component.new(blam.findTag("skulls_panel", blam.tagClasses.uiWidgetDefinition).id)
+    -- local skulls = button.new(definitionList:findChildWidgetTag("skulls").handle.value)
+    -- local lobbySettings = button.new(lobbyDefs:findChildWidgetTag("settings").handle.value)
+    -- local skullsPanel = component.new(engine.tag.filterTags("ui_widget_definition", "skulls_panel")[1].handle.value)
 
-    local elementsList = list.new(options:findChildWidgetTag("elements").id)
-    local mapsList = list.new(blam.findTag("lobby_maps_options", blam.tagClasses.uiWidgetDefinition)
-                                  .id)
+    local elementsList = list.new(options:findChildWidgetTag("elements").handle.value)
+    local mapsList = list.new(engine.tag.filterTags("ui_widget_definition",
+                                                    "lobby_maps_options")[1].handle.value)
 
-    local fullMapListWrapper = component.new(blam.findTag("lobby_maps_panel",
-                                                          blam.tagClasses.uiWidgetDefinition).id)
+    local fullMapListWrapper = component.new(engine.tag.filterTags("ui_widget_definition",
+                                                                    "lobby_maps_panel")[1].handle.value)
 
     local mapsListScroll = bar.new(fullMapListWrapper:get("maps_scroll"), "scroll")
     mapsList:setScrollBar(mapsListScroll)
@@ -71,14 +72,14 @@ return function()
     local mapName = component.new(fullMapListWrapper:get("map_name"))
     local mapAuthor = component.new(fullMapListWrapper:get("map_author"))
     local mapDescription = component.new(fullMapListWrapper:get("map_description"))
-    component.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3,
+    component.new(mapPreview:findChildWidgetTag("overlay_scanner").handle.value):setAnimated(true, true, 2.3,
                                                                                    1)
 
-    local search = input.new(options:findChildWidgetTag("search").id)
-    local play = button.new(options:findChildWidgetTag("play").id)
-    local back = button.new(options:findChildWidgetTag("back").id)
-    local makePublic = checkbox.new(options:findChildWidgetTag("make_public").id)
-    local key = input.new(options:findChildWidgetTag("lobby_key").id)
+    local search = input.new(options:findChildWidgetTag("search").handle.value)
+    local play = button.new(options:findChildWidgetTag("play").handle.value)
+    local back = button.new(options:findChildWidgetTag("back").handle.value)
+    local makePublic = checkbox.new(options:findChildWidgetTag("make_public").handle.value)
+    local key = input.new(options:findChildWidgetTag("lobby_key").handle.value)
 
     key:onFocus(function()
         key:setText(api.session.lobbyKey)
@@ -89,9 +90,9 @@ return function()
         key:setText(string.rep("*", #api.session.lobbyKey))
     end)
 
-    local mapPreview = component.new(blam.findTag("map_small_preview",
-                                                  blam.tagClasses.uiWidgetDefinition).id)
-    local playersList = list.new(lobbyMenu:findChildWidgetTag("players").id)
+    local mapPreview = component.new(engine.tag.filterTags("ui_widget_definition",
+                                                          "map_small_preview")[1].handle.value)
+    local playersList = list.new(lobbyMenu:findChildWidgetTag("players").handle.value)
     playersList:scrollable(false)
 
     description:setText("Play with your friends, define your rules and enjoy.")
@@ -173,11 +174,11 @@ return function()
                 end
                 if newDefinition == "template" or newDefinition == "gametype" then
                     item.bitmap = function(uiComponent)
-                        local icon = component.new(uiComponent:findChildWidgetTag("button_icon").id)
+                        local icon = component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
                         local iconBitmaps = newDefinition == "template" and bitmaps.templateIcons or
                                                 bitmaps.gametypeIcons
                         assert(iconBitmaps, "No icon bitmaps found")
-                        icon.widgetDefinition.backgroundBitmap = iconBitmaps.id
+                        icon.widgetDefinition.backgroundBitmap = iconBitmaps.handle.value
                         local iconsToUse = newDefinition == "template" and templateIcons or
                                                gametypeIcons
                         local iconToUse = table.find(iconsToUse, function(icon)
@@ -341,7 +342,7 @@ return function()
 
         playersList:setItems(table.map(state.lobby.players, function(player)
             local nameplateTag = constants.nameplates[player.nameplate] or {}
-            return {label = player.name, value = player, bitmap = nameplateTag.id}
+            return {label = player.name, value = player, bitmap = nameplateTag.handle and nameplateTag.handle.value}
         end))
     end
 end

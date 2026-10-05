@@ -1,22 +1,23 @@
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local spinner = require "insurrection.components.spinner"
-local checkbox = require "insurrection.components.checkbox"
+local spinner = require "ui.spinner"
+local checkbox = require "ui.checkbox"
 local blam = require "blam"
 local core = require "insurrection.core"
 local luna = require "luna"
-local button = require "insurrection.components.button"
+local button = require "ui.button"
 local tobit = luna.bit
 local tobool = luna.bool
 local engine = Engine
-local playSound = engine.userInterface.playSound
+-- Balltze v2 has no direct uiWidget playSound equivalent.
+local playSound = function() end
 
 return function()
-    local settings = components.new(constants.widgets.audioSettings.id)
-    local options = components.new(settings:findChildWidgetTag("options").id)
-    local footer = components.new(settings:findChildWidgetTag("footer").id)
-    local description = components.new(footer:findChildWidgetTag("text").id)
-    local backButton = button.new(options:findChildWidgetTag("back").id)
+    local settings = component.new(constants.widgets.audioSettings.handle.value)
+    local options = component.new(settings:findChildWidgetTag("options").handle.value)
+    local footer = component.new(settings:findChildWidgetTag("footer").handle.value)
+    local description = component.new(footer:findChildWidgetTag("text").handle.value)
+    local backButton = button.new(options:findChildWidgetTag("back").handle.value)
 
     local profile = Engine.savedGames.getPlayerProfile()
 
@@ -37,7 +38,7 @@ return function()
             change = function(value)
                 profile.audioSettings.effectsVolume = value
                 Engine.savedGames.reloadPlayerProfile()
-                playSound(constants.sounds.teleporter.id)
+                playSound(constants.sounds.teleporter.handle.value)
             end,
             focus = function()
                 description:setText("Change the quality of the textures in the game.")
@@ -95,12 +96,12 @@ return function()
         --}
     }
 
-    for i = 1, options.widgetDefinition.childWidgetsCount - 1 do
+    for i = 1, #options.widgetDefinition.childWidgets - 1 do
         local childWidget = options.widgetDefinition.childWidgets[i]
-        local tag = blam.getTag(childWidget.widgetTag)
-        assert(tag)
-        if tag.path:includes "checkbox" then
-            local check = checkbox.new(childWidget.widgetTag)
+        local widgetTagEntry = engine.tag.getTagEntry(childWidget.widgetTag.tagHandle.value)
+        assert(widgetTagEntry)
+        if widgetTagEntry.path:includes "checkbox" then
+            local check = checkbox.new(childWidget.widgetTag.tagHandle.value)
             elements[check:getText()] = check
             check:onToggle(function(value)
                 local optionName = check:getText()
@@ -114,8 +115,8 @@ return function()
                     elementsData[optionName].focus()
                 end
             end)
-        elseif tag.path:includes "spinner" then
-            local spin = spinner.new(childWidget.widgetTag)
+        elseif widgetTagEntry.path:includes "spinner" then
+            local spin = spinner.new(childWidget.widgetTag.tagHandle.value)
             elements[spin:getText()] = spin
             spin:onScroll(function(value, index)
                 local optionName = spin:getText()

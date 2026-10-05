@@ -1,13 +1,12 @@
 local inspect = require "inspect"
 local blam = require "blam"
 local script = require "script"
-local tagClasses = blam.tagClasses
 local json = require "json"
 local base64 = require "base64"
 local color = require "color"
 local balltze = Balltze
 local engine = Engine
-local executeScript = engine.hsc.executeScript
+local executeScript = engine.script.execute
 
 local mercury = require "insurrection.mercury"
 local utils = require "insurrection.utils"
@@ -28,11 +27,15 @@ function core.loadMercuryPackages()
     local installedPackages = mercury.getInstalled()
     if (installedPackages) then
         console_out(inspect(installedPackages))
-        local serverStringsTag = blam.findTag([[chimera_servers_menu\strings\options]],
-                                              tagClasses.unicodeStringList)
-        local serverStrings = blam.unicodeStringList(serverStringsTag.id)
+        local serverStringsTag = engine.tag.filterTags("unicode_string_list",
+                                                      [[chimera_servers_menu\strings\options]])[1]
+        local serverStrings = serverStringsTag and engine.tag.getTagData(serverStringsTag.handle.value,
+                                                                        "unicode_string_list") or nil
+        if not serverStrings then
+            return
+        end
         local newServers = serverStrings.stringList
-        for stringIndex = 1, serverStrings.count do
+        for stringIndex = 1, #newServers do
             newServers[stringIndex] = " "
         end
         for packageIndex, packageLabel in pairs(table.keys(installedPackages)) do
@@ -56,10 +59,11 @@ function core.loadInsurrectionPatches()
     local scriptVersion = "insurrection-" .. require "insurrection.version"
 
     -- Setting up version string
-    local scriptVersionTag = blam.findTag("insurrection_version_footer",
-                                          tagClasses.unicodeStringList)
+    local scriptVersionTag = engine.tag.filterTags("unicode_string_list",
+                                                  "insurrection_version_footer")[1]
     if scriptVersionTag then
-        local scriptVersionString = blam.unicodeStringList(scriptVersionTag.id)
+        local scriptVersionString = engine.tag.getTagData(scriptVersionTag.handle.value,
+                                                        "unicode_string_list")
         if scriptVersionString then
             local strings = scriptVersionString.stringList
             -- Write string version to map tag
@@ -105,9 +109,17 @@ function core.saveSettings(settings)
     Balltze.filesystem.writeFile("settings.json", json.encode(settings))
 end
 
+local function findSingleWidget(widgetTagId)
+    local widgets = engine.uiWidget.findWidgets(widgetTagId, nil, true)
+    if widgets and widgets[1] then
+        return widgets[1]
+    end
+    return nil
+end
+
 function core.getRenderedUIWidgetTagHandle()
     -- TODO BALLTZE MIGRATE Ensure this works when the menu is not OPEN and does not crash
-    local rootWidget = engine.userInterface.getRootWidget()
+    local rootWidget = engine.uiWidget.getActiveWidget()
     local isPlayerOnMenu = rootWidget ~= nil
     if isPlayerOnMenu then
         return rootWidget.definitionTagHandle.value
@@ -117,19 +129,13 @@ end
 --- Get the tag widget of the current ui open in the game
 function core.getCurrentUIWidgetTag()
     -- local widgetTagId = core.getRenderedUIWidgetTagId()
-    local widget = engine.userInterface.getRootWidget()
+    local widget = engine.uiWidget.getActiveWidget()
     if widget then
-        local tag = engine.tag.getTag(widget.definitionTagHandle.value,
-                                      engine.tag.classes.uiWidgetDefinition)
-        assert(tag, "No tag found for widget")
-        -- TODO BALLTZE MIGRATE
-        return {
-            data = tag.data,
-            id = widget.definitionTagHandle.value,
-            tagPath = tag.path,
-            tagClass = tag.primaryClass,
-            index = tag.handle.index
-        }
+        local tagEntry = engine.tag.getTagEntry(widget.definitionTagHandle.value)
+        local tagData = engine.tag.getTagData(widget.definitionTagHandle.value,
+                                              "ui_widget_definition")
+        assert(tagEntry and tagData, "No tag found for widget")
+        return tagEntry
     end
     return nil
 end
@@ -171,28 +177,30 @@ function core.mapKeyToText(pressedKey, text)
 end
 
 function core.getStringFromWidget(widgetTagId)
-    local widget = blam.uiWidgetDefinition(widgetTagId)
+    local widget = engine.tag.getTagData(widgetTagId, "ui_widget_definition")
     assert(widget, "No widget found with tag id " .. widgetTagId)
     local virtualValue = VirtualInputValue[widgetTagId]
     if virtualValue then
         return virtualValue
     end
-    local unicodeStrings = blam.unicodeStringList(widget.unicodeStringListTag)
+    local unicodeStrings = widget.unicodeStringListTag and engine.tag.getTagData(
+                               widget.unicodeStringListTag.tagHandle.value,
+                               "unicode_string_list")
     if not unicodeStrings then
-        -- logger:warning("No unicodeStringList found for widget with tag id " .. widgetTagId)
+        -- logger.warning("No unicodeStringList found for widget with tag id " .. widgetTagId)
         return ""
     end
     return unicodeStrings.strings[widget.stringListIndex + 1]
 end
 
 function core.setStringToWidget(text, widgetTagId, mask)
-    local widgetDefinition = blam.uiWidgetDefinition(widgetTagId)
+    local widgetDefinition = engine.tag.getTagData(widgetTagId, "ui_widget_definition")
     if widgetDefinition then
-        local unicodeStrings = blam.unicodeStringList(widgetDefinition.unicodeStringListTag)
+        local unicodeStrings = widgetDefinition.unicodeStringListTag and
+                                   engine.tag.getTagData(widgetDefinition.unicodeStringListTag.
+                                                         tagHandle.value,
+                                                         "unicode_string_list")
         if unicodeStrings then
-            if blam.isNull(unicodeStrings) then
-                error("No unicodeStringList, can't assign text to this widget")
-            end
             local stringListIndex = widgetDefinition.stringListIndex
             local newStrings = unicodeStrings.strings
             if mask then
@@ -227,13 +235,13 @@ end
 ---@return MetaEngineWidget|nil
 function core.getWidgetValues(widgetTagId)
     if core.getCurrentUIWidgetTag() then
-        return engine.userInterface.findWidget(widgetTagId)
+        return findSingleWidget(widgetTagId)
     end
 end
 
 local function setWidgetValuesDOMSafe(widgetTagHandle, values)
     -- Verify there is a widget loaded in the DOM
-    local isWidgetPresent, widget = pcall(engine.userInterface.findWidget, widgetTagHandle)
+    local isWidgetPresent, widget = pcall(findSingleWidget, widgetTagHandle)
     if isWidgetPresent and widget then
         for key, value in pairs(values) do
             if type(value) == "table" then
@@ -277,25 +285,28 @@ end
 -- TODO We do not need this, checkout replacements
 function core.getWidgetHandle(widgetTagId)
     if core.getCurrentUIWidgetTag() then
-        local sucess, widgetHandle = pcall(engine.userInterface.findWidgets, widgetTagId)
-        if sucess and widgetHandle then
-            return widgetHandle
+        local success, widgetHandle = pcall(engine.uiWidget.findWidgets, widgetTagId, nil, true)
+        if success and widgetHandle then
+            return widgetHandle[1] or widgetHandle
         end
     end
 end
 
 function core.replaceWidgetInDom(widgetTagHandleValue, newWidgetTagHandleValue)
-    local isWidgetInDom, widget = pcall(engine.userInterface.findWidget, widgetTagHandleValue)
+    local isWidgetInDom, widget = pcall(findSingleWidget, widgetTagHandleValue)
     if isWidgetInDom and widget then
-        engine.userInterface.replaceWidget(widget, newWidgetTagHandleValue)
+        engine.uiWidget.replaceWidget(widget, newWidgetTagHandleValue)
     end
 end
 
 ---Returns the current screen resolution
 ---@return number width, number height
 function core.getScreenResolution()
-    local width = read_word(0x637CF2)
-    local height = read_word(0x637CF0)
+    -- BALLTZE MIGRATE
+    --local width = read_word(0x637CF2)
+    --local height = read_word(0x637CF0)
+    local width = 1920
+    local height = 1080
     return width, height
 end
 
@@ -322,13 +333,16 @@ end
 ---Get reference to any customization object available in the map
 ---@return number? objectId, table? regionPermutations
 function core.getCustomizationObjectId()
-    local scenario = blam.scenario(0)
-    assert(scenario)
-    for objectId, objectIndex in pairs(blam.getObjects()) do
-        local object = blam.object(get_object(objectIndex))
-        if object and scenario.objectNames[object.nameIndex + 1] == "customization_biped" then
-            object.isNotCastingShadow = false
-            return objectId
+    local scenarioEntry = engine.tag.filterTags("scenario", "")[1]
+    assert(scenarioEntry, "Failed to load scenario tag")
+    local scenario = engine.tag.getTagData(scenarioEntry.handle.value, "scenario")
+    assert(scenario, "Failed to load scenario data")
+    local bipedObjects = engine.object.filterObjects("biped")
+    for _, objectHandle in pairs(bipedObjects) do
+        local object = engine.object.getObject(objectHandle)
+        if object and scenario.objectNames[object.nameListIndex + 1] == "customization_biped" then
+            --object.flags1.noShadow = false
+            return objectHandle.value
         end
     end
 end
@@ -357,8 +371,9 @@ LastColorCustomization = {primary = 1, secondary = 1}
 function core.getCustomizationObjectData()
     local customizationObjectId = core.getCustomizationObjectId()
     assert(customizationObjectId, "No customization biped found")
-    local customizationBiped = blam.biped(get_object(customizationObjectId))
+    local customizationBiped = engine.object.getObject(customizationObjectId, "biped")
     assert(customizationBiped, "No customization biped found")
+    -- BALLTZE MIGRATE: no direct Balltze v2 equivalent was found for blam.bipedTag/blam.model; legacy tag resolution remains here until a direct Engine.tag model accessor exists.
     local customizationBipedTag = blam.bipedTag(customizationBiped.tagId)
     assert(customizationBipedTag, "No customization biped tag found")
     local customizationModel = blam.model(customizationBipedTag.model)
@@ -417,13 +432,13 @@ function core.setObjectPermutationSafely(object, regionIndex, permutationIndex)
     -- This one does not need to be substracted by 1 because property name is Lua 1-based
     local maximumRegionIndex = objectModel.regionCount
     if regionIndex > maximumRegionIndex then
-        -- logger:warning("Region index {} out of range, maximum is {}", regionIndex,  maximumRegionIndex)
+        -- logger.warning("Region index {} out of range, maximum is {}", regionIndex,  maximumRegionIndex)
         return
     end
 
     local maximumPermutationIndex = objectModel.regionList[regionIndex].permutationCount - 1
     if permutationIndex > maximumPermutationIndex then
-        -- logger:warning("Permutation index {} for region {} out of range, setting to 0", permutationIndex, regionIndex)
+        -- logger.warning("Permutation index {} for region {} out of range, setting to 0", permutationIndex, regionIndex)
         permutationIndex = 0
     end
     object["regionPermutation" .. regionIndex] = permutationIndex
@@ -445,7 +460,7 @@ end
 ---@return number aspectWidth, number aspectHeight
 function core.getScreenAspectRatio()
     local screenWidth, screenHeight = core.getScreenResolution()
-    logger:debug("Screen resolution: " .. screenWidth .. "x" .. screenHeight)
+    logger.debug("Screen resolution: " .. screenWidth .. "x" .. screenHeight)
     -- Calculate the greatest common divisor (GCD) using Euclidean algorithm
     local function gcd(a, b)
         while b ~= 0 do
@@ -469,8 +484,11 @@ end
 ---@return {name: string, colorIndex: number}
 function core.getPlayerProfile()
     local profile = {}
-    profile.name = blam.readUnicodeString(profileNameAddress, true)
-    profile.colorIndex = read_byte(profileColorAddress) + 1
+    --profile.name = blam.readUnicodeString(profileNameAddress, true)
+    --profile.colorIndex = read_byte(profileColorAddress) + 1
+    -- BALLTZE MIGRATE
+    profile.name = "BALLTZE MIGRATE"
+    profile.colorIndex = 1
     return profile
 end
 
@@ -511,6 +529,7 @@ end
 function core.rotateCustomizationBiped(rotation)
     local customizationObjectId = core.getCustomizationObjectId()
     assert(customizationObjectId, "No customization biped found")
+    -- BALLTZE MIGRATE: no direct Balltze v2 equivalent was found for blam.rotateObject; the legacy object rotation helper is still used here until Engine.object exposes comparable rotation support.
     local object = blam.getObject(customizationObjectId)
     if object then
         blam.rotateObject(object, rotation, 0, 0)
@@ -518,9 +537,10 @@ function core.rotateCustomizationBiped(rotation)
 end
 
 function core.createCustomizationBiped()
-    execute_script "object_create customization_biped"
-    local colorFromInsurrection = core.getCustomizationObjectData().color.custom
-    core.setCustomizationBipedColor(colorFromInsurrection.primary, colorFromInsurrection.secondary)
+    -- BALLTZE MIGRATE
+    --execute_script "object_create customization_biped"
+    --local colorFromInsurrection = core.getCustomizationObjectData().color.custom
+    --core.setCustomizationBipedColor(colorFromInsurrection.primary, colorFromInsurrection.secondary)
 end
 
 function core.getLastSavedProject()
@@ -543,7 +563,7 @@ function core.loadCustomizationBiped(projectName, customBipedPath)
         return tagPath:replace(".biped", "")
     end)
     local bipedPath = customBipedPath or bipedPaths[1]
-    logger:debug("Trying to load biped with path: {}", bipedPath)
+    logger.debug("Trying to load biped with path: {}", bipedPath)
     local savedBiped = savedBipeds[projectName]
     local visor = 0
     if savedBiped then
@@ -551,7 +571,7 @@ function core.loadCustomizationBiped(projectName, customBipedPath)
             return bipedPath == savedBiped.path
         end)
         if bipedIsStillAvailable then
-            logger:debug("Save biped is still available")
+            logger.debug("Save biped is still available")
             if not customBipedPath then
                 bipedPath = savedBiped.path
                 regions = savedBiped.regions
@@ -563,22 +583,21 @@ function core.loadCustomizationBiped(projectName, customBipedPath)
         end
     end
 
-    local tagEntry = engine.tag.findTags(bipedPath, engine.tag.classes.biped)[1]
+    local tagEntry = engine.tag.filterTags("biped", bipedPath)[1]
     if not tagEntry then
-        logger:error("Custom external biped tag: {} not found", bipedPath)
+        logger.error("Custom external biped tag: {} not found", bipedPath)
         return
     end
 
-    local bipedData = tagEntry.data
+    local bipedData = engine.tag.getTagData(tagEntry.handle.value, "biped")
     if not bipedData then
-        logger:error("Biped tag: {} has no data", bipedPath)
+        logger.error("Biped tag: {} has no data", bipedPath)
         return
     end
 
-    local bipedTag = engine.tag.getTag(tagEntry.handle.value, engine.tag.classes.biped)
-    assert(bipedTag, "Biped tag data not found")
+    assert(bipedData, "Biped tag data not found")
     -- TODO Check if this is the right way to remove creation effect
-    bipedTag.data.creationEffect.tagHandle.value = 0xFFFFFFFF
+    bipedData.creationEffect.tagHandle.value = 0xFFFFFFFF
     -- TODO Remove this when biped animations are fixed in coop evolved
     if not (tagEntry.path:includes "marine" or tagEntry.path:includes "grunt") then
         -- FIXME This does not work with Balltze as weapons count is read only
@@ -589,8 +608,10 @@ function core.loadCustomizationBiped(projectName, customBipedPath)
         bipedTag.weaponCount = 0
     end
 
-    local scenario = blam.scenario(0)
-    assert(scenario)
+    local scenarioEntry = engine.tag.filterTags("scenario", "")[1]
+    assert(scenarioEntry, "Failed to load scenario tag")
+    local scenario = engine.tag.getTagData(scenarioEntry.handle.value, "scenario")
+    assert(scenario, "Failed to load scenario data")
     -- Respawn biped object from scenario as it is safer than doing it from lua
     for _, biped in pairs(scenario.bipeds) do
         local sceneryName = scenario.objectNames[biped.nameIndex + 1]
@@ -603,7 +624,7 @@ function core.loadCustomizationBiped(projectName, customBipedPath)
                 executeScript "object_destroy customization_biped"
                 core.createCustomizationBiped()
                 executeScript "fade_screen_in"
-                logger:debug("Biped tag replaced")
+                logger.debug("Biped tag replaced")
             end
             break
         end
@@ -623,33 +644,34 @@ function core.loadCustomizationBiped(projectName, customBipedPath)
         customizationBiped.shaderPermutationIndex = visor
     end
 
-    logger:debug("Loading biped from project: {}", projectName)
-    logger:debug("Loading biped with path: {}", bipedPath)
+    logger.debug("Loading biped from project: {}", projectName)
+    logger.debug("Loading biped with path: {}", bipedPath)
     return projectName, bipedPath, regions, visor
 end
 
 ---Get the bitmap tag id for a map preview, or return unknown map preview if not found
 ---@param mapName string
 function core.getMapBackgroundBitmap(mapName)
-    local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
+    local mapCollection = engine.tag.getTagData(constants.tagCollections.maps.handle.value, "tag_collection")
     assert(mapCollection, "No map preview collection found")
-    for k, v in pairs(mapCollection.tagList) do
-        local bitmapTag = blam.getTag(v) --[[@as tag]]
-        local mapBitmapName = core.getTagName(bitmapTag.path):lower()
-        -- local mapName = mapName:replace("_dev", ""):lower()
-        local mapName = mapName:lower()
-        if mapBitmapName == mapName then
-            return bitmapTag.id
+    local normalizedMapName = mapName:lower()
+    for _, tagHandle in ipairs(mapCollection.tagList or {}) do
+        local bitmapTagEntry = engine.tag.getTagEntry(tagHandle)
+        if bitmapTagEntry then
+            local mapBitmapName = core.getTagName(bitmapTagEntry.path):lower()
+            if mapBitmapName == normalizedMapName then
+                return bitmapTagEntry.handle.value
+            end
         end
     end
-    return constants.bitmaps.unknownMapPreview.id
+    return constants.bitmaps.unknownMapPreview.handle.value
 end
 
 --- Save Firefight settings to plugin path
 ---@param settings table
 function core.saveFirefightSettings(settings)
-    logger:debug("Firefight settings path: {}", Balltze.filesystem.getPluginPath())
-    logger:debug("Saving Firefight settings: {}", inspect(settings))
+    logger.debug("Firefight settings path: {}", Balltze.filesystem.getPluginPath())
+    logger.debug("Saving Firefight settings: {}", inspect(settings))
     local settingsPath = Balltze.filesystem.getPluginPath() .. "\\firefight_settings.json"
     Balltze.filesystem.writeFile(settingsPath, json.encode(settings))
 end
@@ -658,12 +680,12 @@ end
 ---@return table | nil
 function core.loadFirefightSettings()
     local settingsPath = Balltze.filesystem.getPluginPath() .. "\\firefight_settings.json"
-    logger:debug("Firefight settings path: {}", settingsPath)
+    logger.debug("Firefight settings path: {}", settingsPath)
     local settingsFile = Balltze.filesystem.readFile(settingsPath)
     if settingsFile then
         local success, settings = pcall(json.decode, settingsFile)
         if success and settings then
-            logger:debug("Loaded Firefight settings: {}", inspect(settings))
+            logger.debug("Loaded Firefight settings: {}", inspect(settings))
             return settings
         end
     end
@@ -676,14 +698,14 @@ function core.saveFirefightSkullsSettings(settings)
         -- Clean up settings from invalid vaues
         for key, value in pairs(skullData) do
             if type(value) == "function" then
-                logger:debug("Removing invalid skull setting key: {} with function value", key)
+                logger.debug("Removing invalid skull setting key: {} with function value", key)
                 skullData[key] = nil
             end
         end
     end
 
-    logger:debug("Firefight skulls settings path: {}", Balltze.filesystem.getPluginPath())
-    logger:debug("Saving Firefight skulls settings: {}", inspect(settings))
+    logger.debug("Firefight skulls settings path: {}", Balltze.filesystem.getPluginPath())
+    logger.debug("Saving Firefight skulls settings: {}", inspect(settings))
     local settingsPath = Balltze.filesystem.getPluginPath() .. "\\firefight_skulls_settings.json"
     Balltze.filesystem.writeFile(settingsPath, json.encode(settings))
 end
@@ -692,12 +714,12 @@ end
 ---@return table | nil
 function core.loadFirefightSkullsSettings()
     local settingsPath = Balltze.filesystem.getPluginPath() .. "\\firefight_skulls_settings.json"
-    logger:debug("Firefight skulls settings path: {}", settingsPath)
+    logger.debug("Firefight skulls settings path: {}", settingsPath)
     local settingsFile = Balltze.filesystem.readFile(settingsPath)
     if settingsFile then
         local success, settings = pcall(json.decode, settingsFile)
         if success and settings then
-            logger:debug("Loaded Firefight skulls settings: {}", inspect(settings))
+            logger.debug("Loaded Firefight skulls settings: {}", inspect(settings))
             return settings
         end
     end

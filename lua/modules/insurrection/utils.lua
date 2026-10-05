@@ -27,7 +27,7 @@ function utils.delay(milliseconds, callback)
         -- Prevent the entire game from crashing as Balltze does not handle errors in timers lol
         local success, message = pcall(callback)
         if not success then
-            logger:error("Error in delay callback: %s", message)
+            logger.error("Error in delay callback: %s", message)
         end
         timer.stop()
     end)

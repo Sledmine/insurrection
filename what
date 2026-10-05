@@ -1,0 +1,108 @@
+seh_exception_handler:222: Access violation at address 0x7BC279C0
+exception_print_report:185: EXCEPTION REPORT:
+exception_print_exception_info:85: Code: 0xC0000005
+exception_print_exception_info:86: Address: 0x7BC279C0
+exception_print_exception_info:87: Flags: 0x0
+exception_print_context:91: CPU Registers (Context)
+exception_print_context:92:   EAX = 0x00000044
+exception_print_context:93:   EBX = 0x0C5CACC0
+exception_print_context:94:   ECX = 0x00080540
+exception_print_context:95:   EDX = 0x0C5CACF0
+exception_print_context:96:   ESI = 0x0B6E0000
+exception_print_context:97:   EDI = 0x018F0000
+exception_print_context:98:   EBP = 0x0C5CACF8
+exception_print_context:99:   ESP = 0x009AD5E0
+exception_print_context:100:   EIP = 0x7BC279C0
+exception_print_context:101:   EFLAGS = 0x00210206
+backtrace_print_error_callback:15: Backtrace: no debug info in PE/COFF executable (make sure to compile with -g) (-1)
+backtrace_print_error_callback:15: Backtrace: no debug info in PE/COFF executable (make sure to compile with -g) (-1)
+backtrace_print_error_callback:15: Backtrace: no debug info in PE/COFF executable (make sure to compile with -g) (-1)
+backtrace_print_error_callback:15: Backtrace: no debug info in PE/COFF executable (make sure to compile with -g) (-1)
+backtrace_print_error_callback:15: Backtrace: no debug info in PE/COFF executable (make sure to compile with -g) (-1)
+exception_print_stack_trace:152: Stack Trace
+exception_print_stack_trace:169:   [00]: heap_free_block
+exception_print_stack_trace:171:       Address: 0x7BC279C0
+exception_print_stack_trace:174:       Raw Symbol: heap_free_block + 0x120
+exception_print_stack_trace:169:   [01]: RtlFreeHeap
+exception_print_stack_trace:171:       Address: 0x7BC27F29
+exception_print_stack_trace:174:       Raw Symbol: RtlFreeHeap + 0x384
+exception_print_stack_trace:169:   [02]: RtlFreeHeap
+exception_print_stack_trace:171:       Address: 0x7BC291CA
+exception_print_stack_trace:174:       Raw Symbol: RtlFreeHeap + 0x35
+exception_print_stack_trace:169:   [03]: msvcrt_heap_free
+exception_print_stack_trace:171:       Address: 0x6AAF2A5F
+exception_print_stack_trace:174:       Raw Symbol: msvcrt_heap_free + 0x4F
+exception_print_stack_trace:169:   [04]: free
+exception_print_stack_trace:171:       Address: 0x6AAF34E0
+exception_print_stack_trace:174:       Raw Symbol: free + 0xB
+exception_print_stack_trace:169:   [05]: ??
+exception_print_stack_trace:171:       Address: 0x01E3FA38
+exception_print_stack_trace:169:   [06]: ??
+exception_print_stack_trace:171:       Address: 0x01E48CC7
+exception_print_stack_trace:169:   [07]: ??
+exception_print_stack_trace:171:       Address: 0x01E54828
+exception_print_stack_trace:169:   [08]: ??
+exception_print_stack_trace:171:       Address: 0x01E45FDC
+exception_print_stack_trace:169:   [09]: ??
+exception_print_stack_trace:171:       Address: 0x01E46099
+exception_print_stack_trace:169:   [10]: ??
+exception_print_stack_trace:171:       Address: 0x01E46137
+exception_print_stack_trace:169:   [11]: ??
+exception_print_stack_trace:171:       Address: 0x01E461FA
+exception_print_stack_trace:169:   [12]: ??
+exception_print_stack_trace:171:       Address: 0x01E46457
+exception_print_stack_trace:169:   [13]: ??
+exception_print_stack_trace:171:       Address: 0x01E4656F
+exception_print_stack_trace:169:   [14]: ??
+exception_print_stack_trace:171:       Address: 0x01E3EE20
+exception_print_stack_trace:169:   [15]: ??
+exception_print_stack_trace:171:       Address: 0x01E5CD55
+exception_print_stack_trace:169:   [16]: ??
+exception_print_stack_trace:171:       Address: 0x01E43973
+exception_print_stack_trace:169:   [17]: ??
+exception_print_stack_trace:171:       Address: 0x01E59845
+exception_print_stack_trace:169:   [18]: ??
+exception_print_stack_trace:171:       Address: 0x01E43B58
+exception_print_stack_trace:169:   [19]: ??
+exception_print_stack_trace:171:       Address: 0x01E43B95
+exception_print_stack_trace:169:   [20]: ??
+exception_print_stack_trace:171:       Address: 0x01E3D2D1
+exception_print_stack_trace:169:   [21]: ??
+exception_print_stack_trace:171:       Address: 0x01E431F2
+exception_print_stack_trace:169:   [22]: ??
+exception_print_stack_trace:171:       Address: 0x01E43E0D
+exception_print_stack_trace:169:   [23]: ??
+exception_print_stack_trace:171:       Address: 0x01E3EBE8
+exception_print_stack_trace:169:   [24]: ??
+exception_print_stack_trace:171:       Address: 0x01CA4CA4
+exception_print_stack_trace:169:   [25]: ??
+exception_print_stack_trace:171:       Address: 0x01CA7AEE
+exception_print_stack_trace:169:   [26]: ??
+exception_print_stack_trace:171:       Address: 0x01CA7C00
+exception_print_stack_trace:169:   [27]: ??
+exception_print_stack_trace:171:       Address: 0x01CA7C20
+exception_print_stack_trace:169:   [28]: ??
+exception_print_stack_trace:171:       Address: 0x01F1531F
+exception_print_stack_trace:169:   [29]: ??
+exception_print_stack_trace:171:       Address: 0x01FB0DEB
+exception_print_stack_trace:169:   [30]: ??
+exception_print_stack_trace:171:       Address: 0x01EBCFDD
+exception_print_stack_trace:169:   [31]: ??
+exception_print_stack_trace:171:       Address: 0x01EBE34E
+exception_print_raw_stack_scan:124: Possible return addresses on the stack
+exception_print_raw_stack_scan:141:   [ESP+0x008] 0x01C95526 (balltze.dll + 0x5526)
+exception_print_raw_stack_scan:141:   [ESP+0x014] 0x01C95543 (balltze.dll + 0x5543)
+exception_print_raw_stack_scan:141:   [ESP+0x020] 0x01DC4B15 (balltze.dll + 0x134B15)
+exception_print_raw_stack_scan:141:   [ESP+0x050] 0x01D617E3 (balltze.dll + 0xD17E3)
+exception_print_raw_stack_scan:141:   [ESP+0x094] 0x00473819 (haloce.exe + 0x73819)
+exception_print_raw_stack_scan:141:   [ESP+0x0AC] 0x004CB219 (haloce.exe + 0xCB219)
+exception_print_raw_stack_scan:141:   [ESP+0x100] 0x005CDD1C (haloce.exe + 0x1CDD1C)
+exception_print_raw_stack_scan:141:   [ESP+0x144] 0x00544D5E (haloce.exe + 0x144D5E)
+exception_print_raw_stack_scan:141:   [ESP+0x148] 0x7B60C094 (kernel32.dll + 0xC094)
+exception_print_memory_diagnostics:72: Address Space
+exception_print_memory_diagnostics:73:   Committed: 670 MiB
+exception_print_memory_diagnostics:74:   Reserved: 2388 MiB
+exception_print_memory_diagnostics:75:   Free: 1037 MiB
+exception_print_memory_diagnostics:76:   Largest free block: 475 MiB
+exception_print_memory_diagnostics:77:   Thread last error: 0
+

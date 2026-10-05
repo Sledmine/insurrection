@@ -1,14 +1,12 @@
-local components = require "insurrection.components"
+local engine = Engine
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local button = require "insurrection.components.button"
-local list = require "insurrection.components.list"
-local input = require "insurrection.components.input"
+local button = require "ui.button"
+local list = require "ui.list"
+local input = require "ui.input"
 local actions = require "insurrection.redux.actions"
 local getState = require "insurrection.redux.getState"
 local core = require "insurrection.core"
-local blam = require "blam"
-local findTag = blam.findTag
-local tagClasses = blam.tagClasses
 local s = require"insurrection.utils".snakeCaseToUpperTitleCase
 local getMapMetadata = core.getMapMetadata
 
@@ -29,24 +27,28 @@ local gametypeIcons = {
 local function lobbyMenuClient()
     local state = getState()
 
-    local lobby = components.new(constants.widgets.lobbyClient.id)
-    local template = components.new(lobby:findChildWidgetTag("template").id)
-    local mapPreview = components.new(findTag("lobby_client_map", tagClasses.uiWidgetDefinition).id)
-    local gametypeIcon = components.new(lobby:findChildWidgetTag("gametype_icon").id)
-    local description = components.new(lobby:findChildWidgetTag("description").id)
-    local playersList = list.new(lobby:findChildWidgetTag("players").id)
+    local lobby = component.new(constants.widgets.lobbyClient.handle.value)
+    local template = component.new(lobby:findChildWidgetTag("template").handle.value)
+    local mapPreviewTag = engine.tag.filterTags("ui_widget_definition", "lobby_client_map")[1]
+    assert(mapPreviewTag, "Could not locate lobby_client_map ui widget definition")
+    local mapPreview = component.new(mapPreviewTag.handle.value)
+    local gametypeIcon = component.new(lobby:findChildWidgetTag("gametype_icon").handle.value)
+    local description = component.new(lobby:findChildWidgetTag("description").handle.value)
+    local playersList = list.new(lobby:findChildWidgetTag("players").handle.value)
     playersList:scrollable(false)
 
     -- Render
     return function()
-        mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
-        local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
+        mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.handle.value
+        local mapCollection = engine.tag.getTagData(constants.tagCollections.maps.handle.value, "tag_collection")
         assert(mapCollection, "No map preview collection found")
-        for k, v in pairs(mapCollection.tagList) do
-            local bitmapTag = blam.getTag(v) --[[@as tag]]
-            local mapName = core.getTagName(bitmapTag.path):lower()
-            if mapName == state.lobby.map then
-                mapPreview.widgetDefinition.backgroundBitmap = bitmapTag.id
+        for _, tagHandle in ipairs(mapCollection.tagList or {}) do
+            local bitmapTagEntry = engine.tag.getTagEntry(tagHandle)
+            if bitmapTagEntry then
+                local mapName = core.getTagName(bitmapTagEntry.path):lower()
+                if mapName == state.lobby.map then
+                    mapPreview.widgetDefinition.backgroundBitmap = bitmapTagEntry.handle.value
+                end
             end
         end
 
@@ -70,7 +72,7 @@ local function lobbyMenuClient()
 
         playersList:setItems(table.map(state.lobby.players, function(player)
             local nameplateTag = constants.nameplates[player.nameplate] or {}
-            return {label = player.name, value = player, bitmap = nameplateTag.id}
+            return {label = player.name, value = player, bitmap = nameplateTag.handle and nameplateTag.handle.value}
         end))
 
         template:setText(s(state.lobby.template))

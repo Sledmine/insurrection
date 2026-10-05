@@ -1,15 +1,15 @@
-local components = require "insurrection.components"
+local component = require "ui.component"
 local blam = require "blam"
 local constants = require "insurrection.constants"
 local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
-local checkbox = require "insurrection.components.checkbox"
-local spinner = require "insurrection.components.spinner"
+local checkbox = require "ui.checkbox"
+local spinner = require "ui.spinner"
 local core = require "insurrection.core"
 
 return function()
-    local chimeraMod = components.new(constants.widgets.chimera.id)
-    local chimeraOptions = components.new(chimeraMod:findChildWidgetTag("chimera_mod_options").id)
+    local chimeraMod = component.new(constants.widgets.chimera.handle.value)
+    local chimeraOptions = component.new(chimeraMod:findChildWidgetTag("chimera_mod_options").handle.value)
 
     local chimeraConfig = chimera.getConfiguration() or {}
     local chimeraPreferences = chimera.getPreferences() or {}
@@ -115,17 +115,17 @@ return function()
             change = function(value)
                 chimeraPreferences.chimera_fov = value
                 chimera.executeCommand("chimera_fov " .. value)
-                logger:debug("Setting horizontal FOV")
+                logger.debug("Setting horizontal FOV")
             end
         }
     }
 
-    for i = 1, chimeraOptions.widgetDefinition.childWidgetsCount - 1 do
+    for i = 1, #chimeraOptions.widgetDefinition.childWidgets - 1 do
         local childWidget = chimeraOptions.widgetDefinition.childWidgets[i]
-        local tag = blam.getTag(childWidget.widgetTag)
-        assert(tag)
-        if tag.path:includes "checkbox" then
-            local check = checkbox.new(childWidget.widgetTag)
+        local widgetTagEntry = engine.tag.getTagEntry(childWidget.widgetTag.tagHandle.value)
+        assert(widgetTagEntry)
+        if widgetTagEntry.path:includes "checkbox" then
+            local check = checkbox.new(childWidget.widgetTag.tagHandle.value)
             elements[check:getText()] = check
             check:onToggle(function(value)
                 local optionName = check:getText()
@@ -133,8 +133,8 @@ return function()
                     elementsData[optionName].change(value)
                 end
             end)
-        elseif tag.path:includes "spinner" then
-            local spin = spinner.new(childWidget.widgetTag)
+        elseif widgetTagEntry.path:includes "spinner" then
+            local spin = spinner.new(childWidget.widgetTag.tagHandle.value)
             elements[spin:getText()] = spin
             spin:onScroll(function(value, index)
                 local optionName = spin:getText()
@@ -145,7 +145,7 @@ return function()
         end
     end
     chimeraMod:onOpen(function()
-        logger:debug("Aspect width: " .. aspectWidth)
+        logger.debug("Aspect width: " .. aspectWidth)
         chimeraConfig = chimera.getConfiguration() or {}
         chimeraPreferences = chimera.getPreferences() or {}
 
@@ -183,6 +183,6 @@ return function()
                 -- error("Element from list not found: " .. k)
             end
         end
-        logger:debug("chimeraMod:onOpen")
+        logger.debug("chimeraMod:onOpen")
     end)
 end

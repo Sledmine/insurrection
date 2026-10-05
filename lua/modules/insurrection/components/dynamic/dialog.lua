@@ -1,10 +1,10 @@
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local button = require "insurrection.components.button"
+local button = require "ui.button"
 
 return function()
-    local dialog = components.new(constants.widgets.dialog.id)
-    local dialogBackButton = button.new(dialog:findChildWidgetTag("ok").id)
+    local dialog = component.new(constants.widgets.dialog.handle.value)
+    local dialogBackButton = button.new(dialog:findChildWidgetTag("ok").handle.value)
     dialogBackButton:onClick(function()
         if dialog.events.onClose then
             dialog.events.onClose()

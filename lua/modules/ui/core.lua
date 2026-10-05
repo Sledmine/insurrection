@@ -244,7 +244,7 @@ function core.getStringFromWidget(widgetTarget, widgetDefinition)
         local output = ""
         local i = 0
         while true do
-            local char = read_string(stringAddress + i * 0x2)
+            local char = balltze.memory.readString8(stringAddress + i * 0x2)
             if not char or char == "" then
                 break
             end
@@ -337,14 +337,14 @@ function core.setStringToWidget(text, widgetTarget, mask, maxCharacters, widgetD
         local char = text:sub(i, i)
         local byte = string.byte(char) or string.byte("?")
         local currentCharAddress = stringAddress + (i - 1) * 0x2
-        write_dword(currentCharAddress, byte)
+        balltze.memory.writeInt32(currentCharAddress, byte)
         if i == #text then
-            write_dword(currentCharAddress + 0x2, 0x0)
+            balltze.memory.writeInt32(currentCharAddress + 0x2, 0x0)
         end
     end
 
     if #text == 0 then
-        write_dword(stringAddress, 0)
+        balltze.memory.writeInt32(stringAddress, 0)
     end
 end
 

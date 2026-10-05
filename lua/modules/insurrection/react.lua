@@ -12,7 +12,7 @@ local prefix = "@reactive_"
 ---@param tagId number
 function ether.mount(component, tagId)
     if not mounted[tagId] then
-        logger:debug("Mounting component: " .. component)
+        logger.debug("Mounting component: " .. component)
         mounted[tagId] = require("insurrection.components.dynamic." .. component)()
     end
     return mounted[tagId]
@@ -24,26 +24,26 @@ function ether.render(tagHandle)
     local render = mounted[tagHandle]
     if render then
         local widgetTag = core.getCurrentUIWidgetTag()
-        if widgetTag and widgetTag.id == tagHandle then
+        if widgetTag and widgetTag.handle.value == tagHandle then
             render()
             script(function(call, sleep)
                 sleep(function()
                     local widgetTag = core.getCurrentUIWidgetTag()
-                    return (widgetTag and widgetTag.id == tagHandle) or false
+                    return (widgetTag and widgetTag.handle.value == tagHandle) or false
                 end)
                 render()
             end)()
         end
         return true
     end
-    logger:debug("Failed to render component with tag handle: " .. tagHandle)
+    logger.debug("Failed to render component with tag handle: " .. tagHandle)
     return false
 end
 
 ---Unmount all UI components
 function ether.unmountAll()
     for k, v in pairs(mounted) do
-        logger:debug("Unmounting component " .. k)
+        logger.debug("Unmounting component " .. k)
         mounted[k] = nil
     end
 end
@@ -67,7 +67,7 @@ function ether.reactive(table, callback)
         end,
         __newindex = function(t, k, v)
             t[prefix .. k] = v
-            logger:debug("Setting reactive property " .. k .. " to " .. tostring(v))
+            logger.debug("Setting reactive property " .. k .. " to " .. tostring(v))
             callback()
         end
     })

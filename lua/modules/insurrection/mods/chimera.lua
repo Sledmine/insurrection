@@ -1,5 +1,3 @@
-local blam = require "blam"
-local tagClasses = blam.tagClasses
 local ini = require "ini"
 local constants = require "insurrection.constants"
 local luna = require "luna"
@@ -437,26 +435,26 @@ local function safeFontOverride(...)
 end
 
 function chimera.fontOverride()
-    logger:debug("Overriding Chimera font...")
+    logger.debug("Overriding Chimera font...")
     if create_font_override then
         if constants.fonts.text then
-            safeFontOverride(constants.fonts.text.id, "Geogrotesque-Regular", 14, 400, 2, 2, 1, 1)
+            safeFontOverride(constants.fonts.text.handle.value, "Geogrotesque-Regular", 14, 400, 2, 2, 1, 1)
         end
         if constants.fonts.title then
-            safeFontOverride(constants.fonts.title.id, "Geogrotesque-Regular", 18, 400, 2, 2, 0, 0)
+            safeFontOverride(constants.fonts.title.handle.value, "Geogrotesque-Regular", 18, 400, 2, 2, 0, 0)
         end
         if constants.fonts.subtitle then
-            safeFontOverride(constants.fonts.subtitle.id, "Geogrotesque-Regular", 10, 400, 2, 2, 0, 0)
+            safeFontOverride(constants.fonts.subtitle.handle.value, "Geogrotesque-Regular", 10, 400, 2, 2, 0, 0)
         end
         if constants.fonts.button then
-            safeFontOverride(constants.fonts.button.id, "Geogrotesque-Regular", 13, 400, 2, 2, 1, 1)
+            safeFontOverride(constants.fonts.button.handle.value, "Geogrotesque-Regular", 13, 400, 2, 2, 1, 1)
         end
         if constants.fonts.shadow then
-            safeFontOverride(constants.fonts.shadow.id, "Geogrotesque-Regular", 10, 400, 0, 0, 0, 0)
+            safeFontOverride(constants.fonts.shadow.handle.value, "Geogrotesque-Regular", 10, 400, 0, 0, 0, 0)
         end
         return true
     end
-    logger:error("create_font_override is not available.")
+    logger.error("create_font_override is not available.")
     return false
 end
 

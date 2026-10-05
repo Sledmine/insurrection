@@ -1,19 +1,19 @@
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local button = require "insurrection.components.button"
-local checkbox = require "insurrection.components.checkbox"
+local button = require "ui.button"
+local checkbox = require "ui.checkbox"
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
-local input = require "insurrection.components.input"
+local input = require "ui.input"
 local menus = require "insurrection.menus"
 
 local engine = Engine
 
 return function()
-    local main = components.new(constants.widgets.main.id)
-    local options = components.new(main:get("options"))
+    local main = component.new(constants.widgets.main.handle.value)
+    local options = component.new(main:get("options"))
 
-    local oldMultiplayerButton = button.new(options:findChildWidgetTag("multiplayer").id)
+    local oldMultiplayerButton = button.new(options:findChildWidgetTag("multiplayer").handle.value)
     oldMultiplayerButton:onClick(function()
         interface.dialog {
             title = "WARNING",
@@ -22,7 +22,7 @@ return function()
             button = "YES, TAKE ME THERE",
             cancel = false,
             onConfirm = function()
-                menus.open(constants.widgets.multiplayer.id, false)
+                menus.open(constants.widgets.multiplayer.handle.value, false)
                 return false
             end
         }

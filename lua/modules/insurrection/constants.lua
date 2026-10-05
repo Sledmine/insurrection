@@ -255,10 +255,10 @@ constants.parser = {
 
 function constants.get()
     local blam = require "blam"
-    local tagClasses = blam.tagClasses
-    local findTag = blam.findTag
     local function findWidgetTag(partialName)
-        return findTag(partialName, blam.tagClasses.uiWidgetDefinition)
+        -- Balltze v2 uses tag group strings, not tagClasses.* enums.
+        local matches = engine.tag.filterTags("ui_widget_definition", partialName)
+        return matches and matches[1]
     end
     local core = require "insurrection.core"
 
@@ -300,33 +300,36 @@ function constants.get()
     }
 
     constants.sounds = {
-        error = findTag("flag_failure", tagClasses.sound),
-        back = findTag("back", tagClasses.sound),
-        success = findTag("forward", tagClasses.sound),
-        join = findTag("player_join", tagClasses.sound),
-        leave = findTag("player_leave", tagClasses.sound),
-        teleporter = findTag("teleporter_activate", tagClasses.sound)
+        error = engine.tag.filterTags("sound", "flag_failure")[1],
+        back = engine.tag.filterTags("sound", "back")[1],
+        success = engine.tag.filterTags("sound", "forward")[1],
+        join = engine.tag.filterTags("sound", "player_join")[1],
+        leave = engine.tag.filterTags("sound", "player_leave")[1],
+        teleporter = engine.tag.filterTags("sound", "teleporter_activate")[1]
     }
 
     constants.tagCollections = {
-        nameplates = findTag("nameplates", tagClasses.tagCollection),
-        maps = findTag("insurrection_maps", tagClasses.tagCollection)
+        nameplates = engine.tag.filterTags("tag_collection", "nameplates")[1],
+        maps = engine.tag.filterTags("tag_collection", "insurrection_maps")[1]
     }
 
     constants.widgetCollections = {
-        multiplayer = findTag("ui\\shell\\multiplayer", tagClasses.uiWidgetCollection)
+        multiplayer = engine.tag.filterTags("ui_widget_collection", "ui\\shell\\multiplayer")[1]
     }
 
     if constants.tagCollections.nameplates then
-        local nameplatesTagCollection = blam.tagCollection(constants.tagCollections.nameplates.id)
+        local nameplatesTagCollection = engine.tag.getTagData(constants.tagCollections.nameplates.handle.value,
+                                                              "tag_collection")
         if nameplatesTagCollection then
-            ---@type table<string, tag>
+            ---@type table<string, TagEntry>
             local nameplateBitmapTags = {}
-            for _, tagId in ipairs(nameplatesTagCollection.tagList) do
-                local tag = blam.getTag(tagId) --[[@as tag]]
-                local nameplateId = core.getTagName(tag.path)
-                if nameplateId and not nameplateBitmapTags[nameplateId] then
-                    nameplateBitmapTags[nameplateId] = tag
+            for _, tagHandle in ipairs(nameplatesTagCollection.tagList or {}) do
+                local tagEntry = engine.tag.getTagEntry(tagHandle)
+                if tagEntry then
+                    local nameplateId = core.getTagName(tagEntry.path)
+                    if nameplateId and not nameplateBitmapTags[nameplateId] then
+                        nameplateBitmapTags[nameplateId] = tagEntry
+                    end
                 end
             end
             constants.nameplates = nameplateBitmapTags
@@ -334,32 +337,31 @@ function constants.get()
     end
 
     constants.bitmaps = {
-        unknownMapPreview = findTag("unknown_map_preview", tagClasses.bitmap),
+        unknownMapPreview = engine.tag.filterTags("bitmap", "unknown_map_preview")[1],
         customization = {
-            left_shoulder = findTag("customization_left_shoulder_icons", tagClasses.bitmap),
-            right_shoulder = findTag("customization_right_shoulder_icons", tagClasses.bitmap),
-            regions = findTag("customization_icons", tagClasses.bitmap),
-            helmet = findTag("customization_helmet_icons", tagClasses.bitmap),
-            chest = findTag("customization_chest_icons", tagClasses.bitmap),
-            gear = findTag("customization_gear_icons", tagClasses.bitmap),
-            legs = findTag("customization_legs_icons", tagClasses.bitmap)
+            left_shoulder = engine.tag.filterTags("bitmap", "customization_left_shoulder_icons")[1],
+            right_shoulder = engine.tag.filterTags("bitmap", "customization_right_shoulder_icons")[1],
+            regions = engine.tag.filterTags("bitmap", "customization_icons")[1],
+            helmet = engine.tag.filterTags("bitmap", "customization_helmet_icons")[1],
+            chest = engine.tag.filterTags("bitmap", "customization_chest_icons")[1],
+            gear = engine.tag.filterTags("bitmap", "customization_gear_icons")[1],
+            legs = engine.tag.filterTags("bitmap", "customization_legs_icons")[1]
         }
     }
     local fontName = "geogrotesque-regular-"
     constants.fonts = {
-        text = findTag(fontName .. "text", tagClasses.font),
-        title = findTag(fontName .. "title", tagClasses.font),
-        subtitle = findTag(fontName .. "subtitle", tagClasses.font),
-        button = findTag(fontName .. "button", tagClasses.font),
-        shadow = findTag(fontName .. "shadow", tagClasses.font)
+        text = engine.tag.filterTags("font", fontName .. "text")[1],
+        title = engine.tag.filterTags("font", fontName .. "title")[1],
+        subtitle = engine.tag.filterTags("font", fontName .. "subtitle")[1],
+        button = engine.tag.filterTags("font", fontName .. "button")[1],
+        shadow = engine.tag.filterTags("font", fontName .. "shadow")[1]
     }
 
     constants.scenery = {
-        christmasHat = engine.tag.findTags(constants.path.christmasHat, engine.tag.classes.scenery)[1],
-        xmasObjects = engine.tag.findTags(constants.path.xmasObjects,
-                                          engine.tag.classes.tagCollection)[1]
+        christmasHat = engine.tag.filterTags("scenery", constants.path.christmasHat)[1],
+        xmasObjects = engine.tag.filterTags("tag_collection", constants.path.xmasObjects)[1]
     }
-    logger:debug("Loaded constants")
+    logger.debug("Loaded constants")
 end
 
 return constants

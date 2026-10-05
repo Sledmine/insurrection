@@ -1,8 +1,8 @@
 local color = require "color"
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local list = require "insurrection.components.list"
-local button = require "insurrection.components.button"
+local list = require "ui.list"
+local button = require "ui.button"
 local blam = require "blam"
 local core = require "insurrection.core"
 local getWidgetValues = core.getWidgetValues
@@ -11,23 +11,23 @@ local menus = require "insurrection.menus"
 local delay = require"insurrection.utils".delay
 
 return function()
-    local customizationColor = components.new(constants.widgets.color.id)
+    local customizationColor = component.new(constants.widgets.color.handle.value)
 
-    local optionsId = customizationColor:findChildWidgetTag("options").id
+    local optionsId = customizationColor:findChildWidgetTag("options").handle.value
     local customizationColorListOptions = list.new(optionsId)
 
-    local actionsId = customizationColor:findChildWidgetTag("actions").id
+    local actionsId = customizationColor:findChildWidgetTag("actions").handle.value
     local customizationColorListActions = list.new(actionsId)
 
-    local saveId = customizationColorListActions:findChildWidgetTag("save").id
+    local saveId = customizationColorListActions:findChildWidgetTag("save").handle.value
     local customizationColorSaveButton = button.new(saveId)
     local colorButtons = customizationColorListOptions:getChildWidgetTags()
 
     local page = 0
     local multiplier = #colorButtons - 2
 
-    local scrollDown = button.new(colorButtons[1].id)
-    local scrollUp = button.new(colorButtons[#colorButtons - 1].id)
+    local scrollDown = button.new(colorButtons[1].handle.value)
+    local scrollUp = button.new(colorButtons[#colorButtons - 1].handle.value)
     scrollDown:onClick(function()
     end)
     scrollUp:onClick(function()
@@ -39,7 +39,7 @@ return function()
         local profile = core.getPlayerProfile()
         local colorFromGame = constants.colors[profile.colorIndex]
         local colorName = table.flip(constants.color)[colorFromGame]:lower()
-        logger:debug("Color: {}", colorName)
+        logger.debug("Color: {}", colorName)
 
         local customizationBiped = core.getCustomizationObjectData().biped
         local r, g, b = color.hexToDec(colorFromGame)
@@ -53,9 +53,9 @@ return function()
 
         for buttonIndex, tag in pairs(colorButtons) do
             if buttonIndex > 1 and buttonIndex < #colorButtons - 1 then
-                local colorButton = button.new(tag.id)
-                local colorButtonText = button.new(colorButton:findChildWidgetTag("_text").id)
-                local colorIcon = button.new(colorButton:findChildWidgetTag("_icon").id)
+                local colorButton = button.new(tag.handle.value)
+                local colorButtonText = button.new(colorButton:findChildWidgetTag("_text").handle.value)
+                local colorIcon = button.new(colorButton:findChildWidgetTag("_icon").handle.value)
                 --local colorValue = constants.colors[]
                 --if colorValue then
                 --   local colorIndex = table.flip(constants.colors)[colorValue] - 1

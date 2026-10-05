@@ -30,23 +30,23 @@ discord.attempted = false
 discord.ready = false
 
 function discordRPC.ready(userId, username, discriminator, avatar)
-    logger:debug(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
+    logger.debug(string.format("Discord: ready (%s, %s, %s, %s)", userId, username, discriminator, avatar))
     --interface.loading(false)
     discord.ready = true
 end
 
 function discordRPC.disconnected(errorCode, message)
-    logger:debug(string.format("Discord: disconnected (%d: %s)", errorCode, message))
+    logger.debug(string.format("Discord: disconnected (%d: %s)", errorCode, message))
     discord.ready = false
 end
 
 function discordRPC.joinGame(joinSecret)
-    logger:debug("Discord: join game (" .. joinSecret .. ")")
+    logger.debug("Discord: join game (" .. joinSecret .. ")")
     api.lobby(joinSecret)
 end
 
 function discordRPC.joinRequest(userId, username, discriminator, avatar)
-    logger:debug(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator,
+    logger.debug(string.format("Discord: join request (%s, %s, %s, %s)", userId, username, discriminator,
                          avatar))
     discordRPC.respond(userId, "yes")
 end
@@ -54,7 +54,7 @@ end
 function discord.initialize()
     local micro = base64.decode(balltze.filesystem.readFile("micro") or ""):trim()
     if not micro or micro == "" then
-        logger:error("Failed to load Discord RPC micro executable")
+        logger.error("Failed to load Discord RPC micro executable")
         return
     end
     discordRPC.initialize(micro, true)
@@ -74,7 +74,7 @@ function discord.startPresence()
 
     -- Routines to handle Discord presence
     function DiscordUpdate()
-        --logger:debug("DiscordUpdate")
+        --logger.debug("DiscordUpdate")
         discordRPC.runCallbacks()
         if discord.ready then
             if DiscordCheckTimer then
@@ -104,7 +104,7 @@ end
 ---@param details? string
 ---@param image? string
 function discord.setState(state, details, image)
-    logger:debug("discord.setState: " .. state .. ", " .. details)
+    logger.debug("discord.setState: " .. state .. ", " .. details)
     if not discord.ready then
         return
     end
@@ -123,12 +123,12 @@ end
 ---@param map? string
 ---@param isPartyOpen? boolean
 function discord.setParty(partyId, partySize, partyMax, map, isPartyOpen)
-    --logger:debug("discord.setParty")
-    --logger:debug("partyId: {}", partyId)
-    --logger:debug("partySize: {}", partySize)
-    --logger:debug("partyMax: {}", partyMax)
-    --logger:debug("partyMap: {}", map)
-    --logger:debug("isPartyOpen: {}", isPartyOpen)
+    --logger.debug("discord.setParty")
+    --logger.debug("partyId: {}", partyId)
+    --logger.debug("partySize: {}", partySize)
+    --logger.debug("partyMax: {}", partyMax)
+    --logger.debug("partyMap: {}", map)
+    --logger.debug("isPartyOpen: {}", isPartyOpen)
     -- Party ID sometines is nil, so we need to check for it
     if partyId then
         -- TODO Replace with a proper party unique ID
@@ -149,7 +149,7 @@ function discord.setParty(partyId, partySize, partyMax, map, isPartyOpen)
 end
 
 function discord.clearParty()
-    logger:debug("discord.clearParty")
+    logger.debug("discord.clearParty")
 
     discord.presence.partyId = nil
     discord.presence.joinSecret = nil
@@ -159,7 +159,7 @@ end
 
 --- Clear the presence info
 function discord.clearPresence()
-    logger:debug("discord.clearPresence")
+    logger.debug("discord.clearPresence")
 
     discord.presence.state = nil
     discord.presence.details = nil

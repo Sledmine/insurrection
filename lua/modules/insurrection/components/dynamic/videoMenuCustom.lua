@@ -1,11 +1,11 @@
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local spinner = require "insurrection.components.spinner"
-local checkbox = require "insurrection.components.checkbox"
+local spinner = require "ui.spinner"
+local checkbox = require "ui.checkbox"
 local blam = require "blam"
 local core = require "insurrection.core"
 local luna = require "luna"
-local button = require "insurrection.components.button"
+local button = require "ui.button"
 local tobit = luna.bit
 local tobool = luna.bool
 local chimera = require "insurrection.mods.chimera"
@@ -15,11 +15,11 @@ local engine = Engine
 local monitors = require "insurrection.monitors"
 
 return function()
-    local settings = components.new(constants.widgets.videoSettings.id)
-    local options = components.new(settings:findChildWidgetTag("options").id)
-    local footer = components.new(settings:findChildWidgetTag("footer").id)
-    local description = components.new(footer:findChildWidgetTag("text").id)
-    local backButton = button.new(options:findChildWidgetTag("back").id)
+    local settings = component.new(constants.widgets.videoSettings.handle.value)
+    local options = component.new(settings:findChildWidgetTag("options").handle.value)
+    local footer = component.new(settings:findChildWidgetTag("footer").handle.value)
+    local description = component.new(footer:findChildWidgetTag("text").handle.value)
+    local backButton = button.new(options:findChildWidgetTag("back").handle.value)
 
     local monitors = monitors.getAll(true)
 
@@ -109,7 +109,7 @@ return function()
                 local witdh = profile.videoSettings.resolutionWidth
                 local height = profile.videoSettings.resolutionHeight
                 if newWidth == witdh and newHeight == height then
-                    logger:debug("Resolution is the same, skipping")
+                    logger.debug("Resolution is the same, skipping")
                     return
                 end
 
@@ -145,7 +145,7 @@ return function()
             change = function(value)
                 local refreshRate = tonumber(value:replace("Hz", "")) or 0
                 if profile.videoSettings.refreshRate == refreshRate then
-                    logger:debug("Refresh rate is the same, skipping")
+                    logger.debug("Refresh rate is the same, skipping")
                     return
                 end
 
@@ -270,7 +270,7 @@ return function()
             change = function(value)
                 chimeraPreferences.chimera_fov = value
                 chimera.executeCommand("chimera_fov " .. value)
-                logger:debug("Setting horizontal FOV")
+                logger.debug("Setting horizontal FOV")
             end,
             focus = function()
                 description:setText("Change field of view of player first person camera.")
@@ -290,12 +290,12 @@ return function()
         }
     }
 
-    for i = 1, options.widgetDefinition.childWidgetsCount - 1 do
+    for i = 1, #options.widgetDefinition.childWidgets - 1 do
         local childWidget = options.widgetDefinition.childWidgets[i]
-        local tag = blam.getTag(childWidget.widgetTag)
-        assert(tag)
-        if tag.path:includes "checkbox" then
-            local check = checkbox.new(childWidget.widgetTag)
+        local widgetTagEntry = engine.tag.getTagEntry(childWidget.widgetTag.tagHandle.value)
+        assert(widgetTagEntry)
+        if widgetTagEntry.path:includes "checkbox" then
+            local check = checkbox.new(childWidget.widgetTag.tagHandle.value)
             elements[check:getText()] = check
             check:onToggle(function(value)
                 local optionName = check:getText()
@@ -309,8 +309,8 @@ return function()
                     elementsData[optionName].focus()
                 end
             end)
-        elseif tag.path:includes "spinner" then
-            local spin = spinner.new(childWidget.widgetTag)
+        elseif widgetTagEntry.path:includes "spinner" then
+            local spin = spinner.new(childWidget.widgetTag.tagHandle.value)
             elements[spin:getText()] = spin
             spin:onScroll(function(value, index)
                 local optionName = spin:getText()
@@ -328,7 +328,7 @@ return function()
     end
 
     settings:onClose(function()
-        if engine.map.getCurrentMapHeader().name ~= "ui" then
+        if engine.cacheFile.getLoadedCacheFileHeader().scenarioName ~= "ui" then
             interface.blur(true)
         end
         Engine.savedGames.savePlayerProfile()
@@ -339,7 +339,7 @@ return function()
     end)
 
     settings:onOpen(function(previousWidgetTag)
-        if engine.map.getCurrentMapHeader().name ~= "ui" then
+        if engine.cacheFile.getLoadedCacheFileHeader().scenarioName ~= "ui" then
             interface.blur(false)
         end
         local profile = Engine.savedGames.getPlayerProfile()

@@ -1,8 +1,9 @@
-local components = require "insurrection.components"
+local engine = Engine
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local button = require "insurrection.components.button"
-local input = require "insurrection.components.input"
-local list = require "insurrection.components.list"
+local button = require "ui.button"
+local input = require "ui.input"
+local list = require "ui.list"
 local interface = require "insurrection.interface"
 local getState = require "insurrection.redux.getState"
 local blam = require "blam"
@@ -11,9 +12,9 @@ local t = require "insurrection.utils".snakeCaseToUpperTitleCase
 
 return function()
     local state = getState()
-    local browser = components.new(constants.widgets.browser.id)
+    local browser = component.new(constants.widgets.browser.handle.value)
 
-    local lobbies = list.new(browser:findChildWidgetTag("lobby_browser_list").id, 1, 6)
+    local lobbies = list.new(browser:findChildWidgetTag("lobby_browser_list").handle.value, 1, 6)
     lobbies:onSelect(function(item)
         local lobby = state.lobbies[item.value]
         if lobby then
@@ -22,7 +23,7 @@ return function()
     end)
 
     browser:onOpen(function(previousWidgetTag)
-        if previousWidgetTag and previousWidgetTag.handle.value == constants.widgets.dashboard.id then
+        if previousWidgetTag and previousWidgetTag.handle.value == constants.widgets.dashboard.handle.value then
             api.getLobbies()
         end
         api.stopRefreshLobby()
@@ -34,23 +35,24 @@ return function()
                 -- label = v.name,
                 value = lobbyIndex,
                 bitmap = function(element)
-                    local mapPreview = components.new(element:findChildWidgetTag("preview").id)
-                    local template = components.new(element:findChildWidgetTag("template").id)
-                    --local gametypeIcon = components.new(element:findChildWidgetTag("gametype_icon").id)
-                    local description = components.new(element:findChildWidgetTag("description").id)
-                    local owner = components.new(element:findChildWidgetTag("owner").id)
-                    local players = components.new(element:findChildWidgetTag("players").id)
+                    local mapPreview = component.new(element:findChildWidgetTag("preview").handle.value)
+                    local template = component.new(element:findChildWidgetTag("template").handle.value)
+                    --local gametypeIcon = component.new(element:findChildWidgetTag("gametype_icon").handle.value)
+                    local description = component.new(element:findChildWidgetTag("description").handle.value)
+                    local owner = component.new(element:findChildWidgetTag("owner").handle.value)
+                    local players = component.new(element:findChildWidgetTag("players").handle.value)
 
                     mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps
-                                                                       .unknownMapPreview.id
-                    local mapCollection = blam.tagCollection(constants.tagCollections.maps.id)
+                                                                       .unknownMapPreview.handle.value
+                    local mapCollection = engine.tag.getTagData(constants.tagCollections.maps.handle.value,
+                                                              "tag_collection")
                     assert(mapCollection, "No map preview collection found")
-                    for k, v in pairs(mapCollection.tagList) do
-                        local bitmapTag = blam.getTag(v)
-                        assert(bitmapTag, "No bitmap tag found")
-                        local mapName = utils.path(bitmapTag.path).name:lower()
+                    for _, tagHandle in ipairs(mapCollection.tagList or {}) do
+                        local bitmapTagEntry = engine.tag.getTagEntry(tagHandle)
+                        assert(bitmapTagEntry, "No bitmap tag found")
+                        local mapName = utils.path(bitmapTagEntry.path).name:lower()
                         if mapName == lob.map then
-                            mapPreview.widgetDefinition.backgroundBitmap = bitmapTag.id
+                            mapPreview.widgetDefinition.backgroundBitmap = bitmapTagEntry.handle.value
                         end
                     end
 

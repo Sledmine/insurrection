@@ -1,12 +1,12 @@
-local components = require "insurrection.components"
-local checkbox = require "insurrection.components.checkbox"
+local component = require "ui.component"
+local checkbox = require "ui.checkbox"
 local constants = require "insurrection.constants"
 local chimera = require "insurrection.mods.chimera"
 local interface = require "insurrection.interface"
 local blam = require "blam"
 local balltze = require "insurrection.mods.balltze"
 local menus = require "insurrection.menus"
-local spinner = require "insurrection.components.spinner"
+local spinner = require "ui.spinner"
 local utils = require "insurrection.utils"
 
 -- I don't like this, but I'll keep it for now
@@ -19,10 +19,10 @@ local gamepadProfileDescription =
 local reminderDescription = "\r\n\r\nNOTE: You must restart the game to apply changes."
 
 return function()
-    local balltzeMod = components.new(constants.widgets.balltze.id)
-    local options = components.new(balltzeMod:findChildWidgetTag("options").id)
-    local footer = components.new(balltzeMod:findChildWidgetTag("footer").id)
-    local description = components.new(footer:findChildWidgetTag("text").id)
+    local balltzeMod = component.new(constants.widgets.balltze.handle.value)
+    local options = component.new(balltzeMod:findChildWidgetTag("options").handle.value)
+    local footer = component.new(balltzeMod:findChildWidgetTag("footer").handle.value)
+    local description = component.new(footer:findChildWidgetTag("text").handle.value)
 
     local balltzeConfiguration = balltze.getConfiguration() or {}
 
@@ -60,12 +60,12 @@ return function()
         }
     }
 
-    for i = 1, options.widgetDefinition.childWidgetsCount - 1 do
+    for i = 1, #options.widgetDefinition.childWidgets - 1 do
         local childWidget = options.widgetDefinition.childWidgets[i]
-        local tag = blam.getTag(childWidget.widgetTag)
-        assert(tag)
-        if tag.path:includes "checkbox" then
-            local check = checkbox.new(childWidget.widgetTag)
+        local widgetTagEntry = engine.tag.getTagEntry(childWidget.widgetTag.tagHandle.value)
+        assert(widgetTagEntry)
+        if widgetTagEntry.path:includes "checkbox" then
+            local check = checkbox.new(childWidget.widgetTag.tagHandle.value)
             elements[check:getText()] = check
             check:onToggle(function(value)
                 local optionName = check:getText()
@@ -79,8 +79,8 @@ return function()
                     elementsData[optionName].focus()
                 end
             end)
-        elseif tag.path:includes "spinner" then
-            local spin = spinner.new(childWidget.widgetTag)
+        elseif widgetTagEntry.path:includes "spinner" then
+            local spin = spinner.new(childWidget.widgetTag.tagHandle.value)
             console_debug(spin:getText())
             elements[spin:getText()] = spin
             spin:onScroll(function(value, index)

@@ -254,7 +254,7 @@ function component.callbacks()
 
         local widgetTag = findNextWidget()
         if not widgetTag then
-            --logger.debug("No next widget found for event: " .. eventType)
+            -- logger.debug("No next widget found for event: " .. eventType)
             event:cancel()
             return
         end
@@ -760,7 +760,8 @@ end
 
 ---@param self uiComponent
 function component.setBitmapIndex(self, index)
-    core.setWidgetValues(self.handleValue, {bitmapIndex = index - 1}, true)
+    -- core.setWidgetValues(self.handleValue, {bitmapIndex = index - 1}, true)
+    core.setWidgetValues(self.handleValue, {animationData = {currentFrameIndex = index - 1}}, true)
 end
 
 ---@param self uiComponent

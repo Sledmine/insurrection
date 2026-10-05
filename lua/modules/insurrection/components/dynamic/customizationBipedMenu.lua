@@ -1,12 +1,12 @@
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local button = require "insurrection.components.button"
-local list = require "insurrection.components.list"
+local button = require "ui.button"
+local list = require "ui.list"
 local utils = require "insurrection.utils"
 local blam = require "blam"
 local core = require "insurrection.core"
 local color = require "color"
-local bar = require "insurrection.components.bar"
+local bar = require "ui.bar"
 local menus = require "insurrection.menus"
 local t = utils.snakeCaseToUpperTitleCase
 
@@ -133,14 +133,14 @@ return function(props)
     props = props or {}
     local isBipedPreviewGenEnabled = props.isBipedPreviewGenEnabled
     -- Get customization widget menu
-    local customization = components.new(constants.widgets.biped.id)
-    local geometryName = components.new(customization:findChildWidgetTag("geometry_name").id)
-    local options = list.new(customization:findChildWidgetTag("geometry_list").id, 1, 8)
-    local scrollOptionsBar = bar.new(customization:findChildWidgetTag("geometry_scroll").id,
+    local customization = component.new(constants.widgets.biped.handle.value)
+    local geometryName = component.new(customization:findChildWidgetTag("geometry_name").handle.value)
+    local options = list.new(customization:findChildWidgetTag("geometry_list").handle.value, 1, 8)
+    local scrollOptionsBar = bar.new(customization:findChildWidgetTag("geometry_scroll").handle.value,
                                      "scroll")
     options:setScrollBar(scrollOptionsBar)
-    local back = button.new(options:findChildWidgetTag("back").id)
-    local itemCounter = components.new(customization:findChildWidgetTag("item_counter").id)
+    local back = button.new(options:findChildWidgetTag("back").handle.value)
+    local itemCounter = component.new(customization:findChildWidgetTag("item_counter").handle.value)
     itemCounter:setText("00/00")
 
     local function updateItemCounter(currentIndex)
@@ -171,10 +171,10 @@ return function(props)
                 value = region,
                 label = regionName,
                 bitmap = function(uiComponent)
-                    local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    local icon = component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
                     -- Default bitmap
                     icon.widgetDefinition.backgroundBitmap =
-                        constants.bitmaps.customization.regions.id
+                        constants.bitmaps.customization.regions.handle.value
                     -- Set bitmap index
                     icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion(region)})
                 end
@@ -187,9 +187,9 @@ return function(props)
                 value = "visor",
                 label = t("visor"),
                 bitmap = function(uiComponent)
-                    local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    local icon = component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
                     icon.widgetDefinition.backgroundBitmap =
-                        constants.bitmaps.customization.regions.id
+                        constants.bitmaps.customization.regions.handle.value
                     icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("visor")})
                 end
             })
@@ -198,8 +198,8 @@ return function(props)
             value = "color",
             label = t("color"),
             bitmap = function(uiComponent)
-                local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
-                icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.id
+                local icon = component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
+                icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.handle.value
                 icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("color")})
             end
         })
@@ -224,9 +224,9 @@ return function(props)
                     label = visorName:upper(),
                     bitmap = function(uiComponent)
                         local icon =
-                            components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                            component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
                         icon.widgetDefinition.backgroundBitmap =
-                            constants.bitmaps.customization.regions.id
+                            constants.bitmaps.customization.regions.handle.value
                         icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("visor")})
                     end
                 })
@@ -265,11 +265,11 @@ return function(props)
                 value = permutationIndex,
                 label = permutationName,
                 bitmap = function(uiComponent)
-                    local icon = components.new(uiComponent:findChildWidgetTag("button_icon").id)
+                    local icon = component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
                     local index = getBitmapIndexForRegion(region)
                     local permutationsBitmapTag = constants.bitmaps.customization[region]
                     if isTheFloodProject and permutationsBitmapTag then
-                        icon.widgetDefinition.backgroundBitmap = permutationsBitmapTag.id
+                        icon.widgetDefinition.backgroundBitmap = permutationsBitmapTag.handle.value
                         index = permutationIndex
                     end
                     icon:setWidgetValues({bitmapIndex = index})
@@ -299,10 +299,10 @@ return function(props)
 
     local function generateBipedPreviews()
         IsUIPhotoSessionRunning = true
-        logger:debug("Generating biped previews")
+        logger.debug("Generating biped previews")
         execute_script("cls")
-        -- core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 0.04})
-        core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 0})
+        -- core.setWidgetValues(core.getCurrentUIWidgetTag().handle.value, {opacity = 0.04})
+        core.setWidgetValues(core.getCurrentUIWidgetTag().handle.value, {opacity = 0})
 
         local customizationObjectData = getCustomizationObjectData()
         local customizationModel = customizationObjectData.model
@@ -361,10 +361,10 @@ return function(props)
         end
 
         utils.delay(delay, function()
-            logger:debug("Finished generating biped previews")
+            logger.debug("Finished generating biped previews")
             execute_script("object_destroy green_screen")
             IsUIPhotoSessionRunning = false
-            core.setWidgetValues(core.getCurrentUIWidgetTag().id, {opacity = 1})
+            core.setWidgetValues(core.getCurrentUIWidgetTag().handle.value, {opacity = 1})
             for i = 1, 8 do
                 customizationBiped["regionPermutation" .. i] = 0
             end

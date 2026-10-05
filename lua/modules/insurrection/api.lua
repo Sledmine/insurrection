@@ -1,4 +1,5 @@
 local engine = Engine
+local logger = Balltze.logger
 local lanes = require "lanes"
 local json = require "json"
 local getState = require "insurrection.redux.getState"
@@ -80,11 +81,11 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 
 local function connect(desiredMap, host, port, password)
     api.stopRefreshLobby()
-    if not engine.map.getCurrentMapHeader().name == "ui" then
+    if engine.cacheFile.getLoadedCacheFileHeader().scenarioName ~= "ui" then
         engine.core.consolePrint("Can't connect to a server while in-game.")
         return
     end
-    -- logger:debug("Connecting to {}:{} with password {}", host, port, password)
+    -- logger.debug("Connecting to {}:{} with password {}", host, port, password)
     local mapList = engine.map.getMapList()
     if table.indexof(mapList, desiredMap) then
         -- Force game profile name to be the same as the player's name
@@ -102,12 +103,12 @@ local function showErrorDialog(logs)
             logs = tostring(inspect(logs)) .. "\n" .. tostring(inspect(logs.json()))
         else
             logs = tostring(inspect(logs))
-            logger:error("Unknown error: " .. logs, "error")
+            logger.error("Unknown error: " .. logs, "error")
         end
     end
     local traceback = debug.traceback()
     if DebugMode then
-        logger:error("{}", traceback)
+        logger.error("{}", traceback)
     end
     interface.dialog("ERROR", "UNKNOWN ERROR",
                      "An unknown error has ocurred, please check logs and try again later.")
@@ -162,10 +163,10 @@ function api.login(username, password)
             local data = {username = username, password = password}
             response = await(requests.postform, api.url .. "/login", data)
         end
-        logger:debug("onLoginResponse")
+        logger.debug("onLoginResponse")
         interface.loading(false)
         if not response then
-            logger:error("No response")
+            logger.error("No response")
             showErrorDialog("No response")
             return
         end
@@ -277,12 +278,12 @@ function api.lobby(lobbyKey)
                                                    state.lobby.owner
                     if isPlayerLobbyOwner then
                         menus.lobby()
-                        react.mount("lobbyMenu", constants.widgets.lobby.id)
-                        react.render(constants.widgets.lobby.id)
+                        react.mount("lobbyMenu", constants.widgets.lobby.handle.value)
+                        react.render(constants.widgets.lobby.handle.value)
                     else
                         menus.lobby(true)
-                        react.mount("lobbyMenuClient", constants.widgets.lobbyClient.id)
-                        react.render(constants.widgets.lobbyClient.id)
+                        react.mount("lobbyMenuClient", constants.widgets.lobbyClient.handle.value)
+                        react.render(constants.widgets.lobbyClient.handle.value)
                     end
                     discord.setParty(api.session.lobbyKey, #state.lobby.players, 16,
                                      state.lobby.map, isPlayerLobbyOwner)
@@ -305,7 +306,7 @@ function api.lobby(lobbyKey)
     end
 
     -- A specific lobby key was provided, we need to join it
-    logger:debug("Joining lobby with key: {}", lobbyKey)
+    logger.debug("Joining lobby with key: {}", lobbyKey)
     async(function(await)
         ---@type httpResponse<insurrectionLobby>?
         local response = await(requests.get, api.url .. "/lobby/" .. lobbyKey)
@@ -323,19 +324,19 @@ function api.lobby(lobbyKey)
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
                     menus.lobby()
-                    react.mount("lobbyMenu", constants.widgets.lobby.id)
-                    react.render(constants.widgets.lobby.id)
+                    react.mount("lobbyMenu", constants.widgets.lobby.handle.value)
+                    react.render(constants.widgets.lobby.handle.value)
                 else
                     menus.lobby(true)
-                    react.mount("lobbyMenuClient", constants.widgets.lobbyClient.id)
-                    react.render(constants.widgets.lobbyClient.id)
+                    react.mount("lobbyMenuClient", constants.widgets.lobbyClient.handle.value)
+                    react.render(constants.widgets.lobbyClient.handle.value)
                 end
                 discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
                                  isPlayerLobbyOwner)
                 api.startLobbyRefresh()
                 -- Lobby already has a server running, connect to it
-                if lobby.server and engine.netgame.getServerType() ~= "dedicated" then
-                    logger:debug("Connecting to lobby server...")
+                if lobby.server and engine.game.getGameConnectionType() ~= "networkClient" then
+                    logger.debug("Connecting to lobby server...")
                     api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,
                             lobby.server.password)
@@ -363,7 +364,7 @@ function api.startLobbyRefresh()
             api.refreshLobby()
         end
     end
-    api.variables.refreshTimer = Balltze.misc.setTimer(api.variables.refreshRate, RefreshLobby)
+    api.variables.refreshTimer = Balltze.setTimer(api.variables.refreshRate, RefreshLobby)
 end
 
 function api.refreshLobby()
@@ -389,16 +390,16 @@ function api.refreshLobby()
                 local isPlayerLobbyOwner = api.session.player and api.session.player.publicId ==
                                                state.lobby.owner
                 if isPlayerLobbyOwner then
-                    react.mount("lobbyMenu", constants.widgets.lobby.id)
-                    react.render(constants.widgets.lobby.id)
+                    react.mount("lobbyMenu", constants.widgets.lobby.handle.value)
+                    react.render(constants.widgets.lobby.handle.value)
                 else
-                    react.mount("lobbyMenuClient", constants.widgets.lobbyClient.id)
-                    react.render(constants.widgets.lobbyClient.id)
+                    react.mount("lobbyMenuClient", constants.widgets.lobbyClient.handle.value)
+                    react.render(constants.widgets.lobbyClient.handle.value)
                 end
                 discord.setParty(api.session.lobbyKey, #lobby.players, 16, lobby.map,
                                  isPlayerLobbyOwner)
                 -- Lobby already has a server running, connect to it
-                if lobby.server and engine.netgame.getServerType() ~= "dedicated" then
+                if lobby.server and engine.game.getGameConnectionType() ~= "networkClient" then
                     api.stopRefreshLobby()
                     connect(lobby.server.map, lobby.server.host, lobby.server.port,
                             lobby.server.password)
@@ -424,7 +425,7 @@ function api.stopRefreshLobby()
 end
 function api.deleteLobby()
     if api.session.lobbyKey then
-        logger:debug("DELETING lobby")
+        logger.debug("DELETING lobby")
         if api.variables.refreshTimer then
             api.variables.refreshTimer.stop()
         end
@@ -556,8 +557,8 @@ function api.getLobbies()
                 return
             end
             store:dispatch(actions.setLobbies(lobbies or {}))
-            react.mount("lobbyBrowserMenu", constants.widgets.browser.id)
-            react.render(constants.widgets.browser.id)
+            react.mount("lobbyBrowserMenu", constants.widgets.browser.handle.value)
+            react.render(constants.widgets.browser.handle.value)
         else
             local jsonResponse = response.json()
             if jsonResponse then

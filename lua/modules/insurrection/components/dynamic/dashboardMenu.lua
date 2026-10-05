@@ -1,24 +1,24 @@
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local button = require "insurrection.components.button"
-local input = require "insurrection.components.input"
+local button = require "ui.button"
+local input = require "ui.input"
 local interface = require "insurrection.interface"
 local menus = require "insurrection.menus"
 local ranks = require "insurrection.constants.ranks"
-local bar = require "insurrection.components.bar"
+local bar = require "ui.bar"
 local core = require "insurrection.core"
 local blam = require "blam"
 local engine = Engine
-local executeScript = engine.hsc.executeScript
+local executeScript = engine.script.execute
 
 return function()
-    local dashboard = components.new(constants.widgets.dashboard.id)
-    local footer = components.new(dashboard:findChildWidgetTag("footer").id)
-    local description = components.new(footer:findChildWidgetTag("text").id)
-    local rankProgressBar = bar.new(dashboard:findChildWidgetTag("rank_progress").id, "progress")
+    local dashboard = component.new(constants.widgets.dashboard.handle.value)
+    local footer = component.new(dashboard:findChildWidgetTag("footer").handle.value)
+    local description = component.new(footer:findChildWidgetTag("text").handle.value)
+    local rankProgressBar = bar.new(dashboard:findChildWidgetTag("rank_progress").handle.value, "progress")
 
     local browseLobby =
-        button.new(dashboard:findChildWidgetTag("browse_prompt_dashboard_button").id)
+        button.new(dashboard:findChildWidgetTag("browse_prompt_dashboard_button").handle.value)
     browseLobby:onClick(function()
         interface.blur(true)
         interface.setBackground("halo")
@@ -29,7 +29,7 @@ return function()
     end)
 
     local createLobbyButton = button.new(dashboard:findChildWidgetTag(
-                                             "create_prompt_dashboard_button").id)
+                                             "create_prompt_dashboard_button").handle.value)
     createLobbyButton:onClick(function()
         api.lobby()
         interface.blur(true)
@@ -40,7 +40,7 @@ return function()
     end)
 
     local customizationButton = button.new(dashboard:findChildWidgetTag(
-                                               "customization_prompt_dashboard_button").id)
+                                               "customization_prompt_dashboard_button").handle.value)
     customizationButton:onClick(function()
         menus.customization()
     end)
@@ -48,14 +48,14 @@ return function()
         description:setText("Customize your character and player service record.")
     end)
 
-    local rankNameLabel = components.new(dashboard:findChildWidgetTag("rank_name_label").id)
-    local rankTierLabel = components.new(dashboard:findChildWidgetTag("tier_name_label").id)
-    local expLabel = components.new(dashboard:findChildWidgetTag("exp_info_label").id)
-    local rankIcon = components.new(dashboard:findChildWidgetTag("rank_icon").id)
-    local creditsLabel = components.new(dashboard:findChildWidgetTag("credits_number").id)
+    local rankNameLabel = component.new(dashboard:findChildWidgetTag("rank_name_label").handle.value)
+    local rankTierLabel = component.new(dashboard:findChildWidgetTag("tier_name_label").handle.value)
+    local expLabel = component.new(dashboard:findChildWidgetTag("exp_info_label").handle.value)
+    local rankIcon = component.new(dashboard:findChildWidgetTag("rank_icon").handle.value)
+    local creditsLabel = component.new(dashboard:findChildWidgetTag("credits_number").handle.value)
 
-    -- local joinLobbyButton = button.new(dashboard:findChildWidgetTag("join_lobby_button").id)
-    -- local joinLobbyInput = input.new(dashboard:findChildWidgetTag("lobby_key_input").id)
+    -- local joinLobbyButton = button.new(dashboard:findChildWidgetTag("join_lobby_button").handle.value)
+    -- local joinLobbyInput = input.new(dashboard:findChildWidgetTag("lobby_key_input").handle.value)
     -- joinLobbyButton:onClick(function()
     --    local lobbyKey = joinLobbyInput:getText()
     --    if lobbyKey ~= "" then
@@ -79,7 +79,7 @@ return function()
         interface.bsp(1)
         local cameraTicks = 0
         if previousWidgetTag and previousWidgetTag.handle.value ==
-            constants.widgets.customization.id then
+            constants.widgets.customization.handle.value then
             cameraTicks = 30
         else
             interface.fade("in", 30)
@@ -109,7 +109,7 @@ return function()
                 for _, rankData in ipairs(rank.ranks) do
                     currentRankIndex = currentRankIndex + 1
                     if api.session.player.rank == currentRankIndex then
-                        logger:debug("Current Rank: {}", api.session.player.rank)
+                        logger.debug("Current Rank: {}", api.session.player.rank)
                         classificationName = rank.classification
                         rankName = rankData.name
                         rankGrade = rankData.grade
@@ -131,8 +131,8 @@ return function()
                         expLabel:setText(expToNextRank .. " XP TO NEXT RANK")
 
                         local expDiff = nextRank.experience - rankData.experience
-                        logger:debug("Current exp: " .. currentExp)
-                        logger:debug("Next rank exp: " .. nextRank.experience)
+                        logger.debug("Current exp: " .. currentExp)
+                        logger.debug("Next rank exp: " .. nextRank.experience)
                         local progressValue = 0
                         if expDiff > 0 then
                             progressValue = (currentExp - rankData.experience) / expDiff
@@ -140,10 +140,10 @@ return function()
                             -- Clamp to [0, 1]
                             progressValue = math.max(0, math.min(1, progressValue))
                         end
-                        logger:debug("Progress value: " .. progressValue)
+                        logger.debug("Progress value: " .. progressValue)
                         rankProgressBar:setValue(progressValue)
 
-                        logger:debug("Current rank index: " .. currentRankIndex)
+                        logger.debug("Current rank index: " .. currentRankIndex)
                         rankIcon:setBitmapIndex(currentRankIndex)
                         creditsLabel:setText(currentCredits .. " CR")
 

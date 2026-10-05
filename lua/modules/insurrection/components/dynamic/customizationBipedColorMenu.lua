@@ -1,8 +1,8 @@
 local color = require "color"
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local list = require "insurrection.components.list"
-local button = require "insurrection.components.button"
+local list = require "ui.list"
+local button = require "ui.button"
 local core = require "insurrection.core"
 local utils = require "insurrection.utils"
 local blam  = require "blam"
@@ -17,20 +17,20 @@ local function getColorName(color)
 end
 
 return function()
-    local customizationColor = components.new(constants.widgets.bipedColor.id)
+    local customizationColor = component.new(constants.widgets.bipedColor.handle.value)
 
-    local primaryColorLabel = components.new(customizationColor:findChildWidgetTag(
-                                                 "primary_color_subtitle").id)
+    local primaryColorLabel = component.new(customizationColor:findChildWidgetTag(
+                                                 "primary_color_subtitle").handle.value)
     
-    local secondaryColorLabel = components.new(customizationColor:findChildWidgetTag ("secondary_color_subtitle").id)
+    local secondaryColorLabel = component.new(customizationColor:findChildWidgetTag ("secondary_color_subtitle").handle.value)
 
     local customizationBipedColorOptionsHandle = customizationColor:findChildWidgetTag(
-                                                     "customization_biped_colors_options").id
-    local customizationBipedColorOptions = components.new(customizationBipedColorOptionsHandle)
+                                                     "customization_biped_colors_options").handle.value
+    local customizationBipedColorOptions = component.new(customizationBipedColorOptionsHandle)
 
     for columnIndex = 1, #constants.customColors do
         local colorPrimaryColumnHandle = customizationBipedColorOptions:findChildWidgetTag(
-                                             "primary_colors_column_" .. columnIndex).id
+                                             "primary_colors_column_" .. columnIndex).handle.value
         local colorPrimaryColumnList = list.new(colorPrimaryColumnHandle)
         colorPrimaryColumnList:scrollable(false)
         colorPrimaryColumnList:onSelect(function(item)
@@ -44,7 +44,7 @@ return function()
             end))
 
         local colorSecondaryColumnHandle = customizationBipedColorOptions:findChildWidgetTag(
-                                               "secondary_colors_column_" .. columnIndex).id
+                                               "secondary_colors_column_" .. columnIndex).handle.value
         local colorSecondaryColumnList = list.new(colorSecondaryColumnHandle)
         colorSecondaryColumnList:scrollable(false)
         colorSecondaryColumnList:onSelect(function(item)

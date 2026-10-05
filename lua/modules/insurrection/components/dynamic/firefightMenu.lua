@@ -1,24 +1,29 @@
+local engine = Engine
 local constants = require "insurrection.constants"
-local component = require "insurrection.components"
-local button = require "insurrection.components.button"
-local list = require "insurrection.components.list"
-local bar = require "insurrection.components.bar"
-local input = require "insurrection.components.input"
-local spinner = require "insurrection.components.spinner"
+local component = require "ui.component"
+local button = require "ui.button"
+local list = require "ui.list"
+local bar = require "ui.bar"
+local input = require "ui.input"
+local spinner = require "ui.spinner"
 local core = require "insurrection.core"
 local blam = require "blam"
-local checkbox = require "insurrection.components.checkbox"
+local checkbox = require "ui.checkbox"
 local firefight = require "insurrection.constants.projects.firefight"
 local interface = require "insurrection.interface"
 local firefightMaps = table.extend(firefight.maps.multiplayer, firefight.maps.singleplayer)
 local t = require"insurrection.utils".snakeCaseToTitleCase
-local executeScript = Engine.hsc.executeScript
-local engine = Engine
+local executeScript = engine.script.execute
 local luna = require "luna"
 local tobool = luna.bool
-local findTag = blam.findTag
-local tagClasses = blam.tagClasses
 local breakLine = require"insurrection.utils".breakStringIntoLines
+
+local function getWidgetTag(tagPath)
+    return engine.tag.filterTags("ui_widget_definition", tagPath)[1]
+end
+local function getBitmapTag(tagPath)
+    return engine.tag.filterTags("bitmap", tagPath)[1]
+end
 
 local function disableCheats(cheats)
     for _, cheat in pairs(cheats) do
@@ -60,7 +65,7 @@ local function getBitmapIndexForSkull(skullName)
 end
 
 return function()
-    local firefightMenu = component.new(constants.widgets.firefight.id)
+    local firefightMenu = component.new(constants.widgets.firefight.handle.value)
     local options = component.new(firefightMenu:get("options"))
     local mapsList = list.new(options:get("firefight_maps"))
     local mapsListScroll = bar.new(firefightMenu:get("maps_scroll"))
@@ -87,13 +92,11 @@ return function()
     local back = button.new(options:get("back"))
 
     -- Firefight Panel
-    local firefightSettingsPanel = component.new(findTag("firefight_settings_panel",
-                                                         tagClasses.uiWidgetDefinition).id)
+    local firefightSettingsPanel = component.new(getWidgetTag("firefight_settings_panel").handle.value)
     local firefightSettingsList = component.new(firefightSettingsPanel:get("firefight_config"))
 
     -- Skulls Panel
-    local skullsSettingsPanel = component.new(
-                                    findTag("skulls_panel", tagClasses.uiWidgetDefinition).id)
+    local skullsSettingsPanel = component.new(getWidgetTag("skulls_panel").handle.value)
     local skullPreviewIcon = component.new(skullsSettingsPanel:get("skull_preview_icon"))
     local skullName = component.new(skullsSettingsPanel:get("skull_name"))
     local skullMotto = component.new(skullsSettingsPanel:get("skull_motto"))
@@ -106,9 +109,7 @@ return function()
     skullsListOptions:scrollable(false)
 
     -- Difficulty Panel
-    local difficultySettingsPanel = component.new(blam.findTag("firefight_difficulty_panel",
-                                                               blam.tagClasses.uiWidgetDefinition)
-                                                      .id)
+    local difficultySettingsPanel = component.new(getWidgetTag("firefight_difficulty_panel").handle.value)
     local difficultyList = list.new(difficultySettingsPanel:get("difficulty_all_options"))
     difficultyList:scrollable(false)
     local difficultyFooter = component.new(difficultySettingsPanel:get("footer"))
@@ -116,9 +117,9 @@ return function()
     local difficultyLabel = component.new(difficultySettingsPanel:get("difficulty_name"))
     local difficultyImagePreview = component.new(difficultySettingsPanel:get(
                                                      "difficulty_preview_icon"))
-    local difficultyIcons = blam.findTag("difficulty_icons", blam.tagClasses.bitmap)
+    local difficultyIcons = getBitmapTag("difficulty_icons")
     assert(difficultyIcons, "Difficulty icons bitmap not found")
-    local legendaryIconImage = blam.findTag("difficulty_impossible_icon", blam.tagClasses.bitmap)
+    local legendaryIconImage = getBitmapTag("difficulty_impossible_icon")
     assert(legendaryIconImage, "Legendary icon bitmap not found")
 
     local setMapBackgroundBitmap = function(mapName)
@@ -131,11 +132,11 @@ return function()
         footer:hide()
         description:hide()
         if currentDisplayedPanel == component then
-            logger:debug("Panel {} is already displayed", component.tag.path)
+            logger.debug("Panel {} is already displayed", component.tag.path)
             return
         end
-        logger:debug("Displaying panel: {}", component.tag.path)
-        currentDisplayedPanel:replace(component.tag.id)
+        logger.debug("Displaying panel: {}", component.tag.path)
+        currentDisplayedPanel:replace(component.tag.handle.value)
         currentDisplayedPanel = component
         component:show()
     end
@@ -179,14 +180,14 @@ return function()
             mapAuthor:setText(author)
             mapDescription:setText(mapData.description or "No description available")
         else
-            mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
+            mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.handle.value
             mapName:setText("Map Name")
             mapAuthor:setText("Unknown")
             mapDescription:setText("No description available")
         end
     end
 
-    local gameMapsList = engine.map.getMapList()
+    local gameMapsList = engine.cacheFile.getList()
     local function loadMaps()
         firefightMaps = table.filter(firefightMaps, function(map)
             return table.find(gameMapsList, function(mapName)
@@ -315,17 +316,17 @@ return function()
         local difficultyCheckboxes
         difficultyCheckboxes = table.map(difficultyList.widgetDefinition.childWidgets,
                                          function(child, index)
-            local tag = blam.getTag(child.widgetTag)
-            assert(tag)
-            local buttonSquare = component.new(tag.id)
+            local widgetTagEntry = engine.tag.getTagEntry(child.widgetTag.tagHandle.value)
+            assert(widgetTagEntry)
+            local buttonSquare = component.new(child.widgetTag.tagHandle.value)
             local difficultyImage = component.new(buttonSquare:get("image"))
             -- Last bitmap is animated (impossible aka legendary)
             if index ~= #difficulties then
                 difficultyImage:setAnimated(false)
-                difficultyImage.widgetDefinition.backgroundBitmap = difficultyIcons.id
+                difficultyImage.widgetDefinition.backgroundBitmap = difficultyIcons.handle.value
                 difficultyImage:setBitmapIndex(index)
             else
-                difficultyImage.widgetDefinition.backgroundBitmap = legendaryIconImage.id
+                difficultyImage.widgetDefinition.backgroundBitmap = legendaryIconImage.handle.value
                 difficultyImage:animate()
             end
             local difficultyCheckbox = checkbox.new(buttonSquare:get("checkbox"))
@@ -346,11 +347,11 @@ return function()
                 difficultyDescription:setText(difficulties[index].description)
                 difficultyLabel:setText(difficulties[index].name:upper())
                 if index == #difficulties then
-                    difficultyImagePreview.widgetDefinition.backgroundBitmap = legendaryIconImage.id
+                    difficultyImagePreview.widgetDefinition.backgroundBitmap = legendaryIconImage.handle.value
                     difficultyImagePreview:animate()
                 else
                     difficultyImagePreview:setAnimated(false)
-                    difficultyImagePreview.widgetDefinition.backgroundBitmap = difficultyIcons.id
+                    difficultyImagePreview.widgetDefinition.backgroundBitmap = difficultyIcons.handle.value
                     difficultyImagePreview:setBitmapIndex(index)
                 end
             end)
@@ -648,12 +649,12 @@ return function()
     play:onFocus(function()
         local currentMapName = mapButton:getValue()
         if currentMapName and currentMapName ~= "" then
-            logger:debug("Focusing play button with map: " .. currentMapName)
+            logger.debug("Focusing play button with map: " .. currentMapName)
             local mapData = table.find(firefightMaps, function(map)
                 return map.name == currentMapName
             end)
             if mapData then
-                logger:debug("Setting current map: " .. mapData.name)
+                logger.debug("Setting current map: " .. mapData.name)
                 setCurrentMapPreview(mapData.name)
                 return
             end
@@ -667,7 +668,7 @@ return function()
                 return map.name == currentMapName
             end)
             if not mapData then
-                logger:error("Map not found: " .. currentMapName)
+                logger.error("Map not found: " .. currentMapName)
                 return
             end
             local isSinglePlayer = table.find(firefight.maps.singleplayer, function(map)
@@ -677,7 +678,7 @@ return function()
             if DebugMode then
                 currentMapName = currentMapName .. "_dev"
             end
-            logger:debug("Loading Firefight map: " .. currentMapName)
+            logger.debug("Loading Firefight map: " .. currentMapName)
             disableCheats({
                 "deathless_player",
                 "infinite_ammo",
@@ -696,8 +697,8 @@ return function()
             core.saveFirefightSettings(settings)
             core.saveFirefightSkullsSettings(skulls)
             local difficultyGameIndex = difficultyButton:getValue()
-            logger:debug("Setting difficulty: " .. difficulties[difficultyGameIndex + 1].value)
-            logger:debug("Difficulty index: " .. tostring(difficultyGameIndex))
+            logger.debug("Setting difficulty: " .. difficulties[difficultyGameIndex + 1].value)
+            logger.debug("Difficulty index: " .. tostring(difficultyGameIndex))
             -- This garbage does not work for some reason (there was a way to make it work but I forgot, fuck)
             executeScript("game_difficulty_set " .. difficulties[difficultyGameIndex + 1].value)
             -- Define game difficulty ourselves to reflect change as soon as possible
@@ -906,15 +907,15 @@ return function()
         }
     }
 
-    for i = 1, firefightSettingsList.widgetDefinition.childWidgetsCount do
+    for i = 1, #firefightSettingsList.widgetDefinition.childWidgets do
         local childWidget = firefightSettingsList.widgetDefinition.childWidgets[i]
-        local tag = blam.getTag(childWidget.widgetTag)
-        assert(tag)
-        if tag.path:includes "checkbox" then
-            local check = checkbox.new(tag.id)
+        local widgetTagEntry = engine.tag.getTagEntry(childWidget.widgetTag.tagHandle.value)
+        assert(widgetTagEntry)
+        if widgetTagEntry.path:includes "checkbox" then
+            local check = checkbox.new(childWidget.widgetTag.tagHandle.value)
             elements[check:getText()] = check
             check:onToggle(function(value)
-                logger:debug("Toggled {} to {}", check:getText(), tostring(value))
+                logger.debug("Toggled {} to {}", check:getText(), tostring(value))
                 local optionName = check:getText()
                 if elementsData[optionName] then
                     elementsData[optionName].change(value)
@@ -926,8 +927,8 @@ return function()
                     elementsData[optionName].focus()
                 end
             end)
-        elseif tag.path:includes "spinner" then
-            local spin = spinner.new(tag.id)
+        elseif widgetTagEntry.path:includes "spinner" then
+            local spin = spinner.new(childWidget.widgetTag.tagHandle.value)
             elements[spin:getText()] = spin
             spin:onScroll(function(value, index)
                 local optionName = spin:getText()
@@ -955,7 +956,7 @@ return function()
     local events = {"Never", "Wave", "Round", "Set", "Boss Wave"}
 
     firefightSettingsPanel:onOpen(function()
-        logger:debug("Opening settings list")
+        logger.debug("Opening settings list")
         elements["PLAYER INITIAL LIVES"]:setValues(values(1, 30))
         elements["EXTRA LIVES GAINED"]:setValues(values(0, 30))
         elements["LIVES LOST PER DEAD"]:setValues(values(1, 3))
@@ -1009,7 +1010,7 @@ return function()
     end)
 
     skullsSettingsPanel:onOpen(function()
-        logger:debug("Opening skulls panel")
+        logger.debug("Opening skulls panel")
 
         local skullList = table.map(skullsIcons, function(skullKey)
             return {value = skullKey}
@@ -1018,7 +1019,7 @@ return function()
         skullsListOptions:onSelect(function(item, button)
             local skullData = skulls[item.value]
             if not skullData then
-                logger:error("Skull data not found for: {}", item.value)
+                logger.error("Skull data not found for: {}", item.value)
                 return
             end
 
@@ -1032,7 +1033,7 @@ return function()
             skullPreviewIcon:setBitmapIndex(getBitmapIndexForSkull(item.value))
             local skullData = skulls[item.value]
             if not skullData then
-                logger:error("Skull data not found for: {}", item.value)
+                logger.error("Skull data not found for: {}", item.value)
                 return
             end
             skullName:setText(skullData.name:upper())

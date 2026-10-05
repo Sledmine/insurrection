@@ -1,31 +1,31 @@
-local components = require "insurrection.components"
+local component = require "ui.component"
 local constants = require "insurrection.constants"
-local list = require "insurrection.components.list"
-local bar = require "insurrection.components.bar"
-local button = require "insurrection.components.button"
+local list = require "ui.list"
+local bar = require "ui.bar"
+local button = require "ui.button"
 local getState = require "insurrection.redux.getState"
 local t = require"insurrection.utils".snakeCaseToTitleCase
 local core = require "insurrection.core"
 local interface = require "insurrection.interface"
-local input = require "insurrection.components.input"
+local input = require "ui.input"
 
 return function()
     local state = getState()
-    local browser = components.new(constants.widgets.browser.id)
-    local lobbies = list.new(browser:findChildWidgetTag("table_row_list").id)
-    local scrollBar = bar.new(browser:findChildWidgetTag("table_scroll").id, "scroll")
-    local mapPreview = components.new(browser:findChildWidgetTag("table_preview").id)
-    local mapName = components.new(browser:findChildWidgetTag("table_map_name").id)
-    local author = components.new(browser:findChildWidgetTag("table_author").id)
-    local description = components.new(browser:findChildWidgetTag("table_map_description").id)
+    local browser = component.new(constants.widgets.browser.handle.value)
+    local lobbies = list.new(browser:findChildWidgetTag("table_row_list").handle.value)
+    local scrollBar = bar.new(browser:findChildWidgetTag("table_scroll").handle.value, "scroll")
+    local mapPreview = component.new(browser:findChildWidgetTag("table_preview").handle.value)
+    local mapName = component.new(browser:findChildWidgetTag("table_map_name").handle.value)
+    local author = component.new(browser:findChildWidgetTag("table_author").handle.value)
+    local description = component.new(browser:findChildWidgetTag("table_map_description").handle.value)
     local options =
-        components.new(browser:findChildWidgetTag("lobby_browser_table_options_list").id)
-    local joinGame = button.new(options:findChildWidgetTag("join_game_button").id)
-    local searchInput = input.new(browser:findChildWidgetTag("search_browser_input").id)
-    local lobbyKeyInput = input.new(browser:findChildWidgetTag("table_key_input").id)
-    local refreshButton = button.new(options:findChildWidgetTag("refresh_button").id)
+        component.new(browser:findChildWidgetTag("lobby_browser_table_options_list").handle.value)
+    local joinGame = button.new(options:findChildWidgetTag("join_game_button").handle.value)
+    local searchInput = input.new(browser:findChildWidgetTag("search_browser_input").handle.value)
+    local lobbyKeyInput = input.new(browser:findChildWidgetTag("table_key_input").handle.value)
+    local refreshButton = button.new(options:findChildWidgetTag("refresh_button").handle.value)
 
-    components.new(mapPreview:findChildWidgetTag("overlay_scanner").id):setAnimated(true, true, 2.3, 1)
+    component.new(mapPreview:findChildWidgetTag("overlay_scanner").handle.value):setAnimated(true, true, 2.3, 1)
     searchInput:setAllowEmptyCharacters(false)
     lobbyKeyInput:setAllowEmptyCharacters(false)
     lobbies:setScrollBar(scrollBar)
@@ -33,7 +33,7 @@ return function()
     lobbies:selectable(true)
 
     local function resetSelectLobby()
-        mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.id
+        mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.handle.value
         mapName:setText("Map Name")
         author:setText("Unknown")
         description:setText("No description available")
@@ -118,14 +118,14 @@ return function()
             return {
                 value = lobby.key,
                 label = function(item)
-                    local owner = components.new(item:findChildWidgetTag("owner_header_label").id)
-                    local map = components.new(item:findChildWidgetTag("map_header_label").id)
-                    local gameType = components.new(
-                                         item:findChildWidgetTag("gametype_header_label").id)
-                    local players = components.new(
-                                        item:findChildWidgetTag("players_header_label").id)
-                    local template = components.new(
-                                         item:findChildWidgetTag("template_header_label").id)
+                    local owner = component.new(item:findChildWidgetTag("owner_header_label").handle.value)
+                    local map = component.new(item:findChildWidgetTag("map_header_label").handle.value)
+                    local gameType = component.new(
+                                         item:findChildWidgetTag("gametype_header_label").handle.value)
+                    local players = component.new(
+                                        item:findChildWidgetTag("players_header_label").handle.value)
+                    local template = component.new(
+                                         item:findChildWidgetTag("template_header_label").handle.value)
 
                     local ownerPlayer = table.find(lobby.players, function(player)
                         return player.publicId == lobby.owner
@@ -157,7 +157,7 @@ return function()
         renderLobbies(filterLobbies(data:lower():trim()))
     end)
     browser:onOpen(function(previousWidgetTag)
-        if previousWidgetTag and previousWidgetTag.handle.value == constants.widgets.dashboard.id then
+        if previousWidgetTag and previousWidgetTag.handle.value == constants.widgets.dashboard.handle.value then
             resetState()
             api.getLobbies()
         end
