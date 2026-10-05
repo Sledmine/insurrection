@@ -325,7 +325,7 @@ return function()
 
         local mapMeta = getMapMetadata(state.lobby.map)
         if not mapMeta then
-            mapMetamap:setText(t(state.lobby.map))
+            map:setText(t(state.lobby.map))
         else
             map:setText(mapMeta.title or t(state.lobby.map))
         end

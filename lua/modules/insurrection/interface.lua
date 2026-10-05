@@ -152,9 +152,7 @@ function interface.load()
                         insurrectionPause:onClose(function()
                             interface.blur(false)
                         end)
-                        local openMapPauseButton = button.new(
-                                                       insurrectionPause:findChildWidgetTag(
-                                                           "open_map_pause").id)
+                        local openMapPauseButton = button.new(insurrectionPause:get("open_map_pause"))
                         openMapPauseButton:onClick(function()
                             interface.blur(false)
                             InvalidatePauseOverride = true

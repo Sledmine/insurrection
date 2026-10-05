@@ -178,7 +178,10 @@ function core.getStringFromWidget(widgetTagId)
         return virtualValue
     end
     local unicodeStrings = blam.unicodeStringList(widget.unicodeStringListTag)
-    assert(unicodeStrings, "No unicodeStringList, can't get text from this widget")
+    if not unicodeStrings then
+        -- logger:warning("No unicodeStringList found for widget with tag id " .. widgetTagId)
+        return ""
+    end
     return unicodeStrings.strings[widget.stringListIndex + 1]
 end
 

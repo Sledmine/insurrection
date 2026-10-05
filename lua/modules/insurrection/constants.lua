@@ -24,8 +24,8 @@ constants.customBipedPaths = {
         [[[shm]\halo_1\characters\marine\marine_mp]],
         [[[shm]\halo_1\characters\elite\elite_mp]],
         [[[shm]\halo_1\characters\grunt\grunt_mp]]
-    }
-    -- forge_island_dev = {[ze[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
+    },
+    forge_island_dev = {[[[shm]\halo_4\characters\mjolnir_gen2\mjolnir_gen2_mp]]}
 }
 
 constants.customColor = {
@@ -276,7 +276,7 @@ function constants.get()
         lobbyClient = findWidgetTag("lobby_client_menu"),
         dashboard = findWidgetTag("dashboard_updated\\dashboard_updated_menu"),
         customization = findWidgetTag("customization_menu"),
-        pause = findWidgetTag("pause\\pause_menu"),
+        pause = findWidgetTag("insurrection\\ui\\menus\\pause\\pause_menu"),
         nameplate = findWidgetTag("nameplate_current_profile"),
         tester = findWidgetTag("tester_menu"),
         settings = findWidgetTag("settings\\settings_menu"),
