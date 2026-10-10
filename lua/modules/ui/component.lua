@@ -114,11 +114,11 @@ function component.callbacks()
     lastFocusedWidgetTagEntry = nil
 
     ---@param tagHandleValue integer
-    ---@param cancel? fun()
-    local function onWidgetFocus(tagHandleValue, cancel)
+    ---@param cancelEvent? fun()
+    local function onWidgetFocus(tagHandleValue, cancelEvent)
         if isBlockingInputEnabled then
-            if cancel then
-                cancel()
+            if cancelEvent then
+                cancelEvent()
             end
             return
         end
@@ -267,6 +267,7 @@ function component.callbacks()
         if widget and lastFocusedWidgetTagEntry then
             -- local mouse = core.getMouseState()
             local mouseWheelScroll = engine.input.getMouseWheel()
+            --logger.debug(mouseWheelScroll)
             if mouseWheelScroll ~= 0 then
                 onMouseScroll(lastFocusedWidgetTagEntry.handle.value)
             end
@@ -325,7 +326,7 @@ function component.callbacks()
                 previousWidgetTag = widgetTagEntry
             end
 
-            local widgetCount = #widgetTagData.childWidgets
+            local widgetCount = #(widgetTagData.childWidgets or {})
             if widgetCount > 0 then
                 local optionsWidgetRef = widgetTagData.childWidgets[widgetCount]
                 if hasTagReference(optionsWidgetRef.widgetTag) then
@@ -462,9 +463,6 @@ function component.callbacks()
     end)
 
     balltze.addEventListener("player_input", function(event)
-        if console_is_open() then
-            return
-        end
         if not (editableWidgetTagData and editableWidgetTagEntry) then
             return
         end

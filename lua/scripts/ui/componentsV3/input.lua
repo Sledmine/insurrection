@@ -44,7 +44,8 @@ return function(props)
                 flags = {run_function = true},
                 event_type = "left_mouse",
                 ["function"] = "mouse_emit_accept_event"
-            }
+            },
+            {event_type = "get_focus"}
         },
         text_label_unicode_strings_list = stringsTagPath,
         text_font = constants.fonts.button,
@@ -72,7 +73,7 @@ return function(props)
             justification = wid.justification,
             string_list_index = 1,
             horiz_offset = wid.horiz_offset,
-            vert_offset = wid.vert_offset,
+            vert_offset = wid.vert_offset
         }
         widget.createV2(widgetPath, placeholderWid)
         table.insert(wid.child_widgets, {widgetPath, 0, 0})

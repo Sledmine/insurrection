@@ -32,8 +32,6 @@ Balltze.filesystem.readFile = function(path)
     return nil
 end
 
----@type Logger
-logger = nil
 DebugMode = false
 APILocalMode = false
 IsAPIMockEnabled = false
@@ -43,20 +41,7 @@ constants = require "insurrection.constants"
 api = require "insurrection.api"
 discord = require "insurrection.discord"
 store = require "insurrection.redux.store"
-local isNewMap = true
 
----@type uiWidgetDefinition?
-local editableWidget
----@type tag?
-local editableWidgetTagEntry
----@type tag
-local lastOpenWidgetTag
----@type tag
-local lastClosedWidgetTag
----@type tag
-local lastListFocusedWidgetTag
----@type tag?
-local lastFocusedWidgetTagEntry
 -- Multithread lanes
 Lanes = {}
 
@@ -69,11 +54,8 @@ local customExternalTags = {
     {constants.path.xmasObjects, "tag_collection"}
 }
 
--- v2 uses manifest.json instead of PluginMetadata(). The plugin manifest already declares
--- the v2 target API, so the legacy v1 metadata entry point is intentionally not used.
-
 local function initialize()
-    logger.debug("Initializing Insurrection!...")
+    logger.debug("Initializing Insurrection...")
     api.loadUrl()
     -- We might not want to reset the store on every map load
     -- Helps to preserve data after game lobby changes
@@ -83,7 +65,6 @@ local function initialize()
     constants.get()
     interface.load()
     interface.setup()
-    chimera.fontOverride()
 end
 
 local commands = {
@@ -95,24 +76,6 @@ local commands = {
         execute = function(isEnabled)
             DebugMode = luna.bool(isEnabled)
             engine.terminal.print("Debug mode: " .. tostring(DebugMode))
-            -- Balltze v2 does not expose a logger mute API; debug output remains controlled by the global logger.
-        end
-    },
-    setup_fonts = {
-        description = "Setup Insurrection fonts as default game fonts",
-        help = "<boolean>",
-        minArgs = 1,
-        maxArgs = 1,
-        execute = function(enable)
-            local revert = not luna.bool(enable)
-            chimera.setupFonts(revert)
-            if not revert then
-                interface.dialog("SUCCESS", "Fonts have been setup",
-                                 "Please restart the game to see changes.")
-                return
-            end
-            interface.dialog("SUCCESS", "Fonts have been reverted",
-                             "Please restart the game to see changes.")
         end
     },
     debug_customization = {
@@ -127,87 +90,54 @@ local commands = {
     }
 }
 
-local isChimeraLoaded = false
-
-local function loadChimeraCompatibility()
-    -- Load Chimera compatibility
-    for k, v in pairs(balltze.chimera) do
-        if not k:includes "timer" and not k:includes "execute_script" and
-            not k:includes "set_callback" then
-            _G[k] = v
-        end
-    end
-    server_type = engine.game.getGameConnectionType()
-
-    -- Replace Chimera functions with Balltze functions
-    write_bit = balltze.memory.writeBit
-    write_byte = balltze.memory.writeInt8
-    write_word = balltze.memory.writeInt16
-    write_dword = balltze.memory.writeInt32
-    write_int = balltze.memory.writeInt32
-    write_float = balltze.memory.writeFloat
-    write_string = function(address, value)
-        for i = 1, #value do
-            write_byte(address + i - 1, string.byte(value, i))
-        end
-        if #value == 0 then
-            write_byte(address, 0)
-        end
-    end
-    -- Engine.script.execute is the v2 replacement for the legacy Engine.hsc.executeScript call.
-    execute_script = engine.script.execute
-end
-
 local onMapLoadEvent
 local onTickEvent
 
-function PluginOnGameStart()
-    logger = balltze.logger
-    -- Balltze v2 has no logger.muteDebug() API; the global logger remains active.
-
-    local function importCustomizableBipeds()
-        for mapName, bipeds in pairs(constants.customBipedPaths) do
-            for _, bipedPath in pairs(bipeds) do
-                local result = pcall(engine.tag.importTag, mapName, bipedPath, "biped")
-                if not result then
-                    logger.debug("Failed to import customizable biped {} from map {}", bipedPath,
-                                 mapName)
-                end
+local function importCustomizableBipeds()
+    for mapName, bipeds in pairs(constants.customBipedPaths) do
+        for _, bipedPath in pairs(bipeds) do
+            local result, message = pcall(engine.tag.importTag, mapName, bipedPath, "biped")
+            if not result then
+                logger.debug("Failed to import customizable biped {} from map {}", bipedPath,
+                             mapName)
             end
+            logger.debug("Imported tag: {}", bipedPath)
         end
     end
+end
 
-    importCustomizableBipeds()
+function PluginOnGameStart()
+    --importCustomizableBipeds()
 
-    if not onMapLoadEvent then
-        onMapLoadEvent = balltze.addEventListener("map_load", function(event)
-            isNewMap = true
-            if event and event:getMapName() == "ui" then
-                logger.debug("Importing external customizable bipeds...")
-                importCustomizableBipeds()
-            else
-                -- Balltze v2 no longer exposes clearTagImports(); this legacy cleanup path has no
-                -- direct replacement.
-            end
-        end, "lowest")
-    end
+    -- if not onMapLoadEvent then
+    --    onMapLoadEvent = balltze.addEventListener("map_load", function(event)
+    --        isNewMap = true
+    --        if event and event:getMapName() == "ui" then
+    --            logger.debug("Importing external customizable bipeds...")
+    --            importCustomizableBipeds()
+    --        else
+    --            -- Balltze v2 no longer exposes clearTagImports(); this legacy cleanup path has no
+    --            -- direct replacement.
+    --        end
+    --    end, "lowest")
+    -- end
 
-    local currentMapName
+    local lastLoadedMap
 
     if not onTickEvent then
         onTickEvent = balltze.addEventListener("tick", function()
-            if isNewMap then
-                isNewMap = false
-                logger.debug("New map loaded, initializing Insurrection data...")
+            local mapHeader = engine.cacheFile.getLoadedCacheFileHeader()
+            local currentMap = mapHeader and mapHeader.scenarioName or ""
+            if lastLoadedMap ~= currentMap then
+                lastLoadedMap = currentMap
+                logger.debug("New map loaded, reinitializing data...")
                 initialize()
                 specialEvents.onPostMapLoad()
-                local mapHeader = engine.cacheFile.getLoadedCacheFileHeader()
-                currentMapName = mapHeader and mapHeader.scenarioName or ""
             end
             interface.onTick()
             specialEvents.onTick()
             script.poll()
-            if currentMapName == "ui" then
+            if lastLoadedMap == "ui" then
                 local success, message = pcall(dispatch)
                 if not success then
                     logger.error(tostring(message))

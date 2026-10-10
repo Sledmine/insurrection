@@ -42,8 +42,8 @@ _ALIGNMENTS = {}
 
 ---@class invaderWidgetEventHandler
 ---@field flags? invaderWidgetEventHandlerFlags
----@field event_type '"a_button"' | '"b_button"' | '"back_button"' | '"start_button"' |  '"dpad_left"' | '"dpad_right"' | '"created"' | '"deleted"' | '"left_mouse"' | '"double_click"' | '"custom_activation"' | '"post_render"'
----@field function? '"mouse_emit_accept_event"' | string
+---@field event_type "get_focus" | "lose_focus" | "deleted" | "a_button" | "b_button" | "back_button" | "start_button" | "dpad_left" | "dpad_right" | "dpad_up" | "dpad_down" | "created" | "deleted" | "left_mouse" | "double_click" | "custom_activation" | "post_render"
+---@field function? "mouse_emit_accept_event" | string
 ---@field widget_tag? string
 ---@field sound_effect? string
 ---@field script? string
@@ -79,7 +79,7 @@ _ALIGNMENTS = {}
 ---@field function string
 
 ---@class invaderWidget
----@field widget_type? '"container"' | '"text_box"' | '"spinner_list"' | '"column_list"'
+---@field widget_type? "container" | "text_box" | "spinner_list" | "column_list"
 ---@field bounds? string
 ---@field flags? invaderWidgetFlags
 ---@field milliseconds_to_auto_close? number
@@ -91,7 +91,7 @@ _ALIGNMENTS = {}
 ---@field text_label_unicode_strings_list? string
 ---@field text_font? string
 ---@field text_color? string
----@field justification? '"left_justify"' | '"center_justify"' | '"right_justify"'
+---@field justification? "left_justify" | "center_justify" | "right_justify"
 ---@field flags_1? invaderWidgetStringFlags
 ---@field string_list_index? number
 ---@field horiz_offset? number
@@ -230,7 +230,7 @@ function widget.createV2(widgetPath, keys)
     -- Create widget from scratch
     if keys.background_bitmap and not fs.is("tags/" .. keys.background_bitmap) then
         local bitmapPath = keys.background_bitmap:replace(".bitmap", "")
-        if not os.execute("invader-bitmap -F 32-bit -T interface_bitmaps " .. bitmapPath) then
+        if not os.execute("invader-bitmap -F 32-bit -T interface_bitmaps \"" .. bitmapPath .. "\"") then
             error("Background bitmap " .. bitmapPath .. " does not exist")
         end
     end
@@ -280,11 +280,16 @@ end
 ---Generate a string of spaces to reserve memory for a string
 ---@param size number
 ---@param default? string
+---@param padding? "left" | "right"
 ---@return string
-function widget.strmem(size, default)
+function widget.strmem(size, default, padding)
     local str = default or ""
     local size = size - #str
-    str = str .. string.rep(" ", size)
+    if  padding == "left" then
+        str = string.rep(" ", size) .. str
+    else
+        str = str .. string.rep(" ", size)
+    end
     return str
 end
 
@@ -317,8 +322,8 @@ end
 ---@return string
 function widget.color(color, name)
     local colorDecimal = tonumber(color:sub(2), 16) or 0
-    local bitmapPath = "insurrection/ui/bitmaps/color_" .. (name or colorDecimal)
-    local imagePath = "data/insurrection/ui/bitmaps/color_" .. (name or colorDecimal) .. ".png"
+    local bitmapPath = "[shm]/halo_4/ui/bitmaps/color_" .. (name or colorDecimal)
+    local imagePath = "data/[shm]/halo_4/ui/bitmaps/color_" .. (name or colorDecimal) .. ".png"
 
     if not fs.is("tags/" .. bitmapPath .. ".bitmap") then
         -- Create bitmap from color using image magick, assume color is in hex

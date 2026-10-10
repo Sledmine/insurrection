@@ -2,7 +2,7 @@ version: 1
 tag_space: 64M
 extend_limits: true
 scenarios:
-  - insurrection/map/ui/ui
+  - levels/ui/ui
 commands:
   ui:
     - ./generate.sh

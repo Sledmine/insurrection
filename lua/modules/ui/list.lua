@@ -243,7 +243,7 @@ function list.refresh(self)
                     end
                     if self.isSelectable and listItemComponent.type ~= "spinner" then
                         -- Set button bitmap state to selected index
-                        listItemComponent:setWidgetValues{bitmapIndex = 2}
+                        listItemComponent:setBitmapIndex(2)
                         for _, childWidget in ipairs(widgetDefinition.childWidgets) do
                             local currentChildWidgetHandle = childWidget.widgetTag.tagHandle.value
                             if currentChildWidgetHandle and currentChildWidgetHandle ~=
@@ -251,7 +251,7 @@ function list.refresh(self)
                                 local childComponent = component.widgets[currentChildWidgetHandle]
                                 if childComponent then
                                     -- Restore all other buttons to their default state
-                                    childComponent:setWidgetValues{bitmapIndex = 0}
+                                    listItemComponent:setBitmapIndex(2)
                                 end
                             end
                         end
@@ -270,21 +270,21 @@ function list.refresh(self)
                     end
                     if self.isSelectable and listItemComponent.type ~= "spinner" then
 
-                        local isButtonSelected = listItemComponent:getWidgetValues().bitmapIndex ==
+                        local isButtonSelected = listItemComponent:getWidgetValues().animationData.currentFrameIndex ==
                                                      2
                         if not isButtonSelected then
                             -- Set button bitmap state to focused index
-                            listItemComponent:setWidgetValues{bitmapIndex = 1}
+                            listItemComponent:setBitmapIndex(1)
                         end
                         for _, childWidget in ipairs(widgetDefinition.childWidgets) do
                             local currentChildWidgetHandle = childWidget.widgetTag.tagHandle.value
                             if currentChildWidgetHandle and currentChildWidgetHandle ~=
                                 listItemComponent.handleValue then
                                 local childComponent = component.widgets[currentChildWidgetHandle]
-                                if childComponent and childComponent:getWidgetValues().bitmapIndex ==
+                                if childComponent and childComponent:getWidgetValues().animationData.currentFrameIndex ==
                                     1 then
                                     -- Restore all other buttons to their default state
-                                    childComponent:setWidgetValues{bitmapIndex = 0}
+                                    childComponent:setBitmapIndex(0)
                                 end
                             end
                         end
@@ -386,7 +386,7 @@ function list.clearSelectedItem(self)
             local childComponent = childWidgetHandle and component.widgets[childWidgetHandle]
             if childComponent then
                 -- Restore all buttons to their default state
-                childComponent:setWidgetValues{bitmapIndex = 0}
+                childComponent:setBitmapIndex(0)
             end
         end
     end

@@ -15,10 +15,12 @@ return function()
     local dashboard = component.new(constants.widgets.dashboard.handle.value)
     local footer = component.new(dashboard:findChildWidgetTag("footer").handle.value)
     local description = component.new(footer:findChildWidgetTag("text").handle.value)
-    local rankProgressBar = bar.new(dashboard:findChildWidgetTag("rank_progress").handle.value, "progress")
+    local rankProgressBar = bar.new(dashboard:findChildWidgetTag("rank_progress").handle.value,
+                                    "progress")
 
-    local browseLobby =
-        button.new(dashboard:findChildWidgetTag("browse_prompt_dashboard_button").handle.value)
+    local browseLobby = button.new(
+                            dashboard:findChildWidgetTag("browse_prompt_dashboard_button").handle
+                                .value)
     browseLobby:onClick(function()
         interface.blur(true)
         interface.setBackground("halo")
@@ -48,8 +50,10 @@ return function()
         description:setText("Customize your character and player service record.")
     end)
 
-    local rankNameLabel = component.new(dashboard:findChildWidgetTag("rank_name_label").handle.value)
-    local rankTierLabel = component.new(dashboard:findChildWidgetTag("tier_name_label").handle.value)
+    local rankNameLabel =
+        component.new(dashboard:findChildWidgetTag("rank_name_label").handle.value)
+    local rankTierLabel =
+        component.new(dashboard:findChildWidgetTag("tier_name_label").handle.value)
     local expLabel = component.new(dashboard:findChildWidgetTag("exp_info_label").handle.value)
     local rankIcon = component.new(dashboard:findChildWidgetTag("rank_icon").handle.value)
     local creditsLabel = component.new(dashboard:findChildWidgetTag("credits_number").handle.value)

@@ -2,19 +2,18 @@ local balltze = Balltze
 local engine = Engine
 local openWidget = function(widgetDefinition, pushHistory)
     -- BALLTZE MIGRATE
-    --return engine.uiWidget.launchWidget(widgetDefinition, pushHistory)
+    -- return engine.uiWidget.launchWidget(widgetDefinition, pushHistory)
     return engine.uiWidget.launchWidget(widgetDefinition)
 end
 -- Balltze v2 does not provide a direct playSound replacement for uiWidget calls.
-local playSound = function() end
+local playSound = function()
+end
 local component = require "ui.component"
 local menus = require "insurrection.menus"
 local button = require "ui.button"
 local translations = require "insurrection.translations"
 local blam = require "blam"
 local core = require "insurrection.core"
-local uiWidgetTag = blam.uiWidgetDefinition
-local uiWidgetCollection = blam.uiWidgetCollection
 local constants = require "insurrection.constants"
 local chimera = require "insurrection.mods.chimera"
 local executeScript = engine.script.execute
@@ -32,17 +31,12 @@ function interface.load()
             package.loaded[moduleName] = nil
         end
     end
+    -- Clean up components as we might hold old invalid data
     component.free()
-    -- constants.get()
-    IsUICompatible = true
-    -- local scenery = engine.tag.findTags("halo", engine.tag.classes.scenery)[1]
-    -- assert(scenery, "Error, no scenery tag found")
-    -- engine.core.consolePrint("{}", tostring(inspect(table.keys(scenery.data))))
-    if IsUICompatible then
 
-        -- Load Insurrection features
-        logger.debug("Loading Insurrection patches...")
-        --core.loadInsurrectionPatches()
+    -- TODO Add map validation here somehow...
+    local isUICompatible = true
+    if isUICompatible then
 
         -- Components initialization
         logger.debug("Initializing component...")
@@ -77,13 +71,15 @@ function interface.load()
 
             -- TODO BALLTZE MIGRATE
             local tester = component.new(constants.widgets.tester.handle.value)
-            local testerAnimTest = component.new(tester:findChildWidgetTag("anim_test").handle.value)
+            local testerAnimTest =
+                component.new(tester:findChildWidgetTag("anim_test").handle.value)
             testerAnimTest:animate()
             -- testerAnimTest:setAnimation(0.6, "horizontal", 100, 300, "ease in")
 
             -- Most likely this means we are getting back from the map itself
             -- Rejoin previous lobby if it exists
-            if api.session.lobbyKey and engine.cacheFile.getLoadedCacheFileHeader().scenarioName == "ui" then
+            if api.session.lobbyKey and engine.cacheFile.getLoadedCacheFileHeader().scenarioName ==
+                "ui" then
                 api.lobby(api.session.lobbyKey)
             end
 
@@ -96,27 +92,35 @@ function interface.load()
             -- end)
         end
         -- BALLTZE MIGRATE
-        --require "insurrection.components.dynamic.videoMenuCustom"()
-        --require "insurrection.components.dynamic.audioMenuCustom"()
+        -- require "insurrection.components.dynamic.videoMenuCustom"()
+        -- require "insurrection.components.dynamic.audioMenuCustom"()
 
         -- Insurrection is running outside the UI
         if constants.widgetCollections.multiplayer then
-            local multiplayerWidgetsCollection = uiWidgetCollection(
-                                                     constants.widgetCollections.multiplayer.handle.value)
+            ---@type UiWidgetCollection
+            local multiplayerWidgetsCollection = engine.tag.getTagData(
+                                                     constants.widgetCollections.multiplayer.handle
+                                                         .value, "ui_widget_collection")
             if multiplayerWidgetsCollection then
-                local pause = component.new(multiplayerWidgetsCollection.tagList[1])
+                local uiWidgetDefinitionEntry = multiplayerWidgetsCollection.uiWidgetDefinitions[1]
+                                                    .uiWidgetDefinition
+                local pause = component.new(uiWidgetDefinitionEntry.tagHandle.value)
                 if pause then
-                    logger.debug(multiplayerWidgetsCollection.tagList[1])
+                    logger.debug("Loading pause menu {}: ", uiWidgetDefinitionEntry.path)
                     if constants.widgets.pause then
                         logger.debug("Insurrection may load in external map...")
                         require "insurrection.components.dynamic.dialog"()
-                        local insurrectionPause = component.new(constants.widgets.pause.handle.value)
+                        local insurrectionPause =
+                            component.new(constants.widgets.pause.handle.value)
                         local resumeButton = button.new(
                                                  insurrectionPause:findChildWidgetTag(
                                                      "resume_game_button").handle.value)
-                        local stockResumeButton = button.new(pause:findChildWidgetTag("resume").handle.value)
+                        local stockResumeButton = button.new(
+                                                      pause:findChildWidgetTag("resume").handle
+                                                          .value)
                         local exitButton = button.new(
-                                               insurrectionPause:findChildWidgetTag("exit_button").handle.value)
+                                               insurrectionPause:findChildWidgetTag("exit_button").handle
+                                                   .value)
                         resumeButton:onClick(function()
                             logger.debug("Resume button clicked")
                             interface.blur(false)
@@ -129,7 +133,8 @@ function interface.load()
                         exitButton:onClick(function()
                             api.deleteLobby()
                         end)
-                        local insurrectionChooseTeam = component.new(constants.widgets.team.handle.value)
+                        local insurrectionChooseTeam = component.new(
+                                                           constants.widgets.team.handle.value)
                         local blueTeamButton = button.new(
                                                    insurrectionChooseTeam:findChildWidgetTag(
                                                        "blue_team_button").handle.value)
@@ -158,34 +163,16 @@ function interface.load()
                         insurrectionPause:onClose(function()
                             interface.blur(false)
                         end)
-                        local openMapPauseButton = button.new(insurrectionPause:get("open_map_pause"))
+                        local openMapPauseButton = button.new(
+                                                       insurrectionPause:get("open_map_pause"))
                         openMapPauseButton:onClick(function()
                             interface.blur(false)
                             InvalidatePauseOverride = true
-                            menus.open(pause.tagId)
+                            menus.open(pause.handleValue)
                         end)
                     end
                 end
 
-            end
-        end
-
-        -- Set up some chimera configs
-        if engine.cacheFile.getLoadedCacheFileHeader().scenarioName == "ui" and false then
-            local preferences = chimera.getPreferences() or {}
-            -- TODO Check forced server name preference
-            local notServerIpBlocking = not preferences.chimera_block_server_ip or
-                                            preferences.chimera_block_server_ip == 0
-            if notServerIpBlocking then
-                interface.shared.dialog:onClose(function()
-                    preferences.chimera_block_server_ip = 1
-                    chimera.savePreferences(preferences)
-                    if not chimera.executeCommand("chimera_block_server_ip 1") then
-                        executeScript("quit")
-                    end
-                end)
-                interface.dialog("WARNING", translations.eng.block_server_ips_subtitle,
-                                 translations.eng.block_server_ips_message)
             end
         end
     end
@@ -197,12 +184,15 @@ function interface.loadProfileNameplate(nameplateId)
         return
     end
     local nameplate = component.new(constants.widgets.nameplate.handle.value)
-    local nameplatesTagCollection = engine.tag.getTagData(constants.tagCollections.nameplates.handle.value,
-                                                          "tag_collection")
+    ---@type TagCollection
+    local nameplatesTagCollection = engine.tag.getTagData(
+                                        constants.tagCollections.nameplates.handle.value,
+                                        "tag_collection")
     if nameplatesTagCollection then
+        logger.debug("Gathering nameplates collection...")
         local nameplateBitmapTags = {}
-        for _, tagId in ipairs(nameplatesTagCollection.tagList or {}) do
-            local tagEntry = engine.tag.getTagEntry(tagId)
+        for _, entry in ipairs(nameplatesTagCollection.tagReferences or {}) do
+            local tagEntry = engine.tag.getTagEntry(entry.tag.tagHandle)
             if tagEntry then
                 local nameplateId = core.getTagName(tagEntry.path)
                 if nameplateId and not nameplateBitmapTags[nameplateId] then
@@ -216,13 +206,14 @@ function interface.loadProfileNameplate(nameplateId)
                 logger.debug("Invalid nameplate id: " .. nameplateId)
                 return
             end
-            nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[nameplateId].handle.value
+            nameplate.widgetDefinition.backgroundBitmap.tagHandle.value = nameplateBitmapTags[nameplateId].handle.value
             return
         end
         logger.debug("Loading nameplate from settings...")
         local settings = core.loadSettings()
         if settings and settings.nameplate and nameplateBitmapTags[settings.nameplate] then
-            nameplate.widgetDefinition.backgroundBitmap = nameplateBitmapTags[settings.nameplate].handle.value
+            nameplate.widgetDefinition.backgroundBitmap.tagHandle.value =
+                nameplateBitmapTags[settings.nameplate].handle.value
         end
     end
 end
@@ -254,11 +245,11 @@ function interface.animateUIWidgetBackground(widgetComponent, willRepeat)
     assert(widgetTagEntry and widgetTagData, "Error, widget tag not found")
 
     local bitmapTagData = engine.tag.getTagData(widgetTagData.backgroundBitmap.tagHandle.value,
-                                              "bitmap")
+                                                "bitmap")
     if not bitmapTagData then
         return
     end
-    --if bitmapTagData.bitmapData.count <= 1 then
+    -- if bitmapTagData.bitmapData.count <= 1 then
     if #bitmapTagData.bitmaps <= 1 then
         return
     end
@@ -407,12 +398,12 @@ end
 -- TODO Move this variable to a better global namespace
 BipedRotation = 0
 function interface.rotateCustomizationBiped()
+    -- BALLTZE MIGRATE
     local mouse = core.getMouseState()
-
     if mouse.rightClick > 0 then
-        local objectId = core.getCustomizationObjectId()
-        if objectId then
-            local object = blam.object(get_object(objectId))
+        local objectHandle = core.getCustomizationObjectId()
+        if objectHandle then
+            local object = blam.object(get_object(objectHandle))
             assert(object)
             BipedRotation = BipedRotation + mouse.right * 3
             if BipedRotation > 360 then
@@ -430,9 +421,10 @@ function interface.onTick()
         return
     end
     if constants.widgets.biped then
-        if currentWidgetTag.handle.value == constants.widgets.biped.handle.value or currentWidgetTag.handle.value ==
-            constants.widgets.bipedColor.handle.value then
-            interface.rotateCustomizationBiped()
+        if currentWidgetTag.handle.value == constants.widgets.biped.handle.value or
+            currentWidgetTag.handle.value == constants.widgets.bipedColor.handle.value then
+            -- BALLTZE MIGRATE
+            --interface.rotateCustomizationBiped()
         end
     end
     -- Animate UI widgets

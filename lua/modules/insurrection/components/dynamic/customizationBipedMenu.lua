@@ -173,10 +173,10 @@ return function(props)
                 bitmap = function(uiComponent)
                     local icon = component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
                     -- Default bitmap
-                    icon.widgetDefinition.backgroundBitmap =
+                    icon.widgetDefinition.backgroundBitmap.tagHandle.value =
                         constants.bitmaps.customization.regions.handle.value
                     -- Set bitmap index
-                    icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion(region)})
+                    icon:setBitmapIndex(getBitmapIndexForRegion(region))
                 end
             }
         end)
@@ -188,9 +188,9 @@ return function(props)
                 label = t("visor"),
                 bitmap = function(uiComponent)
                     local icon = component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
-                    icon.widgetDefinition.backgroundBitmap =
+                    icon.widgetDefinition.backgroundBitmap.tagHandle.value =
                         constants.bitmaps.customization.regions.handle.value
-                    icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("visor")})
+                    icon:setBitmapIndex(getBitmapIndexForRegion("visor"))
                 end
             })
         end
@@ -199,8 +199,8 @@ return function(props)
             label = t("color"),
             bitmap = function(uiComponent)
                 local icon = component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
-                icon.widgetDefinition.backgroundBitmap = constants.bitmaps.customization.regions.handle.value
-                icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("color")})
+                icon.widgetDefinition.backgroundBitmap.tagHandle.value = constants.bitmaps.customization.regions.handle.value
+                icon:setBitmapIndex(getBitmapIndexForRegion("color"))
             end
         })
 
@@ -225,9 +225,9 @@ return function(props)
                     bitmap = function(uiComponent)
                         local icon =
                             component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
-                        icon.widgetDefinition.backgroundBitmap =
+                        icon.widgetDefinition.backgroundBitmap.tagHandle.value =
                             constants.bitmaps.customization.regions.handle.value
-                        icon:setWidgetValues({bitmapIndex = getBitmapIndexForRegion("visor")})
+                        icon:setBitmapIndex(getBitmapIndexForRegion("visor"))
                     end
                 })
             end
@@ -269,10 +269,10 @@ return function(props)
                     local index = getBitmapIndexForRegion(region)
                     local permutationsBitmapTag = constants.bitmaps.customization[region]
                     if isTheFloodProject and permutationsBitmapTag then
-                        icon.widgetDefinition.backgroundBitmap = permutationsBitmapTag.handle.value
+                        icon.widgetDefinition.backgroundBitmap.tagHandle.value = permutationsBitmapTag.handle.value
                         index = permutationIndex
                     end
-                    icon:setWidgetValues({bitmapIndex = index})
+                    icon:setBitmapIndex(index)
                 end
             })
         end

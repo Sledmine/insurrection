@@ -79,14 +79,21 @@ api.session = {token = nil, lobbyKey = nil, username = nil, player = nil}
 ---@field isPublic boolean
 ---@field key? string
 
+---Connect to a given server, validate map exists before connecting
+---@param desiredMap string
+---@param host string
+---@param port integer
+---@param password string
 local function connect(desiredMap, host, port, password)
     api.stopRefreshLobby()
     if engine.cacheFile.getLoadedCacheFileHeader().scenarioName ~= "ui" then
         engine.core.consolePrint("Can't connect to a server while in-game.")
         return
     end
-    -- logger.debug("Connecting to {}:{} with password {}", host, port, password)
-    local mapList = engine.map.getMapList()
+    local maskLength = 4
+    local maskedPassword = string.rep("*", maskLength) .. password:sub(maskLength, password:len())
+    --logger.debug("Connecting to {}:{} with password {}", host, port, maskedPassword)
+    local mapList = core.getMapsList()
     if table.indexof(mapList, desiredMap) then
         -- Force game profile name to be the same as the player's name
         core.setGameProfileName(api.session.player.name)
@@ -368,7 +375,7 @@ function api.startLobbyRefresh()
 end
 
 function api.refreshLobby()
-    if not api.session.lobbyKey or console_is_open() then
+    if not api.session.lobbyKey then
         return
     end
     interface.loading(true, "Refreshing lobby...", false)

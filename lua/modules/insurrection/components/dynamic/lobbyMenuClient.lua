@@ -39,7 +39,7 @@ local function lobbyMenuClient()
 
     -- Render
     return function()
-        mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.handle.value
+        mapPreview.widgetDefinition.backgroundBitmap.tagHandle.value = constants.bitmaps.unknownMapPreview.handle.value
         local mapCollection = engine.tag.getTagData(constants.tagCollections.maps.handle.value, "tag_collection")
         assert(mapCollection, "No map preview collection found")
         for _, tagHandle in ipairs(mapCollection.tagList or {}) do
@@ -47,7 +47,7 @@ local function lobbyMenuClient()
             if bitmapTagEntry then
                 local mapName = core.getTagName(bitmapTagEntry.path):lower()
                 if mapName == state.lobby.map then
-                    mapPreview.widgetDefinition.backgroundBitmap = bitmapTagEntry.handle.value
+                    mapPreview.widgetDefinition.backgroundBitmap.tagHandle.value = bitmapTagEntry.handle.value
                 end
             end
         end
@@ -60,7 +60,7 @@ local function lobbyMenuClient()
         end)
         local backgroundBitmapIndex = (table.indexof(gametypeIcons, iconToUse) or 1) - 1
         if backgroundBitmapIndex then
-            gametypeIcon:setWidgetValues({bitmapIndex = backgroundBitmapIndex})
+            gametypeIcon:setBitmapIndex(backgroundBitmapIndex)
         end
 
         local mapMeta = getMapMetadata(state.lobby.map)

@@ -78,7 +78,7 @@ return function()
         core.rotateCustomizationBiped(constants.customization.rotation.default)
         nameplatesList:refresh()
         currentBipedLabel:setText("")
-        selectBipedsWrapper:replace(nameplatesList.tagId)
+        selectBipedsWrapper:replace(nameplatesList.handleValue)
     end
 
     ---@param projectName? string
@@ -110,7 +110,7 @@ return function()
     ---@param openList boolean?
     local function handleLoadBipeds(openList)
         if openList then
-            nameplatesList:replace(selectBipedsWrapper.tagId)
+            nameplatesList:replace(selectBipedsWrapper.handleValue)
         end
         local state = getState()
 

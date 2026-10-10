@@ -12,7 +12,12 @@ local actions = require "insurrection.redux.actions"
 local defaultState = {
     isLoading = false,
     lobbyKey = nil,
-    available = nil,
+    available = {
+        maps = {},
+        gametypes = {},
+        templates = {},
+        customization = {}
+    },
     lobby = nil,
     player = nil,
     lobbies = nil

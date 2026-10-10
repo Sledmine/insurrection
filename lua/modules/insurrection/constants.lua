@@ -19,7 +19,7 @@ constants.path = {
 
 constants.customBipedPaths = {
     bleed_it_out = {[[keymind\the_flood\characters\unsc\gridharvolur\gridharvolur_mk_ii_[b]_mp]]},
-    b30_coop_evolved = {
+    b30_coop_evolved_dev = {
         [[[shm]\halo_1\characters\mjolnir_gen_1\mjolnir_gen_1_mp]],
         [[[shm]\halo_1\characters\marine\marine_mp]],
         [[[shm]\halo_1\characters\elite\elite_mp]],
@@ -254,7 +254,7 @@ constants.parser = {
 }
 
 function constants.get()
-    local blam = require "blam"
+    logger.debug("Gathering constants...")
     local function findWidgetTag(partialName)
         -- Balltze v2 uses tag group strings, not tagClasses.* enums.
         local matches = engine.tag.filterTags("ui_widget_definition", partialName)
@@ -361,7 +361,6 @@ function constants.get()
         christmasHat = engine.tag.filterTags("scenery", constants.path.christmasHat)[1],
         xmasObjects = engine.tag.filterTags("tag_collection", constants.path.xmasObjects)[1]
     }
-    logger.debug("Loaded constants")
 end
 
 return constants

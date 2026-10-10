@@ -91,7 +91,7 @@ function core.getWidgetValues(widgetTagId)
 end
 
 local function setWidgetValuesDOMSafe(widgetTagHandle, values)
-    --logger.debug("Attempting to set widget values for widgetTagHandle: " .. tostring(widgetTagHandle))
+    -- logger.debug("Attempting to set widget values for widgetTagHandle: " .. tostring(widgetTagHandle))
     -- Verify there is a widget loaded in the DOM
     local isWidgetPresent, widget = pcall(core.findWidgetByDefinition, widgetTagHandle)
     if isWidgetPresent and widget then
@@ -220,26 +220,29 @@ function core.getStringFromWidget(widgetTarget, widgetDefinition)
         activeWidgetDefinition.textLabelUnicodeStringsList.tagHandle and
         not activeWidgetDefinition.textLabelUnicodeStringsList.tagHandle:isNull() then
         stringsData = getTagData(activeWidgetDefinition.textLabelUnicodeStringsList.tagHandle.value,
-                                        "unicode_string_list")
+                                 "unicode_string_list")
     end
 
     -- Fallback to first child widget when parent does not expose its own text list.
-    if not stringsData and activeWidgetDefinition.childWidgets and #activeWidgetDefinition.childWidgets > 0 then
+    if not stringsData and activeWidgetDefinition.childWidgets and
+        #activeWidgetDefinition.childWidgets > 0 then
         local childWidgetTag = activeWidgetDefinition.childWidgets[1].widgetTag
         if childWidgetTag and childWidgetTag.tagHandle and not childWidgetTag.tagHandle:isNull() then
-            local childWidgetDefinition = getTagData(childWidgetTag.tagHandle.value, "ui_widget_definition")
+            local childWidgetDefinition = getTagData(childWidgetTag.tagHandle.value,
+                                                     "ui_widget_definition")
             if childWidgetDefinition and childWidgetDefinition.unicodeStringListTag and
                 childWidgetDefinition.unicodeStringListTag.tagHandle and
                 not childWidgetDefinition.unicodeStringListTag.tagHandle:isNull() then
                 stringsData = getTagData(childWidgetDefinition.unicodeStringListTag.tagHandle.value,
-                                                "unicode_string_list")
+                                         "unicode_string_list")
                 activeWidgetDefinition = childWidgetDefinition
             end
         end
     end
 
     if stringsData then
-        local stringReference = stringsData.stringReferences[activeWidgetDefinition.stringListIndex + 1]
+        local stringReference =
+            stringsData.stringReferences[activeWidgetDefinition.stringListIndex + 1]
         local stringAddress = stringReference.string.pointer
         local output = ""
         local i = 0
@@ -265,6 +268,7 @@ end
 ---@param maxCharacters? integer
 ---@param widgetDefinition? UiWidgetDefinition
 function core.setStringToWidget(text, widgetTarget, mask, maxCharacters, widgetDefinition)
+    local text = tostring(text)
     local widgetTagId = widgetTarget
     if type(widgetTarget) == "table" then
         widgetTagId = widgetTarget.handleValue
@@ -282,20 +286,24 @@ function core.setStringToWidget(text, widgetTarget, mask, maxCharacters, widgetD
     if activeWidgetDefinition.textLabelUnicodeStringsList and
         activeWidgetDefinition.textLabelUnicodeStringsList.tagHandle and
         not activeWidgetDefinition.textLabelUnicodeStringsList.tagHandle:isNull() then
-        unicodeStringsData = getTagData(activeWidgetDefinition.textLabelUnicodeStringsList.tagHandle.value,
-                                        "unicode_string_list")
+        unicodeStringsData = getTagData(
+                                 activeWidgetDefinition.textLabelUnicodeStringsList.tagHandle.value,
+                                 "unicode_string_list")
     end
 
     -- Fallback to first child widget when parent does not expose its own text list
-    if not unicodeStringsData and activeWidgetDefinition.childWidgets and #activeWidgetDefinition.childWidgets > 0 then
+    if not unicodeStringsData and activeWidgetDefinition.childWidgets and
+        #activeWidgetDefinition.childWidgets > 0 then
         local childWidgetTag = activeWidgetDefinition.childWidgets[1].widgetTag
         if childWidgetTag and childWidgetTag.tagHandle and not childWidgetTag.tagHandle:isNull() then
-            local childWidgetDefinition = getTagData(childWidgetTag.tagHandle.value, "ui_widget_definition")
+            local childWidgetDefinition = getTagData(childWidgetTag.tagHandle.value,
+                                                     "ui_widget_definition")
             if childWidgetDefinition and childWidgetDefinition.unicodeStringListTag and
                 childWidgetDefinition.unicodeStringListTag.tagHandle and
                 not childWidgetDefinition.unicodeStringListTag.tagHandle:isNull() then
-                unicodeStringsData = getTagData(childWidgetDefinition.unicodeStringListTag.tagHandle.value,
-                                                "unicode_string_list")
+                unicodeStringsData = getTagData(
+                                         childWidgetDefinition.unicodeStringListTag.tagHandle.value,
+                                         "unicode_string_list")
                 activeWidgetDefinition = childWidgetDefinition
             end
         end
@@ -304,8 +312,8 @@ function core.setStringToWidget(text, widgetTarget, mask, maxCharacters, widgetD
     if not unicodeStringsData then
         local tagEntry = getTagEntry(widgetTagId)
         local tagPath = tagEntry and tagEntry.path or tostring(widgetTagId)
-        --error("No unicodeStringList found for widgetDefinition " .. tagPath)
-        logger.error("No unicodeStringList found for widgetDefinition " .. tagPath)
+        logger.error("No unicode string list for \"{}\" " .. tagPath)
+        -- assert(unicodeStringsData)
         return
     end
 

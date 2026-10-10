@@ -123,7 +123,7 @@ return function()
     assert(legendaryIconImage, "Legendary icon bitmap not found")
 
     local setMapBackgroundBitmap = function(mapName)
-        mapPreview.widgetDefinition.backgroundBitmap = core.getMapBackgroundBitmap(mapName)
+        mapPreview.widgetDefinition.backgroundBitmap.tagHandle.value = core.getMapBackgroundBitmap(mapName)
     end
 
     local currentDisplayedPanel = mapsList
@@ -180,14 +180,14 @@ return function()
             mapAuthor:setText(author)
             mapDescription:setText(mapData.description or "No description available")
         else
-            mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.handle.value
+            mapPreview.widgetDefinition.backgroundBitmap.tagHandle.value = constants.bitmaps.unknownMapPreview.handle.value
             mapName:setText("Map Name")
             mapAuthor:setText("Unknown")
             mapDescription:setText("No description available")
         end
     end
 
-    local gameMapsList = engine.cacheFile.getList()
+    local gameMapsList = core.getMapsList()
     local function loadMaps()
         firefightMaps = table.filter(firefightMaps, function(map)
             return table.find(gameMapsList, function(mapName)
@@ -231,7 +231,7 @@ return function()
 
     mapsList:onSelect(function(item)
         local mapName = item.value
-        if DebugMode then
+        if true or DebugMode then
             mapName = mapName .. "_dev"
         end
         mapButton:setText(item.label --[[@as string]] )
@@ -323,10 +323,10 @@ return function()
             -- Last bitmap is animated (impossible aka legendary)
             if index ~= #difficulties then
                 difficultyImage:setAnimated(false)
-                difficultyImage.widgetDefinition.backgroundBitmap = difficultyIcons.handle.value
+                difficultyImage.widgetDefinition.backgroundBitmap.tagHandle.value = difficultyIcons.handle.value
                 difficultyImage:setBitmapIndex(index)
             else
-                difficultyImage.widgetDefinition.backgroundBitmap = legendaryIconImage.handle.value
+                difficultyImage.widgetDefinition.backgroundBitmap.tagHandle.value = legendaryIconImage.handle.value
                 difficultyImage:animate()
             end
             local difficultyCheckbox = checkbox.new(buttonSquare:get("checkbox"))
@@ -347,11 +347,11 @@ return function()
                 difficultyDescription:setText(difficulties[index].description)
                 difficultyLabel:setText(difficulties[index].name:upper())
                 if index == #difficulties then
-                    difficultyImagePreview.widgetDefinition.backgroundBitmap = legendaryIconImage.handle.value
+                    difficultyImagePreview.widgetDefinition.backgroundBitmap.tagHandle.value = legendaryIconImage.handle.value
                     difficultyImagePreview:animate()
                 else
                     difficultyImagePreview:setAnimated(false)
-                    difficultyImagePreview.widgetDefinition.backgroundBitmap = difficultyIcons.handle.value
+                    difficultyImagePreview.widgetDefinition.backgroundBitmap.tagHandle.value = difficultyIcons.handle.value
                     difficultyImagePreview:setBitmapIndex(index)
                 end
             end)
@@ -675,7 +675,7 @@ return function()
                 return map.name == currentMapName
             end) ~= nil
             -- Access developer maps if in debug mode
-            if DebugMode then
+            if true or DebugMode then
                 currentMapName = currentMapName .. "_dev"
             end
             logger.debug("Loading Firefight map: " .. currentMapName)
@@ -702,7 +702,8 @@ return function()
             -- This garbage does not work for some reason (there was a way to make it work but I forgot, fuck)
             executeScript("game_difficulty_set " .. difficulties[difficultyGameIndex + 1].value)
             -- Define game difficulty ourselves to reflect change as soon as possible
-            blam.setGameDifficultyIndex(difficultyGameIndex)
+            -- BALLTZE MIGRATE
+            --blam.setGameDifficultyIndex(difficultyGameIndex)
             executeScript("sv_timelimit 0")
             executeScript("sv_public 0")
             executeScript("sv_map " .. currentMapName .. " slayer")

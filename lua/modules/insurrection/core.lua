@@ -11,6 +11,7 @@ local executeScript = engine.script.execute
 local mercury = require "insurrection.mercury"
 local utils = require "insurrection.utils"
 local getState = require "insurrection.redux.getState"
+local rotation = require "insurrection.math.rotation"
 
 local currentWidgetIdAddress = 0x6B401C
 local keyboardInputAddress = 0x64C550
@@ -28,9 +29,11 @@ function core.loadMercuryPackages()
     if (installedPackages) then
         console_out(inspect(installedPackages))
         local serverStringsTag = engine.tag.filterTags("unicode_string_list",
-                                                      [[chimera_servers_menu\strings\options]])[1]
-        local serverStrings = serverStringsTag and engine.tag.getTagData(serverStringsTag.handle.value,
-                                                                        "unicode_string_list") or nil
+                                                       [[chimera_servers_menu\strings\options]])[1]
+        local serverStrings = serverStringsTag and
+                                  engine.tag
+                                      .getTagData(serverStringsTag.handle.value,
+                                                  "unicode_string_list") or nil
         if not serverStrings then
             return
         end
@@ -60,10 +63,10 @@ function core.loadInsurrectionPatches()
 
     -- Setting up version string
     local scriptVersionTag = engine.tag.filterTags("unicode_string_list",
-                                                  "insurrection_version_footer")[1]
+                                                   "insurrection_version_footer")[1]
     if scriptVersionTag then
         local scriptVersionString = engine.tag.getTagData(scriptVersionTag.handle.value,
-                                                        "unicode_string_list")
+                                                          "unicode_string_list")
         if scriptVersionString then
             local strings = scriptVersionString.stringList
             -- Write string version to map tag
@@ -176,53 +179,13 @@ function core.mapKeyToText(pressedKey, text)
     end
 end
 
-function core.getStringFromWidget(widgetTagId)
-    local widget = engine.tag.getTagData(widgetTagId, "ui_widget_definition")
-    assert(widget, "No widget found with tag id " .. widgetTagId)
-    local virtualValue = VirtualInputValue[widgetTagId]
-    if virtualValue then
-        return virtualValue
-    end
-    local unicodeStrings = widget.unicodeStringListTag and engine.tag.getTagData(
-                               widget.unicodeStringListTag.tagHandle.value,
-                               "unicode_string_list")
-    if not unicodeStrings then
-        -- logger.warning("No unicodeStringList found for widget with tag id " .. widgetTagId)
-        return ""
-    end
-    return unicodeStrings.strings[widget.stringListIndex + 1]
-end
-
-function core.setStringToWidget(text, widgetTagId, mask)
-    local widgetDefinition = engine.tag.getTagData(widgetTagId, "ui_widget_definition")
-    if widgetDefinition then
-        local unicodeStrings = widgetDefinition.unicodeStringListTag and
-                                   engine.tag.getTagData(widgetDefinition.unicodeStringListTag.
-                                                         tagHandle.value,
-                                                         "unicode_string_list")
-        if unicodeStrings then
-            local stringListIndex = widgetDefinition.stringListIndex
-            local newStrings = unicodeStrings.strings
-            if mask then
-                VirtualInputValue[widgetTagId] = text
-                newStrings[stringListIndex + 1] = string.rep(mask, #text)
-            else
-                newStrings[stringListIndex + 1] = text
-                VirtualInputValue[widgetTagId] = nil
-
-            end
-            unicodeStrings.strings = newStrings
-        end
-    end
-end
-
 ---Attempt to connect a game server
 ---@param host string
 ---@param port number
 ---@param password string
 function core.connectServer(host, port, password)
     local command = "connect %s:%s \"%s\""
-    engine.hsc.executeScript(command:format(host, port, password))
+    engine.script.execute(command:format(host, port, password))
 end
 
 function core.getMyGamesHaloCEPath()
@@ -303,8 +266,8 @@ end
 ---@return number width, number height
 function core.getScreenResolution()
     -- BALLTZE MIGRATE
-    --local width = read_word(0x637CF2)
-    --local height = read_word(0x637CF0)
+    -- local width = read_word(0x637CF2)
+    -- local height = read_word(0x637CF0)
     local width = 1920
     local height = 1080
     return width, height
@@ -318,16 +281,18 @@ function core.isThreadRunning()
 end
 
 function core.setGameProfileName(name)
-    local name = name
-    if name then
-        -- Limit name to 11 characters
-        if #name > 11 then
-            name = name:sub(1, 11)
-        end
-        blam.writeUnicodeString(profileNameAddress, name, true)
-    end
-    local profileName = blam.readUnicodeString(profileNameAddress, true)
-    return profileName
+    -- BALLTZE MIGRATE
+    --local name = name
+    --if name then
+    --    -- Limit name to 11 characters
+    --    if #name > 11 then
+    --        name = name:sub(1, 11)
+    --    end
+    --    blam.writeUnicodeString(profileNameAddress, name, true)
+    --end
+    --local profileName = blam.readUnicodeString(profileNameAddress, true)
+    --return profileName
+    return name
 end
 
 ---Get reference to any customization object available in the map
@@ -335,14 +300,18 @@ end
 function core.getCustomizationObjectId()
     local scenarioEntry = engine.tag.filterTags("scenario", "")[1]
     assert(scenarioEntry, "Failed to load scenario tag")
+    ---@type Scenario
     local scenario = engine.tag.getTagData(scenarioEntry.handle.value, "scenario")
     assert(scenario, "Failed to load scenario data")
     local bipedObjects = engine.object.filterObjects("biped")
     for _, objectHandle in pairs(bipedObjects) do
         local object = engine.object.getObject(objectHandle)
-        if object and scenario.objectNames[object.nameListIndex + 1] == "customization_biped" then
-            --object.flags1.noShadow = false
-            return objectHandle.value
+        if object then
+            local scenarioNameEntry = scenario.objectNames[object.nameListIndex + 1]
+            if scenarioNameEntry and scenarioNameEntry.name == "customization_biped" then
+                object.flags1.noShadow = false
+                return objectHandle.value
+            end
         end
     end
 end
@@ -369,41 +338,41 @@ end
 
 LastColorCustomization = {primary = 1, secondary = 1}
 function core.getCustomizationObjectData()
-    local customizationObjectId = core.getCustomizationObjectId()
-    assert(customizationObjectId, "No customization biped found")
-    local customizationBiped = engine.object.getObject(customizationObjectId, "biped")
+    local customizationObjectHandle = core.getCustomizationObjectId()
+    assert(customizationObjectHandle, "No customization biped found")
+    local customizationBiped = engine.object.getObject(customizationObjectHandle, "biped")
     assert(customizationBiped, "No customization biped found")
-    -- BALLTZE MIGRATE: no direct Balltze v2 equivalent was found for blam.bipedTag/blam.model; legacy tag resolution remains here until a direct Engine.tag model accessor exists.
-    local customizationBipedTag = blam.bipedTag(customizationBiped.tagId)
+    local customizationBipedTag = engine.tag.getTagData(customizationBiped.tagHandle, "biped")
     assert(customizationBipedTag, "No customization biped tag found")
-    local customizationModel = blam.model(customizationBipedTag.model)
+    local customizationModel = engine.tag.getTagData(customizationBipedTag.model.tagHandle,
+                                                     "gbxmodel")
     assert(customizationModel, "No customization biped model found")
 
-    local primaryColor = color.decToHex(customizationBiped.colorCLowerRed,
-                                        customizationBiped.colorCLowerGreen,
-                                        customizationBiped.colorCLowerBlue)
-
-    local secondaryColor = color.decToHex(customizationBiped.colorDLowerRed,
-                                          customizationBiped.colorDLowerGreen,
-                                          customizationBiped.colorDLowerBlue)
+    -- local primaryColor = color.decToHex(customizationBiped.colorChange.r,
+    --                                    customizationBiped.colorChange.g,
+    --                                    customizationBiped.colorChange.b)
+    --
+    -- local secondaryColor = color.decToHex(customizationBiped.colorChange2.r,
+    --                                      customizationBiped.colorChange2.g,
+    --                                      customizationBiped.colorChange2.b)
 
     local colors = table.flatten(constants.customColors) --[[@as table<number, string>]]
     return {
-        id = customizationObjectId,
-        handle = customizationObjectId,
+        id = customizationObjectHandle,
+        handle = customizationObjectHandle,
         biped = customizationBiped,
         bipedTag = customizationBipedTag,
-        tag = blam.getTag(customizationBiped.tagId),
+        tag = engine.tag.getTagData(customizationBiped.tagHandle, "biped"),
         model = customizationModel,
         regions = {
-            customizationBiped.regionPermutation1,
-            customizationBiped.regionPermutation2,
-            customizationBiped.regionPermutation3,
-            customizationBiped.regionPermutation4,
-            customizationBiped.regionPermutation5,
-            customizationBiped.regionPermutation6,
-            customizationBiped.regionPermutation7,
-            customizationBiped.regionPermutation8
+            customizationBiped.regionPermutationIds[1],
+            customizationBiped.regionPermutationIds[2],
+            customizationBiped.regionPermutationIds[3],
+            customizationBiped.regionPermutationIds[4],
+            customizationBiped.regionPermutationIds[5],
+            customizationBiped.regionPermutationIds[6],
+            customizationBiped.regionPermutationIds[7],
+            customizationBiped.regionPermutationIds[8]
         },
         color = {
             primary = primaryColor,
@@ -413,7 +382,7 @@ function core.getCustomizationObjectData()
                 secondary = colors[LastColorCustomization.secondary or 1]
             }
         },
-        visor = customizationBiped.shaderPermutationIndex
+        visor = customizationBiped.shaderPermutation
     }
 end
 
@@ -484,8 +453,8 @@ end
 ---@return {name: string, colorIndex: number}
 function core.getPlayerProfile()
     local profile = {}
-    --profile.name = blam.readUnicodeString(profileNameAddress, true)
-    --profile.colorIndex = read_byte(profileColorAddress) + 1
+    -- profile.name = blam.readUnicodeString(profileNameAddress, true)
+    -- profile.colorIndex = read_byte(profileColorAddress) + 1
     -- BALLTZE MIGRATE
     profile.name = "BALLTZE MIGRATE"
     profile.colorIndex = 1
@@ -504,9 +473,9 @@ function core.setCustomizationBipedColor(primaryColorHex, secondaryColorHex)
         LastColorCustomization.primary = table.indexof(table.flatten(constants.customColors),
                                                        primaryColorHex)
         local r, g, b = color.hexToDec(primaryColorHex)
-        customizationBiped.colorCLowerRed = r
-        customizationBiped.colorCLowerGreen = g
-        customizationBiped.colorCLowerBlue = b
+        -- customizationBiped.colorChange.r = r
+        -- customizationBiped.colorChange.g = g
+        -- customizationBiped.colorChange.b = b
     end
 
     -- Set secondary color
@@ -514,9 +483,9 @@ function core.setCustomizationBipedColor(primaryColorHex, secondaryColorHex)
         LastColorCustomization.secondary = table.indexof(table.flatten(constants.customColors),
                                                          secondaryColorHex)
         r, g, b = color.hexToDec(secondaryColorHex)
-        customizationBiped.colorDLowerRed = r
-        customizationBiped.colorDLowerGreen = g
-        customizationBiped.colorDLowerBlue = b
+        -- customizationBiped.colorChange2.r = r
+        -- customizationBiped.colorChange2.g = g
+        -- customizationBiped.colorChange2.b = b
     end
 end
 
@@ -526,21 +495,21 @@ function core.getCustomizationColorByValue(value)
     return colorIndex, colorName
 end
 
-function core.rotateCustomizationBiped(rotation)
-    local customizationObjectId = core.getCustomizationObjectId()
-    assert(customizationObjectId, "No customization biped found")
-    -- BALLTZE MIGRATE: no direct Balltze v2 equivalent was found for blam.rotateObject; the legacy object rotation helper is still used here until Engine.object exposes comparable rotation support.
-    local object = blam.getObject(customizationObjectId)
+function core.rotateCustomizationBiped(yaw)
+    local customizationObjectHandle = core.getCustomizationObjectId()
+    assert(customizationObjectHandle, "No customization biped found")
+    local object = engine.object.getObject(customizationObjectHandle)
     if object then
-        blam.rotateObject(object, rotation, 0, 0)
+        local forward = rotation.eulerToRotationVectors(yaw, 0, 0)
+        engine.object.setObjectPosition(customizationObjectHandle, object.position, forward)
     end
 end
 
 function core.createCustomizationBiped()
     -- BALLTZE MIGRATE
-    --execute_script "object_create customization_biped"
-    --local colorFromInsurrection = core.getCustomizationObjectData().color.custom
-    --core.setCustomizationBipedColor(colorFromInsurrection.primary, colorFromInsurrection.secondary)
+    execute_script "object_create customization_biped"
+    local colorFromInsurrection = core.getCustomizationObjectData().color.custom
+    core.setCustomizationBipedColor(colorFromInsurrection.primary, colorFromInsurrection.secondary)
 end
 
 function core.getLastSavedProject()
@@ -604,23 +573,27 @@ function core.loadCustomizationBiped(projectName, customBipedPath)
         -- bipedTag.data.weapons.count = 0
 
         -- TODO Try to use unit remove weapon function or something similar
-        local bipedTag = blam.bipedTag(tagEntry.handle.value)
-        bipedTag.weaponCount = 0
+        ---@type Biped
+        local bipedTag = engine.tag.getTagData(tagEntry.handle.value, "biped")
+        -- BALLTZE MIGRATE
+        -- bipedTag.weapons = {}
     end
 
     local scenarioEntry = engine.tag.filterTags("scenario", "")[1]
     assert(scenarioEntry, "Failed to load scenario tag")
+    ---@type Scenario
     local scenario = engine.tag.getTagData(scenarioEntry.handle.value, "scenario")
     assert(scenario, "Failed to load scenario data")
     -- Respawn biped object from scenario as it is safer than doing it from lua
     for _, biped in pairs(scenario.bipeds) do
-        local sceneryName = scenario.objectNames[biped.nameIndex + 1]
+        local sceneryName = scenario.objectNames[biped.name + 1].name
+        logger.debug("Scenary name: {}", sceneryName)
         if sceneryName == "customization_biped" then
-            local newPaletteList = scenario.bipedPaletteList
+            logger.debug("Replacing customization biped...")
+            local newPaletteList = scenario.bipedPalette
             -- Replace scenario biped tag with custom biped tag
-            if newPaletteList[biped.typeIndex + 1] ~= tagEntry.handle.value then
-                newPaletteList[biped.typeIndex + 1] = tagEntry.handle.value
-                scenario.bipedPaletteList = newPaletteList
+            if newPaletteList[biped.type + 1].name.tagHandle.value ~= tagEntry.handle.value then
+                newPaletteList[biped.type + 1].name.tagHandle.value = tagEntry.handle.value
                 executeScript "object_destroy customization_biped"
                 core.createCustomizationBiped()
                 executeScript "fade_screen_in"
@@ -652,7 +625,8 @@ end
 ---Get the bitmap tag id for a map preview, or return unknown map preview if not found
 ---@param mapName string
 function core.getMapBackgroundBitmap(mapName)
-    local mapCollection = engine.tag.getTagData(constants.tagCollections.maps.handle.value, "tag_collection")
+    local mapCollection = engine.tag.getTagData(constants.tagCollections.maps.handle.value,
+                                                "tag_collection")
     assert(mapCollection, "No map preview collection found")
     local normalizedMapName = mapName:lower()
     for _, tagHandle in ipairs(mapCollection.tagList or {}) do
@@ -731,6 +705,14 @@ end
 function core.getMapMetadata(mapName)
     return table.find(constants.maps, function(map)
         return map.name == mapName
+    end)
+end
+
+---Get available game maps list
+---@return string[]
+function core.getMapsList()
+    return table.map(engine.cacheFile.getList(), function(v, k)
+        return v:replace(".map", "")
     end)
 end
 

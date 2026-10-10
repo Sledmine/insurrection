@@ -72,6 +72,9 @@ return function(props)
                 event_type = "a_button",
                 widget_tag = props.opens,
                 script = props.script
+            },
+            {
+                event_type = "get_focus"
             }
         },
         text_label_unicode_strings_list = stringsTagPath,

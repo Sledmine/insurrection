@@ -20,7 +20,7 @@ local function handlePlaceHolder(self)
             if text and text == "" then
                 opacity = 1
             end
-            core.setWidgetValues(placeholder.handle.value, {opacity = opacity})
+            core.setWidgetValues(placeholder.handle.value, {alphaModifier = opacity})
         end
     end
 end

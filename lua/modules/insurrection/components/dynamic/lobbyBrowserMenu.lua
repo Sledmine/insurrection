@@ -33,7 +33,7 @@ return function()
     lobbies:selectable(true)
 
     local function resetSelectLobby()
-        mapPreview.widgetDefinition.backgroundBitmap = constants.bitmaps.unknownMapPreview.handle.value
+        mapPreview.widgetDefinition.backgroundBitmap.tagHandle.value = constants.bitmaps.unknownMapPreview.handle.value
         mapName:setText("Map Name")
         author:setText("Unknown")
         description:setText("No description available")
@@ -54,7 +54,7 @@ return function()
     end)
 
     local function setMapBackgroundBitmap(mapName)
-        mapPreview.widgetDefinition.backgroundBitmap = core.getMapBackgroundBitmap(mapName)
+        mapPreview.widgetDefinition.backgroundBitmap.tagHandle.value = core.getMapBackgroundBitmap(mapName)
     end
 
     lobbies:onFocus(function(item)

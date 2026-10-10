@@ -59,11 +59,12 @@ return function()
     -- local skullsPanel = component.new(engine.tag.filterTags("ui_widget_definition", "skulls_panel")[1].handle.value)
 
     local elementsList = list.new(options:findChildWidgetTag("elements").handle.value)
-    local mapsList = list.new(engine.tag.filterTags("ui_widget_definition",
-                                                    "lobby_maps_options")[1].handle.value)
+    local mapsList = list.new(engine.tag.filterTags("ui_widget_definition", "lobby_maps_options")[1]
+                                  .handle.value)
 
     local fullMapListWrapper = component.new(engine.tag.filterTags("ui_widget_definition",
-                                                                    "lobby_maps_panel")[1].handle.value)
+                                                                   "lobby_maps_panel")[1].handle
+                                                 .value)
 
     local mapsListScroll = bar.new(fullMapListWrapper:get("maps_scroll"), "scroll")
     mapsList:setScrollBar(mapsListScroll)
@@ -72,8 +73,9 @@ return function()
     local mapName = component.new(fullMapListWrapper:get("map_name"))
     local mapAuthor = component.new(fullMapListWrapper:get("map_author"))
     local mapDescription = component.new(fullMapListWrapper:get("map_description"))
-    component.new(mapPreview:findChildWidgetTag("overlay_scanner").handle.value):setAnimated(true, true, 2.3,
-                                                                                   1)
+    component.new(mapPreview:findChildWidgetTag("overlay_scanner").handle.value):setAnimated(true,
+                                                                                             true,
+                                                                                             2.3, 1)
 
     local search = input.new(options:findChildWidgetTag("search").handle.value)
     local play = button.new(options:findChildWidgetTag("play").handle.value)
@@ -91,14 +93,15 @@ return function()
     end)
 
     local mapPreview = component.new(engine.tag.filterTags("ui_widget_definition",
-                                                          "map_small_preview")[1].handle.value)
+                                                           "map_small_preview")[1].handle.value)
     local playersList = list.new(lobbyMenu:findChildWidgetTag("players").handle.value)
     playersList:scrollable(false)
 
     description:setText("Play with your friends, define your rules and enjoy.")
 
     local function setMapBackgroundBitmap(mapName)
-        mapPreview.widgetDefinition.backgroundBitmap = core.getMapBackgroundBitmap(mapName)
+        mapPreview.widgetDefinition.backgroundBitmap.tagHandle.value =
+            core.getMapBackgroundBitmap(mapName)
     end
 
     local function editLobbyData()
@@ -174,11 +177,13 @@ return function()
                 end
                 if newDefinition == "template" or newDefinition == "gametype" then
                     item.bitmap = function(uiComponent)
-                        local icon = component.new(uiComponent:findChildWidgetTag("button_icon").handle.value)
+                        local icon = component.new(
+                                         uiComponent:findChildWidgetTag("button_icon").handle.value)
                         local iconBitmaps = newDefinition == "template" and bitmaps.templateIcons or
                                                 bitmaps.gametypeIcons
                         assert(iconBitmaps, "No icon bitmaps found")
-                        icon.widgetDefinition.backgroundBitmap = iconBitmaps.handle.value
+                        icon.widgetDefinition.backgroundBitmap.tagHandle.value = iconBitmaps.handle
+                                                                                     .value
                         local iconsToUse = newDefinition == "template" and templateIcons or
                                                gametypeIcons
                         local iconToUse = table.find(iconsToUse, function(icon)
@@ -187,7 +192,7 @@ return function()
                         local backgroundBitmapIndex =
                             (table.indexof(iconsToUse, iconToUse) or 1) - 1
                         if backgroundBitmapIndex then
-                            icon:setWidgetValues({bitmapIndex = backgroundBitmapIndex})
+                            icon:setBitmapIndex(backgroundBitmapIndex)
                         end
                     end
                 end
@@ -222,7 +227,7 @@ return function()
 
         local function showMapsListPanel()
             -- skullsPanel:replace(search.tagId)
-            elementsList:replace(fullMapListWrapper.tagId)
+            elementsList:replace(fullMapListWrapper.handleValue)
             summary:hide()
             description:hide()
             makePublic:show()
@@ -230,8 +235,8 @@ return function()
         end
 
         local function showElementsListPanel()
-            -- skullsPanel:replace(search.tagId)
-            fullMapListWrapper:replace(elementsList.tagId)
+            -- skullsPanel:replace(search.handleValue)
+            fullMapListWrapper:replace(elementsList.handleValue)
             summary:show()
             description:show()
             makePublic:hide()
@@ -239,13 +244,13 @@ return function()
         end
 
         local function showSkullsPanel()
-            elementsList:replace(fullMapListWrapper.tagId)
-            fullMapListWrapper:replace(elementsList.tagId)
+            elementsList:replace(fullMapListWrapper.handleValue)
+            fullMapListWrapper:replace(elementsList.handleValue)
             fullMapListWrapper:hide()
             elementsList:hide()
             -- summary:hide()
             -- description:hide()
-            -- search:replace(skullsPanel.tagId)
+            -- search:replace(skullsPanel.handleValue)
             makePublic:hide()
             key:hide()
         end
@@ -340,9 +345,19 @@ return function()
         end
         setMapData(state.lobby.map)
 
-        playersList:setItems(table.map(state.lobby.players, function(player)
+        local playerPlateItems = table.map(state.lobby.players, function(player)
             local nameplateTag = constants.nameplates[player.nameplate] or {}
-            return {label = player.name, value = player, bitmap = nameplateTag.handle and nameplateTag.handle.value}
-        end))
+            ---@type uiComponentListItem
+            return {
+                label = function(item)
+                    local plate = component.new(item:findChildWidgetTag("overlay").handle.value)
+                    plate:setText(player.name)
+                end,
+                value = player,
+                bitmap = nameplateTag.handle and nameplateTag.handle.value
+            }
+        end)
+
+        playersList:setItems(playerPlateItems)
     end
 end
